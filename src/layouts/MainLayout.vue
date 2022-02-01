@@ -2,18 +2,30 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title>Quasar App {{ $t("Work Time") }}</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat round dense icon="language" class="q-mr-xs">
+          <q-menu>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section @click="setLocale('pl')">Polish (Polski)</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section @click="setLocale('de')">German (Deutsch)</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section @click="setLocale('en-US')">English (English)</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>Help &amp; Feedback</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -84,6 +96,14 @@ const linksList = [
 ];
 
 import { defineComponent, ref } from "vue";
+import { useQuasar } from "quasar";
+// import languages from "quasar/lang/index.json";
+import { watch } from "vue";
+import { useI18n } from "vue-i18n";
+
+// const appLanguages = languages.filter((lang) =>
+//   ["pl","de", "en-US"].includes(lang.isoName)
+// );
 
 export default defineComponent({
   name: "MainLayout",
@@ -93,6 +113,24 @@ export default defineComponent({
   },
 
   setup() {
+    const $q = useQuasar();
+
+    const { locale } = useI18n({ useScope: "global" });
+    const lang = ref(locale); // $q.lang.isoName
+
+    watch(lang, (val) => {
+      // dynamic import, so loading on demand only
+      import(
+        /* webpackInclude: /(pl|de|en-US)\.js$/ */
+        "quasar/lang/" + val
+      ).then((lang) => {
+        $q.lang.set(lang.default);
+      });
+    });
+
+    function setLocale(lang) {
+      locale.value = lang;
+    }
     const leftDrawerOpen = ref(false);
 
     return {
@@ -101,6 +139,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      setLocale,
     };
   },
 });
