@@ -7,9 +7,51 @@ import axios from "axios";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: "https://api.example.com" });
+// const api = axios.create({ baseURL: 'https://api.example.com' })
 
-export default boot(({ app }) => {
+const api = axios.create({ baseURL: process.env.VUE_APP_URL });
+const noAuthApi = axios.create();
+
+// const authApi = axios.create({ baseURL: process.env.VUE_APP_URL })
+// authApi.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('klucz');
+
+// const token = localStorage.getItem('klucz');
+
+const authApi = axios.create({
+  baseURL: process.env.VUE_APP_URL,
+  // headers: {
+  //   'Authorization': 'Bearer ' + localStorage.getItem('klucz')
+  // },
+});
+
+export default boot(({ app, router }) => {
+  authApi.interceptors.request.use((req) => {
+    // `req` is the Axios request config, so you can modify
+    // the `headers`.
+    if (localStorage.getItem("klucz") === null){
+      var token = sessionStorage.getItem("klucz");
+    } else{
+      var token = localStorage.getItem("klucz");
+    }
+    req.headers.authorization = "Bearer " + token;
+    return req;
+  });
+
+  authApi.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      if (err.response.status === 401) {
+        // deleteUserToken();
+        // history.push(Routes.Login);
+        console.log("unauth interceptor " + err.response.status);
+        localStorage.removeItem("klucz");
+        sessionStorage.getItem("klucz");
+        router.replace("/login");
+      }
+      return Promise.reject(err);
+    }
+  );
+
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
@@ -21,4 +63,4 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 });
 
-export { api };
+export { api, authApi, noAuthApi };
