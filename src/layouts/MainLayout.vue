@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>Quasar App {{ $t("Work Time") }}</q-toolbar-title>
+        <q-toolbar-title>Quasar App {{ $t("Work Time") }} {{ envValue }}</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
         <q-btn flat round dense icon="language" class="q-mr-xs">
@@ -133,12 +133,15 @@ export default defineComponent({
     }
     const leftDrawerOpen = ref(false);
 
+    const envValue = process.env.S3_BUCKET;
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      envValue,
       setLocale,
     };
   },
