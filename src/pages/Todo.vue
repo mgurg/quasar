@@ -16,7 +16,12 @@
       <q-list bordered padding>
         <q-item-label header>{{ $t("Your tasks") }}</q-item-label>
 
-        <div v-for="task in tasks" v-bind:key="task.uuid">
+        <div
+          v-for="task in tasks"
+          v-bind:key="task.uuid"
+          @click="selectUser(task.uuid)"
+          :class="{ 'done bg-blue-1': task.uuid === selected }"
+        >
           <q-item>
             <q-item-section avatar>
               <q-avatar rounded>
@@ -30,14 +35,21 @@
               <q-item-label caption lines="2">{{ task.description }}</q-item-label>
             </q-item-section>
 
-            <q-item-section side>
+            <q-item-section side v-if="task.uuid === selected">
+              <div class="text-grey-8 q-gutter-xs">
+                <q-btn size="12px" flat dense round icon="edit" @click="editUser(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="done" @click="deleteUser(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="info" />
+              </div>
+            </q-item-section>
+            <q-item-section side v-else>
               <q-item-label caption>od 5m</q-item-label>
-              <!-- <q-item-label caption>od 5m</q-item-label> -->
+              <q-item-label caption>od 5m</q-item-label>
               <q-icon name="priority_high" color="red" />
             </q-item-section>
           </q-item>
 
-          <q-separator spaced />
+          <q-separator />
         </div>
 
         <!-- <q-item>
@@ -188,6 +200,7 @@ export default defineComponent({
     const $q = useQuasar()
 
     const tasks = ref(null);
+    let selected = ref(null);
     const name = ref(null)
     const age = ref(null)
     const accept = ref(false)
@@ -224,6 +237,8 @@ export default defineComponent({
       }
 
 
+
+
       api
         .post("/tasks/add", body)
         .then((res) => {
@@ -242,6 +257,32 @@ export default defineComponent({
         });
     }
 
+    function selectUser(uuid) {
+      if (selected.value == null) {
+        selected.value = uuid;
+      } else if (selected.value !== uuid) {
+        selected.value = uuid;
+      } else {
+        selected.value = null;
+      }
+    }
+
+    function deleteUser(uuid) {
+      $q.dialog({
+        title: "Confirm",
+        message: "Really delete?",
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        $q.notify("User deleted");
+        // store.dispatch("userModule/loadUsers");
+      });
+    }
+
+    function editUser(uuid) {
+      console.log(uuid);
+    }
+
     onActivated(() => {
       fetchTasks
     });
@@ -253,9 +294,14 @@ export default defineComponent({
       name,
       age,
       tasks,
+      selected,
       accept,
       fetchTasks,
-      createTasks
+      createTasks,
+      selectUser,
+      editUser,
+      deleteUser
+
 
 
     };
