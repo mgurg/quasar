@@ -5,4 +5,6 @@ export default {
   failed: "Action failed",
   success: "Action was successful",
   "Work Time": "Work Time!",
+  Tasks: "Tasks",
+  "Your tasks": "Your tasks",
 };
