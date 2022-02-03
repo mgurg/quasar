@@ -13,7 +13,6 @@
       <h5 class="q-mb-sm q-mt-sm q-ml-md">
         {{ $t("Tasks") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <q-btn @click="fetchTasks">fetch tasks</q-btn>
-        <q-btn @click="createTasks">Add task</q-btn>
       </h5>
 
       <q-list bordered padding>
@@ -46,8 +45,7 @@
               </div>
             </q-item-section>
             <q-item-section side v-else>
-              <q-item-label caption>od 5m</q-item-label>
-              <q-item-label caption>od 5m</q-item-label>
+              <q-item-label caption>{{ timeAgo(task.date_from) }}</q-item-label>
               <q-icon name="priority_high" color="red" />
             </q-item-section>
           </q-item>
@@ -105,6 +103,7 @@
 import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
 import { useField, useForm } from "vee-validate";
+import { DateTime } from 'luxon';
 import { object, string } from 'yup'
 import { api } from "boot/axios";
 
@@ -123,6 +122,29 @@ export default defineComponent({
     const name = ref(null)
     const age = ref(null)
     const accept = ref(false)
+
+    const units = [
+      'year',
+      'month',
+      'week',
+      'day',
+      'hour',
+      'minute',
+      'second',
+    ];
+
+    const timeAgo = (date) => {
+      let dateTime = DateTime.fromISO(date)
+      const diff = dateTime.diffNow().shiftTo(...units);
+      const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
+
+      const relativeFormatter = new Intl.RelativeTimeFormat('en', {
+        localeMatcher: "best fit", // other values: "lookup"
+        numeric: "always", // other values: "auto"
+        style: "narrow", // "long", "short" or "narrow"
+      });
+      return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
+    };
 
     // -------------- Form --------------
 
@@ -150,7 +172,7 @@ export default defineComponent({
         "author_id": 0,
         "title": taskTitle.value,
         "description": taskDescription.value,
-        "date_from": "2022-02-02T20:21:01.967Z",
+        "date_from": new Date().toISOString(),
         "date_to": "2022-02-02T20:21:01.967Z",
         "priority": "string",
         "type": "string",
@@ -233,6 +255,7 @@ export default defineComponent({
 
           });
         $q.notify("User deleted");
+        fetchTasks()
       });
     }
 
@@ -255,6 +278,7 @@ export default defineComponent({
       tasks,
       selected,
       accept,
+      timeAgo,
       submit,
       fetchTasks,
       createTasks,
