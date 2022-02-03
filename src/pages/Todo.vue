@@ -2,7 +2,7 @@
   TODO:
   - Wydzielić komunikację API jeszcze bardziej na zewnątrz (Zrobić generyczny GET/POST/PATCH/DELETE)? 
   - użyć isLoading
-  - wyliczenie relatywnego czasu
+  - wyliczenie relatywnego czasu (+ odświeżanie co 1 min?)
   - strefy czasowe
 
  -->
@@ -119,9 +119,6 @@ export default defineComponent({
 
     const tasks = ref(null);
     let selected = ref(null);
-    const name = ref(null)
-    const age = ref(null)
-    const accept = ref(false)
 
     const units = [
       'year',
@@ -277,11 +274,9 @@ export default defineComponent({
       taskDescription,
       tasks,
       selected,
-      accept,
       timeAgo,
       submit,
       fetchTasks,
-      createTasks,
       selectUser,
       editUser,
       deleteUser
