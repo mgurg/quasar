@@ -1,8 +1,11 @@
-<!-- <template>
-  <q-page class="flex flex-center">
-    <q-btn @click="ping">Fetch tasks</q-btn>
-  </q-page>
-</template> -->
+<!-- 
+  TODO:
+  - Wydzielić komunikację API jeszcze bardziej na zewnątrz (Zrobić generyczny GET/POST/PATCH/DELETE)? 
+  - użyć isLoading
+  - wyliczenie relatywnego czasu
+  - strefy czasowe
+
+ -->
 
 <template>
   <div class="row justify-center">
@@ -38,7 +41,7 @@
             <q-item-section side v-if="task.uuid === selected">
               <div class="text-grey-8 q-gutter-xs">
                 <q-btn size="12px" flat dense round icon="edit" @click="editUser(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="done" @click="deleteUser(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(task.uuid)" />
                 <q-btn size="12px" flat dense round icon="info" />
               </div>
             </q-item-section>
@@ -51,58 +54,7 @@
 
           <q-separator />
         </div>
-
-        <!-- <q-item>
-          <q-item-section avatar>
-            <q-avatar rounded>
-              <img src="~assets/stecker.jpg" />
-              <q-badge floating rounded color="red" />
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label lines="1">Single line item 2</q-item-label>
-            <q-item-label
-              caption
-              lines="2"
-            >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <q-item-label caption>od 5m</q-item-label>
-            <q-avatar rounded size="sm" color="warning">JS</q-avatar>
-          </q-item-section>
-        </q-item>
-
-        <q-separator spaced />
-        <q-item-label header>List Header</q-item-label>
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar rounded>
-              <img src="~assets/stecker.jpg" />
-              <q-badge floating rounded color="warning" />
-            </q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label lines="1">High temperature in the main hall</q-item-label>
-            <q-item-label
-              caption
-              lines="2"
-            >Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <div class="text-grey-8 q-gutter-xs">
-              <q-btn size="12px" flat dense round icon="edit" />
-              <q-btn size="12px" flat dense round icon="done" />
-              <q-btn size="12px" flat dense round icon="info" />
-            </div>
-          </q-item-section>
-        </q-item>-->
       </q-list>
-
-      <!-- HEADER SLOTS -->
 
       <q-space class="q-pa-sm" />
 
@@ -116,68 +68,29 @@
         autocomplete="off"
         spellcheck="false"
         class="q-gutter-md"
+        @submit="submit"
       >
         <q-input
           outlined
           :dense="dense"
-          v-model="name"
-          :label="$t('Tasks')"
-          hint="Name and surname"
-          lazy-rules
-          :rules="[val => val && val.length > 0 || 'Please type something']"
+          v-model="taskTitle"
+          :error="!!errors.taskTitle"
+          :error-message="errors.taskTitle"
+          :disable="isLoading"
+          :label="$t('Task name')"
         />
-
         <q-input
           outlined
           :dense="dense"
           type="textarea"
-          v-model="age"
-          label="Your age *"
-          lazy-rules
-          :rules="[
-            val => val !== null && val !== '' || 'Please type your age',
-            val => val > 0 && val < 100 || 'Please type a real age'
-          ]"
+          v-model="taskDescription"
+          :error="!!errors.taskDescription"
+          :error-message="errors.taskDescription"
+          :disable="isLoading"
+          :label="$t('Task description')"
         />
 
-        <q-uploader
-          url="http://localhost:4444/upload"
-          style="width:95%"
-          label="Custom list"
-          multiple
-        >
-          <template v-slot:list="scope">
-            <q-list separator>
-              <q-item v-for="file in scope.files" :key="file.__key">
-                <q-item-section>
-                  <q-item-label class="full-width ellipsis">{{ file.name }}</q-item-label>
-
-                  <q-item-label caption>Status: {{ file.__status }}</q-item-label>
-
-                  <q-item-label caption>{{ file.__sizeLabel }} / {{ file.__progressLabel }}</q-item-label>
-                </q-item-section>
-
-                <q-item-section v-if="file.__img" thumbnail class="gt-xs">
-                  <img :src="file.__img.src" />
-                </q-item-section>
-
-                <q-item-section top side>
-                  <q-btn
-                    class="gt-xs"
-                    size="12px"
-                    flat
-                    dense
-                    round
-                    icon="delete"
-                    @click="scope.removeFile(file)"
-                  />
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </template>
-        </q-uploader>
-
-        <q-toggle v-model="dense" label="I accept the license and terms" />
+        <q-toggle v-model="dense" label="Dense layout" />
 
         <div>
           <q-btn label="Submit" type="submit" color="primary" />
@@ -190,12 +103,18 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { defineComponent, onActivated } from "vue";
-import { ref } from 'vue'
+import { defineComponent, onActivated, ref } from "vue";
+import { useField, useForm } from "vee-validate";
+import { object, string } from 'yup'
 import { api } from "boot/axios";
 
+let isLoading = ref(false);
+let isSuccess = ref(false);
+let isError = ref(false);
+let errorMsg = ref(null);
+
 export default defineComponent({
-  name: "PageIndex",
+  name: "PageTodo",
   setup() {
     const $q = useQuasar()
 
@@ -204,6 +123,45 @@ export default defineComponent({
     const name = ref(null)
     const age = ref(null)
     const accept = ref(false)
+
+    // -------------- Form --------------
+
+    const { resetForm } = useForm();
+
+    const validationSchema = object({
+      taskTitle: string().required(),
+      taskDescription: string().required('A cool description is required').min(3),
+    })
+
+
+    const { handleSubmit, errors } = useForm({
+      validationSchema
+    })
+
+    const { value: taskTitle } = useField('taskTitle')
+    const { value: taskDescription } = useField('taskDescription')
+
+
+    const submit = handleSubmit(values => {
+      // isLoading.value = true;
+      console.log('submit', values);
+
+      let data = {
+        "author_id": 0,
+        "title": taskTitle.value,
+        "description": taskDescription.value,
+        "date_from": "2022-02-02T20:21:01.967Z",
+        "date_to": "2022-02-02T20:21:01.967Z",
+        "priority": "string",
+        "type": "string",
+        "connected_tasks": 0
+      }
+
+      console.log(data)
+      createTasks(data);
+    })
+
+    // --------------- Form --------------
 
     function fetchTasks() {
       api
@@ -224,25 +182,10 @@ export default defineComponent({
         });
     }
 
-    function createTasks() {
-      let body = {
-        "author_id": 0,
-        "title": "string",
-        "description": "string",
-        "date_from": "2022-02-02T20:21:01.967Z",
-        "date_to": "2022-02-02T20:21:01.967Z",
-        "priority": "string",
-        "type": "string",
-        "connected_tasks": 0
-      }
-
-
-
-
+    function createTasks(body) {
       api
         .post("/tasks/add", body)
         .then((res) => {
-          // tasks.value = res.data
           console.log(res.data);
         })
         .catch((err) => {
@@ -274,8 +217,22 @@ export default defineComponent({
         cancel: true,
         persistent: true,
       }).onOk(() => {
+        api
+          .delete("/tasks/" + uuid)
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            if (err.response) {
+              console.log(err.response);
+            } else if (err.request) {
+              console.log(err.request);
+            } else {
+              console.log("General Error");
+            }
+
+          });
         $q.notify("User deleted");
-        // store.dispatch("userModule/loadUsers");
       });
     }
 
@@ -288,22 +245,22 @@ export default defineComponent({
     });
 
     return {
-      slide: ref(1),
-      fullscreen: ref(false),
+      errors,
+      isLoading,
+      isSuccess,
+      errorMsg,
       dense: ref(false),
-      name,
-      age,
+      taskTitle,
+      taskDescription,
       tasks,
       selected,
       accept,
+      submit,
       fetchTasks,
       createTasks,
       selectUser,
       editUser,
       deleteUser
-
-
-
     };
   },
 });
