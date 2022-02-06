@@ -35,6 +35,15 @@
             <q-item-section>
               <q-item-label lines="1">{{ task.title }}</q-item-label>
               <q-item-label caption lines="2">{{ task.description }}</q-item-label>
+              <q-item-label lines="1">
+                <q-chip
+                  size="sm"
+                  v-model="cookies"
+                  color="red"
+                  text-color="white"
+                  icon="cake"
+                >Adam G</q-chip>
+              </q-item-label>
             </q-item-section>
 
             <q-item-section side v-if="task.uuid === selected">
