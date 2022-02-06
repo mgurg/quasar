@@ -4,14 +4,12 @@
       <q-card class="my-card">
         <q-item>
           <q-item-section avatar>
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-            </q-avatar>
+            <q-avatar rounded color="green" text-color="white">MG</q-avatar>
           </q-item-section>
 
           <q-item-section>
             <q-item-label>BMW X5 e70 3.0d 2013r.</q-item-label>
-            <q-item-label caption>Subhead</q-item-label>
+            <q-item-label caption>From 15 min.</q-item-label>
           </q-item-section>
         </q-item>
 

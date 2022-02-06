@@ -246,7 +246,23 @@ export default defineComponent({
 
     // --------------- Form --------------
 
+    function createTasks(body) {
+      api
+        .post("/tasks/add", body)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
 
+        });
+    }
 
 
     return {

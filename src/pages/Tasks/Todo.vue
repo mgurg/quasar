@@ -64,11 +64,11 @@
       </q-list>
 
       <q-space class="q-pa-sm" />
-
-      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Tasks") }}</h5>
+      <!-- 
+      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Tasks") }}</h5>-->
 
       <!-- QFORM -->
-
+      <!-- 
       <q-form
         autocorrect="off"
         autocapitalize="off"
@@ -103,7 +103,7 @@
           <q-btn label="Submit" type="submit" color="primary" />
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
-      </q-form>
+      </q-form>-->
     </q-page>
   </div>
 </template>
