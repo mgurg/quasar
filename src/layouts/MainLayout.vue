@@ -59,6 +59,18 @@ const linksList = [
     icon: "list",
     link: "/todo",
   },
+  {
+    title: "TODO",
+    caption: "Add Task",
+    icon: "add_task",
+    link: "/task",
+  },
+  {
+    title: "TODO",
+    caption: "View Task",
+    icon: "task",
+    link: "/view",
+  },
 
 ];
 
