@@ -16,7 +16,7 @@
       </h5>
 
       <q-list bordered padding>
-        <q-item-label header>{{ $t("Your tasks") }}</q-item-label>
+        <q-item-label header v-if="myTasks">{{ $t("Your tasks") }}</q-item-label>
 
         <div
           v-for="task in myTasks"
@@ -57,10 +57,10 @@
         </div>
 
         <!-- ALL TASKS -->
-        <q-item-label header>{{ $t("All tasks") }}</q-item-label>
+        <q-item-label header v-if="otherTasks">{{ $t("All tasks") }}</q-item-label>
 
         <div
-          v-for="task in tasks"
+          v-for="task in otherTasks"
           v-bind:key="task.uuid"
           @click="selectUser(task.uuid)"
           :class="{ 'done bg-blue-1': task.uuid === selected }"
@@ -126,6 +126,15 @@ export default defineComponent({
     const myTasks = computed(() => {
       if (tasks.value != null) {
         return tasks.value.filter((task) => task.assignee_id === 0)
+      } else {
+        return null;
+      }
+
+    });
+
+    const otherTasks = computed(() => {
+      if (tasks.value != null) {
+        return tasks.value.filter((task) => task.assignee_id !== 0)
       } else {
         return null;
       }
@@ -289,6 +298,7 @@ export default defineComponent({
       taskDescription,
       tasks,
       myTasks,
+      otherTasks,
       selected,
       timeAgo,
       submit,
