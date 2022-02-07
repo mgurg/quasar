@@ -104,7 +104,6 @@
           label="Użytkownik"
           :options="options"
           @filter="filterFn"
-          @filter-abort="abortFilterFn"
         >
           <template v-slot:no-option>
             <q-item>
@@ -149,7 +148,13 @@
         </div>
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary" :loading="isLoading" :disable="isLoading"  />
+          <q-btn
+            label="Submit"
+            type="submit"
+            color="primary"
+            :loading="isLoading"
+            :disable="isLoading"
+          />
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
@@ -264,7 +269,7 @@ export default defineComponent({
 
         });
 
-        
+
     }
 
 

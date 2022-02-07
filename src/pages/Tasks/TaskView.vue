@@ -68,17 +68,22 @@
           <q-btn flat color="primary">Reserve</q-btn>
         </q-card-actions>
       </q-card>
+      {{ taskUuid }}
     </q-page>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
+import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 
 export default defineComponent({
   name: "PageIndex",
   setup() {
+    const route = useRoute();
+    const taskUuid = ref(route.params.uuid)
+
     function ping() {
       api
         .get("/")
@@ -99,7 +104,8 @@ export default defineComponent({
 
     return {
       slide: ref(1),
-      fullscreen: ref(false)
+      fullscreen: ref(false),
+      taskUuid
     };
   },
 });

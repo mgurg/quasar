@@ -4,9 +4,12 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("pages/Index.vue") }],
     children: [
-      { path: "/todo", component: () => import("pages/Tasks/Todo.vue") },
+      { path: "/todo", component: () => import("pages/Tasks/TaskIndex.vue") },
       { path: "/task", component: () => import("pages/Tasks/TaskEdit.vue") },
-      { path: "/view", component: () => import("pages/Tasks/TaskView.vue") },
+      {
+        path: "/view/:uuid",
+        component: () => import("pages/Tasks/TaskView.vue"),
+      },
     ],
   },
 

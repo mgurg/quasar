@@ -99,6 +99,9 @@
       </q-list>
 
       <q-space class="q-pa-sm" />
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn fab icon="add" to="/task" color="accent" />
+      </q-page-sticky>
     </q-page>
   </div>
 </template>

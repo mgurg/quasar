@@ -30,10 +30,51 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header>Essential Links</q-item-label>
+      <q-list padding>
+        <!--Dashboard-->
+        <!-- <q-item to="/tasks" exact clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="dashboard" />
+            </q-item-section>
 
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+            <q-item-section>{{ $t("Dashboard") }}</q-item-section>
+        </q-item>-->
+
+        <!--Index-->
+        <q-item to="/" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+
+          <q-item-section>Index</q-item-section>
+        </q-item>
+
+        <!--Tasks Index-->
+        <q-item to="/todo" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="list" />
+          </q-item-section>
+
+          <q-item-section>Home</q-item-section>
+        </q-item>
+
+        <!--Task Add-->
+        <q-item to="/task" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="add_task" />
+          </q-item-section>
+
+          <q-item-section>Add Task</q-item-section>
+        </q-item>
+
+        <!--Task view-->
+        <q-item to="/view" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="task" />
+          </q-item-section>
+
+          <q-item-section>View Task</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -44,52 +85,16 @@
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
-
-const linksList = [
-  {
-    title: "Home",
-    caption: "Index",
-    icon: "dashboard",
-    link: "/",
-  },
-  {
-    title: "TODO",
-    caption: "Tasks List",
-    icon: "list",
-    link: "/todo",
-  },
-  {
-    title: "TODO",
-    caption: "Add Task",
-    icon: "add_task",
-    link: "/task",
-  },
-  {
-    title: "TODO",
-    caption: "View Task",
-    icon: "task",
-    link: "/view",
-  },
-
-];
 
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
-// import languages from "quasar/lang/index.json";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 
-// const appLanguages = languages.filter((lang) =>
-//   ["pl","de", "en-US"].includes(lang.isoName)
-// );
 
 export default defineComponent({
   name: "MainLayout",
 
-  components: {
-    EssentialLink,
-  },
 
   setup() {
     const $q = useQuasar();
@@ -115,12 +120,10 @@ export default defineComponent({
     const envValue = process.env.S3_BUCKET;
 
     return {
-      essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      envValue,
       setLocale,
     };
   },
