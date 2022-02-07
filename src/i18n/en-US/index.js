@@ -7,6 +7,7 @@ export default {
   "Work Time": "Work Time!",
   Tasks: "Tasks",
   "Your tasks": "Your tasks",
+  "All tasks": "All tasks",
   "Task name": "Task name",
   "Task description": "Task description",
 };

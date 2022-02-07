@@ -3,7 +3,6 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">
         {{ $t("Tasks") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <q-btn size="xs" @click="fetchTasks"></q-btn>
         <q-toggle size="xs" v-model="dense" />
       </h5>
 
@@ -150,7 +149,7 @@
         </div>
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary" />
+          <q-btn label="Submit" type="submit" color="primary" :loading="isLoading" :disable="isLoading"  />
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
@@ -226,7 +225,7 @@ export default defineComponent({
 
 
     const submit = handleSubmit(values => {
-      // isLoading.value = true;
+      isLoading.value = true;
       console.log('submit', values);
 
       let data = {
@@ -247,10 +246,12 @@ export default defineComponent({
     // --------------- Form --------------
 
     function createTasks(body) {
+      isLoading.value = true;
       api
         .post("/tasks/add", body)
         .then((res) => {
           console.log(res.data);
+          isLoading.value = false;
         })
         .catch((err) => {
           if (err.response) {
@@ -262,6 +263,8 @@ export default defineComponent({
           }
 
         });
+
+        
     }
 
 
@@ -293,8 +296,6 @@ export default defineComponent({
       dense: ref(false),
       taskTitle,
       taskDescription,
-      tasks,
-      selected,
       timeAgo,
       submit,
     };

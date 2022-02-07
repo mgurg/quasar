@@ -19,6 +19,47 @@
         <q-item-label header>{{ $t("Your tasks") }}</q-item-label>
 
         <div
+          v-for="task in myTasks"
+          v-bind:key="task.uuid"
+          @click="selectUser(task.uuid)"
+          :class="{ 'done bg-blue-1': task.uuid === selected }"
+        >
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar rounded>
+                <img src="~assets/stecker.jpg" />
+                <q-badge floating rounded color="green" />
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label lines="1">{{ task.title }}</q-item-label>
+              <q-item-label caption lines="2">{{ task.description }}</q-item-label>
+              <q-item-label lines="1">
+                <q-chip size="sm" color="red" text-color="white" icon="cake">Adam G</q-chip>
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side v-if="task.uuid === selected">
+              <div class="text-grey-8 q-gutter-xs">
+                <q-btn size="12px" flat dense round icon="edit" @click="editUser(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="info" />
+              </div>
+            </q-item-section>
+            <q-item-section side v-else>
+              <q-item-label caption>{{ timeAgo(task.date_from) }}</q-item-label>
+              <q-icon name="priority_high" color="red" />
+            </q-item-section>
+          </q-item>
+
+          <q-separator />
+        </div>
+
+        <!-- ALL TASKS -->
+        <q-item-label header>{{ $t("All tasks") }}</q-item-label>
+
+        <div
           v-for="task in tasks"
           v-bind:key="task.uuid"
           @click="selectUser(task.uuid)"
@@ -36,13 +77,7 @@
               <q-item-label lines="1">{{ task.title }}</q-item-label>
               <q-item-label caption lines="2">{{ task.description }}</q-item-label>
               <q-item-label lines="1">
-                <q-chip
-                  size="sm"
-                  v-model="cookies"
-                  color="red"
-                  text-color="white"
-                  icon="cake"
-                >Adam G</q-chip>
+                <q-chip size="sm" color="red" text-color="white" icon="cake">Adam G</q-chip>
               </q-item-label>
             </q-item-section>
 
@@ -64,53 +99,13 @@
       </q-list>
 
       <q-space class="q-pa-sm" />
-      <!-- 
-      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Tasks") }}</h5>-->
-
-      <!-- QFORM -->
-      <!-- 
-      <q-form
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="off"
-        spellcheck="false"
-        class="q-gutter-md"
-        @submit="submit"
-      >
-        <q-input
-          outlined
-          :dense="dense"
-          v-model="taskTitle"
-          :error="!!errors.taskTitle"
-          :error-message="errors.taskTitle"
-          :disable="isLoading"
-          :label="$t('Task name')"
-        />
-        <q-input
-          outlined
-          :dense="dense"
-          type="textarea"
-          v-model="taskDescription"
-          :error="!!errors.taskDescription"
-          :error-message="errors.taskDescription"
-          :disable="isLoading"
-          :label="$t('Task description')"
-        />
-
-        <q-toggle v-model="dense" label="Dense layout" />
-
-        <div>
-          <q-btn label="Submit" type="submit" color="primary" />
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-        </div>
-      </q-form>-->
     </q-page>
   </div>
 </template>
 
 <script>
 import { useQuasar } from 'quasar'
-import { defineComponent, onActivated, ref } from "vue";
+import { defineComponent, onActivated, ref, computed } from "vue";
 import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
 import { object, string } from 'yup'
@@ -127,6 +122,16 @@ export default defineComponent({
     const $q = useQuasar()
 
     const tasks = ref(null);
+
+    const myTasks = computed(() => {
+      if (tasks.value != null) {
+        return tasks.value.filter((task) => task.assignee_id === 0)
+      } else {
+        return null;
+      }
+
+    });
+
     let selected = ref(null);
 
     const units = [
@@ -267,10 +272,11 @@ export default defineComponent({
 
     function editUser(uuid) {
       console.log(uuid);
+      console.log(progressTasks.value)
     }
 
     onActivated(() => {
-      fetchTasks
+      fetchTasks()
     });
 
     return {
@@ -282,6 +288,7 @@ export default defineComponent({
       taskTitle,
       taskDescription,
       tasks,
+      myTasks,
       selected,
       timeAgo,
       submit,
