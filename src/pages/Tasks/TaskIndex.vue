@@ -11,8 +11,7 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-ml-md">
-        {{ $t("Tasks") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <q-btn @click="fetchTasks">fetch tasks</q-btn>
+        {{ $t("Tasks") }}
       </h5>
 
       <q-list bordered padding>
@@ -83,8 +82,8 @@
 
             <q-item-section side v-if="task.uuid === selected">
               <div class="text-grey-8 q-gutter-xs">
-                <q-btn size="12px" flat dense round icon="edit" @click="editUser(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="delete" @click="deletTask(task.uuid)" />
                 <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)"  />
               </div>
             </q-item-section>
@@ -100,7 +99,7 @@
 
       <q-space class="q-pa-sm" />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/task" color="accent" />
+        <q-btn fab icon="add" to="/tasks/add" color="accent" />
       </q-page-sticky>
     </q-page>
   </div>
@@ -245,11 +244,11 @@ export default defineComponent({
 
     function editTask(uuid) {
       console.log(uuid);
+      router.push("/tasks/edit/" + uuid);
     }
 
     function viewTask(uuid) {
       router.push("/tasks/" + uuid);
-      console.log(uuid);
     }
 
     onActivated(() => {

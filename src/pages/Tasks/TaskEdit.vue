@@ -1,8 +1,16 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <div class="q-pa-md q-gutter-sm">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el icon="home" to="/" />
+          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
+          <q-breadcrumbs-el label="Add" icon="add" />
+        </q-breadcrumbs>
+      </div>
+
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">
-        {{ $t("Tasks") }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ $t("Tasks") }}
         <q-toggle size="xs" v-model="dense" />
       </h5>
 
@@ -33,7 +41,7 @@
         />
 
         <!-- From -->
-        <q-input filled v-model="date" label="Pocczątek">
+        <q-input filled v-model="date" label="Początek">
           <template v-slot:prepend>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -112,41 +120,6 @@
           </template>
         </q-select>
 
-        <!-- Files -->
-        <div class="q-pa-md" style="max-width: 300px">
-          <q-uploader url="http://localhost:4444/upload" label="Files" multiple>
-            <template v-slot:list="scope">
-              <q-list separator>
-                <q-item v-for="file in scope.files" :key="file.__key">
-                  <q-item-section>
-                    <q-item-label class="full-width ellipsis">{{ file.name }}</q-item-label>
-
-                    <q-item-label caption>Status: {{ file.__status }}</q-item-label>
-
-                    <q-item-label caption>{{ file.__sizeLabel }} / {{ file.__progressLabel }}</q-item-label>
-                  </q-item-section>
-
-                  <q-item-section v-if="file.__img" thumbnail class="gt-xs">
-                    <img :src="file.__img.src" />
-                  </q-item-section>
-
-                  <q-item-section top side>
-                    <q-btn
-                      class="gt-xs"
-                      size="12px"
-                      flat
-                      dense
-                      round
-                      icon="delete"
-                      @click="scope.removeFile(file)"
-                    />
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </template>
-          </q-uploader>
-        </div>
-
         <div>
           <q-btn
             label="Submit"
@@ -167,6 +140,7 @@ import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
+import { useRoute } from "vue-router";
 import { object, string } from 'yup'
 import { api } from "boot/axios";
 
@@ -174,6 +148,7 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
+let date = ref('2019-02-01 12:44');
 
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
@@ -186,7 +161,9 @@ export default defineComponent({
     const $q = useQuasar()
 
     const tasks = ref(null);
-    let selected = ref(null);
+    const route = useRoute();
+    let taskUuid = ref(route.params.uuid);
+    let taskDetails = ref(null);
 
     const units = [
       'year',
@@ -268,13 +245,38 @@ export default defineComponent({
           }
 
         });
-
-
     }
+
+        function getDetails(uuid) {
+      api
+        .get("/tasks/" + uuid)
+        .then((res) => {
+          console.log(uuid);
+          console.log(res.data);
+          taskDetails.value = res.data
+          taskTitle.value = res.data.title
+          taskDescription.value = res.data.description
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+        });
+    }
+
+    onActivated(() => {
+      taskDetails.value = null; // Why? if not present data is fetched only once
+      if (route.params.uuid !=null)
+      getDetails(route.params.uuid)
+    });
 
 
     return {
-      date: ref('2019-02-01 12:44'),
+      date,
       model: ref(null),
       options,
 

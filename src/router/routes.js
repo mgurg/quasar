@@ -10,6 +10,10 @@ const routes = [
         path: "/tasks/:uuid",
         component: () => import("pages/Tasks/TaskView.vue"),
       },
+      {
+        path: "/tasks/edit/:uuid",
+        component: () => import("pages/Tasks/TaskEdit.vue"),
+      },
     ],
   },
 

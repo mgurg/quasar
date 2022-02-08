@@ -1,6 +1,15 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      
+      <div class="q-pa-md q-gutter-sm">
+        <q-breadcrumbs>
+          <q-breadcrumbs-el icon="home" to="/" />
+          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
+          <q-breadcrumbs-el label="View" icon="info" />
+        </q-breadcrumbs>
+      </div>
+
       <q-card class="my-card" v-if="taskDetails">
         <q-item>
           <q-item-section avatar>
@@ -8,8 +17,11 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label>{{taskDetails.title}}</q-item-label>
-            <q-item-label caption>{{taskDetails.date_from}}</q-item-label>
+            <q-item-label>{{ taskDetails.title }}</q-item-label>
+            <q-item-label caption>
+              <q-icon name="schedule" />
+              {{ convertTime(taskDetails.date_from) }}
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -45,7 +57,7 @@
               <q-btn push round dense color="white" text-color="primary" icon="download" />
             </q-carousel-control>
           </template>
-        </q-carousel> -->
+        </q-carousel>-->
         <!-- IMG -->
 
         <q-card-actions align="right">
@@ -54,9 +66,7 @@
           <q-btn flat round color="primary" icon="done">Done</q-btn>
         </q-card-actions>
 
-        <q-card-section class="q-pt-none">
-          {{taskDetails.description}}
-        </q-card-section>
+        <q-card-section class="q-pt-none">{{ taskDetails.description }}</q-card-section>
 
         <q-separator />
 
@@ -71,6 +81,7 @@
 
 <script>
 import { defineComponent, ref, onActivated } from "vue";
+import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 
@@ -80,6 +91,15 @@ export default defineComponent({
     const route = useRoute();
     let taskUuid = ref(route.params.uuid)
     let taskDetails = ref(null);
+
+    function convertTime(datetime) {
+      let timeZone = "America/Los_Angeles";
+      const dateObject = new Date(datetime).toLocaleString("en-US", {
+        timeZone,
+      });
+
+      return dateObject;
+    }
 
     function getDetails(uuid) {
       api
@@ -97,12 +117,11 @@ export default defineComponent({
           } else {
             console.log("General Error");
           }
-
         });
     }
 
     onActivated(() => {
-      taskDetails.value =null; // Why? if not present data is fetched only once
+      taskDetails.value = null; // Why? if not present data is fetched only once
       getDetails(route.params.uuid)
     });
 
@@ -110,7 +129,8 @@ export default defineComponent({
       slide: ref(1),
       fullscreen: ref(false),
       taskUuid,
-      taskDetails
+      taskDetails,
+      convertTime
     };
   },
 });
