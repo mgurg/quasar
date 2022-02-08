@@ -21,7 +21,7 @@
         <div
           v-for="task in myTasks"
           v-bind:key="task.uuid"
-          @click="selectUser(task.uuid)"
+          @click="selectTask(task.uuid)"
           :class="{ 'done bg-blue-1': task.uuid === selected }"
         >
           <q-item>
@@ -42,9 +42,9 @@
 
             <q-item-section side v-if="task.uuid === selected">
               <div class="text-grey-8 q-gutter-xs">
-                <q-btn size="12px" flat dense round icon="edit" @click="editUser(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="info" />
+                <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="delete" @click="deleteTask(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="info"  @click="viewTask(task.uuid)" />
               </div>
             </q-item-section>
             <q-item-section side v-else>
@@ -62,7 +62,7 @@
         <div
           v-for="task in otherTasks"
           v-bind:key="task.uuid"
-          @click="selectUser(task.uuid)"
+          @click="selectTask(task.uuid)"
           :class="{ 'done bg-blue-1': task.uuid === selected }"
         >
           <q-item>
@@ -85,7 +85,7 @@
               <div class="text-grey-8 q-gutter-xs">
                 <q-btn size="12px" flat dense round icon="edit" @click="editUser(task.uuid)" />
                 <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="info" />
+                <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)"  />
               </div>
             </q-item-section>
             <q-item-section side v-else>
@@ -109,9 +109,8 @@
 <script>
 import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref, computed } from "vue";
-import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
-import { object, string } from 'yup'
+import { useRouter } from "vue-router";
 import { api } from "boot/axios";
 
 let isLoading = ref(false);
@@ -123,8 +122,11 @@ export default defineComponent({
   name: "PageTodo",
   setup() {
     const $q = useQuasar()
+        const router = useRouter();
 
     const tasks = ref(null);
+    let selected = ref(null);
+
 
     const myTasks = computed(() => {
       if (tasks.value != null) {
@@ -132,7 +134,6 @@ export default defineComponent({
       } else {
         return null;
       }
-
     });
 
     const otherTasks = computed(() => {
@@ -141,11 +142,9 @@ export default defineComponent({
       } else {
         return null;
       }
-
     });
 
-    let selected = ref(null);
-
+    
     const units = [
       'year',
       'month',
@@ -169,44 +168,6 @@ export default defineComponent({
       return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
     };
 
-    // -------------- Form --------------
-
-    const { resetForm } = useForm();
-
-    const validationSchema = object({
-      taskTitle: string().required(),
-      taskDescription: string().required('A cool description is required').min(3),
-    })
-
-
-    const { handleSubmit, errors } = useForm({
-      validationSchema
-    })
-
-    const { value: taskTitle } = useField('taskTitle')
-    const { value: taskDescription } = useField('taskDescription')
-
-
-    const submit = handleSubmit(values => {
-      // isLoading.value = true;
-      console.log('submit', values);
-
-      let data = {
-        "author_id": 0,
-        "title": taskTitle.value,
-        "description": taskDescription.value,
-        "date_from": new Date().toISOString(),
-        "date_to": "2022-02-02T20:21:01.967Z",
-        "priority": "string",
-        "type": "string",
-        "connected_tasks": 0
-      }
-
-      console.log(data)
-      createTasks(data);
-    })
-
-    // --------------- Form --------------
 
     function fetchTasks() {
       api
@@ -245,7 +206,7 @@ export default defineComponent({
         });
     }
 
-    function selectUser(uuid) {
+    function selectTask(uuid) {
       if (selected.value == null) {
         selected.value = uuid;
       } else if (selected.value !== uuid) {
@@ -255,7 +216,7 @@ export default defineComponent({
       }
     }
 
-    function deleteUser(uuid) {
+    function deleteTask(uuid) {
       $q.dialog({
         title: "Confirm",
         message: "Really delete?",
@@ -277,14 +238,18 @@ export default defineComponent({
             }
 
           });
-        $q.notify("User deleted");
+        $q.notify("Task deleted");
         fetchTasks()
       });
     }
 
-    function editUser(uuid) {
+    function editTask(uuid) {
       console.log(uuid);
-      console.log(progressTasks.value)
+    }
+
+    function viewTask(uuid) {
+      router.push("/tasks/" + uuid);
+      console.log(uuid);
     }
 
     onActivated(() => {
@@ -292,23 +257,18 @@ export default defineComponent({
     });
 
     return {
-      errors,
       isLoading,
       isSuccess,
       errorMsg,
-      dense: ref(false),
-      taskTitle,
-      taskDescription,
-      tasks,
       myTasks,
       otherTasks,
       selected,
       timeAgo,
-      submit,
       fetchTasks,
-      selectUser,
-      editUser,
-      deleteUser
+      selectTask,
+      editTask,
+      deleteTask,
+      viewTask
     };
   },
 });

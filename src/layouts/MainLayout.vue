@@ -50,36 +50,25 @@
         </q-item>
 
         <!--Tasks Index-->
-        <q-item to="/todo" exact clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="list" />
-          </q-item-section>
-
-          <q-item-section>Home</q-item-section>
-        </q-item>
-
-        <!--Task Add-->
-        <q-item to="/task" exact clickable v-ripple>
+        <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="add_task" />
           </q-item-section>
 
-          <q-item-section>Add Task</q-item-section>
+          <q-item-section>TODO List</q-item-section>
         </q-item>
 
-        <!--Task view-->
-        <q-item to="/view" exact clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="task" />
-          </q-item-section>
-
-          <q-item-section>View Task</q-item-section>
-        </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <!-- <router-view /> -->
+      <!-- TODO: Looks like this is necessary to load onActivate -->
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
