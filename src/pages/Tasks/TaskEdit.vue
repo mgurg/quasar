@@ -247,7 +247,7 @@ export default defineComponent({
         });
     }
 
-        function getDetails(uuid) {
+    function getDetails(uuid) {
       api
         .get("/tasks/" + uuid)
         .then((res) => {
@@ -270,8 +270,8 @@ export default defineComponent({
 
     onActivated(() => {
       taskDetails.value = null; // Why? if not present data is fetched only once
-      if (route.params.uuid !=null)
-      getDetails(route.params.uuid)
+      if (route.params.uuid != null)
+        getDetails(route.params.uuid)
     });
 
 

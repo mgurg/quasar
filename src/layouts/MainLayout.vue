@@ -7,6 +7,7 @@
         <q-toolbar-title>Quasar App</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
             <q-list style="min-width: 100px">
@@ -57,7 +58,6 @@
 
           <q-item-section>TODO List</q-item-section>
         </q-item>
-
       </q-list>
     </q-drawer>
 
@@ -106,6 +106,14 @@ export default defineComponent({
     }
     const leftDrawerOpen = ref(false);
 
+    function notify() {
+      $q.notify({
+        message: 'Danger, Will Robinson! Danger!',
+        position: 'top-right',
+        progress: true,
+      })
+    }
+
     const envValue = process.env.S3_BUCKET;
 
     return {
@@ -113,6 +121,7 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
+      notify,
       setLocale,
     };
   },
