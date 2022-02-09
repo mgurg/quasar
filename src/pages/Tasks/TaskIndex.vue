@@ -10,11 +10,9 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <h5 class="q-mb-sm q-mt-sm q-ml-md">
-        {{ $t("Tasks") }}
-      </h5>
+      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Tasks") }}</h5>
 
-      <q-list bordered padding>
+      <q-list bordered padding v-if="!isLoading">
         <q-item-label header v-if="myTasks">{{ $t("Your tasks") }}</q-item-label>
 
         <div
@@ -43,7 +41,7 @@
               <div class="text-grey-8 q-gutter-xs">
                 <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
                 <q-btn size="12px" flat dense round icon="delete" @click="deleteTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="info"  @click="viewTask(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)" />
               </div>
             </q-item-section>
             <q-item-section side v-else>
@@ -84,7 +82,7 @@
               <div class="text-grey-8 q-gutter-xs">
                 <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
                 <q-btn size="12px" flat dense round icon="delete" @click="deletTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)"  />
+                <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)" />
               </div>
             </q-item-section>
             <q-item-section side v-else>
@@ -96,6 +94,8 @@
           <q-separator />
         </div>
       </q-list>
+      <!-- Skeleton -->
+      <task-index-skeleton v-else />
 
       <q-space class="q-pa-sm" />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -111,6 +111,8 @@ import { defineComponent, onActivated, ref, computed } from "vue";
 import { DateTime } from 'luxon';
 import { useRouter } from "vue-router";
 import { api } from "boot/axios";
+import taskIndexSkeleton from 'components/skeletons/taskIndexSkeleton'
+import TaskIndexSkeleton from 'src/components/skeletons/taskIndexSkeleton.vue';
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -118,10 +120,14 @@ let isError = ref(false);
 let errorMsg = ref(null);
 
 export default defineComponent({
-  name: "PageTodo",
+  name: "TaskIndex",
+  components: {
+    taskIndexSkeleton,
+    TaskIndexSkeleton
+  },
   setup() {
     const $q = useQuasar()
-        const router = useRouter();
+    const router = useRouter();
 
     const tasks = ref(null);
     let selected = ref(null);
@@ -143,7 +149,7 @@ export default defineComponent({
       }
     });
 
-    
+
     const units = [
       'year',
       'month',
@@ -174,6 +180,7 @@ export default defineComponent({
         .then((res) => {
           tasks.value = res.data
           console.log(res.data);
+          isLoading.value = false;
         })
         .catch((err) => {
           if (err.response) {
@@ -252,6 +259,7 @@ export default defineComponent({
     }
 
     onActivated(() => {
+      isLoading.value = true;
       fetchTasks()
     });
 

@@ -1,7 +1,6 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
@@ -10,7 +9,7 @@
         </q-breadcrumbs>
       </div>
 
-      <q-card class="my-card" v-if="taskDetails">
+      <q-card class="my-card" bordered flat v-if="taskDetails && !isLoading">
         <q-item>
           <q-item-section avatar>
             <q-avatar rounded color="green" text-color="white">MG</q-avatar>
@@ -75,6 +74,8 @@
           <q-btn flat color="primary">Reserve</q-btn>
         </q-card-actions>
       </q-card>
+
+      <task-view-skeleton v-else />
     </q-page>
   </div>
 </template>
@@ -84,9 +85,15 @@ import { defineComponent, ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
+import taskViewSkeleton from 'components/skeletons/taskViewSkeleton'
+
+let isLoading = ref(false);
 
 export default defineComponent({
-  name: "PageIndex",
+  name: "TaskView",
+  components: {
+    taskViewSkeleton,
+  },
   setup() {
     const route = useRoute();
     let taskUuid = ref(route.params.uuid)
@@ -107,7 +114,8 @@ export default defineComponent({
         .then((res) => {
           console.log(uuid);
           console.log(res.data);
-          taskDetails.value = res.data
+          taskDetails.value = res.data;
+          isLoading.value = false;
         })
         .catch((err) => {
           if (err.response) {
@@ -121,6 +129,7 @@ export default defineComponent({
     }
 
     onActivated(() => {
+      isLoading.value = true;
       taskDetails.value = null; // Why? if not present data is fetched only once
       getDetails(route.params.uuid)
     });
@@ -129,6 +138,7 @@ export default defineComponent({
       slide: ref(1),
       fullscreen: ref(false),
       taskUuid,
+      isLoading,
       taskDetails,
       convertTime
     };
