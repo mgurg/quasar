@@ -2,7 +2,7 @@
     <div class="q-pa-md">
         <q-item>
             <q-item-section avatar>
-                <q-skeleton type="QToggle" />
+                <q-skeleton type="QToggle" animation="none" />
             </q-item-section>
 
             <q-item-section>
@@ -17,7 +17,7 @@
 
         <q-item>
             <q-item-section avatar>
-                <q-skeleton type="QToggle" />
+                <q-skeleton type="QToggle" animation="none" />
             </q-item-section>
 
             <q-item-section>
@@ -32,7 +32,7 @@
 
         <q-item>
             <q-item-section avatar>
-                <q-skeleton type="QToggle" />
+                <q-skeleton type="QToggle" animation="none" />
             </q-item-section>
 
             <q-item-section>
@@ -45,7 +45,6 @@
             </q-item-section>
         </q-item>
     </div>
-    <!--  -->
 </template>
 
 <script>

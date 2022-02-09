@@ -3,7 +3,7 @@
         <q-item>
             <!-- Avatar/Username/Location section -->
             <q-item-section avatar>
-                <q-skeleton animation="fade" size="40px" type="QAvatar" />
+                <q-skeleton animation="none" size="40px" type="QToggle" />
             </q-item-section>
 
             <q-item-section>
