@@ -5,7 +5,10 @@ const routes = [
     children: [{ path: "", component: () => import("pages/Index.vue") }],
     children: [
       { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
-      { path: "/tasks/add", component: () => import("pages/Tasks/TaskEdit.vue") },
+      {
+        path: "/tasks/add",
+        component: () => import("pages/Tasks/TaskAdd.vue"),
+      },
       {
         path: "/tasks/:uuid",
         component: () => import("pages/Tasks/TaskView.vue"),

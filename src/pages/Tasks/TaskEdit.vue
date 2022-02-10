@@ -29,6 +29,8 @@
           :dense="dense"
           v-model="taskTitle"
           :disable="isLoading"
+          :error="!!errors.taskTitle"
+          :error-message="errors.taskTitle"
           :label="$t('Task name')"
         />
         <q-input
@@ -37,6 +39,8 @@
           type="textarea"
           v-model="taskDescription"
           :disable="isLoading"
+          :error="!!errors.taskDescription"
+          :error-message="errors.taskDescription"
           :label="$t('Task description')"
         />
 
@@ -109,7 +113,11 @@
           use-input
           use-chips
           label="Użytkownik"
+          :error="!!errors.taskOwner"
+          :error-message="errors.taskOwner"
           :options="usersList"
+          emit-value
+          map-options
         >
           <!-- <template v-slot:no-option>
             <q-item>
