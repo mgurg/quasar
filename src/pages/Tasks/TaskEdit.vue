@@ -173,29 +173,6 @@ export default defineComponent({
       }
     ]);
 
-    const units = [
-      'year',
-      'month',
-      'week',
-      'day',
-      'hour',
-      'minute',
-      'second',
-    ];
-
-    const timeAgo = (date) => {
-      let dateTime = DateTime.fromISO(date)
-      const diff = dateTime.diffNow().shiftTo(...units);
-      const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
-
-      const relativeFormatter = new Intl.RelativeTimeFormat('en', {
-        localeMatcher: "best fit", // other values: "lookup"
-        numeric: "always", // other values: "auto"
-        style: "narrow", // "long", "short" or "narrow"
-      });
-      return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
-    };
-
     // -------------- Form --------------
 
     const { resetForm } = useForm();
@@ -323,7 +300,6 @@ export default defineComponent({
       usersList,
       taskOwner,
       taskDescription,
-      timeAgo,
       submit,
     };
   },
