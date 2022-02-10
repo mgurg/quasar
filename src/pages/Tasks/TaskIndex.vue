@@ -135,7 +135,7 @@ export default defineComponent({
 
     const myTasks = computed(() => {
       if (tasks.value != null) {
-        return tasks.value.filter((task) => task.assignee_id === 0)
+        return tasks.value.filter((task) => task.author.uuid === "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
       } else {
         return null;
       }
@@ -143,7 +143,7 @@ export default defineComponent({
 
     const otherTasks = computed(() => {
       if (tasks.value != null) {
-        return tasks.value.filter((task) => task.assignee_id !== 0)
+        return tasks.value.filter((task) => task.author.uuid !== "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
       } else {
         return null;
       }

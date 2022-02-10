@@ -105,29 +105,21 @@
         <!-- User -->
         <q-select
           filled
-          v-model="model"
+          v-model="taskOwner"
           use-input
           use-chips
-          input-debounce="0"
           label="Użytkownik"
-          :options="options"
-          @filter="filterFn"
+          :options="usersList"
         >
-          <template v-slot:no-option>
+          <!-- <template v-slot:no-option>
             <q-item>
               <q-item-section class="text-grey">No results</q-item-section>
             </q-item>
-          </template>
+          </template>-->
         </q-select>
 
         <div>
-          <q-btn
-            label="Submit"
-            type="submit"
-            color="primary"
-            :loading="isLoading"
-            :disable="isLoading"
-          />
+          <q-btn label="Submit" type="submit" color="primary" @click="submit" />
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
@@ -138,9 +130,10 @@
 <script>
 import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
-import { useField, useForm } from "vee-validate";
+
 import { DateTime } from 'luxon';
 import { useRoute } from "vue-router";
+import { useField, useForm } from "vee-validate";
 import { object, string } from 'yup'
 import { api } from "boot/axios";
 
@@ -150,20 +143,27 @@ let isError = ref(false);
 let errorMsg = ref(null);
 let date = ref('2019-02-01 12:44');
 
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
 
 export default defineComponent({
   name: "PageTodo",
   setup() {
-    const options = ref(stringOptions)
+
     const $q = useQuasar()
 
     const tasks = ref(null);
     const route = useRoute();
     let taskUuid = ref(route.params.uuid);
     let taskDetails = ref(null);
+    let usersList = ref([
+      {
+        "label": "First",
+        "value": "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd"
+      },
+      {
+        "label": "Second",
+        "value": "e526ec4b-b5ce-4906-8331-f04dd8be8fb7"
+      }
+    ]);
 
     const units = [
       'year',
@@ -195,6 +195,7 @@ export default defineComponent({
     const validationSchema = object({
       taskTitle: string().required(),
       taskDescription: string().required('A cool description is required').min(3),
+      taskOwner: string(),
     })
 
 
@@ -204,10 +205,12 @@ export default defineComponent({
 
     const { value: taskTitle } = useField('taskTitle')
     const { value: taskDescription } = useField('taskDescription')
+    const { value: taskOwner } = useField('taskOwner')
 
 
     const submit = handleSubmit(values => {
-      isLoading.value = true;
+      // isLoading.value = true;
+      alert("On submit")
       console.log('submit', values);
 
       let data = {
@@ -218,7 +221,8 @@ export default defineComponent({
         "date_to": "2022-02-02T20:21:01.967Z",
         "priority": "string",
         "type": "string",
-        "connected_tasks": 0
+        "connected_tasks": 0,
+        "user": taskOwner.value
       }
 
       console.log(data)
@@ -228,7 +232,7 @@ export default defineComponent({
     // --------------- Form --------------
 
     function createTasks(body) {
-      isLoading.value = true;
+      // isLoading.value = true;
       api
         .post("/tasks/add", body)
         .then((res) => {
@@ -268,40 +272,48 @@ export default defineComponent({
         });
     }
 
+    function getUsers() {
+      api
+        .get("user/index")
+        .then((res) => {
+          console.log(res.data)
+
+          usersList.value = res.data.map((opt) => ({
+            label: opt.first_name,
+            value: opt.uuid,
+          }));
+
+          console.log(usersList.value);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+        });
+    }
+
     onActivated(() => {
-      taskDetails.value = null; // Why? if not present data is fetched only once
-      if (route.params.uuid != null)
-        getDetails(route.params.uuid)
+      // taskDetails.value = null; // Why? if not present data is fetched only once
+      // if (route.params.uuid != null)
+      //   getDetails(route.params.uuid)
+      // getUsers();
     });
 
 
     return {
       date,
-      model: ref(null),
-      options,
-
-      filterFn(val, update, abort) {
-        // call abort() at any time if you can't retrieve data somehow
-
-        setTimeout(() => {
-          update(() => {
-            if (val === '') {
-              options.value = stringOptions
-            }
-            else {
-              const needle = val.toLowerCase()
-              options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-            }
-          })
-        }, 500)
-      },
-
       errors,
       isLoading,
       isSuccess,
       errorMsg,
       dense: ref(false),
       taskTitle,
+      usersList,
+      taskOwner,
       taskDescription,
       timeAgo,
       submit,
