@@ -34,7 +34,13 @@
               <q-item-label caption lines="2">{{ task.description }}</q-item-label>
               <q-item-label lines="1">
                 <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
-                <q-chip square size="sm" color="blue" text-color="white" icon="account_circle">Adam G</q-chip>
+                <q-chip
+                  square
+                  size="sm"
+                  color="blue"
+                  text-color="white"
+                  icon="account_circle"
+                >{{ task.assignee.first_name +' '+ task.assignee.last_name }}</q-chip>
               </q-item-label>
             </q-item-section>
 
@@ -75,7 +81,12 @@
               <q-item-label lines="1">{{ task.title }}</q-item-label>
               <q-item-label caption lines="2">{{ task.description }}</q-item-label>
               <q-item-label lines="1">
-                <q-chip size="sm" color="red" text-color="white" icon="cake">Adam G</q-chip>
+                <q-chip
+                  size="sm"
+                  color="red"
+                  text-color="white"
+                  icon="cake"
+                >{{ task.assignee.first_name +' '+ task.assignee.last_name }}</q-chip>
               </q-item-label>
             </q-item-section>
 
@@ -136,7 +147,7 @@ export default defineComponent({
 
     const myTasks = computed(() => {
       if (tasks.value != null) {
-        return tasks.value.filter((task) => task.author.uuid === "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
+        return tasks.value.filter((task) => task.assignee.uuid === "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
       } else {
         return null;
       }
@@ -144,7 +155,7 @@ export default defineComponent({
 
     const otherTasks = computed(() => {
       if (tasks.value != null) {
-        return tasks.value.filter((task) => task.author.uuid !== "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
+        return tasks.value.filter((task) => task.assignee.uuid !== "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
       } else {
         return null;
       }
