@@ -140,7 +140,7 @@ import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
 
 import { DateTime } from 'luxon';
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useField, useForm } from "vee-validate";
 import { object, string } from 'yup'
 import { api } from "boot/axios";
@@ -160,18 +160,10 @@ export default defineComponent({
 
     const tasks = ref(null);
     const route = useRoute();
+    const router = useRouter();
     let taskUuid = ref(route.params.uuid);
     let taskDetails = ref(null);
-    let usersList = ref([
-      {
-        "label": "First",
-        "value": "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd"
-      },
-      {
-        "label": "Second",
-        "value": "e526ec4b-b5ce-4906-8331-f04dd8be8fb7"
-      }
-    ]);
+    let usersList = ref(null);
 
     // -------------- Form --------------
 
@@ -195,7 +187,7 @@ export default defineComponent({
 
     const submit = handleSubmit(values => {
       // isLoading.value = true;
-      alert("On submit")
+      // alert("On submit")
       console.log('submit', values);
 
       let data = {
@@ -211,18 +203,20 @@ export default defineComponent({
       }
 
       console.log(data)
-      createTasks(data);
+      updateTask(data);
+      
     })
 
     // --------------- Form --------------
 
-    function createTasks(body) {
+    function updateTask(body) {
       // isLoading.value = true;
       api
-        .post("/tasks/add", body)
+        .patch("/tasks/" + taskUuid.value, body)
         .then((res) => {
           console.log(res.data);
           isLoading.value = false;
+          router.push("/tasks");
         })
         .catch((err) => {
           if (err.response) {
@@ -264,7 +258,7 @@ export default defineComponent({
           console.log(res.data)
 
           usersList.value = res.data.map((opt) => ({
-            label: opt.first_name,
+            label: opt.first_name + ' ' +  opt.last_name,
             value: opt.uuid,
           }));
 
@@ -282,10 +276,14 @@ export default defineComponent({
     }
 
     onActivated(() => {
-      // taskDetails.value = null; // Why? if not present data is fetched only once
-      // if (route.params.uuid != null)
-      //   getDetails(route.params.uuid)
-      // getUsers();
+      isLoading.value = true;
+      taskDetails.value = null; // Why? if not present data is fetched only once
+      taskTitle.value = null;
+      taskDescription.value = null;
+      if (route.params.uuid != null)
+        getDetails(route.params.uuid)
+      getUsers();
+      isLoading.value = false;
     });
 
 
