@@ -41,7 +41,7 @@
 
                 <!-- User -->
                 <q-select
-                    filled
+                    outlined
                     v-model="taskOwner"
                     use-input
                     use-chips
@@ -71,11 +71,45 @@
                 </div>
 
                 <!-- From -->
-                <q-input filled v-model="date" label="Początek" v-if="planned">
+                <q-input
+                    outlined
+                    v-model="dateFrom"
+                    :error="!!errors.dateFrom"
+                    :error-message="errors.dateFrom"
+                    label="Początek"
+                    v-if="planned"
+                >
                     <template v-slot:prepend>
                         <q-icon name="event" class="cursor-pointer">
                             <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                                 <q-date v-model="dateFrom" mask="YYYY-MM-DD HH:mm">
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-date>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+
+                    <template v-slot:append>
+                        <q-icon name="access_time" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-time v-model="dateFrom" mask="YYYY-MM-DD HH:mm" format24h>
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                </q-time>
+                            </q-popup-proxy>
+                        </q-icon>
+                    </template>
+                </q-input>
+
+                <!-- To -->
+                <q-input outlined v-model="dateTo" label="Zakończenie" v-if="planned">
+                    <template v-slot:prepend>
+                        <q-icon name="event" class="cursor-pointer">
+                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                <q-date v-model="dateTo" mask="YYYY-MM-DD HH:mm">
                                     <div class="row items-center justify-end">
                                         <q-btn v-close-popup label="Close" color="primary" flat />
                                     </div>
@@ -96,35 +130,15 @@
                         </q-icon>
                     </template>
                 </q-input>
-
-                <!-- To -->
-                <q-input filled v-model="date" label="Zakończenie" v-if="planned">
-                    <template v-slot:prepend>
-                        <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-date v-model="dateTo" mask="YYYY-MM-DD HH:mm">
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                </q-date>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
-
-                    <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-time v-model="date" mask="YYYY-MM-DD HH:mm" format24h>
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                </q-time>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
-                </q-input>
                 <div>
-                    <q-btn label="Submit" type="submit" color="primary" @click="submit" />
+                    <q-btn
+                        label="Submit"
+                        type="submit"
+                        color="primary"
+                        @click="submit"
+                        :loading="isLoading"
+                        :disable="isLoading"
+                    />
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>
@@ -138,17 +152,19 @@ import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
 
 import { useField, useForm } from "vee-validate";
-import { object, string } from 'yup'
+// import { object, string, date } from 'yup'
+import * as yup from 'yup';
 import { api } from "boot/axios";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
+let planned = ref(false);
 
 const now = new Date()
-let dateFrom = ref(now.toLocaleString());
-let dateTo = ref(now.toLocaleString());
+let dateFrom = ref(new Date(new Date().setHours(new Date().getHours() + 1)).toLocaleString());
+let dateTo = ref(new Date(new Date().setHours(new Date().getHours() + 2)).toLocaleString());
 
 export default defineComponent({
     name: "TaskAdd",
@@ -156,17 +172,18 @@ export default defineComponent({
         const $q = useQuasar()
 
         const tasks = ref(null);
-        let taskDetails = ref(null);
         let usersList = ref(null);
 
         // -------------- Form --------------
 
         const { resetForm } = useForm();
 
-        const validationSchema = object({
-            taskTitle: string().required(),
-            taskDescription: string().required('A cool description is required').min(3),
-            taskOwner: string(),
+        const validationSchema = yup.object({
+            taskTitle: yup.string().required(),
+            taskDescription: yup.string().required('A cool description is required').min(3),
+            taskOwner: yup.string().nullable(),
+            taskDateFrom: yup.string(),//yup.date(),
+            taskDateTo: yup.string(),//yup.date().min(yup.ref('taskDateFrom')),
         })
 
 
@@ -177,23 +194,37 @@ export default defineComponent({
         const { value: taskTitle } = useField('taskTitle')
         const { value: taskDescription } = useField('taskDescription')
         const { value: taskOwner } = useField('taskOwner')
+        const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: dateFrom.value })
+        const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: dateTo.value })
 
 
         const submit = handleSubmit(values => {
-            // isLoading.value = true;
-            alert("On submit")
+            isLoading.value = true;
             console.log('submit', values);
+
+            let from = null;
+            let to = null;
+            let userName = null;
+            if (planned.value == true) {
+                from = dateFrom.value;
+                to = dateTo.value;
+            }
+
+            if (typeof (taskOwner.value) != 'undefined' || taskOwner.value != null) {
+                userName = taskOwner.value;
+            }
+
 
             let data = {
                 "author_id": 0,
                 "title": taskTitle.value,
                 "description": taskDescription.value,
-                "date_from": new Date().toISOString(),
-                "date_to": "2022-02-02T20:21:01.967Z",
+                "date_from": from,
+                "date_to": to,
                 "priority": "string",
                 "type": "string",
                 "connected_tasks": 0,
-                // "user": taskOwner.value
+                "user": userName
             }
 
             console.log(data)
@@ -263,7 +294,9 @@ export default defineComponent({
             usersList,
             taskTitle,
             taskDescription,
-            planned: ref(false),
+            taskDateTo,
+            taskDateFrom,
+            planned,
             taskOwner,
             submit,
         };

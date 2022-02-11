@@ -33,7 +33,8 @@
               <q-item-label lines="1">{{ task.title }}</q-item-label>
               <q-item-label caption lines="2">{{ task.description }}</q-item-label>
               <q-item-label lines="1">
-                <q-chip size="sm" color="blue" text-color="white" icon="account_circle">Adam G</q-chip>
+                <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
+                <q-chip square size="sm" color="blue" text-color="white" icon="account_circle">Adam G</q-chip>
               </q-item-label>
             </q-item-section>
 
