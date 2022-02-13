@@ -9,7 +9,7 @@
         </q-breadcrumbs>
       </div>
 
-      <q-card class="my-card" bordered flat v-if="!isLoading">
+      <q-card class="my-card" bordered flat v-if="taskDetails && !isLoading">
         <q-item>
           <q-item-section avatar>
             <q-avatar rounded color="green" text-color="white">MG</q-avatar>

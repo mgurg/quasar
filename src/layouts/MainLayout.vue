@@ -58,6 +58,15 @@
 
           <q-item-section>TODO List</q-item-section>
         </q-item>
+
+        <!--Tasks Index-->
+        <q-item to="/files" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="inventory_2" />
+          </q-item-section>
+
+          <q-item-section>TODO List</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

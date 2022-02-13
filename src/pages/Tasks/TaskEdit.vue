@@ -20,7 +20,7 @@
         spellcheck="false"
         class="q-gutter-md"
         @submit="submit"
-        v-if="taskDetails && !isLoading"
+        v-if="taskTitle && !isLoading"
       >
         <q-input
           outlined

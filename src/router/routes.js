@@ -17,6 +17,7 @@ const routes = [
         path: "/tasks/edit/:uuid",
         component: () => import("pages/Tasks/TaskEdit.vue"),
       },
+      { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
     ],
   },
 

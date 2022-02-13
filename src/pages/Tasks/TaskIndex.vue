@@ -22,7 +22,7 @@
           :class="{ 'done bg-blue-1': task.uuid === selected }"
         >
           <q-item>
-            <q-item-section avatar>
+            <q-item-section avatar cursor-pointer ripple @click="viewTask(task.uuid)">
               <q-avatar rounded>
                 <img src="~assets/stecker.jpg" />
                 <q-badge floating rounded color="green" />
@@ -40,7 +40,7 @@
                   color="blue"
                   text-color="white"
                   icon="account_circle"
-                >{{ task.assignee.first_name +' '+ task.assignee.last_name }}</q-chip>
+                >{{ task.assignee.first_name + ' ' + task.assignee.last_name }}</q-chip>
               </q-item-label>
             </q-item-section>
 
@@ -86,7 +86,7 @@
                   color="red"
                   text-color="white"
                   icon="cake"
-                >{{ task.assignee.first_name +' '+ task.assignee.last_name }}</q-chip>
+                >{{ task.assignee.first_name + ' ' + task.assignee.last_name }}</q-chip>
               </q-item-label>
             </q-item-section>
 
