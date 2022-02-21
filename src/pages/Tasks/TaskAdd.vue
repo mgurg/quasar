@@ -130,6 +130,31 @@
                         </q-icon>
                     </template>
                 </q-input>
+
+                <!-- Repeat -->
+                <q-toggle v-model="cyclic" icon="alarm" v-if="planned">Cyklicznie</q-toggle>
+                <div v-if="cyclic">
+                <q-btn-group outline color="primary">
+                    <q-btn outline label="daily" />
+                    <q-btn outline label="weekly" />
+                    <q-btn outline label="montly" />
+                    <q-btn outline label="yearly" />
+                </q-btn-group>
+
+                <q-input type="number"  style="max-width: 200px" />
+
+                <div class="q-pa-md">
+                    <div class="q-gutter-sm">
+                        <q-checkbox label="Pon" />
+                        <q-checkbox label="Wt" />
+                        <q-checkbox label="Śr" />
+                        <q-checkbox label="Czw" />
+                        <q-checkbox label="Pt" />
+                        <q-checkbox label="So" />
+                        <q-checkbox label="Nie" />
+                    </div>
+                </div>
+</div>
                 <div>
                     <q-btn
                         label="Submit"
@@ -161,6 +186,7 @@ let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
 let planned = ref(false);
+let cyclic = ref(false);
 
 const now = new Date()
 let dateFrom = ref(new Date(new Date().setHours(new Date().getHours() + 1)).toLocaleString());
@@ -297,6 +323,7 @@ export default defineComponent({
             taskDateTo,
             taskDateFrom,
             planned,
+            cyclic,
             taskOwner,
             submit,
         };
