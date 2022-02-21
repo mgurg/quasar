@@ -61,75 +61,209 @@
 
                 <!-- Planned / Priority -->
                 <div class="row justify-around">
-                    <div class="col-8">
-                        <q-toggle v-model="planned" icon="alarm">Zaplanuj</q-toggle>
+                    <div class="col-7">
+                        <!-- <q-toggle v-model="planned" icon="alarm">Zaplanuj</q-toggle> -->
+                        <q-btn-toggle
+                            v-model="mode"
+                            class="my-custom-toggle"
+                            no-caps
+                            unelevated
+                            toggle-color="primary"
+                            color="white"
+                            text-color="primary"
+                            :options="[
+                                { label: 'Zwykłe', value: 'one' },
+                                { label: 'Planowane', value: 'two' },
+                                { label: 'Cykliczne', value: 'three' }
+                            ]"
+                        />
                     </div>
-                    <div class="auto"></div>
-                    <div class="col-2">
+                    <div class="col-auto"></div>
+                    <div class="col-3">
                         <q-btn flat icon="priority_high" />
                     </div>
                 </div>
 
-                <!-- From -->
-                <q-input
-                    outlined
-                    v-model="dateFrom"
-                    :error="!!errors.dateFrom"
-                    :error-message="errors.dateFrom"
-                    label="Początek"
-                    v-if="planned"
-                >
-                    <template v-slot:prepend>
-                        <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-date v-model="dateFrom" mask="YYYY-MM-DD HH:mm">
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                </q-date>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
+                <!--  -->
+                <div>
+                    <div class="row sm-gutter">
+                        <div class="q-pa-xs col-xs-12 col-sm-6">
+                            <!-- From -->
+                            <q-input
+                                outlined
+                                v-model="dateFrom"
+                                :error="!!errors.dateFrom"
+                                :error-message="errors.dateFrom"
+                                label="Początek"
+                                v-if="mode != 'one'"
+                            >
+                                <template v-slot:prepend>
+                                    <q-icon name="event" class="cursor-pointer">
+                                        <q-popup-proxy
+                                            cover
+                                            transition-show="scale"
+                                            transition-hide="scale"
+                                        >
+                                            <q-date v-model="dateFrom" mask="YYYY-MM-DD HH:mm">
+                                                <div class="row items-center justify-end">
+                                                    <q-btn
+                                                        label="Cancel"
+                                                        color="red"
+                                                        flat
+                                                        v-close-popup
+                                                    />
+                                                    <q-btn
+                                                        v-close-popup
+                                                        label="Select"
+                                                        color="green"
+                                                        flat
+                                                    />
+                                                </div>
+                                            </q-date>
+                                        </q-popup-proxy>
+                                    </q-icon>
+                                </template>
 
-                    <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-time v-model="dateFrom" mask="YYYY-MM-DD HH:mm" format24h>
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                </q-time>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
-                </q-input>
+                                <template v-slot:append>
+                                    <q-icon name="access_time" class="cursor-pointer">
+                                        <q-popup-proxy
+                                            cover
+                                            transition-show="scale"
+                                            transition-hide="scale"
+                                        >
+                                            <q-time
+                                                v-model="dateFrom"
+                                                mask="YYYY-MM-DD HH:mm"
+                                                format24h
+                                            >
+                                                <div class="row items-center justify-end">
+                                                    <q-btn
+                                                        label="Cancel"
+                                                        color="primary"
+                                                        flat
+                                                        v-close-popup
+                                                    />
+                                                    <q-btn
+                                                        v-close-popup
+                                                        label="Close"
+                                                        color="primary"
+                                                        flat
+                                                    />
+                                                </div>
+                                            </q-time>
+                                        </q-popup-proxy>
+                                    </q-icon>
+                                </template>
+                            </q-input>
+                        </div>
+                        <div class="q-pa-xs col-xs-12 col-sm-6">
+                            <!-- To -->
+                            <q-input
+                                outlined
+                                v-model="dateTo"
+                                label="Zakończenie"
+                                v-if="mode != 'one'"
+                            >
+                                <template v-slot:prepend>
+                                    <q-icon name="event" class="cursor-pointer">
+                                        <q-popup-proxy
+                                            cover
+                                            transition-show="scale"
+                                            transition-hide="scale"
+                                        >
+                                            <q-date v-model="dateTo" mask="YYYY-MM-DD HH:mm">
+                                                <div class="row items-center justify-end">
+                                                    <q-btn
+                                                        v-close-popup
+                                                        label="Close"
+                                                        color="primary"
+                                                        flat
+                                                    />
+                                                </div>
+                                            </q-date>
+                                        </q-popup-proxy>
+                                    </q-icon>
+                                </template>
 
-                <!-- To -->
-                <q-input outlined v-model="dateTo" label="Zakończenie" v-if="planned">
-                    <template v-slot:prepend>
-                        <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-date v-model="dateTo" mask="YYYY-MM-DD HH:mm">
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                </q-date>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
+                                <template v-slot:append>
+                                    <q-icon name="access_time" class="cursor-pointer">
+                                        <q-popup-proxy
+                                            cover
+                                            transition-show="scale"
+                                            transition-hide="scale"
+                                        >
+                                            <q-time
+                                                v-model="dateTo"
+                                                mask="YYYY-MM-DD HH:mm"
+                                                format24h
+                                            >
+                                                <div class="row items-center justify-end">
+                                                    <q-btn
+                                                        v-close-popup
+                                                        label="Close"
+                                                        color="primary"
+                                                        flat
+                                                    />
+                                                </div>
+                                            </q-time>
+                                        </q-popup-proxy>
+                                    </q-icon>
+                                </template>
+                            </q-input>
+                        </div>
 
-                    <template v-slot:append>
-                        <q-icon name="access_time" class="cursor-pointer">
-                            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                <q-time v-model="dateTo" mask="YYYY-MM-DD HH:mm" format24h>
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                </q-time>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
-                </q-input>
+                        <!-- 
+                        <div class="q-pa-xs col-xs-12 col-sm-6">
+         
+                        </div>
+                        <div class="q-pa-xs col-xs-12 col-sm-6">
+         
+                        </div>
+                        -->
+
+                        <!-- Repeat at -->
+                        <div class="q-pa-md">
+                            <q-btn-toggle
+                                v-model="freq"
+                                class="my-custom-toggle"
+                                no-caps
+                                unelevated
+                                toggle-color="primary"
+                                color="white"
+                                text-color="primary"
+                                :options="[
+                                    { label: 'Daily', value: 'daily' },
+                                    { label: 'Weekly', value: 'weekly' },
+                                    { label: 'Monthly', value: 'monthly' },
+                                    { label: 'Yearly', value: 'yearly' }
+                                ]"
+                            />
+
+                            <!-- interval -->
+                            <div class="q-pa-md">
+                                <q-input
+                                    v-model.number="model"
+                                    type="number"
+                                    label="Interval "
+                                    outlined
+                                />
+                            </div>
+                            <!-- days -->
+
+                            <div class="q-gutter-sm">
+                                <q-checkbox v-model="teal" label="Pon" />
+                                <q-checkbox v-model="orange" label="Wt" />
+                                <q-checkbox v-model="red" label="Śr" />
+                                <q-checkbox v-model="cyan" label="Czw" />
+                                <q-checkbox v-model="orange" label="Pt" />
+                                <q-checkbox v-model="red" label="So" />
+                                <q-checkbox v-model="cyan" label="Nie" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  -->
+
                 <div>
                     <q-btn
                         label="Submit"
@@ -161,9 +295,11 @@ let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
 let planned = ref(false);
+let mode = ref(null);
+let freq = ref('daily');
 
 const now = new Date()
-let dateFrom = ref(new Date(new Date().setHours(new Date().getHours() + 1)).toLocaleString());
+let dateFrom = ref('2019-02-01')// ref(new Date(new Date().setHours(new Date().getHours() + 1)).toLocaleString());
 let dateTo = ref(new Date(new Date().setHours(new Date().getHours() + 2)).toLocaleString());
 
 export default defineComponent({
@@ -277,6 +413,10 @@ export default defineComponent({
                 });
         }
 
+        function removeTime() {
+
+        }
+
         onActivated(() => {
             isLoading.value = true;
             getUsers();
@@ -297,6 +437,8 @@ export default defineComponent({
             taskDateTo,
             taskDateFrom,
             planned,
+            mode,
+            freq,
             taskOwner,
             submit,
         };
