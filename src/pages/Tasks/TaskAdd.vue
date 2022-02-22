@@ -63,10 +63,23 @@
                 <div class="row sm-gutter">
                     <div class="q-pa-xs col-xs-12 col-sm-6">
                         Priorytet:
-                        <q-btn flat icon="priority_high" />
+                        <q-btn-toggle
+                            v-model="priority"
+                            class="my-custom-toggle"
+                            no-caps
+                            unelevated
+                            toggle-color="primary"
+                            color="white"
+                            text-color="primary"
+                            :options="[
+                                { label: '', value: 'one', icon: 'info' },
+                                { label: '', value: 'two', icon:'warning' },
+                                { label: '', value: 'three', icon:'error' }
+                            ]"
+                        />
                     </div>
                     <div class="q-pa-xs col-xs-12 col-sm-6">
-                        <q-btn-toggle
+                        Rodzaj <q-btn-toggle
                             v-model="mode"
                             class="my-custom-toggle"
                             no-caps
@@ -85,7 +98,7 @@
 
                 <!--  -->
 
-                <div class="row sm-gutter">
+                <div class="row sm-gutter" v-if="mode != 'one'">
                     <div class="q-pa-xs col-xs-12 col-sm-6">
                         <!-- From -->
                         <q-input
@@ -110,6 +123,7 @@
                                                     color="red"
                                                     flat
                                                     v-close-popup
+                                                    
                                                 />
                                                 <q-btn
                                                     v-close-popup
@@ -138,9 +152,10 @@
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     label="Cancel"
-                                                    color="primary"
+                                                    color="black"
                                                     flat
                                                     v-close-popup
+                                                    @click="removeTime"
                                                 />
                                                 <q-btn
                                                     v-close-popup
@@ -212,7 +227,7 @@
                     -->
 
                     <!-- Repeat at -->
-                    <div class="q-pa-md">
+                    <div class="q-pa-md" v-if="mode=='three'">
                         <q-btn-toggle
                             v-model="freq"
                             class="my-custom-toggle"
@@ -233,6 +248,7 @@
                         <div class="q-pa-md">
                             <q-input
                                 v-model.number="model"
+                                dense
                                 type="number"
                                 label="Interval "
                                 outlined
@@ -240,14 +256,29 @@
                         </div>
                         <!-- days -->
 
-                        <div class="q-gutter-sm">
-                            <q-checkbox v-model="teal" label="Pon" />
-                            <q-checkbox v-model="orange" label="Wt" />
-                            <q-checkbox v-model="red" label="Śr" />
-                            <q-checkbox v-model="cyan" label="Czw" />
-                            <q-checkbox v-model="orange" label="Pt" />
-                            <q-checkbox v-model="red" label="So" />
-                            <q-checkbox v-model="cyan" label="Nie" />
+                        <div class="q-gutter-sm" v-if="freq == 'weekly'">
+                            <input type="checkbox" id="mo" v-model="weekDays" value="Mo" />&nbsp;&nbsp;
+                            <label for="mo">Pon</label>
+                            <input type="checkbox" id="tu" v-model="weekDays" value="Tu" />&nbsp;&nbsp;
+                            <label for="tu">Wt</label>
+                            <input type="checkbox" id="we" v-model="weekDays" value="We" />&nbsp;&nbsp;
+                            <label for="we">Śr</label>
+                            <input type="checkbox" id="th" v-model="weekDays" value="Th" />&nbsp;&nbsp;
+                            <label for="th">Cz</label>
+                            <input type="checkbox" id="fr" v-model="weekDays" value="Fr" />&nbsp;&nbsp;
+                            <label for="fr">Pt</label>
+                            <input type="checkbox" id="sa" v-model="weekDays" value="Sa" />&nbsp;&nbsp;
+                            <label for="sa">So</label>
+                            <input type="checkbox" id="su" v-model="weekDays" value="Su" />&nbsp;&nbsp;
+                            <label for="su">Ni</label>
+
+                            <!-- <q-checkbox v-model="weekDays" val="Mo" label="Pon" />
+                            <q-checkbox v-model="weekDays" val="Tu" label="Wt" />
+                            <q-checkbox v-model="weekDays" val="We" label="Śr" />
+                            <q-checkbox v-model="weekDays" val="Th" label="Czw" />
+                            <q-checkbox v-model="weekDays" val="Fr" label="Pt" />
+                            <q-checkbox v-model="weekDays" val="Sa" label="So" />
+                            <q-checkbox v-model="weekDays" val="Su" label="Nie" />-->
                         </div>
                     </div>
                 </div>
@@ -286,7 +317,9 @@ let isError = ref(false);
 let errorMsg = ref(null);
 let planned = ref(false);
 let mode = ref(null);
+let priority = ref(null);
 let freq = ref('daily');
+let weekDays = ref([]);
 
 const now = new Date()
 let dateFrom = ref('2019-02-01')// ref(new Date(new Date().setHours(new Date().getHours() + 1)).toLocaleString());
@@ -353,6 +386,11 @@ export default defineComponent({
                 "user": userName
             }
 
+            if (mode.value == 'two'){
+                data.date_from = dateFrom.value
+                data.date_to = dateTo.value
+            }
+
             console.log(data)
             //   createTasks(data);
         })
@@ -404,7 +442,9 @@ export default defineComponent({
         }
 
         function removeTime() {
-
+            alert('ok')
+            dateFrom.value = new Date(dateFrom.value.toDateString());
+            dateTo.value = new Date(dateTo.value.toDateString());
         }
 
         onActivated(() => {
@@ -427,11 +467,39 @@ export default defineComponent({
             taskDateTo,
             taskDateFrom,
             planned,
+            priority,
             mode,
             freq,
+            weekDays,
             taskOwner,
+            removeTime,
             submit,
         };
     },
 });
 </script>
+
+<style lang="scss"  scoped>
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label {
+    color: #ccc;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label {
+    color: #333;
+    font-weight: bold;
+}
+
+// .q-checkbox{
+//   &::v-deep {
+//     .q-checkbox__inner {
+//       display: none;
+//     }
+
+//   }
+// }
+</style>
