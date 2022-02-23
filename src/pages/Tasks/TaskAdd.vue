@@ -72,14 +72,15 @@
                             color="white"
                             text-color="primary"
                             :options="[
-                                { label: '', value: 'one', icon: 'info' },
-                                { label: '', value: 'two', icon:'warning' },
-                                { label: '', value: 'three', icon:'error' }
+                                { label: '', value: 'low', icon: 'info' },
+                                { label: '', value: 'medium', icon: 'warning' },
+                                { label: '', value: 'high', icon: 'error' }
                             ]"
                         />
                     </div>
                     <div class="q-pa-xs col-xs-12 col-sm-6">
-                        Rodzaj <q-btn-toggle
+                        Rodzaj
+                        <q-btn-toggle
                             v-model="mode"
                             class="my-custom-toggle"
                             no-caps
@@ -88,9 +89,9 @@
                             color="white"
                             text-color="primary"
                             :options="[
-                                { label: 'Zwykłe', value: 'one' },
-                                { label: 'Planowane', value: 'two' },
-                                { label: 'Cykliczne', value: 'three' }
+                                { label: 'Zwykłe', value: 'task' },
+                                { label: 'Planowane', value: 'planned' },
+                                { label: 'Cykliczne', value: 'cyclic' }
                             ]"
                         />
                     </div>
@@ -98,7 +99,7 @@
 
                 <!--  -->
 
-                <div class="row sm-gutter" v-if="mode != 'one'">
+                <div class="row sm-gutter" v-if="mode != 'task'">
                     <div class="q-pa-xs col-xs-12 col-sm-6">
                         <!-- From -->
                         <q-input
@@ -107,7 +108,7 @@
                             :error="!!errors.dateFrom"
                             :error-message="errors.dateFrom"
                             label="Początek"
-                            v-if="mode != 'one'"
+                            v-if="mode != 'task'"
                         >
                             <template v-slot:prepend>
                                 <q-icon name="event" class="cursor-pointer">
@@ -123,7 +124,6 @@
                                                     color="red"
                                                     flat
                                                     v-close-popup
-                                                    
                                                 />
                                                 <q-btn
                                                     v-close-popup
@@ -172,7 +172,12 @@
                     </div>
                     <div class="q-pa-xs col-xs-12 col-sm-6">
                         <!-- To -->
-                        <q-input outlined v-model="dateTo" label="Zakończenie" v-if="mode != 'one'">
+                        <q-input
+                            outlined
+                            v-model="dateTo"
+                            label="Zakończenie"
+                            v-if="mode != 'task'"
+                        >
                             <template v-slot:prepend>
                                 <q-icon name="event" class="cursor-pointer">
                                     <q-popup-proxy
@@ -227,7 +232,7 @@
                     -->
 
                     <!-- Repeat at -->
-                    <div class="q-pa-md" v-if="mode=='three'">
+                    <div class="q-pa-md" v-if="mode == 'cyclic'">
                         <q-btn-toggle
                             v-model="freq"
                             class="my-custom-toggle"
@@ -247,7 +252,7 @@
                         <!-- interval -->
                         <div class="q-pa-md">
                             <q-input
-                                v-model.number="model"
+                                v-model.number="interval"
                                 dense
                                 type="number"
                                 label="Interval "
@@ -286,14 +291,9 @@
                 <!--  -->
 
                 <div>
-                    <q-btn
-                        label="Submit"
-                        type="submit"
-                        color="primary"
-                        @click="submit"
-                        :loading="isLoading"
-                        :disable="isLoading"
-                    />
+                    <q-btn label="Submit" type="submit" color="primary" @click="submit" />
+                    <!-- :loading="isLoading"
+                    :disable="isLoading"-->
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>
@@ -319,6 +319,7 @@ let planned = ref(false);
 let mode = ref(null);
 let priority = ref(null);
 let freq = ref('daily');
+let interval = ref('1');
 let weekDays = ref([]);
 
 const now = new Date()
@@ -383,16 +384,30 @@ export default defineComponent({
                 "priority": "string",
                 "type": "string",
                 "connected_tasks": 0,
-                "user": userName
+                "user": userName,
             }
 
-            if (mode.value == 'two'){
+            if (mode.value == 'planned' || mode.value == 'cyclic') {
                 data.date_from = dateFrom.value
                 data.date_to = dateTo.value
             }
 
+            if (mode.value == 'cyclic') {
+                data.whole_day = true
+                data.reccuring = true
+                data.interval = interval.value
+                data.unit = freq.value
+                data.at_Mo = weekDays.value.includes('Mo')
+                data.at_Tu = weekDays.value.includes('Tu')
+                data.at_We = weekDays.value.includes('We')
+                data.at_Th = weekDays.value.includes('Th')
+                data.at_Fr = weekDays.value.includes('Fr')
+                data.at_Sa = weekDays.value.includes('Sa')
+                data.at_Su = weekDays.value.includes('Su')
+            }
+
             console.log(data)
-            //   createTasks(data);
+            // createTasks(data);
         })
 
         // --------------- Form --------------
@@ -443,8 +458,8 @@ export default defineComponent({
 
         function removeTime() {
             alert('ok')
-            dateFrom.value = new Date(dateFrom.value.toDateString());
-            dateTo.value = new Date(dateTo.value.toDateString());
+            dateFrom.value = '2019-02-01'; // new Date(dateFrom.value.toDateString());
+            dateTo.value = '2019-02-02'; // new Date(dateTo.value.toDateString());
         }
 
         onActivated(() => {
@@ -470,6 +485,7 @@ export default defineComponent({
             priority,
             mode,
             freq,
+            interval,
             weekDays,
             taskOwner,
             removeTime,
@@ -497,7 +513,7 @@ input[type="checkbox"]:checked + label {
 // .q-checkbox{
 //   &::v-deep {
 //     .q-checkbox__inner {
-//       display: none;
+//       display: ntask;
 //     }
 
 //   }
