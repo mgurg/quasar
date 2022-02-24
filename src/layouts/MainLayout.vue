@@ -65,7 +65,7 @@
             <q-icon name="inventory_2" />
           </q-item-section>
 
-          <q-item-section>TODO List</q-item-section>
+          <q-item-section>Files</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>

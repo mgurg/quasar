@@ -40,6 +40,7 @@
                   color="blue"
                   text-color="white"
                   icon="account_circle"
+                  v-if="task.assignee != null"
                 >{{ task.assignee.first_name + ' ' + task.assignee.last_name }}</q-chip>
               </q-item-label>
             </q-item-section>
@@ -86,6 +87,7 @@
                   color="red"
                   text-color="white"
                   icon="cake"
+                  v-if="task.assignee != null"
                 >{{ task.assignee.first_name + ' ' + task.assignee.last_name }}</q-chip>
               </q-item-label>
             </q-item-section>
@@ -146,7 +148,7 @@ export default defineComponent({
 
 
     const myTasks = computed(() => {
-      if (tasks.value != null) {
+      if (tasks.value != null && tasks.value.assignee != null) {
         return tasks.value.filter((task) => task.assignee.uuid === "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
       } else {
         return null;
@@ -154,10 +156,10 @@ export default defineComponent({
     });
 
     const otherTasks = computed(() => {
-      if (tasks.value != null) {
+      if (tasks.value != null && tasks.value.assignee != null) {
         return tasks.value.filter((task) => task.assignee.uuid !== "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
       } else {
-        return null;
+        return tasks.value;
       }
     });
 

@@ -155,7 +155,6 @@
                                                     color="black"
                                                     flat
                                                     v-close-popup
-                                                    @click="removeTime"
                                                 />
                                                 <q-btn
                                                     v-close-popup
@@ -220,6 +219,14 @@
                                 </q-icon>
                             </template>
                         </q-input>
+                    </div>
+                    <div class="col-12">
+                        <q-checkbox
+                            v-model="allDay"
+                            val="Tu"
+                            @click="isoDateTime"
+                            label="Cały dzień"
+                        />
                     </div>
 
                     <!-- 
@@ -297,6 +304,7 @@
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>
+            <q-btn @click="isoDateTime">Normalize</q-btn>
         </q-page>
     </div>
 </template>
@@ -305,6 +313,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
+import { DateTime } from 'luxon';
 
 import { useField, useForm } from "vee-validate";
 // import { object, string, date } from 'yup'
@@ -318,13 +327,15 @@ let errorMsg = ref(null);
 let planned = ref(false);
 let mode = ref(null);
 let priority = ref(null);
+let allDay = ref(true);
 let freq = ref('daily');
 let interval = ref('1');
 let weekDays = ref([]);
+let dtFormat = ref('yyyy-MM-dd')
 
 const now = new Date()
-let dateFrom = ref('2019-02-01')// ref(new Date(new Date().setHours(new Date().getHours() + 1)).toLocaleString());
-let dateTo = ref(new Date(new Date().setHours(new Date().getHours() + 2)).toLocaleString());
+let dateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
+let dateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
 
 export default defineComponent({
     name: "TaskAdd",
@@ -388,8 +399,11 @@ export default defineComponent({
             }
 
             if (mode.value == 'planned' || mode.value == 'cyclic') {
-                data.date_from = dateFrom.value
-                data.date_to = dateTo.value
+                data.date_from = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toISO();
+                data.date_to = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toISO();
+
+                console.log(dateFrom.value)
+                console.log(dateTo.value)
             }
 
             if (mode.value == 'cyclic') {
@@ -456,10 +470,27 @@ export default defineComponent({
                 });
         }
 
-        function removeTime() {
-            alert('ok')
-            dateFrom.value = '2019-02-01'; // new Date(dateFrom.value.toDateString());
-            dateTo.value = '2019-02-02'; // new Date(dateTo.value.toDateString());
+
+        function dtFormatString() {
+
+            dtFormat.value = 'yyyy-MM-dd'
+            dateFrom.value = DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value)
+        }
+        function isoDateTime(inputDate) {
+            // console.log(DateTime.now().setZone('Europe/Warsaw').plus({ hours: 1 }).toISODate());
+            // console.log(DateTime.fromFormat(t1, 'yyyy-MM-dd HH:mm').toISO())
+
+            if (allDay.value == true) {
+                console.log(allDay.value);
+
+                dtFormat.value = 'yyyy-MM-dd'
+                dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+            } else {
+                dtFormat.value = 'yyyy-MM-dd HH:mm'
+                dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+            }
+
+
         }
 
         onActivated(() => {
@@ -482,13 +513,15 @@ export default defineComponent({
             taskDateTo,
             taskDateFrom,
             planned,
+            allDay,
             priority,
             mode,
             freq,
             interval,
             weekDays,
             taskOwner,
-            removeTime,
+            dtFormatString,
+            isoDateTime,
             submit,
         };
     },
