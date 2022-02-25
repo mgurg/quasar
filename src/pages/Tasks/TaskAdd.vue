@@ -176,7 +176,9 @@
                             v-model="dateTo"
                             label="Zakończenie"
                             v-if="mode != 'task'"
+                            
                         >
+                        <!-- :rules="[value => value > dateFrom || 'Must be greather then date from']" -->
                             <template v-slot:prepend>
                                 <q-icon name="event" class="cursor-pointer">
                                     <q-popup-proxy
@@ -184,7 +186,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-date v-model="dateTo" mask="yyyy-MM-DD HH:mm">
+                                        <q-date v-model="dateTo" :mask="qDtFormat">
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     v-close-popup
@@ -205,7 +207,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-time v-model="dateTo" mask="yyyy-MM-DD HH:mm" format24h>
+                                        <q-time v-model="dateTo" :mask="qDtFormat" format24h>
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     v-close-popup
@@ -332,9 +334,8 @@ let freq = ref('daily');
 let interval = ref('1');
 let weekDays = ref([]);
 let dtFormat = ref('yyyy-MM-dd HH:mm')
-let qDtFormat = ref('YYYY-MM-dd HH:mm')
+let qDtFormat = ref('YYYY-MM-DD HH:mm')
 
-const now = new Date()
 let dateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
 let dateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
 
@@ -354,8 +355,8 @@ export default defineComponent({
             taskTitle: yup.string().required(),
             taskDescription: yup.string().required('A cool description is required').min(3),
             taskOwner: yup.string().nullable(),
-            taskDateFrom: yup.string(),//yup.date(),
-            taskDateTo: yup.string(),//yup.date().min(yup.ref('taskDateFrom')),
+            taskDateFrom: yup.date(), // yup.string()
+            taskDateTo: yup.date().min(yup.ref('taskDateFrom')), //yup.string()
         })
 
 
@@ -471,16 +472,7 @@ export default defineComponent({
                 });
         }
 
-
-        // function dtFormatString() {
-
-        //     dtFormat.value = 'yyyy-MM-dd'
-        //     dateFrom.value = DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value)
-        // }
-
-        function isoDateTime(inputDate) {
-            // console.log(DateTime.now().setZone('Europe/Warsaw').plus({ hours: 1 }).toISODate());
-            // console.log(DateTime.fromFormat(t1, 'yyyy-MM-dd HH:mm').toISO())
+        function allDaySwitch(inputDate) {
             mode.value = 'planned';
             if (allDay.value == true) {
                 dtFormat.value = 'yyyy-MM-dd'
@@ -516,7 +508,7 @@ export default defineComponent({
             taskDateFrom,
             planned,
             allDay,
-            dtFormat,
+            // dtFormat,
             qDtFormat,
             priority,
             mode,
@@ -524,8 +516,7 @@ export default defineComponent({
             interval,
             weekDays,
             taskOwner,
-            // dtFormatString,
-            isoDateTime,
+            isoDateTime: allDaySwitch,
             submit,
         };
     },
