@@ -104,9 +104,9 @@
                         <!-- From -->
                         <q-input
                             outlined
-                            v-model="dateFrom"
-                            :error="!!errors.dateFrom"
-                            :error-message="errors.dateFrom"
+                            v-model="taskDateFrom"
+                            :error="!!errors.taskDateFrom"
+                            :error-message="errors.taskDateFrom"
                             label="Początek"
                             v-if="mode != 'task'"
                         >
@@ -117,7 +117,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-date v-model="dateFrom" :mask="qDtFormat">
+                                        <q-date v-model="taskDateFrom" :mask="qDtFormat">
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     label="Cancel"
@@ -144,11 +144,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-time
-                                            v-model="dateFrom"
-                                            :mask="qDtFormat"
-                                            format24h
-                                        >
+                                        <q-time v-model="taskDateFrom" :mask="qDtFormat" format24h>
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     label="Cancel"
@@ -173,12 +169,13 @@
                         <!-- To -->
                         <q-input
                             outlined
-                            v-model="dateTo"
+                            v-model="taskDateTo"
+                            :error="!!errors.taskDateTo"
+                            :error-message="errors.taskDateTo"
                             label="Zakończenie"
                             v-if="mode != 'task'"
-                            
                         >
-                        <!-- :rules="[value => value > dateFrom || 'Must be greather then date from']" -->
+                            <!-- :rules="[value => value > dateFrom || 'Must be greather then date from']" -->
                             <template v-slot:prepend>
                                 <q-icon name="event" class="cursor-pointer">
                                     <q-popup-proxy
@@ -186,7 +183,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-date v-model="dateTo" :mask="qDtFormat">
+                                        <q-date v-model="taskDateTo" :mask="qDtFormat">
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     v-close-popup
@@ -207,7 +204,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-time v-model="dateTo" :mask="qDtFormat" format24h>
+                                        <q-time v-model="taskDateTo" :mask="qDtFormat" format24h>
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     v-close-popup
@@ -226,7 +223,7 @@
                         <q-checkbox
                             v-model="allDay"
                             val="Tu"
-                            @click="isoDateTime"
+                            @click="allDaySwitch"
                             label="Cały dzień"
                         />
                     </div>
@@ -241,7 +238,7 @@
                     -->
 
                     <!-- Repeat at -->
-                    <div class="q-pa-md" v-if="mode == 'cyclic' && allDay !=true">
+                    <div class="q-pa-md" v-if="mode == 'cyclic' && allDay != true">
                         <q-btn-toggle
                             v-model="freq"
                             class="my-custom-toggle"
@@ -306,7 +303,7 @@
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>
-            <q-btn @click="isoDateTime">Normalize</q-btn>
+            <q-btn @click="parseDateString('2022-02-25 15:22')">Normalize</q-btn>
         </q-page>
     </div>
 </template>
@@ -355,8 +352,19 @@ export default defineComponent({
             taskTitle: yup.string().required(),
             taskDescription: yup.string().required('A cool description is required').min(3),
             taskOwner: yup.string().nullable(),
-            taskDateFrom: yup.date(), // yup.string()
-            taskDateTo: yup.date().min(yup.ref('taskDateFrom')), //yup.string()
+            taskDateFrom: yup.string(),// yup.date().transform(parseDateString).typeError('Start field must be later than now').min(DateTime.now()), // yup.string()
+            taskDateTo: yup.string().test(
+                "check-startdate",
+                "Start Date should not be later than current date",
+                function (value) {
+                    // if (moment(value) > moment(new Date())) {
+                    //     return false;
+                    // } else {
+                    //     return true;
+                    // }
+                    return true
+                }
+            ),
         })
 
 
@@ -401,7 +409,7 @@ export default defineComponent({
             }
 
             if (mode.value == 'planned' || mode.value == 'cyclic') {
-                data.date_from = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toISO();
+                data.date_from = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toISO();
                 data.date_to = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toISO();
 
                 console.log(dateFrom.value)
@@ -476,16 +484,29 @@ export default defineComponent({
             mode.value = 'planned';
             if (allDay.value == true) {
                 dtFormat.value = 'yyyy-MM-dd'
-                qDtFormat.value =  'YYYY-MM-DD'
+                qDtFormat.value = 'YYYY-MM-DD'
                 dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
                 dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+
+                taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+                taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
             } else {
                 qDtFormat.value = 'YYYY-MM-DD HH:mm'
                 dtFormat.value = 'yyyy-MM-dd HH:mm'
                 dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
                 dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+
+                taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+                taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
             }
         }
+
+        // function parseDateString(value, originalValue) {
+        //     console.log(new Date(originalValue))
+        //     console.log('parsedDate')
+        //     console.log(new Date(2023,11,17,3,24,0))
+        //     return new Date(2023,11,17,3,24);
+        // }
 
         onActivated(() => {
             isLoading.value = true;
@@ -510,13 +531,14 @@ export default defineComponent({
             allDay,
             // dtFormat,
             qDtFormat,
+            // parseDateString,
             priority,
             mode,
             freq,
             interval,
             weekDays,
             taskOwner,
-            isoDateTime: allDaySwitch,
+            allDaySwitch,
             submit,
         };
     },
