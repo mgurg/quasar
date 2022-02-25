@@ -89,9 +89,9 @@
                             color="white"
                             text-color="primary"
                             :options="[
-                                { label: 'Zwykłe', value: 'task' },
-                                { label: 'Planowane', value: 'planned' },
-                                { label: 'Cykliczne', value: 'cyclic' }
+                                { label: 'Zwykłe', value: 'task', disabled: false },
+                                { label: 'Planowane', value: 'planned', disabled: false },
+                                { label: 'Cykliczne', value: 'cyclic', disabled: allDay }
                             ]"
                         />
                     </div>
@@ -117,7 +117,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-date v-model="dateFrom" mask="YYYY-MM-DD HH:mm">
+                                        <q-date v-model="dateFrom" :mask="qDtFormat">
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     label="Cancel"
@@ -138,7 +138,7 @@
                             </template>
 
                             <template v-slot:append>
-                                <q-icon name="access_time" class="cursor-pointer">
+                                <q-icon name="access_time" class="cursor-pointer" v-if="!allDay">
                                     <q-popup-proxy
                                         cover
                                         transition-show="scale"
@@ -146,7 +146,7 @@
                                     >
                                         <q-time
                                             v-model="dateFrom"
-                                            mask="YYYY-MM-DD HH:mm"
+                                            :mask="qDtFormat"
                                             format24h
                                         >
                                             <div class="row items-center justify-end">
@@ -184,7 +184,7 @@
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-date v-model="dateTo" mask="YYYY-MM-DD HH:mm">
+                                        <q-date v-model="dateTo" mask="yyyy-MM-DD HH:mm">
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     v-close-popup
@@ -199,13 +199,13 @@
                             </template>
 
                             <template v-slot:append>
-                                <q-icon name="access_time" class="cursor-pointer">
+                                <q-icon name="access_time" class="cursor-pointer" v-if="!allDay">
                                     <q-popup-proxy
                                         cover
                                         transition-show="scale"
                                         transition-hide="scale"
                                     >
-                                        <q-time v-model="dateTo" mask="YYYY-MM-DD HH:mm" format24h>
+                                        <q-time v-model="dateTo" mask="yyyy-MM-DD HH:mm" format24h>
                                             <div class="row items-center justify-end">
                                                 <q-btn
                                                     v-close-popup
@@ -239,7 +239,7 @@
                     -->
 
                     <!-- Repeat at -->
-                    <div class="q-pa-md" v-if="mode == 'cyclic'">
+                    <div class="q-pa-md" v-if="mode == 'cyclic' && allDay !=true">
                         <q-btn-toggle
                             v-model="freq"
                             class="my-custom-toggle"
@@ -327,11 +327,12 @@ let errorMsg = ref(null);
 let planned = ref(false);
 let mode = ref('task');
 let priority = ref(null);
-let allDay = ref(true);
+let allDay = ref(false);
 let freq = ref('daily');
 let interval = ref('1');
 let weekDays = ref([]);
-let dtFormat = ref('yyyy-MM-dd')
+let dtFormat = ref('yyyy-MM-dd HH:mm')
+let qDtFormat = ref('YYYY-MM-dd HH:mm')
 
 const now = new Date()
 let dateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
@@ -471,26 +472,27 @@ export default defineComponent({
         }
 
 
-        function dtFormatString() {
+        // function dtFormatString() {
 
-            dtFormat.value = 'yyyy-MM-dd'
-            dateFrom.value = DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value)
-        }
+        //     dtFormat.value = 'yyyy-MM-dd'
+        //     dateFrom.value = DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value)
+        // }
+
         function isoDateTime(inputDate) {
             // console.log(DateTime.now().setZone('Europe/Warsaw').plus({ hours: 1 }).toISODate());
             // console.log(DateTime.fromFormat(t1, 'yyyy-MM-dd HH:mm').toISO())
-
+            mode.value = 'planned';
             if (allDay.value == true) {
-                console.log(allDay.value);
-
                 dtFormat.value = 'yyyy-MM-dd'
+                qDtFormat.value =  'YYYY-MM-DD'
                 dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+                dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
             } else {
+                qDtFormat.value = 'YYYY-MM-DD HH:mm'
                 dtFormat.value = 'yyyy-MM-dd HH:mm'
                 dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+                dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
             }
-
-
         }
 
         onActivated(() => {
@@ -514,13 +516,15 @@ export default defineComponent({
             taskDateFrom,
             planned,
             allDay,
+            dtFormat,
+            qDtFormat,
             priority,
             mode,
             freq,
             interval,
             weekDays,
             taskOwner,
-            dtFormatString,
+            // dtFormatString,
             isoDateTime,
             submit,
         };
