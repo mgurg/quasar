@@ -303,7 +303,7 @@
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>
-            <q-btn @click="parseDateString('2022-02-25 15:22')">Normalize</q-btn>
+            <q-btn @click="parseDateString()">Normalize</q-btn>
         </q-page>
     </div>
 </template>
@@ -352,17 +352,27 @@ export default defineComponent({
             taskTitle: yup.string().required(),
             taskDescription: yup.string().required('A cool description is required').min(3),
             taskOwner: yup.string().nullable(),
-            taskDateFrom: yup.string(),// yup.date().transform(parseDateString).typeError('Start field must be later than now').min(DateTime.now()), // yup.string()
+            taskDateFrom: yup.string().test(
+                "check-startdate",
+                "Start Date should not be later than current date",
+                function (value) {
+                    if (DateTime.now() > DateTime.fromFormat(value, dtFormat.value)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            ),
+            // yup.date().transform(parseDateString).typeError('Start field must be later than now').min(DateTime.now()), // yup.string()
             taskDateTo: yup.string().test(
                 "check-startdate",
                 "Start Date should not be later than current date",
                 function (value) {
-                    // if (moment(value) > moment(new Date())) {
-                    //     return false;
-                    // } else {
-                    //     return true;
-                    // }
-                    return true
+                    if (DateTime.now() > DateTime.fromFormat(value, dtFormat.value)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
             ),
         })
@@ -501,12 +511,15 @@ export default defineComponent({
             }
         }
 
-        // function parseDateString(value, originalValue) {
-        //     console.log(new Date(originalValue))
-        //     console.log('parsedDate')
-        //     console.log(new Date(2023,11,17,3,24,0))
-        //     return new Date(2023,11,17,3,24);
-        // }
+        function parseDateString() {
+            console.log('compare');
+            var d1 = DateTime.now();
+            var d2 = DateTime.fromISO('2017-04-01');
+
+            console.log(d2 < d1); //=> true
+            console.log(d2 > d1); //=> false
+
+        }
 
         onActivated(() => {
             isLoading.value = true;
@@ -531,7 +544,7 @@ export default defineComponent({
             allDay,
             // dtFormat,
             qDtFormat,
-            // parseDateString,
+            parseDateString,
             priority,
             mode,
             freq,
