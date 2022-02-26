@@ -4,9 +4,10 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>Quasar App {{ $t("Work Time") }} {{ envValue }}</q-toolbar-title>
+        <q-toolbar-title>Quasar App</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
             <q-list style="min-width: 100px">
@@ -30,87 +31,68 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+      <q-list padding>
+        <!--Dashboard-->
+        <!-- <q-item to="/tasks" exact clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="dashboard" />
+            </q-item-section>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+            <q-item-section>{{ $t("Dashboard") }}</q-item-section>
+        </q-item>-->
+
+        <!--Index-->
+        <q-item to="/" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="dashboard" />
+          </q-item-section>
+
+          <q-item-section>Index</q-item-section>
+        </q-item>
+
+        <!--Tasks Index-->
+        <q-item to="/tasks" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="add_task" />
+          </q-item-section>
+
+          <q-item-section>TODO List</q-item-section>
+        </q-item>
+
+        <!--Tasks Index-->
+        <q-item to="/files" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="inventory_2" />
+          </q-item-section>
+
+          <q-item-section>Files</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <!-- <router-view /> -->
+      <!-- TODO: Looks like this is necessary to load onActivate -->
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
-
-const linksList = [
-  {
-    title: "Docs",
-    caption: "quasar.dev",
-    icon: "school",
-    link: "https://quasar.dev",
-  },
-  {
-    title: "Github",
-    caption: "github.com/quasarframework",
-    icon: "code",
-    link: "https://github.com/quasarframework",
-  },
-  {
-    title: "Discord Chat Channel",
-    caption: "chat.quasar.dev",
-    icon: "chat",
-    link: "https://chat.quasar.dev",
-  },
-  {
-    title: "Forum",
-    caption: "forum.quasar.dev",
-    icon: "record_voice_over",
-    link: "https://forum.quasar.dev",
-  },
-  {
-    title: "Twitter",
-    caption: "@quasarframework",
-    icon: "rss_feed",
-    link: "https://twitter.quasar.dev",
-  },
-  {
-    title: "Facebook",
-    caption: "@QuasarFramework",
-    icon: "public",
-    link: "https://facebook.quasar.dev",
-  },
-  {
-    title: "Quasar Awesome",
-    caption: "Community Quasar projects",
-    icon: "favorite",
-    link: "https://awesome.quasar.dev",
-  },
-];
 
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
-// import languages from "quasar/lang/index.json";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 
-// const appLanguages = languages.filter((lang) =>
-//   ["pl","de", "en-US"].includes(lang.isoName)
-// );
 
 export default defineComponent({
   name: "MainLayout",
 
-  components: {
-    EssentialLink,
-  },
 
   setup() {
     const $q = useQuasar();
@@ -133,15 +115,22 @@ export default defineComponent({
     }
     const leftDrawerOpen = ref(false);
 
+    function notify() {
+      $q.notify({
+        message: 'Danger, Will Robinson! Danger!',
+        position: 'top-right',
+        progress: true,
+      })
+    }
+
     const envValue = process.env.S3_BUCKET;
 
     return {
-      essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      envValue,
+      notify,
       setLocale,
     };
   },
