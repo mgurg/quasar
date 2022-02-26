@@ -282,14 +282,6 @@
                             <label for="sa">So</label>
                             <input type="checkbox" id="su" v-model="weekDays" value="Su" />&nbsp;&nbsp;
                             <label for="su">Ni</label>
-
-                            <!-- <q-checkbox v-model="weekDays" val="Mo" label="Pon" />
-                            <q-checkbox v-model="weekDays" val="Tu" label="Wt" />
-                            <q-checkbox v-model="weekDays" val="We" label="Śr" />
-                            <q-checkbox v-model="weekDays" val="Th" label="Czw" />
-                            <q-checkbox v-model="weekDays" val="Fr" label="Pt" />
-                            <q-checkbox v-model="weekDays" val="Sa" label="So" />
-                            <q-checkbox v-model="weekDays" val="Su" label="Nie" />-->
                         </div>
                     </div>
                 </div>
@@ -333,8 +325,8 @@ let weekDays = ref([]);
 let dtFormat = ref('yyyy-MM-dd HH:mm')
 let qDtFormat = ref('YYYY-MM-DD HH:mm')
 
-let dateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
-let dateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
+let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
+let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
 
 export default defineComponent({
     name: "TaskAdd",
@@ -356,7 +348,7 @@ export default defineComponent({
                 "check-startdate",
                 "Start Date should not be later than current date",
                 function (value) {
-                    if (DateTime.now() > DateTime.fromFormat(value, dtFormat.value)) {
+                    if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
                         return false;
                     } else {
                         return true;
@@ -368,7 +360,7 @@ export default defineComponent({
                 "check-startdate",
                 "Start Date should not be later than current date",
                 function (value) {
-                    if (DateTime.now() > DateTime.fromFormat(value, dtFormat.value)) {
+                    if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
                         return false;
                     } else {
                         return true;
@@ -385,8 +377,8 @@ export default defineComponent({
         const { value: taskTitle } = useField('taskTitle')
         const { value: taskDescription } = useField('taskDescription')
         const { value: taskOwner } = useField('taskOwner')
-        const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: dateFrom.value })
-        const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: dateTo.value })
+        const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: initDateFrom.value })
+        const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: initDateTo.value })
 
 
         const submit = handleSubmit(values => {
@@ -396,10 +388,10 @@ export default defineComponent({
             let from = null;
             let to = null;
             let userName = null;
-            if (planned.value == true) {
-                from = dateFrom.value;
-                to = dateTo.value;
-            }
+            // if (planned.value == true) {
+            //     from = dateFrom.value;
+            //     to = dateTo.value;
+            // }
 
             if (typeof (taskOwner.value) != 'undefined' || taskOwner.value != null) {
                 userName = taskOwner.value;
@@ -410,8 +402,6 @@ export default defineComponent({
                 "author_id": 0,
                 "title": taskTitle.value,
                 "description": taskDescription.value,
-                "date_from": from,
-                "date_to": to,
                 "priority": "string",
                 "type": "string",
                 "connected_tasks": 0,
@@ -419,11 +409,12 @@ export default defineComponent({
             }
 
             if (mode.value == 'planned' || mode.value == 'cyclic') {
-                data.date_from = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toISO();
-                data.date_to = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toISO();
+                data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toISO();
+                data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toISO();
+                data.allDay = allDay.value
 
-                console.log(dateFrom.value)
-                console.log(dateTo.value)
+                // console.log(dateFrom.value)
+                // console.log(dateTo.value)
             }
 
             if (mode.value == 'cyclic') {
@@ -495,16 +486,16 @@ export default defineComponent({
             if (allDay.value == true) {
                 dtFormat.value = 'yyyy-MM-dd'
                 qDtFormat.value = 'YYYY-MM-DD'
-                dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
-                dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+                // dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+                // dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
 
                 taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
                 taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
             } else {
                 qDtFormat.value = 'YYYY-MM-DD HH:mm'
                 dtFormat.value = 'yyyy-MM-dd HH:mm'
-                dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
-                dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+                // dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+                // dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
 
                 taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
                 taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
@@ -529,8 +520,8 @@ export default defineComponent({
 
 
         return {
-            dateFrom,
-            dateTo,
+            // dateFrom,
+            // dateTo,
             errors,
             isLoading,
             isSuccess,
