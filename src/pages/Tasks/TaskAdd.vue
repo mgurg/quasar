@@ -383,15 +383,9 @@ export default defineComponent({
 
         const submit = handleSubmit(values => {
             isLoading.value = true;
-            console.log('submit', values);
 
-            let from = null;
-            let to = null;
+
             let userName = null;
-            // if (planned.value == true) {
-            //     from = dateFrom.value;
-            //     to = dateTo.value;
-            // }
 
             if (typeof (taskOwner.value) != 'undefined' || taskOwner.value != null) {
                 userName = taskOwner.value;
@@ -412,9 +406,6 @@ export default defineComponent({
                 data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toISO();
                 data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toISO();
                 data.allDay = allDay.value
-
-                // console.log(dateFrom.value)
-                // console.log(dateTo.value)
             }
 
             if (mode.value == 'cyclic') {
@@ -431,6 +422,7 @@ export default defineComponent({
                 data.at_Su = weekDays.value.includes('Su')
             }
 
+            console.log('submit');
             console.log(data)
             // createTasks(data);
         })
@@ -486,16 +478,12 @@ export default defineComponent({
             if (allDay.value == true) {
                 dtFormat.value = 'yyyy-MM-dd'
                 qDtFormat.value = 'YYYY-MM-DD'
-                // dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
-                // dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
 
                 taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
                 taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
             } else {
                 qDtFormat.value = 'YYYY-MM-DD HH:mm'
                 dtFormat.value = 'yyyy-MM-dd HH:mm'
-                // dateFrom.value = DateTime.fromFormat(dateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
-                // dateTo.value = DateTime.fromFormat(dateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
 
                 taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
                 taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
@@ -520,8 +508,6 @@ export default defineComponent({
 
 
         return {
-            // dateFrom,
-            // dateTo,
             errors,
             isLoading,
             isSuccess,
@@ -533,7 +519,6 @@ export default defineComponent({
             taskDateFrom,
             planned,
             allDay,
-            // dtFormat,
             qDtFormat,
             parseDateString,
             priority,
