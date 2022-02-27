@@ -105,6 +105,17 @@
                 </template>
             </q-btn>-->
             <div class="divider q-mt-lg q-mb-sm"></div>
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-body2 q-pa-xs">
+                        <a href="#">{{ $t('Register') }}</a> ·
+                        <a href="#">{{ $t('Register') }}</a> ·
+                        <router-link to="reset_password">{{ $t('Reset password') }}</router-link>
+                        · {{ $t('I need help') }}
+                    </p>
+                </div>
+            </div>
+
             <!-- <div class="row">
                 <div class="col-12">
                     <div class="row justify-center q-gutter-lg">
