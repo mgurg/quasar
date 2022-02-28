@@ -6,20 +6,58 @@
                 <div class="q-pa-none q-card__section q-card__section--vert">
                     <div class="row q-col-gutter-sm">
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-red q-pa-none q-ml-xs">
+                            <q-item class="bg-red q-pa-md q-ml-xs">
                                 <q-item-section avatar>
-                                    <q-icon color="primary" name="bluetooth" />
+                                    <q-icon color="white" name="alarm" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label>Content filtering</q-item-label>
-                                    <q-item-label caption>
-                                        Set the content filtering level to restrict
-                                        apps that can be downloaded
+                                    <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">
+                                        Alarms
                                     </q-item-label>
                                 </q-item-section>
                             </q-item>
-
-                            <!-- <div
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <q-item class="bg-orange q-pa-md q-ml-xs">
+                                <q-item-section avatar>
+                                    <q-icon color="white" name="warning" />
+                                </q-item-section>
+                                <q-item-section>
+                                      <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">
+                                        Troubles
+                                    </q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </div>
+                                                <div class="col-md-3 col-sm-6 col-xs-6">
+                            <q-item class="bg-orange q-pa-md q-ml-xs">
+                                <q-item-section avatar>
+                                    <q-icon color="white" name="warning" />
+                                </q-item-section>
+                                <q-item-section>
+                                      <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">
+                                        Troubles
+                                    </q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </div>
+                                                <div class="col-md-3 col-sm-6 col-xs-6">
+                            <q-item class="bg-orange q-pa-md q-ml-xs">
+                                <q-item-section avatar>
+                                    <q-icon color="white" name="warning" />
+                                </q-item-section>
+                                <q-item-section>
+                                      <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">
+                                        Troubles
+                                    </q-item-label>
+                                </q-item-section>
+                            </q-item>
+                        </div>
+                        <!-- <div
                                 class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
                                 style="background-color: rgb(244, 67, 54);"
                             >
@@ -39,9 +77,9 @@
                                         class="q-item__label ellipsis"
                                     >Base on active records in event log</div>
                                 </div>
-                            </div>-->
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">
+                        </div>-->
+
+                        <!-- <div class="col-md-3 col-sm-6 col-xs-6">
                             <div
                                 class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
                                 style="background-color: rgb(255, 152, 0);"
@@ -96,8 +134,8 @@
                                     >Base on active records in event log</div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">
+                        </div> -->
+                        <!-- <div class="col-md-3 col-sm-6 col-xs-6">
                             <div
                                 class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
                                 style="background-color: rgb(50, 104, 168);"
@@ -124,7 +162,7 @@
                                     >Base on follow up recommendations</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
