@@ -42,7 +42,7 @@
         </q-item>-->
 
         <!--Index-->
-        <q-item to="/" exact clickable v-ripple>
+        <q-item to="/home" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>

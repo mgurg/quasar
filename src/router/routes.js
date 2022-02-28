@@ -1,5 +1,10 @@
 const routes = [
   {
+    path: "/login",
+    name: "login",
+    component: () => import("pages/Auth/Login"),
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [{ path: "", component: () => import("pages/Index.vue") }],
@@ -18,6 +23,7 @@ const routes = [
         component: () => import("pages/Tasks/TaskEdit.vue"),
       },
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
+      { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
     ],
   },
 
