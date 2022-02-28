@@ -12,9 +12,7 @@
                                 </q-item-section>
                                 <q-item-section>
                                     <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">
-                                        Alarms
-                                    </q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Alarms</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
@@ -24,36 +22,30 @@
                                     <q-icon color="white" name="warning" />
                                 </q-item-section>
                                 <q-item-section>
-                                      <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">
-                                        Troubles
-                                    </q-item-label>
+                                    <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Troubles</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
-                                                <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <q-item class="bg-orange q-pa-md q-ml-xs">
                                 <q-item-section avatar>
                                     <q-icon color="white" name="warning" />
                                 </q-item-section>
                                 <q-item-section>
-                                      <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">
-                                        Troubles
-                                    </q-item-label>
+                                    <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Not assigned</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
-                                                <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <q-item class="bg-orange q-pa-md q-ml-xs">
                                 <q-item-section avatar>
                                     <q-icon color="white" name="warning" />
                                 </q-item-section>
                                 <q-item-section>
-                                      <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">
-                                        Troubles
-                                    </q-item-label>
+                                    <q-item-label class="text-white text-h4">0</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Troubles</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
@@ -134,7 +126,7 @@
                                     >Base on active records in event log</div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>-->
                         <!-- <div class="col-md-3 col-sm-6 col-xs-6">
                             <div
                                 class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
@@ -162,7 +154,7 @@
                                     >Base on follow up recommendations</div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>-->
                     </div>
                 </div>
             </div>
