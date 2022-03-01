@@ -71,7 +71,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
 import { defineComponent } from 'vue'
-import NavigationBar from '~/components/NavigationBar.vue'
+import NavigationBar from 'components/NavigationBar.vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
