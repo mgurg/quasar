@@ -2,11 +2,11 @@
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
             <div class="subcontent">
-                <!-- <navigation-bar
+                <navigation-bar
       @today="onToday"
       @prev="onPrev"
       @next="onNext"
-                />-->
+                />
 
                 <div class="row justify-center">
                     <div style="display: flex; max-width: 800px; width: 100%;">
@@ -71,7 +71,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
 import { defineComponent } from 'vue'
-// import NavigationBar from '../components/NavigationBar.vue'
+import NavigationBar from '~/components/NavigationBar.vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -85,7 +85,7 @@ function getCurrentDay(day) {
 export default defineComponent({
     name: 'MonthSlotWeek',
     components: {
-        // NavigationBar,
+        NavigationBar,
         QCalendarMonth
     },
     data() {
