@@ -1,8 +1,12 @@
-    <template>
+<template>
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
             <div class="subcontent">
-                <!-- <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" /> -->
+                <!-- <navigation-bar
+      @today="onToday"
+      @prev="onPrev"
+      @next="onNext"
+                />-->
 
                 <div class="row justify-center">
                     <div style="display: flex; max-width: 800px; width: 100%;">
@@ -24,19 +28,22 @@
                             @click-head-workweek="onClickHeadWorkweek"
                             @click-head-day="onClickHeadDay"
                         >
-                            <template #day="{ scope: { timestamp } }">
+                            <template #week="{ scope: { week, weekdays } }">
                                 <template
-                                    v-for="event in eventsMap[timestamp.date]"
-                                    :key="event.id"
+                                    v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
+                                    :key="index"
                                 >
                                     <div
-                                        :class="badgeClasses(event, 'day')"
-                                        :style="badgeStyles(event, 'day')"
-                                        class="my-event"
+                                        :class="badgeClasses(computedEvent)"
+                                        :style="badgeStyles(computedEvent, week.length)"
+                                        @click="onClickEvent(computedEvent)"
                                     >
-                                        <div class="title q-calendar__ellipsis">
-                                            {{ event.title + (event.time ? ' - ' + event.time : '') }}
-                                            <q-tooltip>{{ event.details }}</q-tooltip>
+                                        <div
+                                            v-if="computedEvent.event && computedEvent.event.details"
+                                            class="title q-calendar__ellipsis"
+                                        >
+                                            {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
+                                            <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
                                         </div>
                                     </div>
                                 </template>
@@ -52,10 +59,12 @@
 <script>
 import {
     QCalendarMonth,
-    addToDate,
+    daysBetween,
+    isOverlappingDates,
+    parsed,
     parseDate,
-    parseTimestamp,
-    today
+    today,
+    indexOf
 } from '@quasar/quasar-ui-qcalendar/src/index.js'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
@@ -74,7 +83,7 @@ function getCurrentDay(day) {
 }
 
 export default defineComponent({
-    name: 'MonthSlotDay',
+    name: 'MonthSlotWeek',
     components: {
         // NavigationBar,
         QCalendarMonth
@@ -87,14 +96,16 @@ export default defineComponent({
                     id: 1,
                     title: '1st of the Month',
                     details: 'Everything is funny as long as it is happening to someone else',
-                    date: getCurrentDay(1),
+                    start: '2022-03-01',
+                    end: '2022-03-01',
                     bgcolor: 'orange'
                 },
                 {
                     id: 2,
                     title: 'Sisters Birthday',
                     details: 'Buy a nice present',
-                    date: getCurrentDay(4),
+                    start: getCurrentDay(4),
+                    end: getCurrentDay(4),
                     bgcolor: 'green',
                     icon: 'fas fa-birthday-cake'
                 },
@@ -102,7 +113,8 @@ export default defineComponent({
                     id: 3,
                     title: 'Meeting',
                     details: 'Time to pitch my idea to the company',
-                    date: getCurrentDay(10),
+                    start: getCurrentDay(10),
+                    end: getCurrentDay(10),
                     time: '10:00',
                     duration: 120,
                     bgcolor: 'red',
@@ -112,7 +124,8 @@ export default defineComponent({
                     id: 4,
                     title: 'Lunch',
                     details: 'Company is paying!',
-                    date: getCurrentDay(10),
+                    start: getCurrentDay(10),
+                    end: getCurrentDay(10),
                     time: '11:30',
                     duration: 90,
                     bgcolor: 'teal',
@@ -122,7 +135,8 @@ export default defineComponent({
                     id: 5,
                     title: 'Visit mom',
                     details: 'Always a nice chat with mom',
-                    date: getCurrentDay(20),
+                    start: getCurrentDay(20),
+                    end: getCurrentDay(20),
                     time: '17:00',
                     duration: 90,
                     bgcolor: 'grey',
@@ -132,7 +146,8 @@ export default defineComponent({
                     id: 6,
                     title: 'Conference',
                     details: 'Teaching Javascript 101',
-                    date: getCurrentDay(22),
+                    start: getCurrentDay(22),
+                    end: getCurrentDay(22),
                     time: '08:00',
                     duration: 540,
                     bgcolor: 'blue',
@@ -142,7 +157,8 @@ export default defineComponent({
                     id: 7,
                     title: 'Girlfriend',
                     details: 'Meet GF for dinner at Swanky Restaurant',
-                    date: getCurrentDay(22),
+                    start: getCurrentDay(22),
+                    end: getCurrentDay(22),
                     time: '19:00',
                     duration: 180,
                     bgcolor: 'teal',
@@ -152,73 +168,133 @@ export default defineComponent({
                     id: 8,
                     title: 'Rowing',
                     details: 'Stay in shape!',
-                    date: getCurrentDay(27),
+                    start: getCurrentDay(27),
+                    end: getCurrentDay(28),
                     bgcolor: 'purple',
-                    icon: 'rowing',
-                    days: 2
+                    icon: 'rowing'
                 },
                 {
                     id: 9,
                     title: 'Fishing',
                     details: 'Time for some weekend R&R',
-                    date: getCurrentDay(27),
+                    start: getCurrentDay(22),
+                    end: getCurrentDay(29),
                     bgcolor: 'purple',
-                    icon: 'fas fa-fish',
-                    days: 2
+                    icon: 'fas fa-fish'
                 },
                 {
                     id: 10,
                     title: 'Vacation',
                     details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
-                    date: getCurrentDay(29),
+                    start: getCurrentDay(22),
+                    end: getCurrentDay(29),
                     bgcolor: 'purple',
-                    icon: 'fas fa-plane',
-                    days: 5
+                    icon: 'fas fa-plane'
                 }
             ]
         }
     },
-    computed: {
-        eventsMap() {
-            const map = {}
-            if (this.events.length > 0) {
-                this.events.forEach(event => {
-                    (map[event.date] = (map[event.date] || [])).push(event)
-                    if (event.days !== undefined) {
-                        let timestamp = parseTimestamp(event.date)
-                        let days = event.days
-                        // add a new event for each day
-                        // skip 1st one which would have been done above
-                        do {
-                            timestamp = addToDate(timestamp, { day: 1 })
-                            if (!map[timestamp.date]) {
-                                map[timestamp.date] = []
-                            }
-                            map[timestamp.date].push(event)
-                            // already accounted for 1st day
-                        } while (--days > 1)
-                    }
+    methods: {
+        getWeekEvents(week, weekdays) {
+            const firstDay = parsed(week[0].date + ' 00:00')
+            const lastDay = parsed(week[week.length - 1].date + ' 23:59')
+
+            const eventsWeek = []
+            this.events.forEach((event, id) => {
+                const startDate = parsed(event.start + ' 00:00')
+                const endDate = parsed(event.end + ' 23:59')
+
+                if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
+                    const left = daysBetween(firstDay, startDate, true)
+                    const right = daysBetween(endDate, lastDay, true)
+
+                    eventsWeek.push({
+                        id, // index event
+                        left, // Position initial day [0-6]
+                        right, // Number days available
+                        size: week.length - (left + right), // Size current event (in days)
+                        event // Info
+                    })
+                }
+            })
+
+            const events = []
+            if (eventsWeek.length > 0) {
+                const infoWeek = eventsWeek.sort((a, b) => a.left - b.left)
+                infoWeek.forEach((_, i) => {
+                    this.insertEvent(events, week.length, infoWeek, i, 0, 0)
                 })
             }
-            console.log(map)
-            return map
-        }
-    },
-    methods: {
-        badgeClasses(event, type) {
-            return {
-                [`text-white bg-${event.bgcolor}`]: true,
-                'rounded-border': true
+
+            return events
+        },
+
+        insertEvent(events, weekLength, infoWeek, index, availableDays, level) {
+            const iEvent = infoWeek[index]
+            if (iEvent !== undefined && iEvent.left >= availableDays) {
+                // If you have space available, more events are placed
+                if (iEvent.left - availableDays) {
+                    // It is filled with empty events
+                    events.push({ size: iEvent.left - availableDays })
+                }
+                // The event is built
+                events.push({ size: iEvent.size, event: iEvent.event })
+
+                if (level !== 0) {
+                    // If it goes into recursion, then the item is deleted
+                    infoWeek.splice(index, 1)
+                }
+
+                const currentAvailableDays = iEvent.left + iEvent.size
+
+                if (currentAvailableDays < weekLength) {
+                    const indexNextEvent = indexOf(infoWeek, e => e.id !== iEvent.id && e.left >= currentAvailableDays)
+
+                    this.insertEvent(
+                        events,
+                        weekLength,
+                        infoWeek,
+                        indexNextEvent !== -1 ? indexNextEvent : index,
+                        currentAvailableDays,
+                        level + 1
+                    )
+                } // else: There are no more days available, end of iteration
+            }
+            else {
+                events.push({ size: weekLength - availableDays })
+                // end of iteration
             }
         },
 
-        badgeStyles(day, event) {
+        badgeClasses(computedEvent) {
+            if (computedEvent.event !== undefined) {
+                return {
+                    'my-event': true,
+                    'text-white': true,
+                    [`bg-${computedEvent.event.bgcolor}`]: true,
+                    'rounded-border': true,
+                    'q-calendar__ellipsis': true
+                }
+            }
+            return {
+                'my-void-event': true
+            }
+        },
+
+        badgeStyles(computedEvent, weekLength) {
             const s = {}
-            // s.left = day.weekday === 0 ? 0 : (day.weekday * this.parsedCellWidth) + '%'
-            // s.top = 0
-            // s.bottom = 0
-            // s.width = (event.days * this.parsedCellWidth) + '%'
+            if (computedEvent.size !== undefined) {
+                s.width = ((100 / weekLength) * computedEvent.size) + '%'
+            }
             return s
+        },
+
+        isBetweenDatesWeek(dateStart, dateEnd, weekStart, weekEnd) {
+            return (
+                (dateEnd < weekEnd && dateEnd >= weekStart)
+                || dateEnd === weekEnd
+                || (dateEnd > weekEnd && dateStart <= weekEnd)
+            )
         },
 
         onToday() {
@@ -250,7 +326,10 @@ export default defineComponent({
         },
         onClickHeadWorkweek(data) {
             console.log('onClickHeadWorkweek', data)
-        }
+        },
+        onClickEvent(data) {
+            console.log('onClickEvent', data)
+    },
     }
 })
 </script>
@@ -259,8 +338,11 @@ export default defineComponent({
 
 .my-event
     position: relative
+    display: inline-flex
+    white-space: nowrap
     font-size: 12px
-    width: 100%
+    height: 16px
+    max-height: 16px
     margin: 1px 0 0 0
     justify-content: center
     text-overflow: ellipsis
@@ -273,6 +355,11 @@ export default defineComponent({
     justify-content: center
     align-items: center
     height: 100%
+
+.my-void-event
+    display: inline-flex
+    white-space: nowrap
+    height: 1px
 
 .text-white
     color: white
