@@ -1,4 +1,5 @@
 <template>
+<!-- https://github.com/Benny-Sankevich/cosmetics/blob/efc66aaf040788b8a28c021d3b76adfe80b0e710/frontend/src/components/calendar/Calendar.vue -->
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
             <div class="subcontent">
@@ -260,6 +261,7 @@ export default defineComponent({
             }
             return events1
         }
+
         const insertEvent = (events, weekLength, infoWeek, index, availableDays, level) => {
             const iEvent = infoWeek[index];
             if (iEvent !== undefined && iEvent.left >= availableDays) {
