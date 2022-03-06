@@ -106,104 +106,114 @@ export default defineComponent({
         const keyValue = ref(0);
         const events = ref([
             {
-                id: 1,
-                title: '1st of the Month',
-                details: 'Everything is funny as long as it is happening to someone else',
-                start: '2022-03-01',
-                end: '2022-03-01',
+
+                "uuid": "440e6fd9-2631-42de-aaf3-2af78bf86776",
+                "task_uuid": "5017e1a1-3ae2-46f3-83cd-4c2a44da4d44",
+                "title": "Task#1",
+                "details": "Task#1",
+                "start": "2022-03-04",
+                "end": "2022-03-04",
                 bgcolor: 'orange'
             },
-            {
-                id: 2,
-                title: 'Sisters Birthday',
-                details: 'Buy a nice present',
-                start: getCurrentDay(4),
-                end: getCurrentDay(4),
-                bgcolor: 'green',
-                icon: 'fas fa-birthday-cake'
-            },
-            {
-                id: 3,
-                title: 'Meeting',
-                details: 'Time to pitch my idea to the company',
-                start: getCurrentDay(10),
-                end: getCurrentDay(10),
-                time: '10:00',
-                duration: 120,
-                bgcolor: 'red',
-                icon: 'fas fa-handshake'
-            },
-            {
-                id: 4,
-                title: 'Lunch',
-                details: 'Company is paying!',
-                start: getCurrentDay(10),
-                end: getCurrentDay(10),
-                time: '11:30',
-                duration: 90,
-                bgcolor: 'teal',
-                icon: 'fas fa-hamburger'
-            },
-            {
-                id: 5,
-                title: 'Visit mom',
-                details: 'Always a nice chat with mom',
-                start: getCurrentDay(20),
-                end: getCurrentDay(20),
-                time: '17:00',
-                duration: 90,
-                bgcolor: 'grey',
-                icon: 'fas fa-car'
-            },
-            {
-                id: 6,
-                title: 'Conference',
-                details: 'Teaching Javascript 101',
-                start: getCurrentDay(22),
-                end: getCurrentDay(22),
-                time: '08:00',
-                duration: 540,
-                bgcolor: 'blue',
-                icon: 'fas fa-chalkboard-teacher'
-            },
-            {
-                id: 7,
-                title: 'Girlfriend',
-                details: 'Meet GF for dinner at Swanky Restaurant',
-                start: getCurrentDay(22),
-                end: getCurrentDay(22),
-                time: '19:00',
-                duration: 180,
-                bgcolor: 'teal',
-                icon: 'fas fa-utensils'
-            },
-            {
-                id: 8,
-                title: 'Rowing',
-                details: 'Stay in shape!',
-                start: getCurrentDay(27),
-                end: getCurrentDay(28),
-                bgcolor: 'purple',
-                icon: 'rowing'
-            },
-            {
-                id: 9,
-                title: 'Fishing',
-                details: 'Time for some weekend R&R',
-                start: getCurrentDay(22),
-                end: getCurrentDay(29),
-                bgcolor: 'purple',
-                icon: 'fas fa-fish'
-            },
-            {
-                id: 10,
-                title: 'Vacation',
-                details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
-                start: getCurrentDay(22),
-                end: getCurrentDay(29),
-                bgcolor: 'purple',
-                icon: 'fas fa-plane'
-            }
+            // {
+            //     id: 1,
+            //     title: '1st of the Month',
+            //     details: 'Everything is funny as long as it is happening to someone else',
+            //     start: '2022-03-01',
+            //     end: '2022-03-01',
+            //     bgcolor: 'orange'
+            // },
+            // {
+            //     id: 2,
+            //     title: 'Sisters Birthday',
+            //     details: 'Buy a nice present',
+            //     start: getCurrentDay(4),
+            //     end: getCurrentDay(4),
+            //     bgcolor: 'green',
+            //     icon: 'fas fa-birthday-cake'
+            // },
+            // {
+            //     id: 3,
+            //     title: 'Meeting',
+            //     details: 'Time to pitch my idea to the company',
+            //     start: getCurrentDay(10),
+            //     end: getCurrentDay(10),
+            //     time: '10:00',
+            //     duration: 120,
+            //     bgcolor: 'red',
+            //     icon: 'fas fa-handshake'
+            // },
+            // {
+            //     id: 4,
+            //     title: 'Lunch',
+            //     details: 'Company is paying!',
+            //     start: getCurrentDay(10),
+            //     end: getCurrentDay(10),
+            //     time: '11:30',
+            //     duration: 90,
+            //     bgcolor: 'teal',
+            //     icon: 'fas fa-hamburger'
+            // },
+            // {
+            //     id: 5,
+            //     title: 'Visit mom',
+            //     details: 'Always a nice chat with mom',
+            //     start: getCurrentDay(20),
+            //     end: getCurrentDay(20),
+            //     time: '17:00',
+            //     duration: 90,
+            //     bgcolor: 'grey',
+            //     icon: 'fas fa-car'
+            // },
+            // {
+            //     id: 6,
+            //     title: 'Conference',
+            //     details: 'Teaching Javascript 101',
+            //     start: getCurrentDay(22),
+            //     end: getCurrentDay(22),
+            //     time: '08:00',
+            //     duration: 540,
+            //     bgcolor: 'blue',
+            //     icon: 'fas fa-chalkboard-teacher'
+            // },
+            // {
+            //     id: 7,
+            //     title: 'Girlfriend',
+            //     details: 'Meet GF for dinner at Swanky Restaurant',
+            //     start: getCurrentDay(22),
+            //     end: getCurrentDay(22),
+            //     time: '19:00',
+            //     duration: 180,
+            //     bgcolor: 'teal',
+            //     icon: 'fas fa-utensils'
+            // },
+            // {
+            //     id: 8,
+            //     title: 'Rowing',
+            //     details: 'Stay in shape!',
+            //     start: getCurrentDay(27),
+            //     end: getCurrentDay(28),
+            //     bgcolor: 'purple',
+            //     icon: 'rowing'
+            // },
+            // {
+            //     id: 9,
+            //     title: 'Fishing',
+            //     details: 'Time for some weekend R&R',
+            //     start: getCurrentDay(22),
+            //     end: getCurrentDay(29),
+            //     bgcolor: 'purple',
+            //     icon: 'fas fa-fish'
+            // },
+            // {
+            //     id: 10,
+            //     title: 'Vacation',
+            //     details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
+            //     start: getCurrentDay(22),
+            //     end: getCurrentDay(29),
+            //     bgcolor: 'purple',
+            //     icon: 'fas fa-plane'
+            // }
         ]
         );
         const show_event = ref(false);
@@ -358,7 +368,9 @@ export default defineComponent({
                 .get("/events/index?dt_from=2022-03-01&dt_to=2022-03-28")
                 .then((res) => {
                     console.log(res.data);
-                    $this.events = res.data
+                    // $this.events = res.data
+                    events.value = res.data
+
                     //   tasks.value = res.data
 
                     //   isLoading.value = false;

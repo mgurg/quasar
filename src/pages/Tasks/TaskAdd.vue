@@ -400,6 +400,8 @@ export default defineComponent({
                 "type": "string",
                 "connected_tasks": 0,
                 "user": userName,
+                "all_day": allDay.value,
+                "recurring": (mode.value == 'cyclic')
             }
 
             if (mode.value == 'planned' || mode.value == 'cyclic') {
@@ -424,7 +426,7 @@ export default defineComponent({
 
             console.log('submit');
             console.log(data)
-            // createTasks(data);
+            createTasks(data);
         })
 
         // --------------- Form --------------
