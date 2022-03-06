@@ -1,5 +1,5 @@
 <template>
-<!-- https://github.com/Benny-Sankevich/cosmetics/blob/efc66aaf040788b8a28c021d3b76adfe80b0e710/frontend/src/components/calendar/Calendar.vue -->
+    <!-- https://github.com/Benny-Sankevich/cosmetics/blob/efc66aaf040788b8a28c021d3b76adfe80b0e710/frontend/src/components/calendar/Calendar.vue -->
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
             <div class="subcontent">
@@ -207,10 +207,80 @@ export default defineComponent({
         ]
         );
         const show_event = ref(false);
-        const show_add_edit_dialog = ref(false);
+        // const show_add_edit_dialog = ref(false);
         const eventToShow = ref(null);
-        const eventToEdit = ref(null);
-        const model = ref(null);
+        // const eventToEdit = ref(null);
+        // const model = ref(null);
+
+        const getWeekEvents = (week, weekdays) => {
+            const firstDay = parsed(week[0].date + ' 00:00')
+            const lastDay = parsed(week[week.length - 1].date + ' 23:59')
+            const eventsWeek = [];
+            events.value.forEach((event, _id) => {
+                const startDate = parsed(event.start + ' 00:00')
+                const endDate = parsed(event.end + ' 23:59')
+                if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
+                    const left = daysBetween(firstDay, startDate, true)
+                    const right = daysBetween(endDate, lastDay, true)
+
+                    eventsWeek.push({
+                        _id, // index event
+                        left, // Position initial day [0-6]
+                        right, // Number days available
+                        size: week.length - (left + right), // Size current event (in days)
+                        event // Info
+                    })
+                }
+            })
+
+            const events1 = []
+            if (eventsWeek.length > 0) {
+                const infoWeek = eventsWeek.sort((a, b) => a.left - b.left)
+                infoWeek.forEach((_, i) => {
+                    insertEvent(events1, week.length, infoWeek, i, 0, 0)
+                })
+            }
+            return events1
+        }
+
+        const insertEvent = (events, weekLength, infoWeek, index, availableDays, level) => {
+            const iEvent = infoWeek[index];
+            if (iEvent !== undefined && iEvent.left >= availableDays) {
+                // If you have space available, more events are placed
+                if (iEvent.left - availableDays) {
+                    // It is filled with empty events
+                    events.push({ size: iEvent.left - availableDays })
+                }
+                // The event is built
+                events.push({ size: iEvent.size, event: iEvent.event })
+
+                if (level !== 0) {
+                    // If it goes into recursion, then the item is deleted
+                    infoWeek.splice(index, 1)
+                }
+
+                const currentAvailableDays = iEvent.left + iEvent.size
+
+                if (currentAvailableDays < weekLength) {
+                    const indexNextEvent = indexOf(
+                        infoWeek,
+                        (e) => e._id !== iEvent._id && e.left >= currentAvailableDays
+                    );
+                    insertEvent(
+                        events,
+                        weekLength,
+                        infoWeek,
+                        indexNextEvent !== -1 ? indexNextEvent : index,
+                        currentAvailableDays,
+                        level + 1
+                    );
+                    // else: There are no more days available, end of iteration
+                }
+            } else {
+                events.push({ size: weekLength - availableDays });
+            }
+        };
+
         const badgeClasses = (computedEvent) => {
             if (computedEvent.event !== undefined) {
                 return {
@@ -232,67 +302,14 @@ export default defineComponent({
             }
             return s;
         };
-        const getWeekEvents = (week) => {
-            const firstDay = parsed(week[0].date + ' 00:00');
-            const lastDay = parsed(week[week.length - 1].date + ' 23:59');
-            const eventsWeek = [];
-            events.value.forEach((event, _id) => {
-                const startDate = parsed(event.start + ' 00:00');
-                const endDate = parsed(event.end + ' 23:59');
-                if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
-                    const left = daysBetween(firstDay, startDate, true);
-                    const right = daysBetween(endDate, lastDay, true);
-                    eventsWeek.push({
-                        _id,
-                        left,
-                        right,
-                        size: week.length - (left + right),
-                        event,
-                    });
-                }
-            });
 
-        const events1 = [];
-            if (eventsWeek.length > 0) {
-                const infoWeek = eventsWeek.sort((a, b) => a.left - b.left);
-                infoWeek.forEach((_, i) => {
-                    insertEvent(events1, week.length, infoWeek, i, 0, 0);
-                });
-            }
-            return events1
+        function isBetweenDatesWeek(dateStart, dateEnd, weekStart, weekEnd) {
+            return (
+                (dateEnd < weekEnd && dateEnd >= weekStart)
+                || dateEnd === weekEnd
+                || (dateEnd > weekEnd && dateStart <= weekEnd)
+            )
         }
-
-        const insertEvent = (events, weekLength, infoWeek, index, availableDays, level) => {
-            const iEvent = infoWeek[index];
-            if (iEvent !== undefined && iEvent.left >= availableDays) {
-                if (iEvent.left - availableDays) {
-                    events.push({ size: iEvent.left - availableDays });
-                }
-                events.push({ size: iEvent.size, event: iEvent.event });
-                if (level !== 0) {
-                    infoWeek.splice(index, 1);
-                }
-                const currentAvailableDays = iEvent.left + iEvent.size;
-                if (currentAvailableDays < weekLength) {
-                    const indexNextEvent = indexOf(
-                        infoWeek,
-                        (e) => e._id !== iEvent._id && e.left >= currentAvailableDays
-                    );
-                    insertEvent(
-                        events,
-                        weekLength,
-                        infoWeek,
-                        indexNextEvent !== -1 ? indexNextEvent : index,
-                        currentAvailableDays,
-                        level + 1
-                    );
-                }
-            } else {
-                events.push({ size: weekLength - availableDays });
-            }
-        };
-
-
 
         const showEvent = (event) => {
             eventToShow.value = event;
@@ -377,7 +394,8 @@ export default defineComponent({
             badgeClasses,
             badgeStyles,
             getWeekEvents,
-            getEvents
+            getEvents,
+            isBetweenDatesWeek
         };
     },
 });

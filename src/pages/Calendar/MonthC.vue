@@ -2,11 +2,7 @@
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
             <div class="subcontent">
-                <navigation-bar
-      @today="onToday"
-      @prev="onPrev"
-      @next="onNext"
-                />
+                <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
 
                 <div class="row justify-center">
                     <div style="display: flex; max-width: 800px; width: 100%;">
@@ -329,7 +325,7 @@ export default defineComponent({
         },
         onClickEvent(data) {
             console.log('onClickEvent', data)
-    },
+        },
     }
 })
 </script>
