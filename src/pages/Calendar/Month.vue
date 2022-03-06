@@ -113,7 +113,7 @@ export default defineComponent({
                 "details": "Task#1",
                 "start": "2022-03-04",
                 "end": "2022-03-04",
-                bgcolor: 'orange'
+                "bgcolor": '#F39C19',
             },
             // {
             //     id: 1,

@@ -10,6 +10,7 @@
             </div>
 
             <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }}</h5>
+            <v-swatches v-model="color" inline></v-swatches>
 
             <!-- QFORM -->
 
@@ -305,6 +306,7 @@
 import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
 import { DateTime } from 'luxon';
+import VSwatches from 'vue3-swatches'
 
 import { useField, useForm } from "vee-validate";
 // import { object, string, date } from 'yup'
@@ -330,6 +332,9 @@ let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 
 
 export default defineComponent({
     name: "TaskAdd",
+    components: {
+        VSwatches,
+    },
     setup() {
         const $q = useQuasar()
 
@@ -519,6 +524,7 @@ export default defineComponent({
             taskDescription,
             taskDateTo,
             taskDateFrom,
+            color: ref('#2980B9'),
             planned,
             allDay,
             qDtFormat,
