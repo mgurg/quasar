@@ -53,7 +53,7 @@
               </div>
             </q-item-section>
             <q-item-section side v-else>
-              <q-item-label caption>{{ timeAgo(task.date_from) }}</q-item-label>
+              <q-item-label caption>{{ timeAgo(task.created_at) }}</q-item-label>
               <q-icon name="priority_high" color="red" />
             </q-item-section>
           </q-item>
@@ -100,7 +100,7 @@
               </div>
             </q-item-section>
             <q-item-section side v-else>
-              <q-item-label caption>{{ timeAgo(task.date_from) }}</q-item-label>
+              <q-item-label caption>{{ timeAgo(task.created_at) }}</q-item-label>
               <q-icon name="priority_high" color="red" />
             </q-item-section>
           </q-item>
@@ -175,7 +175,8 @@ export default defineComponent({
     ];
 
     const timeAgo = (date) => {
-      let dateTime = DateTime.fromISO(date)
+      let dateTime = DateTime.fromISO(date) // TODO: FIX created_at
+      // let dateTime = DateTime.fromSQL("2017-05-15 09:24:15");
       const diff = dateTime.diffNow().shiftTo(...units);
       const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
 
