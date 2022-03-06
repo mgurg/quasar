@@ -95,7 +95,7 @@
             <q-item-section side v-if="task.uuid === selected">
               <div class="text-grey-8 q-gutter-xs">
                 <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="delete" @click="deletTask(task.uuid)" />
+                <q-btn size="12px" flat dense round icon="delete" @click="deleteTask(task.uuid)" />
                 <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)" />
               </div>
             </q-item-section>

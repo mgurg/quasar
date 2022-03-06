@@ -10,8 +10,13 @@
             </div>
 
             <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }}</h5>
-            <v-swatches v-model="color" inline></v-swatches>
-
+            <!-- <v-swatches v-model="color" inline></v-swatches> -->
+            <div class="q-gutter-sm">
+                <q-radio keep-color v-model="color" val="teal" color="teal" />
+                <q-radio keep-color v-model="color" val="orange" color="orange" />
+                <q-radio keep-color v-model="color" val="red" color="red" />
+                <q-radio keep-color v-model="color" val="cyan" color="cyan" />
+            </div>
             <!-- QFORM -->
 
             <q-form
@@ -296,7 +301,6 @@
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>
-            <q-btn @click="parseDateString()">Normalize</q-btn>
         </q-page>
     </div>
 </template>
@@ -326,6 +330,7 @@ let interval = ref('1');
 let weekDays = ref([]);
 let dtFormat = ref('yyyy-MM-dd HH:mm')
 let qDtFormat = ref('YYYY-MM-DD HH:mm')
+let color = ref('teal')
 
 let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
 let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
@@ -333,7 +338,7 @@ let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 
 export default defineComponent({
     name: "TaskAdd",
     components: {
-        VSwatches,
+        // VSwatches,
     },
     setup() {
         const $q = useQuasar()
@@ -401,9 +406,9 @@ export default defineComponent({
                 "author_id": 0,
                 "title": taskTitle.value,
                 "description": taskDescription.value,
+                "color": color.value,
                 "priority": "string",
                 "type": "string",
-                "connected_tasks": 0,
                 "user": userName,
                 "all_day": allDay.value,
                 "recurring": (mode.value == 'cyclic')
@@ -416,10 +421,9 @@ export default defineComponent({
             }
 
             if (mode.value == 'cyclic') {
-                data.whole_day = true
                 data.reccuring = true
                 data.interval = interval.value
-                data.unit = freq.value
+                data.freq = freq.value
                 data.at_Mo = weekDays.value.includes('Mo')
                 data.at_Tu = weekDays.value.includes('Tu')
                 data.at_We = weekDays.value.includes('We')
@@ -437,7 +441,7 @@ export default defineComponent({
         // --------------- Form --------------
 
         function createTasks(body) {
-            // isLoading.value = true;
+            isLoading.value = true;
             api
                 .post("/tasks/add", body)
                 .then((res) => {
@@ -497,15 +501,15 @@ export default defineComponent({
             }
         }
 
-        function parseDateString() {
-            console.log('compare');
-            var d1 = DateTime.now();
-            var d2 = DateTime.fromISO('2017-04-01');
+        // function parseDateString() {
+        //     console.log('compare');
+        //     var d1 = DateTime.now();
+        //     var d2 = DateTime.fromISO('2017-04-01');
 
-            console.log(d2 < d1); //=> true
-            console.log(d2 > d1); //=> false
+        //     console.log(d2 < d1); //=> true
+        //     console.log(d2 > d1); //=> false
 
-        }
+        // }
 
         onActivated(() => {
             isLoading.value = true;
@@ -524,11 +528,11 @@ export default defineComponent({
             taskDescription,
             taskDateTo,
             taskDateFrom,
-            color: ref('#2980B9'),
+            color,
             planned,
             allDay,
             qDtFormat,
-            parseDateString,
+            // parseDateString,
             priority,
             mode,
             freq,

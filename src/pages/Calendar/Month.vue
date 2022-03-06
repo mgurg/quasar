@@ -1,60 +1,59 @@
 <template>
     <!-- https://github.com/Benny-Sankevich/cosmetics/blob/efc66aaf040788b8a28c021d3b76adfe80b0e710/frontend/src/components/calendar/Calendar.vue -->
     <div class="row justify-center text-blue-grey-10">
-        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <div class="subcontent">
-                <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
+        <q-page class="col-lg-12 col-sm-10 col-xs q-pa-xs">
+            <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
 
-                <div class="row justify-center">
-                    <div style="display: flex; max-width: 800px; width: 100%;">
-                        <q-calendar-month
-                            ref="calendar"
-                            v-model="selectedDate"
-                            animated
-                            bordered
-                            focusable
-                            hoverable
-                            no-active-date
-                            :day-min-height="60"
-                            :day-height="0"
-                            @change="onChange"
-                            @moved="onMoved"
-                            @click-date="onClickDate"
-                            @click-day="onClickDay"
-                            @click-workweek="onClickWorkweek"
-                            @click-head-workweek="onClickHeadWorkweek"
-                            @click-head-day="onClickHeadDay"
-                        >
-                            <template #week="{ scope: { week, weekdays } }">
-                                <template
-                                    v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
-                                    :key="index"
+            <div class="row justify-center">
+                <div style="display: flex; max-width: 1400px; width: 100%;">
+                    <q-calendar-month
+                        ref="calendar"
+                        v-model="selectedDate"
+                        animated
+                        bordered
+                        focusable
+                        hoverable
+                        no-active-date
+                        :day-min-height="60"
+                        :day-height="0"
+                        @change="onChange"
+                        @moved="onMoved"
+                        @click-date="onClickDate"
+                        @click-day="onClickDay"
+                        @click-workweek="onClickWorkweek"
+                        @click-head-workweek="onClickHeadWorkweek"
+                        @click-head-day="onClickHeadDay"
+                    >
+                        <template #week="{ scope: { week, weekdays } }">
+                            <template
+                                v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
+                                :key="index"
+                            >
+                                <div
+                                    :class="badgeClasses(computedEvent)"
+                                    :style="badgeStyles(computedEvent, week.length)"
+                                    @click="onClickEvent(computedEvent)"
                                 >
                                     <div
-                                        :class="badgeClasses(computedEvent)"
-                                        :style="badgeStyles(computedEvent, week.length)"
-                                        @click="onClickEvent(computedEvent)"
+                                        v-if="computedEvent.event && computedEvent.event.details"
+                                        class="title q-calendar__ellipsis"
                                     >
-                                        <div
-                                            v-if="computedEvent.event && computedEvent.event.details"
-                                            class="title q-calendar__ellipsis"
-                                        >
-                                            {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
-                                            <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
-                                        </div>
+                                        {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
+                                        <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
                                     </div>
-                                </template>
+                                </div>
                             </template>
-                        </q-calendar-month>
-                    </div>
+                        </template>
+                    </q-calendar-month>
                 </div>
-                <q-btn @click="getEvents">Fetch</q-btn>
             </div>
+            <q-btn @click="getEvents">Fetch</q-btn>
         </q-page>
     </div>
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 import {
     QCalendarMonth,
     daysBetween,
@@ -97,6 +96,7 @@ export default defineComponent({
     // data() {
     //     return {
     setup() {
+        const router = useRouter();
         const selectedDate = ref(today())
         const calendar = ref(null)
         const locale = ref('ko-KR')
@@ -113,7 +113,7 @@ export default defineComponent({
                 "details": "Task#1",
                 "start": "2022-03-04",
                 "end": "2022-03-04",
-                "bgcolor": '#F39C19',
+                "bgcolor": 'red',
             },
             // {
             //     id: 1,
@@ -361,6 +361,7 @@ export default defineComponent({
         }
         function onClickEvent(data) {
             console.log('onClickEvent', data)
+            router.push("/tasks/" + data.event.task_uuid);
         }
 
         function getEvents() {
