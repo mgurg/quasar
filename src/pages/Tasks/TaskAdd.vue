@@ -9,6 +9,9 @@
                 </q-breadcrumbs>
             </div>
 
+            <task-form button-text="aaa" @taskFormBtnClick="signUpButtonPressed"></task-form>
+            <!-- :tasks="{ 'color': 'teal', 'title': 'hi', 'desc': 'hi' }" -->
+
             <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }}</h5>
             <!-- <v-swatches v-model="color" inline></v-swatches> -->
             <div class="q-gutter-sm">
@@ -311,11 +314,14 @@ import { useQuasar } from 'quasar'
 import { defineComponent, onActivated, ref } from "vue";
 import { DateTime } from 'luxon';
 import VSwatches from 'vue3-swatches'
+import taskForm from 'components/forms/taskForm.vue'
 
 import { useField, useForm } from "vee-validate";
 // import { object, string, date } from 'yup'
 import * as yup from 'yup';
 import { api } from "boot/axios";
+
+
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -339,6 +345,8 @@ export default defineComponent({
     name: "TaskAdd",
     components: {
         // VSwatches,
+        taskForm,
+
     },
     setup() {
         const $q = useQuasar()
@@ -417,7 +425,7 @@ export default defineComponent({
             if (mode.value == 'planned' || mode.value == 'cyclic') {
                 data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toISO();
                 data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toISO();
-                data.allDay = allDay.value
+                data.all_day = allDay.value
             }
 
             if (mode.value == 'cyclic') {
@@ -435,7 +443,7 @@ export default defineComponent({
 
             console.log('submit');
             console.log(data)
-            createTasks(data);
+            // createTasks(data);
         })
 
         // --------------- Form --------------
@@ -501,6 +509,10 @@ export default defineComponent({
             }
         }
 
+        function signUpButtonPressed(taskForm) {
+            console.log('outside', taskForm)
+        }
+
         // function parseDateString() {
         //     console.log('compare');
         //     var d1 = DateTime.now();
@@ -541,12 +553,17 @@ export default defineComponent({
             taskOwner,
             allDaySwitch,
             submit,
+            signUpButtonPressed
         };
     },
 });
 </script>
 
 <style lang="scss"  scoped>
+input[type="checkbox"] {
+    display: none;
+}
+
 input[type="checkbox"] {
     display: none;
 }
