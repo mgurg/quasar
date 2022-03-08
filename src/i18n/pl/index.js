@@ -5,4 +5,5 @@ export default {
   failed: "Akcja nie powiodła się",
   success: "Akcja zakończyła się sukcesem",
   "Work Time": "Czas pracy",
+  Add: "Dodaj",
 };

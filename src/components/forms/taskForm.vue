@@ -14,10 +14,19 @@
             @submit.prevent
         >
             <div class="q-gutter-sm">
-                <q-radio keep-color v-model="taskColor" val="teal" color="teal" />
-                <q-radio keep-color v-model="taskColor" val="orange" color="orange" />
-                <q-radio keep-color v-model="taskColor" val="red" color="red" />
-                <q-radio keep-color v-model="taskColor" val="cyan" color="cyan" />
+                <span>Color:</span>
+                <span>
+                    <q-radio keep-color v-model="taskColor" val="teal" color="teal" />
+                </span>
+                <span>
+                    <q-radio keep-color v-model="taskColor" val="orange" color="orange" />
+                </span>
+                <span>
+                    <q-radio keep-color v-model="taskColor" val="red" color="red" />
+                </span>
+                <span>
+                    <q-radio keep-color v-model="taskColor" val="cyan" color="cyan" />
+                </span>
             </div>
             <q-input
                 outlined
@@ -36,7 +45,228 @@
                 :error-message="errors.taskDescription"
                 :label="$t('Task description')"
             />
-            <q-btn :label="buttonText" type="submit" color="primary" @click="submit" />
+            <!-- User -->
+            <q-select
+                outlined
+                v-model="taskAssignee"
+                use-input
+                use-chips
+                label="Użytkownik"
+                :error="!!errors.taskAssignee"
+                :error-message="errors.taskAssignee"
+                :options="users"
+                emit-value
+                map-options
+            />
+
+            <!-- Planned / Priority -->
+            <div class="row sm-gutter">
+                <div class="q-pa-xs col-xs-12 col-sm-6">
+                    Priorytet:
+                    <q-btn-toggle
+                        v-model="taskPriority"
+                        class="my-custom-toggle"
+                        no-caps
+                        unelevated
+                        toggle-color="primary"
+                        color="white"
+                        text-color="primary"
+                        :options="[
+                            { label: '', value: 'low', icon: 'info' },
+                            { label: '', value: 'medium', icon: 'warning' },
+                            { label: '', value: 'high', icon: 'error' }
+                        ]"
+                    />
+                </div>
+                <div class="q-pa-xs col-xs-12 col-sm-6">
+                    Rodzaj
+                    <q-btn-toggle
+                        v-model="taskMode"
+                        class="my-custom-toggle"
+                        no-caps
+                        unelevated
+                        toggle-color="primary"
+                        color="white"
+                        text-color="primary"
+                        :options="[
+                            { label: 'Zwykłe', value: 'task', disabled: false },
+                            { label: 'Planowane', value: 'planned', disabled: false },
+                            { label: 'Cykliczne', value: 'cyclic', disabled: taskAllDay }
+                        ]"
+                    />
+                </div>
+            </div>
+
+            <!-- TimeFrom - TimeTo -->
+
+            <div class="row sm-gutter" v-if="taskMode != 'task'">
+                <div class="q-pa-xs col-xs-12 col-sm-6">
+                    <!-- From -->
+                    <q-input
+                        outlined
+                        v-model="taskDateFrom"
+                        :error="!!errors.taskDateFrom"
+                        :error-message="errors.taskDateFrom"
+                        label="Początek"
+                        v-if="taskMode != 'task'"
+                    >
+                        <template v-slot:prepend>
+                            <q-icon name="event" class="cursor-pointer">
+                                <q-popup-proxy
+                                    cover
+                                    transition-show="scale"
+                                    transition-hide="scale"
+                                >
+                                    <q-date v-model="taskDateFrom" :mask="qDtFormat">
+                                        <div class="row items-center justify-end">
+                                            <q-btn label="Cancel" color="red" flat v-close-popup />
+                                            <q-btn v-close-popup label="Select" color="green" flat />
+                                        </div>
+                                    </q-date>
+                                </q-popup-proxy>
+                            </q-icon>
+                        </template>
+
+                        <template v-slot:append>
+                            <q-icon name="access_time" class="cursor-pointer" v-if="!taskAllDay">
+                                <q-popup-proxy
+                                    cover
+                                    transition-show="scale"
+                                    transition-hide="scale"
+                                >
+                                    <q-time v-model="taskDateFrom" :mask="qDtFormat" format24h>
+                                        <div class="row items-center justify-end">
+                                            <q-btn label="Cancel" color="black" flat v-close-popup />
+                                            <q-btn
+                                                v-close-popup
+                                                label="Close"
+                                                color="primary"
+                                                flat
+                                            />
+                                        </div>
+                                    </q-time>
+                                </q-popup-proxy>
+                            </q-icon>
+                        </template>
+                    </q-input>
+                </div>
+                <div class="q-pa-xs col-xs-12 col-sm-6">
+                    <!-- To -->
+                    <q-input
+                        outlined
+                        v-model="taskDateTo"
+                        :error="!!errors.taskDateTo"
+                        :error-message="errors.taskDateTo"
+                        label="Zakończenie"
+                        v-if="taskMode != 'task'"
+                    >
+                        <!-- :rules="[value => value > dateFrom || 'Must be greather then date from']" -->
+                        <template v-slot:prepend>
+                            <q-icon name="event" class="cursor-pointer">
+                                <q-popup-proxy
+                                    cover
+                                    transition-show="scale"
+                                    transition-hide="scale"
+                                >
+                                    <q-date v-model="taskDateTo" :mask="qDtFormat">
+                                        <div class="row items-center justify-end">
+                                            <q-btn
+                                                v-close-popup
+                                                label="Close"
+                                                color="primary"
+                                                flat
+                                            />
+                                        </div>
+                                    </q-date>
+                                </q-popup-proxy>
+                            </q-icon>
+                        </template>
+
+                        <template v-slot:append>
+                            <q-icon name="access_time" class="cursor-pointer" v-if="!taskAllDay">
+                                <q-popup-proxy
+                                    cover
+                                    transition-show="scale"
+                                    transition-hide="scale"
+                                >
+                                    <q-time v-model="taskDateTo" :mask="qDtFormat" format24h>
+                                        <div class="row items-center justify-end">
+                                            <q-btn
+                                                v-close-popup
+                                                label="Close"
+                                                color="primary"
+                                                flat
+                                            />
+                                        </div>
+                                    </q-time>
+                                </q-popup-proxy>
+                            </q-icon>
+                        </template>
+                    </q-input>
+                </div>
+                <div class="col-12">
+                    <q-checkbox v-model="taskAllDay" @click="allDaySwitch" label="Cały dzień" />
+                </div>
+
+                <!-- 
+                        <div class="q-pa-xs col-xs-12 col-sm-6">
+         
+                        </div>
+                        <div class="q-pa-xs col-xs-12 col-sm-6">
+         
+                        </div>
+                -->
+
+                <!-- Repeat at -->
+                <div class="q-pa-md" v-if="taskMode == 'cyclic' && taskAllDay != true">
+                    <q-btn-toggle
+                        v-model="taskFreq"
+                        class="my-custom-toggle"
+                        no-caps
+                        unelevated
+                        toggle-color="primary"
+                        color="white"
+                        text-color="primary"
+                        :options="[
+                            { label: 'Daily', value: 'daily' },
+                            { label: 'Weekly', value: 'weekly' },
+                            { label: 'Monthly', value: 'monthly' },
+                            { label: 'Yearly', value: 'yearly' }
+                        ]"
+                    />
+
+                    <!-- interval -->
+                    <div class="q-pa-md">
+                        <q-input
+                            v-model.number="taskInterval"
+                            dense
+                            type="number"
+                            label="Interval "
+                            outlined
+                        />
+                    </div>
+                    <!-- days -->
+
+                    <div class="q-gutter-sm" v-if="taskFreq == 'weekly'">
+                        <input type="checkbox" id="mo" v-model="taskWeekDays" value="Mo" />&nbsp;&nbsp;
+                        <label for="mo">Pon</label>
+                        <input type="checkbox" id="tu" v-model="taskWeekDays" value="Tu" />&nbsp;&nbsp;
+                        <label for="tu">Wt</label>
+                        <input type="checkbox" id="we" v-model="taskWeekDays" value="We" />&nbsp;&nbsp;
+                        <label for="we">Śr</label>
+                        <input type="checkbox" id="th" v-model="taskWeekDays" value="Th" />&nbsp;&nbsp;
+                        <label for="th">Cz</label>
+                        <input type="checkbox" id="fr" v-model="taskWeekDays" value="Fr" />&nbsp;&nbsp;
+                        <label for="fr">Pt</label>
+                        <input type="checkbox" id="sa" v-model="taskWeekDays" value="Sa" />&nbsp;&nbsp;
+                        <label for="sa">So</label>
+                        <input type="checkbox" id="su" v-model="taskWeekDays" value="Su" />&nbsp;&nbsp;
+                        <label for="su">Ni</label>
+                    </div>
+                </div>
+            </div>
+
+            <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             <!-- <q-btn :label="buttonText" type="submit" color="primary" @click="signUpButtonPressed" /> -->
         </q-form>
     </div>
@@ -50,6 +280,7 @@
 <script>
 import { defineComponent, reactive, ref } from "vue";
 import { useField, useForm } from "vee-validate";
+import { DateTime } from 'luxon';
 import * as yup from 'yup';
 
 export default defineComponent({
@@ -63,7 +294,27 @@ export default defineComponent({
                 return {
                     title: '',
                     desc: '',
-                    color: 'red'
+                    color: 'red',
+                    user: null,
+                    priority: '',
+                    mode: 'task',
+                    dtFormat: 'yyyy-MM-dd HH:mm',
+                    dateFrom: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat('yyyy-MM-dd HH:mm'),
+                    dateTo: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat('yyyy-MM-dd HH:mm'),
+                    allDay: true,
+                    interval: 1,
+                    freq: "weekly",
+                    weekDays: null,
+
+                }
+            }
+        },
+        usersList: {
+            type: Object,
+            default() {
+                return {
+                    label: null,
+                    value: null,
                 }
             }
         },
@@ -81,47 +332,70 @@ export default defineComponent({
     setup(props, { emit }) {
         let isError = ref(false);
         let isLoading = ref(false);
-        let task = reactive({
-            color: "",
-            name: "AAA",
-            email: "",
-            phone: "",
-            password: "",
-        });
+        let users = ref(props.usersList);
+        let dtFormat = ref('yyyy-MM-dd HH:mm')
+        let qDtFormat = ref('YYYY-MM-DD HH:mm')
+        let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
+        let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
 
+        function getUsers() {
+            api
+                .get("user/index")
+                .then((res) => {
+                    console.log(res.data)
 
-        // -------------- Form --------------
+                    return res.data.map((opt) => ({
+                        label: opt.first_name + ' ' + opt.last_name,
+                        value: opt.uuid,
+                    }));
+
+                })
+                .catch((err) => {
+                    if (err.response) {
+                        console.log(err.response);
+                    } else if (err.request) {
+                        console.log(err.request);
+                    } else {
+                        console.log("General Error");
+                    }
+                });
+        }
 
         const { resetForm } = useForm();
 
         const validationSchema = yup.object({
+            taskColor: yup.string().required(),
             taskTitle: yup.string().required(),
             taskDescription: yup.string().required('A cool description is required').min(3),
-            taskColor: yup.string().required(),
-            // taskOwner: yup.string().nullable(),
-            // taskDateFrom: yup.string().test(
-            //     "check-startdate",
-            //     "Start Date should not be later than current date",
-            //     function (value) {
-            //         if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
-            //             return false;
-            //         } else {
-            //             return true;
-            //         }
-            //     }
-            // ),
-            // // yup.date().transform(parseDateString).typeError('Start field must be later than now').min(DateTime.now()), // yup.string()
-            // taskDateTo: yup.string().test(
-            //     "check-startdate",
-            //     "Start Date should not be later than current date",
-            //     function (value) {
-            //         if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
-            //             return false;
-            //         } else {
-            //             return true;
-            //         }
-            //     }
-            // ),
+            taskAssignee: yup.string().nullable(),
+            taskPriority: yup.string().nullable(),
+            taskMode: yup.string().nullable(),
+            taskDateFrom: yup.string().test(
+                "check-startdate",
+                "Start Date should not be later than current date",
+                function (value) {
+                    if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            ),
+            taskDateTo: yup.string().test(
+                "check-startdate",
+                "Start Date should not be later than current date",
+                function (value) {
+                    if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            ),
+            taskAllDay: yup.bool().required(),
+            taskInterval: yup.number().nullable(),
+            taskFreq: yup.string().nullable(),
+            taskWeekDays: yup.array().nullable(),
         })
 
 
@@ -132,10 +406,15 @@ export default defineComponent({
         const { value: taskTitle } = useField('taskTitle', undefined, { initialValue: props.tasks.title })
         const { value: taskDescription } = useField('taskDescription', undefined, { initialValue: props.tasks.desc })
         const { value: taskColor } = useField('taskColor', undefined, { initialValue: props.tasks.color })
-        // const { value: taskOwner } = useField('taskOwner')
-        // const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: initDateFrom.value })
-        // const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: initDateTo.value })
-
+        const { value: taskAssignee } = useField('taskAssignee', undefined, { initialValue: props.tasks.user })
+        const { value: taskPriority } = useField('taskPriority', undefined, { initialValue: props.tasks.priority })
+        const { value: taskMode } = useField('taskMode', undefined, { initialValue: props.tasks.mode })
+        const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: initDateFrom.value })
+        const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: initDateTo.value })
+        const { value: taskAllDay } = useField('taskAllDay', undefined, { initialValue: props.tasks.allDay })
+        const { value: taskInterval } = useField('taskInterval', undefined, { initialValue: props.tasks.interval })
+        const { value: taskFreq } = useField('taskFreq', undefined, { initialValue: props.tasks.freq })
+        const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialValue: props.tasks.weekDays })
         // taskTitle.value = props.invoice.scheduledAt;
         // taskDescription.value = props.invoice.isPaid;
         // taskColor.value = props.invoice.isReceived;
@@ -146,41 +425,40 @@ export default defineComponent({
 
             // let userName = null;
 
-            // if (typeof (taskOwner.value) != 'undefined' || taskOwner.value != null) {
-            //     userName = taskOwner.value;
+            // if (typeof (taskAssignee.value) != 'undefined' || taskAssignee.value != null) {
+            //     userName = taskAssignee.value;
             // }
 
 
             let data = {
                 "author_id": 0,
+                "color": taskColor.value,
                 "title": taskTitle.value,
                 "description": taskDescription.value,
-                "color": taskColor.value,
-                // "priority": "string",
-                // "type": "string",
-                // "user": userName,
-                // "all_day": allDay.value,
-                // "recurring": (mode.value == 'cyclic')
+                "user": taskAssignee.value,
+                "priority": taskPriority.value,
+                "mode": taskMode.value,
+                "recurring": (taskMode.value == 'cyclic')
             }
 
-            // if (mode.value == 'planned' || mode.value == 'cyclic') {
-            //     data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toISO();
-            //     data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toISO();
-            //     data.all_day = allDay.value
-            // }
+            if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
+                data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toISO();
+                data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toISO();
+                data.all_day = taskAllDay.value;
+            }
 
-            // if (mode.value == 'cyclic') {
-            //     data.reccuring = true
-            //     data.interval = interval.value
-            //     data.freq = freq.value
-            //     data.at_Mo = weekDays.value.includes('Mo')
-            //     data.at_Tu = weekDays.value.includes('Tu')
-            //     data.at_We = weekDays.value.includes('We')
-            //     data.at_Th = weekDays.value.includes('Th')
-            //     data.at_Fr = weekDays.value.includes('Fr')
-            //     data.at_Sa = weekDays.value.includes('Sa')
-            //     data.at_Su = weekDays.value.includes('Su')
-            // }
+            if (taskMode.value == 'cyclic') {
+                data.reccuring = true
+                data.interval = taskInterval.value
+                data.freq = taskFreq.value
+                data.at_Mo = taskWeekDays.value.includes('Mo')
+                data.at_Tu = taskWeekDays.value.includes('Tu')
+                data.at_We = taskWeekDays.value.includes('We')
+                data.at_Th = taskWeekDays.value.includes('Th')
+                data.at_Fr = taskWeekDays.value.includes('Fr')
+                data.at_Sa = taskWeekDays.value.includes('Sa')
+                data.at_Su = taskWeekDays.value.includes('Su')
+            }
 
             console.log('submit');
             console.log(data)
@@ -190,6 +468,22 @@ export default defineComponent({
 
         // --------------- Form --------------
 
+        function allDaySwitch(inputDate) {
+            taskMode.value = 'planned';
+            if (taskAllDay.value == true) {
+                dtFormat.value = 'yyyy-MM-dd'
+                qDtFormat.value = 'YYYY-MM-DD'
+
+                taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+                taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+            } else {
+                qDtFormat.value = 'YYYY-MM-DD HH:mm'
+                dtFormat.value = 'yyyy-MM-dd HH:mm'
+
+                taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+                taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+            }
+        }
 
         const signUpButtonPressed = () => {
 
@@ -199,15 +493,26 @@ export default defineComponent({
 
 
         return {
+
             errors,
             isError,
             isLoading,
             taskColor,
             taskTitle,
             taskDescription,
-            task,
+            taskAssignee,
+            users,
+            taskPriority,
+            taskMode,
+            taskDateFrom,
+            taskDateTo,
+            taskAllDay,
+            taskInterval,
+            taskFreq,
+            taskWeekDays,
             signUpButtonPressed,
-            submit
+            submit,
+            allDaySwitch
         };
     }
 
