@@ -30,7 +30,7 @@
 
 <script>
 import { defineComponent, onActivated, reactive, ref } from "vue";
-import taskForm from 'components/forms/taskForm.vue'
+import TaskForm from 'src/components/forms/TaskForm.vue'
 import { api } from "boot/axios";
 
 
@@ -42,7 +42,7 @@ let isError = ref(false);
 export default defineComponent({
     name: "TaskAdd",
     components: {
-        taskForm,
+        TaskForm,
     },
     setup() {
 
@@ -102,7 +102,7 @@ export default defineComponent({
 
         function signUpButtonPressed(taskForm) {
             console.log('outside', taskForm)
-            // createTasks(taskForm)
+            createTasks(taskForm)
             console.log('Add ok')
         }
 

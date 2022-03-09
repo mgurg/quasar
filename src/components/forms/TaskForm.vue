@@ -14,7 +14,7 @@
             @submit.prevent
         >
             <div class="q-gutter-sm">
-                <span>Color:</span>
+                <!-- <span>Color:</span> -->
                 <span>
                     <q-radio keep-color v-model="taskColor" val="teal" color="teal" />
                 </span>
@@ -265,7 +265,6 @@
                     </div>
                 </div>
             </div>
-
             <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             <!-- <q-btn :label="buttonText" type="submit" color="primary" @click="signUpButtonPressed" /> -->
         </q-form>
@@ -293,7 +292,7 @@ export default defineComponent({
             default() {
                 return {
                     title: '',
-                    desc: '',
+                    description: '',
                     color: 'red',
                     user: null,
                     priority: '',
@@ -301,10 +300,12 @@ export default defineComponent({
                     dtFormat: 'yyyy-MM-dd HH:mm',
                     dateFrom: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat('yyyy-MM-dd HH:mm'),
                     dateTo: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat('yyyy-MM-dd HH:mm'),
-                    allDay: true,
+                    date_from: null,
+                    date_to: null,
+                    allDay: false,
                     interval: 1,
                     freq: "weekly",
-                    weekDays: null,
+                    weekDays: '',
 
                 }
             }
@@ -335,31 +336,11 @@ export default defineComponent({
         let users = ref(props.usersList);
         let dtFormat = ref('yyyy-MM-dd HH:mm')
         let qDtFormat = ref('YYYY-MM-DD HH:mm')
+        if (props.tasks.date_from == null) {
+            console.log('task')
+        }
         let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
         let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
-
-        function getUsers() {
-            api
-                .get("user/index")
-                .then((res) => {
-                    console.log(res.data)
-
-                    return res.data.map((opt) => ({
-                        label: opt.first_name + ' ' + opt.last_name,
-                        value: opt.uuid,
-                    }));
-
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-                });
-        }
 
         const { resetForm } = useForm();
 
@@ -392,10 +373,10 @@ export default defineComponent({
                     }
                 }
             ),
-            taskAllDay: yup.bool().required(),
+            taskAllDay: yup.bool().nullable(),
             taskInterval: yup.number().nullable(),
             taskFreq: yup.string().nullable(),
-            taskWeekDays: yup.array().nullable(),
+            taskWeekDays: yup.array().of(yup.string()),
         })
 
 
@@ -404,7 +385,7 @@ export default defineComponent({
         })
 
         const { value: taskTitle } = useField('taskTitle', undefined, { initialValue: props.tasks.title })
-        const { value: taskDescription } = useField('taskDescription', undefined, { initialValue: props.tasks.desc })
+        const { value: taskDescription } = useField('taskDescription', undefined, { initialValue: props.tasks.description })
         const { value: taskColor } = useField('taskColor', undefined, { initialValue: props.tasks.color })
         const { value: taskAssignee } = useField('taskAssignee', undefined, { initialValue: props.tasks.user })
         const { value: taskPriority } = useField('taskPriority', undefined, { initialValue: props.tasks.priority })
@@ -414,7 +395,7 @@ export default defineComponent({
         const { value: taskAllDay } = useField('taskAllDay', undefined, { initialValue: props.tasks.allDay })
         const { value: taskInterval } = useField('taskInterval', undefined, { initialValue: props.tasks.interval })
         const { value: taskFreq } = useField('taskFreq', undefined, { initialValue: props.tasks.freq })
-        const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialValue: props.tasks.weekDays })
+        const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialValue: [props.tasks.weekDays] })
         // taskTitle.value = props.invoice.scheduledAt;
         // taskDescription.value = props.invoice.isPaid;
         // taskColor.value = props.invoice.isReceived;
@@ -438,7 +419,8 @@ export default defineComponent({
                 "user": taskAssignee.value,
                 "priority": taskPriority.value,
                 "mode": taskMode.value,
-                "recurring": (taskMode.value == 'cyclic')
+                "recurring": (taskMode.value == 'cyclic'),
+                "assignee": taskAssignee.value
             }
 
             if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
@@ -518,3 +500,24 @@ export default defineComponent({
 
 });
 </script>
+
+
+<style lang="scss"  scoped>
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label {
+    color: #ccc;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label {
+    color: #333;
+    font-weight: bold;
+}
+</style>

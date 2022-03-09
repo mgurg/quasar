@@ -19,4 +19,5 @@ export default {
   "Task name": "Task name",
   "Task description": "Task description",
   Add: "Add",
+  Edit: "Edit",
 };

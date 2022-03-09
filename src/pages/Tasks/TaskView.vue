@@ -85,14 +85,14 @@ import { defineComponent, ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
-import taskViewSkeleton from 'components/skeletons/taskViewSkeleton'
+import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
 
 let isLoading = ref(false);
 
 export default defineComponent({
   name: "TaskView",
   components: {
-    taskViewSkeleton,
+    TaskViewSkeleton,
   },
   setup() {
     const route = useRoute();
