@@ -239,9 +239,11 @@
                     <div class="q-pa-md">
                         <q-input
                             v-model.number="taskInterval"
+                            :error="!!errors.taskInterval"
+                            :error-message="errors.taskInterval"
                             dense
                             type="number"
-                            label="Interval "
+                            label="Interval"
                             outlined
                         />
                     </div>
@@ -302,7 +304,7 @@ export default defineComponent({
                     dateTo: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat('yyyy-MM-dd HH:mm'),
                     date_from: null,
                     date_to: null,
-                    allDay: false,
+                    all_day: false,
                     interval: 1,
                     freq: "weekly",
                     weekDays: '',
@@ -336,6 +338,7 @@ export default defineComponent({
         let users = ref(props.usersList);
         let dtFormat = ref('yyyy-MM-dd HH:mm')
         let qDtFormat = ref('YYYY-MM-DD HH:mm')
+
         if (props.tasks.date_from == null) {
             console.log('task')
         }
@@ -374,7 +377,7 @@ export default defineComponent({
                 }
             ),
             taskAllDay: yup.bool().nullable(),
-            taskInterval: yup.number().nullable(),
+            taskInterval: yup.number().min(1).max(999).nullable(),
             taskFreq: yup.string().nullable(),
             taskWeekDays: yup.array().of(yup.string()),
         })
@@ -392,23 +395,21 @@ export default defineComponent({
         const { value: taskMode } = useField('taskMode', undefined, { initialValue: props.tasks.mode })
         const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: initDateFrom.value })
         const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: initDateTo.value })
-        const { value: taskAllDay } = useField('taskAllDay', undefined, { initialValue: props.tasks.allDay })
+        const { value: taskAllDay } = useField('taskAllDay', undefined, { initialValue: props.tasks.all_day ?? false })
         const { value: taskInterval } = useField('taskInterval', undefined, { initialValue: props.tasks.interval })
         const { value: taskFreq } = useField('taskFreq', undefined, { initialValue: props.tasks.freq })
         const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialValue: [props.tasks.weekDays] })
-        // taskTitle.value = props.invoice.scheduledAt;
-        // taskDescription.value = props.invoice.isPaid;
-        // taskColor.value = props.invoice.isReceived;
+
 
         const submit = handleSubmit(values => {
             // isLoading.value = true;
 
 
-            // let userName = null;
+            let userName = null;
 
-            // if (typeof (taskAssignee.value) != 'undefined' || taskAssignee.value != null) {
-            //     userName = taskAssignee.value;
-            // }
+            if (typeof (taskAssignee.value) != 'undefined' || taskAssignee.value != null) {
+                userName = taskAssignee.value;
+            }
 
 
             let data = {
@@ -420,19 +421,19 @@ export default defineComponent({
                 "priority": taskPriority.value,
                 "mode": taskMode.value,
                 "recurring": (taskMode.value == 'cyclic'),
-                "assignee": taskAssignee.value
+                "assignee": userName
             }
 
             if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
-                data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toISO();
-                data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toISO();
+                data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
+                data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
                 data.all_day = taskAllDay.value;
             }
 
             if (taskMode.value == 'cyclic') {
                 data.reccuring = true
                 data.interval = taskInterval.value
-                data.freq = taskFreq.value
+                data.freq = taskFreq.value.toUpperCase()
                 data.at_Mo = taskWeekDays.value.includes('Mo')
                 data.at_Tu = taskWeekDays.value.includes('Tu')
                 data.at_We = taskWeekDays.value.includes('We')
@@ -475,7 +476,7 @@ export default defineComponent({
 
 
         return {
-
+            qDtFormat,
             errors,
             isError,
             isLoading,

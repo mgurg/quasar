@@ -13,7 +13,8 @@
                 button-text="Edit"
                 :usersList="usersList"
                 @taskFormBtnClick="signUpButtonPressed"
-                v-if="taskDetails != null"
+                v-if="taskDetails != null && usersList != null"
+                :key="taskDetails.uuid"
             />
             <task-edit-skeleton v-else />
         </q-page>
