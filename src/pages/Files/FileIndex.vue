@@ -2,6 +2,19 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
+
+      <q-uploader
+        url="https://api.intio.es/s3/upload/"
+        :factory="uploadFile"
+        field-name="file"
+        label="No thumbnails"
+        color="amber"
+        text-color="black"
+        no-thumbnails
+        style="max-width: 300px"
+        @uploaded="uploaded"
+      />
+
       <q-btn class="q-ma-sm" @click="listFiles">Fetch file list</q-btn>
 
       <q-list
@@ -15,19 +28,39 @@
         <q-item>
           <!-- clickable v-ripple -->
           <q-item-section>{{ file.name }}</q-item-section>
+
+          <q-item-section top side>
+            <div class="text-grey-8 q-gutter-xs">
+              <q-btn
+                class="gt-xs"
+                size="12px"
+                flat
+                dense
+                round
+                icon="delete"
+                @click="delete_file(file.name)"
+              />
+              <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
+              <q-btn size="12px" flat dense round icon="more_vert" />
+            </div>
+          </q-item-section>
         </q-item>
       </q-list>
 
       <div class="q-pa-md q-gutter-sm">
-        <div width="100%" v-for="img in imgs" v-bind:key="img.id">
-          <q-img :src="img.img" spinner-color="black" style="height: 140px; max-width: 150px">
+        <div width="100%" v-for="(file, index) in s3Files" v-bind:key="index">
+          <q-img
+            :src="download_file(file.name)"
+            spinner-color="black"
+            style="height: 140px; max-width: 150px"
+          >
             <q-icon
               class="absolute all-pointer-events"
               size="sm"
               name="delete"
               color="white"
               style="top: 8px; right: 8px"
-              @click="deleteFile(img.id)"
+              @click="delete_file(file.name)"
             >
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
@@ -57,17 +90,6 @@ let s3Files = ref([]);
 export default defineComponent({
   name: "PageIndex",
   setup() {
-    const imgs = ref([
-      { "id": 1, "img": download_file("Cat03.jpg") },
-      { "id": 2, "img": download_file("Blue_morpho_butterfly.jpg") },
-      { "id": 3, "img": "https://placeimg.com/500/300/nature?t=3" },
-      { "id": 4, "img": "https://placeimg.com/500/300/nature?t=4" },
-    ])
-
-
-    function deleteFile(id) {
-      alert(id);
-    }
 
     function listFiles() {
       api
@@ -94,13 +116,70 @@ export default defineComponent({
       return process.env.VUE_APP_URL + "/s3/get_s3_obj/?s3_obj=" + filename
     }
 
+    function uploadUrl() {
+      console.log(process.env.VUE_APP_URL + "/s3/upload/")
+      return process.env.VUE_APP_URL + "/s3/upload/"
+    }
 
+    function delete_file(filename) {
+      api
+        .delete(process.env.VUE_APP_URL + "/s3/delete_file/?objectName=" + filename)
+        .then((res) => {
+          console.log(res.data);
+          listFiles()
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+        });
+    }
+
+    function uploaded() {
+      // alert('uploaded')
+      listFiles()
+    }
+
+    function uploadImage(file, updateProgress) {
+      alert('uploaded')
+      let formData = new FormData()
+      formData.append('file', file)
+
+      api
+        .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+        });
+    }
+
+    // https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
+    // https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue
 
     return {
-      imgs,
       s3Files,
-      deleteFile,
-      listFiles
+      delete_file,
+      download_file,
+      uploadUrl,
+      listFiles,
+      uploadImage,
+      uploaded
     };
   },
 });
