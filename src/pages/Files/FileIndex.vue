@@ -4,7 +4,7 @@
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
 
       <q-uploader
-        url="https://api.intio.es/s3/upload/"
+        :url="uploadUrl"
         :factory="uploadFile"
         field-name="file"
         label="No thumbnails"
