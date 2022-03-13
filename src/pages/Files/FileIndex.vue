@@ -5,8 +5,10 @@
 
       <q-uploader
         :url="uploadUrl"
+        ref="uploader"
         :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
         field-name="file"
+        auto-upload
         label="No thumbnails"
         color="amber"
         text-color="black"
@@ -14,6 +16,7 @@
         accept=".jpg, image/*"
         style="max-width: 300px"
         @uploaded="uploaded"
+        @finish="finished"
       />
 
       <!-- @added="uploadImage" -->
@@ -58,6 +61,7 @@ import { api } from "boot/axios";
 import { ref, reactive } from 'vue'
 
 let s3Files = ref([]);
+let uploader = ref("");
 
 export default defineComponent({
   name: "PageIndex",
@@ -118,6 +122,21 @@ export default defineComponent({
       listFiles()
     }
 
+    function finished() {
+
+
+      return new Promise((resolve) => {
+        // simulating a delay of 2 seconds
+        setTimeout(() => {
+          resolve(
+            uploader.value.reset()
+          )
+        }, 1000)
+      })
+
+
+    }
+
 
     function uploadFile() {
       alert('upload files')
@@ -163,6 +182,8 @@ export default defineComponent({
       uploadImage,
       uploaded,
       uploadFile,
+      finished,
+      uploader
     };
   },
 });
