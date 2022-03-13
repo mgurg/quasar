@@ -5,47 +5,19 @@
 
       <q-uploader
         :url="uploadUrl"
-        :factory="uploadFile"
+        :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
         field-name="file"
         label="No thumbnails"
         color="amber"
         text-color="black"
         no-thumbnails
+        accept=".jpg, image/*"
         style="max-width: 300px"
         @uploaded="uploaded"
       />
 
+      <!-- @added="uploadImage" -->
       <q-btn class="q-ma-sm" @click="listFiles">Fetch file list</q-btn>
-
-      <q-list
-        dense
-        bordered
-        padding
-        class="rounded-borders"
-        v-for="(file, index) in s3Files"
-        v-bind:key="index"
-      >
-        <q-item>
-          <!-- clickable v-ripple -->
-          <q-item-section>{{ file.name }}</q-item-section>
-
-          <q-item-section top side>
-            <div class="text-grey-8 q-gutter-xs">
-              <q-btn
-                class="gt-xs"
-                size="12px"
-                flat
-                dense
-                round
-                icon="delete"
-                @click="delete_file(file.name)"
-              />
-              <q-btn class="gt-xs" size="12px" flat dense round icon="done" />
-              <q-btn size="12px" flat dense round icon="more_vert" />
-            </div>
-          </q-item-section>
-        </q-item>
-      </q-list>
 
       <div class="q-pa-md q-gutter-sm">
         <div width="100%" v-for="(file, index) in s3Files" v-bind:key="index">
@@ -139,15 +111,23 @@ export default defineComponent({
         });
     }
 
-    function uploaded() {
+    function uploaded({ files, xhr }) {
       // alert('uploaded')
+      let response = JSON.parse(xhr.response)
+      console.log(response)
       listFiles()
+    }
+
+
+    function uploadFile() {
+      alert('upload files')
+
     }
 
     function uploadImage(file, updateProgress) {
       alert('uploaded')
       let formData = new FormData()
-      formData.append('file', file)
+      formData.append('file', file[0])
 
       api
         .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
@@ -172,6 +152,8 @@ export default defineComponent({
     // https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
     // https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue
 
+
+    // https://codepen.io/metalsadman/pen/YMvEbr?editors=1011
     return {
       s3Files,
       delete_file,
@@ -179,7 +161,8 @@ export default defineComponent({
       uploadUrl,
       listFiles,
       uploadImage,
-      uploaded
+      uploaded,
+      uploadFile,
     };
   },
 });
