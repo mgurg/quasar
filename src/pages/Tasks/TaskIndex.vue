@@ -15,97 +15,15 @@
       <q-list bordered padding v-if="!isLoading">
         <q-item-label header v-if="myTasks">{{ $t("Your tasks") }}</q-item-label>
 
-        <div
-          v-for="task in myTasks"
-          v-bind:key="task.uuid"
-          @click="selectTask(task.uuid)"
-          :class="{ 'done bg-blue-1': task.uuid === selected }"
-        >
-          <q-item>
-            <q-item-section avatar cursor-pointer ripple @click="viewTask(task.uuid)">
-              <q-avatar rounded>
-                <img src="~assets/stecker.jpg" />
-                <q-badge floating rounded color="green" />
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label lines="1">{{ task.title }}</q-item-label>
-              <q-item-label caption lines="2">{{ task.description }}</q-item-label>
-              <q-item-label lines="1">
-                <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
-                <q-chip
-                  square
-                  size="sm"
-                  color="blue"
-                  text-color="white"
-                  icon="account_circle"
-                  v-if="task.assignee != null"
-                >{{ task.assignee.first_name + ' ' + task.assignee.last_name }}</q-chip>
-              </q-item-label>
-            </q-item-section>
-
-            <q-item-section side v-if="task.uuid === selected">
-              <div class="text-grey-8 q-gutter-xs">
-                <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="delete" @click="deleteTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)" />
-              </div>
-            </q-item-section>
-            <q-item-section side v-else>
-              <q-item-label caption>{{ timeAgo(task.date_from) }}</q-item-label>
-              <q-icon name="priority_high" color="red" />
-            </q-item-section>
-          </q-item>
-
-          <q-separator />
+        <div v-for="task in myTasks" v-bind:key="task.uuid">
+          <task-item @selectedItem="selectTask" :task="task" :selected="selected" v-if="!isLoading"></task-item>
         </div>
 
         <!-- ALL TASKS -->
         <q-item-label header v-if="otherTasks">{{ $t("All tasks") }}</q-item-label>
 
-        <div
-          v-for="task in otherTasks"
-          v-bind:key="task.uuid"
-          @click="selectTask(task.uuid)"
-          :class="{ 'done bg-blue-1': task.uuid === selected }"
-        >
-          <q-item>
-            <q-item-section avatar>
-              <q-avatar rounded>
-                <img src="~assets/stecker.jpg" />
-                <q-badge floating rounded color="green" />
-              </q-avatar>
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label lines="1">{{ task.title }}</q-item-label>
-              <q-item-label caption lines="2">{{ task.description }}</q-item-label>
-              <q-item-label lines="1">
-                <q-chip
-                  size="sm"
-                  color="red"
-                  text-color="white"
-                  icon="cake"
-                  v-if="task.assignee != null"
-                >{{ task.assignee.first_name + ' ' + task.assignee.last_name }}</q-chip>
-              </q-item-label>
-            </q-item-section>
-
-            <q-item-section side v-if="task.uuid === selected">
-              <div class="text-grey-8 q-gutter-xs">
-                <q-btn size="12px" flat dense round icon="edit" @click="editTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="delete" @click="deletTask(task.uuid)" />
-                <q-btn size="12px" flat dense round icon="info" @click="viewTask(task.uuid)" />
-              </div>
-            </q-item-section>
-            <q-item-section side v-else>
-              <q-item-label caption>{{ timeAgo(task.date_from) }}</q-item-label>
-              <q-icon name="priority_high" color="red" />
-            </q-item-section>
-          </q-item>
-
-          <q-separator />
+        <div v-for="task in otherTasks" v-bind:key="task.uuid">
+          <task-item @selectedItem="selectTask" :task="task" :selected="selected" v-if="!isLoading"></task-item>
         </div>
       </q-list>
       <!-- Skeleton -->
@@ -125,8 +43,10 @@ import { defineComponent, onActivated, ref, computed } from "vue";
 import { DateTime } from 'luxon';
 import { useRouter } from "vue-router";
 import { api } from "boot/axios";
-import taskIndexSkeleton from 'components/skeletons/taskIndexSkeleton'
-import TaskIndexSkeleton from 'src/components/skeletons/taskIndexSkeleton.vue';
+
+import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
+import TaskItem from 'components/TaskItem.vue'
+
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -136,56 +56,35 @@ let errorMsg = ref(null);
 export default defineComponent({
   name: "TaskIndex",
   components: {
-    taskIndexSkeleton,
-    TaskIndexSkeleton
+    TaskIndexSkeleton,
+    TaskItem
   },
   setup() {
-    const $q = useQuasar()
-    const router = useRouter();
 
     const tasks = ref(null);
     let selected = ref(null);
 
 
     const myTasks = computed(() => {
-      if (tasks.value != null && tasks.value.assignee != null) {
-        return tasks.value.filter((task) => task.assignee.uuid === "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
+      console.log("my",)
+      if (tasks.value != null && tasks.value.assignee != null && isLoading.value == false) {
+
+        return tasks.value.filter((task) => task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d")
       } else {
         return null;
       }
     });
 
     const otherTasks = computed(() => {
-      if (tasks.value != null && tasks.value.assignee != null) {
-        return tasks.value.filter((task) => task.assignee.uuid !== "6d14b0af-2d1c-4d7d-b302-a3514ccc79cd")
+      console.log("other",)
+      if (tasks.value != null && tasks.value.assignee != null && isLoading.value == false) {
+
+        return tasks.value.filter((task) => task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d")
       } else {
         return tasks.value;
       }
     });
 
-
-    const units = [
-      'year',
-      'month',
-      'week',
-      'day',
-      'hour',
-      'minute',
-      'second',
-    ];
-
-    const timeAgo = (date) => {
-      let dateTime = DateTime.fromISO(date)
-      const diff = dateTime.diffNow().shiftTo(...units);
-      const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
-
-      const relativeFormatter = new Intl.RelativeTimeFormat('en', {
-        localeMatcher: "best fit", // other values: "lookup"
-        numeric: "always", // other values: "auto"
-        style: "narrow", // "long", "short" or "narrow"
-      });
-      return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
-    };
 
 
     function fetchTasks() {
@@ -208,23 +107,6 @@ export default defineComponent({
         });
     }
 
-    function createTasks(body) {
-      api
-        .post("/tasks/add", body)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-
-        });
-    }
 
     function selectTask(uuid) {
       if (selected.value == null) {
@@ -234,42 +116,6 @@ export default defineComponent({
       } else {
         selected.value = null;
       }
-    }
-
-    function deleteTask(uuid) {
-      $q.dialog({
-        title: "Confirm",
-        message: "Really delete?",
-        cancel: true,
-        persistent: true,
-      }).onOk(() => {
-        api
-          .delete("/tasks/" + uuid)
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            if (err.response) {
-              console.log(err.response);
-            } else if (err.request) {
-              console.log(err.request);
-            } else {
-              console.log("General Error");
-            }
-
-          });
-        $q.notify("Task deleted");
-        fetchTasks()
-      });
-    }
-
-    function editTask(uuid) {
-      console.log(uuid);
-      router.push("/tasks/edit/" + uuid);
-    }
-
-    function viewTask(uuid) {
-      router.push("/tasks/" + uuid);
     }
 
     onActivated(() => {
@@ -284,12 +130,10 @@ export default defineComponent({
       myTasks,
       otherTasks,
       selected,
-      timeAgo,
       fetchTasks,
       selectTask,
-      editTask,
-      deleteTask,
-      viewTask
+
+
     };
   },
 });

@@ -41,7 +41,7 @@
             <q-item-section>{{ $t("Dashboard") }}</q-item-section>
         </q-item>-->
 
-        <!--Index-->
+        <!--Home Index-->
         <q-item to="/home" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="dashboard" />
@@ -59,13 +59,22 @@
           <q-item-section>TODO List</q-item-section>
         </q-item>
 
-        <!--Tasks Index-->
+        <!--Files Index-->
         <q-item to="/files" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="inventory_2" />
           </q-item-section>
 
           <q-item-section>Files</q-item-section>
+        </q-item>
+
+        <!--Calendar Index-->
+        <q-item to="/calendar" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="calendar_month" />
+          </q-item-section>
+
+          <q-item-section>Calendar</q-item-section>
         </q-item>
       </q-list>
     </q-drawer>

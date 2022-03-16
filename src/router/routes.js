@@ -24,6 +24,10 @@ const routes = [
       },
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
+      {
+        path: "/calendar",
+        component: () => import("pages/Calendar/Month.vue"),
+      },
     ],
   },
 
