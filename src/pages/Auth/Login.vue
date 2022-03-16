@@ -1,4 +1,5 @@
 <template>
+    <!-- https://github.com/Joabsonlg/quasar-authentication -->
     <!-- https://github.com/patrickmonteiro/quasar-warren -->
     <div class="row justify-center" style="height: 100vh">
         <div class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7" v-if="fade">

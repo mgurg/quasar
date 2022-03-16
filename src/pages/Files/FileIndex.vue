@@ -22,10 +22,10 @@
       <!-- @added="uploadImage" -->
       <q-btn class="q-ma-sm" @click="listFiles">Fetch file list</q-btn>
 
-      <div class="q-pa-md q-gutter-sm">
+      <!-- <div class="q-pa-md q-gutter-sm">
         <div width="100%" v-for="(file, index) in s3Files" v-bind:key="index">
           <q-img
-            :src="download_file(file.name)"
+            :src="download_file(file.file_name)"
             spinner-color="black"
             style="height: 140px; max-width: 150px"
           >
@@ -35,13 +35,89 @@
               name="delete"
               color="white"
               style="top: 8px; right: 8px"
-              @click="delete_file(file.name)"
+              @click="delete_file(file.file_name)"
+            >
+              <q-tooltip>Tooltip</q-tooltip>
+            </q-icon>
+          </q-img>
+        </div>
+      </div>-->
+      <h3>IMGs</h3>
+
+      <div class="row q-col-gutter-xs">
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
+          v-for="(file, index) in s3Files"
+          v-bind:key="index"
+        >
+          <q-img
+            :src="download_file(file.uuid)"
+            spinner-color="black"
+            style="height: 100%; width:100% "
+            fit="contain"
+          >
+            <q-icon
+              class="absolute all-pointer-events"
+              size="sm"
+              name="delete"
+              color="blue-grey-5"
+              style="top: 8px; right: 8px"
+              @click="delete_file(file.uuid)"
+            >
+              <q-tooltip>Tooltip</q-tooltip>
+            </q-icon>
+            <q-icon
+              class="absolute all-pointer-events"
+              size="sm"
+              name="download"
+              color="blue-grey-5"
+              style="top: 8px; left: 8px"
+              @click="openURL(download_file(file.uuid))"
             >
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
           </q-img>
         </div>
       </div>
+      <span>{{ uploadedFiles }}</span>
+
+      <q-img
+        class="q-pa-md"
+        src="https://picsum.photos/1920/1080"
+        :ratio="16 / 9"
+        @click="dialog = true"
+        style="max-width: 300px;"
+      >
+        <q-icon
+          class="absolute all-pointer-events"
+          size="32px"
+          name="file_download"
+          color="white"
+          style="top: 8px; left: 8px "
+        >
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-icon>
+      </q-img>
+
+      <q-dialog
+        v-model="dialog"
+        persistent
+        transition-show="slide-up"
+        transition-hide="slide-down"
+        :maximized="true"
+      >
+        <q-card class="bg-primary text-white">
+          <q-bar>
+            <q-space />
+
+            <q-btn dense flat icon="close" v-close-popup>
+              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>
+
+          <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
+        </q-card>
+      </q-dialog>
     </q-page>
   </div>
   <!-- https://github.com/tharindu1989/aws-test/blob/1a55c019ff859ed1a42237225c47f51c468eea20/ImageViewApp/src/pages/AmazonImage.vue -->
@@ -59,17 +135,23 @@
 import { defineComponent } from "vue";
 import { api } from "boot/axios";
 import { ref, reactive } from 'vue'
+import { openURL } from 'quasar'
+
 
 let s3Files = ref([]);
 let uploader = ref("");
+let uploadedFiles = ref([]);
 
 export default defineComponent({
   name: "PageIndex",
   setup() {
 
+
+
+
     function listFiles() {
       api
-        .get("/s3/list_files")
+        .get("/files/index")
         .then((res) => {
 
           s3Files.value = res.data;
@@ -87,21 +169,22 @@ export default defineComponent({
         });
     }
 
-    function download_file(filename) {
+    function download_file(uuid) {
 
-      return process.env.VUE_APP_URL + "/s3/get_s3_obj/?s3_obj=" + filename
+      return process.env.VUE_APP_URL + "/files/download/" + uuid
     }
 
     function uploadUrl() {
-      console.log(process.env.VUE_APP_URL + "/s3/upload/")
-      return process.env.VUE_APP_URL + "/s3/upload/"
+      console.log(process.env.VUE_APP_URL + "/files/")
+      return process.env.VUE_APP_URL + "/files/"
     }
 
-    function delete_file(filename) {
+    function delete_file(uuid) {
       api
-        .delete(process.env.VUE_APP_URL + "/s3/delete_file/?objectName=" + filename)
+        .delete(process.env.VUE_APP_URL + "/files/" + uuid)
         .then((res) => {
           console.log(res.data);
+          uploadedFiles.value.filter((uploadedFiles) => uploadedFiles.uuid != uuid)
           listFiles()
         })
         .catch((err) => {
@@ -118,6 +201,7 @@ export default defineComponent({
     function uploaded({ files, xhr }) {
       // alert('uploaded')
       let response = JSON.parse(xhr.response)
+      uploadedFiles.value.push(response.uuid);
       console.log(response)
       listFiles()
     }
@@ -183,7 +267,10 @@ export default defineComponent({
       uploaded,
       uploadFile,
       finished,
-      uploader
+      uploader,
+      uploadedFiles,
+      dialog: ref(false),
+      openURL
     };
   },
 });
