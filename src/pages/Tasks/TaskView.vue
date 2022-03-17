@@ -80,8 +80,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref, onActivated } from "vue";
+<script setup>
+import { ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
@@ -89,59 +89,45 @@ import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
 
 let isLoading = ref(false);
 
-export default defineComponent({
-  name: "TaskView",
-  components: {
-    TaskViewSkeleton,
-  },
-  setup() {
-    const route = useRoute();
-    let taskUuid = ref(route.params.uuid)
-    let taskDetails = ref(null);
 
-    function convertTime(datetime) {
-      let timeZone = "America/Los_Angeles";
-      const dateObject = new Date(datetime).toLocaleString("en-US", {
-        timeZone,
-      });
+const route = useRoute();
+let taskUuid = ref(route.params.uuid)
+let taskDetails = ref(null);
 
-      return dateObject;
-    }
+function convertTime(datetime) {
+  let timeZone = "America/Los_Angeles";
+  const dateObject = new Date(datetime).toLocaleString("en-US", {
+    timeZone,
+  });
 
-    function getDetails(uuid) {
-      api
-        .get("/tasks/" + uuid)
-        .then((res) => {
-          console.log(uuid);
-          console.log(res.data);
-          taskDetails.value = res.data;
-          isLoading.value = false;
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
-    }
+  return dateObject;
+}
 
-    onActivated(() => {
-      isLoading.value = true;
-      taskDetails.value = null; // Why? if not present data is fetched only once
-      getDetails(route.params.uuid)
+function getDetails(uuid) {
+  api
+    .get("/tasks/" + uuid)
+    .then((res) => {
+      console.log(uuid);
+      console.log(res.data);
+      taskDetails.value = res.data;
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
     });
+}
 
-    return {
-      slide: ref(1),
-      fullscreen: ref(false),
-      taskUuid,
-      isLoading,
-      taskDetails,
-      convertTime
-    };
-  },
+onActivated(() => {
+  isLoading.value = true;
+  taskDetails.value = null; // Why? if not present data is fetched only once
+  getDetails(route.params.uuid)
 });
+
+
 </script>

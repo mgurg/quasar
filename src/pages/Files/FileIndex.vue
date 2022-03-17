@@ -21,6 +21,8 @@
 
       <!-- @added="uploadImage" -->
       <q-btn class="q-ma-sm" @click="listFiles">Fetch file list</q-btn>
+      <q-btn class="q-ma-sm" @click="add">Add</q-btn>
+      <q-btn class="q-ma-sm" @click="remove">Remove</q-btn>
 
       <!-- <div class="q-pa-md q-gutter-sm">
         <div width="100%" v-for="(file, index) in s3Files" v-bind:key="index">
@@ -66,16 +68,17 @@
             >
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
-            <q-icon
+
+            <!-- <q-icon
               class="absolute all-pointer-events"
               size="sm"
               name="download"
               color="blue-grey-5"
               style="top: 8px; left: 8px"
-              @click="openURL(download_file(file.uuid))"
+              @click="window.open(download_file(file.uuid))"
             >
               <q-tooltip>Tooltip</q-tooltip>
-            </q-icon>
+            </q-icon>-->
           </q-img>
         </div>
       </div>
@@ -131,147 +134,143 @@
   <!-- https://www.reddit.com/r/FastAPI/comments/s0kp8m/uploading_fastapi_file_to_s3_bucket/ -->
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script setup>
 import { api } from "boot/axios";
 import { ref, reactive } from 'vue'
-import { openURL } from 'quasar'
 
 
 let s3Files = ref([]);
 let uploader = ref("");
 let uploadedFiles = ref([]);
-
-export default defineComponent({
-  name: "PageIndex",
-  setup() {
+let dialog = ref(false)
 
 
 
 
-    function listFiles() {
-      api
-        .get("/files/index")
-        .then((res) => {
+function add() {
+  uploadedFiles.value.push("b");
+}
 
-          s3Files.value = res.data;
-          console.log(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
 
-        });
-    }
+function remove(uuid) {
 
-    function download_file(uuid) {
+  // multiple
+  // let forDeletion = ["a"]
+  // uploadedFiles.value = uploadedFiles.value.filter(item => !forDeletion.includes(item))
 
-      return process.env.VUE_APP_URL + "/files/download/" + uuid
-    }
 
-    function uploadUrl() {
-      console.log(process.env.VUE_APP_URL + "/files/")
-      return process.env.VUE_APP_URL + "/files/"
-    }
+  // single
+  uploadedFiles.value = uploadedFiles.value.filter(item => item != "b")
+}
 
-    function delete_file(uuid) {
-      api
-        .delete(process.env.VUE_APP_URL + "/files/" + uuid)
-        .then((res) => {
-          console.log(res.data);
-          uploadedFiles.value.filter((uploadedFiles) => uploadedFiles.uuid != uuid)
-          listFiles()
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
-    }
+function listFiles() {
+  api
+    .get("/files/index")
+    .then((res) => {
 
-    function uploaded({ files, xhr }) {
-      // alert('uploaded')
-      let response = JSON.parse(xhr.response)
-      uploadedFiles.value.push(response.uuid);
-      console.log(response)
+      s3Files.value = res.data;
+      console.log(res.data);
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
+function download_file(uuid) {
+
+  return process.env.VUE_APP_URL + "/files/download/" + uuid
+}
+
+function uploadUrl() {
+  console.log(process.env.VUE_APP_URL + "/files/")
+  return process.env.VUE_APP_URL + "/files/"
+}
+
+function delete_file(uuid) {
+  api
+    .delete(process.env.VUE_APP_URL + "/files/" + uuid)
+    .then((res) => {
+      console.log(res.data);
+      uploadedFiles.value = uploadedFiles.value.filter(item => item !== uuid)
       listFiles()
-    }
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
-    function finished() {
+function uploaded({ files, xhr }) {
+  // alert('uploaded')
+  let response = JSON.parse(xhr.response)
+  uploadedFiles.value.push(response.uuid);
+  console.log(response)
+  listFiles()
+}
+
+function finished() {
 
 
-      return new Promise((resolve) => {
-        // simulating a delay of 2 seconds
-        setTimeout(() => {
-          resolve(
-            uploader.value.reset()
-          )
-        }, 1000)
-      })
+  return new Promise((resolve) => {
+    // simulating a delay of 2 seconds
+    setTimeout(() => {
+      resolve(
+        uploader.value.reset()
+      )
+    }, 1000)
+  })
 
 
-    }
+}
 
 
-    function uploadFile() {
-      alert('upload files')
+function uploadFile() {
+  alert('upload files')
 
-    }
+}
 
-    function uploadImage(file, updateProgress) {
-      alert('uploaded')
-      let formData = new FormData()
-      formData.append('file', file[0])
+function uploadImage(file, updateProgress) {
+  alert('uploaded')
+  let formData = new FormData()
+  formData.append('file', file[0])
 
-      api
-        .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
-    }
+  api
+    .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
     // https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
     // https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue
 
 
     // https://codepen.io/metalsadman/pen/YMvEbr?editors=1011
-    return {
-      s3Files,
-      delete_file,
-      download_file,
-      uploadUrl,
-      listFiles,
-      uploadImage,
-      uploaded,
-      uploadFile,
-      finished,
-      uploader,
-      uploadedFiles,
-      dialog: ref(false),
-      openURL
-    };
-  },
-});
+
+
 </script>

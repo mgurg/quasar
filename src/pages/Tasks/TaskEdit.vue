@@ -24,16 +24,22 @@
 
 
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
-import { defineComponent, onActivated, ref } from "vue";
+import { onActivated, ref } from "vue";
 import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
 import TaskForm from 'src/components/forms/TaskForm.vue'
-
-
 import { useRoute, useRouter } from "vue-router";
-
 import { api } from "boot/axios";
+
+const $q = useQuasar()
+
+const tasks = ref(null);
+const route = useRoute();
+const router = useRouter();
+let taskUuid = ref(route.params.uuid);
+let taskDetails = ref(null);
+let usersList = ref(null);
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -41,129 +47,101 @@ let isError = ref(false);
 let errorMsg = ref(null);
 let errors = ref(null);
 
-export default defineComponent({
-    name: "TaskEdit",
-    components: {
-        TaskEditSkeleton,
-        TaskForm
-    },
-    setup() {
-
-        const $q = useQuasar()
-
-        const tasks = ref(null);
-        const route = useRoute();
-        const router = useRouter();
-        let taskUuid = ref(route.params.uuid);
-        let taskDetails = ref(null);
-        let usersList = ref(null);
 
 
 
-        function updateTask(body) {
-            // isLoading.value = true;
-            api
-                .patch("/tasks/" + taskUuid.value, body)
-                .then((res) => {
-                    console.log(res.data);
-                    isLoading.value = false;
-                    router.push("/tasks");
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
 
-                });
-        }
-
-        function getDetails(uuid) {
-            api
-                .get("/tasks/" + uuid)
-                .then((res) => {
-                    console.log(uuid);
-                    console.log(res.data);
-                    taskDetails.value = res.data
-
-                    if (res.data.date_from == null) {
-                        taskDetails.value.mode = 'task'
-                    }
-                    // taskTitle.value = res.data.title
-                    // taskDescription.value = res.data.description
-                    // taskOwner.value = res.data.assignee.uuid
-
-                    // if (res.data.date_from != null) {
-                    //     planned.value = true;
-                    //     dateFrom.value = res.data.date_from
-                    //     dateTo.value = res.data.date_to
-                    // }
-
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-                });
-        }
-
-        function getUsers() {
-            api
-                .get("user/index")
-                .then((res) => {
-                    console.log(res.data)
-
-                    usersList.value = res.data.map((opt) => ({
-                        label: opt.first_name + ' ' + opt.last_name,
-                        value: opt.uuid,
-                    }));
-
-                    console.log(usersList.value);
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-                });
-        }
-
-
-
-        function signUpButtonPressed(taskForm) {
-            console.log('outside', taskForm)
-            updateTask(taskForm)
-            console.log('Add ok')
-        }
-
-        onActivated(() => {
-            if (route.params.uuid != null)
-                getDetails(route.params.uuid)
-            getUsers();
+function updateTask(body) {
+    // isLoading.value = true;
+    api
+        .patch("/tasks/" + taskUuid.value, body)
+        .then((res) => {
+            console.log(res.data);
             isLoading.value = false;
+            router.push("/tasks");
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+
         });
+}
+
+function getDetails(uuid) {
+    api
+        .get("/tasks/" + uuid)
+        .then((res) => {
+            console.log(uuid);
+            console.log(res.data);
+            taskDetails.value = res.data
+
+            if (res.data.date_from == null) {
+                taskDetails.value.mode = 'task'
+            }
+            // taskTitle.value = res.data.title
+            // taskDescription.value = res.data.description
+            // taskOwner.value = res.data.assignee.uuid
+
+            // if (res.data.date_from != null) {
+            //     planned.value = true;
+            //     dateFrom.value = res.data.date_from
+            //     dateTo.value = res.data.date_to
+            // }
+
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+        });
+}
+
+function getUsers() {
+    api
+        .get("user/index")
+        .then((res) => {
+            console.log(res.data)
+
+            usersList.value = res.data.map((opt) => ({
+                label: opt.first_name + ' ' + opt.last_name,
+                value: opt.uuid,
+            }));
+
+            console.log(usersList.value);
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+        });
+}
 
 
-        return {
-            errors,
-            isLoading,
-            isSuccess,
-            errorMsg,
-            usersList,
-            taskDetails,
-            signUpButtonPressed
-        };
-    },
+
+function signUpButtonPressed(taskForm) {
+    console.log('outside', taskForm)
+    updateTask(taskForm)
+    console.log('Add ok')
+}
+
+onActivated(() => {
+    if (route.params.uuid != null)
+        getDetails(route.params.uuid)
+    getUsers();
+    isLoading.value = false;
 });
 </script>
 

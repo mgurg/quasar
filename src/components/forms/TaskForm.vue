@@ -278,228 +278,205 @@
 // https://www.youtube.com/watch?v=9whgkjxoCME
 
 
-<script>
+<script setup>
 import { defineComponent, reactive, ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
 import * as yup from 'yup';
 
-export default defineComponent({
-    name: "TaskForm",
-    props: {
-        tasks: {
-            type: Object,
-            // Object or array defaults must be returned from
-            // a factory function
-            default() {
-                return {
-                    title: '',
-                    description: '',
-                    color: 'red',
-                    user: null,
-                    priority: '',
-                    mode: 'task',
-                    dtFormat: 'yyyy-MM-dd HH:mm',
-                    dateFrom: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat('yyyy-MM-dd HH:mm'),
-                    dateTo: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat('yyyy-MM-dd HH:mm'),
-                    date_from: null,
-                    date_to: null,
-                    all_day: false,
-                    interval: 1,
-                    freq: "weekly",
-                    weekDays: '',
+const props = defineProps({
+    tasks: {
+        type: Object,
+        // Object or array defaults must be returned from
+        // a factory function
+        default() {
+            return {
+                title: '',
+                description: '',
+                color: 'red',
+                user: null,
+                priority: '',
+                mode: 'task',
+                dtFormat: 'yyyy-MM-dd HH:mm',
+                dateFrom: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat('yyyy-MM-dd HH:mm'),
+                dateTo: DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat('yyyy-MM-dd HH:mm'),
+                date_from: null,
+                date_to: null,
+                all_day: false,
+                interval: 1,
+                freq: "weekly",
+                weekDays: '',
 
-                }
             }
-        },
-        usersList: {
-            type: Object,
-            default() {
-                return {
-                    label: null,
-                    value: null,
-                }
+        }
+    },
+    usersList: {
+        type: Object,
+        default() {
+            return {
+                label: null,
+                value: null,
             }
-        },
-
-        buttonText: {
-            type: String,
-            default: 'Save',
-        },
+        }
     },
 
-    emits: ['taskFormBtnClick'],
+    buttonText: {
+        type: String,
+        default: 'Save',
+    },
+})
+// emits: ['taskFormBtnClick'],
+const emit = defineEmits(['taskFormBtnClick'])
 
 
 
-    setup(props, { emit }) {
-        let isError = ref(false);
-        let isLoading = ref(false);
-        let users = ref(props.usersList);
-        let dtFormat = ref('yyyy-MM-dd HH:mm')
-        let qDtFormat = ref('YYYY-MM-DD HH:mm')
 
-        if (props.tasks.date_from == null) {
-            console.log('task')
-        }
-        let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
-        let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
+let isError = ref(false);
+let isLoading = ref(false);
+let users = ref(props.usersList);
+let dtFormat = ref('yyyy-MM-dd HH:mm')
+let qDtFormat = ref('YYYY-MM-DD HH:mm')
 
-        const { resetForm } = useForm();
+if (props.tasks.date_from == null) {
+    console.log('task')
+}
+let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
+let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
 
-        const validationSchema = yup.object({
-            taskColor: yup.string().required(),
-            taskTitle: yup.string().required(),
-            taskDescription: yup.string().required('A cool description is required').min(3),
-            taskAssignee: yup.string().nullable(),
-            taskPriority: yup.string().nullable(),
-            taskMode: yup.string().nullable(),
-            taskDateFrom: yup.string().test(
-                "check-startdate",
-                "Start Date should not be later than current date",
-                function (value) {
-                    if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-            ),
-            taskDateTo: yup.string().test(
-                "check-startdate",
-                "Start Date should not be later than current date",
-                function (value) {
-                    if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-            ),
-            taskAllDay: yup.bool().nullable(),
-            taskInterval: yup.number().min(1).max(999).nullable(),
-            taskFreq: yup.string().nullable(),
-            taskWeekDays: yup.array().of(yup.string()),
-        })
+const { resetForm } = useForm();
 
-
-        const { handleSubmit, errors } = useForm({
-            validationSchema
-        })
-
-        const { value: taskTitle } = useField('taskTitle', undefined, { initialValue: props.tasks.title })
-        const { value: taskDescription } = useField('taskDescription', undefined, { initialValue: props.tasks.description })
-        const { value: taskColor } = useField('taskColor', undefined, { initialValue: props.tasks.color })
-        const { value: taskAssignee } = useField('taskAssignee', undefined, { initialValue: props.tasks.user })
-        const { value: taskPriority } = useField('taskPriority', undefined, { initialValue: props.tasks.priority })
-        const { value: taskMode } = useField('taskMode', undefined, { initialValue: props.tasks.mode })
-        const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: initDateFrom.value })
-        const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: initDateTo.value })
-        const { value: taskAllDay } = useField('taskAllDay', undefined, { initialValue: props.tasks.all_day ?? false })
-        const { value: taskInterval } = useField('taskInterval', undefined, { initialValue: props.tasks.interval })
-        const { value: taskFreq } = useField('taskFreq', undefined, { initialValue: props.tasks.freq })
-        const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialValue: [props.tasks.weekDays] })
-
-
-        const submit = handleSubmit(values => {
-            // isLoading.value = true;
-
-
-            let userName = null;
-
-            if (typeof (taskAssignee.value) != 'undefined' || taskAssignee.value != null) {
-                userName = taskAssignee.value;
-            }
-
-
-            let data = {
-                "author_id": 0,
-                "color": taskColor.value,
-                "title": taskTitle.value,
-                "description": taskDescription.value,
-                "user": taskAssignee.value,
-                "priority": taskPriority.value,
-                "mode": taskMode.value,
-                "recurring": (taskMode.value == 'cyclic'),
-                "assignee": userName
-            }
-
-            if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
-                data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
-                data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
-                data.all_day = taskAllDay.value;
-            }
-
-            if (taskMode.value == 'cyclic') {
-                data.reccuring = true
-                data.interval = taskInterval.value
-                data.freq = taskFreq.value.toUpperCase()
-                data.at_Mo = taskWeekDays.value.includes('Mo')
-                data.at_Tu = taskWeekDays.value.includes('Tu')
-                data.at_We = taskWeekDays.value.includes('We')
-                data.at_Th = taskWeekDays.value.includes('Th')
-                data.at_Fr = taskWeekDays.value.includes('Fr')
-                data.at_Sa = taskWeekDays.value.includes('Sa')
-                data.at_Su = taskWeekDays.value.includes('Su')
-            }
-
-            console.log('submit');
-            console.log(data)
-            // createTasks(data);
-            emit('taskFormBtnClick', data)
-        })
-
-        // --------------- Form --------------
-
-        function allDaySwitch(inputDate) {
-            taskMode.value = 'planned';
-            if (taskAllDay.value == true) {
-                dtFormat.value = 'yyyy-MM-dd'
-                qDtFormat.value = 'YYYY-MM-DD'
-
-                taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
-                taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+const validationSchema = yup.object({
+    taskColor: yup.string().required(),
+    taskTitle: yup.string().required(),
+    taskDescription: yup.string().required('A cool description is required').min(3),
+    taskAssignee: yup.string().nullable(),
+    taskPriority: yup.string().nullable(),
+    taskMode: yup.string().nullable(),
+    taskDateFrom: yup.string().test(
+        "check-startdate",
+        "Start Date should not be later than current date",
+        function (value) {
+            if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
+                return false;
             } else {
-                qDtFormat.value = 'YYYY-MM-DD HH:mm'
-                dtFormat.value = 'yyyy-MM-dd HH:mm'
-
-                taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
-                taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+                return true;
             }
         }
+    ),
+    taskDateTo: yup.string().test(
+        "check-startdate",
+        "Start Date should not be later than current date",
+        function (value) {
+            if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    ),
+    taskAllDay: yup.bool().nullable(),
+    taskInterval: yup.number().min(1).max(999).nullable(),
+    taskFreq: yup.string().nullable(),
+    taskWeekDays: yup.array().of(yup.string()),
+})
 
-        const signUpButtonPressed = () => {
 
-            emit('taskFormBtnClick', task)
-            // console.log(task);
-        };
+const { handleSubmit, errors } = useForm({
+    validationSchema
+})
+
+const { value: taskTitle } = useField('taskTitle', undefined, { initialValue: props.tasks.title })
+const { value: taskDescription } = useField('taskDescription', undefined, { initialValue: props.tasks.description })
+const { value: taskColor } = useField('taskColor', undefined, { initialValue: props.tasks.color })
+const { value: taskAssignee } = useField('taskAssignee', undefined, { initialValue: props.tasks.user })
+const { value: taskPriority } = useField('taskPriority', undefined, { initialValue: props.tasks.priority })
+const { value: taskMode } = useField('taskMode', undefined, { initialValue: props.tasks.mode })
+const { value: taskDateFrom } = useField('taskDateFrom', undefined, { initialValue: initDateFrom.value })
+const { value: taskDateTo } = useField('taskDateTo', undefined, { initialValue: initDateTo.value })
+const { value: taskAllDay } = useField('taskAllDay', undefined, { initialValue: props.tasks.all_day ?? false })
+const { value: taskInterval } = useField('taskInterval', undefined, { initialValue: props.tasks.interval })
+const { value: taskFreq } = useField('taskFreq', undefined, { initialValue: props.tasks.freq })
+const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialValue: [props.tasks.weekDays] })
 
 
-        return {
-            qDtFormat,
-            errors,
-            isError,
-            isLoading,
-            taskColor,
-            taskTitle,
-            taskDescription,
-            taskAssignee,
-            users,
-            taskPriority,
-            taskMode,
-            taskDateFrom,
-            taskDateTo,
-            taskAllDay,
-            taskInterval,
-            taskFreq,
-            taskWeekDays,
-            signUpButtonPressed,
-            submit,
-            allDaySwitch
-        };
+const submit = handleSubmit(values => {
+    // isLoading.value = true;
+
+
+    let userName = null;
+
+    if (typeof (taskAssignee.value) != 'undefined' || taskAssignee.value != null) {
+        userName = taskAssignee.value;
     }
 
-});
+
+    let data = {
+        "author_id": 0,
+        "color": taskColor.value,
+        "title": taskTitle.value,
+        "description": taskDescription.value,
+        "user": taskAssignee.value,
+        "priority": taskPriority.value,
+        "mode": taskMode.value,
+        "recurring": (taskMode.value == 'cyclic'),
+        "assignee": userName
+    }
+
+    if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
+        data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
+        data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
+        data.all_day = taskAllDay.value;
+    }
+
+    if (taskMode.value == 'cyclic') {
+        data.reccuring = true
+        data.interval = taskInterval.value
+        data.freq = taskFreq.value.toUpperCase()
+        data.at_Mo = taskWeekDays.value.includes('Mo')
+        data.at_Tu = taskWeekDays.value.includes('Tu')
+        data.at_We = taskWeekDays.value.includes('We')
+        data.at_Th = taskWeekDays.value.includes('Th')
+        data.at_Fr = taskWeekDays.value.includes('Fr')
+        data.at_Sa = taskWeekDays.value.includes('Sa')
+        data.at_Su = taskWeekDays.value.includes('Su')
+    }
+
+    console.log('submit');
+    console.log(data)
+    // createTasks(data);
+    emit('taskFormBtnClick', data)
+})
+
+// --------------- Form --------------
+
+function allDaySwitch(inputDate) {
+    taskMode.value = 'planned';
+    if (taskAllDay.value == true) {
+        dtFormat.value = 'yyyy-MM-dd'
+        qDtFormat.value = 'YYYY-MM-DD'
+
+        taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+        taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd HH:mm').toFormat(dtFormat.value)
+    } else {
+        qDtFormat.value = 'YYYY-MM-DD HH:mm'
+        dtFormat.value = 'yyyy-MM-dd HH:mm'
+
+        taskDateFrom.value = DateTime.fromFormat(taskDateFrom.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+        taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
+    }
+}
+
+const signUpButtonPressed = () => {
+
+    emit('taskFormBtnClick', task)
+    // console.log(task);
+};
+
+
+
+
+
+
 </script>
 
 

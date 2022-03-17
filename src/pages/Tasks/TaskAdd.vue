@@ -28,8 +28,8 @@
 </template>
 
 
-<script>
-import { defineComponent, onActivated, reactive, ref } from "vue";
+<script setup>
+import { onActivated, reactive, ref } from "vue";
 import TaskForm from 'src/components/forms/TaskForm.vue'
 import { api } from "boot/axios";
 
@@ -39,90 +39,74 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 
-export default defineComponent({
-    name: "TaskAdd",
-    components: {
-        TaskForm,
-    },
-    setup() {
-
-        let usersList = ref([]);
-        let usr = ref([{
-            label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-        }, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]);
+let usersList = ref([]);
+let usr = ref([{
+    label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
+}, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]);
 
 
 
-        function createTasks(body) {
-            isLoading.value = true;
-            api
-                .post("/tasks/add", body)
-                .then((res) => {
-                    console.log(res.data);
-                    isLoading.value = false;
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-
-                });
-        }
-
-        function getUsers() {
-            api
-                .get("user/index")
-                .then((res) => {
-                    console.log(res.data)
-
-                    usersList.value = res.data.map((opt) => ({
-                        label: opt.first_name + ' ' + opt.last_name,
-                        value: opt.uuid,
-                    }));
-                    console.log("usersList.value");
-                    console.log(usersList.value);
-                    isSuccess.value = true
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-                });
-        }
-
-
-
-        function signUpButtonPressed(taskForm) {
-            console.log('outside', taskForm)
-            createTasks(taskForm)
-            console.log('Add ok')
-        }
-
-
-        onActivated(() => {
-            isLoading.value = true;
-            getUsers();
+function createTasks(body) {
+    isLoading.value = true;
+    api
+        .post("/tasks/add", body)
+        .then((res) => {
+            console.log(res.data);
             isLoading.value = false;
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+
         });
+}
+
+function getUsers() {
+    api
+        .get("user/index")
+        .then((res) => {
+            console.log(res.data)
+
+            usersList.value = res.data.map((opt) => ({
+                label: opt.first_name + ' ' + opt.last_name,
+                value: opt.uuid,
+            }));
+            console.log("usersList.value");
+            console.log(usersList.value);
+            isSuccess.value = true
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+        });
+}
 
 
-        return {
-            usr,
-            isSuccess,
-            isLoading,
-            usersList,
-            signUpButtonPressed
-        };
-    },
+
+function signUpButtonPressed(taskForm) {
+    console.log('outside', taskForm)
+    createTasks(taskForm)
+    console.log('Add ok')
+}
+
+
+onActivated(() => {
+    isLoading.value = true;
+    getUsers();
+    isLoading.value = false;
 });
+
+
 </script>
 
 <style lang="scss"  scoped>
