@@ -39,12 +39,57 @@
             <q-input
                 outlined
                 type="textarea"
+                rows="5"
                 v-model="taskDescription"
                 :disable="isLoading"
                 :error="!!errors.taskDescription"
                 :error-message="errors.taskDescription"
                 :label="$t('Task description')"
             />
+
+            <!-- UPLOADER -->
+            <q-uploader
+                :url="uploadUrl"
+                @uploaded="uploaded"
+                @finish="finished"
+                ref="uploader"
+                :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
+                field-name="file"
+                label="No thumbnails"
+                color="amber"
+                accept=".jpg, image/*"
+                flat
+                bordered
+                text-color="black"
+                no-thumbnails
+                style="width: auto;"
+            />
+            <!-- IMG -->
+            <div class="row q-col-gutter-xs">
+                <div
+                    class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
+                    v-for="(file, index) in attachments"
+                    v-bind:key="index"
+                >
+                    <q-img
+                        :src="download_file(file.uuid)"
+                        spinner-color="black"
+                        style="height: 100%; width:100% "
+                        fit="contain"
+                    >
+                        <q-icon
+                            class="absolute all-pointer-events"
+                            size="sm"
+                            name="delete"
+                            color="blue-grey-5"
+                            style="top: 8px; right: 8px"
+                            @click="delete_file(file.uuid)"
+                        >
+                            <q-tooltip>Tooltip</q-tooltip>
+                        </q-icon>
+                    </q-img>
+                </div>
+            </div>
             <!-- User -->
             <q-select
                 outlined
@@ -268,7 +313,6 @@
                 </div>
             </div>
             <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
-            <!-- <q-btn :label="buttonText" type="submit" color="primary" @click="signUpButtonPressed" /> -->
         </q-form>
     </div>
 </template>
@@ -279,10 +323,11 @@
 
 
 <script setup>
-import { defineComponent, reactive, ref } from "vue";
+import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
 import * as yup from 'yup';
+import { api } from "boot/axios";
 
 const props = defineProps({
     tasks: {
@@ -306,6 +351,7 @@ const props = defineProps({
                 interval: 1,
                 freq: "weekly",
                 weekDays: '',
+                file: [],
 
             }
         }
@@ -328,20 +374,75 @@ const props = defineProps({
 // emits: ['taskFormBtnClick'],
 const emit = defineEmits(['taskFormBtnClick'])
 
-
-
-
 let isError = ref(false);
 let isLoading = ref(false);
 let users = ref(props.usersList);
 let dtFormat = ref('yyyy-MM-dd HH:mm')
 let qDtFormat = ref('YYYY-MM-DD HH:mm')
 
+
 if (props.tasks.date_from == null) {
     console.log('task')
 }
 let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 15 }).toFormat(dtFormat.value));
 let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 }).toFormat(dtFormat.value));
+
+// --------------- UPLOADER ---------------
+console.log("props file: ", props.tasks.file)
+let attachments = ref(props.tasks.file);
+let uploader = ref("");
+
+function download_file(uuid) {
+
+    return process.env.VUE_APP_URL + "/files/download/" + uuid
+}
+
+function uploadUrl() {
+    console.log(process.env.VUE_APP_URL + "/files/")
+    return process.env.VUE_APP_URL + "/files/"
+}
+
+function uploaded({ files, xhr }) {
+    // alert('uploaded')
+    let response = JSON.parse(xhr.response)
+    attachments.value.push(response);
+    console.log("attachments response", response)
+    console.log("attachments", attachments.value)
+    //   listFiles()
+}
+
+function finished() {
+    return new Promise((resolve) => {
+        // simulating a delay of 2 seconds
+        setTimeout(() => {
+            resolve(
+                uploader.value.reset()
+            )
+        }, 1000)
+    })
+}
+
+function delete_file(uuid) {
+    api
+        .delete(process.env.VUE_APP_URL + "/files/" + uuid)
+        .then((res) => {
+            console.log(res.data);
+            attachments.value = attachments.value.filter(item => item !== uuid)
+            console.log("after delete: ", attachments.value);
+            //   listFiles()
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+        });
+}
+
+// --------------- Form --------------
 
 const { resetForm } = useForm();
 
@@ -401,14 +502,11 @@ const { value: taskWeekDays } = useField('taskWeekDays', undefined, { initialVal
 
 const submit = handleSubmit(values => {
     // isLoading.value = true;
-
-
     let userName = null;
 
     if (typeof (taskAssignee.value) != 'undefined' || taskAssignee.value != null) {
         userName = taskAssignee.value;
     }
-
 
     let data = {
         "author_id": 0,
@@ -419,7 +517,8 @@ const submit = handleSubmit(values => {
         "priority": taskPriority.value,
         "mode": taskMode.value,
         "recurring": (taskMode.value == 'cyclic'),
-        "assignee": userName
+        "assignee": userName,
+        "files": attachments.value.map(a => a.uuid)
     }
 
     if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
@@ -465,18 +564,6 @@ function allDaySwitch(inputDate) {
         taskDateTo.value = DateTime.fromFormat(taskDateTo.value, 'yyyy-MM-dd').toFormat(dtFormat.value)
     }
 }
-
-const signUpButtonPressed = () => {
-
-    emit('taskFormBtnClick', task)
-    // console.log(task);
-};
-
-
-
-
-
-
 </script>
 
 

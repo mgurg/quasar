@@ -145,8 +145,6 @@ let uploadedFiles = ref([]);
 let dialog = ref(false)
 
 
-
-
 function add() {
   uploadedFiles.value.push("b");
 }
@@ -157,7 +155,6 @@ function remove(uuid) {
   // multiple
   // let forDeletion = ["a"]
   // uploadedFiles.value = uploadedFiles.value.filter(item => !forDeletion.includes(item))
-
 
   // single
   uploadedFiles.value = uploadedFiles.value.filter(item => item != "b")
