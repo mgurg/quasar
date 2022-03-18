@@ -21,11 +21,13 @@
 
       <!-- @added="uploadImage" -->
       <q-btn class="q-ma-sm" @click="listFiles">Fetch file list</q-btn>
+      <q-btn class="q-ma-sm" @click="add">Add</q-btn>
+      <q-btn class="q-ma-sm" @click="remove">Remove</q-btn>
 
-      <div class="q-pa-md q-gutter-sm">
+      <!-- <div class="q-pa-md q-gutter-sm">
         <div width="100%" v-for="(file, index) in s3Files" v-bind:key="index">
           <q-img
-            :src="download_file(file.name)"
+            :src="download_file(file.file_name)"
             spinner-color="black"
             style="height: 140px; max-width: 150px"
           >
@@ -35,13 +37,90 @@
               name="delete"
               color="white"
               style="top: 8px; right: 8px"
-              @click="delete_file(file.name)"
+              @click="delete_file(file.file_name)"
             >
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
           </q-img>
         </div>
+      </div>-->
+      <h3>IMGs</h3>
+
+      <div class="row q-col-gutter-xs">
+        <div
+          class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
+          v-for="(file, index) in s3Files"
+          v-bind:key="index"
+        >
+          <q-img
+            :src="download_file(file.uuid)"
+            spinner-color="black"
+            style="height: 100%; width:100% "
+            fit="contain"
+          >
+            <q-icon
+              class="absolute all-pointer-events"
+              size="sm"
+              name="delete"
+              color="blue-grey-5"
+              style="top: 8px; right: 8px"
+              @click="delete_file(file.uuid)"
+            >
+              <q-tooltip>Tooltip</q-tooltip>
+            </q-icon>
+
+            <!-- <q-icon
+              class="absolute all-pointer-events"
+              size="sm"
+              name="download"
+              color="blue-grey-5"
+              style="top: 8px; left: 8px"
+              @click="window.open(download_file(file.uuid))"
+            >
+              <q-tooltip>Tooltip</q-tooltip>
+            </q-icon>-->
+          </q-img>
+        </div>
       </div>
+      <span>{{ uploadedFiles }}</span>
+
+      <q-img
+        class="q-pa-md"
+        src="https://picsum.photos/1920/1080"
+        :ratio="16 / 9"
+        @click="dialog = true"
+        style="max-width: 300px;"
+      >
+        <q-icon
+          class="absolute all-pointer-events"
+          size="32px"
+          name="file_download"
+          color="white"
+          style="top: 8px; left: 8px "
+        >
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-icon>
+      </q-img>
+
+      <q-dialog
+        v-model="dialog"
+        persistent
+        transition-show="slide-up"
+        transition-hide="slide-down"
+        :maximized="true"
+      >
+        <q-card class="bg-primary text-white">
+          <q-bar>
+            <q-space />
+
+            <q-btn dense flat icon="close" v-close-popup>
+              <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>
+
+          <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
+        </q-card>
+      </q-dialog>
     </q-page>
   </div>
   <!-- https://github.com/tharindu1989/aws-test/blob/1a55c019ff859ed1a42237225c47f51c468eea20/ImageViewApp/src/pages/AmazonImage.vue -->
@@ -55,136 +134,140 @@
   <!-- https://www.reddit.com/r/FastAPI/comments/s0kp8m/uploading_fastapi_file_to_s3_bucket/ -->
 </template>
 
-<script>
-import { defineComponent } from "vue";
+<script setup>
 import { api } from "boot/axios";
 import { ref, reactive } from 'vue'
 
+
 let s3Files = ref([]);
 let uploader = ref("");
+let uploadedFiles = ref([]);
+let dialog = ref(false)
 
-export default defineComponent({
-  name: "PageIndex",
-  setup() {
 
-    function listFiles() {
-      api
-        .get("/s3/list_files")
-        .then((res) => {
+function add() {
+  uploadedFiles.value.push("b");
+}
 
-          s3Files.value = res.data;
-          console.log(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
 
-        });
-    }
+function remove(uuid) {
 
-    function download_file(filename) {
+  // multiple
+  // let forDeletion = ["a"]
+  // uploadedFiles.value = uploadedFiles.value.filter(item => !forDeletion.includes(item))
 
-      return process.env.VUE_APP_URL + "/s3/get_s3_obj/?s3_obj=" + filename
-    }
+  // single
+  uploadedFiles.value = uploadedFiles.value.filter(item => item != "b")
+}
 
-    function uploadUrl() {
-      console.log(process.env.VUE_APP_URL + "/s3/upload/")
-      return process.env.VUE_APP_URL + "/s3/upload/"
-    }
+function listFiles() {
+  api
+    .get("/files/index")
+    .then((res) => {
 
-    function delete_file(filename) {
-      api
-        .delete(process.env.VUE_APP_URL + "/s3/delete_file/?objectName=" + filename)
-        .then((res) => {
-          console.log(res.data);
-          listFiles()
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
-    }
+      s3Files.value = res.data;
+      console.log(res.data);
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
 
-    function uploaded({ files, xhr }) {
-      // alert('uploaded')
-      let response = JSON.parse(xhr.response)
-      console.log(response)
+    });
+}
+
+function download_file(uuid) {
+
+  return process.env.VUE_APP_URL + "/files/download/" + uuid
+}
+
+function uploadUrl() {
+  console.log(process.env.VUE_APP_URL + "/files/")
+  return process.env.VUE_APP_URL + "/files/"
+}
+
+function delete_file(uuid) {
+  api
+    .delete(process.env.VUE_APP_URL + "/files/" + uuid)
+    .then((res) => {
+      console.log(res.data);
+      uploadedFiles.value = uploadedFiles.value.filter(item => item !== uuid)
       listFiles()
-    }
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
-    function finished() {
+function uploaded({ files, xhr }) {
+  // alert('uploaded')
+  let response = JSON.parse(xhr.response)
+  uploadedFiles.value.push(response.uuid);
+  console.log(response)
+  listFiles()
+}
+
+function finished() {
 
 
-      return new Promise((resolve) => {
-        // simulating a delay of 2 seconds
-        setTimeout(() => {
-          resolve(
-            uploader.value.reset()
-          )
-        }, 1000)
-      })
+  return new Promise((resolve) => {
+    // simulating a delay of 2 seconds
+    setTimeout(() => {
+      resolve(
+        uploader.value.reset()
+      )
+    }, 1000)
+  })
 
 
-    }
+}
 
 
-    function uploadFile() {
-      alert('upload files')
+function uploadFile() {
+  alert('upload files')
 
-    }
+}
 
-    function uploadImage(file, updateProgress) {
-      alert('uploaded')
-      let formData = new FormData()
-      formData.append('file', file[0])
+function uploadImage(file, updateProgress) {
+  alert('uploaded')
+  let formData = new FormData()
+  formData.append('file', file[0])
 
-      api
-        .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
-    }
+  api
+    .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
     // https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
     // https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue
 
 
     // https://codepen.io/metalsadman/pen/YMvEbr?editors=1011
-    return {
-      s3Files,
-      delete_file,
-      download_file,
-      uploadUrl,
-      listFiles,
-      uploadImage,
-      uploaded,
-      uploadFile,
-      finished,
-      uploader
-    };
-  },
-});
+
+
 </script>

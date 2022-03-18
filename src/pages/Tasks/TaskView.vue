@@ -25,6 +25,42 @@
         </q-item>
 
         <q-separator />
+        <div class="row q-col-gutter-xs">
+          <div
+            class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
+            v-for="(file, index) in taskDetails.file"
+            v-bind:key="index"
+          >
+            <q-img
+              :src="downloadFileUrl(file.uuid)"
+              spinner-color="black"
+              style="height: 100%; width:100% "
+              fit="contain"
+            >
+              <!-- <q-icon
+              class="absolute all-pointer-events"
+              size="sm"
+              name="delete"
+              color="blue-grey-5"
+              style="top: 8px; right: 8px"
+              @click="delete_file(file.uuid)"
+            >
+              <q-tooltip>Tooltip</q-tooltip>
+              </q-icon>-->
+
+              <!-- <q-icon
+              class="absolute all-pointer-events"
+              size="sm"
+              name="download"
+              color="blue-grey-5"
+              style="top: 8px; left: 8px"
+              @click="window.open(download_file(file.uuid))"
+            >
+              <q-tooltip>Tooltip</q-tooltip>
+              </q-icon>-->
+            </q-img>
+          </div>
+        </div>
         <!-- IMG -->
         <!-- <q-carousel
           swipeable
@@ -80,68 +116,59 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref, onActivated } from "vue";
+<script setup>
+import { ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { api } from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
 
 let isLoading = ref(false);
+let slide = ref(1);
 
-export default defineComponent({
-  name: "TaskView",
-  components: {
-    TaskViewSkeleton,
-  },
-  setup() {
-    const route = useRoute();
-    let taskUuid = ref(route.params.uuid)
-    let taskDetails = ref(null);
 
-    function convertTime(datetime) {
-      let timeZone = "America/Los_Angeles";
-      const dateObject = new Date(datetime).toLocaleString("en-US", {
-        timeZone,
-      });
+const route = useRoute();
+let taskUuid = ref(route.params.uuid)
+let taskDetails = ref(null);
 
-      return dateObject;
-    }
+function downloadFileUrl(uuid) {
+  return process.env.VUE_APP_URL + "/files/download/" + uuid
+}
 
-    function getDetails(uuid) {
-      api
-        .get("/tasks/" + uuid)
-        .then((res) => {
-          console.log(uuid);
-          console.log(res.data);
-          taskDetails.value = res.data;
-          isLoading.value = false;
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
-    }
+function convertTime(datetime) {
+  let timeZone = "America/Los_Angeles";
+  const dateObject = new Date(datetime).toLocaleString("en-US", {
+    timeZone,
+  });
 
-    onActivated(() => {
-      isLoading.value = true;
-      taskDetails.value = null; // Why? if not present data is fetched only once
-      getDetails(route.params.uuid)
+  return dateObject;
+}
+
+function getDetails(uuid) {
+  api
+    .get("/tasks/" + uuid)
+    .then((res) => {
+      console.log(uuid);
+      console.log(res.data);
+      taskDetails.value = res.data;
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
     });
+}
 
-    return {
-      slide: ref(1),
-      fullscreen: ref(false),
-      taskUuid,
-      isLoading,
-      taskDetails,
-      convertTime
-    };
-  },
+onActivated(() => {
+  isLoading.value = true;
+  taskDetails.value = null; // Why? if not present data is fetched only once
+  getDetails(route.params.uuid)
 });
+
+
 </script>

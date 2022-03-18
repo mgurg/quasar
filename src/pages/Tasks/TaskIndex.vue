@@ -37,11 +37,8 @@
   </div>
 </template>
 
-<script>
-import { useQuasar } from 'quasar'
-import { defineComponent, onActivated, ref, computed } from "vue";
-import { DateTime } from 'luxon';
-import { useRouter } from "vue-router";
+<script setup>
+import { onActivated, ref, computed } from "vue";
 import { api } from "boot/axios";
 
 import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
@@ -53,88 +50,62 @@ let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
 
-export default defineComponent({
-  name: "TaskIndex",
-  components: {
-    TaskIndexSkeleton,
-    TaskItem
-  },
-  setup() {
-
-    const tasks = ref(null);
-    let selected = ref(null);
+const tasks = ref(null);
+let selected = ref(null);
 
 
-    const myTasks = computed(() => {
-      console.log("my",)
-      if (tasks.value != null && tasks.value.assignee != null && isLoading.value == false) {
-
-        return tasks.value.filter((task) => task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d")
-      } else {
-        return null;
-      }
-    });
-
-    const otherTasks = computed(() => {
-      console.log("other",)
-      if (tasks.value != null && tasks.value.assignee != null && isLoading.value == false) {
-
-        return tasks.value.filter((task) => task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d")
-      } else {
-        return tasks.value;
-      }
-    });
-
-
-
-    function fetchTasks() {
-      api
-        .get("/tasks/index?offset=0&limit=20")
-        .then((res) => {
-          tasks.value = res.data
-          console.log(res.data);
-          isLoading.value = false;
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-
-        });
-    }
-
-
-    function selectTask(uuid) {
-      if (selected.value == null) {
-        selected.value = uuid;
-      } else if (selected.value !== uuid) {
-        selected.value = uuid;
-      } else {
-        selected.value = null;
-      }
-    }
-
-    onActivated(() => {
-      isLoading.value = true;
-      fetchTasks()
-    });
-
-    return {
-      isLoading,
-      isSuccess,
-      errorMsg,
-      myTasks,
-      otherTasks,
-      selected,
-      fetchTasks,
-      selectTask,
-
-
-    };
-  },
+const myTasks = computed(() => {
+  if (tasks.value != null && isLoading.value == false) {
+    return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
+  } else {
+    return null;
+  }
 });
+
+const otherTasks = computed(() => {
+  if (tasks.value != null  && isLoading.value == false) {
+    return tasks.value.filter(task => (task.assignee == null || task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
+  } else {
+    return tasks.value;
+  }
+});
+
+
+function fetchTasks() {
+  api
+    .get("/tasks/index?offset=0&limit=20")
+    .then((res) => {
+      tasks.value = res.data
+      console.log(res.data);
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
+
+function selectTask(uuid) {
+  if (selected.value == null) {
+    selected.value = uuid;
+  } else if (selected.value !== uuid) {
+    selected.value = uuid;
+  } else {
+    selected.value = null;
+  }
+}
+
+onActivated(() => {
+  isLoading.value = true;
+  fetchTasks()
+});
+
+
 </script>

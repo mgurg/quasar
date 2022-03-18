@@ -84,10 +84,6 @@ const emit = defineEmits(['selectedItem'])
 const handleSelect = (uuid) => {
     emit('selectedItem', uuid)
 }
-// const emit = defineEmits
-console.log('props.task ', props.task.uuid)
-console.log('props.selected ', props.selected)
-
 
 const units = [
     'year',
