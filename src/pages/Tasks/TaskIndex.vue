@@ -55,10 +55,10 @@ let selected = ref(null);
 
 
 const myTasks = computed(() => {
-  console.log("my",)
-  if (tasks.value != null && tasks.value.assignee != null && isLoading.value == false) {
 
-    return tasks.value.filter((task) => task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d")
+  if (tasks.value != null && isLoading.value == false) {
+
+    return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
   } else {
     return null;
   }
@@ -66,9 +66,8 @@ const myTasks = computed(() => {
 
 const otherTasks = computed(() => {
   console.log("other",)
-  if (tasks.value != null && tasks.value.assignee != null && isLoading.value == false) {
-
-    return tasks.value.filter((task) => task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d")
+  if (tasks.value != null  && isLoading.value == false) {
+    return tasks.value.filter(task => (task.assignee == null || task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
   } else {
     return tasks.value;
   }

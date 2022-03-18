@@ -58,11 +58,13 @@
                 label="No thumbnails"
                 color="amber"
                 accept=".jpg, image/*"
+                auto-upload
                 flat
                 bordered
                 text-color="black"
                 no-thumbnails
                 style="width: auto;"
+                v-if="attachments.length <= 4"
             />
             <!-- IMG -->
             <div class="row q-col-gutter-xs">
@@ -427,7 +429,7 @@ function delete_file(uuid) {
         .delete(process.env.VUE_APP_URL + "/files/" + uuid)
         .then((res) => {
             console.log(res.data);
-            attachments.value = attachments.value.filter(item => item !== uuid)
+            attachments.value = attachments.value.filter(item => item.uuid !== uuid)
             console.log("after delete: ", attachments.value);
             //   listFiles()
         })

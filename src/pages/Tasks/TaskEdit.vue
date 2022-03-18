@@ -83,16 +83,6 @@ function getDetails(uuid) {
             if (res.data.date_from == null) {
                 taskDetails.value.mode = 'task'
             }
-            // taskTitle.value = res.data.title
-            // taskDescription.value = res.data.description
-            // taskOwner.value = res.data.assignee.uuid
-
-            // if (res.data.date_from != null) {
-            //     planned.value = true;
-            //     dateFrom.value = res.data.date_from
-            //     dateTo.value = res.data.date_to
-            // }
-
         })
         .catch((err) => {
             if (err.response) {
@@ -134,7 +124,7 @@ function getUsers() {
 function signUpButtonPressed(taskForm) {
     console.log('outside', taskForm)
     updateTask(taskForm)
-    console.log('Add ok')
+    console.log('Edit ok')
 }
 
 onActivated(() => {
