@@ -2,10 +2,11 @@
     <div @click="handleSelect(task.uuid)">
         <q-item :class="{ 'done bg-blue-1': task.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewTask(task.uuid)">
-                <q-avatar rounded>
+            <q-avatar rounded color="red" text-color="white" icon="question_mark" />
+                <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />
                     <q-badge floating rounded color="green" />
-                </q-avatar>
+                </q-avatar> -->
             </q-item-section>
 
             <q-item-section>

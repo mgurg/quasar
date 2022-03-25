@@ -96,9 +96,44 @@
         <!-- IMG -->
 
         <q-card-actions align="right">
-          <q-btn flat round color="red" icon="lock_open">Start</q-btn>
-          <q-btn flat round color="teal" icon="pause_circle_outline">Hold</q-btn>
-          <q-btn flat round color="primary" icon="done">Done</q-btn>
+          <q-btn
+            flat
+            color="primary"
+            icon="done"
+            v-if="taskDetails.status == null"
+            @click="changeState('accepted')"
+          >Accept</q-btn>
+
+          <q-btn
+            flat
+            color="red"
+            icon="lock_open"
+            v-if="taskDetails.status == null"
+            @click="changeState('rejected')"
+          >Reject</q-btn>
+
+          <q-btn
+            flat
+            color="red"
+            icon="play_arrow"
+            v-if="taskDetails.status == 'accepted' || taskDetails.status == 'paused'"
+            @click="changeState('start')"
+          >Start</q-btn>
+          <q-btn
+            flat
+            color="teal"
+            icon="pause"
+            v-if="taskDetails.status == ('in_progress')"
+            @click="changeState('pause')"
+          >Hold</q-btn>
+
+          <q-btn
+            flat
+            color="primary"
+            icon="stop"
+            v-if="taskDetails.status != null"
+            @click="changeState('stop')"
+          >Done</q-btn>
         </q-card-actions>
 
         <q-card-section class="q-pt-none">{{ taskDetails.description }}</q-card-section>
@@ -152,6 +187,28 @@ function getDetails(uuid) {
       console.log(res.data);
       taskDetails.value = res.data;
       isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
+
+function changeState(state) {
+  api
+    .post("tasks/action/" + taskDetails.value.uuid, { "action_type": state })
+    .then((res) => {
+      console.log(uuid);
+      console.log(res.data);
+
+      // getDetails(taskDetails.value.uuid);
+      // taskDetails.value = res.data;
+      // isLoading.value = false;
     })
     .catch((err) => {
       if (err.response) {
