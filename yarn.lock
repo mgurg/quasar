@@ -7224,7 +7224,7 @@ vue3-swatches@^1.0.5:
   resolved "https://registry.yarnpkg.com/vue3-swatches/-/vue3-swatches-1.0.7.tgz#1b6df1fca52c7a145950f287b6785dfb1866c582"
   integrity sha512-kqmMedoyzP9lYUVOzjhrtuXxoxj/GZYIwUF+n0sutVCH6IClMOCSBptkFaPugbAkw4X/rg2pxEdxtIu6QaLErA==
 
-vue@^3.0.0:
+vue@^3.2.0:
   version "3.2.31"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.31.tgz#e0c49924335e9f188352816788a4cca10f817ce6"
   integrity sha512-odT3W2tcffTiQCy57nOT93INw1auq5lYLLYtWpPYQQYQOOdHiqFct9Xhna6GJ+pJQaF67yZABraH47oywkJgFw==

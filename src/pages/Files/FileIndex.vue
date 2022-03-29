@@ -1,6 +1,7 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-toggle v-model="store.counter" />
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
 
       <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
@@ -150,6 +151,7 @@
           </q-bar>
 
           <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
+          
         </q-card>
       </q-dialog>
     </q-page>
@@ -168,8 +170,11 @@
 <script setup>
 import { api } from "boot/axios";
 import { ref, reactive } from 'vue'
+import { computed } from 'vue'
+import { useCounterStore } from 'stores/counter'
 import Compressor from 'compressorjs';
 
+const store = useCounterStore()
 
 let s3Files = ref([]);
 let uploader = ref("");
