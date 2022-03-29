@@ -2,11 +2,45 @@
     <div @click="handleSelect(task.uuid)">
         <q-item :class="{ 'done bg-blue-1': task.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewTask(task.uuid)">
-            <q-avatar rounded color="red" text-color="white" icon="question_mark" />
+                <q-avatar
+                    rounded
+                    color="red"
+                    text-color="white"
+                    icon="question_mark"
+                    v-if="task.status == null"
+                />
+                <q-avatar
+                    rounded
+                    color="blue"
+                    text-color="white"
+                    icon="done"
+                    v-if="task.status == 'done'"
+                />
+                <q-avatar
+                    rounded
+                    color="accent"
+                    text-color="white"
+                    icon="how_to_reg"
+                    v-if="task.status == 'accepted'"
+                />
+                <q-avatar
+                    rounded
+                    color="orange"
+                    text-color="white"
+                    icon="pause"
+                    v-if="task.status == 'paused'"
+                />
+                <q-avatar
+                    rounded
+                    color="green"
+                    text-color="white"
+                    icon="fast_forward"
+                    v-if="task.status == 'in_progress'"
+                />
                 <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />
                     <q-badge floating rounded color="green" />
-                </q-avatar> -->
+                </q-avatar>-->
             </q-item-section>
 
             <q-item-section>
@@ -64,6 +98,7 @@ const props = defineProps({
         default() {
             return {
                 uuid: '1',
+                status: null,
                 title: 'Tile',
                 description: 'Desc',
                 assignee: {
