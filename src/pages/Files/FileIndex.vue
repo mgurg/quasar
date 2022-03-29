@@ -3,21 +3,52 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
 
+      <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
       <q-uploader
-        :url="uploadUrl"
+        :hide-upload-btn="true"
         ref="uploader"
         :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
         field-name="file"
-        auto-upload
         label="No thumbnails"
         color="amber"
         text-color="black"
         no-thumbnails
         accept=".jpg, image/*"
         style="max-width: 300px"
+        @added="uploadFile"
         @uploaded="uploaded"
         @finish="finished"
-      />
+      >
+        <!-- <template v-slot:list="scope">
+          <q-list separator>
+            <q-item v-for="file in scope.files" :key="file.__key">
+              <q-item-section>
+                <q-item-label class="full-width ellipsis">{{ file.name }}</q-item-label>
+
+                <q-item-label caption>Status: {{ file.__status }}</q-item-label>
+
+                <q-item-label caption>{{ file.__sizeLabel }} / {{ file.__progressLabel }}</q-item-label>
+              </q-item-section>
+
+              <q-item-section v-if="file.__img" thumbnail class="gt-xs">
+                <img :src="file.__img.src" />
+              </q-item-section>
+
+              <q-item-section top side>
+                <q-btn
+                  class="gt-xs"
+                  size="12px"
+                  flat
+                  dense
+                  round
+                  icon="delete"
+                  @click="scope.removeFile(file)"
+                />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </template>-->
+      </q-uploader>
 
       <!-- @added="uploadImage" -->
       <q-btn class="q-ma-sm" @click="listFiles">Fetch file list</q-btn>
@@ -137,6 +168,7 @@
 <script setup>
 import { api } from "boot/axios";
 import { ref, reactive } from 'vue'
+import Compressor from 'compressorjs';
 
 
 let s3Files = ref([]);
@@ -144,6 +176,69 @@ let uploader = ref("");
 let uploadedFiles = ref([]);
 let dialog = ref(false)
 
+
+function uploadFile(file) {
+  console.log('AXIOS upload files')
+
+  // let formData = new FormData()
+  // formData.append('file', file[0])
+
+  new Compressor(file[0], {
+    quality: 0.6,
+    success(result) {
+      const formData = new FormData();
+
+      // The third parameter is required for server
+      formData.append('file', result, result.name);
+      // formData.append('file', result);
+  api
+    .post(process.env.VUE_APP_URL + "/files/", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+      // // Send the compressed image file to server with XMLHttpRequest.
+      // axios.post('/path/to/upload', formData).then(() => {
+      //   console.log('Upload success');
+      // });
+    },
+    error(err) {
+      console.log(err.message);
+    },
+  });
+
+  // api
+  //   .post(process.env.VUE_APP_URL + "/files/", formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data'
+  //     }
+  //   })
+  //   .then((res) => {
+  //     console.log(res.data);
+  //   })
+  //   .catch((err) => {
+  //     if (err.response) {
+  //       console.log(err.response);
+  //     } else if (err.request) {
+  //       console.log(err.request);
+  //     } else {
+  //       console.log("General Error");
+  //     }
+  //   });
+
+}
 
 function add() {
   uploadedFiles.value.push("b");
@@ -233,10 +328,7 @@ function finished() {
 }
 
 
-function uploadFile() {
-  alert('upload files')
 
-}
 
 function uploadImage(file, updateProgress) {
   alert('uploaded')

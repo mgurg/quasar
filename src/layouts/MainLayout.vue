@@ -68,6 +68,15 @@
           <q-item-section>Files</q-item-section>
         </q-item>
 
+        <!--Editor Index-->
+        <q-item to="/editor" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="post_add" />
+          </q-item-section>
+
+          <q-item-section>Editor</q-item-section>
+        </q-item>
+
         <!--Calendar Index-->
         <q-item to="/calendar" exact clickable v-ripple>
           <q-item-section avatar>

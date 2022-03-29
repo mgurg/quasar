@@ -314,7 +314,11 @@
                     </div>
                 </div>
             </div>
-            <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
+            <div class="row">
+                <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
+                <q-space />
+                <q-btn type="submit" color="red">Cancel</q-btn>
+            </div>
         </q-form>
     </div>
 </template>

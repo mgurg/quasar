@@ -23,6 +23,7 @@ const routes = [
         component: () => import("pages/Tasks/TaskEdit.vue"),
       },
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
+      { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
       {
         path: "/calendar",
