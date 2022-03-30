@@ -2,6 +2,12 @@
 
 A Quasar Project
 
+
+### Translation
+```bash
+quasalang generate
+```
+
 ## Install the dependencies
 ```bash
 yarn
