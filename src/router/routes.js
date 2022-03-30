@@ -4,7 +4,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("pages/Auth/Login"),
+    meta: {
+      requiresNoAuth: true,
+    },
   },
+
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -31,6 +35,9 @@ const routes = [
       },
       { path: '', component: () => import('pages/IndexPage.vue') }
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
 
   // Always leave this as last one,

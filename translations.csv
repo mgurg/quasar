@@ -1,4 +1,5 @@
-Key,"English, en-US","French, fr","German, de"
-hello,"Hello","Bonjour","Hallo"
-goodbye,"Goodbye","Au revoir","Auf Wiedersehen"
-thanks,"Thanks","Merci","Danke"
+Key,"English, en-US","French, fr","German, de","Polish, pl"
+#login,,,,
+hello,Hello,Bonjour,Hallo,
+goodbye,Goodbye,Au revoir,Auf Wiedersehen,
+thanks,Thanks,Merci,Danke,
