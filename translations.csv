@@ -1,5 +1,22 @@
 Key,"English, en-US","French, fr","German, de","Polish, pl"
 #login,,,,
-hello,Hello,Bonjour,Hallo,
-goodbye,Goodbye,Au revoir,Auf Wiedersehen,
-thanks,Thanks,Merci,Danke,
+"""Login""",Login,Connexion,Anmeldung,Zaloguj sie
+"""E-mail""",E-mail,E-mail,Email,E-mail
+"""Password""",Password,Mot de passe,Passwort,Hasło
+"""Password confirmation""",Password confirmation,Confirmation mot de passe,Passwort Bestätigung,Potwierdzenie hasła
+"""Remember me for 30 days""",Remember me for 30 days,Souviens-toi de moi pendant 30 jours,Erinnere dich für 30 Tage an mich,Zapamiętaj mnie przez 30 dni
+"""Register""",Register,S'inscrire,Registrieren,Zarejestrować
+"""I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,potrzebuję pomocy
+"""Reset password""",Reset password,Réinitialiser le mot de passe,Passwort zurücksetzen,Zresetuj hasło
+,,,,
+#tasks,,,,
+"""Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana
+"""Action was successful""",Action was successful,L'action a réussi,Aktion war erfolgreich,Działanie powiodło się
+"""Work Time!""",Work Time!,Temps de travail!,Arbeitszeit!,Czas pracy!
+"""Tasks""",Tasks,Tâches,Aufgaben,Zadania
+"""Your tasks""",Your tasks,Vos tâches,Ihre Aufgaben,Twoje zadania
+"""All tasks""",All tasks,Toutes les tâches,Alle Aufgaben,Wszystkie zadania
+"""Task name""",Task name,Nom de la tâche,Aufgabennname,Nazwa zadania
+"""Task description""",Task description,Description de la tâche,Aufgabenbeschreibung,Opis zadania
+"""Add""",Add,Ajouter,Addieren,Dodać
+"""Edit""",Edit,Éditer,Bearbeiten,Edytować
