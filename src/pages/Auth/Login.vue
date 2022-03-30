@@ -158,7 +158,7 @@
 </template>
 <script>
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
+// import { useStore } from "vuex";
 import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { object, string, bool } from 'yup'
@@ -176,7 +176,7 @@ export default {
     setup() {
         const router = useRouter();
 
-        const authStore = useStore();
+        // const authStore = useStore();
 
         // -------------- VeeValidate --------------
 
@@ -211,17 +211,17 @@ export default {
 
         async function LoginUser(data) {
             isLoading.value = true;
-            try {
-                await authStore.dispatch("authModule/loginUser", data).then(() => {
-                    console.log('OK')
-                    router.replace("/");
-                }).catch((error) => {
-                    errorMsg.value = error
-                });
+            // try {
+            //     await authStore.dispatch("authModule/loginUser", data).then(() => {
+            //         console.log('OK')
+            //         router.replace("/");
+            //     }).catch((error) => {
+            //         errorMsg.value = error
+            //     });
 
-            } catch (err) {
-                console.log("Err: " + err);
-            }
+            // } catch (err) {
+            //     console.log("Err: " + err);
+            // }
 
             isLoading.value = false;
         }
