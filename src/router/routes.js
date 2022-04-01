@@ -17,6 +17,22 @@ const routes = [
     },
   },
   {
+    path: "/new_account",
+    name: "newAccount",
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/reset_password",
+    name: "resetPassword",
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [

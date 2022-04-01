@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="text-h5 text-weight-bold">{{ $t("Login") }}</div>
+        <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Login") }}</div>
 
         <q-form @submit="submit">
             <q-input

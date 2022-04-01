@@ -20,16 +20,17 @@
 
       <login-form v-if="path=='/login'" :key="path"></login-form>
       <register-form v-if="path=='/register'"  :key="path"></register-form>
+      <reset-password-form v-if="path=='/reset_password'"  :key="path"></reset-password-form>
 
-      <div class="divider q-mt-md q-mb-xs"></div>
+  
 
-      <div class="row">
+      <div class="row divider q-pb-lg">
         <div class="col-12">
           <p class="text-body2 q-pa-xs">
             <span v-if="path !='/register'"><router-link to="/register" >{{ $t("Register") }}</router-link> · </span>
             <span v-if="path !='/login'"><router-link to="/login">{{ $t("Login") }} </router-link>  · </span>
-            <router-link to="reset_password">{{ $t("Reset password") }} </router-link>
-            {{ $t("I need help") }}
+            <span><router-link to="reset_password">{{ $t("Reset password") }} </router-link></span>
+            <!-- <span> · {{ $t("I need help") }}</span> -->
           </p>
         </div>
       </div>
@@ -40,6 +41,7 @@
 <script setup>
 import LoginForm from 'src/components/forms/LoginForm.vue';
 import RegisterForm from 'src/components/forms/RegisterForm.vue';
+import ResetPasswordForm from 'src/components/forms/ResetPasswordForm.vue'
 import { ref,computed } from "vue";
 import { useRoute } from 'vue-router'
 
@@ -53,6 +55,6 @@ let fade = ref(true);
 
 <style>
 .divider {
-  border-top: 1px solid #ebecf3;
+  border-top: 2px solid #ebecf3;
 }
 </style>

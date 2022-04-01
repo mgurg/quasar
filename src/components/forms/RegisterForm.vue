@@ -1,9 +1,9 @@
 <template>
-    <div>
-        <div class="text-h5 text-weight-bold">{{ $t("Register") }}</div>
+  <div>
+    <div class="text-h5 text-weight-bold">{{ $t("Register") }}</div>
 
-        <q-form @submit="submit">
-                <q-input
+    <q-form @submit="submit">
+      <!-- <q-input
                 v-model="firstName"
                 :disable="isLoading"
                 :error="!!errors.firstName"
@@ -12,60 +12,61 @@
                 :label="$t('E-mail')"
                 outlined
                 type="text"
-            />
-            <q-input
-                v-model="email"
-                :disable="isLoading"
-                :error="!!errors.email"
-                :error-message="errors.email"
-                class="q-mb-md"
-                :label="$t('E-mail')"
-                outlined
-                type="email"
-            />
-            <q-input
-                v-model="password"
-                :disable="isLoading"
-                :error="!!errors.password"
-                :error-message="errors.password"
-                :type="isPwd ? 'password' : 'text'"
-                :label="$t('Password')"
-                outlined
-            >
-                <template v-slot:append>
-                    <q-icon
-                        :name="isPwd ? 'visibility_off' : 'visibility'"
-                        class="cursor-pointer"
-                        @click="isPwd = !isPwd"
-                    />
-                </template>
-            </q-input>
+            /> -->
+      <q-input
+        v-model="email"
+        :disable="isLoading"
+        :error="!!errors.email"
+        :error-message="errors.email"
+        class="q-mb-md"
+        :label="$t('E-mail')"
+        outlined
+        type="email"
+      />
+      <q-input
+        v-model="password"
+        :disable="isLoading"
+        :error="!!errors.password"
+        :error-message="errors.password"
+        :type="isPwd ? 'password' : 'text'"
+        :label="$t('Password')"
+        outlined
+      >
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
 
-            <q-checkbox v-model="acceptTOS" :label="$t('I accept the terms and conditions')" />
-            {{ errorMsg }}
-            <div class="row">
-                <q-space />
-                <q-btn
-                    :disable="isLoading"
-                    :label="$t('Register')"
-                    :loading="isLoading"
-                    color="primary"
-                    type="submit"
-                />
-            </div>
-        </q-form>
-    </div>
+      <q-checkbox v-model="acceptTOS">{{
+        $t("I accept the terms and conditions")
+      }}</q-checkbox>
+      {{ errors.acceptTOS }}
+      <div class="row">
+        <q-space />
+        <q-btn
+          :disable="isLoading"
+          :label="$t('Register')"
+          :loading="isLoading"
+          color="primary"
+          type="submit"
+        />
+      </div>
+    </q-form>
+  </div>
 </template>
-
 
 <script setup>
 import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { object, string, bool } from "yup";
 import { useRouter } from "vue-router";
-import { useUserStore } from 'stores/user'
+import { useUserStore } from "stores/user";
 
-let isPwd = ref(true)
+let isPwd = ref(true);
 let isLoading = ref(false);
 let errorMsg = ref(null);
 
@@ -74,62 +75,72 @@ const UserStore = useUserStore();
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
-    firstName: string().required(),
-    email: string().required("Provide an valid email").email(),
-    password: string().required(),
-    acceptTOS: bool().required(),
+  // firstName: string().required(),
+  email: string().required("Provide an valid email").email(),
+  password: string().required(),
+  acceptTOS: bool().required().oneOf([true], "The terms and conditions must be accepted."),
 });
 
 const { handleSubmit, errors } = useForm({
-    validationSchema,
+  validationSchema,
 });
 
-const { value: firstName } = useField('firstName')
+// const { value: firstName } = useField("firstName");
 const { value: email, handleChange } = useField("email");
 const { value: password } = useField("password");
 const { value: acceptTOS } = useField("acceptTOS", undefined, { initialValue: false });
 
 const submit = handleSubmit((values) => {
-console.log("submit", values);
+  console.log("submit", values);
 
-function getLocale() {
-    const userLocale =  localStorage.getItem("lang") || sessionStorage.getItem("lang") || navigator.language.split('-')[0] || 'en-US' 
+  function getLocale() {
+    const userLocale =
+      localStorage.getItem("lang") ||
+      sessionStorage.getItem("lang") ||
+      navigator.language.split("-")[0] ||
+      "en-US";
 
     // if detectedLocale is 'en' or 'es' return
-    if (['de', 'en-US', 'fr','pl'].indexOf(userLocale) >= 0) {
-        return detectedLocale
+    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+      return detectedLocale;
     }
     // else return default value
-    return 'en-US';
-}
+    return "en-US";
+  }
 
-let data = {
+  let data = {
     // name: email.value,
     email: email.value,
     password: password.value,
     password_confirmation: password.value,
     tos: acceptTOS.value,
-    tz: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Europe/Warsaw',
-    lang: getLocale()
-};
-console.log(data);
+    tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Warsaw",
+    lang: getLocale(),
+  };
+  console.log(data);
 
-    // LoginUser(data);
+  registerAdmin(data);
 });
 // --------------- VeeValidate --------------
 
-async function RegisterAdmin(data) {
-    isLoading.value = true;
-    try {
-        await UserStore.fetchUsers(data.email, data.password, data.permanent);
-        router.push({ path: "/" });
-    }
-    catch (err) {
-        console.log(err);
-        // console.log(err.error_description || err.message)
-        // console.log(err.data)
-        // errorMsg.value = err
-    }
-    isLoading.value = false;
+async function registerAdmin(data) {
+  isLoading.value = true;
+  api
+    .post("auth/add", data)
+    .then((res) => {
+      console.log(res.data);
+      isLoading.value = false;
+      router.push({ path: "/new_account" });
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+  isLoading.value = false;
 }
 </script>

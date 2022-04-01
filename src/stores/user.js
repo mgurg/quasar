@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user', {
           "password": password,
           "permanent": permanent
         }
+        
         console.log(body)
         const data = await api.post('/auth/login',body)
         console.log(data.data)
