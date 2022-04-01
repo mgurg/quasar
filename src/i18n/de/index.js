@@ -11,6 +11,8 @@ export default {
 	"Register": `Registrieren`,
 	"I need help": `Ich brauche Hilfe`,
 	"Reset password": `Passwort zurücksetzen`,
+	"I accept the terms and conditions": `Ich akzeptiere die allgemeinen Geschäftsbedingungen`,
+
 
 	// tasks
 	"Action failed": `Aktion: fehlgeschlagen`,

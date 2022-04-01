@@ -3,12 +3,19 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import("pages/Auth/Login"),
+    component: () => import("pages/Auth/Login.vue"),
     meta: {
       requiresNoAuth: true,
     },
   },
-
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),

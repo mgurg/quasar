@@ -30,7 +30,7 @@ import { onActivated, ref } from "vue";
 import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
 import TaskForm from 'src/components/forms/TaskForm.vue'
 import { useRoute, useRouter } from "vue-router";
-import { api } from "boot/axios";
+import { authApi } from "boot/axios";
 
 const $q = useQuasar()
 
@@ -53,7 +53,7 @@ let errors = ref(null);
 
 function updateTask(body) {
     // isLoading.value = true;
-    api
+    authApi
         .patch("/tasks/" + taskUuid.value, body)
         .then((res) => {
             console.log(res.data);
@@ -73,7 +73,7 @@ function updateTask(body) {
 }
 
 function getDetails(uuid) {
-    api
+    authApi
         .get("/tasks/" + uuid)
         .then((res) => {
             console.log(uuid);
@@ -96,7 +96,7 @@ function getDetails(uuid) {
 }
 
 function getUsers() {
-    api
+    authApi
         .get("user/index")
         .then((res) => {
             console.log(res.data)
@@ -118,8 +118,6 @@ function getUsers() {
             }
         });
 }
-
-
 
 function signUpButtonPressed(taskForm) {
     console.log('outside', taskForm)
