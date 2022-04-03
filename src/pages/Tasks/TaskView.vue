@@ -61,40 +61,6 @@
             </q-img>
           </div>
         </div>
-        <!-- IMG -->
-        <!-- <q-carousel
-          swipeable
-          animated
-          arrows
-          v-model="slide"
-          v-model:fullscreen="fullscreen"
-          infinite
-          height="200px"
-        >
-          <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-          <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-          <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
-
-          <template v-slot:control>
-            <q-carousel-control position="bottom-right" :offset="[18, 18]">
-              <q-btn
-                push
-                round
-                dense
-                color="white"
-                text-color="primary"
-                :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                @click="fullscreen = !fullscreen"
-              />
-            </q-carousel-control>
-            <q-carousel-control position="top-right" :offset="[18, 18]">
-              <q-btn push round dense color="white" text-color="primary" icon="download" />
-            </q-carousel-control>
-          </template>
-        </q-carousel>-->
-        <!-- IMG -->
-
         <q-card-actions align="right">
           <q-btn
             flat
@@ -155,7 +121,7 @@
 import { ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
-import { api } from "boot/axios";
+import { authApi } from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
 
 let isLoading = ref(false);
@@ -180,7 +146,7 @@ function convertTime(datetime) {
 }
 
 function getDetails(uuid) {
-  api
+  authApi
     .get("/tasks/" + uuid)
     .then((res) => {
       console.log(uuid);
@@ -200,7 +166,7 @@ function getDetails(uuid) {
 }
 
 function changeState(state) {
-  api
+  authApi
     .post("tasks/action/" + taskDetails.value.uuid, { "action_type": state })
     .then((res) => {
       console.log(uuid);

@@ -55,6 +55,41 @@ export const useUserStore = defineStore('user', {
           }
           throw error.response.data.detail;
       }
-    }
+    },
+    async autoLogin(context) {
+    
+      if (localStorage.getItem("klucz") === null){
+        var token = sessionStorage.getItem("klucz");
+      } else{
+        var token = localStorage.getItem("klucz");
+      }
+      
+  
+      if (token !== null) {
+        await api
+          .get("/auth/verify/" + token)
+          .then((res) => {
+            if (res.data.ok === true) {
+              this.token = data.data.auth_token
+              // context.commit("setUser", { token: token });
+            }
+          })
+          .catch((err) => {
+            if (err.response) {
+              console.log(err.response.data.detail);
+            } else if (err.request) {
+              console.log(err.request);
+            } else {
+              console.log("General Error");
+            }
+          });
+      }
+    },
+    async logoutUser() {
+      localStorage.removeItem("klucz");
+      sessionStorage.removeItem("klucz");
+      // context.commit("logoutUser");
+    },
+  
   },
 });
