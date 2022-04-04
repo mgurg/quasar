@@ -12,7 +12,14 @@ export default {
 	"I need help": `I need help`,
 	"Reset password": `Reset password`,
 	"I accept the terms and conditions": `I accept the terms and conditions`,
-
+	"Congratulations": `Congratulations`,
+	"Almost done! Let's confirm your email": `Almost done! Let's confirm your email`,
+	"First Name": `First Name`,
+	"Last Name": `Last Name`,
+	"NIP": `NIP`,
+	"Last step": `Last step`,
+	"Say something about yourself." : `Say something about yourself. `,
+	"Lets start": `Let's start`,
 
 	// tasks
 	"Action failed": `Action failed`,

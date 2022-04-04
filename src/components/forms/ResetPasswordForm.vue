@@ -18,7 +18,7 @@
                 <q-space />
                 <q-btn
                     :disable="isLoading"
-                    :label="$t('Login')"
+                    :label="$t('Reset password')"
                     :loading="isLoading"
                     color="primary"
                     type="submit"

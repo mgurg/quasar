@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-h5 text-weight-bold">{{ $t("Register") }}</div>
+    <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Register") }}</div>
 
     <q-form @submit="submit">
       <!-- <q-input
@@ -41,10 +41,13 @@
         </template>
       </q-input>
 
-      <q-checkbox v-model="acceptTOS">{{
+      <q-checkbox v-model="acceptTOS" 
+      keep-color 
+      :color="errors.acceptTOS ? 'red': 'primary'" 
+      :style="errors.acceptTOS ? 'color:red' : 'color:black'">{{
         $t("I accept the terms and conditions")
       }}</q-checkbox>
-      {{ errors.acceptTOS }}
+
       <div class="row">
         <q-space />
         <q-btn
@@ -61,6 +64,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { api } from "boot/axios";
 import { useField, useForm } from "vee-validate";
 import { object, string, bool } from "yup";
 import { useRouter } from "vue-router";
@@ -78,7 +82,7 @@ const validationSchema = object({
   // firstName: string().required(),
   email: string().required("Provide an valid email").email(),
   password: string().required(),
-  acceptTOS: bool().required().oneOf([true], "The terms and conditions must be accepted."),
+  acceptTOS: bool().required().oneOf([true], "!"),
 });
 
 const { handleSubmit, errors } = useForm({

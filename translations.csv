@@ -9,7 +9,14 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,potrzebuję pomocy
 """Reset password""",Reset password,Réinitialiser le mot de passe,Passwort zurücksetzen,Zresetuj hasło
 """I accept the terms and conditions""",I accept the terms and conditions,J'accepte les termes et conditions,Ich akzeptiere die allgemeinen Geschäftsbedingungen,Akceptuję zasady i warunki
-,,,,
+"""Congratulations""",Congratulations,Toutes nos félicitations,Glückwünsche,Gratulacje
+"""Almost done! Let's confirm your email""",Almost done! Let's confirm your email,Presque fini! Confirmons votre email,Fast fertig! Beginnen wir Ihre E-Mail,Prawie skończone! Potwierdźmy Twój e-mail
+"""First Name""",First Name,Prénom,Vorname,Imię
+"""Last Name""",Last Name,Nom de famille,"Familienname, Nachname",Nazwisko
+"""NIP""",NIP,NIP,NIP,NIP
+"""Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
+"""Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
+"""Lets start""",Let's start,Commençons,Lasst uns beginnen,Zaczynajmy
 ,,,,
 #tasks,,,,
 """Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana

@@ -3,6 +3,7 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <q-toggle v-model="store.counter" />
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
+      <h1>{{ time }}</h1>
 
       <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
       <q-uploader
@@ -366,5 +367,14 @@ function uploadImage(file, updateProgress) {
 
     // https://codepen.io/metalsadman/pen/YMvEbr?editors=1011
 
-
+const getTime = () => {
+  const date = new Date()
+  const seconds = date.getSeconds();
+	const minutes = date.getMinutes();
+	const hour = date.getHours();
+  
+  return `${hour}:${minutes}:${seconds}`
+}
+const time = ref(getTime())
+setInterval(() => time.value = getTime(), 1000)
 </script>

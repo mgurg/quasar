@@ -12,7 +12,14 @@ export default {
 	"I need help": `potrzebuję pomocy`,
 	"Reset password": `Zresetuj hasło`,
 	"I accept the terms and conditions": `Akceptuję zasady i warunki`,
-
+	"Congratulations": `Gratulacje`,
+	"Almost done! Let's confirm your email": `Prawie skończone! Potwierdźmy Twój e-mail`,
+	"First Name": `Imię`,
+	"Last Name": `Nazwisko`,
+	"NIP": `NIP`,
+	"Last step": `Ostatni krok`,
+	"Say something about yourself." : `Powiedz coś o sobie.`,
+	"Lets start": `Zaczynajmy`,
 
 	// tasks
 	"Action failed": `Akcja: nieudana`,
