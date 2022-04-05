@@ -37,8 +37,10 @@ export const useUserStore = defineStore('user', {
 
           if (permanent == true) {
             localStorage.setItem("klucz", data.data.auth_token);
+            sessionStorage.removeItem("klucz");
           } else {
             sessionStorage.setItem("klucz", data.data.auth_token);
+            localStorage.removeItem("klucz");
           }
           return('OK')
         }
@@ -56,23 +58,22 @@ export const useUserStore = defineStore('user', {
           throw error.response.data.detail;
       }
     },
-    async autoLogin(context) {
-    
+
+    async autoLogin() {
       if (localStorage.getItem("klucz") === null){
         var token = sessionStorage.getItem("klucz");
       } else{
         var token = localStorage.getItem("klucz");
       }
-      
-  
       if (token !== null) {
         await api
           .get("/auth/verify/" + token)
           .then((res) => {
-            if (res.data.ok === true) {
-              this.token = data.data.auth_token
-              // context.commit("setUser", { token: token });
-            }
+            console.log('token')
+            if (res.data.ok == true) {
+              this.token = token
+              console.log('token', token)            }
+            // return('OK');
           })
           .catch((err) => {
             if (err.response) {
@@ -85,11 +86,11 @@ export const useUserStore = defineStore('user', {
           });
       }
     },
+
     async logoutUser() {
       localStorage.removeItem("klucz");
       sessionStorage.removeItem("klucz");
-      // context.commit("logoutUser");
+      this.token = null
     },
-  
   },
 });

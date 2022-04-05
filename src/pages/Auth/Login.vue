@@ -44,11 +44,25 @@ import RegisterForm from 'src/components/forms/RegisterForm.vue';
 import ResetPasswordForm from 'src/components/forms/ResetPasswordForm.vue'
 import { ref,computed } from "vue";
 import { useRoute } from 'vue-router'
+import { useRouter } from "vue-router";
+import { useUserStore } from 'stores/user'
 
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
+const UserStore = useUserStore();
+
 const path = computed(() =>route.path)
 
 let fade = ref(true);
+
+UserStore.autoLogin();
+
+if (UserStore.isAuthenticated == true) {
+    console.log('Zalogowany')
+    router.push({ path: "/" });
+} else {
+    console.log('Czeka na logowanie')
+}
 
 
 </script>

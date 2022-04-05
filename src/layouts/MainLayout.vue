@@ -36,6 +36,7 @@
             </q-list>
           </q-menu>
         </q-btn>
+        <q-btn @click="logout" flat round dense icon="logout" class="q-mr-xs" />
       </q-toolbar>
     </q-header>
 
@@ -115,6 +116,8 @@ import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useUserStore } from 'stores/user'
+import { useRouter } from "vue-router";
 
 
 export default defineComponent({
@@ -123,6 +126,9 @@ export default defineComponent({
 
   setup() {
     const $q = useQuasar();
+
+    const router = useRouter();
+    const UserStore = useUserStore();
 
     const { locale } = useI18n({ useScope: "global" });
     const lang = ref(locale); // $q.lang.isoName
@@ -152,6 +158,11 @@ export default defineComponent({
 
     const envValue = process.env.S3_BUCKET;
 
+    function logout() {
+      UserStore.logoutUser()
+      router.push("/login");
+    }
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -159,6 +170,7 @@ export default defineComponent({
       },
       notify,
       setLocale,
+      logout
     };
   },
 });
