@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
     increment() {
       this.counter++;
     },
-    async fetchUsers(email,password,permanent) {
+    async loginUsers(email,password,permanent) {
       try {
         const body = {
           "email": email,
@@ -57,6 +57,10 @@ export const useUserStore = defineStore('user', {
           }
           throw error.response.data.detail;
       }
+    },
+
+    async saveToken(token) {
+      this.token = '123'
     },
 
     async autoLogin() {

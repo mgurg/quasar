@@ -88,7 +88,7 @@ const submit = handleSubmit((values) => {
 async function LoginUser(data) {
     isLoading.value = true;
     try {
-        await UserStore.fetchUsers(data.email, data.password, data.permanent);
+        await UserStore.loginUsers(data.email, data.password, data.permanent);
         router.push({ path: "/" });
     }
     catch (err) {
