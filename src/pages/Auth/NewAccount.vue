@@ -21,7 +21,7 @@
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
     <p>{{ $t("Almost done! Let's confirm your email") }} ✅</p>
 
-    {{path}}
+
 
       <div class="row divider q-pb-lg">
         <div class="col-12">
@@ -38,11 +38,8 @@
   </div>
 </template>
 <script setup>
-import { ref,computed } from "vue";
-import { useRoute } from 'vue-router'
+import { ref } from "vue";
 
-const route = useRoute()
-const path = computed(() =>route.path)
 
 
 

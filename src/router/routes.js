@@ -18,7 +18,7 @@ const routes = [
   },
   {
     path: "/new_account",
-    name: "newAccount",
+    name: "new_account",
     component: () => import("pages/Auth/NewAccount.vue"),
     meta: {
       requiresNoAuth: true,
