@@ -40,11 +40,7 @@
 <script setup>
 import { ref } from "vue";
 
-
-
-
 let fade = ref(true);
-
 
 </script>
 
