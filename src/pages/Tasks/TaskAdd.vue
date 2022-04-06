@@ -31,7 +31,7 @@
 <script setup>
 import { onActivated, reactive, ref } from "vue";
 import TaskForm from 'src/components/forms/TaskForm.vue'
-import { api } from "boot/axios";
+import { authApi } from "boot/axios";
 
 
 
@@ -48,7 +48,7 @@ let usr = ref([{
 
 function createTasks(body) {
     isLoading.value = true;
-    api
+    authApi
         .post("/tasks/add", body)
         .then((res) => {
             console.log(res.data);
@@ -67,7 +67,7 @@ function createTasks(body) {
 }
 
 function getUsers() {
-    api
+    authApi
         .get("user/index")
         .then((res) => {
             console.log(res.data)

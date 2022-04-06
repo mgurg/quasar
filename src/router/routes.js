@@ -1,13 +1,48 @@
+
 const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import("pages/Auth/Login"),
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
   },
   {
-    path: "/",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/Index.vue") }],
+    path: "/register",
+    name: "register",
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/new_account",
+    name: "new_account",
+    component: () => import("pages/Auth/NewAccount.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/activate/:id",
+    name: "newAccount",
+    component: () => import("pages/Auth/FirstRun.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/reset_password",
+    name: "resetPassword",
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
       {
@@ -23,20 +58,25 @@ const routes = [
         component: () => import("pages/Tasks/TaskEdit.vue"),
       },
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
+      { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
       {
         path: "/calendar",
         component: () => import("pages/Calendar/Month.vue"),
       },
+      { path: '', component: () => import('pages/IndexPage.vue') }
     ],
+    meta: {
+      requiresAuth: true,
+    },
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: "/:catchAll(.*)*",
-    component: () => import("pages/Error404.vue"),
-  },
-];
+    path: '/:catchAll(.*)*',
+    component: () => import('pages/ErrorNotFound.vue')
+  }
+]
 
-export default routes;
+export default routes

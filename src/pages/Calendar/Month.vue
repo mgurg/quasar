@@ -14,6 +14,7 @@
                         focusable
                         hoverable
                         no-active-date
+                        :locale="locale" 
                         :day-min-height="60"
                         :day-height="0"
                         @change="onChange"
@@ -48,6 +49,7 @@
                 </div>
             </div>
             <q-btn @click="getEvents">Fetch</q-btn>
+            {{lang}}
         </q-page>
     </div>
 </template>
@@ -392,6 +394,7 @@ export default defineComponent({
 
         return {
             calendar,
+            locale,
             selectedDate,
             onToday,
             onPrev,

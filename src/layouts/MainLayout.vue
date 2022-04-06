@@ -2,9 +2,18 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
 
-        <q-toolbar-title>Quasar App</q-toolbar-title>
+        <q-toolbar-title>
+          Quasar App
+        </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
         <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
@@ -27,6 +36,7 @@
             </q-list>
           </q-menu>
         </q-btn>
+        <q-btn @click="logout" flat round dense icon="logout" class="q-mr-xs" />
       </q-toolbar>
     </q-header>
 
@@ -68,6 +78,15 @@
           <q-item-section>Files</q-item-section>
         </q-item>
 
+        <!--Editor Index-->
+        <q-item to="/editor" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="post_add" />
+          </q-item-section>
+
+          <q-item-section>Editor</q-item-section>
+        </q-item>
+
         <!--Calendar Index-->
         <q-item to="/calendar" exact clickable v-ripple>
           <q-item-section avatar>
@@ -97,6 +116,8 @@ import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useUserStore } from 'stores/user'
+import { useRouter } from "vue-router";
 
 
 export default defineComponent({
@@ -105,6 +126,9 @@ export default defineComponent({
 
   setup() {
     const $q = useQuasar();
+
+    const router = useRouter();
+    const UserStore = useUserStore();
 
     const { locale } = useI18n({ useScope: "global" });
     const lang = ref(locale); // $q.lang.isoName
@@ -134,6 +158,11 @@ export default defineComponent({
 
     const envValue = process.env.S3_BUCKET;
 
+    function logout() {
+      UserStore.logoutUser()
+      router.push("/login");
+    }
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -141,6 +170,7 @@ export default defineComponent({
       },
       notify,
       setLocale,
+      logout
     };
   },
 });

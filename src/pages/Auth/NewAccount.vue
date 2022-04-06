@@ -16,13 +16,12 @@
       </div>
     </div>
 
-    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" style="min-width: 320px;">
+    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
-      <login-form v-if="path=='/login'" :key="path"></login-form>
-      <register-form v-if="path=='/register'"  :key="path"></register-form>
-      <reset-password-form v-if="path=='/reset_password'"  :key="path"></reset-password-form>
+    <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
+    <p>{{ $t("Almost done! Let's confirm your email") }} ✅</p>
 
-  
+
 
       <div class="row divider q-pb-lg">
         <div class="col-12">
@@ -39,31 +38,9 @@
   </div>
 </template>
 <script setup>
-import LoginForm from 'src/components/forms/LoginForm.vue';
-import RegisterForm from 'src/components/forms/RegisterForm.vue';
-import ResetPasswordForm from 'src/components/forms/ResetPasswordForm.vue'
-import { ref,computed } from "vue";
-import { useRoute } from 'vue-router'
-import { useRouter } from "vue-router";
-import { useUserStore } from 'stores/user'
-
-const router = useRouter();
-const route = useRoute();
-const UserStore = useUserStore();
-
-const path = computed(() =>route.path)
+import { ref } from "vue";
 
 let fade = ref(true);
-
-UserStore.autoLogin();
-
-if (UserStore.isAuthenticated == true) {
-    console.log('Zalogowany')
-    router.push({ path: "/" });
-} else {
-    console.log('Czeka na logowanie')
-}
-
 
 </script>
 

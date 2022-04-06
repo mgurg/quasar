@@ -39,7 +39,7 @@
 
 <script setup>
 import { onActivated, ref, computed } from "vue";
-import { api } from "boot/axios";
+import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
 import TaskItem from 'components/TaskItem.vue'
@@ -72,7 +72,7 @@ const otherTasks = computed(() => {
 
 
 function fetchTasks() {
-  api
+  authApi
     .get("/tasks/index?offset=0&limit=20")
     .then((res) => {
       tasks.value = res.data

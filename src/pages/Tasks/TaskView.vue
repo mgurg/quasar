@@ -61,44 +61,45 @@
             </q-img>
           </div>
         </div>
-        <!-- IMG -->
-        <!-- <q-carousel
-          swipeable
-          animated
-          arrows
-          v-model="slide"
-          v-model:fullscreen="fullscreen"
-          infinite
-          height="200px"
-        >
-          <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-          <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-          <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
-
-          <template v-slot:control>
-            <q-carousel-control position="bottom-right" :offset="[18, 18]">
-              <q-btn
-                push
-                round
-                dense
-                color="white"
-                text-color="primary"
-                :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                @click="fullscreen = !fullscreen"
-              />
-            </q-carousel-control>
-            <q-carousel-control position="top-right" :offset="[18, 18]">
-              <q-btn push round dense color="white" text-color="primary" icon="download" />
-            </q-carousel-control>
-          </template>
-        </q-carousel>-->
-        <!-- IMG -->
-
         <q-card-actions align="right">
-          <q-btn flat round color="red" icon="lock_open">Start</q-btn>
-          <q-btn flat round color="teal" icon="pause_circle_outline">Hold</q-btn>
-          <q-btn flat round color="primary" icon="done">Done</q-btn>
+          <q-btn
+            flat
+            color="primary"
+            icon="done"
+            v-if="taskDetails.status == null"
+            @click="changeState('accepted')"
+          >Accept</q-btn>
+
+          <q-btn
+            flat
+            color="red"
+            icon="lock_open"
+            v-if="taskDetails.status == null"
+            @click="changeState('rejected')"
+          >Reject</q-btn>
+
+          <q-btn
+            flat
+            color="red"
+            icon="play_arrow"
+            v-if="taskDetails.status == 'accepted' || taskDetails.status == 'paused'"
+            @click="changeState('start')"
+          >Start</q-btn>
+          <q-btn
+            flat
+            color="teal"
+            icon="pause"
+            v-if="taskDetails.status == ('in_progress')"
+            @click="changeState('pause')"
+          >Hold</q-btn>
+
+          <q-btn
+            flat
+            color="primary"
+            icon="stop"
+            v-if="taskDetails.status != null"
+            @click="changeState('stop')"
+          >Done</q-btn>
         </q-card-actions>
 
         <q-card-section class="q-pt-none">{{ taskDetails.description }}</q-card-section>
@@ -120,7 +121,7 @@
 import { ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
-import { api } from "boot/axios";
+import { authApi } from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
 
 let isLoading = ref(false);
@@ -145,13 +146,35 @@ function convertTime(datetime) {
 }
 
 function getDetails(uuid) {
-  api
+  authApi
     .get("/tasks/" + uuid)
     .then((res) => {
       console.log(uuid);
       console.log(res.data);
       taskDetails.value = res.data;
       isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
+
+function changeState(state) {
+  authApi
+    .post("tasks/action/" + taskDetails.value.uuid, { "action_type": state })
+    .then((res) => {
+      console.log(uuid);
+      console.log(res.data);
+
+      // getDetails(taskDetails.value.uuid);
+      // taskDetails.value = res.data;
+      // isLoading.value = false;
     })
     .catch((err) => {
       if (err.response) {
