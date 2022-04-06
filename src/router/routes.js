@@ -41,6 +41,14 @@ const routes = [
     },
   },
   {
+    path: "/map",
+    name: "map",
+    component: () => import("pages/Map/MapIndex.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
