@@ -1,24 +1,32 @@
 <template>
-  <q-layout>
-    <q-page class="flex flex-center">
-      <div class="row q-pa-md">
-         <q-input outlined v-model="text" label="Nazwa" />
-        <!-- <q-btn>Add Circle</q-btn> -->
-        <q-btn outline @click="addPin">Dodaj</q-btn>
-        <!-- <p>Center is at {{ currentCenter.lat }}, {{ currentCenter.lng }} and the zoom is: {{ currentZoom }}</p> -->
+  <div class="row justify-center text-blue-grey-10">
+    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <div class="q-pa-md">
+        <q-form
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            class="q-gutter-md"
+            @submit.prevent
+        >
+        <q-input outlined v-model="text" label="Nazwa" />
+        <q-input outlined v-model="text" label="Opis" />
 
-        <!-- <p>{{provData}}</p>
-        <p>{{markers}}</p>-->
+        
+        <q-btn outline @click="addPin">Dodaj Pin</q-btn>
+        <q-btn outline @click="addPin">Dodaj</q-btn>
+        </q-form>
       </div>
 
-      <l-map style="height: 95vh; width: 95vw" :min-zoom="minZoom" :crs="crs">
+      <l-map style="height: 80%; width: 100%" :min-zoom="minZoom" :crs="crs">
         <l-image-overlay :url="url" :bounds="bounds"></l-image-overlay>
         <l-marker v-for="star in stars" :lat-lng="star" :key="star.name" :draggable="star.draggable">
           <l-popup :content="star.name" />
         </l-marker>
       </l-map>
     </q-page>
-  </q-layout>
+</div>
 </template>
 
 <script>

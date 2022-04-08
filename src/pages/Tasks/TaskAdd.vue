@@ -68,7 +68,7 @@ function createTasks(body) {
 
 function getUsers() {
     authApi
-        .get("user/index")
+        .get("user")
         .then((res) => {
             console.log(res.data)
 

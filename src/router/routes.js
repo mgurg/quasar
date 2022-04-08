@@ -43,7 +43,7 @@ const routes = [
   {
     path: "/map",
     name: "map",
-    component: () => import("pages/Map/MapIndex.vue"),
+    component: () => import("pages/Map/MapMapIndex.vue"),
     meta: {
       requiresNoAuth: true,
     },
@@ -76,6 +76,7 @@ const routes = [
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
       { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
+      { path: "/layout", component: () => import("pages/Maps/MapIndex.vue") },
       {
         path: "/calendar",
         component: () => import("pages/Calendar/Month.vue"),

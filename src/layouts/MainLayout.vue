@@ -15,7 +15,7 @@
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- <div>Quasar v{{ $q.version }}</div> -->
         <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
@@ -67,6 +67,15 @@
           </q-item-section>
 
           <q-item-section>TODO List</q-item-section>
+        </q-item>
+
+        <!--Maps Index-->
+        <q-item to="/layout" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="place" />
+          </q-item-section>
+
+          <q-item-section>Items</q-item-section>
         </q-item>
 
         <!--Files Index-->
