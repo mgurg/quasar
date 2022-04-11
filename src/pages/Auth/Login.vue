@@ -55,7 +55,7 @@ const path = computed(() =>route.path)
 
 let fade = ref(true);
 
-UserStore.autoLogin();
+// UserStore.autoLogin();
 
 if (UserStore.isAuthenticated == true) {
     console.log('Zalogowany')

@@ -3,7 +3,7 @@ import { api } from "boot/axios";
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    token: null,
+    token: (localStorage.getItem('klucz') || null),
     permissions: [],
     firstName: null,
     lastName: null,
@@ -42,6 +42,18 @@ export const useUserStore = defineStore('user', {
             sessionStorage.setItem("klucz", data.data.auth_token);
             localStorage.removeItem("klucz");
           }
+          localStorage.removeItem("klucz");
+          localStorage.removeItem("tz");
+          localStorage.removeItem("lang");
+          localStorage.removeItem("firstName");
+          localStorage.removeItem("lastName");
+
+          sessionStorage.removeItem("klucz");
+          localStorage.setItem("klucz", data.data.auth_token);
+          localStorage.setItem("tz", data.data.tz);
+          localStorage.setItem("lang", data.data.lang);
+          localStorage.setItem("firstName", data.data.first_name);
+          localStorage.setItem("lastName", data.data.last_name);
           return('OK')
         }
         catch (error) {
@@ -59,24 +71,21 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async saveToken(token) {
-      this.token = '123'
-    },
-
     async autoLogin() {
-      if (localStorage.getItem("klucz") === null){
-        var token = sessionStorage.getItem("klucz");
-      } else{
-        var token = localStorage.getItem("klucz");
-      }
-      if (token !== null) {
+      // if (localStorage.getItem("klucz") === null){
+      //   var token = sessionStorage.getItem("klucz");
+      // } else{
+      //   var token = localStorage.getItem("klucz");
+      // }
+      if (sessionStorage.getItem("klucz") !== null) {
+        console.log('AutoLogin Start')
         await api
           .get("/auth/verify/" + token)
           .then((res) => {
             console.log('token')
             if (res.data.ok == true) {
               this.token = token
-              console.log('token', token)            }
+              console.log('token valid: ', token)            }
             // return('OK');
           })
           .catch((err) => {

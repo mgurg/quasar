@@ -107,8 +107,8 @@ async function firstRun(data) {
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;
-      sessionStorage.setItem("klucz", res.data.token);
-      router.push({ path: "/login" });
+      // sessionStorage.setItem("klucz", res.data.token);
+      // router.push({ path: "/login" });
     })
     .catch((err) => {
       if (err.response) {
