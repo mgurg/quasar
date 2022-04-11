@@ -5,10 +5,10 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: (localStorage.getItem('klucz') || null),
     permissions: [],
-    firstName: null,
-    lastName: null,
-    tz: null,
-    lang: null,
+    firstName: (localStorage.getItem('firstName') || null),
+    lastName: (localStorage.getItem('klucz') || null),
+    tz: (localStorage.getItem('tz') || null),
+    lang: (localStorage.getItem('lang') || null),
     uuid: null,
   }),
   getters: {
