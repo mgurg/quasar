@@ -86,6 +86,9 @@ export const useUserStore = defineStore('user', {
             if (res.data.ok == true) {
               this.token = token
               console.log('token valid: ', token)            }
+            else{
+              this.logoutUser()
+            }
             // return('OK');
           })
           .catch((err) => {
@@ -102,6 +105,10 @@ export const useUserStore = defineStore('user', {
 
     async logoutUser() {
       localStorage.removeItem("klucz");
+      localStorage.removeItem("tz");
+      localStorage.removeItem("lang");
+      localStorage.removeItem("firstName");
+      localStorage.removeItem("lastName");
       sessionStorage.removeItem("klucz");
       this.token = null
     },
