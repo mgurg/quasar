@@ -26,9 +26,7 @@
       <div class="row divider q-pb-lg">
         <div class="col-12">
           <p class="text-body2 q-pa-xs">
-            <span v-if="path !='/register'"><router-link to="/register" >{{ $t("Register") }}</router-link> · </span>
-            <span v-if="path !='/login'"><router-link to="/login">{{ $t("Login") }} </router-link>  · </span>
-            <span><router-link to="reset_password">{{ $t("Reset password") }} </router-link></span>
+            <span><router-link to="/login">{{ $t("Login") }} </router-link></span>
             <!-- <span> · {{ $t("I need help") }}</span> -->
           </p>
         </div>

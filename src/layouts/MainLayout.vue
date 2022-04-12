@@ -60,6 +60,15 @@
           <q-item-section>Index</q-item-section>
         </q-item>
 
+        <!--Users Index-->
+        <q-item to="/users" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+
+          <q-item-section>Users</q-item-section>
+        </q-item>
+
         <!--Tasks Index-->
         <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>

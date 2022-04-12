@@ -107,8 +107,15 @@ async function firstRun(data) {
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;
-      // sessionStorage.setItem("klucz", res.data.token);
-      // router.push({ path: "/login" });
+
+      localStorage.setItem("klucz", res.data.token);
+      localStorage.setItem("tz", res.data.tz);
+      localStorage.setItem("lang", res.data.lang);
+      localStorage.setItem("firstName", res.data.first_name);
+      localStorage.setItem("lastName", res.data.last_name);
+
+      UserStore.fillStore(res.data.token, res.data.first_name, res.data.last_name, res.data.tz, res.data.lang)
+      router.push("/login");
     })
     .catch((err) => {
       if (err.response) {

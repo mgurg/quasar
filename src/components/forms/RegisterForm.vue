@@ -106,7 +106,7 @@ const submit = handleSubmit((values) => {
 
     // if detectedLocale is 'en' or 'es' return
     if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
-      return detectedLocale;
+      return userLocale;
     }
     // else return default value
     return "en-US";
@@ -134,7 +134,7 @@ async function registerAdmin(data) {
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;
-      router.push({ path: "/new_account" });
+      router.push("/new_account");
     })
     .catch((err) => {
       if (err.response) {

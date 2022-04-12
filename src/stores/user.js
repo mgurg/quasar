@@ -71,6 +71,14 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    fillStore(token,firstName,lastName, tz,lang ){
+      this.token = token
+      this.firstName = firstName
+      this.lastName = lastName
+      this.tz = tz
+      this.lang = lang
+    },
+
     async autoLogin() {
       // if (localStorage.getItem("klucz") === null){
       //   var token = sessionStorage.getItem("klucz");

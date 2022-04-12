@@ -60,6 +60,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      { path: "/users", component: () => import("pages/Users/UserIndex.vue") },
       { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
       {
         path: "/tasks/add",
