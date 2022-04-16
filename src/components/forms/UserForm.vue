@@ -9,7 +9,7 @@
             @submit.prevent
         >
         <div class="row justify-between items-center">
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }} Users</h5>
+        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Users") }}</h5>
 
             </div>
             <q-input
@@ -18,7 +18,7 @@
                 :disable="isLoading"
                 :error="!!errors.userFirstName"
                 :error-message="errors.userFirstName"
-                :label="$t('Task name')"
+                :label="$t('First name')"
             />
             <q-input
                 outlined
@@ -26,7 +26,7 @@
                 :disable="isLoading"
                 :error="!!errors.userLastName"
                 :error-message="errors.userLastName"
-                :label="$t('Task name')"
+                :label="$t('Last name')"
             />
             <q-input
                 outlined
@@ -34,7 +34,7 @@
                 :disable="isLoading"
                 :error="!!errors.userEmail"
                 :error-message="errors.userEmail"
-                :label="$t('Task name')"
+                :label="$t('E-mail')"
             />
             <q-input
                 outlined
@@ -42,7 +42,7 @@
                 :disable="isLoading"
                 :error="!!errors.userPhone"
                 :error-message="errors.userPhone"
-                :label="$t('Task name')"
+                :label="$t('Phone')"
             />
 
 

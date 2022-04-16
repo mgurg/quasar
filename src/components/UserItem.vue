@@ -2,7 +2,7 @@
     <div @click="handleSelect(user.uuid)">
         <q-item :class="{ 'done bg-blue-1': user.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
-                <q-avatar rounded color="red" text-color="white" icon="question_mark" />
+                <q-avatar rounded color="red" text-color="white">{{initials}}</q-avatar>
                 <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />
                     <q-badge floating rounded color="green" />
@@ -38,9 +38,9 @@
 <script setup>
 import { useQuasar } from 'quasar'
 import { useRouter } from "vue-router";
-import { api } from "boot/axios";
+import { authApi } from "boot/axios";
 import { DateTime } from 'luxon';
-
+import { computed } from 'vue';
 const $q = useQuasar()
 const router = useRouter();
 
@@ -66,6 +66,8 @@ const handleSelect = (uuid) => {
     emit('selectedItem', uuid)
 }
 
+const initials = computed(() => (props.user.first_name[0]+ props.user.last_name[0]).toUpperCase())
+
 const units = [
     'year',
     'month',
@@ -76,20 +78,6 @@ const units = [
     'second',
 ];
 
-const timeAgo = (date) => {
-    let dateTime = DateTime.fromISO(date) // TODO: FIX created_at
-    // let dateTime = DateTime.fromSQL("2017-05-15 09:24:15");
-    const diff = dateTime.diffNow().shiftTo(...units);
-    const unit = units.find((unit) => diff.get(unit) !== 0) || 'second';
-
-    const relativeFormatter = new Intl.RelativeTimeFormat('en', {
-        localeMatcher: "best fit", // other values: "lookup"
-        numeric: "always", // other values: "auto"
-        style: "narrow", // "long", "short" or "narrow"
-    });
-    return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
-};
-
 function deleteUser(uuid) {
     $q.dialog({
         title: "Confirm",
@@ -97,8 +85,8 @@ function deleteUser(uuid) {
         cancel: true,
         persistent: true,
     }).onOk(() => {
-        api
-            .delete("/tasks/" + uuid)
+        authApi
+            .delete("/user/" + uuid)
             .then((res) => {
                 console.log(res.data);
             })
@@ -112,7 +100,7 @@ function deleteUser(uuid) {
                 }
 
             });
-        $q.notify("Task deleted");
+        $q.notify("User deleted");
         // fetchTasks()
     });
 }

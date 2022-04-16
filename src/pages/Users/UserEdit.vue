@@ -74,15 +74,15 @@ function updateTask(body) {
 
 function getDetails(uuid) {
     authApi
-        .get("/tasks/" + uuid)
+        .get("/user/" + uuid)
         .then((res) => {
             console.log(uuid);
             console.log(res.data);
             taskDetails.value = res.data
 
-            if (res.data.date_from == null) {
-                taskDetails.value.mode = 'task'
-            }
+            // if (res.data.date_from == null) {
+            //     taskDetails.value.mode = 'task'
+            // }
         })
         .catch((err) => {
             if (err.response) {

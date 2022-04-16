@@ -21,6 +21,19 @@ export default {
 	"Say something about yourself." : `Powiedz coś o sobie.`,
 	"Lets start": `Zaczynajmy`,
 
+	// users
+	"User": `Użytkownik`,
+	"Users": `Użytkownicy.`,
+	"First name": `Imię`,
+	"Last name": `Nazwisko`,
+	"Phone": `Telefon`,
+
+
+
+
+
+
+
 	// tasks
 	"Action failed": `Akcja: nieudana`,
 	"Action was successful": `Działanie powiodło się`,

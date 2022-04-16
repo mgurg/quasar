@@ -21,6 +21,19 @@ export default {
 	"Say something about yourself." : `Dites quelque chose à propos de vous.`,
 	"Lets start": `Commençons`,
 
+	// users
+	"User": `Utilisateur`,
+	"Users": `Utilisateurs`,
+	"First name": `Prénom`,
+	"Last name": `Nom de famille`,
+	"Phone": `Téléphoner`,
+
+
+
+
+
+
+
 	// tasks
 	"Action failed": `Action: échoué`,
 	"Action was successful": `L'action a réussi`,
@@ -31,5 +44,5 @@ export default {
 	"Task name": `Nom de la tâche`,
 	"Task description": `Description de la tâche`,
 	"Add": `Ajouter`,
-	"Edit": `Éditer`,
+	"Edit": `Modifier`,
 }
