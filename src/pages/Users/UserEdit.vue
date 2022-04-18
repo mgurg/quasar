@@ -11,7 +11,8 @@
             <user-form
                 :user="userDetails"
                 button-text="Edit"
-                @taskFormBtnClick="signUpButtonPressed"
+                @userFormBtnClick="signUpButtonPressed"
+                @cancelBtnClick="cancelButtonPressed"
                 v-if="userDetails != null"
                 :key="userDetails.uuid"
             />
@@ -36,7 +37,7 @@ const $q = useQuasar()
 const tasks = ref(null);
 const route = useRoute();
 const router = useRouter();
-let taskUuid = ref(route.params.uuid);
+let userUuid = ref(route.params.uuid);
 let userDetails = ref(null);
 let usersList = ref(null);
 
@@ -50,14 +51,14 @@ let errors = ref(null);
 
 
 
-function updateTask(body) {
+function updateUser(body) {
     // isLoading.value = true;
     authApi
-        .patch("/tasks/" + taskUuid.value, body)
+        .patch("/user/" + userUuid.value, body)
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;
-            router.push("/tasks");
+            router.push("/users");
         })
         .catch((err) => {
             if (err.response) {
@@ -120,8 +121,14 @@ function getUsers() {
 
 function signUpButtonPressed(taskForm) {
     console.log('outside', taskForm)
-    updateTask(taskForm)
+    updateUser(taskForm)
     console.log('Edit ok')
+}
+
+
+function cancelButtonPressed() {
+    console.log('cancelBtnClick')
+    router.push("/users");
 }
 
 onActivated(() => {

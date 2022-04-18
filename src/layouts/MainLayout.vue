@@ -69,23 +69,32 @@
           <q-item-section>Users</q-item-section>
         </q-item>
 
-        <!--Tasks Index-->
-        <q-item to="/tasks" exact clickable v-ripple>
+        <!--Ideas Index-->
+        <q-item to="/ideas" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="tips_and_updates" />
+          </q-item-section>
+
+          <q-item-section>Ideas</q-item-section>
+        </q-item>
+
+        <!-- Tasks Index -->
+        <!-- <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="add_task" />
           </q-item-section>
 
           <q-item-section>TODO List</q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!--Maps Index-->
-        <q-item to="/layout" exact clickable v-ripple>
+        <!-- <q-item to="/layout" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="place" />
           </q-item-section>
 
           <q-item-section>Items</q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!--Files Index-->
         <q-item to="/files" exact clickable v-ripple>
@@ -97,22 +106,22 @@
         </q-item>
 
         <!--Editor Index-->
-        <q-item to="/editor" exact clickable v-ripple>
+        <!-- <q-item to="/editor" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="post_add" />
           </q-item-section>
 
           <q-item-section>Editor</q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!--Calendar Index-->
-        <q-item to="/calendar" exact clickable v-ripple>
+        <!-- <q-item to="/calendar" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="calendar_month" />
           </q-item-section>
 
           <q-item-section>Calendar</q-item-section>
-        </q-item>
+        </q-item> -->
       </q-list>
     </q-drawer>
 

@@ -47,7 +47,7 @@
 
 
             <div class="row">
-                <q-btn type="submit" color="red">Cancel</q-btn>
+                <q-btn type="submit" color="red" @click="cancelButtonHandle">Cancel</q-btn>
                 <q-space />
                 <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
@@ -76,7 +76,7 @@ const props = defineProps({
             return {
                 first_name: '',
                 last_name: '',
-                email: 'red@r.pl',
+                email: '',
                 phone: null,
 
             }
@@ -98,7 +98,7 @@ const props = defineProps({
     },
 })
 // emits: ['taskFormBtnClick'],
-const emit = defineEmits(['userFormBtnClick'])
+const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 
 let isError = ref(false);
 let isLoading = ref(false);
@@ -148,6 +148,11 @@ const submit = handleSubmit(values => {
 
 // --------------- Form --------------
 
+function  cancelButtonHandle()
+{
+    console.log('cancelBtnClick')
+    emit('cancelBtnClick')
+}
 
 </script>
 

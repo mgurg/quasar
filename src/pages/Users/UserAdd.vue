@@ -11,6 +11,7 @@
             <user-form
                 button-text="Add"
                 @userFormBtnClick="addUserButtonPressed"
+                @cancelBtnClick="cancelButtonPressed"
             ></user-form>
 
             <!-- <task-form
@@ -101,6 +102,10 @@ function addUserButtonPressed(taskForm) {
     
 }
 
+function cancelButtonPressed() {
+    console.log('cancelBtnClick')
+    router.push("/users");
+}
 
 onActivated(() => {
     isLoading.value = true;

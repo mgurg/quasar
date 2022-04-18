@@ -68,6 +68,8 @@ const routes = [
       { path: "/tasks/add", component: () => import("pages/Tasks/TaskAdd.vue") },
       { path: "/tasks/:uuid", component: () => import("pages/Tasks/TaskView.vue") },
       { path: "/tasks/edit/:uuid", component: () => import("pages/Tasks/TaskEdit.vue") },
+      { path: "/ideas", component: () => import("pages/Ideas/IdeaIndex.vue") },
+      { path: "/ideas/add", component: () => import("pages/Ideas/IdeaAdd.vue") },
 
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
       { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
