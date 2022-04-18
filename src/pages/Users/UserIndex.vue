@@ -5,8 +5,8 @@
 
       <q-list bordered padding v-if="!isLoading">
 
-        <div v-for="user in users" v-bind:key="user.uuid">
-        <user-item @selectedItem="selectUser" :user="user" :selected="selected" v-if="!isLoading"></user-item>
+        <div v-for="(user, index) in users" v-bind:key="index">
+        <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected" v-if="!isLoading"></user-item>
         </div>
 
       </q-list>
@@ -27,8 +27,6 @@ import { authApi } from "boot/axios";
 import UserItem from 'components/UserItem.vue'
 
 import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
-
-
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -56,7 +54,9 @@ let selected = ref(null);
 // });
 
 
-function fetchTasks() {
+function fetchUsers() {
+  isLoading.value = true;
+  console.log('fetching users');
   authApi
     .get("/user/")
     .then((res) => {
@@ -72,7 +72,6 @@ function fetchTasks() {
       } else {
         console.log("General Error");
       }
-
     });
 }
 
@@ -89,7 +88,7 @@ function selectUser(uuid) {
 
 onActivated(() => {
   isLoading.value = true;
-  fetchTasks()
+  fetchUsers()
 });
 
 

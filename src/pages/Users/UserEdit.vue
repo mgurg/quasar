@@ -4,17 +4,16 @@
             <div class="q-pa-md q-gutter-sm">
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/" />
-                    <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
+                    <q-breadcrumbs-el label="Users" icon="people" to="/users" />
                     <q-breadcrumbs-el label="Edit" icon="edit" />
                 </q-breadcrumbs>
             </div>
-            <task-form
-                :tasks="taskDetails"
+            <user-form
+                :user="userDetails"
                 button-text="Edit"
-                :usersList="usersList"
                 @taskFormBtnClick="signUpButtonPressed"
-                v-if="taskDetails != null && usersList != null"
-                :key="taskDetails.uuid"
+                v-if="userDetails != null"
+                :key="userDetails.uuid"
             />
             <task-edit-skeleton v-else />
         </q-page>
@@ -28,7 +27,7 @@
 import { useQuasar } from 'quasar'
 import { onActivated, ref } from "vue";
 import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
-import TaskForm from 'src/components/forms/TaskForm.vue'
+import UserForm from 'src/components/forms/UserForm.vue'
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 
@@ -38,7 +37,7 @@ const tasks = ref(null);
 const route = useRoute();
 const router = useRouter();
 let taskUuid = ref(route.params.uuid);
-let taskDetails = ref(null);
+let userDetails = ref(null);
 let usersList = ref(null);
 
 let isLoading = ref(false);
@@ -78,10 +77,10 @@ function getDetails(uuid) {
         .then((res) => {
             console.log(uuid);
             console.log(res.data);
-            taskDetails.value = res.data
+            userDetails.value = res.data
 
             // if (res.data.date_from == null) {
-            //     taskDetails.value.mode = 'task'
+            //     userDetails.value.mode = 'task'
             // }
         })
         .catch((err) => {

@@ -74,9 +74,9 @@ const props = defineProps({
         // a factory function
         default() {
             return {
-                firstName: '',
-                lastName: '',
-                email: 'red',
+                first_name: '',
+                last_name: '',
+                email: 'red@r.pl',
                 phone: null,
 
             }
@@ -123,8 +123,8 @@ const { handleSubmit, errors } = useForm({
     validationSchema
 })
 
-const { value: userFirstName } = useField('userFirstName', undefined, { initialValue: props.user.firstName })
-const { value: userLastName } = useField('userLastName', undefined, { initialValue: props.user.lastName })
+const { value: userFirstName } = useField('userFirstName', undefined, { initialValue: props.user.first_name })
+const { value: userLastName } = useField('userLastName', undefined, { initialValue: props.user.last_name })
 const { value: userEmail } = useField('userEmail', undefined, { initialValue: props.user.email })
 const { value: userPhone } = useField('userPhone', undefined, { initialValue: props.user.phone })
 

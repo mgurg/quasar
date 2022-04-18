@@ -61,9 +61,13 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['selectedItem'])
+const emit = defineEmits(['selectedItem', 'refreshList'])
 const handleSelect = (uuid) => {
     emit('selectedItem', uuid)
+}
+
+const handleRefresh = () => {
+    emit('refreshList')
 }
 
 const initials = computed(() => (props.user.first_name[0]+ props.user.last_name[0]).toUpperCase())
@@ -101,6 +105,8 @@ function deleteUser(uuid) {
 
             });
         $q.notify("User deleted");
+        
+        handleRefresh()
         // fetchTasks()
     });
 }
