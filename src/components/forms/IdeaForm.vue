@@ -9,32 +9,32 @@
             @submit.prevent
         >
         <div class="row justify-between items-center">
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }}</h5>
+        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Idea") }}</h5>
             <div class="q-gutter-sm">
                 <!-- <span>Color:</span> -->
-                <span><q-radio keep-color v-model="taskColor" val="teal" color="teal" /></span>
-                <span><q-radio keep-color v-model="taskColor" val="orange" color="orange" /></span>              
-                <span><q-radio keep-color v-model="taskColor" val="red" color="red" /></span>
-                <span><q-radio keep-color v-model="taskColor" val="cyan" color="cyan" /></span>
+                <span><q-radio keep-color v-model="ideaColor" val="teal" color="teal" /></span>
+                <span><q-radio keep-color v-model="ideaColor" val="orange" color="orange" /></span>              
+                <span><q-radio keep-color v-model="ideaColor" val="red" color="red" /></span>
+                <span><q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" /></span>
             </div>
             </div>
             <q-input
                 outlined
-                v-model="taskTitle"
+                v-model="ideaTitle"
                 :disable="isLoading"
-                :error="!!errors.taskTitle"
-                :error-message="errors.taskTitle"
-                :label="$t('Task name')"
+                :error="!!errors.ideaTitle"
+                :error-message="errors.ideaTitle"
+                :label="$t('Idea title')"
             />
             <q-input
                 outlined
                 type="textarea"
                 rows="5"
-                v-model="taskDescription"
+                v-model="ideaDescription"
                 :disable="isLoading"
-                :error="!!errors.taskDescription"
-                :error-message="errors.taskDescription"
-                :label="$t('Task description')"
+                :error="!!errors.ideaDescription"
+                :error-message="errors.ideaDescription"
+                :label="$t('Idea description')"
             />
 
             <!-- UPLOADER -->
@@ -122,15 +122,15 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['taskFormBtnClick'])
+const emit = defineEmits(['ideaFormBtnClick'])
 
 let isError = ref(false);
 let isLoading = ref(false);
 
 
 // --------------- UPLOADER ---------------
-console.log("props file: ", props.tasks.file)
-let attachments = ref(props.tasks.file);
+console.log("props file: ", props.idea.file)
+let attachments = ref(props.idea.file);
 let uploader = ref("");
 
 function download_file(uuid) {
@@ -188,9 +188,9 @@ function delete_file(uuid) {
 const { resetForm } = useForm();
 
 const validationSchema = yup.object({
-    taskColor: yup.string().required(),
-    taskTitle: yup.string().required(),
-    taskDescription: yup.string().required('A cool description is required').min(3),
+    ideaColor: yup.string().required(),
+    ideaTitle: yup.string().required(),
+    ideaDescription: yup.string().required('A cool description is required').min(3),
 })
 
 
@@ -198,9 +198,9 @@ const { handleSubmit, errors } = useForm({
     validationSchema
 })
 
-const { value: taskTitle } = useField('taskTitle', undefined, { initialValue: props.tasks.title })
-const { value: taskDescription } = useField('taskDescription', undefined, { initialValue: props.tasks.description })
-const { value: taskColor } = useField('taskColor', undefined, { initialValue: props.tasks.color })
+const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
+const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
+const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
 
 
 
@@ -209,16 +209,16 @@ const submit = handleSubmit(values => {
 
     let data = {
         "author_id": 0,
-        "color": taskColor.value,
-        "title": taskTitle.value,
-        "description": taskDescription.value,
+        "color": ideaColor.value,
+        "title": ideaTitle.value,
+        "description": ideaDescription.value,
         "files": attachments.value.map(a => a.uuid)
     }
 
     console.log('submit');
     console.log(data)
     // createTasks(data);
-    emit('taskFormBtnClick', data)
+    emit('ideaFormBtnClick', data)
 })
 
 // --------------- Form --------------

@@ -26,8 +26,11 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Phone""",Phone,Téléphoner,Telefon,Telefon
 ,,,,
 ,,,,
-,,,,
-,,,,
+#Ideas,,,,
+"""Ideas""",Ideas,Idées,Ideen,Pomysły
+"""Idea""",Idea,Idée,Idee,Pomysł
+"""Idea title""",Idea title,Titre d'idée,Ideenitel,Tytuł pomysłu.
+"""Idea description""",Idea description,Description de l'idée,Idee Beschreibung,Opis pomysłu.
 ,,,,
 ,,,,
 ,,,,

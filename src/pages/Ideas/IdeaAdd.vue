@@ -11,8 +11,7 @@
             <idea-form
                 v-if="isSuccess == true"
                 button-text="Add"
-                :usersList="usersList"
-                @taskFormBtnClick="signUpButtonPressed"
+                @ideaFormBtnClick="signUpButtonPressed"
             ></idea-form>
         </q-page>
     </div>
@@ -37,10 +36,10 @@ let usr = ref([{
 
 
 
-function createTasks(body) {
+function createIdea(body) {
     isLoading.value = true;
     authApi
-        .post("/tasks/add", body)
+        .post("/ideas/", body)
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;
@@ -55,6 +54,7 @@ function createTasks(body) {
             }
 
         });
+        router.push("/ideas");
 }
 
 function getUsers() {
@@ -86,7 +86,7 @@ function getUsers() {
 
 function signUpButtonPressed(taskForm) {
     console.log('outside', taskForm)
-    createTasks(taskForm)
+    createIdea(taskForm)
     console.log('Add ok')
 }
 

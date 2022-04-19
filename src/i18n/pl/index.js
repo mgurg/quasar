@@ -29,8 +29,11 @@ export default {
 	"Phone": `Telefon`,
 
 
-
-
+	// Ideas
+	"Ideas": `Pomysły`,
+	"Idea": `Pomysł`,
+	"Idea title": `Tytuł pomysłu.`,
+	"Idea description": `Opis pomysłu.`,
 
 
 
