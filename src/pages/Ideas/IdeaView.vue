@@ -45,41 +45,19 @@
           <q-btn
             flat
             color="primary"
-            icon="done"
+            icon="thumb_down"
             v-if="ideaDetails.status == null"
-            @click="changeState('accepted')"
-          >Accept</q-btn>
+            @click="changeState('down')"
+          ></q-btn>
 
           <q-btn
             flat
             color="red"
-            icon="lock_open"
+            icon="thumb_up"
             v-if="ideaDetails.status == null"
-            @click="changeState('rejected')"
-          >Reject</q-btn>
+            @click="changeState('up')"
+          ></q-btn>
 
-          <q-btn
-            flat
-            color="red"
-            icon="play_arrow"
-            v-if="ideaDetails.status == 'accepted' || ideaDetails.status == 'paused'"
-            @click="changeState('start')"
-          >Start</q-btn>
-          <q-btn
-            flat
-            color="teal"
-            icon="pause"
-            v-if="ideaDetails.status == ('in_progress')"
-            @click="changeState('pause')"
-          >Hold</q-btn>
-
-          <q-btn
-            flat
-            color="primary"
-            icon="stop"
-            v-if="ideaDetails.status != null"
-            @click="changeState('stop')"
-          >Done</q-btn>
         </q-card-actions>
 
         <q-card-section class="q-pt-none">{{ ideaDetails.description }}</q-card-section>
@@ -171,7 +149,7 @@ function getDetails(uuid) {
 
 function changeState(state) {
   authApi
-    .post("tasks/action/" + ideaDetails.value.uuid, { "action_type": state })
+    .post("ideas/vote", {"idea_uuid" : ideaDetails.value.uuid, "vote": state })
     .then((res) => {
       console.log(uuid);
       console.log(res.data);
