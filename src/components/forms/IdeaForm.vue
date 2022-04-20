@@ -217,7 +217,6 @@ const submit = handleSubmit(values => {
 
     console.log('submit');
     console.log(data)
-    // createTasks(data);
     emit('ideaFormBtnClick', data)
 })
 

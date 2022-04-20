@@ -22,6 +22,9 @@
 import { onActivated, reactive, ref } from "vue";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
 import { authApi } from "boot/axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 
 
@@ -84,9 +87,9 @@ function getUsers() {
 
 
 
-function signUpButtonPressed(taskForm) {
-    console.log('outside', taskForm)
-    createIdea(taskForm)
+function signUpButtonPressed(ideaForm) {
+    console.log('outside', ideaForm)
+    createIdea(ideaForm)
     console.log('Add ok')
 }
 
