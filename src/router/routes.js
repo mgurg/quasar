@@ -57,6 +57,14 @@ const routes = [
     },
   },
   {
+    path: "/new/:id?",
+    name: "newIdea",
+    component: () => import("pages/Auth/NewIdea.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [

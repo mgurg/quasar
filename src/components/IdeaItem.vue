@@ -1,7 +1,7 @@
 <template>
   <div @click="handleSelect(idea.uuid)">
     <q-item :class="{ 'done bg-blue-1': idea.uuid == selected }">
-      <q-item-section avatar cursor-pointer ripple @click="viewTask(idea.uuid)">
+      <q-item-section avatar cursor-pointer ripple @click="viewIdea(idea.uuid)">
         <q-avatar rounded :color="counter > 0? 'green': 'red'" text-color="white">
           {{ counter }}
           </q-avatar
@@ -9,11 +9,11 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1">{{ idea.title }}</q-item-label>
+        <q-item-label lines="1">{{ idea.title }} </q-item-label>
         <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
-        <q-item-label lines="1">
+        <!-- <q-item-label lines="1">
           <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
-        </q-item-label>
+        </q-item-label> -->
       </q-item-section>
 
       <q-item-section side v-if="idea.uuid == selected">
@@ -32,7 +32,7 @@
       </q-item-section>
       <q-item-section side v-else>
         <q-item-label caption>{{ timeAgo(idea.created_at) }}</q-item-label>
-        <q-icon name="priority_high" color="red" />
+        <!-- <q-icon name="priority_high" color="red" /> -->
       </q-item-section>
     </q-item>
 
