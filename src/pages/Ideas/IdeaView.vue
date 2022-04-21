@@ -50,9 +50,9 @@
         <q-separator />
 
         <q-card-actions>
-          <q-btn flat color="primary" icon="check_circle">&nbsp; Akceptuj</q-btn>
-          <q-btn flat color="primary" icon="delete_forever">&nbsp; Odrzuć</q-btn>
-          <q-btn flat color="primary" icon="verified">&nbsp; Wykonaj</q-btn>
+          <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle" v-if="ideaDetails.status==null">&nbsp; Akceptuj</q-btn>
+          <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status==(null||'accepted')">&nbsp; Odrzuć</q-btn>
+          <q-btn @click="setState('todo')" flat color="primary" icon="verified" v-if="ideaDetails.status=='accepted'">&nbsp; Wykonaj</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -177,6 +177,24 @@ function getLastVote(state) {
     });
 }
 
+
+function setState(status) {
+  authApi
+    .patch("/ideas/" + route.params.uuid , {"status" : status, "vote": null})
+    .then((res) => {
+      ideaDetails.value.status = status
+
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 onActivated(() => {
   isLoading.value = true;
   getDetails(route.params.uuid);

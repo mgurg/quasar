@@ -38,7 +38,6 @@ let usr = ref([{
 }, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]);
 
 
-
 function createIdea(body) {
     isLoading.value = true;
     authApi

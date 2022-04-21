@@ -3,12 +3,47 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
 
+  <div class="q-pb-md">
+      <q-btn-group>
+      <q-btn rounded color="primary" label="Attachment" icon="image"/>
+
+      <!-- <q-btn rounded color="primary" label="Two" /> -->
+
+    <q-btn-dropdown auto-close color="primary" label="Status">
+      <q-list>
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label>Rejected</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label>Accepted</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label>Todo</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
+  
+    </q-btn-group>
+    </div>
+
       <q-list bordered padding v-if="!isLoading">
-
         <div v-for="(idea, index) in ideas" v-bind:key="index">
-          <idea-item @selectedItem="selectIdea" :idea="idea" :selected="selected" v-if="!isLoading"></idea-item>
+          <idea-item
+            @selectedItem="selectIdea"
+            :idea="idea"
+            :selected="selected"
+            v-if="!isLoading"
+          ></idea-item>
         </div>
-
       </q-list>
       <!-- Skeleton -->
       <task-index-skeleton v-else />
@@ -25,9 +60,8 @@
 import { onActivated, ref, computed } from "vue";
 import { authApi } from "boot/axios";
 
-import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
-import IdeaItem from 'components/IdeaItem.vue'
-
+import TaskIndexSkeleton from "components/skeletons/TaskIndexSkeleton.vue";
+import IdeaItem from "components/IdeaItem.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -36,7 +70,6 @@ let errorMsg = ref(null);
 
 const ideas = ref(null);
 let selected = ref(null);
-
 
 // const myTasks = computed(() => {
 //   if (tasks.value != null && isLoading.value == false) {
@@ -54,12 +87,12 @@ let selected = ref(null);
 //   }
 // });
 
-
 function fetchIdeas() {
+  let params = { answer: 42 };
   authApi
-    .get("/ideas/")
+    .get("/ideas/", { params: params })
     .then((res) => {
-      ideas.value = res.data
+      ideas.value = res.data;
       console.log(res.data);
       isLoading.value = false;
     })
@@ -71,10 +104,8 @@ function fetchIdeas() {
       } else {
         console.log("General Error");
       }
-
     });
 }
-
 
 function selectIdea(uuid) {
   if (selected.value == null) {
@@ -88,8 +119,6 @@ function selectIdea(uuid) {
 
 onActivated(() => {
   isLoading.value = true;
-  fetchIdeas()
+  fetchIdeas();
 });
-
-
 </script>

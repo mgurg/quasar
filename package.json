@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.13.4",
+    "@sentry/browser": "^6.19.6",
+    "@sentry/integrations": "^6.19.6",
+    "@sentry/tracing": "^6.19.6",
+    "@sentry/vue": "^6.19.6",
     "@tiptap/starter-kit": "^2.0.0-beta.183",
     "@tiptap/vue-3": "^2.0.0-beta.90",
     "@vue-leaflet/vue-leaflet": "^0.6.1",
