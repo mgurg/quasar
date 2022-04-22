@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el label="Ideas" icon="tips_and_updates" to="/ideas" />
-          <q-breadcrumbs-el label="Add" icon="add" />
+          <q-breadcrumbs-el label="View" icon="info" />
         </q-breadcrumbs>
       </div>
 
@@ -145,8 +145,10 @@ function sendVote(state) {
   authApi
     .post("ideas/vote", { idea_uuid: ideaDetails.value.uuid, vote: state })
     .then((res) => {
-      console.log(uuid);
-      console.log(res.data);
+      // console.log(uuid);
+      // console.log(res.data);
+      // console.log(res.data.vote)
+      lastVote.value = state
     })
     .catch((err) => {
       if (err.response) {

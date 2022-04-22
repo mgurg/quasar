@@ -78,6 +78,15 @@
           <q-item-section>Ideas</q-item-section>
         </q-item>
 
+        <!--Ideas Index-->
+        <q-item to="/settings" exact clickable >
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+
+          <q-item-section>Settings</q-item-section>
+        </q-item>
+
         <!-- Tasks Index -->
         <!-- <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>

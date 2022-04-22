@@ -79,6 +79,8 @@ const routes = [
       { path: "/ideas/add", component: () => import("pages/Ideas/IdeaAdd.vue") },
       { path: "/ideas/:uuid", component: () => import("pages/Ideas/IdeaView.vue") },
 
+      { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
+
       { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
       { path: "/tasks/add", component: () => import("pages/Tasks/TaskAdd.vue") },
       { path: "/tasks/:uuid", component: () => import("pages/Tasks/TaskView.vue") },
