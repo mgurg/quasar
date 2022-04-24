@@ -50,7 +50,7 @@ let usr = ref([{
 function createUser(body) {
     isLoading.value = true;
     authApi
-        .post("/user", body)
+        .post("/user/", body)
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;

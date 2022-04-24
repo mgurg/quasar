@@ -65,6 +65,14 @@ const routes = [
     },
   },
   {
+    path: "/qr",
+    name: "qr",
+    component: () => import("pages/Auth/Qr.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [

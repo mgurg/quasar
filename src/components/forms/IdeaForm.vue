@@ -97,7 +97,7 @@ import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
 import * as yup from 'yup';
-import { api } from "boot/axios";
+import { api, authApi } from "boot/axios";
 
 const props = defineProps({
     idea: {
@@ -164,7 +164,7 @@ function finished() {
 }
 
 function delete_file(uuid) {
-    api
+    authApi
         .delete(process.env.VUE_APP_URL + "/files/" + uuid)
         .then((res) => {
             console.log(res.data);
@@ -208,7 +208,6 @@ const submit = handleSubmit(values => {
     // isLoading.value = true;
 
     let data = {
-        "author_id": 0,
         "color": ideaColor.value,
         "title": ideaTitle.value,
         "description": ideaDescription.value,

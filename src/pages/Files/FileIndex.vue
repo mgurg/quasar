@@ -169,7 +169,7 @@
 </template>
 
 <script setup>
-import { api } from "boot/axios";
+import { api, authApi } from "boot/axios";
 import { ref, reactive } from 'vue'
 import { computed } from 'vue'
 import { useCounterStore } from 'stores/counter'
@@ -197,7 +197,7 @@ function uploadFile(file) {
       // The third parameter is required for server
       formData.append('file', result, result.name);
       // formData.append('file', result);
-  api
+  authApi
     .post(process.env.VUE_APP_URL + "/files/", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -262,7 +262,7 @@ function remove(uuid) {
 }
 
 function listFiles() {
-  api
+  authApi
     .get("/files/index")
     .then((res) => {
 
@@ -292,7 +292,7 @@ function uploadUrl() {
 }
 
 function delete_file(uuid) {
-  api
+  authApi
     .delete(process.env.VUE_APP_URL + "/files/" + uuid)
     .then((res) => {
       console.log(res.data);
@@ -341,7 +341,7 @@ function uploadImage(file, updateProgress) {
   let formData = new FormData()
   formData.append('file', file[0])
 
-  api
+  authApi
     .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'

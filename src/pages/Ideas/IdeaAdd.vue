@@ -9,7 +9,6 @@
                 </q-breadcrumbs>
             </div>
             <idea-form
-                v-if="isSuccess == true"
                 button-text="Add"
                 @ideaFormBtnClick="signUpButtonPressed"
             ></idea-form>
@@ -61,7 +60,7 @@ function createIdea(body) {
 
 function getUsers() {
     authApi
-        .get("user")
+        .get("/user/")
         .then((res) => {
             console.log(res.data)
 
@@ -93,11 +92,11 @@ function signUpButtonPressed(ideaForm) {
 }
 
 
-onActivated(() => {
-    isLoading.value = true;
-    getUsers();
-    isLoading.value = false;
-});
+// onActivated(() => {
+    // isLoading.value = true;
+    // getUsers();
+    // isLoading.value = false;
+// });
 
 
 </script>
