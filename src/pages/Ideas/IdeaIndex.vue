@@ -39,6 +39,7 @@
         <div v-for="(idea, index) in ideas" v-bind:key="index">
           <idea-item
             @selectedItem="selectIdea"
+            @forceRefresh="fetchIdeas"
             :idea="idea"
             :selected="selected"
             v-if="!isLoading"

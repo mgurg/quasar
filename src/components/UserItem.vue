@@ -2,7 +2,7 @@
     <div @click="handleSelect(user.uuid)">
         <q-item :class="{ 'done bg-blue-1': user.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
-                <q-avatar rounded color="red" text-color="white">{{initials}}</q-avatar>
+                <q-avatar rounded color="red" text-color="white">{{ initials }}</q-avatar>
                 <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />
                     <q-badge floating rounded color="green" />
@@ -61,7 +61,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['selectedItem', 'refreshList'])
+const emit = defineEmits(['selectedItem', 'refreshList', , "forceRefresh"])
 const handleSelect = (uuid) => {
     emit('selectedItem', uuid)
 }
@@ -70,7 +70,7 @@ const handleRefresh = () => {
     emit('refreshList')
 }
 
-const initials = computed(() => (props.user.first_name[0]+ props.user.last_name[0]).toUpperCase())
+const initials = computed(() => (props.user.first_name[0] + props.user.last_name[0]).toUpperCase())
 
 const units = [
     'year',
@@ -93,6 +93,7 @@ function deleteUser(uuid) {
             .delete("/user/" + uuid)
             .then((res) => {
                 console.log(res.data);
+                emit("forceRefresh")
             })
             .catch((err) => {
                 if (err.response) {
@@ -105,7 +106,7 @@ function deleteUser(uuid) {
 
             });
         $q.notify("User deleted");
-        
+
         handleRefresh()
         // fetchTasks()
     });

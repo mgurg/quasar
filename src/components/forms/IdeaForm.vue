@@ -1,88 +1,62 @@
 <template>
     <div>
-        <q-form
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            class="q-gutter-md"
-            @submit.prevent
-        >
-        <div class="row justify-between items-center">
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Idea") }}</h5>
-            <div class="q-gutter-sm">
-                <!-- <span>Color:</span> -->
-                <span><q-radio keep-color v-model="ideaColor" val="teal" color="teal" /></span>
-                <span><q-radio keep-color v-model="ideaColor" val="orange" color="orange" /></span>              
-                <span><q-radio keep-color v-model="ideaColor" val="red" color="red" /></span>
-                <span><q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" /></span>
+        <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+            @submit.prevent>
+            <div class="row justify-between items-center">
+                <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Idea") }}</h5>
+                <div class="q-gutter-sm">
+                    <!-- <span>Color:</span> -->
+                    <span>
+                        <q-radio keep-color v-model="ideaColor" val="teal" color="teal" />
+                    </span>
+                    <span>
+                        <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
+                    </span>
+                    <span>
+                        <q-radio keep-color v-model="ideaColor" val="red" color="red" />
+                    </span>
+                    <span>
+                        <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
+                    </span>
+                </div>
             </div>
-            </div>
-            <q-input
-                outlined
-                v-model="ideaTitle"
-                :disable="isLoading"
-                :error="!!errors.ideaTitle"
-                :error-message="errors.ideaTitle"
-                :label="$t('Idea title')"
-            />
-            <q-input
-                outlined
-                type="textarea"
-                rows="5"
-                v-model="ideaDescription"
-                :disable="isLoading"
-                :error="!!errors.ideaDescription"
-                :error-message="errors.ideaDescription"
-                :label="$t('Idea description')"
-            />
+            <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
+                :error-message="errors.ideaTitle" :label="$t('Idea title')" />
+            <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
+                :error="!!errors.ideaDescription" :error-message="errors.ideaDescription"
+                :label="$t('Idea description')" />
 
             <!-- UPLOADER -->
-            <q-uploader
-                :url="uploadUrl"
-                @uploaded="uploaded"
-                @finish="finished"
+            <q-uploader 
+                @added="uploadFile"
+                @finish="uploadFinished" 
                 ref="uploader"
-                :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
                 field-name="file"
-                label="No thumbnails"
-                color="amber"
-                accept=".jpg, image/*"
-                auto-upload
-                flat
-                bordered
+                label="No thumbnails" 
+                color="amber" 
+                accept=".jpg, image/*" 
+                flat 
+                bordered 
                 text-color="black"
-                no-thumbnails
-                style="width: auto;"
-                v-if="attachments.length <= 4"
+                no-thumbnails 
+                style="width: auto;" 
+                v-if="attachments.length <= 4" 
             />
+            
             <!-- IMG -->
             <div class="row q-col-gutter-xs">
-                <div
-                    class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
-                    v-for="(file, index) in attachments"
-                    v-bind:key="index"
-                >
-                    <q-img
-                        :src="download_file(file.uuid)"
-                        spinner-color="black"
-                        style="height: 100%; width:100% "
-                        fit="contain"
-                    >
-                        <q-icon
-                            class="absolute all-pointer-events"
-                            size="sm"
-                            name="delete"
-                            color="blue-grey-5"
-                            style="top: 8px; right: 8px"
-                            @click="delete_file(file.uuid)"
-                        >
+                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments"
+                    v-bind:key="index">
+                    <q-img :src="download_file(file.uuid)" spinner-color="black" style="height: 100%; width:100% "
+                        fit="contain">
+                        <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
+                            style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
                             <q-tooltip>Tooltip</q-tooltip>
                         </q-icon>
                     </q-img>
                 </div>
             </div>
-         
+
             <div class="row">
                 <q-btn type="submit" color="red">Cancel</q-btn>
                 <q-space />
@@ -98,6 +72,10 @@ import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
 import * as yup from 'yup';
 import { api, authApi } from "boot/axios";
+import { useUserStore } from "stores/user";
+import Compressor from 'compressorjs';
+
+const UserStore = useUserStore();
 
 const props = defineProps({
     idea: {
@@ -115,7 +93,10 @@ const props = defineProps({
             }
         }
     },
-
+    token: {
+        type: String,
+        default: null,
+    },
     buttonText: {
         type: String,
         default: 'Save',
@@ -126,11 +107,69 @@ const emit = defineEmits(['ideaFormBtnClick'])
 
 let isError = ref(false);
 let isLoading = ref(false);
+let attachments = ref(props.idea.file);
 
 
 // --------------- UPLOADER ---------------
+
+function uploadFile(file) {
+
+let token = props.token
+if (props.token == null)
+    token = UserStore.getToken
+
+
+  new Compressor(file[0], {
+    quality: 0.6,
+    maxWidth: 1600,
+    mimeType: 'image/jpeg',
+    success(result) {
+      const formData = new FormData();
+
+      // The third parameter is required for server
+      formData.append('file', result, result.name);
+
+      // size check
+      let img = new Image();
+      let objectURL = URL.createObjectURL(result);
+      img.onload = function () { console.log(img.width, img.height) }
+      img.src = objectURL
+
+      console.log(result.size, result.type, result.name, result.lastModified)
+      console.log(token)
+      api
+        .post(process.env.VUE_APP_URL + "/files/", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+          attachments.value.push(res.data)
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+        });
+
+
+    },
+    error(err) {
+      console.log(err.message);
+    },
+  });
+
+}
+
+console.log("props token: ", props.token)
 console.log("props file: ", props.idea.file)
-let attachments = ref(props.idea.file);
+
 let uploader = ref("");
 
 function download_file(uuid) {
@@ -143,16 +182,7 @@ function uploadUrl() {
     return process.env.VUE_APP_URL + "/files/"
 }
 
-function uploaded({ files, xhr }) {
-    // alert('uploaded')
-    let response = JSON.parse(xhr.response)
-    attachments.value.push(response);
-    console.log("attachments response", response)
-    console.log("attachments", attachments.value)
-    //   listFiles()
-}
-
-function finished() {
+function uploadFinished() {
     return new Promise((resolve) => {
         // simulating a delay of 2 seconds
         setTimeout(() => {
@@ -225,5 +255,4 @@ const submit = handleSubmit(values => {
 
 
 <style lang="scss"  scoped>
-
 </style>

@@ -4,7 +4,7 @@
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <div class="q-pa-md">
           {{ activationId }}
-          <idea-form button-text="Add" @ideaFormBtnClick="signUpButtonPressed"></idea-form>
+          <idea-form button-text="Add" :token="anonymousToken" @ideaFormBtnClick="signUpButtonPressed"></idea-form>
 
         </div>
       </q-page>
@@ -18,12 +18,12 @@ import { ref, computed } from "vue";
 import { useRoute } from 'vue-router';
 import { api } from "boot/axios";
 
+
 const route = useRoute()
 const path = computed(() => route.path)
 const activationId = ref(route.params.id)
 
 let isLoading = ref('false')
-
 let anonymousToken = ref(null);
 
 
@@ -57,7 +57,7 @@ function signUpButtonPressed(ideaForm) {
 
 function createAnonymousIdea(body) {
   isLoading.value = true;
-  const AuthStr = 'Bearer '+ anonymousToken.value;
+  const AuthStr = 'Bearer ' + anonymousToken.value;
   api.post("/ideas/", body, { headers: { Authorization: AuthStr } })
     .then((res) => {
       console.log(res.data);

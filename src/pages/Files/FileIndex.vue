@@ -2,13 +2,13 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
-      <h1>{{ time }}</h1>
+      <!-- <h1>{{ time }}</h1> -->
 
       <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
       <q-uploader :hide-upload-btn="true" ref="uploader"
         :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]" field-name="file" label="No thumbnails"
         color="amber" text-color="black" no-thumbnails accept=".jpg, image/*" style="max-width: 300px"
-        @added="uploadFile" @uploaded="uploaded" @finish="finished">
+        @added="uploadFile" @finish="finished">
 
       </q-uploader>
 
@@ -71,8 +71,10 @@
 <script setup>
 import { api, authApi } from "boot/axios";
 import { ref, reactive, computed } from 'vue'
+import { useUserStore } from "stores/user";
 import Compressor from 'compressorjs';
 
+const UserStore = useUserStore();
 
 let s3Files = ref([]);
 let uploader = ref("");
@@ -80,24 +82,39 @@ let uploadedFiles = ref([]);
 let dialog = ref(false)
 
 
-function uploadFile(file) {
+function uploadFile(file, token = null) {
   console.log('AXIOS upload files')
 
   // let formData = new FormData()
   // formData.append('file', file[0])
 
+  if (token == null)
+    token = UserStore.getToken
+
+  console.log('Bearer', token)
   new Compressor(file[0], {
     quality: 0.6,
+    maxWidth: 1600,
+    mimeType: 'image/jpeg',
     success(result) {
       const formData = new FormData();
 
       // The third parameter is required for server
       formData.append('file', result, result.name);
-      // formData.append('file', result);
-      authApi
+
+      // size check
+      let img = new Image();
+      let objectURL = URL.createObjectURL(result);
+      img.onload = function () { console.log(img.width, img.height) }
+      img.src = objectURL
+
+      console.log(result.size, result.type, result.name, result.lastModified)
+
+      api
         .post(process.env.VUE_APP_URL + "/files/", formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token
           }
         })
         .then((res) => {
@@ -112,34 +129,11 @@ function uploadFile(file) {
             console.log("General Error");
           }
         });
-      // // Send the compressed image file to server with XMLHttpRequest.
-      // axios.post('/path/to/upload', formData).then(() => {
-      //   console.log('Upload success');
-      // });
     },
     error(err) {
       console.log(err.message);
     },
   });
-
-  // api
-  //   .post(process.env.VUE_APP_URL + "/files/", formData, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //   })
-  //   .catch((err) => {
-  //     if (err.response) {
-  //       console.log(err.response);
-  //     } else if (err.request) {
-  //       console.log(err.request);
-  //     } else {
-  //       console.log("General Error");
-  //     }
-  //   });
 
 }
 
@@ -183,11 +177,6 @@ function download_file(uuid) {
   return process.env.VUE_APP_URL + "/files/download/" + uuid
 }
 
-function uploadUrl() {
-  console.log(process.env.VUE_APP_URL + "/files/")
-  return process.env.VUE_APP_URL + "/files/"
-}
-
 function delete_file(uuid) {
   authApi
     .delete(process.env.VUE_APP_URL + "/files/" + uuid)
@@ -207,13 +196,13 @@ function delete_file(uuid) {
     });
 }
 
-function uploaded({ files, xhr }) {
-  // alert('uploaded')
-  let response = JSON.parse(xhr.response)
-  uploadedFiles.value.push(response.uuid);
-  console.log(response)
-  listFiles()
-}
+// function uploaded({ files, xhr }) {
+//   // alert('uploaded')
+//   let response = JSON.parse(xhr.response)
+//   uploadedFiles.value.push(response.uuid);
+//   console.log(response)
+//   listFiles()
+// }
 
 function finished() {
 
@@ -233,30 +222,30 @@ function finished() {
 
 
 
-function uploadImage(file, updateProgress) {
-  alert('uploaded')
-  let formData = new FormData()
-  formData.append('file', file[0])
+// function uploadImage(file, updateProgress) {
+//   alert('uploaded')
+//   let formData = new FormData()
+//   formData.append('file', file[0])
 
-  authApi
-    .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
-}
+//   authApi
+//     .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-data'
+//       }
+//     })
+//     .then((res) => {
+//       console.log(res.data);
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//     });
+// }
 
 // https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
 // https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue

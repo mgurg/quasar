@@ -71,7 +71,7 @@ const props = defineProps({
 
 const counter = computed(() => (props.idea.upvotes - props.idea.downvotes))
 
-const emit = defineEmits(["selectedItem"]);
+const emit = defineEmits(["selectedItem", "forceRefresh"]);
 const handleSelect = (uuid) => {
   emit("selectedItem", uuid);
 };
@@ -103,7 +103,7 @@ function deleteIdea(uuid) {
       .delete("/ideas/" + uuid)
       .then((res) => {
         console.log(res.data);
-        router.push("/ideas");
+        emit("forceRefresh")
       })
       .catch((err) => {
         if (err.response) {
