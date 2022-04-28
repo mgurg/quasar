@@ -53,6 +53,8 @@
 
           <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
 
+          
+
         </q-card>
       </q-dialog>
     </q-page>
@@ -70,10 +72,25 @@
 
 <script setup>
 import { api, authApi } from "boot/axios";
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed,watch } from 'vue'
 import { useUserStore } from "stores/user";
 import Compressor from 'compressorjs';
 
+// ----------SPEECH --------------
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const recognition = SpeechRecognition ? new SpeechRecognition() : false
+    const text = ref('')
+    const load = ref(false)
+    const showMessage = ref(false)
+    if (recognition) {
+      recognition.continous = false
+      recognition.lang = 'pt-BR'
+      recognition.interimResults = false
+      recognition.maxAlternatives = 1
+    }
+
+// ----------SPEECH --------------
 const UserStore = useUserStore();
 
 let s3Files = ref([]);

@@ -15,6 +15,8 @@ export const useUserStore = defineStore('user', {
     isAuthenticated: (state) => !!state.token,
 
     getToken: (state) => state.token,
+
+    getCurrentUserId: (state) => state.uuid,
   },
   actions: {
     increment() {
@@ -32,10 +34,11 @@ export const useUserStore = defineStore('user', {
         const data = await api.post('/auth/login',body)
         console.log(data.data)
           this.token = data.data.auth_token
-          this.firstName = data.data.auth_token
-          this.lastName = data.data.auth_token
-          this.tz = data.data.auth_token
-          this.lang = data.data.auth_token
+          this.firstName = data.data.first_name
+          this.lastName = data.data.last_name
+          this.tz = data.data.tz
+          this.lang = data.data.lang
+          this.uuid = data.data.uuid
 
           if (permanent == true) {
             localStorage.setItem("klucz", data.data.auth_token);
@@ -49,6 +52,7 @@ export const useUserStore = defineStore('user', {
           localStorage.removeItem("lang");
           localStorage.removeItem("firstName");
           localStorage.removeItem("lastName");
+          localStorage.removeItem("uuid");
 
           sessionStorage.removeItem("klucz");
           localStorage.setItem("klucz", data.data.auth_token);
@@ -56,6 +60,7 @@ export const useUserStore = defineStore('user', {
           localStorage.setItem("lang", data.data.lang);
           localStorage.setItem("firstName", data.data.first_name);
           localStorage.setItem("lastName", data.data.last_name);
+          localStorage.setItem("uuid", data.data.last_name);
           return('OK')
         }
         catch (error) {
@@ -119,6 +124,7 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem("lang");
       localStorage.removeItem("firstName");
       localStorage.removeItem("lastName");
+      localStorage.removeItem("uuid");
       sessionStorage.removeItem("klucz");
       this.token = null
     },

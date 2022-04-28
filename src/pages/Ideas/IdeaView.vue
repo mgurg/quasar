@@ -42,16 +42,18 @@
           </div>
         </div>
 
-        <q-card-section class="q-pt-md">{{ ideaDetails.description }}</q-card-section>
+        <q-card-section class="q-pt-md text-body1 bg-blue-grey-1">{{ ideaDetails.description }}</q-card-section>
         <q-card-actions align="right">
-          <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" :disable="lastVote=='down'"></q-btn>
-          <q-btn flat color="red" icon="thumb_up" @click="sendVote('up')" :disable="lastVote=='up'"></q-btn>
+          <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" 
+          :disable="lastVote=='down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
+          <q-btn flat color="red" icon="thumb_up" @click="sendVote('up')" 
+          :disable="lastVote=='up' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'" ></q-btn>
         </q-card-actions>
         <q-separator />
 
         <q-card-actions>
           <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle" v-if="ideaDetails.status==null">&nbsp; Akceptuj</q-btn>
-          <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status==(null||'accepted')">&nbsp; Odrzuć</q-btn>
+          <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status==null||ideaDetails.status=='accepted'">&nbsp; Odrzuć</q-btn>
           <q-btn @click="setState('todo')" flat color="primary" icon="verified" v-if="ideaDetails.status=='accepted'">&nbsp; Wykonaj</q-btn>
         </q-card-actions>
       </q-card>

@@ -115,7 +115,7 @@ const validationSchema = yup.object({
     userFirstName: yup.string().required(),
     userLastName: yup.string().required(),
     userEmail: yup.string().required(),
-    userPhone: yup.string().required(),
+    userPhone: yup.string().nullable(),
 })
 
 

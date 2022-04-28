@@ -84,7 +84,6 @@ function getUsers() {
 }
 
 
-
 function signUpButtonPressed(ideaForm) {
     console.log('outside', ideaForm)
     createIdea(ideaForm)

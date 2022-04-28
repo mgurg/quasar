@@ -5,7 +5,30 @@
 
   <div class="q-pb-md">
       <q-btn-group>
-      <q-btn rounded color="primary" label="Attachment" icon="image"/>
+      <q-btn-dropdown  rounded color="primary" icon="image">
+      <q-list>
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label @click="setAttachmentFilter(true)" :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">Tak</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label @click="setAttachmentFilter(false)" :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">Nie</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label @click="setAttachmentFilter(null)" :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">Wszystkie</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+
+      </q-btn-dropdown>
+
+      
 
       <!-- <q-btn rounded color="primary" label="Two" /> -->
 
@@ -13,19 +36,30 @@
       <q-list>
         <q-item clickable v-close-popup >
           <q-item-section>
-            <q-item-label>Rejected</q-item-label>
+            <q-item-label 
+              @click="setStatusFilter('rejected')" 
+              :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
+                Rejected
+              </q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item clickable v-close-popup >
           <q-item-section>
-            <q-item-label>Accepted</q-item-label>
+            <q-item-label 
+              @click="setStatusFilter('accepted')" 
+              :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">Accepted</q-item-label>
           </q-item-section>
         </q-item>
 
         <q-item clickable v-close-popup >
           <q-item-section>
-            <q-item-label>Todo</q-item-label>
+            <q-item-label @click="setStatusFilter('todo')" :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'">Todo</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-close-popup >
+          <q-item-section>
+            <q-item-label @click="setStatusFilter(null)" :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">All</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -72,6 +106,19 @@ let errorMsg = ref(null);
 const ideas = ref(null);
 let selected = ref(null);
 
+let hasPhotos = ref(null);
+let hasStatus = ref(null);
+
+function setAttachmentFilter(condition){
+  hasPhotos.value=condition;
+  fetchIdeas()
+}
+
+function setStatusFilter(condition){
+  hasStatus.value=condition;
+  fetchIdeas()
+}
+
 // const myTasks = computed(() => {
 //   if (tasks.value != null && isLoading.value == false) {
 //     return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
@@ -89,7 +136,8 @@ let selected = ref(null);
 // });
 
 function fetchIdeas() {
-  let params = { answer: 42 };
+  isLoading.value = true;
+  let params = { hasImg: hasPhotos.value, status:hasStatus.value };
   authApi
     .get("/ideas/", { params: params })
     .then((res) => {
@@ -119,6 +167,7 @@ function selectIdea(uuid) {
 }
 
 onActivated(() => {
+  console.log('onActivated')
   isLoading.value = true;
   fetchIdeas();
 });

@@ -10,10 +10,10 @@
             </q-item-section>
 
             <q-item-section>
-                <q-item-label lines="1">{{ user.first_name }} {{ user.last_name }}</q-item-label>
+                <q-item-label lines="1" class="text-body1">{{ user.first_name }} {{ user.last_name }}</q-item-label>
                 <q-item-label caption lines="2">{{ user.uuid }}</q-item-label>
                 <q-item-label lines="1">
-                    <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
+                    <q-chip square size="sm" color="blue" text-color="white" v-if="user.uuid == '767a600e-8549-4c27-a4dc-656ed3a9af7d'">me</q-chip>
 
                 </q-item-label>
             </q-item-section>
@@ -21,7 +21,7 @@
             <q-item-section side v-if="user.uuid === selected">
                 <div class="text-grey-8 q-gutter-xs">
                     <q-btn size="12px" flat dense round icon="edit" @click="editUser(user.uuid)" />
-                    <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(user.uuid)" />
+                    <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(user.uuid)" v-if="user.uuid != '767a600e-8549-4c27-a4dc-656ed3a9af7d'" />
                     <q-btn size="12px" flat dense round icon="info" @click="viewUser(user.uuid)" />
                 </div>
             </q-item-section>
@@ -92,7 +92,6 @@ function deleteUser(uuid) {
         authApi
             .delete("/user/" + uuid)
             .then((res) => {
-                console.log(res.data);
                 emit("forceRefresh")
             })
             .catch((err) => {
@@ -113,7 +112,6 @@ function deleteUser(uuid) {
 }
 
 function editUser(uuid) {
-    console.log(uuid);
     router.push("/users/edit/" + uuid);
 }
 

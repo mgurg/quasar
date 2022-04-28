@@ -9,7 +9,7 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1">{{ idea.title }} </q-item-label>
+        <q-item-label lines="1" class="text-body1">{{ idea.title }} </q-item-label>
         <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
         <!-- <q-item-label lines="1">
           <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
@@ -18,7 +18,7 @@
 
       <q-item-section side v-if="idea.uuid == selected">
         <div class="text-grey-8 q-gutter-xs">
-          <q-btn size="12px" flat dense round icon="edit" @click="editIdea(idea.uuid)" />
+          <!-- <q-btn size="12px" flat dense round icon="edit" @click="editIdea(idea.uuid)" /> -->
           <q-btn
             size="12px"
             flat
@@ -102,7 +102,6 @@ function deleteIdea(uuid) {
     authApi
       .delete("/ideas/" + uuid)
       .then((res) => {
-        console.log(res.data);
         emit("forceRefresh")
       })
       .catch((err) => {
@@ -120,7 +119,6 @@ function deleteIdea(uuid) {
 }
 
 function editIdea(uuid) {
-  console.log(uuid);
   router.push("/ideas/edit/" + uuid);
 }
 

@@ -85,7 +85,6 @@ const { value: lastName } = useField("lastName");
 const { value: nip } = useField("nip", undefined, { initialValue: "123-456-32-18" });
 
 const submit = handleSubmit((values) => {
-  console.log("submit", values);
 
   let data = {
     first_name: firstName.value,
@@ -94,8 +93,6 @@ const submit = handleSubmit((values) => {
     token: props.activationId,
 
   };
-  console.log(data);
-
   firstRun(data);
 });
 // --------------- VeeValidate --------------
@@ -105,7 +102,6 @@ async function firstRun(data) {
   api
     .post("auth/first_run", data)
     .then((res) => {
-      console.log(res.data);
       isLoading.value = false;
 
       localStorage.setItem("klucz", res.data.token);

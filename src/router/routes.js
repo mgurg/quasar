@@ -57,6 +57,14 @@ const routes = [
     },
   },
   {
+    path: "/voice",
+    name: "voice",
+    component: () => import("pages/Files/Voice.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
     path: "/new/:id?",
     name: "newIdea",
     component: () => import("pages/Auth/NewIdea.vue"),

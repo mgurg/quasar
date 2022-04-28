@@ -20,29 +20,30 @@
                     </span>
                 </div>
             </div>
-            <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
-                :error-message="errors.ideaTitle" :label="$t('Idea title')" />
+            <q-input 
+                outlined 
+                v-model="ideaTitle" 
+                :disable="isLoading" 
+                :error="!!errors.ideaTitle"
+                :error-message="errors.ideaTitle" 
+                :label="$t('Idea title')">
+                <template v-slot:append>
+                    <q-btn round dense flat icon="add" />
+                </template>
+            </q-input>
             <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
                 :error="!!errors.ideaDescription" :error-message="errors.ideaDescription"
-                :label="$t('Idea description')" />
+                :label="$t('Idea description')">
+                <template v-slot:append>
+                    <q-btn round dense flat icon="add" />
+                </template>
+            </q-input>
 
             <!-- UPLOADER -->
-            <q-uploader 
-                @added="uploadFile"
-                @finish="uploadFinished" 
-                ref="uploader"
-                field-name="file"
-                label="No thumbnails" 
-                color="amber" 
-                accept=".jpg, image/*" 
-                flat 
-                bordered 
-                text-color="black"
-                no-thumbnails 
-                style="width: auto;" 
-                v-if="attachments.length <= 4" 
-            />
-            
+            <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file"
+                label="No thumbnails" color="amber" accept=".jpg, image/*" flat bordered text-color="black"
+                no-thumbnails style="width: auto;" v-if="attachments.length < 4" />
+
             <!-- IMG -->
             <div class="row q-col-gutter-xs">
                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments"
@@ -58,7 +59,7 @@
             </div>
 
             <div class="row">
-                <q-btn type="submit" color="red">Cancel</q-btn>
+                <q-btn type="submit" color="red" @click="handleReset">Cancel</q-btn>
                 <q-space />
                 <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
@@ -114,61 +115,59 @@ let attachments = ref(props.idea.file);
 
 function uploadFile(file) {
 
-let token = props.token
-if (props.token == null)
-    token = UserStore.getToken
+    let token = props.token
+    if (props.token == null)
+        token = UserStore.getToken
 
 
-  new Compressor(file[0], {
-    quality: 0.6,
-    maxWidth: 1600,
-    mimeType: 'image/jpeg',
-    success(result) {
-      const formData = new FormData();
+    new Compressor(file[0], {
+        quality: 0.6,
+        maxWidth: 1600,
+        mimeType: 'image/jpeg',
+        success(result) {
+            const formData = new FormData();
 
-      // The third parameter is required for server
-      formData.append('file', result, result.name);
+            // The third parameter is required for server
+            formData.append('file', result, result.name);
 
-      // size check
-      let img = new Image();
-      let objectURL = URL.createObjectURL(result);
-      img.onload = function () { console.log(img.width, img.height) }
-      img.src = objectURL
+            // size check
+            let img = new Image();
+            let objectURL = URL.createObjectURL(result);
+            img.onload = function () { console.log(img.width, img.height) }
+            img.src = objectURL
 
-      console.log(result.size, result.type, result.name, result.lastModified)
-      console.log(token)
-      api
-        .post(process.env.VUE_APP_URL + "/files/", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer ' + token
-          }
-        })
-        .then((res) => {
-          console.log(res.data);
-          attachments.value.push(res.data)
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-        });
+            console.log(result.size, result.type, result.name, result.lastModified)
+            console.log(token)
+            api
+                .post(process.env.VUE_APP_URL + "/files/", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then((res) => {
+                    attachments.value.push(res.data)
+                    uploader.value.reset()
+                })
+                .catch((err) => {
+                    if (err.response) {
+                        console.log(err.response);
+                    } else if (err.request) {
+                        console.log(err.request);
+                    } else {
+                        console.log("General Error");
+                    }
+                });
 
 
-    },
-    error(err) {
-      console.log(err.message);
-    },
-  });
+        },
+        error(err) {
+            console.log(err.message);
+        },
+    });
 
 }
 
-console.log("props token: ", props.token)
-console.log("props file: ", props.idea.file)
 
 let uploader = ref("");
 
@@ -178,7 +177,6 @@ function download_file(uuid) {
 }
 
 function uploadUrl() {
-    console.log(process.env.VUE_APP_URL + "/files/")
     return process.env.VUE_APP_URL + "/files/"
 }
 
@@ -197,9 +195,7 @@ function delete_file(uuid) {
     authApi
         .delete(process.env.VUE_APP_URL + "/files/" + uuid)
         .then((res) => {
-            console.log(res.data);
             attachments.value = attachments.value.filter(item => item.uuid !== uuid)
-            console.log("after delete: ", attachments.value);
             //   listFiles()
         })
         .catch((err) => {
@@ -215,7 +211,7 @@ function delete_file(uuid) {
 
 // --------------- Form --------------
 
-const { resetForm } = useForm();
+const { handleReset } = useForm();
 
 const validationSchema = yup.object({
     ideaColor: yup.string().required(),
@@ -244,9 +240,8 @@ const submit = handleSubmit(values => {
         "files": attachments.value.map(a => a.uuid)
     }
 
-    console.log('submit');
-    console.log(data)
     emit('ideaFormBtnClick', data)
+    handleReset();
 })
 
 // --------------- Form --------------
