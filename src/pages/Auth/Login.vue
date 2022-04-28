@@ -38,6 +38,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import LoginForm from 'src/components/forms/LoginForm.vue';
 import RegisterForm from 'src/components/forms/RegisterForm.vue';

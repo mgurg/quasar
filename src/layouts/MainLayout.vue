@@ -52,7 +52,7 @@
         </q-item>-->
 
         <!--Home Index-->
-        <q-item to="/home" exact clickable>
+        <q-item to="/home" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="dashboard" />
           </q-item-section>
@@ -61,7 +61,7 @@
         </q-item>
 
         <!--Users Index-->
-        <q-item to="/users" exact clickable>
+        <q-item to="/users" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="people" />
           </q-item-section>
@@ -70,7 +70,7 @@
         </q-item>
 
         <!--Ideas Index-->
-        <q-item to="/ideas" exact clickable >
+        <q-item to="/ideas" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="tips_and_updates" />
           </q-item-section>
@@ -79,7 +79,7 @@
         </q-item>
 
         <!--Ideas Index-->
-        <q-item to="/settings" exact clickable >
+        <q-item to="/settings" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="settings" />
           </q-item-section>

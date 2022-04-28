@@ -61,7 +61,7 @@
             <div class="row">
                 <q-btn type="submit" color="red" @click="handleReset">Cancel</q-btn>
                 <q-space />
-                <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
+                <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
             </div>
         </q-form>
     </div>
@@ -138,6 +138,8 @@ function uploadFile(file) {
 
             console.log(result.size, result.type, result.name, result.lastModified)
             console.log(token)
+
+            isLoading.value = true;
             api
                 .post(process.env.VUE_APP_URL + "/files/", formData, {
                     headers: {
@@ -148,6 +150,7 @@ function uploadFile(file) {
                 .then((res) => {
                     attachments.value.push(res.data)
                     uploader.value.reset()
+                    isLoading.value = false;
                 })
                 .catch((err) => {
                     if (err.response) {
@@ -157,6 +160,7 @@ function uploadFile(file) {
                     } else {
                         console.log("General Error");
                     }
+                    isLoading.value = false;
                 });
 
 
