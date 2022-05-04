@@ -11,7 +11,7 @@
 
             <q-item-section>
                 <q-item-label lines="1" class="text-body1">{{ user.first_name }} {{ user.last_name }}</q-item-label>
-                <q-item-label caption lines="2">{{ user.uuid }}</q-item-label>
+                <!-- <q-item-label caption lines="2">{{ user.uuid }}</q-item-label> -->
                 <q-item-label lines="1">
                     <q-chip square size="sm" color="blue" text-color="white" v-if="user.uuid == '767a600e-8549-4c27-a4dc-656ed3a9af7d'">me</q-chip>
 

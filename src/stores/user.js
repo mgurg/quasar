@@ -4,17 +4,18 @@ import { api } from "boot/axios";
 export const useUserStore = defineStore('user', {
   state: () => ({
     token: (localStorage.getItem('klucz') || null),
-    permissions: [],
+    permissions: (localStorage.getItem('permissions') || []),
     firstName: (localStorage.getItem('firstName') || null),
-    lastName: (localStorage.getItem('klucz') || null),
+    lastName: (localStorage.getItem('lastName') || null),
     tz: (localStorage.getItem('tz') || null),
     lang: (localStorage.getItem('lang') || null),
-    uuid: null,
+    uuid: (localStorage.getItem('uuid') || null),
   }),
   getters: {
     isAuthenticated: (state) => !!state.token,
 
     getToken: (state) => state.token,
+    getPermissions: (state) => state.permissions,
 
     getCurrentUserId: (state) => state.uuid,
   },
@@ -39,6 +40,7 @@ export const useUserStore = defineStore('user', {
           this.tz = data.data.tz
           this.lang = data.data.lang
           this.uuid = data.data.uuid
+          this.permissions = data.data.role_FK.permission.map((a) => a.name)
 
           if (permanent == true) {
             localStorage.setItem("klucz", data.data.auth_token);
@@ -61,6 +63,7 @@ export const useUserStore = defineStore('user', {
           localStorage.setItem("firstName", data.data.first_name);
           localStorage.setItem("lastName", data.data.last_name);
           localStorage.setItem("uuid", data.data.last_name);
+          localStorage.setItem("permissions", data.data.role_FK.permission.map((a) => a.name));
           return('OK')
         }
         catch (error) {
@@ -125,6 +128,7 @@ export const useUserStore = defineStore('user', {
       localStorage.removeItem("firstName");
       localStorage.removeItem("lastName");
       localStorage.removeItem("uuid");
+      localStorage.removeItem("permissions");
       sessionStorage.removeItem("klucz");
       this.token = null
     },

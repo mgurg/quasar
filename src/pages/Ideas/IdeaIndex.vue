@@ -3,86 +3,91 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
 
-  <div class="q-pb-md">
-      <q-btn-group>
-      <q-btn-dropdown  rounded color="primary" icon="image">
-      <q-list>
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label @click="setAttachmentFilter(true)" :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">Tak</q-item-label>
-          </q-item-section>
-        </q-item>
+      <div class="q-pb-md">
+        <q-btn-group>
+          <q-btn-dropdown rounded color="primary" icon="image">
+            <q-list>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setAttachmentFilter(true)"
+                    :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">Tak</q-item-label>
+                </q-item-section>
+              </q-item>
 
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label @click="setAttachmentFilter(false)" :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">Nie</q-item-label>
-          </q-item-section>
-        </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setAttachmentFilter(false)"
+                    :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">Nie</q-item-label>
+                </q-item-section>
+              </q-item>
 
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label @click="setAttachmentFilter(null)" :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">Wszystkie</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setAttachmentFilter(null)"
+                    :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">Wszystkie</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
 
-      </q-btn-dropdown>
+          </q-btn-dropdown>
 
-      
 
-      <!-- <q-btn rounded color="primary" label="Two" /> -->
 
-    <q-btn-dropdown auto-close color="primary" label="Status">
-      <q-list>
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label 
-              @click="setStatusFilter('rejected')" 
-              :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
-                Rejected
-              </q-item-label>
-          </q-item-section>
-        </q-item>
+          <!-- <q-btn rounded color="primary" label="Two" /> -->
 
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label 
-              @click="setStatusFilter('accepted')" 
-              :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">Accepted</q-item-label>
-          </q-item-section>
-        </q-item>
+          <q-btn-dropdown auto-close color="primary" label="Status">
+            <q-list>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setStatusFilter('rejected')"
+                    :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
+                    Rejected
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label @click="setStatusFilter('todo')" :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'">Todo</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable v-close-popup >
-          <q-item-section>
-            <q-item-label @click="setStatusFilter(null)" :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">All</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-btn-dropdown>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setStatusFilter('accepted')"
+                    :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">Accepted
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
 
-  
-    </q-btn-group>
-    </div>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setStatusFilter('todo')"
+                    :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'">Todo</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>
+                  <q-item-label @click="setStatusFilter(null)"
+                    :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">All</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+
+
+        </q-btn-group>
+      </div>
 
       <q-list bordered padding v-if="!isLoading">
         <div v-for="(idea, index) in ideas" v-bind:key="index">
-          <idea-item
-            @selectedItem="selectIdea"
-            @forceRefresh="fetchIdeas"
-            :idea="idea"
-            :selected="selected"
-            v-if="!isLoading"
-          ></idea-item>
+          <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
+            v-if="!isLoading"></idea-item>
         </div>
       </q-list>
       <!-- Skeleton -->
       <task-index-skeleton v-else />
-
+      <div class="q-pa-lg flex flex-center">
+        <q-pagination 
+        v-model="paginationData.page" 
+        :max='pagesNo' 
+        direction-links
+        @click="goToPage(paginationData.page)" />
+      </div>
       <q-space class="q-pa-sm" />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
         <q-btn fab icon="add" to="/ideas/add" color="accent" />
@@ -92,7 +97,7 @@
 </template>
 
 <script setup>
-import { onActivated, ref, computed } from "vue";
+import { onActivated, ref, computed, watch, reactive } from "vue";
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/TaskIndexSkeleton.vue";
@@ -102,6 +107,8 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
+let currentPage = ref(2);
+let total = ref(1);
 
 const ideas = ref(null);
 let selected = ref(null);
@@ -109,15 +116,40 @@ let selected = ref(null);
 let hasPhotos = ref(null);
 let hasStatus = ref(null);
 
-function setAttachmentFilter(condition){
-  hasPhotos.value=condition;
+const paginationData = reactive({
+  page: 1,
+  size: 2,
+  total: 1
+
+}
+
+)
+
+function setAttachmentFilter(condition) {
+  hasPhotos.value = condition;
   fetchIdeas()
 }
 
-function setStatusFilter(condition){
-  hasStatus.value=condition;
+function setStatusFilter(condition) {
+  hasStatus.value = condition;
   fetchIdeas()
 }
+
+function goToPage(value) {
+  console.log(value)
+}
+
+const pagesNo = computed(()=>{
+  // console.log(Math.ceil(paginationData.total/paginationData.size))
+  return Math.ceil(paginationData.total/paginationData.size)
+})
+
+watch(() => paginationData.page, (oldPage, newPage) => {
+  console.log(oldPage, newPage);
+  fetchIdeas();
+})
+
+
 
 // const myTasks = computed(() => {
 //   if (tasks.value != null && isLoading.value == false) {
@@ -135,13 +167,15 @@ function setStatusFilter(condition){
 //   }
 // });
 
-function fetchIdeas() {
+async function fetchIdeas() {
   isLoading.value = true;
-  let params = { hasImg: hasPhotos.value, status:hasStatus.value };
+  let params = { hasImg: hasPhotos.value, status: hasStatus.value, page: paginationData.page, size: paginationData.size };
   authApi
     .get("/ideas/", { params: params })
     .then((res) => {
-      ideas.value = res.data;
+      ideas.value = res.data.items;
+      paginationData.total = res.data.total;
+
       console.log(res.data);
       isLoading.value = false;
     })
