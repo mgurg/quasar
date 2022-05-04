@@ -34,8 +34,8 @@ export default {
 	"Idea": `Idea`,
 	"Idea title": `Idea title`,
 	"Idea description": `Idea description`,
-
-
+	"Your submission landed in our system": `Your submission landed in our system`,
+	"Would you like to improve something more?": `Would you like to improve something more?`,
 
 	// tasks
 	"Action failed": `Action failed`,

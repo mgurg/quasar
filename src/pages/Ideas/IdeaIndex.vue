@@ -83,10 +83,10 @@
       <task-index-skeleton v-else />
       <div class="q-pa-lg flex flex-center">
         <q-pagination 
-        v-model="paginationData.page" 
+        v-model="pagination.page" 
         :max='pagesNo' 
         direction-links
-        @click="goToPage(paginationData.page)" />
+        @click="goToPage(pagination.page)" />
       </div>
       <q-space class="q-pa-sm" />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -116,9 +116,9 @@ let selected = ref(null);
 let hasPhotos = ref(null);
 let hasStatus = ref(null);
 
-const paginationData = reactive({
+const pagination = reactive({
   page: 1,
-  size: 2,
+  size: 10,
   total: 1
 
 }
@@ -140,11 +140,11 @@ function goToPage(value) {
 }
 
 const pagesNo = computed(()=>{
-  // console.log(Math.ceil(paginationData.total/paginationData.size))
-  return Math.ceil(paginationData.total/paginationData.size)
+  // console.log(Math.ceil(pagination.total/pagination.size))
+  return Math.ceil(pagination.total/pagination.size)
 })
 
-watch(() => paginationData.page, (oldPage, newPage) => {
+watch(() => pagination.page, (oldPage, newPage) => {
   console.log(oldPage, newPage);
   fetchIdeas();
 })
@@ -169,12 +169,12 @@ watch(() => paginationData.page, (oldPage, newPage) => {
 
 async function fetchIdeas() {
   isLoading.value = true;
-  let params = { hasImg: hasPhotos.value, status: hasStatus.value, page: paginationData.page, size: paginationData.size };
+  let params = { hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size };
   authApi
     .get("/ideas/", { params: params })
     .then((res) => {
       ideas.value = res.data.items;
-      paginationData.total = res.data.total;
+      pagination.total = res.data.total;
 
       console.log(res.data);
       isLoading.value = false;

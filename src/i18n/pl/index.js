@@ -7,13 +7,13 @@ export default {
 	"E-mail": `E-mail`,
 	"Password": `Hasło`,
 	"Password confirmation": `Potwierdzenie hasła`,
-	"Remember me for 30 days": `Zapamiętaj mnie przez 30 dni`,
+	"Remember me for 30 days": `Pamiętaj o mnie przez 30 dni`,
 	"Register": `Zarejestrować`,
 	"I need help": `potrzebuję pomocy`,
 	"Reset password": `Zresetuj hasło`,
 	"I accept the terms and conditions": `Akceptuję zasady i warunki`,
 	"Congratulations": `Gratulacje`,
-	"Almost done! Let's confirm your email": `Prawie skończone! Potwierdźmy Twój e-mail`,
+	"Almost done! Let's confirm your email": `Prawie skończone! Potwierdźmy Twój e -mail`,
 	"First Name": `Imię`,
 	"Last Name": `Nazwisko`,
 	"NIP": `NIP`,
@@ -23,7 +23,7 @@ export default {
 
 	// users
 	"User": `Użytkownik`,
-	"Users": `Użytkownicy.`,
+	"Users": `Użytkownicy`,
 	"First name": `Imię`,
 	"Last name": `Nazwisko`,
 	"Phone": `Telefon`,
@@ -32,14 +32,14 @@ export default {
 	// Ideas
 	"Ideas": `Pomysły`,
 	"Idea": `Pomysł`,
-	"Idea title": `Tytuł pomysłu.`,
-	"Idea description": `Opis pomysłu.`,
-
-
+	"Idea title": `Tytuł pomysłu`,
+	"Idea description": `Opis pomysłu`,
+	"Your submission landed in our system": `Twoje zgłoszenie wylądowało w naszym systemie`,
+	"Would you like to improve something more?": `Czy chciałbyś poprawić coś więcej?`,
 
 	// tasks
 	"Action failed": `Akcja: nieudana`,
-	"Action was successful": `Działanie powiodło się`,
+	"Action was successful": `Działanie zakończyło się sukcesem`,
 	"Work Time!": `Czas pracy!`,
 	"Tasks": `Zadania`,
 	"Your tasks": `Twoje zadania`,

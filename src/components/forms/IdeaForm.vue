@@ -20,13 +20,8 @@
                     </span>
                 </div>
             </div>
-            <q-input 
-                outlined 
-                v-model="ideaTitle" 
-                :disable="isLoading" 
-                :error="!!errors.ideaTitle"
-                :error-message="errors.ideaTitle" 
-                :label="$t('Idea title')">
+            <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
+                :error-message="errors.ideaTitle" :label="$t('Idea title')">
                 <template v-slot:append>
                     <q-btn round dense flat icon="add" />
                 </template>
@@ -56,6 +51,21 @@
                         </q-icon>
                     </q-img>
                 </div>
+            </div>
+
+            <!-- MODE -->
+            <div v-if="mode != 'anonsymous'">
+                <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email"
+                    :error-message="errors.email" :label="$t('E-mail')">
+                </q-input>
+
+                <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
+                    pracownikiem firmy. Pamiętaj że musi kończyć się w domenie <b>@twojafima.pl</b>.</p>
+                <p>Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl nie są przyjmowane)</p>
+
+                <p>Posiadasz konto? Możesz się <router-link to="/login">zalogować i dokonać zgłoszenia jako
+                        zarejestrowany użytkownik</router-link>
+                </p>
             </div>
 
             <div class="row">
@@ -97,6 +107,10 @@ const props = defineProps({
     token: {
         type: String,
         default: null,
+    },
+    mode: {
+        type: String,
+        default: 'anonymous',
     },
     buttonText: {
         type: String,
@@ -221,6 +235,7 @@ const validationSchema = yup.object({
     ideaColor: yup.string().required(),
     ideaTitle: yup.string().required(),
     ideaDescription: yup.string().required('A cool description is required').min(3),
+    email: yup.string().nullable(),
 })
 
 
@@ -231,6 +246,7 @@ const { handleSubmit, errors } = useForm({
 const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
 const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
 const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
+const { value: email } = useField('email')
 
 
 

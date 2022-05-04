@@ -67,7 +67,15 @@ const routes = [
   {
     path: "/new/:id?",
     name: "newIdea",
-    component: () => import("pages/Auth/NewIdea.vue"),
+    component: () => import("pages/PublicOpen/NewIdea.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/new_submission",
+    name: "NewSubmission",
+    component: () => import("pages/PublicOpen/NewSubmission.vue"),
     meta: {
       requiresNoAuth: true,
     },
@@ -75,7 +83,7 @@ const routes = [
   {
     path: "/qr",
     name: "qr",
-    component: () => import("pages/Auth/Qr.vue"),
+    component: () => import("pages/PublicOpen/Qr.vue"),
     meta: {
       requiresNoAuth: true,
     },

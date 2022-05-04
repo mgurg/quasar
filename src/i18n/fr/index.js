@@ -13,7 +13,7 @@ export default {
 	"Reset password": `Réinitialiser le mot de passe`,
 	"I accept the terms and conditions": `J'accepte les termes et conditions`,
 	"Congratulations": `Toutes nos félicitations`,
-	"Almost done! Let's confirm your email": `Presque fini! Confirmons votre email`,
+	"Almost done! Let's confirm your email": `Presque fini! Confirmons votre e-mail`,
 	"First Name": `Prénom`,
 	"Last Name": `Nom de famille`,
 	"NIP": `NIP`,
@@ -34,8 +34,8 @@ export default {
 	"Idea": `Idée`,
 	"Idea title": `Titre d'idée`,
 	"Idea description": `Description de l'idée`,
-
-
+	"Your submission landed in our system": `Votre soumission a atterri dans notre système`,
+	"Would you like to improve something more?": `Souhaitez-vous améliorer quelque chose de plus?`,
 
 	// tasks
 	"Action failed": `Action: échoué`,

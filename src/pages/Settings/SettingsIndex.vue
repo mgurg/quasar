@@ -8,7 +8,7 @@
         @submit.prevent>
         <p class="text-h6">Kod QR:</p>
         <q-input outlined v-model="ActionUrl" :disable="isLoading" :error="!!errors.ActionUrl"
-          :error-message="errors.ActionUrl" label="https://intio.es/132" />
+          :error-message="errors.ActionUrl" label="https://intio.es/new/8tl" />
 
         <p class="text-h6">Wysłanie zgłoszenia:</p>
         <q-list>
