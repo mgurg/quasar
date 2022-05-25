@@ -60,7 +60,7 @@ let fade = ref(true);
 
 if (UserStore.isAuthenticated == true) {
     console.log('Zalogowany')
-    router.push({ path: "/" });
+    router.push({ path: "/home" });
 } else {
     console.log('Czeka na logowanie')
 }

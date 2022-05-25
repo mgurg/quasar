@@ -138,9 +138,9 @@
       <!-- <router-view /> -->
       <!-- TODO: Looks like this is necessary to load onActivate -->
       <router-view v-slot="{ Component }">
-        <keep-alive>
+        <!-- <keep-alive  :max="1"> -->
           <component :is="Component" />
-        </keep-alive>
+        <!-- </keep-alive> -->
       </router-view>
     </q-page-container>
   </q-layout>

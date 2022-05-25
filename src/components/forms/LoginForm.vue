@@ -89,7 +89,7 @@ async function LoginUser(data) {
     isLoading.value = true;
     try {
         await UserStore.loginUsers(data.email, data.password, data.permanent);
-        router.push({ path: "/" });
+        router.push({ path: "/home" });
     }
     catch (err) {
         console.log(err);

@@ -3,7 +3,7 @@
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
             <div class="q-pa-md q-gutter-sm">
                 <q-breadcrumbs>
-                    <q-breadcrumbs-el icon="home" to="/" />
+                    <q-breadcrumbs-el icon="home" to="/home" />
                     <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
                     <q-breadcrumbs-el label="Add" icon="add" />
                 </q-breadcrumbs>

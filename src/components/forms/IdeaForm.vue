@@ -54,7 +54,7 @@
             </div>
 
             <!-- MODE -->
-            <div v-if="mode != 'anonsymous'">
+            <div v-if="mode != 'anonymous'">
                 <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email"
                     :error-message="errors.email" :label="$t('E-mail')">
                 </q-input>

@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, onActivated, computed } from "vue";
+import { ref, onActivated, computed, onBeforeMount } from "vue";
 import { useUserStore } from 'stores/user'
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
@@ -208,9 +208,16 @@ function setState(status) {
       }
     });
 }
-onActivated(() => {
+// onActivated(() => {
+//   isLoading.value = true;
+//   getDetails(route.params.uuid);
+//   getLastVote(route.params.uuid);
+// });
+
+onBeforeMount(() => {
   isLoading.value = true;
   getDetails(route.params.uuid);
   getLastVote(route.params.uuid);
 });
+
 </script>

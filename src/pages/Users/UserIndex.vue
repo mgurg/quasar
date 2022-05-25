@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { onActivated, ref, computed } from "vue";
+import { onActivated, ref, computed, onBeforeMount, onMounted } from "vue";
 import { authApi } from "boot/axios";
 import UserItem from 'components/UserItem.vue'
 
@@ -86,9 +86,21 @@ function selectUser(uuid) {
   }
 }
 
-onActivated(() => {
+// onActivated(() => {
+//   isLoading.value = true;
+//   fetchUsers()
+// });
+
+onBeforeMount(() => {
+  console.log('b')
   isLoading.value = true;
   fetchUsers()
+});
+
+onMounted(() => {
+    console.log('m')
+  // isLoading.value = true;
+  // fetchUsers()
 });
 
 

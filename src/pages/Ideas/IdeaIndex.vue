@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import { onActivated, ref, computed, watch, reactive } from "vue";
+import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/TaskIndexSkeleton.vue";
@@ -200,8 +200,14 @@ function selectIdea(uuid) {
   }
 }
 
-onActivated(() => {
-  console.log('onActivated')
+// onActivated(() => {
+//   console.log('onActivated')
+//   isLoading.value = true;
+//   fetchIdeas();
+// });
+
+onBeforeMount(() => {
+  console.log('b')
   isLoading.value = true;
   fetchIdeas();
 });
