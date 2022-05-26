@@ -117,7 +117,8 @@ const routes = [
         path: "/calendar",
         component: () => import("pages/Calendar/Month.vue"),
       },
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      // { path: '', component: () => import('pages/IndexPage.vue') }
+      { path: '', component: () => import('pages/Home/Dashboard.vue') }
     ],
     meta: {
       requiresAuth: true,

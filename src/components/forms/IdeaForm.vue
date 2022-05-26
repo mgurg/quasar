@@ -54,13 +54,13 @@
             </div>
 
             <!-- MODE -->
-            <div v-if="mode != 'anonymous'">
+            <div v-if="mode == 'anonymous_with_mail'">
                 <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email"
                     :error-message="errors.email" :label="$t('E-mail')">
                 </q-input>
 
                 <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
-                    pracownikiem firmy. Pamiętaj że musi kończyć się w domenie <b>@twojafima.pl</b>.</p>
+                    pracownikiem firmy. Pamiętaj że musi kończyć się w domenie <b>@{{props.mail}}</b>.</p>
                 <p>Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl nie są przyjmowane)</p>
 
                 <p>Posiadasz konto? Możesz się <router-link to="/login">zalogować i dokonać zgłoszenia jako
@@ -111,6 +111,10 @@ const props = defineProps({
     mode: {
         type: String,
         default: 'anonymous',
+    },
+    mail: {
+        type: String,
+        default: 'twojafirma.pl',
     },
     buttonText: {
         type: String,

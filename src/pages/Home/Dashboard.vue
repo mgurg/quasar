@@ -6,155 +6,57 @@
                 <div class="q-pa-none q-card__section q-card__section--vert">
                     <div class="row q-col-gutter-sm">
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-red q-pa-md q-ml-xs">
+                            <q-item class="bg-pink-6 q-pa-md q-ml-xs">
                                 <q-item-section avatar>
-                                    <q-icon color="white" name="alarm" />
+                                    <q-icon color="white" name="auto_awesome" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Alarms</q-item-label>
+                                    <q-item-label class="text-white text-h4">{{status.new}}</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">New</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-orange q-pa-md q-ml-xs">
+                            <q-item class="bg-amber-7 q-pa-md q-ml-xs">
                                 <q-item-section avatar>
-                                    <q-icon color="white" name="warning" />
+                                    <q-icon color="white" name="ballot" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Troubles</q-item-label>
+                                    <q-item-label class="text-white text-h4"> {{status.accepted}}</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Voted</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-orange q-pa-md q-ml-xs">
+                            <q-item class="bg-teal-6 q-pa-md q-ml-xs">
                                 <q-item-section avatar>
-                                    <q-icon color="white" name="warning" />
+                                    <q-icon color="white" name="thumb_up_alt" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Not assigned</q-item-label>
+                                    <q-item-label class="text-white text-h4"> {{status.todo}}</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Accepted</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-orange q-pa-md q-ml-xs">
+                            <q-item class="bg-blue-grey-8 q-pa-md q-ml-xs">
                                 <q-item-section avatar>
-                                    <q-icon color="white" name="warning" />
+                                    <q-icon color="white" name="delete_forever" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">0</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Troubles</q-item-label>
+                                    <q-item-label class="text-white text-h4"> {{status.rejected}}</q-item-label>
+                                    <q-item-label class="text-white text-weight-bold">Rejected</q-item-label>
                                 </q-item-section>
                             </q-item>
                         </div>
-                        <!-- <div
-                                class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
-                                style="background-color: rgb(244, 67, 54);"
-                            >
-                                <div
-                                    class="q-item__section column q-pa-lg q-mr-none text-white q-item__section--side justify-center"
-                                >
-                                    <q-icon name="notifications" color="white" size="32px" />
-                                </div>
-                                <div
-                                    class="q-item__section column q-pa-md q-ml-none text-white q-item__section--main justify-center"
-                                >
-                                    <div
-                                        class="q-item__label text-white text-h6 text-weight-bolder"
-                                    >0</div>
-                                    <div class="q-item__label text-bold ellipsis">Alarm</div>
-                                    <div
-                                        class="q-item__label ellipsis"
-                                    >Base on active records in event log</div>
-                                </div>
-                        </div>-->
-
-                        <!-- <div class="col-md-3 col-sm-6 col-xs-6">
-                            <div
-                                class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
-                                style="background-color: rgb(255, 152, 0);"
-                            >
-                                <div
-                                    class="q-item__section column q-pa-lg q-mr-none text-white q-item__section--side justify-center"
-                                >
-                                    <i
-                                        aria-hidden="true"
-                                        role="presentation"
-                                        class="mdi mdi-alert-circle-outline q-icon notranslate text-white"
-                                        style="font-size: 35px;"
-                                    ></i>
-                                </div>
-                                <div
-                                    class="q-item__section column q-pa-md q-ml-none text-white q-item__section--main justify-center"
-                                >
-                                    <div
-                                        class="q-item__label text-white text-h6 text-weight-bolder"
-                                    >0</div>
-                                    <div class="q-item__label text-bold ellipsis">Trouble</div>
-                                    <div
-                                        class="q-item__label ellipsis"
-                                    >Base on active records in event log</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <div
-                                class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
-                                style="background-color: rgb(255, 235, 59);"
-                            >
-                                <div
-                                    class="q-item__section column q-pa-lg q-mr-none text-white q-item__section--side justify-center"
-                                >
-                                    <i
-                                        aria-hidden="true"
-                                        role="presentation"
-                                        class="mdi mdi-account-supervisor-circle q-icon notranslate text-white"
-                                        style="font-size: 35px;"
-                                    ></i>
-                                </div>
-                                <div
-                                    class="q-item__section column q-pa-md q-ml-none text-white q-item__section--main justify-center"
-                                >
-                                    <div
-                                        class="q-item__label text-white text-h6 text-weight-bolder"
-                                    >0</div>
-                                    <div class="q-item__label text-bold ellipsis">Supervisory</div>
-                                    <div
-                                        class="q-item__label ellipsis"
-                                    >Base on active records in event log</div>
-                                </div>
-                            </div>
-                        </div>-->
-                        <!-- <div class="col-md-3 col-sm-6 col-xs-6">
-                            <div
-                                class="q-item q-item-type row no-wrap q-pa-none q-ml-xs pointer q-item--dense"
-                                style="background-color: rgb(50, 104, 168);"
-                            >
-                                <div
-                                    class="q-item__section column q-pa-lg q-mr-none text-white q-item__section--side justify-center"
-                                >
-                                    <i
-                                        aria-hidden="true"
-                                        role="presentation"
-                                        class="mdi mdi-phone-outgoing q-icon notranslate text-white"
-                                        style="font-size: 35px;"
-                                    ></i>
-                                </div>
-                                <div
-                                    class="q-item__section column q-pa-md q-ml-none text-white q-item__section--main justify-center"
-                                >
-                                    <div
-                                        class="q-item__label text-white text-h6 text-weight-bolder"
-                                    >0</div>
-                                    <div class="q-item__label text-bold ellipsis">Follow Up Tickets</div>
-                                    <div
-                                        class="q-item__label ellipsis"
-                                    >Base on follow up recommendations</div>
-                                </div>
-                            </div>
-                        </div>-->
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate metus ut enim
+                            semper convallis.
+                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                            Fusce tristique varius felis nec porta. Donec non mi ligula. Etiam tincidunt pretium tellus
+                            quis scelerisque.
+                            Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vestibulum suscipit
+                            urna eu scelerisque.
+                            Proin congue sed tellus nec varius. Mauris et lorem eu elit sollicitudin sollicitudin. </p>
                     </div>
                 </div>
             </div>
@@ -163,34 +65,41 @@
     </div>
 </template>
 
-<script>
-import { defineComponent } from "vue";
-import { api } from "boot/axios";
+<script setup>
+import { onBeforeMount, reactive} from "vue";
+import { api, authApi } from "boot/axios";
 
-export default defineComponent({
-    name: "PageIndex",
-    setup() {
-        function ping() {
-            api
-                .get("/")
-                .then((res) => {
-                    console.log(res.data);
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
+const status = reactive({'accepted': 0, 'todo': 0, 'new': 0, 'rejected': 0});
 
-                });
-        }
+function ping() {
+    authApi
+        .get("/stats/status")
+        .then((res) => {
+            // console.log(res.data);
+            status.new = res.data.null
+            status.accepted = res.data.accepted
 
-        return {
-            ping
-        };
-    },
+            status.todo = res.data.todo
+            status.rejected = res.data.rejected
+            // console.log(status);
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+
+        });
+}
+
+onBeforeMount(() => {
+  console.log('b')
+//   isLoading.value = true;
+  ping()
 });
+
+
 </script>

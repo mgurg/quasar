@@ -3,7 +3,13 @@
     <div class="row justify-center text-blue-grey-10">
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <div class="q-pa-md">
-          <idea-form button-text="Add" :token="anonymousToken" @ideaFormBtnClick="signUpButtonPressed"></idea-form>
+          <idea-form button-text="Add" :mode="registrationMode" :mail="registrationMailDomain" :token="anonymousToken"
+            @ideaFormBtnClick="signUpButtonPressed" v-if="registrationMode != 'logged_only'"></idea-form>
+
+          <div v-if="registrationMode == 'logged_only'">
+            Administrator nie pozwala na dokonywanie anonimowyc zgłoszeń, <router-link to="/login">{{ $t("Login") }}
+            </router-link> się zeby wysłać pomysł
+          </div>
 
         </div>
       </q-page>
@@ -13,7 +19,8 @@
 
 <script setup>
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
+import { authApi } from "boot/axios";
 import { useRoute, useRouter } from 'vue-router';
 import { api } from "boot/axios";
 
@@ -25,6 +32,44 @@ const activationId = ref(route.params.id)
 
 let isLoading = ref('false')
 let anonymousToken = ref(null);
+
+let registrationMode = ref('anonymous')
+let registrationMailDomain = ref('twojafirma.pl')
+
+onBeforeMount(() => {
+  console.log('b')
+  //   isLoading.value = true;
+  load()
+});
+
+function load() {
+  isLoading.value = true;
+
+  var arr = ["idea_registration_mode", "issue_registration_email"]
+  var params = new URLSearchParams();
+  arr.forEach(element => {
+    params.append("setting_names", element);
+  });
+
+  authApi
+    .get("/settings/", { params: params })
+    .then((res) => {
+      console.log(res.data);
+      registrationMode.value = res.data.idea_registration_mode
+      registrationMailDomain.value = res.data.idea_registration_email
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
 
 
 function checkId(id) {

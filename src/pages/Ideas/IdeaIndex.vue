@@ -4,6 +4,9 @@
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
 
       <div class="q-pb-md">
+        <div v-if="ideas.length == 0">
+          Brak pomyslów, zgłoś pierwszy!
+        </div>
         <q-btn-group>
           <q-btn-dropdown rounded color="primary" icon="image">
             <q-list>
@@ -30,8 +33,6 @@
             </q-list>
 
           </q-btn-dropdown>
-
-
 
           <!-- <q-btn rounded color="primary" label="Two" /> -->
 
@@ -82,11 +83,7 @@
       <!-- Skeleton -->
       <task-index-skeleton v-else />
       <div class="q-pa-lg flex flex-center">
-        <q-pagination 
-        v-model="pagination.page" 
-        :max='pagesNo' 
-        direction-links
-        @click="goToPage(pagination.page)" />
+        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
       <q-space class="q-pa-sm" />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -110,7 +107,7 @@ let errorMsg = ref(null);
 let currentPage = ref(2);
 let total = ref(1);
 
-const ideas = ref(null);
+const ideas = ref([]);
 let selected = ref(null);
 
 let hasPhotos = ref(null);
@@ -139,9 +136,9 @@ function goToPage(value) {
   console.log(value)
 }
 
-const pagesNo = computed(()=>{
+const pagesNo = computed(() => {
   // console.log(Math.ceil(pagination.total/pagination.size))
-  return Math.ceil(pagination.total/pagination.size)
+  return Math.ceil(pagination.total / pagination.size)
 })
 
 watch(() => pagination.page, (oldPage, newPage) => {
