@@ -2,14 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
           Quasar App
@@ -79,7 +72,7 @@
         </q-item>
 
         <!--Ideas Index-->
-        <q-item to="/settings" exact clickable v-ripple>
+        <q-item to="/settings" exact clickable v-ripple v-if="hasPermission('SETTINGS_VIEW')">
           <q-item-section avatar>
             <q-icon name="settings" />
           </q-item-section>
@@ -139,7 +132,7 @@
       <!-- TODO: Looks like this is necessary to load onActivate -->
       <router-view v-slot="{ Component }">
         <!-- <keep-alive  :max="1"> -->
-          <component :is="Component" />
+        <component :is="Component" />
         <!-- </keep-alive> -->
       </router-view>
     </q-page-container>
@@ -148,12 +141,14 @@
 
 <script>
 
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
+
+
 
 
 export default defineComponent({
@@ -199,6 +194,12 @@ export default defineComponent({
       router.push("/login");
     }
 
+    const permissions = computed(() => UserStore.getPermissions);
+
+    function hasPermission(permission) {
+      return Boolean(permissions.value.includes(permission));
+    }
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -206,7 +207,8 @@ export default defineComponent({
       },
       notify,
       setLocale,
-      logout
+      logout,
+      hasPermission
     };
   },
 });

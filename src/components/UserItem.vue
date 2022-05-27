@@ -10,10 +10,10 @@
             </q-item-section>
 
             <q-item-section>
-                <q-item-label lines="1" class="text-body1">{{ user.first_name }} {{ user.last_name }}</q-item-label>
+                <q-item-label lines="1" class="text-body1">{{ user.first_name }} {{ user.last_name }} </q-item-label>
                 <!-- <q-item-label caption lines="2">{{ user.uuid }}</q-item-label> -->
                 <q-item-label lines="1">
-                    <q-chip square size="sm" color="blue" text-color="white" v-if="user.uuid == '767a600e-8549-4c27-a4dc-656ed3a9af7d'">me</q-chip>
+                    <q-chip square size="sm" color="blue" text-color="white" v-if="user.uuid == currentUserUuid">me</q-chip>
 
                 </q-item-label>
             </q-item-section>
@@ -21,7 +21,7 @@
             <q-item-section side v-if="user.uuid === selected">
                 <div class="text-grey-8 q-gutter-xs">
                     <q-btn size="12px" flat dense round icon="edit" @click="editUser(user.uuid)" />
-                    <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(user.uuid)" v-if="user.uuid != '767a600e-8549-4c27-a4dc-656ed3a9af7d'" />
+                    <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(user.uuid)" v-if="user.uuid != currentUserUuid" />
                     <q-btn size="12px" flat dense round icon="info" @click="viewUser(user.uuid)" />
                 </div>
             </q-item-section>
@@ -40,9 +40,13 @@ import { useQuasar } from 'quasar'
 import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import { DateTime } from 'luxon';
+import { useUserStore } from "stores/user";
 import { computed } from 'vue';
 const $q = useQuasar()
 const router = useRouter();
+
+const UserStore = useUserStore();
+const currentUserUuid = UserStore.getCurrentUserId
 
 const props = defineProps({
     user: {

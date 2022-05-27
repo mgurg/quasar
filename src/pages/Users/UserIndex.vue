@@ -92,16 +92,11 @@ function selectUser(uuid) {
 // });
 
 onBeforeMount(() => {
-  console.log('b')
   isLoading.value = true;
   fetchUsers()
 });
 
-onMounted(() => {
-    console.log('m')
-  // isLoading.value = true;
-  // fetchUsers()
-});
+
 
 
 </script>

@@ -23,14 +23,14 @@
             <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
                 :error-message="errors.ideaTitle" :label="$t('Idea title')">
                 <template v-slot:append>
-                    <q-btn round dense flat icon="add" />
+                    <q-btn round dense flat icon="mic" />
                 </template>
             </q-input>
             <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
                 :error="!!errors.ideaDescription" :error-message="errors.ideaDescription"
                 :label="$t('Idea description')">
                 <template v-slot:append>
-                    <q-btn round dense flat icon="add" />
+                    <q-btn round dense flat icon="mic" />
                 </template>
             </q-input>
 
@@ -60,8 +60,7 @@
                 </q-input>
 
                 <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
-                    pracownikiem firmy. Pamiętaj że musi kończyć się w domenie <b>@{{props.mail}}</b>.</p>
-                <p>Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl nie są przyjmowane)</p>
+                    pracownikiem firmy. Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
 
                 <p>Posiadasz konto? Możesz się <router-link to="/login">zalogować i dokonać zgłoszenia jako
                         zarejestrowany użytkownik</router-link>
@@ -239,7 +238,17 @@ const validationSchema = yup.object({
     ideaColor: yup.string().required(),
     ideaTitle: yup.string().required(),
     ideaDescription: yup.string().required('A cool description is required').min(3),
-    email: yup.string().nullable(),
+    email: yup.string().nullable().test(
+        "check-startdate",
+        "Start Date should not be later than current date",
+        function (value) {
+            if (value =="1") {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    )
 })
 
 

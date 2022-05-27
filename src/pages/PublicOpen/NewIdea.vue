@@ -38,45 +38,17 @@ let registrationMailDomain = ref('twojafirma.pl')
 
 onBeforeMount(() => {
   console.log('b')
-  //   isLoading.value = true;
-  load()
+  if (activationId.value != null)
+    checkId(activationId.value)
 });
-
-function load() {
-  isLoading.value = true;
-
-  var arr = ["idea_registration_mode", "issue_registration_email"]
-  var params = new URLSearchParams();
-  arr.forEach(element => {
-    params.append("setting_names", element);
-  });
-
-  authApi
-    .get("/settings/", { params: params })
-    .then((res) => {
-      console.log(res.data);
-      registrationMode.value = res.data.idea_registration_mode
-      registrationMailDomain.value = res.data.idea_registration_email
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
-
 
 function checkId(id) {
   console.log(id + '+234')
-  api.post('ideas/new_idea/' + id + '+234').then((res) => {
+  api.post('ideas/new_idea/' + id).then((res) => {
     console.log(res.data.token)
     anonymousToken.value = res.data.token
+    registrationMode.value = res.data.mode
+    registrationMailDomain.value = res.email
 
   })
     .catch((err) => {
@@ -91,8 +63,7 @@ function checkId(id) {
     });
 }
 
-if (activationId.value != null)
-  checkId(activationId.value)
+
 
 function signUpButtonPressed(ideaForm) {
   console.log('outside', ideaForm)
