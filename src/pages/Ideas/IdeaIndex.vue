@@ -74,7 +74,8 @@
         </q-btn-group>
       </div>
 
-      <q-list bordered padding v-if="!isLoading">
+      <q-input clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/>
+      <q-list  padding v-if="!isLoading">
         <div v-for="(idea, index) in ideas" v-bind:key="index">
           <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
             v-if="!isLoading"></idea-item>
@@ -104,8 +105,7 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
-let currentPage = ref(2);
-let total = ref(1);
+let search = ref(null);
 
 const ideas = ref([]);
 let selected = ref(null);
@@ -117,10 +117,7 @@ const pagination = reactive({
   page: 1,
   size: 10,
   total: 1
-
-}
-
-)
+})
 
 function setAttachmentFilter(condition) {
   hasPhotos.value = condition;
@@ -166,7 +163,7 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 async function fetchIdeas() {
   isLoading.value = true;
-  let params = { hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size };
+  let params = { search: search.value , hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size };
   authApi
     .get("/ideas/", { params: params })
     .then((res) => {

@@ -120,7 +120,7 @@ function editUser(uuid) {
 }
 
 function viewUser(uuid) {
-    router.push("/users/" + uuid);
+    router.push("/ideas/user/" + uuid);
 }
 
 </script>

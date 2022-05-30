@@ -102,6 +102,7 @@ const routes = [
       { path: "/ideas", component: () => import("pages/Ideas/IdeaIndex.vue") },
       { path: "/ideas/add", component: () => import("pages/Ideas/IdeaAdd.vue") },
       { path: "/ideas/:uuid", component: () => import("pages/Ideas/IdeaView.vue") },
+      { path: "/ideas/user/:uuid", component: () => import("pages/Ideas/IdeaUserIndex.vue") },
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
 

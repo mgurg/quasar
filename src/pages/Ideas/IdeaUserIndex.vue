@@ -1,53 +1,63 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Users") }}</h5>
-
-      <q-input clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()"/>
-
-      <q-list padding v-if="!isLoading">
-
-        <div v-for="(user, index) in users" v-bind:key="index">
-        <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected" v-if="!isLoading"></user-item>
+      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
+      <q-list bordered padding v-if="!isLoading">
+        <div v-for="(idea, index) in ideas" v-bind:key="index">
+          <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
+            v-if="!isLoading"></idea-item>
         </div>
-
       </q-list>
       <!-- Skeleton -->
       <task-index-skeleton v-else />
-
       <div class="q-pa-lg flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
-
       <q-space class="q-pa-sm" />
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/users/add" color="accent" />
+        <q-btn fab icon="add" to="/ideas/add" color="accent" />
       </q-page-sticky>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { onActivated, ref, computed, watch, onBeforeMount, onMounted, reactive } from "vue";
+import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue";
+import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
-import UserItem from 'components/UserItem.vue'
 
-import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
+import TaskIndexSkeleton from "components/skeletons/TaskIndexSkeleton.vue";
+import IdeaItem from "components/IdeaItem.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
 
-const users = ref(null);
+const route = useRoute();
+let userUuid = ref(route.params.uuid);
+
+const ideas = ref([]);
 let selected = ref(null);
-let search = ref(null);
+
+let hasPhotos = ref(null);
+let hasStatus = ref(null);
 
 const pagination = reactive({
   page: 1,
-  size: 5,
+  size: 10,
   total: 1
 })
+
+function setAttachmentFilter(condition) {
+  hasPhotos.value = condition;
+  fetchIdeas()
+}
+
+function setStatusFilter(condition) {
+  hasStatus.value = condition;
+  fetchIdeas()
+}
 
 function goToPage(value) {
   console.log(value)
@@ -60,37 +70,39 @@ const pagesNo = computed(() => {
 
 watch(() => pagination.page, (oldPage, newPage) => {
   console.log(oldPage, newPage);
-  fetchUsers();
+  fetchIdeas();
 })
 
 
 
 // const myTasks = computed(() => {
-//   if (users.value != null && isLoading.value == false) {
-//     return users.value.filter(user => (user.assignee != null && user.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
+//   if (tasks.value != null && isLoading.value == false) {
+//     return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
 //   } else {
 //     return null;
 //   }
 // });
 
 // const otherTasks = computed(() => {
-//   if (users.value != null  && isLoading.value == false) {
-//     return users.value.filter(user => (user.assignee == null || user.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
+//   if (tasks.value != null  && isLoading.value == false) {
+//     return tasks.value.filter(task => (task.assignee == null || task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
 //   } else {
-//     return users.value;
+//     return tasks.value;
 //   }
 // });
 
-
-function fetchUsers() {
+async function fetchIdeas() {
   isLoading.value = true;
-  console.log('fetching users');
-    let params = { search: search.value ,page: pagination.page, size: pagination.size };
+  let params = { hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size };
   authApi
-    .get("/user/", { params: params })
+    .get("/ideas/user/" + userUuid.value) //, { params: params }
     .then((res) => {
-      users.value = res.data.items
-      pagination.total = res.data.total
+      if (res.data.items.length >0){
+      ideas.value = res.data.items;
+      pagination.total = res.data.total;        
+      }
+
+
       console.log(res.data);
       isLoading.value = false;
     })
@@ -105,8 +117,7 @@ function fetchUsers() {
     });
 }
 
-
-function selectUser(uuid) {
+function selectIdea(uuid) {
   if (selected.value == null) {
     selected.value = uuid;
   } else if (selected.value !== uuid) {
@@ -117,16 +128,14 @@ function selectUser(uuid) {
 }
 
 // onActivated(() => {
+//   console.log('onActivated')
 //   isLoading.value = true;
-//   fetchUsers()
+//   fetchIdeas();
 // });
 
 onBeforeMount(() => {
+  console.log('b')
   isLoading.value = true;
-  fetchUsers()
+  fetchIdeas();
 });
-
-
-
-
 </script>
