@@ -3,46 +3,23 @@
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Last step") }}</div>
     <p>{{ $t("Say something about yourself.") }}</p>
     <q-form @submit="submit">
-      <q-input
-                v-model="firstName"
-                :disable="isLoading"
-                :error="!!errors.firstName"
-                :error-message="errors.firstName"
-                class="q-mb-md"
-                :label="$t('First Name')"
-                outlined
-                type="text"
-            />
-      <q-input
-        v-model="lastName"
-        :disable="isLoading"
-        :error="!!errors.lastName"
-        :error-message="errors.lastName"
-        class="q-mb-md"
-        :label="$t('Last Name')"
-        outlined
-        type="text"
-      />
-      <q-input
-        v-model="nip"
-        :disable="isLoading"
-        :error="!!errors.nip"
-        :error-message="errors.nip"
-        type="text"
-        :label="$t('NIP')"
-        outlined
-      >
+      <q-input v-model="firstName" :disable="isLoading" :error="!!errors.firstName" :error-message="errors.firstName"
+        class="q-mb-md" :label="$t('First Name')" outlined type="text" />
+      <q-input v-model="lastName" :disable="isLoading" :error="!!errors.lastName" :error-message="errors.lastName"
+        class="q-mb-md" :label="$t('Last Name')" outlined type="text" />
+      <q-input v-model="nip" :disable="isLoading" :error="!!errors.nip" :error-message="errors.nip" type="text"
+        :label="$t('NIP')" outlined>
       </q-input>
+      <p style="max-width: 400px;">Pierwszy użytkownik w firmie jest jednocześnie administratorem systemu. <br>
+        Jeżeli Twoja firma posiada już konto to zostanie utworzone dla ciebie użytkownik o standardowych uprawnieniach.
+        <br>
+        Bedzie musiało być potwierdzone przez administratora.
+
+      </p>
 
       <div class="row">
         <q-space />
-        <q-btn
-          :disable="isLoading"
-          :label="$t('Lets start')+'! 🚀'"
-          :loading="isLoading"
-          color="red"
-          type="submit"
-        />
+        <q-btn :disable="isLoading" :label="$t('Lets start') + '! 🚀'" :loading="isLoading" color="red" type="submit" />
       </div>
     </q-form>
   </div>
@@ -55,12 +32,13 @@ import { useField, useForm } from "vee-validate";
 import { object, string, bool } from "yup";
 import { useRouter } from "vue-router";
 import { useUserStore } from "stores/user";
+import { validatePolish } from 'validate-polish';
 
 const props = defineProps({
-    activationId: {
-        type: String,
-        default: null,
-    },
+  activationId: {
+    type: String,
+    default: null,
+  },
 })
 
 let isLoading = ref(false);
@@ -86,14 +64,22 @@ const { value: nip } = useField("nip", undefined, { initialValue: "123-456-32-18
 
 const submit = handleSubmit((values) => {
 
+  let nip_plain = nip.value.replace(/\D/g, "");
+
   let data = {
     first_name: firstName.value,
     last_name: lastName.value,
-    nip: nip.value,
+    nip: nip_plain,
     token: props.activationId,
-
   };
-  firstRun(data);
+
+  if (!validatePolish.nip(nip_plain)) {
+    alert(`Invalid nip.`);
+  } else {
+    firstRun(data);
+  }
+
+
 });
 // --------------- VeeValidate --------------
 
@@ -109,8 +95,9 @@ async function firstRun(data) {
       localStorage.setItem("lang", res.data.lang);
       localStorage.setItem("firstName", res.data.first_name);
       localStorage.setItem("lastName", res.data.last_name);
+      localStorage.setItem("uuid", res.data.uuid);
 
-      UserStore.fillStore(res.data.token, res.data.first_name, res.data.last_name, res.data.tz, res.data.lang)
+      UserStore.fillStore(res.data.token, res.data.first_name, res.data.last_name, res.data.uuid, res.data.tz, res.data.lang)
       router.push("/login");
     })
     .catch((err) => {

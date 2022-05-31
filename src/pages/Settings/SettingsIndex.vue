@@ -2,15 +2,23 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Settings</h5>
-      <q-btn color="primary" type="submit" @click="load">Load</q-btn>
-      <q-btn color="primary" type="submit" @click="save">Save</q-btn>
-      <div class="q-pa-mt">&nbsp;</div>
 
+      <div class="q-pa-mt">&nbsp;</div>
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
         @submit.prevent>
+
         <p class="text-h6">Kod QR:</p>
-        <q-input outlined v-model="ActionUrl" :disable="isLoading" :error="!!errors.ActionUrl"
-          :error-message="errors.ActionUrl" label="https://intio.es/new/8tl" />
+        <q-input outlined v-model="ActionUrl" readonly>
+          <template v-slot:after>
+            <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()" />
+            <q-btn round dense flat icon="qr_code_2" @click="toggleQr()" />
+          </template>
+        </q-input>
+
+        <img  v-if="showQR"  :src="ActionUrlQr"   alt="QR code" />
+
+
+
 
         <p class="text-h6">Wysłanie zgłoszenia:</p>
         <q-list>
@@ -55,6 +63,10 @@
                 :error-message="errors.ActionUrl"
                 :label="$t('First name')"
             /> -->
+        <div class="row">
+          <q-space />
+          <q-btn color="primary" :disable="isLoading" :loading="isLoading" type="submit" @click="save">Save</q-btn>
+        </div>
       </q-form>
 
     </q-page>
@@ -63,34 +75,18 @@
 
 <script setup>
 
-import { ref, onBeforeMount} from "vue";
+import { ref, onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
-import { useField, useForm } from "vee-validate";
-import * as yup from 'yup';
+import { useQuasar } from 'quasar'
 
-const props = defineProps({
-  user: {
-    type: Object,
-    // Object or array defaults must be returned from
-    // a factory function
-    default() {
-      return {
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone: null,
-
-      }
-    }
-  }
-  })
-
+const $q = useQuasar()
 // -----------------------------
 
 
 onBeforeMount(() => {
   console.log('b')
-//   isLoading.value = true;
+  //   isLoading.value = true;
+  getBoardId()
   load()
 });
 
@@ -123,6 +119,28 @@ function load() {
     });
 }
 
+function getBoardId() {
+  isLoading.value = true;
+
+  authApi
+    .get("/settings/board/")
+    .then((res) => {
+      console.log(res.data);
+      ActionUrl.value = 'remontmaszyn.pl/new/' + res.data + '+234'
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
 function save() {
   console.log('save')
   isLoading.value = true;
@@ -138,8 +156,13 @@ function save() {
     .post("/settings/", data)
     .then((res) => {
       console.log(res.data);
-
+      ActionUrl.value = res.data
       isLoading.value = false;
+
+      $q.notify({
+        message: 'Zapisano ustawienia',
+        color: 'purple'
+      })
     })
     .catch((err) => {
       if (err.response) {
@@ -155,40 +178,25 @@ function save() {
 
 let isLoading = ref(false);
 
+let ActionUrl = ref(null)
+let ActionUrlQr = ref("https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="+ActionUrl.value+"&choe=UTF-8&chld=M")
+let showQR = ref(false)
+
 let registrationMode = ref('anonymous')
 let registrationMailDomain = ref('twojafirma.pl')
-// --------------- Form --------------
 
-const { resetForm } = useForm();
+function copyToClipBoard() {
+  navigator.clipboard.writeText(ActionUrl.value);
 
-const validationSchema = yup.object({
-  ActionUrl: yup.string().required(),
-  userEmail: yup.string().required(),
-})
-
-
-const { handleSubmit, errors } = useForm({
-  validationSchema
-})
-
-const { value: ActionUrl } = useField('ActionUrl', undefined, { initialValue: props.user.first_name })
-const { value: userEmail } = useField('userEmail', undefined, { initialValue: props.user.email })
-
-const submit = handleSubmit(values => {
+  $q.notify({
+    message: 'Skopiowano',
+    color: 'purple'
+  })
+}
 
 
-
-  let data = {
-    "first_name": ActionUrl.value,
-    "email": userEmail.value,
-  }
-
-
-  console.log('submit');
-  console.log(data)
-  emit('userFormBtnClick', data)
-})
-
-// --------------- Form --------------
+function toggleQr() {
+  showQR.value = !showQR.value
+}
 
 </script>

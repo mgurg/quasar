@@ -81,12 +81,13 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    fillStore(token,firstName,lastName, tz,lang ){
+    fillStore(token,firstName,lastName, uuid, tz,lang ){
       this.token = token
       this.firstName = firstName
       this.lastName = lastName
       this.tz = tz
       this.lang = lang
+      this.uuid = uuid
     },
 
     async autoLogin() {

@@ -40,22 +40,22 @@ const routes = [
       requiresNoAuth: true,
     },
   },
-  {
-    path: "/map",
-    name: "map",
-    component: () => import("pages/Map/MapMapIndex.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/maps",
-    name: "maps",
-    component: () => import("pages/Map/MapImgIndex.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
+  // {
+  //   path: "/map",
+  //   name: "map",
+  //   component: () => import("pages/Map/MapMapIndex.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
+  // {
+  //   path: "/maps",
+  //   name: "maps",
+  //   component: () => import("pages/Map/MapImgIndex.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
   {
     path: "/voice",
     name: "voice",
@@ -80,14 +80,14 @@ const routes = [
       requiresNoAuth: true,
     },
   },
-  {
-    path: "/qr",
-    name: "qr",
-    component: () => import("pages/PublicOpen/Qr.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
+  // {
+  //   path: "/qr",
+  //   name: "qr",
+  //   component: () => import("pages/PublicOpen/Qr.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -106,18 +106,18 @@ const routes = [
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
 
-      { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
-      { path: "/tasks/add", component: () => import("pages/Tasks/TaskAdd.vue") },
-      { path: "/tasks/:uuid", component: () => import("pages/Tasks/TaskView.vue") },
-      { path: "/tasks/edit/:uuid", component: () => import("pages/Tasks/TaskEdit.vue") },
+      // { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
+      // { path: "/tasks/add", component: () => import("pages/Tasks/TaskAdd.vue") },
+      // { path: "/tasks/:uuid", component: () => import("pages/Tasks/TaskView.vue") },
+      // { path: "/tasks/edit/:uuid", component: () => import("pages/Tasks/TaskEdit.vue") },
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
-      { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
+      // { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
 
-      { path: "/layout", component: () => import("pages/Maps/MapIndex.vue") },
-      {
-        path: "/calendar",
-        component: () => import("pages/Calendar/Month.vue"),
-      },
+      // { path: "/layout", component: () => import("pages/Maps/MapIndex.vue") },
+      // {
+      //   path: "/calendar",
+      //   component: () => import("pages/Calendar/Month.vue"),
+      // },
       // { path: '', component: () => import('pages/IndexPage.vue') }
       { path: '', component: () => import('pages/Home/Dashboard.vue') }
     ],
