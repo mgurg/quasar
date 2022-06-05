@@ -156,7 +156,6 @@ function save() {
     .post("/settings/", data)
     .then((res) => {
       console.log(res.data);
-      ActionUrl.value = res.data
       isLoading.value = false;
 
       $q.notify({
