@@ -20,7 +20,7 @@
       </div>
 
       <q-space class="q-pa-sm" />
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="hasPermission('USERS_ADD')">
         <q-btn fab icon="add" to="/users/add" color="accent" />
       </q-page-sticky>
     </q-page>
@@ -31,8 +31,16 @@
 import { onActivated, ref, computed, watch, onBeforeMount, onMounted, reactive } from "vue";
 import { authApi } from "boot/axios";
 import UserItem from 'components/UserItem.vue'
+import { useUserStore } from "stores/user";
 
 import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
+
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions );
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
 let isLoading = ref(false);
 let isSuccess = ref(false);

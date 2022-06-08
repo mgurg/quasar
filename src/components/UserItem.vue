@@ -21,7 +21,7 @@
             <q-item-section side v-if="user.uuid === selected">
                 <div class="text-grey-8 q-gutter-xs">
                     <q-btn size="12px" flat dense round icon="edit" @click="editUser(user.uuid)" />
-                    <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(user.uuid)" v-if="user.uuid != currentUserUuid" />
+                    <q-btn size="12px" flat dense round icon="delete" @click="deleteUser(user.uuid)" v-if="(user.uuid != currentUserUuid) &&  hasPermission('USERS_ADD')" />
                     <q-btn size="12px" flat dense round icon="info" @click="viewUser(user.uuid)" />
                 </div>
             </q-item-section>
@@ -42,11 +42,17 @@ import { authApi } from "boot/axios";
 import { DateTime } from 'luxon';
 import { useUserStore } from "stores/user";
 import { computed } from 'vue';
+
 const $q = useQuasar()
 const router = useRouter();
 
 const UserStore = useUserStore();
 const currentUserUuid = UserStore.getCurrentUserId
+const permissions = computed(() => UserStore.getPermissions );
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
 const props = defineProps({
     user: {

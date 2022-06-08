@@ -26,7 +26,7 @@
 
 <script setup>
 import { useQuasar } from 'quasar'
-import { onActivated, ref } from "vue";
+import { onActivated, ref, onBeforeMount } from "vue";
 import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
 import UserForm from 'src/components/forms/UserForm.vue'
 import { useRoute, useRouter } from "vue-router";
@@ -131,11 +131,12 @@ function cancelButtonPressed() {
     router.push("/users");
 }
 
-onActivated(() => {
+onBeforeMount(() => {
     if (route.params.uuid != null)
         getDetails(route.params.uuid)
-    getUsers();
+    // getUsers();
     isLoading.value = false;
 });
+
 </script>
 

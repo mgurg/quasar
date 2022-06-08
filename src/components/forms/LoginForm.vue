@@ -49,11 +49,14 @@
 
 
 <script setup>
+import { useQuasar } from 'quasar'
 import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { object, string, bool } from "yup";
 import { useRouter } from "vue-router";
 import { useUserStore } from 'stores/user'
+
+const $q = useQuasar()
 
 let isPwd = ref(true)
 let isLoading = ref(false);
@@ -93,6 +96,7 @@ async function LoginUser(data) {
     }
     catch (err) {
         console.log(err);
+        $q.notify("⚠️ Error: Check username & password");
         // console.log(err.error_description || err.message)
         // console.log(err.data)
         // errorMsg.value = err
