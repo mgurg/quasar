@@ -25,7 +25,7 @@ module.exports = configure(function (ctx) {
     boot: [
       'i18n',
       'axios',
-      // 'sentry'
+      'sentry'
     ],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
@@ -50,7 +50,9 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
-      env: require('dotenv').config().parsed,
+      env: process.env.NODE_ENV === 'development'
+      ? require('dotenv').config({ path: '.env.develop' }).parsed
+      : require('dotenv').config({ path: '.env.production' }).parsed,
       // transpile: false,
       // publicPath: '/',
 
