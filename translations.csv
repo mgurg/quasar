@@ -3,16 +3,17 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
 """E-mail""",E-mail,E-mail,Email,E-mail
 """Password""",Password,Mot de passe,Passwort,Hasło
+"""Error: Check username & password""",Error: Check username & password,Erreur: vérifiez le nom d'utilisateur et le mot de passe,Fehler: Benutzername und Passwort überprüfen,Błąd: Sprawdź nazwę użytkownika i hasło
 """Password confirmation""",Password confirmation,Confirmation mot de passe,Passwort Bestätigung,Potwierdzenie hasła
 """Remember me for 30 days""",Remember me for 30 days,Souviens-toi de moi pendant 30 jours,Erinnere dich für 30 Tage an mich,Pamiętaj o mnie przez 30 dni
-"""Register""",Register,S'inscrire,Registrieren,Zarejestrować
-"""I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,potrzebuję pomocy
+"""Register""",Register,S'inscrire,Registrieren,Zarejstruj się
+"""I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,Potrzebuję pomocy
 """Reset password""",Reset password,Réinitialiser le mot de passe,Passwort zurücksetzen,Zresetuj hasło
 """I accept the terms and conditions""",I accept the terms and conditions,J'accepte les termes et conditions,Ich akzeptiere die allgemeinen Geschäftsbedingungen,Akceptuję zasady i warunki
 """Congratulations""",Congratulations,Toutes nos félicitations,Herzliche Glückwünsche,Gratulacje
 """Almost done! Let's confirm your email""",Almost done! Let's confirm your email,Presque fini! Confirmons votre e-mail,Fast fertig! Bestätigen wir Ihre E -Mail,Prawie skończone! Potwierdźmy Twój e -mail
 """First Name""",First Name,Prénom,Vorname,Imię
-"""Last Name""",Last Name,Nom de famille,"Familienname, Nachname",Nazwisko
+"""Last Name""",Last Name,Nom de famille,Nachname,Nazwisko
 """NIP""",NIP,NIP,NIP,NIP
 """Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
 """Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
@@ -22,7 +23,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """User""",User,Utilisateur,Benutzer,Użytkownik
 """Users""",Users,Utilisateurs,Benutzer,Użytkownicy
 """First name""",First name,Prénom,Vorname,Imię
-"""Last name""",Last name,Nom de famille,"Familienname, Nachname",Nazwisko
+"""Last name""",Last name,Nom de famille,Nachname,Nazwisko
 """Phone""",Phone,Téléphoner,Telefon,Telefon
 ,,,,
 ,,,,
@@ -44,4 +45,4 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Task name""",Task name,Nom de la tâche,Aufgabennname,Nazwa zadania
 """Task description""",Task description,Description de la tâche,Aufgabenbeschreibung,Opis zadania
 """Add""",Add,Ajouter,Hinzufügen,Dodać
-"""Edit""",Edit,Modifier,Bearbeiten,Edytować
+"""Edit""",Edit,Éditer,Bearbeiten,Edytować

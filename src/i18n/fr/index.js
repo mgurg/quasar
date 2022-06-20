@@ -6,6 +6,7 @@ export default {
 	"Login": `Connexion`,
 	"E-mail": `E-mail`,
 	"Password": `Mot de passe`,
+	"Error: Check username & password": `Erreur: vérifiez le nom d'utilisateur et le mot de passe`,
 	"Password confirmation": `Confirmation mot de passe`,
 	"Remember me for 30 days": `Souviens-toi de moi pendant 30 jours`,
 	"Register": `S'inscrire`,
@@ -47,5 +48,5 @@ export default {
 	"Task name": `Nom de la tâche`,
 	"Task description": `Description de la tâche`,
 	"Add": `Ajouter`,
-	"Edit": `Modifier`,
+	"Edit": `Éditer`,
 }

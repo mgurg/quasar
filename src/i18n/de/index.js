@@ -6,6 +6,7 @@ export default {
 	"Login": `Anmeldung`,
 	"E-mail": `Email`,
 	"Password": `Passwort`,
+	"Error: Check username & password": `Fehler: Benutzername und Passwort überprüfen`,
 	"Password confirmation": `Passwort Bestätigung`,
 	"Remember me for 30 days": `Erinnere dich für 30 Tage an mich`,
 	"Register": `Registrieren`,
@@ -15,7 +16,7 @@ export default {
 	"Congratulations": `Herzliche Glückwünsche`,
 	"Almost done! Let's confirm your email": `Fast fertig! Bestätigen wir Ihre E -Mail`,
 	"First Name": `Vorname`,
-	"Last Name": `Familienname, Nachname`,
+	"Last Name": `Nachname`,
 	"NIP": `NIP`,
 	"Last step": `Letzter Schritt`,
 	"Say something about yourself." : `Sage etwas über dich selbst.`,
@@ -25,7 +26,7 @@ export default {
 	"User": `Benutzer`,
 	"Users": `Benutzer`,
 	"First name": `Vorname`,
-	"Last name": `Familienname, Nachname`,
+	"Last name": `Nachname`,
 	"Phone": `Telefon`,
 
 

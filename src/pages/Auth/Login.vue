@@ -43,10 +43,16 @@
 import LoginForm from 'src/components/forms/LoginForm.vue';
 import RegisterForm from 'src/components/forms/RegisterForm.vue';
 import ResetPasswordForm from 'src/components/forms/ResetPasswordForm.vue'
-import { ref,computed } from "vue";
+import { ref,computed, onBeforeMount, watch } from "vue";
 import { useRoute } from 'vue-router'
 import { useRouter } from "vue-router";
 import { useUserStore } from 'stores/user'
+import { useI18n } from "vue-i18n";
+import { useQuasar } from "quasar";
+
+const $q = useQuasar();
+const { locale } = useI18n({ useScope: "global" });
+const lang = ref(locale); 
 
 const router = useRouter();
 const route = useRoute();
@@ -65,6 +71,44 @@ if (UserStore.isAuthenticated == true) {
     console.log('Czeka na logowanie')
 }
 
+
+  function getLocale() {
+    const userLocale =
+      localStorage.getItem("lang") ||
+      sessionStorage.getItem("lang") ||
+      navigator.language.split("-")[0] ||
+      "en-US";
+
+    // if detectedLocale is 'en' or 'es' return
+    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+      return userLocale;
+    }
+    // else return default value
+    return "en-US";
+  }
+
+    function setLocale(lang) {
+      locale.value = lang;
+    }
+
+    watch(lang, (val) => {
+      // dynamic import, so loading on demand only
+      import(
+        /* webpackInclude: /(pl|de|en-US)\.js$/ */
+        "quasar/lang/" + val
+      ).then((lang) => {
+        $q.lang.set(lang.default);
+      });
+    });
+
+  onBeforeMount(() => {
+  console.log(getLocale())
+  //localStorage.setItem("lang", 'pl')
+  // setLocale(setLocale())
+  setLocale(getLocale())
+
+
+});
 
 </script>
 

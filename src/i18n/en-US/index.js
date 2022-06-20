@@ -6,6 +6,7 @@ export default {
 	"Login": `Login`,
 	"E-mail": `E-mail`,
 	"Password": `Password`,
+	"Error: Check username & password": `Error: Check username & password`,
 	"Password confirmation": `Password confirmation`,
 	"Remember me for 30 days": `Remember me for 30 days`,
 	"Register": `Register`,
