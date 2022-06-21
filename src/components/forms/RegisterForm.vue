@@ -14,7 +14,8 @@
                 type="text"
             /> -->
       <q-input
-        v-model="email"
+        :model-value="email"
+        @change="handleChange"
         :disable="isLoading"
         :error="!!errors.email"
         :error-message="errors.email"
