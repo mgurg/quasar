@@ -74,7 +74,8 @@ const submit = handleSubmit((values) => {
   };
 
   if (!validatePolish.nip(nip_plain)) {
-    alert(`Invalid nip.`);
+    alert(`Invalid nip.`); // TODO replace alert with notify
+     
   } else {
     firstRun(data);
   }

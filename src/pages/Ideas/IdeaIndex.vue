@@ -1,7 +1,14 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
+
+
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
+
+      <div class="row justify-beteen no-wrap  q-mb-sm q-mt-sm q-ml-md">
+        <div class="col-4"><p class="text-h4">{{ $t("Ideas") }}</p></div>
+        <!-- <div class="col-auto">&nbsp;</div> -->
+        <div class="col-6"><q-btn padding="sm" outline  size="md" icon="add" to="/ideas/add" color="primary" label="Nowy pomysł" no-caps  /></div>
+      </div>
 
       <div class="q-pb-md">
         <div v-if="ideas.length == 0">
@@ -69,13 +76,49 @@
               </q-item>
             </q-list>
           </q-btn-dropdown>
-
-
         </q-btn-group>
       </div>
 
       <q-input clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/>
       <q-list  padding v-if="!isLoading">
+      
+      <q-item class="bg-blue-grey-1 rounded-borders">
+        <q-item-section avatar>
+          <span>&nbsp;
+            <q-btn 
+              padding="xs" 
+              :unelevated="sort.active=='counter'? true:false" 
+              :flat="sort.active=='counter'? false:true" 
+              size="sm" color="primary" 
+              :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'" 
+              @click="changeSortOrder('counter')"/>
+          </span>
+        </q-item-section>
+        <q-item-section>
+          <span>Nazwa 
+            <q-btn 
+            padding="xs" 
+            :unelevated="sort.active=='title'? true:false" 
+            :flat="sort.active=='title'? false:true" 
+            size="sm" 
+            color="primary" 
+            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('title')" />
+          </span>
+        </q-item-section>
+        <q-item-section side>
+          <span>Wiek 
+            <q-btn 
+            padding="xs" 
+            :unelevated="sort.active=='age'? true:false" 
+            :flat="sort.active=='age'? false:true" 
+            size="sm" 
+            color="primary" 
+            :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('age')"/>
+          </span>
+        </q-item-section>
+      </q-item>
         <div v-for="(idea, index) in ideas" v-bind:key="index">
           <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
             v-if="!isLoading"></idea-item>
@@ -87,9 +130,7 @@
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
       <q-space class="q-pa-sm" />
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/ideas/add" color="accent" />
-      </q-page-sticky>
+
     </q-page>
   </div>
 </template>
@@ -109,6 +150,19 @@ let search = ref(null);
 
 const ideas = ref([]);
 let selected = ref(null);
+
+let sort = reactive({
+  counter: "asc",
+  title : "asc",
+  age: "asc",
+  active: "age"
+})
+
+function changeSortOrder(column){
+  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+  sort.active = column
+  fetchIdeas()
+}
 
 let hasPhotos = ref(null);
 let hasStatus = ref(null);
@@ -163,7 +217,15 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 async function fetchIdeas() {
   isLoading.value = true;
-  let params = { search: search.value , hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size };
+  let params = { 
+    search: search.value , 
+    hasImg: hasPhotos.value, 
+    status: hasStatus.value, 
+    page: pagination.page, 
+    size: pagination.size,
+    sortOrder: sort[sort.active],
+    sortColumn: sort.active 
+     };
   authApi
     .get("/ideas/", { params: params })
     .then((res) => {

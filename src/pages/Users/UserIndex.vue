@@ -1,12 +1,37 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Users") }}</h5>
+      <div class="row justify-beteen no-wrap  q-mb-sm q-mt-sm q-ml-md">
+        <div class="col-4"><p class="text-h4">{{ $t("Users") }}</p></div>
+        <!-- <div class="col-auto">&nbsp;</div> -->
+        <div class="col-6">
+          <q-btn v-if="hasPermission('USERS_ADD')" padding="sm" outline  size="md" icon="add" to="/users/add" color="primary" label="Nowy pracownik" no-caps  /></div>
+      </div>
 
       <q-input clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()"/>
 
       <q-list padding v-if="!isLoading">
+      <q-item class="bg-blue-grey-1 rounded-borders">
+        <q-item-section avatar>
 
+        </q-item-section>
+        <q-item-section>
+          <span>Nazwisko 
+            <q-btn 
+            padding="xs" 
+            :unelevated="sort.active=='title'? true:false" 
+            :flat="sort.active=='title'? false:true" 
+            size="sm" 
+            color="primary" 
+            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('title')" />
+          </span>
+          
+        </q-item-section>
+        <q-item-section side>
+
+        </q-item-section>
+      </q-item>
         <div v-for="(user, index) in users" v-bind:key="index">
         <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected" v-if="!isLoading"></user-item>
         </div>
@@ -20,9 +45,7 @@
       </div>
 
       <q-space class="q-pa-sm" />
-      <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="hasPermission('USERS_ADD')">
-        <q-btn fab icon="add" to="/users/add" color="accent" />
-      </q-page-sticky>
+
     </q-page>
   </div>
 </template>
@@ -50,6 +73,17 @@ let errorMsg = ref(null);
 const users = ref(null);
 let selected = ref(null);
 let search = ref(null);
+
+let sort = reactive({
+  name: "asc",
+  active: "name"
+})
+
+function changeSortOrder(column){
+  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+  sort.active = column
+  fetchUsers()
+}
 
 const pagination = reactive({
   page: 1,
