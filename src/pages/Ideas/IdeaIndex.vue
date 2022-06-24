@@ -1,13 +1,10 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
-
-
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
-      <div class="row justify-beteen no-wrap  q-mb-sm q-mt-sm q-ml-md">
-        <div class="col-4"><p class="text-h4">{{ $t("Ideas") }}</p></div>
-        <!-- <div class="col-auto">&nbsp;</div> -->
-        <div class="col-6"><q-btn padding="sm" outline  size="md" icon="add" to="/ideas/add" color="primary" label="Nowy pomysł" no-caps  /></div>
+      <div class="row justify-beteen no-wrap q-mb-sm q-mt-sm">
+        <div class="col-6  q-ml-sm"><p class="text-h4">{{ $t("Ideas") }}</p></div>
+        <div class="col-6  q-ml-md"><q-btn padding="sm" outline  size="md" icon="add" to="/ideas/add" color="primary" label="Nowy pomysł" no-caps  /></div>
       </div>
 
       <div class="q-pb-md">
