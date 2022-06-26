@@ -1,50 +1,41 @@
 <template>
-  <div class="audiobox">
-    <h1>Speech recognition Demo</h1>
-    <h2>Supported: {{ speechRecognition != null }}</h2>
-    <textarea rows="10" v-model="recognizedText"></textarea>
-    <button type="button" @click="startRecording">Start recording</button>
-  </div>
+  <q-layout>
+    <div class="row justify-center text-blue-grey-10">
+      <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+        <!-- <p class="text-h4">Voice recognition demo</p> -->
+        {{ note }}
+        <div>
+          <header>
+            <p class="text-h4"> Speech Recognition </p>
+            <i class="header-icon fas fa-microphone-alt"></i>
+          </header>
+          <main>
+
+            <!-- <p class="text-h4"> English Transcript </p> -->
+            <!-- Conditionals to handle errors -->
+            <p v-if="error">{{ error }}</p>
+            <div v-else>
+              <q-input outlined type="textarea" rows="5" v-model="note" :label="$t('Task description')">
+                <template v-slot:append>
+                  <q-btn round dense flat icon="mic"  @click="toggleListening" />
+                  <!-- <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" /> -->
+                </template>
+              </q-input>
+              <textarea v-model="note" class="text-transcript" cols="30" rows="10">  </textarea>
+            </div>
+          </main>
+        </div>
+
+      </q-page>
+    </div>
+  </q-layout>
 </template>
 
-<script>
-export default {
-  name: "SpeechRecognition",
-  data: function() {
-    return {
-      speechRecognition: null,
-      recognizedText: ""
-    };
-  },
-  methods: {
-    startRecording: function() {
-      var self = this;
+<script setup>
+import { useStt } from 'src/composables/useStt.js'
+const { startListening,  stopListening,  toggleListening,  note,  error, } = useStt({})
 
-      self.speechRecognition.onresult = function(event) {
-        self.recognizedText =
-          self.recognizedText + " " + event.results[0][0].transcript;
-      };
 
-      this.speechRecognition.start();
-    }
-  },
-  mounted: function() {
-    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-    this.speechRecognition = new SpeechRecognition();
-  }
-};
 </script>
 
-<style>
-.audiobox {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
 
-.audiobox textarea {
-  width: 50%;
-  margin-bottom: 2em;
-}
-</style>
