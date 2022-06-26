@@ -48,7 +48,7 @@ import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
 const { isListening, isSupported, stop, result, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
   continuous: true,
-  interimResults: false,
+  interimResults: true,
 })
 
 

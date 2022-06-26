@@ -59,7 +59,7 @@
             <q-icon name="people" />
           </q-item-section>
 
-          <q-item-section>Users</q-item-section>
+          <q-item-section>{{ $t("Users") }}</q-item-section>
         </q-item>
 
         <!--Ideas Index-->
@@ -68,7 +68,7 @@
             <q-icon name="tips_and_updates" />
           </q-item-section>
 
-          <q-item-section>Ideas</q-item-section>
+          <q-item-section>{{ $t("Ideas") }}</q-item-section>
         </q-item>
 
         <!--Ideas Index-->
