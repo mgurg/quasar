@@ -2,7 +2,9 @@
     <div @click="handleSelect(user.uuid)">
         <q-item :class="{ 'done bg-blue-1': user.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
-                <q-avatar rounded color="red" text-color="white">{{ initials }}</q-avatar>
+                <q-avatar rounded color="red" text-color="white">{{ initials }}
+                    <q-badge v-if="user.is_verified === false" floating color="teal">new</q-badge>
+                </q-avatar>
                 <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />
                     <q-badge floating rounded color="green" />
@@ -126,7 +128,7 @@ function editUser(uuid) {
 }
 
 function viewUser(uuid) {
-    router.push("/ideas/user/" + uuid);
+    router.push("/users/" + uuid);
 }
 
 </script>

@@ -4,6 +4,7 @@
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <!-- <p class="text-h4">Voice recognition demo</p> -->
         {{ result }}
+        {{ raw }}
         <div v-if="!isSupported">
           Your browser does not support SpeechRecognition API,
           <a href="https://caniuse.com/mdn-api_speechrecognition" target="_blank">more details</a>
@@ -45,7 +46,7 @@
 
 <script setup>
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
-const { isListening, isSupported, stop, result, start, error } = useSpeechRecognition({
+const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
   continuous: true,
   interimResults: true,

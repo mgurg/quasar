@@ -7,6 +7,8 @@ export function useSpeechRecognition({ lang, continuous, interimResults }) {
   const result = ref("");
   const error = ref("");
 
+  const raw = ref([]);
+
   // Intialize the web speech API
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -40,6 +42,12 @@ export function useSpeechRecognition({ lang, continuous, interimResults }) {
       // raw words that the user spoke
       const transcript = Array.from(event.results)
         .map((result) => {
+
+          console.log(result[0].transcript, result.isFinal, result[0].confidence )
+          // console.log(result)
+
+          raw.value.push([result[0].transcript,result.isFinal, result[0].confidence ])
+
           isFinal.value = result.isFinal;
           return result[0];
         })
@@ -74,6 +82,7 @@ export function useSpeechRecognition({ lang, continuous, interimResults }) {
     isFinal,
     recognition,
     result,
+    raw,
     error,
     start,
     stop,
