@@ -14,7 +14,7 @@ export default {
 	"Reset password": `Reset password`,
 	"I accept the terms and conditions": `I accept the terms and conditions`,
 	"Congratulations": `Congratulations`,
-	"Almost done! Let's confirm your email": `Almost done! Let's confirm your email`,
+	"Almost done! Remember to confirm your email!": `Almost done! Remember to confirm your email!`,
 	"First Name": `First Name`,
 	"Last Name": `Last Name`,
 	"NIP": `NIP`,
@@ -30,7 +30,7 @@ export default {
 	"Phone": `Phone`,
 
 
-	// Ideas
+	// ideas
 	"Ideas": `Ideas`,
 	"Idea": `Idea`,
 	"Idea title": `Idea title`,
@@ -49,4 +49,13 @@ export default {
 	"Task description": `Task description`,
 	"Add": `Add`,
 	"Edit": `Edit`,
+
+	// settings
+	"Settings": `Settings`,
+	"QR code": `QR code`,
+	"Submission type": `Submission type`,
+	"Anonymous": `Anonymous`,
+	"Anonymous with required confirmation": `Anonymous with required confirmation`,
+	"Only for logged users": `Only for logged users`,
+	"You must have an account": `You must have an account`,
 }

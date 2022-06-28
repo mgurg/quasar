@@ -8,9 +8,6 @@
       </div>
 
       <div class="q-pb-md">
-        <div v-if="ideas.length == 0">
-          Brak pomyslów, zgłoś pierwszy!
-        </div>
         <q-btn-group>
           <q-btn-dropdown rounded color="primary" icon="image">
             <q-list>
@@ -123,6 +120,11 @@
       </q-list>
       <!-- Skeleton -->
       <task-index-skeleton v-else />
+
+      <div class="text-h5" v-if="ideas.length == 0">
+          Brak pomyslów 🤔? <br/>Niech Twój będzie pierwszy! 😎
+      </div>
+
       <div class="q-pa-lg flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>

@@ -22,15 +22,13 @@
             </div>
             <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
                 :error-message="errors.ideaTitle" :label="$t('Idea title')">
-                <template v-slot:append>
-                    <q-btn round dense flat icon="mic" />
-                </template>
             </q-input>
             <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
                 :error="!!errors.ideaDescription" :error-message="errors.ideaDescription"
                 :label="$t('Idea description')">
-                <template v-slot:append>
-                    <q-btn round dense flat icon="mic" />
+                <template v-if="isSupported" v-slot:append>
+                  <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
+                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
                 </template>
             </q-input>
 
@@ -84,6 +82,12 @@ import * as yup from 'yup';
 import { api, authApi } from "boot/axios";
 import { useUserStore } from "stores/user";
 import Compressor from 'compressorjs';
+import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
+const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
+  lang: 'pl-PL',
+  continuous: true,
+  interimResults: true,
+})
 
 const UserStore = useUserStore();
 

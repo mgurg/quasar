@@ -1,13 +1,13 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Settings</h5>
+      <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Settings") }}</h5>
 
       <div class="q-pa-mt">&nbsp;</div>
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
         @submit.prevent>
 
-        <p class="text-h6">Kod QR:</p>
+        <p class="text-h6"> {{ $t("QR code") }} </p>
         <q-input outlined v-model="ActionUrl" readonly>
           <template v-slot:after>
             <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()" />
@@ -17,17 +17,14 @@
 
         <img  v-if="showQR"  :src="ActionUrlQr"   alt="QR code" />
 
-
-
-
-        <p class="text-h6">Wysłanie zgłoszenia:</p>
+        <p class="text-h6">{{ $t("Submission type") }}</p>
         <q-list>
           <q-item tag="label">
             <q-item-section avatar>
               <q-radio v-model="registrationMode" val="anonymous" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Anonimowo</q-item-label>
+              <q-item-label>{{ $t("Anonymous") }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -36,7 +33,7 @@
               <q-radio v-model="registrationMode" val="anonymous_with_mail" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Anonimowo po podaniu maila w domenie:
+              <q-item-label>{{ $t("Anonymous with required confirmation") }}
                 <q-input outlined dense :placeholder="registrationMailDomain"></q-input>
               </q-item-label>
               <q-item-label caption>Przyśpiesz zakładanie konta</q-item-label>
@@ -48,8 +45,8 @@
               <q-radio v-model="registrationMode" val="logged_only" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>Wyłącznie po zalogowaniu</q-item-label>
-              <q-item-label caption>Wymagane jest posiadanie konta</q-item-label>
+              <q-item-label>{{ $t("Only for logged users") }}</q-item-label>
+              <q-item-label caption>{{ $t("You must have an account") }}</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -126,7 +123,7 @@ function getBoardId() {
     .get("/settings/board/")
     .then((res) => {
       console.log(res.data);
-      ActionUrl.value = 'remontmaszyn.pl/new/' + res.data + '+234'
+      ActionUrl.value = 'beta.remontmaszyn.pl/new/' + res.data + '+234'
       isLoading.value = false;
     })
     .catch((err) => {

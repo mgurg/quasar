@@ -34,7 +34,6 @@
                   <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
                 </template>
               </q-input>
-              <textarea v-model="result" class="text-transcript" cols="30" rows="10">  </textarea>
             </div>
           </main>
         </div>

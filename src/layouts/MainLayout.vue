@@ -77,7 +77,7 @@
             <q-icon name="settings" />
           </q-item-section>
 
-          <q-item-section>Settings</q-item-section>
+          <q-item-section>{{ $t("Settings") }}</q-item-section>
         </q-item>
 
         <!-- Tasks Index -->

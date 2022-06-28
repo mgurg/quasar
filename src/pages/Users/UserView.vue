@@ -146,6 +146,10 @@ function activateUser() {
     });
 }
 
+// function editUser(uuid) {
+//     router.push("/users/edit/" + uuid);
+// }
+
 onBeforeMount(() => {
   isLoading.value = true;
   getDetails(route.params.uuid);

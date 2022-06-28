@@ -32,6 +32,7 @@ export function useSpeechRecognition({ lang, continuous, interimResults }) {
     recognition.continuous = continuous;
     recognition.interimResults = interimResults;
     recognition.lang = lang;
+    recognition.maxAlternatives = 1;
 
     recognition.onstart = () => {
       isFinal.value = false;
@@ -48,7 +49,7 @@ export function useSpeechRecognition({ lang, continuous, interimResults }) {
 
           raw.value.push([result[0].transcript,result.isFinal, result[0].confidence ])
 
-          isFinal.value = result.isFinal;
+          isFinal.value = result.isFinal && (result[0].confidence > 0);
           return result[0];
         })
         .map((result) => result.transcript)

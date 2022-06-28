@@ -11,7 +11,7 @@
                                     <q-icon color="white" name="auto_awesome" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">{{status.new}}</q-item-label>
+                                    <q-item-label class="text-white text-h4">{{status.pending}}</q-item-label>
                                     <q-item-label class="text-white text-weight-bold">New</q-item-label>
                                 </q-item-section>
                             </q-item>
@@ -49,6 +49,7 @@
                                 </q-item-section>
                             </q-item>
                         </div>
+                        <q-space/>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate metus ut enim
                             semper convallis.
                             Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
@@ -69,7 +70,7 @@
 import { onBeforeMount, reactive} from "vue";
 import { api, authApi } from "boot/axios";
 
-const status = reactive({'accepted': 0, 'todo': 0, 'new': 0, 'rejected': 0});
+const status = reactive({'accepted': 0, 'todo': 0, 'pending': 0, 'rejected': 0});
 
 function ping() {
     authApi
@@ -96,8 +97,6 @@ function ping() {
 }
 
 onBeforeMount(() => {
-  console.log('b')
-//   isLoading.value = true;
   ping()
 });
 

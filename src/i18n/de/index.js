@@ -14,7 +14,7 @@ export default {
 	"Reset password": `Passwort zurücksetzen`,
 	"I accept the terms and conditions": `Ich akzeptiere die allgemeinen Geschäftsbedingungen`,
 	"Congratulations": `Herzliche Glückwünsche`,
-	"Almost done! Let's confirm your email": `Fast fertig! Bestätigen wir Ihre E -Mail`,
+	"Almost done! Remember to confirm your email!": `Fast fertig! Denken Sie daran, Ihre E -Mail zu bestätigen!`,
 	"First Name": `Vorname`,
 	"Last Name": `Nachname`,
 	"NIP": `NIP`,
@@ -30,7 +30,7 @@ export default {
 	"Phone": `Telefon`,
 
 
-	// Ideas
+	// ideas
 	"Ideas": `Ideen`,
 	"Idea": `Idee`,
 	"Idea title": `Ideenentitel`,
@@ -49,4 +49,13 @@ export default {
 	"Task description": `Aufgabenbeschreibung`,
 	"Add": `Hinzufügen`,
 	"Edit": `Bearbeiten`,
+
+	// settings
+	"Settings": `Einstellungen`,
+	"QR code": `QR-Code`,
+	"Submission type": `Einreichungstyp`,
+	"Anonymous": `Anonym`,
+	"Anonymous with required confirmation": `Anonymous mit der erforderlichen Bestätigung`,
+	"Only for logged users": `Nur für protokollierte Benutzer`,
+	"You must have an account": `Sie müssen ein Konto haben`,
 }
