@@ -9,7 +9,7 @@
       </div>
 
 <div class="row q-gutter-xs items-center">
-  <div><q-input dense clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/></div>
+  <div><q-input dense clearable outlined v-model="search" label="Wpisz szukany tekst"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/></div>
   <div><q-btn outline class="float-right"  color="primary" icon="search" >Szukaj</q-btn></div>
   <div><q-btn-dropdown outline class="float-right"  color="primary" label="filtry" icon="filter_list">
      <div class="q-pa-xs" style="max-width: 350px">
