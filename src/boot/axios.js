@@ -1,5 +1,7 @@
 import { boot } from "quasar/wrappers";
 import axios from "axios";
+import { useUserStore } from 'stores/user'
+
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -8,6 +10,7 @@ import axios from "axios";
 // "export default () => {}" function below (which runs individually
 // for each client)
 // const api = axios.create({ baseURL: 'https://api.example.com' })
+
 
 const api = axios.create({ baseURL: process.env.VUE_APP_URL });
 const noAuthApi = axios.create();
@@ -25,6 +28,8 @@ const authApi = axios.create({
 });
 
 export default boot(({ app, router }) => {
+  const UserStore = useUserStore();
+
   authApi.interceptors.request.use((req) => {
     // `req` is the Axios request config, so you can modify
     // the `headers`.
@@ -44,8 +49,7 @@ export default boot(({ app, router }) => {
         // deleteUserToken();
         // history.push(Routes.Login);
         console.log("unauth interceptor " + err.response.status);
-        localStorage.removeItem("klucz");
-        sessionStorage.getItem("klucz");
+        UserStore.logoutUser();
         router.replace("/login");
       }
       return Promise.reject(err);

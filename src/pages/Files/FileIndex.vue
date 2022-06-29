@@ -1,55 +1,15 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-toggle v-model="store.counter" />
       <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">Files</h5>
-      <h1>{{ time }}</h1>
+      <!-- <h1>{{ time }}</h1> -->
 
       <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
-      <q-uploader
-        :hide-upload-btn="true"
-        ref="uploader"
-        :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
-        field-name="file"
-        label="No thumbnails"
-        color="amber"
-        text-color="black"
-        no-thumbnails
-        accept=".jpg, image/*"
-        style="max-width: 300px"
-        @added="uploadFile"
-        @uploaded="uploaded"
-        @finish="finished"
-      >
-        <!-- <template v-slot:list="scope">
-          <q-list separator>
-            <q-item v-for="file in scope.files" :key="file.__key">
-              <q-item-section>
-                <q-item-label class="full-width ellipsis">{{ file.name }}</q-item-label>
+      <q-uploader :hide-upload-btn="true" ref="uploader"
+        :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]" field-name="file" label="No thumbnails"
+        color="amber" text-color="black" no-thumbnails accept=".jpg, image/*" style="max-width: 300px"
+        @added="uploadFile" @finish="finished">
 
-                <q-item-label caption>Status: {{ file.__status }}</q-item-label>
-
-                <q-item-label caption>{{ file.__sizeLabel }} / {{ file.__progressLabel }}</q-item-label>
-              </q-item-section>
-
-              <q-item-section v-if="file.__img" thumbnail class="gt-xs">
-                <img :src="file.__img.src" />
-              </q-item-section>
-
-              <q-item-section top side>
-                <q-btn
-                  class="gt-xs"
-                  size="12px"
-                  flat
-                  dense
-                  round
-                  icon="delete"
-                  @click="scope.removeFile(file)"
-                />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </template>-->
       </q-uploader>
 
       <!-- @added="uploadImage" -->
@@ -57,91 +17,31 @@
       <q-btn class="q-ma-sm" @click="add">Add</q-btn>
       <q-btn class="q-ma-sm" @click="remove">Remove</q-btn>
 
-      <!-- <div class="q-pa-md q-gutter-sm">
-        <div width="100%" v-for="(file, index) in s3Files" v-bind:key="index">
-          <q-img
-            :src="download_file(file.file_name)"
-            spinner-color="black"
-            style="height: 140px; max-width: 150px"
-          >
-            <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="delete"
-              color="white"
-              style="top: 8px; right: 8px"
-              @click="delete_file(file.file_name)"
-            >
-              <q-tooltip>Tooltip</q-tooltip>
-            </q-icon>
-          </q-img>
-        </div>
-      </div>-->
+
       <h3>IMGs</h3>
 
       <div class="row q-col-gutter-xs">
-        <div
-          class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
-          v-for="(file, index) in s3Files"
-          v-bind:key="index"
-        >
-          <q-img
-            :src="download_file(file.uuid)"
-            spinner-color="black"
-            style="height: 100%; width:100% "
-            fit="contain"
-          >
-            <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="delete"
-              color="blue-grey-5"
-              style="top: 8px; right: 8px"
-              @click="delete_file(file.uuid)"
-            >
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in s3Files" v-bind:key="index">
+          <q-img :src="download_file(file.uuid)" spinner-color="black" style="height: 100%; width:100% " fit="contain">
+            <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
+              style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
 
-            <!-- <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="download"
-              color="blue-grey-5"
-              style="top: 8px; left: 8px"
-              @click="window.open(download_file(file.uuid))"
-            >
-              <q-tooltip>Tooltip</q-tooltip>
-            </q-icon>-->
           </q-img>
         </div>
       </div>
       <span>{{ uploadedFiles }}</span>
 
-      <q-img
-        class="q-pa-md"
-        src="https://picsum.photos/1920/1080"
-        :ratio="16 / 9"
-        @click="dialog = true"
-        style="max-width: 300px;"
-      >
-        <q-icon
-          class="absolute all-pointer-events"
-          size="32px"
-          name="file_download"
-          color="white"
-          style="top: 8px; left: 8px "
-        >
+      <q-img class="q-pa-md" src="https://picsum.photos/1920/1080" :ratio="16 / 9" @click="dialog = true"
+        style="max-width: 300px;">
+        <q-icon class="absolute all-pointer-events" size="32px" name="file_download" color="white"
+          style="top: 8px; left: 8px ">
           <q-tooltip>Tooltip</q-tooltip>
         </q-icon>
       </q-img>
 
-      <q-dialog
-        v-model="dialog"
-        persistent
-        transition-show="slide-up"
-        transition-hide="slide-down"
-        :maximized="true"
-      >
+      <q-dialog v-model="dialog" persistent transition-show="slide-up" transition-hide="slide-down" :maximized="true">
         <q-card class="bg-primary text-white">
           <q-bar>
             <q-space />
@@ -152,7 +52,9 @@
           </q-bar>
 
           <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
+
           
+
         </q-card>
       </q-dialog>
     </q-page>
@@ -169,13 +71,27 @@
 </template>
 
 <script setup>
-import { api } from "boot/axios";
-import { ref, reactive } from 'vue'
-import { computed } from 'vue'
-import { useCounterStore } from 'stores/counter'
+import { api, authApi } from "boot/axios";
+import { ref, reactive, computed,watch } from 'vue'
+import { useUserStore } from "stores/user";
 import Compressor from 'compressorjs';
 
-const store = useCounterStore()
+// ----------SPEECH --------------
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const recognition = SpeechRecognition ? new SpeechRecognition() : false
+    const text = ref('')
+    const load = ref(false)
+    const showMessage = ref(false)
+    if (recognition) {
+      recognition.continous = false
+      recognition.lang = 'pt-BR'
+      recognition.interimResults = false
+      recognition.maxAlternatives = 1
+    }
+
+// ----------SPEECH --------------
+const UserStore = useUserStore();
 
 let s3Files = ref([]);
 let uploader = ref("");
@@ -183,66 +99,58 @@ let uploadedFiles = ref([]);
 let dialog = ref(false)
 
 
-function uploadFile(file) {
+function uploadFile(file, token = null) {
   console.log('AXIOS upload files')
 
   // let formData = new FormData()
   // formData.append('file', file[0])
 
+  if (token == null)
+    token = UserStore.getToken
+
+  console.log('Bearer', token)
   new Compressor(file[0], {
     quality: 0.6,
+    maxWidth: 1600,
+    mimeType: 'image/jpeg',
     success(result) {
       const formData = new FormData();
 
       // The third parameter is required for server
       formData.append('file', result, result.name);
-      // formData.append('file', result);
-  api
-    .post(process.env.VUE_APP_URL + "/files/", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
-      // // Send the compressed image file to server with XMLHttpRequest.
-      // axios.post('/path/to/upload', formData).then(() => {
-      //   console.log('Upload success');
-      // });
+
+      // size check
+      let img = new Image();
+      let objectURL = URL.createObjectURL(result);
+      img.onload = function () { console.log(img.width, img.height) }
+      img.src = objectURL
+
+      console.log(result.size, result.type, result.name, result.lastModified)
+
+      api
+        .post(process.env.VUE_APP_URL + "/files/", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+        });
     },
     error(err) {
       console.log(err.message);
     },
   });
-
-  // api
-  //   .post(process.env.VUE_APP_URL + "/files/", formData, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  //   .then((res) => {
-  //     console.log(res.data);
-  //   })
-  //   .catch((err) => {
-  //     if (err.response) {
-  //       console.log(err.response);
-  //     } else if (err.request) {
-  //       console.log(err.request);
-  //     } else {
-  //       console.log("General Error");
-  //     }
-  //   });
 
 }
 
@@ -262,7 +170,7 @@ function remove(uuid) {
 }
 
 function listFiles() {
-  api
+  authApi
     .get("/files/index")
     .then((res) => {
 
@@ -286,13 +194,8 @@ function download_file(uuid) {
   return process.env.VUE_APP_URL + "/files/download/" + uuid
 }
 
-function uploadUrl() {
-  console.log(process.env.VUE_APP_URL + "/files/")
-  return process.env.VUE_APP_URL + "/files/"
-}
-
 function delete_file(uuid) {
-  api
+  authApi
     .delete(process.env.VUE_APP_URL + "/files/" + uuid)
     .then((res) => {
       console.log(res.data);
@@ -310,13 +213,13 @@ function delete_file(uuid) {
     });
 }
 
-function uploaded({ files, xhr }) {
-  // alert('uploaded')
-  let response = JSON.parse(xhr.response)
-  uploadedFiles.value.push(response.uuid);
-  console.log(response)
-  listFiles()
-}
+// function uploaded({ files, xhr }) {
+//   // alert('uploaded')
+//   let response = JSON.parse(xhr.response)
+//   uploadedFiles.value.push(response.uuid);
+//   console.log(response)
+//   listFiles()
+// }
 
 function finished() {
 
@@ -336,43 +239,43 @@ function finished() {
 
 
 
-function uploadImage(file, updateProgress) {
-  alert('uploaded')
-  let formData = new FormData()
-  formData.append('file', file[0])
+// function uploadImage(file, updateProgress) {
+//   alert('uploaded')
+//   let formData = new FormData()
+//   formData.append('file', file[0])
 
-  api
-    .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
-}
+//   authApi
+//     .post(process.env.VUE_APP_URL + "/s3/upload/", formData, {
+//       headers: {
+//         'Content-Type': 'multipart/form-data'
+//       }
+//     })
+//     .then((res) => {
+//       console.log(res.data);
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//     });
+// }
 
-    // https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
-    // https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue
+// https://github.com/amangeldiakyyew/ilan/blob/81f7a83409a18ab867044c8feceebfcf45f47960/web-app/src/components/AUploader.vue
+// https://github.com/timetzhang/QUASAR.fusionworks/blob/a45d86e75d830e4e2f04b659e5710cdab17c3282/src/components/dialogImage.vue
 
 
-    // https://codepen.io/metalsadman/pen/YMvEbr?editors=1011
+// https://codepen.io/metalsadman/pen/YMvEbr?editors=1011
 
 const getTime = () => {
   const date = new Date()
   const seconds = date.getSeconds();
-	const minutes = date.getMinutes();
-	const hour = date.getHours();
-  
+  const minutes = date.getMinutes();
+  const hour = date.getHours();
+
   return `${hour}:${minutes}:${seconds}`
 }
 const time = ref(getTime())

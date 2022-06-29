@@ -138,7 +138,6 @@ function deleteTask(uuid) {
 }
 
 function editTask(uuid) {
-    console.log(uuid);
     router.push("/tasks/edit/" + uuid);
 }
 

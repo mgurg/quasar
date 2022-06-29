@@ -6,6 +6,7 @@ export default {
 	"Login": `Login`,
 	"E-mail": `E-mail`,
 	"Password": `Password`,
+	"Error: Check username & password": `Error: Check username & password`,
 	"Password confirmation": `Password confirmation`,
 	"Remember me for 30 days": `Remember me for 30 days`,
 	"Register": `Register`,
@@ -13,13 +14,29 @@ export default {
 	"Reset password": `Reset password`,
 	"I accept the terms and conditions": `I accept the terms and conditions`,
 	"Congratulations": `Congratulations`,
-	"Almost done! Let's confirm your email": `Almost done! Let's confirm your email`,
+	"Almost done! Remember to confirm your email!": `Almost done! Remember to confirm your email!`,
 	"First Name": `First Name`,
 	"Last Name": `Last Name`,
 	"NIP": `NIP`,
 	"Last step": `Last step`,
 	"Say something about yourself." : `Say something about yourself. `,
 	"Lets start": `Let's start`,
+
+	// users
+	"User": `User`,
+	"Users": `Users`,
+	"First name": `First name`,
+	"Last name": `Last name`,
+	"Phone": `Phone`,
+
+
+	// ideas
+	"Ideas": `Ideas`,
+	"Idea": `Idea`,
+	"Idea title": `Idea title`,
+	"Idea description": `Idea description`,
+	"Your submission landed in our system": `Your submission landed in our system`,
+	"Would you like to improve something more?": `Would you like to improve something more?`,
 
 	// tasks
 	"Action failed": `Action failed`,
@@ -32,4 +49,13 @@ export default {
 	"Task description": `Task description`,
 	"Add": `Add`,
 	"Edit": `Edit`,
+
+	// settings
+	"Settings": `Settings`,
+	"QR code": `QR code`,
+	"Submission type": `Submission type`,
+	"Anonymous": `Anonymous`,
+	"Anonymous with required confirmation": `Anonymous with required confirmation`,
+	"Only for logged users": `Only for logged users`,
+	"You must have an account": `You must have an account`,
 }

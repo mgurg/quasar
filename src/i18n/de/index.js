@@ -6,20 +6,37 @@ export default {
 	"Login": `Anmeldung`,
 	"E-mail": `Email`,
 	"Password": `Passwort`,
+	"Error: Check username & password": `Fehler: Benutzername und Passwort überprüfen`,
 	"Password confirmation": `Passwort Bestätigung`,
 	"Remember me for 30 days": `Erinnere dich für 30 Tage an mich`,
 	"Register": `Registrieren`,
 	"I need help": `Ich brauche Hilfe`,
 	"Reset password": `Passwort zurücksetzen`,
 	"I accept the terms and conditions": `Ich akzeptiere die allgemeinen Geschäftsbedingungen`,
-	"Congratulations": `Glückwünsche`,
-	"Almost done! Let's confirm your email": `Fast fertig! Beginnen wir Ihre E-Mail`,
+	"Congratulations": `Herzliche Glückwünsche`,
+	"Almost done! Remember to confirm your email!": `Fast fertig! Denken Sie daran, Ihre E -Mail zu bestätigen!`,
 	"First Name": `Vorname`,
-	"Last Name": `Familienname, Nachname`,
+	"Last Name": `Nachname`,
 	"NIP": `NIP`,
 	"Last step": `Letzter Schritt`,
 	"Say something about yourself." : `Sage etwas über dich selbst.`,
 	"Lets start": `Lasst uns beginnen`,
+
+	// users
+	"User": `Benutzer`,
+	"Users": `Benutzer`,
+	"First name": `Vorname`,
+	"Last name": `Nachname`,
+	"Phone": `Telefon`,
+
+
+	// ideas
+	"Ideas": `Ideen`,
+	"Idea": `Idee`,
+	"Idea title": `Ideenentitel`,
+	"Idea description": `Ideenbeschreibung`,
+	"Your submission landed in our system": `Ihre Einreichung landete in unserem System`,
+	"Would you like to improve something more?": `Möchten Sie etwas mehr verbessern?`,
 
 	// tasks
 	"Action failed": `Aktion: fehlgeschlagen`,
@@ -30,6 +47,15 @@ export default {
 	"All tasks": `Alle Aufgaben`,
 	"Task name": `Aufgabennname`,
 	"Task description": `Aufgabenbeschreibung`,
-	"Add": `Addieren`,
+	"Add": `Hinzufügen`,
 	"Edit": `Bearbeiten`,
+
+	// settings
+	"Settings": `Einstellungen`,
+	"QR code": `QR-Code`,
+	"Submission type": `Einreichungstyp`,
+	"Anonymous": `Anonym`,
+	"Anonymous with required confirmation": `Anonymous mit der erforderlichen Bestätigung`,
+	"Only for logged users": `Nur für protokollierte Benutzer`,
+	"You must have an account": `Sie müssen ein Konto haben`,
 }

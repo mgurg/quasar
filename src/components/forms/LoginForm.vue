@@ -4,7 +4,8 @@
 
         <q-form @submit="submit">
             <q-input
-                v-model="email"
+                :model-value="email"
+                @change="handleChange"
                 :disable="isLoading"
                 :error="!!errors.email"
                 :error-message="errors.email"
@@ -49,11 +50,21 @@
 
 
 <script setup>
-import { ref } from "vue";
+import { useQuasar } from 'quasar'
+import { ref, computed } from "vue";
 import { useField, useForm } from "vee-validate";
 import { object, string, bool } from "yup";
 import { useRouter } from "vue-router";
 import { useUserStore } from 'stores/user'
+import { useI18n } from 'vue-i18n';
+import { fr } from 'yup-locales';
+import { setLocale } from 'yup';
+
+setLocale(fr);
+
+const { t } = useI18n();
+const someProperty = computed(() => t("Error: Check username & password"));
+const $q = useQuasar()
 
 let isPwd = ref(true)
 let isLoading = ref(false);
@@ -89,10 +100,14 @@ async function LoginUser(data) {
     isLoading.value = true;
     try {
         await UserStore.loginUsers(data.email, data.password, data.permanent);
-        router.push({ path: "/" });
+        router.push({ path: "/home" });
     }
     catch (err) {
         console.log(err);
+        $q.notify({
+            type: 'warning',
+          message: someProperty,
+    });
         // console.log(err.error_description || err.message)
         // console.log(err.data)
         // errorMsg.value = err

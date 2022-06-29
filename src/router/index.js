@@ -28,12 +28,13 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   const UserStore = useUserStore()
+  // console.log('Router is ' , UserStore.isAuthenticated)
 
   Router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth && !UserStore.isAuthenticated){
       next('/login');
     // } else if (to.meta.requiresNoAuth && UserStore.isAuthenticated) {
-    //   next('/home');
+    //   next('/files');
     } else{
       next();
     }

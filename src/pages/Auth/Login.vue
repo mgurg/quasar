@@ -5,11 +5,10 @@
     <div class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7" v-if="fade">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
-          <h1 class="text-h3">Intio</h1>
-          <p class="text-h4 text-weight-light">Empowering life safety with technology</p>
+          <h1 class="text-h3">AnyName</h1>
+          <p class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
           <p class="text-h6" v-if="$q.screen.gt.sm">
-            With over 40-years of experience in life-safety systems, we are
-            revolutionizing industries that protect us most.
+            Zbieraj szczere pomysły od pracowników, wdrażaj je i wyrażaj uznanie tam, gdzie jest ono należne. Proste.
           </p>
         </div>
         <!-- </div> -->
@@ -38,14 +37,21 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import LoginForm from 'src/components/forms/LoginForm.vue';
 import RegisterForm from 'src/components/forms/RegisterForm.vue';
 import ResetPasswordForm from 'src/components/forms/ResetPasswordForm.vue'
-import { ref,computed } from "vue";
+import { ref,computed, onBeforeMount, watch } from "vue";
 import { useRoute } from 'vue-router'
 import { useRouter } from "vue-router";
 import { useUserStore } from 'stores/user'
+import { useI18n } from "vue-i18n";
+import { useQuasar } from "quasar";
+
+const $q = useQuasar();
+const { locale } = useI18n({ useScope: "global" });
+const lang = ref(locale); 
 
 const router = useRouter();
 const route = useRoute();
@@ -55,15 +61,53 @@ const path = computed(() =>route.path)
 
 let fade = ref(true);
 
-UserStore.autoLogin();
+// UserStore.autoLogin();
 
 if (UserStore.isAuthenticated == true) {
     console.log('Zalogowany')
-    router.push({ path: "/" });
+    router.push({ path: "/home" });
 } else {
     console.log('Czeka na logowanie')
 }
 
+
+  function getLocale() {
+    const userLocale =
+      localStorage.getItem("lang") ||
+      sessionStorage.getItem("lang") ||
+      navigator.language.split("-")[0] ||
+      "en-US";
+
+    // if detectedLocale is 'en' or 'es' return
+    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+      return userLocale;
+    }
+    // else return default value
+    return "en-US";
+  }
+
+    function setLocale(lang) {
+      locale.value = lang;
+    }
+
+    watch(lang, (val) => {
+      // dynamic import, so loading on demand only
+      import(
+        /* webpackInclude: /(pl|de|en-US)\.js$/ */
+        "quasar/lang/" + val
+      ).then((lang) => {
+        $q.lang.set(lang.default);
+      });
+    });
+
+  onBeforeMount(() => {
+  console.log(getLocale())
+  //localStorage.setItem("lang", 'pl')
+  // setLocale(setLocale())
+  setLocale(getLocale())
+
+
+});
 
 </script>
 

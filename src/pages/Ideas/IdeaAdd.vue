@@ -4,25 +4,14 @@
             <div class="q-pa-md q-gutter-sm">
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/home" />
-                    <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
+                    <q-breadcrumbs-el label="Ideas" icon="tips_and_updates" to="/ideas" />
                     <q-breadcrumbs-el label="Add" icon="add" />
                 </q-breadcrumbs>
             </div>
-            <task-form
-                v-if="isSuccess == true"
+            <idea-form
                 button-text="Add"
-                :usersList="usersList"
-                @taskFormBtnClick="signUpButtonPressed"
-            ></task-form>
-
-            <!-- <task-form
-                button-text="Add"
-                :tasks="{ 'color': 'teal', 'title': 'hi', 'desc': 'hi', 'user': '265c8d5e-2921-4f05-b8f3-91a4512902ed', 'priority': 'low', 'mode': 'task' }"
-                :usersList="[{
-                    label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-                }, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]"
-                @taskFormBtnClick="signUpButtonPressed"
-            ></task-form>-->
+                @ideaFormBtnClick="signUpButtonPressed"
+            ></idea-form>
         </q-page>
     </div>
 </template>
@@ -30,8 +19,11 @@
 
 <script setup>
 import { onActivated, reactive, ref } from "vue";
-import TaskForm from 'src/components/forms/TaskForm.vue'
+import IdeaForm from 'src/components/forms/IdeaForm.vue'
 import { authApi } from "boot/axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 
 
@@ -45,11 +37,10 @@ let usr = ref([{
 }, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]);
 
 
-
-function createTasks(body) {
+function createIdea(body) {
     isLoading.value = true;
     authApi
-        .post("/tasks/add", body)
+        .post("/ideas/", body)
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;
@@ -64,11 +55,12 @@ function createTasks(body) {
             }
 
         });
+        router.push("/ideas");
 }
 
 function getUsers() {
     authApi
-        .get("user")
+        .get("/user/")
         .then((res) => {
             console.log(res.data)
 
@@ -92,19 +84,18 @@ function getUsers() {
 }
 
 
-
-function signUpButtonPressed(taskForm) {
-    console.log('outside', taskForm)
-    createTasks(taskForm)
+function signUpButtonPressed(ideaForm) {
+    console.log('outside', ideaForm)
+    createIdea(ideaForm)
     console.log('Add ok')
 }
 
 
-onActivated(() => {
-    isLoading.value = true;
-    getUsers();
-    isLoading.value = false;
-});
+// onActivated(() => {
+    // isLoading.value = true;
+    // getUsers();
+    // isLoading.value = false;
+// });
 
 
 </script>

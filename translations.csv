@@ -3,29 +3,55 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
 """E-mail""",E-mail,E-mail,Email,E-mail
 """Password""",Password,Mot de passe,Passwort,Hasło
+"""Error: Check username & password""",Error: Check username & password,Erreur: vérifiez le nom d'utilisateur et le mot de passe,Fehler: Benutzername und Passwort überprüfen,Błąd: Sprawdź nazwę użytkownika i hasło
 """Password confirmation""",Password confirmation,Confirmation mot de passe,Passwort Bestätigung,Potwierdzenie hasła
-"""Remember me for 30 days""",Remember me for 30 days,Souviens-toi de moi pendant 30 jours,Erinnere dich für 30 Tage an mich,Zapamiętaj mnie przez 30 dni
-"""Register""",Register,S'inscrire,Registrieren,Zarejestrować
-"""I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,potrzebuję pomocy
+"""Remember me for 30 days""",Remember me for 30 days,Souviens-toi de moi pendant 30 jours,Erinnere dich für 30 Tage an mich,Pamiętaj o mnie przez 30 dni
+"""Register""",Register,S'inscrire,Registrieren,Zarejstruj się
+"""I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,Potrzebuję pomocy
 """Reset password""",Reset password,Réinitialiser le mot de passe,Passwort zurücksetzen,Zresetuj hasło
 """I accept the terms and conditions""",I accept the terms and conditions,J'accepte les termes et conditions,Ich akzeptiere die allgemeinen Geschäftsbedingungen,Akceptuję zasady i warunki
-"""Congratulations""",Congratulations,Toutes nos félicitations,Glückwünsche,Gratulacje
-"""Almost done! Let's confirm your email""",Almost done! Let's confirm your email,Presque fini! Confirmons votre email,Fast fertig! Beginnen wir Ihre E-Mail,Prawie skończone! Potwierdźmy Twój e-mail
+"""Congratulations""",Congratulations,Toutes nos félicitations,Herzliche Glückwünsche,Gratulacje
+"""Almost done! Remember to confirm your email!""",Almost done! Remember to confirm your email!,Presque fini! N'oubliez pas de confirmer votre e-mail!,"Fast fertig! Denken Sie daran, Ihre E -Mail zu bestätigen!","Prawie skończone! Pamiętaj, aby potwierdzić swój e -mail!"
 """First Name""",First Name,Prénom,Vorname,Imię
-"""Last Name""",Last Name,Nom de famille,"Familienname, Nachname",Nazwisko
+"""Last Name""",Last Name,Nom de famille,Nachname,Nazwisko
 """NIP""",NIP,NIP,NIP,NIP
 """Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
 """Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
 """Lets start""",Let's start,Commençons,Lasst uns beginnen,Zaczynajmy
 ,,,,
+#users,,,,
+"""User""",User,Utilisateur,Benutzer,Użytkownik
+"""Users""",Users,Utilisateurs,Benutzer,Użytkownicy
+"""First name""",First name,Prénom,Vorname,Imię
+"""Last name""",Last name,Nom de famille,Nachname,Nazwisko
+"""Phone""",Phone,Téléphoner,Telefon,Telefon
+,,,,
+,,,,
+#ideas,,,,
+"""Ideas""",Ideas,Idées,Ideen,Pomysły
+"""Idea""",Idea,Idée,Idee,Pomysł
+"""Idea title""",Idea title,Titre d'idée,Ideenentitel,Tytuł pomysłu
+"""Idea description""",Idea description,Description de l'idée,Ideenbeschreibung,Opis pomysłu
+"""Your submission landed in our system""",Your submission landed in our system,Votre soumission a atterri dans notre système,Ihre Einreichung landete in unserem System,Twoje zgłoszenie wylądowało w naszym systemie
+"""Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
+,,,,
 #tasks,,,,
 """Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana
-"""Action was successful""",Action was successful,L'action a réussi,Aktion war erfolgreich,Działanie powiodło się
+"""Action was successful""",Action was successful,L'action a réussi,Aktion war erfolgreich,Działanie zakończyło się sukcesem
 """Work Time!""",Work Time!,Temps de travail!,Arbeitszeit!,Czas pracy!
 """Tasks""",Tasks,Tâches,Aufgaben,Zadania
 """Your tasks""",Your tasks,Vos tâches,Ihre Aufgaben,Twoje zadania
 """All tasks""",All tasks,Toutes les tâches,Alle Aufgaben,Wszystkie zadania
 """Task name""",Task name,Nom de la tâche,Aufgabennname,Nazwa zadania
 """Task description""",Task description,Description de la tâche,Aufgabenbeschreibung,Opis zadania
-"""Add""",Add,Ajouter,Addieren,Dodać
+"""Add""",Add,Ajouter,Hinzufügen,Dodać
 """Edit""",Edit,Éditer,Bearbeiten,Edytować
+,,,,
+#settings,,,,
+"""Settings""",Settings,Réglages,Einstellungen,Ustawienia
+"""QR code""",QR code,QR Code,QR-Code,Kod QR
+"""Submission type""",Submission type,Type de soumission,Einreichungstyp,Typ zgłoszenia
+"""Anonymous""",Anonymous,Anonyme,Anonym,Anonimowy
+"""Anonymous with required confirmation""",Anonymous with required confirmation,Anonyme de confirmation requise,Anonymous mit der erforderlichen Bestätigung,Anonimowy z wymaganym potwierdzeniem
+"""Only for logged users""",Only for logged users,Uniquement pour les utilisateurs enregistrés,Nur für protokollierte Benutzer,Tylko dla zalogowanych użytkowników
+"""You must have an account""",You must have an account,Vous devez avoir un compte,Sie müssen ein Konto haben,Musisz mieć konto

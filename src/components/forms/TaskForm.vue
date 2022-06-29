@@ -4,7 +4,7 @@
         <!-- https://www.thisdot.co/blog/vue-3-2-using-composition-api-with-script-setup -->
         <!-- https://github.com/tuchongyang/evue-schema-form/blob/1a024ff4c9fbb34596277bd02902052aaecfa577/src/components/SchemaForm/components/schema-form-input.vue -->
         <!-- form emit defineComponent -->
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }}</h5>
+        
         <q-form
             autocorrect="off"
             autocapitalize="off"
@@ -13,6 +13,8 @@
             class="q-gutter-md"
             @submit.prevent
         >
+        <div class="row justify-between items-center">
+        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Tasks") }}</h5>
             <div class="q-gutter-sm">
                 <!-- <span>Color:</span> -->
                 <span>
@@ -27,6 +29,7 @@
                 <span>
                     <q-radio keep-color v-model="taskColor" val="cyan" color="cyan" />
                 </span>
+            </div>
             </div>
             <q-input
                 outlined
@@ -315,9 +318,9 @@
                 </div>
             </div>
             <div class="row">
-                <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
-                <q-space />
                 <q-btn type="submit" color="red">Cancel</q-btn>
+                <q-space />
+                <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
         </q-form>
     </div>
@@ -396,7 +399,7 @@ let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({ minutes: 60 
 // --------------- UPLOADER ---------------
 console.log("props file: ", props.tasks.file)
 let attachments = ref(props.tasks.file);
-let uploader = ref("");
+let uploader = ref(""); // uploaderRef ?
 
 function download_file(uuid) {
 

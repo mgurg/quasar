@@ -4,17 +4,17 @@
             <div class="q-pa-md q-gutter-sm">
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/" />
-                    <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
+                    <q-breadcrumbs-el label="Users" icon="people" to="/users" />
                     <q-breadcrumbs-el label="Edit" icon="edit" />
                 </q-breadcrumbs>
             </div>
-            <task-form
-                :tasks="taskDetails"
+            <user-form
+                :user="userDetails"
                 button-text="Edit"
-                :usersList="usersList"
-                @taskFormBtnClick="signUpButtonPressed"
-                v-if="taskDetails != null && usersList != null"
-                :key="taskDetails.uuid"
+                @userFormBtnClick="signUpButtonPressed"
+                @cancelBtnClick="cancelButtonPressed"
+                v-if="userDetails != null"
+                :key="userDetails.uuid"
             />
             <task-edit-skeleton v-else />
         </q-page>
@@ -26,9 +26,9 @@
 
 <script setup>
 import { useQuasar } from 'quasar'
-import { onActivated, ref } from "vue";
+import { onActivated, ref, onBeforeMount } from "vue";
 import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
-import TaskForm from 'src/components/forms/TaskForm.vue'
+import UserForm from 'src/components/forms/UserForm.vue'
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 
@@ -37,8 +37,8 @@ const $q = useQuasar()
 const tasks = ref(null);
 const route = useRoute();
 const router = useRouter();
-let taskUuid = ref(route.params.uuid);
-let taskDetails = ref(null);
+let userUuid = ref(route.params.uuid);
+let userDetails = ref(null);
 let usersList = ref(null);
 
 let isLoading = ref(false);
@@ -51,14 +51,14 @@ let errors = ref(null);
 
 
 
-function updateTask(body) {
+function updateUser(body) {
     // isLoading.value = true;
     authApi
-        .patch("/tasks/" + taskUuid.value, body)
+        .patch("/user/" + userUuid.value, body)
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;
-            router.push("/tasks");
+            router.push("/users");
         })
         .catch((err) => {
             if (err.response) {
@@ -74,15 +74,15 @@ function updateTask(body) {
 
 function getDetails(uuid) {
     authApi
-        .get("/tasks/" + uuid)
+        .get("/user/" + uuid)
         .then((res) => {
             console.log(uuid);
             console.log(res.data);
-            taskDetails.value = res.data
+            userDetails.value = res.data
 
-            if (res.data.date_from == null) {
-                taskDetails.value.mode = 'task'
-            }
+            // if (res.data.date_from == null) {
+            //     userDetails.value.mode = 'task'
+            // }
         })
         .catch((err) => {
             if (err.response) {
@@ -121,15 +121,22 @@ function getUsers() {
 
 function signUpButtonPressed(taskForm) {
     console.log('outside', taskForm)
-    updateTask(taskForm)
+    updateUser(taskForm)
     console.log('Edit ok')
 }
 
-onActivated(() => {
+
+function cancelButtonPressed() {
+    console.log('cancelBtnClick')
+    router.push("/users");
+}
+
+onBeforeMount(() => {
     if (route.params.uuid != null)
         getDetails(route.params.uuid)
-    getUsers();
+    // getUsers();
     isLoading.value = false;
 });
+
 </script>
 

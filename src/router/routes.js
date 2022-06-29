@@ -40,31 +40,87 @@ const routes = [
       requiresNoAuth: true,
     },
   },
+  // {
+  //   path: "/map",
+  //   name: "map",
+  //   component: () => import("pages/Map/MapMapIndex.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
+  // {
+  //   path: "/maps",
+  //   name: "maps",
+  //   component: () => import("pages/Map/MapImgIndex.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
+
+  {
+    path: "/voice",
+    name: "voice2",
+    component: () => import("pages/Files/Voice2.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/new/:id?",
+    name: "newIdea",
+    component: () => import("pages/PublicOpen/NewIdea.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
+    path: "/new_submission",
+    name: "NewSubmission",
+    component: () => import("pages/PublicOpen/NewSubmission.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  // {
+  //   path: "/qr",
+  //   name: "qr",
+  //   component: () => import("pages/PublicOpen/Qr.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
-      {
-        path: "/tasks/add",
-        component: () => import("pages/Tasks/TaskAdd.vue"),
-      },
-      {
-        path: "/tasks/:uuid",
-        component: () => import("pages/Tasks/TaskView.vue"),
-      },
-      {
-        path: "/tasks/edit/:uuid",
-        component: () => import("pages/Tasks/TaskEdit.vue"),
-      },
-      { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
-      { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
-      {
-        path: "/calendar",
-        component: () => import("pages/Calendar/Month.vue"),
-      },
-      { path: '', component: () => import('pages/IndexPage.vue') }
+
+      { path: "/users", component: () => import("pages/Users/UserIndex.vue") },
+      { path: "/users/add", component: () => import("pages/Users/UserAdd.vue") },
+      { path: "/users/:uuid", component: () => import("pages/Users/UserView.vue") },
+      { path: "/users/edit/:uuid", component: () => import("pages/Users/UserEdit.vue") },
+
+      { path: "/ideas", component: () => import("pages/Ideas/IdeaIndex.vue") },
+      { path: "/ideas/add", component: () => import("pages/Ideas/IdeaAdd.vue") },
+      { path: "/ideas/:uuid", component: () => import("pages/Ideas/IdeaView.vue") },
+      { path: "/ideas/user/:uuid", component: () => import("pages/Ideas/IdeaUserIndex.vue") },
+
+      { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
+
+      // { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
+      // { path: "/tasks/add", component: () => import("pages/Tasks/TaskAdd.vue") },
+      // { path: "/tasks/:uuid", component: () => import("pages/Tasks/TaskView.vue") },
+      // { path: "/tasks/edit/:uuid", component: () => import("pages/Tasks/TaskEdit.vue") },
+      { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
+      // { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
+
+      // { path: "/layout", component: () => import("pages/Maps/MapIndex.vue") },
+      // {
+      //   path: "/calendar",
+      //   component: () => import("pages/Calendar/Month.vue"),
+      // },
+      // { path: '', component: () => import('pages/IndexPage.vue') }
+      { path: '', component: () => import('pages/Home/Dashboard.vue') }
     ],
     meta: {
       requiresAuth: true,

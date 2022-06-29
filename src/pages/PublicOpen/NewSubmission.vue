@@ -18,7 +18,7 @@
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
-    <p>{{ $t("Almost done! Let's confirm your email") }} ✅</p>
+    <p>{{ $t("Your submission landed in our system") }} 🚀<br> {{ $t("Would you like to improve something more?") }}</p>
 
 
 

@@ -6,14 +6,15 @@ export default {
 	"Login": `Zaloguj sie`,
 	"E-mail": `E-mail`,
 	"Password": `Hasło`,
+	"Error: Check username & password": `Błąd: Sprawdź nazwę użytkownika i hasło`,
 	"Password confirmation": `Potwierdzenie hasła`,
-	"Remember me for 30 days": `Zapamiętaj mnie przez 30 dni`,
-	"Register": `Zarejestrować`,
-	"I need help": `potrzebuję pomocy`,
+	"Remember me for 30 days": `Pamiętaj o mnie przez 30 dni`,
+	"Register": `Zarejstruj się`,
+	"I need help": `Potrzebuję pomocy`,
 	"Reset password": `Zresetuj hasło`,
 	"I accept the terms and conditions": `Akceptuję zasady i warunki`,
 	"Congratulations": `Gratulacje`,
-	"Almost done! Let's confirm your email": `Prawie skończone! Potwierdźmy Twój e-mail`,
+	"Almost done! Remember to confirm your email!": `Prawie skończone! Pamiętaj, aby potwierdzić swój e -mail!`,
 	"First Name": `Imię`,
 	"Last Name": `Nazwisko`,
 	"NIP": `NIP`,
@@ -21,9 +22,25 @@ export default {
 	"Say something about yourself." : `Powiedz coś o sobie.`,
 	"Lets start": `Zaczynajmy`,
 
+	// users
+	"User": `Użytkownik`,
+	"Users": `Użytkownicy`,
+	"First name": `Imię`,
+	"Last name": `Nazwisko`,
+	"Phone": `Telefon`,
+
+
+	// ideas
+	"Ideas": `Pomysły`,
+	"Idea": `Pomysł`,
+	"Idea title": `Tytuł pomysłu`,
+	"Idea description": `Opis pomysłu`,
+	"Your submission landed in our system": `Twoje zgłoszenie wylądowało w naszym systemie`,
+	"Would you like to improve something more?": `Czy chciałbyś poprawić coś więcej?`,
+
 	// tasks
 	"Action failed": `Akcja: nieudana`,
-	"Action was successful": `Działanie powiodło się`,
+	"Action was successful": `Działanie zakończyło się sukcesem`,
 	"Work Time!": `Czas pracy!`,
 	"Tasks": `Zadania`,
 	"Your tasks": `Twoje zadania`,
@@ -32,4 +49,13 @@ export default {
 	"Task description": `Opis zadania`,
 	"Add": `Dodać`,
 	"Edit": `Edytować`,
+
+	// settings
+	"Settings": `Ustawienia`,
+	"QR code": `Kod QR`,
+	"Submission type": `Typ zgłoszenia`,
+	"Anonymous": `Anonimowy`,
+	"Anonymous with required confirmation": `Anonimowy z wymaganym potwierdzeniem`,
+	"Only for logged users": `Tylko dla zalogowanych użytkowników`,
+	"You must have an account": `Musisz mieć konto`,
 }

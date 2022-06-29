@@ -2,20 +2,13 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          Quasar App
+          <!-- Quasar App -->
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <!-- <div>Quasar v{{ $q.version }}</div> -->
         <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
@@ -60,14 +53,50 @@
           <q-item-section>Index</q-item-section>
         </q-item>
 
-        <!--Tasks Index-->
-        <q-item to="/tasks" exact clickable v-ripple>
+        <!--Users Index-->
+        <q-item to="/users" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="people" />
+          </q-item-section>
+
+          <q-item-section>{{ $t("Users") }}</q-item-section>
+        </q-item>
+
+        <!--Ideas Index-->
+        <q-item to="/ideas" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="tips_and_updates" />
+          </q-item-section>
+
+          <q-item-section>{{ $t("Ideas") }}</q-item-section>
+        </q-item>
+
+        <!--Ideas Index-->
+        <q-item to="/settings" exact clickable v-ripple v-if="hasPermission('SETTINGS_VIEW')">
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+
+          <q-item-section>{{ $t("Settings") }}</q-item-section>
+        </q-item>
+
+        <!-- Tasks Index -->
+        <!-- <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="add_task" />
           </q-item-section>
 
           <q-item-section>TODO List</q-item-section>
-        </q-item>
+        </q-item> -->
+
+        <!--Maps Index-->
+        <!-- <q-item to="/layout" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="place" />
+          </q-item-section>
+
+          <q-item-section>Items</q-item-section>
+        </q-item> -->
 
         <!--Files Index-->
         <q-item to="/files" exact clickable v-ripple>
@@ -79,22 +108,22 @@
         </q-item>
 
         <!--Editor Index-->
-        <q-item to="/editor" exact clickable v-ripple>
+        <!-- <q-item to="/editor" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="post_add" />
           </q-item-section>
 
           <q-item-section>Editor</q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!--Calendar Index-->
-        <q-item to="/calendar" exact clickable v-ripple>
+        <!-- <q-item to="/calendar" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="calendar_month" />
           </q-item-section>
 
           <q-item-section>Calendar</q-item-section>
-        </q-item>
+        </q-item> -->
       </q-list>
     </q-drawer>
 
@@ -102,9 +131,9 @@
       <!-- <router-view /> -->
       <!-- TODO: Looks like this is necessary to load onActivate -->
       <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
+        <!-- <keep-alive  :max="1"> -->
+        <component :is="Component" />
+        <!-- </keep-alive> -->
       </router-view>
     </q-page-container>
   </q-layout>
@@ -112,12 +141,14 @@
 
 <script>
 
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
+
+
 
 
 export default defineComponent({
@@ -163,6 +194,12 @@ export default defineComponent({
       router.push("/login");
     }
 
+    const permissions = computed(() => UserStore.getPermissions);
+
+    function hasPermission(permission) {
+      return Boolean(permissions.value.includes(permission));
+    }
+
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -170,7 +207,8 @@ export default defineComponent({
       },
       notify,
       setLocale,
-      logout
+      logout,
+      hasPermission
     };
   },
 });
