@@ -1,7 +1,11 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Settings") }}</h5>
+      <div class="row justify-around q-mt-sm">
+        <div class="col-6"><p class="text-h4">{{ $t("Settings") }}</p></div>
+        <div class="col-6"></div>
+      </div>
+
 
       <div class="q-pa-mt">&nbsp;</div>
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"

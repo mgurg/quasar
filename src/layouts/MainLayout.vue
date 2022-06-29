@@ -47,7 +47,7 @@
         <!--Home Index-->
         <q-item to="/home" exact clickable v-ripple>
           <q-item-section avatar>
-            <q-icon name="dashboard" />
+            <q-icon size="md" name="dashboard" />
           </q-item-section>
 
           <q-item-section>Index</q-item-section>
@@ -56,7 +56,10 @@
         <!--Users Index-->
         <q-item to="/users" exact clickable v-ripple>
           <q-item-section avatar>
-            <q-icon name="people" />
+            <div class="relative-position">
+            <q-icon size="md" name="people"></q-icon>
+            <q-badge color="orange" floating>2</q-badge>
+            </div>
           </q-item-section>
 
           <q-item-section>{{ $t("Users") }}</q-item-section>
@@ -65,7 +68,12 @@
         <!--Ideas Index-->
         <q-item to="/ideas" exact clickable v-ripple>
           <q-item-section avatar>
-            <q-icon name="tips_and_updates" />
+            <div class="relative-position">
+              <q-icon size="md" name="tips_and_updates">
+              </q-icon>
+              <q-badge color="orange" floating>3</q-badge>
+            </div>
+
           </q-item-section>
 
           <q-item-section>{{ $t("Ideas") }}</q-item-section>
@@ -74,7 +82,7 @@
         <!--Ideas Index-->
         <q-item to="/settings" exact clickable v-ripple v-if="hasPermission('SETTINGS_VIEW')">
           <q-item-section avatar>
-            <q-icon name="settings" />
+            <q-icon size="md" name="settings" />
           </q-item-section>
 
           <q-item-section>{{ $t("Settings") }}</q-item-section>
@@ -99,13 +107,13 @@
         </q-item> -->
 
         <!--Files Index-->
-        <q-item to="/files" exact clickable v-ripple>
+        <!-- <q-item to="/files" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="inventory_2" />
           </q-item-section>
 
           <q-item-section>Files</q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!--Editor Index-->
         <!-- <q-item to="/editor" exact clickable v-ripple>

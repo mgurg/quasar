@@ -59,6 +59,11 @@
       </q-card>
 
       <task-view-skeleton v-else />
+
+      <div class="q-pt-md">
+      <p class="">Komentarz</p>
+      <q-input outlined type="textarea" ></q-input>
+      </div>
       <q-dialog
         v-model="dialog"
         persistent
@@ -66,6 +71,7 @@
         transition-show="slide-up"
         transition-hide="slide-down"
       >
+      
         <q-card class="bg-primary text-white">
           <q-bar>
             <q-space />

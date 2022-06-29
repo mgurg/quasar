@@ -2,14 +2,24 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
-      <div class="row justify-beteen no-wrap q-mb-sm q-mt-sm">
-        <div class="col-6  q-ml-sm"><p class="text-h4">{{ $t("Ideas") }}</p></div>
-        <div class="col-6  q-ml-md"><q-btn padding="sm" outline  size="md" icon="add" to="/ideas/add" color="primary" label="Nowy pomysł" no-caps  /></div>
+      <div class="row justify-around q-mt-sm">
+        <div class="col-6"><p class="text-h4">{{ $t("Ideas") }}</p></div>
+
+        <div class="col-6"><q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/ideas/add" color="primary" label="Nowy pomysł" no-caps  /></div>
       </div>
 
-      <div class="q-pb-md">
-        <q-btn-group>
-          <q-btn-dropdown rounded color="primary" icon="image">
+<div class="row q-gutter-xs items-center">
+  <div><q-input dense clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/></div>
+  <div><q-btn outline class="float-right"  color="primary" icon="search" >Szukaj</q-btn></div>
+  <div><q-btn-dropdown outline class="float-right"  color="primary" label="filtry" icon="filter_list">
+     <div class="q-pa-xs" style="max-width: 350px">
+      <q-list class="rounded-borders">
+      <q-expansion-item
+        expand-separator
+        icon="attach_file"
+        label="Załącznik"
+      >
+        <q-card>
             <q-list>
               <q-item clickable v-close-popup>
                 <q-item-section>
@@ -32,12 +42,15 @@
                 </q-item-section>
               </q-item>
             </q-list>
+        </q-card>
+      </q-expansion-item>
 
-          </q-btn-dropdown>
-
-          <!-- <q-btn rounded color="primary" label="Two" /> -->
-
-          <q-btn-dropdown auto-close color="primary" label="Status">
+      <q-expansion-item
+        expand-separator
+        icon="category"
+        label="Status"
+      >
+        <q-card>
             <q-list>
               <q-item clickable v-close-popup>
                 <q-item-section>
@@ -69,11 +82,15 @@
                 </q-item-section>
               </q-item>
             </q-list>
-          </q-btn-dropdown>
-        </q-btn-group>
-      </div>
+        </q-card>
+      </q-expansion-item>
+    </q-list>
+    </div>
+  </q-btn-dropdown></div>
+</div>
+      
 
-      <q-input clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/>
+      
       <q-list  padding v-if="!isLoading">
       
       <q-item class="bg-blue-grey-1 rounded-borders">
@@ -121,7 +138,7 @@
       <!-- Skeleton -->
       <task-index-skeleton v-else />
 
-      <div class="text-h5" v-if="ideas.length == 0">
+      <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0">
           Brak pomyslów 🤔? <br/>Niech Twój będzie pierwszy! 😎
       </div>
 
