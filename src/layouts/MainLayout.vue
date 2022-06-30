@@ -57,8 +57,8 @@
         <q-item to="/users" exact clickable v-ripple>
           <q-item-section avatar>
             <div class="relative-position">
-            <q-icon size="md" name="people"></q-icon>
-            <q-badge color="orange" floating>2</q-badge>
+              <q-icon size="md" name="people"></q-icon>
+              <q-badge color="orange" floating>2</q-badge>
             </div>
           </q-item-section>
 
@@ -147,81 +147,77 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 
-import { defineComponent, ref, computed,onBeforeMount } from "vue";
+import { defineComponent, ref, computed, onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
 
+const $q = useQuasar();
 
+const router = useRouter();
+const UserStore = useUserStore();
 
+const { locale } = useI18n({ useScope: "global" });
+const lang = ref(locale); // $q.lang.isoName
 
-export default defineComponent({
-  name: "MainLayout",
+watch(lang, (val) => {
+  // dynamic import, so loading on demand only
+  import(
+    /* webpackInclude: /(pl|de|en-US)\.js$/ */
+    "quasar/lang/" + val
+  ).then((lang) => {
+    $q.lang.set(lang.default);
+  });
+});
 
+function getLocale() {
+  const userLocale =
+    localStorage.getItem("lang") ||
+    sessionStorage.getItem("lang") ||
+    navigator.language.split("-")[0] ||
+    "en-US";
 
-  setup() {
-    const $q = useQuasar();
-
-    const router = useRouter();
-    const UserStore = useUserStore();
-
-    const { locale } = useI18n({ useScope: "global" });
-    const lang = ref(locale); // $q.lang.isoName
-
-    watch(lang, (val) => {
-      // dynamic import, so loading on demand only
-      import(
-        /* webpackInclude: /(pl|de|en-US)\.js$/ */
-        "quasar/lang/" + val
-      ).then((lang) => {
-        $q.lang.set(lang.default);
-      });
-    });
-
-    function getLocale() {
-    const userLocale =
-      localStorage.getItem("lang") ||
-      sessionStorage.getItem("lang") ||
-      navigator.language.split("-")[0] ||
-      "en-US";
-
-    // if detectedLocale is 'en' or 'es' return
-    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
-      return userLocale;
-    }
-    // else return default value
-    return "en-US";
+  // if detectedLocale is 'en' or 'es' return
+  if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+    return userLocale;
   }
+  // else return default value
+  return "en-US";
+}
 
-    function setLocale(lang) {
-      locale.value = lang;
-    }
-    const leftDrawerOpen = ref(false);
+function setLocale(lang) {
+  locale.value = lang;
+}
+const leftDrawerOpen = ref(false);
 
-    function notify() {
-      $q.notify({
-        message: 'Danger, Will Robinson! Danger!',
-        position: 'top-right',
-        progress: true,
-      })
-    }
+function notify() {
+  $q.notify({
+    message: 'Danger, Will Robinson! Danger!',
+    position: 'top-right',
+    progress: true,
+  })
+}
 
-    function logout() {
-      UserStore.logoutUser()
-      router.push("/login");
-    }
+function logout() {
+  UserStore.logoutUser()
+  router.push("/login");
+}
 
-    const permissions = computed(() => UserStore.getPermissions);
+const permissions = computed(() => UserStore.getPermissions);
 
-    function hasPermission(permission) {
-      return Boolean(permissions.value.includes(permission));
-    }
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
-      onBeforeMount(() => {
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
+
+onBeforeMount(() => {
   console.log(getLocale())
   //localStorage.setItem("lang", 'pl')
   // setLocale(setLocale())
@@ -230,16 +226,4 @@ export default defineComponent({
 
 });
 
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-      notify,
-      setLocale,
-      logout,
-      hasPermission
-    };
-  },
-});
 </script>

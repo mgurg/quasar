@@ -18,7 +18,7 @@
 
 
 <script setup>
-import { onActivated, reactive, ref } from "vue";
+import { ref } from "vue";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
@@ -44,6 +44,7 @@ function createIdea(body) {
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;
+            router.push("/ideas");
         })
         .catch((err) => {
             if (err.response) {
@@ -55,7 +56,7 @@ function createIdea(body) {
             }
 
         });
-        router.push("/ideas");
+        
 }
 
 function getUsers() {
@@ -89,14 +90,6 @@ function signUpButtonPressed(ideaForm) {
     createIdea(ideaForm)
     console.log('Add ok')
 }
-
-
-// onActivated(() => {
-    // isLoading.value = true;
-    // getUsers();
-    // isLoading.value = false;
-// });
-
 
 </script>
 

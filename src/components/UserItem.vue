@@ -3,7 +3,7 @@
         <q-item :class="{ 'done bg-blue-1': user.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
                 <q-avatar rounded color="red-12" text-color="white">{{ initials }}
-                    <q-badge v-if="user.is_verified !== false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
+                    <q-badge v-if="user.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
                 </q-avatar>
                 <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />

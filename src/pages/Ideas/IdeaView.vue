@@ -44,7 +44,7 @@
           </div>
 
           <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section>
-          <q-card-actions align="right" v-if="hasPermission('IDEAS_VOTE')">
+          <q-card-actions align="right" v-if="hasPermission('IDEAS_VOTE') && ideaDetails.status!='pending'">
             <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" 
             :disable="lastVote=='down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
             <q-btn flat color="red-12" icon="thumb_up" @click="sendVote('up')" 
@@ -53,8 +53,8 @@
           <q-separator />
         </div>
         <q-card-actions v-if="hasPermission('IDEAS_REVIEW')">
-          <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle" v-if="ideaDetails.status==null">&nbsp; Akceptuj</q-btn>
-          <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status==null||ideaDetails.status=='accepted'">&nbsp; Odrzuć</q-btn>
+          <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle" v-if="ideaDetails.status=='pending'">&nbsp; Akceptuj</q-btn>
+          <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status=='pending'||ideaDetails.status=='accepted'">&nbsp; Odrzuć</q-btn>
           <q-btn @click="setState('todo')" flat color="primary" icon="verified" v-if="ideaDetails.status=='accepted'">&nbsp; Wykonaj</q-btn>
         </q-card-actions>
       </q-card>
@@ -104,9 +104,8 @@
 </template>
 
 <script setup>
-import { ref, onActivated, computed, onBeforeMount } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { useUserStore } from 'stores/user'
-import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/TaskViewSkeleton";
@@ -126,12 +125,10 @@ function hasPermission(permission) {
 let lastVote = ref(null);
 
 function displayFullscreen(url) {
-  // alert(url)
   dialog.value = !dialog.value;
 }
 
 const route = useRoute();
-let taskUuid = ref(route.params.uuid);
 let ideaDetails = ref(null);
 
 function downloadFileUrl(uuid) {
@@ -175,6 +172,7 @@ function sendVote(state) {
       // console.log(res.data);
       // console.log(res.data.vote)
       lastVote.value = state
+      getDetails(route.params.uuid)
     })
     .catch((err) => {
       if (err.response) {
@@ -185,6 +183,7 @@ function sendVote(state) {
         console.log("General Error");
       }
     });
+    
 }
 
 function getLastVote(state) {
@@ -223,11 +222,6 @@ function setState(status) {
       }
     });
 }
-// onActivated(() => {
-//   isLoading.value = true;
-//   getDetails(route.params.uuid);
-//   getLastVote(route.params.uuid);
-// });
 
 onBeforeMount(() => {
   isLoading.value = true;

@@ -71,7 +71,7 @@ function ping() {
         .get("/stats/status")
         .then((res) => {
             // console.log(res.data);
-            status.new = res.data.null
+            status.pending = res.data.pending
             status.accepted = res.data.accepted
 
             status.todo = res.data.todo
