@@ -9,7 +9,7 @@
             @submit.prevent
         >
         <div class="row justify-between items-center">
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Users") }}</h5>
+        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employees") }}</h5>
 
             </div>
             <q-input

@@ -9,7 +9,7 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1" class="text-body1">{{ idea.title }} </q-item-label>
+        <q-item-label lines="1" class="text-body1">{{ idea.title }}</q-item-label>
         <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
         <!-- <q-item-label lines="1">
           <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
@@ -46,6 +46,9 @@ import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import { DateTime } from "luxon";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n({ useScope: "global" });
 
 const $q = useQuasar();
 const router = useRouter();
@@ -84,7 +87,7 @@ const timeAgo = (date) => {
   const diff = dateTime.diffNow().shiftTo(...units);
   const unit = units.find((unit) => diff.get(unit) !== 0) || "second";
 
-  const relativeFormatter = new Intl.RelativeTimeFormat("en", {
+  const relativeFormatter = new Intl.RelativeTimeFormat(locale.value, {
     localeMatcher: "best fit", // other values: "lookup"
     numeric: "always", // other values: "auto"
     style: "narrow", // "long", "short" or "narrow"

@@ -18,11 +18,18 @@
 </template>
 
 <script setup>
+import { useQuasar } from "quasar";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, computed, onBeforeMount, watch } from "vue";
 import { authApi } from "boot/axios";
 import { useRoute, useRouter } from 'vue-router';
 import { api } from "boot/axios";
+
+import { useI18n } from "vue-i18n";
+
+const $q = useQuasar();
+const { locale } = useI18n({ useScope: "global" });
+const lang = ref(locale); // $q.lang.isoName
 
 
 const route = useRoute()
@@ -35,12 +42,6 @@ let anonymousToken = ref(null);
 
 let registrationMode = ref('anonymous')
 let registrationMailDomain = ref('twojafirma.pl')
-
-onBeforeMount(() => {
-  console.log('b')
-  if (activationId.value != null)
-    checkId(activationId.value)
-});
 
 function checkId(id) {
   console.log(id + '+234')
@@ -92,5 +93,44 @@ function createAnonymousIdea(body) {
   router.push("/new_submission");
 }
 
+// ----- i18n ------
+
+
+    watch(lang, (val) => {
+      // dynamic import, so loading on demand only
+      import(
+        /* webpackInclude: /(pl|de|en-US)\.js$/ */
+        "quasar/lang/" + val
+      ).then((lang) => {
+        $q.lang.set(lang.default);
+      });
+    });
+
+    function getLocale() {
+    const userLocale =
+      localStorage.getItem("lang") ||
+      sessionStorage.getItem("lang") ||
+      navigator.language.split("-")[0] ||
+      "en-US";
+
+    // if detectedLocale is 'en' or 'es' return
+    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+      return userLocale;
+    }
+    // else return default value
+    return "en-US";
+  }
+
+    function setLocale(lang) {
+      locale.value = lang;
+    }
+
+
+onBeforeMount(() => {
+   setLocale(getLocale())
+  console.log('b')
+  if (activationId.value != null)
+    checkId(activationId.value)
+});
 
 </script>

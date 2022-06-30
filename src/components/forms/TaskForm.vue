@@ -169,7 +169,7 @@
                                 >
                                     <q-date v-model="taskDateFrom" :mask="qDtFormat">
                                         <div class="row items-center justify-end">
-                                            <q-btn label="Cancel" color="red" flat v-close-popup />
+                                            <q-btn :label="$t('Cancel')" color="red" flat v-close-popup />
                                             <q-btn v-close-popup label="Select" color="green" flat />
                                         </div>
                                     </q-date>
@@ -186,7 +186,7 @@
                                 >
                                     <q-time v-model="taskDateFrom" :mask="qDtFormat" format24h>
                                         <div class="row items-center justify-end">
-                                            <q-btn label="Cancel" color="black" flat v-close-popup />
+                                            <q-btn :label="$t('Cancel')" color="black" flat v-close-popup />
                                             <q-btn
                                                 v-close-popup
                                                 label="Close"

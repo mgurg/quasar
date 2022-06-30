@@ -5,7 +5,7 @@
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/home" />
                     <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
-                    <q-breadcrumbs-el label="Add" icon="add" />
+                    <q-breadcrumbs-el :label="$t('Add')" icon="add" />
                 </q-breadcrumbs>
             </div>
             <task-form

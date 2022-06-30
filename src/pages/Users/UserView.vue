@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el label="Users" icon="people" to="/users" />
-          <q-breadcrumbs-el label="View" icon="info" />
+          <q-breadcrumbs-el :label="$t('View')" icon="info" />
         </q-breadcrumbs>
       </div>
 

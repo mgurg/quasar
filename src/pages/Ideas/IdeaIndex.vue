@@ -9,36 +9,36 @@
       </div>
 
 <div class="row q-gutter-xs items-center">
-  <div><q-input dense clearable outlined v-model="search" label="Wpisz szukany tekst"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/></div>
-  <div><q-btn outline class="float-right"  color="primary" icon="search" >Szukaj</q-btn></div>
-  <div><q-btn-dropdown outline class="float-right"  color="primary" label="filtry" icon="filter_list">
+  <div><q-input dense clearable outlined v-model="search" :label="$t('Type your search text')"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/></div>
+  <div><q-btn outline class="float-right"  color="primary" icon="search">{{ $t("Search") }}</q-btn></div>
+  <div><q-btn-dropdown outline class="float-right"  color="primary" :label="$t('Filters')" icon="filter_list">
      <div class="q-pa-xs" style="max-width: 350px">
       <q-list class="rounded-borders">
       <q-expansion-item
         expand-separator
         icon="attach_file"
-        label="Załącznik"
+        :label="$t('Attachments')"
       >
         <q-card>
             <q-list>
               <q-item clickable v-close-popup>
                 <q-item-section>
                   <q-item-label @click="setAttachmentFilter(true)"
-                    :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">Tak</q-item-label>
+                    :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("Yes") }}</q-item-label>
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup>
                 <q-item-section>
                   <q-item-label @click="setAttachmentFilter(false)"
-                    :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">Nie</q-item-label>
+                    :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("No") }}</q-item-label>
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup>
                 <q-item-section>
                   <q-item-label @click="setAttachmentFilter(null)"
-                    :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">Wszystkie</q-item-label>
+                    :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -56,7 +56,7 @@
                 <q-item-section>
                   <q-item-label @click="setStatusFilter('rejected')"
                     :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
-                    Rejected
+                    {{ $t("Rejected") }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -64,7 +64,7 @@
               <q-item clickable v-close-popup>
                 <q-item-section>
                   <q-item-label @click="setStatusFilter('accepted')"
-                    :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">Accepted
+                    :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("Accepted") }}
                   </q-item-label>
                 </q-item-section>
               </q-item>
@@ -78,7 +78,7 @@
               <q-item clickable v-close-popup>
                 <q-item-section>
                   <q-item-label @click="setStatusFilter(null)"
-                    :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">All</q-item-label>
+                    :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -106,7 +106,7 @@
           </span>
         </q-item-section>
         <q-item-section>
-          <span>Nazwa 
+          <span>{{ $t("Name") }} 
             <q-btn 
             padding="xs" 
             :unelevated="sort.active=='title'? true:false" 
@@ -118,7 +118,7 @@
           </span>
         </q-item-section>
         <q-item-section side>
-          <span>Wiek 
+          <span>{{ $t("Age") }} 
             <q-btn 
             padding="xs" 
             :unelevated="sort.active=='age'? true:false" 

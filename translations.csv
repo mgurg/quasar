@@ -1,4 +1,22 @@
 Key,"English, en-US","French, fr","German, de","Polish, pl"
+#common,,,,
+"""Add""",Add,Ajouter,Hinzufügen,Dodaj
+"""Edit""",Edit,Éditer,Bearbeiten,Edytuj
+"""View""",View,Voir,Aussicht,Podgląd
+"""Cancel""",Cancel,Annuler,Absagen,Anuluj
+"""Save""",Save,sauvegarder,Speichern,Zapisz
+"""Search""",Search,Chercher,Suche,Szukaj
+"""Type your search text""",Type your search text,Tapez votre texte de recherche,Geben Sie Ihren Suchtext ein,Wpisz swój tekst wyszukiwania
+"""Filters""",Filters,Filtres,Filter,Filtry
+"""Attachments""",Attachments,Attachements,Anhänge,Załączniki
+"""Status""",Status,Statut,Status,Status
+"""Yes""",Yes,Oui,Ja,Tak
+"""No""",No,Non,Nein,Nie
+"""All""",All,Tout,Alle,Wszystko
+"""Pending""",Pending,En attente,Ausstehend,W oczekiwaniu
+"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
+"""Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+,,,,
 #login,,,,
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
 """E-mail""",E-mail,E-mail,Email,E-mail
@@ -19,13 +37,21 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
 """Lets start""",Let's start,Commençons,Lasst uns beginnen,Zaczynajmy
 ,,,,
+#dashboard,,,,
+"""New""",New,Nouveau,Neu,Nowy
+"""Voted""",Voted,Voté,Gewählt,Głosował
+"""Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
+,,,,
 #users,,,,
-"""User""",User,Utilisateur,Benutzer,Użytkownik
-"""Users""",Users,Utilisateurs,Benutzer,Użytkownicy
+"""Employee""",Employee,Employé,Angestellter,Pracownik
+"""Employees""",Employees,Des employés,Angestellte,Pracownicy
 """First name""",First name,Prénom,Vorname,Imię
 """Last name""",Last name,Nom de famille,Nachname,Nazwisko
 """Phone""",Phone,Téléphoner,Telefon,Telefon
-,,,,
+"""Name""",Name,Nom,Name,Nazwa
+"""Age""",Age,Âge,Das Alter,Wiek
+"""New employee""",New employee,Nouvel employé,Neuer Angestellter,Nowy pracownik
 ,,,,
 #ideas,,,,
 """Ideas""",Ideas,Idées,Ideen,Pomysły
@@ -34,6 +60,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Idea description""",Idea description,Description de l'idée,Ideenbeschreibung,Opis pomysłu
 """Your submission landed in our system""",Your submission landed in our system,Votre soumission a atterri dans notre système,Ihre Einreichung landete in unserem System,Twoje zgłoszenie wylądowało w naszym systemie
 """Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
+"""New idea""",New idea,Nouvelle idée,Neue Idee,Nowy pomysł
 ,,,,
 #tasks,,,,
 """Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana
@@ -44,8 +71,6 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """All tasks""",All tasks,Toutes les tâches,Alle Aufgaben,Wszystkie zadania
 """Task name""",Task name,Nom de la tâche,Aufgabennname,Nazwa zadania
 """Task description""",Task description,Description de la tâche,Aufgabenbeschreibung,Opis zadania
-"""Add""",Add,Ajouter,Hinzufügen,Dodać
-"""Edit""",Edit,Éditer,Bearbeiten,Edytować
 ,,,,
 #settings,,,,
 """Settings""",Settings,Réglages,Einstellungen,Ustawienia

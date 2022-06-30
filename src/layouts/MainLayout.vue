@@ -62,7 +62,7 @@
             </div>
           </q-item-section>
 
-          <q-item-section>{{ $t("Users") }}</q-item-section>
+          <q-item-section>{{ $t("Employees") }}</q-item-section>
         </q-item>
 
         <!--Ideas Index-->
@@ -149,7 +149,7 @@
 
 <script>
 
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed,onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
@@ -182,6 +182,21 @@ export default defineComponent({
       });
     });
 
+    function getLocale() {
+    const userLocale =
+      localStorage.getItem("lang") ||
+      sessionStorage.getItem("lang") ||
+      navigator.language.split("-")[0] ||
+      "en-US";
+
+    // if detectedLocale is 'en' or 'es' return
+    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+      return userLocale;
+    }
+    // else return default value
+    return "en-US";
+  }
+
     function setLocale(lang) {
       locale.value = lang;
     }
@@ -195,8 +210,6 @@ export default defineComponent({
       })
     }
 
-    const envValue = process.env.S3_BUCKET;
-
     function logout() {
       UserStore.logoutUser()
       router.push("/login");
@@ -207,6 +220,15 @@ export default defineComponent({
     function hasPermission(permission) {
       return Boolean(permissions.value.includes(permission));
     }
+
+      onBeforeMount(() => {
+  console.log(getLocale())
+  //localStorage.setItem("lang", 'pl')
+  // setLocale(setLocale())
+  setLocale(getLocale())
+
+
+});
 
     return {
       leftDrawerOpen,

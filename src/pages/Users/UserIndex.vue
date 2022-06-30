@@ -2,14 +2,17 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Users") }}</p></div>
+        <div class="col-6"><p class="text-h4">{{ $t("Employees") }}</p></div>
         <div class="col-6">
-          <q-btn v-if="hasPermission('USERS_ADD')" padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" label="Nowy użytkownik" no-caps  /></div>
+          <q-btn v-if="hasPermission('USERS_ADD')" padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" no-caps>
+          {{ $t("New employee") }}
+          </q-btn></div>
       </div>
 
 <div class="row q-gutter-sm items-center">
-  <div><q-input dense clearable outlined v-model="search" label="Wpisz szukany tekst"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()"/></div>
-  <div><q-btn outline class="float-right"  color="primary" icon="search">Szukaj</q-btn></div>
+  <div><q-input dense clearable outlined v-model="search" :label="$t('Type your search text')"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()">
+  </q-input></div>
+  <div><q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn></div>
 </div>
       
 
@@ -19,7 +22,7 @@
 
         </q-item-section>
         <q-item-section>
-          <span>Nazwisko 
+          <span>{{ $t("Name") }} 
             <q-btn 
             padding="xs" 
             :unelevated="sort.active=='title'? true:false" 
