@@ -59,6 +59,19 @@
       </q-card>
 
       <task-view-skeleton v-else />
+
+      <div class="q-pt-lg">
+      <p class="text-h5">Co o tym myślisz? </p>
+      <q-input outlined type="textarea" >
+          <template v-slot:append>
+            <q-btn round dense flat icon="mic" /><br/>
+            
+            <!-- <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" /> -->
+          </template>
+      </q-input>
+      <p></p>
+      <q-btn outline color="primary" icon="send" label="wyślij" />
+      </div>
       <q-dialog
         v-model="dialog"
         persistent
@@ -66,6 +79,7 @@
         transition-show="slide-up"
         transition-hide="slide-down"
       >
+      
         <q-card class="bg-primary text-white">
           <q-bar>
             <q-space />

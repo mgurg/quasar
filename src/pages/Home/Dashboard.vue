@@ -50,14 +50,8 @@
                             </q-item>
                         </div>
                         <q-space/>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate metus ut enim
-                            semper convallis.
-                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-                            Fusce tristique varius felis nec porta. Donec non mi ligula. Etiam tincidunt pretium tellus
-                            quis scelerisque.
-                            Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque vestibulum suscipit
-                            urna eu scelerisque.
-                            Proin congue sed tellus nec varius. Mauris et lorem eu elit sollicitudin sollicitudin. </p>
+                        <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
+                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
                     </div>
                 </div>
             </div>

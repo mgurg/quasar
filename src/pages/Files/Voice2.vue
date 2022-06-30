@@ -3,7 +3,7 @@
     <div class="row justify-center text-blue-grey-10">
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <!-- <p class="text-h4">Voice recognition demo</p> -->
-        {{ result }}
+        {{ result }}<br/>
         {{ raw }}
         <div v-if="!isSupported">
           Your browser does not support SpeechRecognition API,
@@ -28,13 +28,16 @@
             <!-- Conditionals to handle errors -->
             <p v-if="error">{{ error }}</p>
             <div v-else>
-              <q-input outlined type="textarea" rows="5" v-model="result" :label="$t('Task description')">
+              <q-input outlined type="textarea" rows="5" v-model="text" :label="$t('Task description')">
                 <template v-slot:append>
                   <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
                   <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
                 </template>
               </q-input>
             </div>
+
+            <p>Android: {{isAndroid}}</p>
+            <p>isListening: {{isListening}}</p>
           </main>
         </div>
 
@@ -44,13 +47,23 @@
 </template>
 
 <script setup>
+import { ref,watch } from "vue";
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
+import { useAndroidDetection } from 'src/composables/useAndroidDetection.js'
 const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
-  continuous: true,
-  interimResults: true,
+  continuous: false,
+  interimResults: false,
 })
+const { isAndroid } = useAndroidDetection()
 
+const text = ref("13 ")
+
+watch(result, (newValue, oldValue) => {
+
+    text.value = text.value + ' ' + newValue 
+
+})
 
 </script>
 

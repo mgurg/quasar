@@ -50,7 +50,8 @@ export function useSpeechRecognition({ lang, continuous, interimResults }) {
           raw.value.push([result[0].transcript,result.isFinal, result[0].confidence ])
 
           isFinal.value = result.isFinal && (result[0].confidence > 0);
-          return result[0];
+          return result[0];       
+          
         })
         .map((result) => result.transcript)
         .join("");

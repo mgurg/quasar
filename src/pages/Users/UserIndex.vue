@@ -1,14 +1,17 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="row justify-beteen no-wrap  q-mb-sm q-mt-sm ">
-        <div class="col-6 q-ml-sm"><p class="text-h4">{{ $t("Users") }}</p></div>
-        <!-- <div class="col-auto">&nbsp;</div> -->
-        <div class="col-6 q-ml-md">
-          <q-btn v-if="hasPermission('USERS_ADD')" padding="sm" outline  size="md" icon="add" to="/users/add" color="primary" label="Nowy pracownik" no-caps  /></div>
+      <div class="row justify-around q-mt-sm">
+        <div class="col-6"><p class="text-h4">{{ $t("Users") }}</p></div>
+        <div class="col-6">
+          <q-btn v-if="hasPermission('USERS_ADD')" padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" label="Nowy użytkownik" no-caps  /></div>
       </div>
 
-      <q-input clearable outlined v-model="search" label="Szukaj"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()"/>
+<div class="row q-gutter-sm items-center">
+  <div><q-input dense clearable outlined v-model="search" label="Wpisz szukany tekst"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()"/></div>
+  <div><q-btn outline class="float-right"  color="primary" icon="search">Szukaj</q-btn></div>
+</div>
+      
 
       <q-list padding v-if="!isLoading">
       <q-item class="bg-blue-grey-1 rounded-borders">

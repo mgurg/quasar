@@ -75,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useField, useForm } from "vee-validate";
 import { DateTime } from 'luxon';
 import * as yup from 'yup';
@@ -85,8 +85,8 @@ import Compressor from 'compressorjs';
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
 const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
-  continuous: true,
-  interimResults: true,
+  continuous: false,
+  interimResults: false,
 })
 
 const UserStore = useUserStore();
@@ -233,6 +233,13 @@ function delete_file(uuid) {
             }
         });
 }
+
+//voice recognition
+watch(result, (newValue, oldValue) => {
+
+    text.value = ideaDescription.value + ' ' + newValue 
+
+})
 
 // --------------- Form --------------
 
