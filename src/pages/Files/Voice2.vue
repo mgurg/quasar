@@ -31,7 +31,7 @@
               <q-input outlined type="textarea" rows="5" v-model="text" :label="$t('Task description')">
                 <template v-slot:append>
                   <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
-                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
+                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
                 </template>
               </q-input>
             </div>

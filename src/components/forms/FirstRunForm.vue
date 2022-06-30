@@ -19,7 +19,7 @@
 
       <div class="row">
         <q-space />
-        <q-btn :disable="isLoading" :label="$t('Lets start') + '! 🚀'" :loading="isLoading" color="red" type="submit" />
+        <q-btn :disable="isLoading" :label="$t('Lets start') + '! 🚀'" :loading="isLoading" color="red-12" type="submit" />
       </div>
     </q-form>
   </div>

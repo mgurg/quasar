@@ -7,13 +7,13 @@
                 <div class="q-gutter-sm">
                     <!-- <span>Color:</span> -->
                     <span>
-                        <q-radio keep-color v-model="ideaColor" val="teal" color="teal" />
+                        <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
                     </span>
                     <span>
                         <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
                     </span>
                     <span>
-                        <q-radio keep-color v-model="ideaColor" val="red" color="red" />
+                        <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
                     </span>
                     <span>
                         <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
@@ -28,7 +28,7 @@
                 :label="$t('Idea description')">
                 <template v-if="isSupported" v-slot:append>
                   <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
-                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
+                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
                 </template>
             </q-input>
 
@@ -66,7 +66,7 @@
             </div>
 
             <div class="row">
-                <q-btn type="submit" color="red" @click="handleReset">Cancel</q-btn>
+                <q-btn type="submit" color="red-12" @click="handleReset">Cancel</q-btn>
                 <q-space />
                 <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
             </div>

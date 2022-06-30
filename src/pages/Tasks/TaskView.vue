@@ -72,7 +72,7 @@
 
           <q-btn
             flat
-            color="red"
+            color="red-12"
             icon="lock_open"
             v-if="taskDetails.status == null"
             @click="changeState('rejected')"
@@ -80,14 +80,14 @@
 
           <q-btn
             flat
-            color="red"
+            color="red-12"
             icon="play_arrow"
             v-if="taskDetails.status == 'accepted' || taskDetails.status == 'paused'"
             @click="changeState('start')"
           >Start</q-btn>
           <q-btn
             flat
-            color="teal"
+            color="deep-orange-11"
             icon="pause"
             v-if="taskDetails.status == ('in_progress')"
             @click="changeState('pause')"

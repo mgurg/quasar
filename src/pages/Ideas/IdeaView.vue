@@ -25,32 +25,33 @@
         </q-item>
 
         <q-separator />
-        <div class="row q-col-gutter-xs q-pa-md">
-          <div
-            class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
-            v-for="(file, index) in ideaDetails.pictures"
-            v-bind:key="index"
-          >
-            <q-img
-              :src="downloadFileUrl(file.uuid)"
-              spinner-color="black"
-              style="height: 100%; width: 100%"
-              fit="contain"
-              @click="displayFullscreen(downloadFileUrl(file.uuid))"
+        <div class="bg-blue-grey-1">
+          <div class="row q-col-gutter-xs q-pa-md">
+            <div
+              class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
+              v-for="(file, index) in ideaDetails.pictures"
+              v-bind:key="index"
             >
-            </q-img>
+              <q-img
+                :src="downloadFileUrl(file.uuid)"
+                spinner-color="black"
+                style="height: 100%; width: 100%"
+                fit="contain"
+                @click="displayFullscreen(downloadFileUrl(file.uuid))"
+              >
+              </q-img>
+            </div>
           </div>
+
+          <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section>
+          <q-card-actions align="right" v-if="hasPermission('IDEAS_VOTE')">
+            <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" 
+            :disable="lastVote=='down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
+            <q-btn flat color="red-12" icon="thumb_up" @click="sendVote('up')" 
+            :disable="lastVote=='up' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'" ></q-btn>
+          </q-card-actions>
+          <q-separator />
         </div>
-
-        <q-card-section class="q-pt-md text-body1 bg-blue-grey-1">{{ ideaDetails.description }}</q-card-section>
-        <q-card-actions align="right" v-if="hasPermission('IDEAS_VOTE')">
-          <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" 
-          :disable="lastVote=='down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
-          <q-btn flat color="red" icon="thumb_up" @click="sendVote('up')" 
-          :disable="lastVote=='up' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'" ></q-btn>
-        </q-card-actions>
-        <q-separator />
-
         <q-card-actions v-if="hasPermission('IDEAS_REVIEW')">
           <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle" v-if="ideaDetails.status==null">&nbsp; Akceptuj</q-btn>
           <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status==null||ideaDetails.status=='accepted'">&nbsp; Odrzuć</q-btn>
@@ -61,12 +62,12 @@
       <task-view-skeleton v-else />
 
       <div class="q-pt-lg">
-      <p class="text-h5">Co o tym myślisz? </p>
+      <p class="text-h6">Co o tym myślisz? </p>
       <q-input outlined type="textarea" >
           <template v-slot:append>
             <q-btn round dense flat icon="mic" /><br/>
             
-            <!-- <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" /> -->
+            <!-- <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" /> -->
           </template>
       </q-input>
       <p></p>

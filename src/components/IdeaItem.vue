@@ -12,7 +12,7 @@
         <q-item-label lines="1" class="text-body1">{{ idea.title }}</q-item-label>
         <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
         <!-- <q-item-label lines="1">
-          <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
+          <q-chip square size="sm" color="blue-12" text-color="white">#111</q-chip>
         </q-item-label> -->
       </q-item-section>
 
@@ -32,7 +32,7 @@
       </q-item-section>
       <q-item-section side v-else>
         <q-item-label caption>{{ timeAgo(idea.created_at) }}</q-item-label>
-        <!-- <q-icon name="priority_high" color="red" /> -->
+        <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>
     </q-item>
 
