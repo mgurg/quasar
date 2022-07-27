@@ -58,7 +58,7 @@
           <q-item-section avatar>
             <div class="relative-position">
               <q-icon size="md" name="people"></q-icon>
-              <q-badge color="orange" floating>2</q-badge>
+              <!-- <q-badge color="orange" floating>2</q-badge> -->
             </div>
           </q-item-section>
 
@@ -71,7 +71,7 @@
             <div class="relative-position">
               <q-icon size="md" name="tips_and_updates">
               </q-icon>
-              <q-badge color="orange" floating>3</q-badge>
+              <q-badge color="orange" floating>1</q-badge>
             </div>
 
           </q-item-section>

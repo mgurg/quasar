@@ -81,6 +81,7 @@ import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
+let ActionUrl = ref("https://beta.remontmaszyn.pl/new/8tl+234");
 // -----------------------------
 
 
@@ -127,7 +128,7 @@ function getBoardId() {
     .get("/settings/board/")
     .then((res) => {
       console.log(res.data);
-      ActionUrl.value = 'beta.remontmaszyn.pl/new/' + res.data + '+234'
+      ActionUrl.value = 'https://beta.remontmaszyn.pl/new/' + res.data + '+234'
       isLoading.value = false;
     })
     .catch((err) => {
@@ -178,7 +179,7 @@ function save() {
 
 let isLoading = ref(false);
 
-let ActionUrl = ref(null)
+
 let ActionUrlQr = ref("https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="+ActionUrl.value+"&choe=UTF-8&chld=M")
 let showQR = ref(false)
 

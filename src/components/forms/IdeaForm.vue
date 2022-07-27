@@ -237,9 +237,10 @@ function delete_file(uuid) {
 //voice recognition
 watch(result, (newValue, oldValue) => {
 
-    text.value = ideaDescription.value + ' ' + newValue 
+    ideaDescription.value = ideaDescription.value + ' ' + newValue 
 
 })
+
 
 // --------------- Form --------------
 
