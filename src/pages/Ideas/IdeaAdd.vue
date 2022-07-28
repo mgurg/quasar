@@ -61,7 +61,7 @@ function createIdea(body) {
 
 function getUsers() {
     authApi
-        .get("/user/")
+        .get("/users/")
         .then((res) => {
             console.log(res.data)
 

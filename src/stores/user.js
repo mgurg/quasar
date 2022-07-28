@@ -4,6 +4,7 @@ import { api } from "boot/axios";
 export const useUserStore = defineStore("user", {
   state: () => ({
     token: localStorage.getItem("klucz") || null,
+    tenant: localStorage.getItem("tenant") || null,
     permissions: JSON.parse(localStorage.getItem("permissions")) || [],
     firstName: localStorage.getItem("firstName") || null,
     lastName: localStorage.getItem("lastName") || null,
@@ -80,8 +81,9 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    fillStore(token, firstName, lastName, uuid, tz, lang) {
+    fillStore(token, tenant, firstName, lastName, uuid, tz, lang) {
       this.token = token;
+      this.tenant = tenant;
       this.firstName = firstName;
       this.lastName = lastName;
       this.tz = tz;

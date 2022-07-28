@@ -54,7 +54,7 @@ let errors = ref(null);
 function updateUser(body) {
     // isLoading.value = true;
     authApi
-        .patch("/user/" + userUuid.value, body)
+        .patch("/users/" + userUuid.value, body)
         .then((res) => {
             console.log(res.data);
             isLoading.value = false;
@@ -74,7 +74,7 @@ function updateUser(body) {
 
 function getDetails(uuid) {
     authApi
-        .get("/user/" + uuid)
+        .get("/users/" + uuid)
         .then((res) => {
             console.log(uuid);
             console.log(res.data);

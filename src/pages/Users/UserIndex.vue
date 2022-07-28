@@ -135,7 +135,7 @@ function fetchUsers() {
   console.log('fetching users');
     let params = { search: search.value ,page: pagination.page, size: pagination.size };
   authApi
-    .get("/user/", { params: params })
+    .get("/users/", { params: params })
     .then((res) => {
       users.value = res.data.items
       pagination.total = res.data.total

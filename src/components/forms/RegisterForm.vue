@@ -131,7 +131,7 @@ const submit = handleSubmit((values) => {
 async function registerAdmin(data) {
   isLoading.value = true;
   api
-    .post("auth/add", data)
+    .post("auth/register", data)
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;

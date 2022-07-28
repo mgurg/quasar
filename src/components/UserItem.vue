@@ -102,7 +102,7 @@ function deleteUser(uuid) {
         persistent: true,
     }).onOk(() => {
         authApi
-            .delete("/user/" + uuid)
+            .delete("/users/" + uuid)
             .then((res) => {
                 emit("forceRefresh")
             })

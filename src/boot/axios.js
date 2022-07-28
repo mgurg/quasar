@@ -38,7 +38,13 @@ export default boot(({ app, router }) => {
     } else{
       var token = localStorage.getItem("klucz");
     }
+    if (localStorage.getItem("tenant") === null){
+      var tenant = sessionStorage.getItem("tenant");
+    } else{
+      var tenant = localStorage.getItem("tenant");
+    }
     req.headers.authorization = "Bearer " + token;
+    req.headers.tenant = tenant;
     return req;
   });
 

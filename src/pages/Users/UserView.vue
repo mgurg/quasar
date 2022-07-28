@@ -104,7 +104,7 @@ let userDetails = ref(null);
 
 function getDetails(uuid) {
   authApi
-    .get("/user/" + uuid)
+    .get("/users/" + uuid)
     .then((res) => {
       console.log(uuid);
       console.log(res.data);
@@ -124,7 +124,7 @@ function getDetails(uuid) {
 
 function activateUser() {
   authApi
-    .patch("user/" + userDetails.value.uuid, { "is_verified": true })
+    .patch("users/" + userDetails.value.uuid, { "is_verified": true })
     .then((res) => {
       console.log(uuid);
       console.log(res.data);
