@@ -26,6 +26,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { api } from "boot/axios";
 
 import { useI18n } from "vue-i18n";
+// import { buffer } from "stream/consumers";
 
 const $q = useQuasar();
 const { locale } = useI18n({ useScope: "global" });
@@ -75,7 +76,10 @@ function signUpButtonPressed(ideaForm) {
 function createAnonymousIdea(body) {
   isLoading.value = true;
   const AuthStr = 'Bearer ' + anonymousToken.value;
-  api.post("/ideas/", body, { headers: { Authorization: AuthStr } })
+  // let bufferObj = Buffer.from(anonymousToken.value, "base64");
+  // let tenant_id = bufferObj.toString("utf8").split(".")[0]
+  let tenant_id = "a" //atob(anonymousToken.value).split(".")[0]
+  api.post("/ideas/", body, { headers: { Authorization: AuthStr,  tenant: atob(anonymousToken.value).split(".")[0]} })
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;

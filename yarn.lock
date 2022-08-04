@@ -4490,6 +4490,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fetch-blob@npm:^3.1.3":
+  version: 3.2.0
+  resolution: "fetch-blob@npm:3.2.0"
+  dependencies:
+    node-domexception: ^1.0.0
+    web-streams-polyfill: ^3.0.3
+  checksum: f19bc28a2a0b9626e69fd7cf3a05798706db7f6c7548da657cbf5026a570945f5eeaedff52007ea35c8bcd3d237c58a20bf1543bc568ab2422411d762dd3d5bf
+  languageName: node
+  linkType: hard
+
 "figures@npm:^3.0.0":
   version: 3.2.0
   resolution: "figures@npm:3.2.0"
@@ -6261,6 +6271,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-domexception@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "node-domexception@npm:1.0.0"
+  checksum: ee1d37dd2a4eb26a8a92cd6b64dfc29caec72bff5e1ed9aba80c294f57a31ba4895a60fd48347cf17dd6e766da0ae87d75657dfd1f384ebfa60462c2283f5c7f
+  languageName: node
+  linkType: hard
+
 "node-forge@npm:^1":
   version: 1.3.1
   resolution: "node-forge@npm:1.3.1"
@@ -7339,10 +7356,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quasar@npm:^2.7.5":
-  version: 2.7.5
-  resolution: "quasar@npm:2.7.5"
-  checksum: 0ed975f2051ffbb7dd4180a6a9c3b2da7b4696df1896407ea4ec71da3168b9fcde3d43f96323caf7f4fea8cd7d89f03b6426e628c4b718b2b238d330a5f5054d
+"quasar@npm:^2.7.7":
+  version: 2.7.7
+  resolution: "quasar@npm:2.7.7"
+  checksum: cabbd30d47e476e0c39c75a4ea7f8b03ca8857a085d4f466ee31d8f64788acb5b145d94f7fab167fa875ac0794c78f7df4a9d8da0d01726da6e8592f3a1eed6f
   languageName: node
   linkType: hard
 
@@ -7367,7 +7384,8 @@ __metadata:
     leaflet: ^1.7.1
     luxon: ^2.3.1
     pinia: ^2.0.11
-    quasar: ^2.7.5
+    quasar: ^2.7.7
+    stream-consumers: ^1.0.2
     validate-polish: ^2.0.40
     vee-validate: ^4.5.10
     vue: 3.2.30
@@ -8204,6 +8222,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stream-consumers@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "stream-consumers@npm:1.0.2"
+  dependencies:
+    fetch-blob: ^3.1.3
+  checksum: 7ddb7e63eac7e48ea57a582417da08d9ed5f26fd1850395860821e8adaf8ac62f1670f96f0fc6dbf6796e0c2fce4b162d21003d430810100cfcaeb5de0c57f92
+  languageName: node
+  linkType: hard
+
 "string-width@npm:^1.0.2 || 2 || 3 || 4, string-width@npm:^4.1.0, string-width@npm:^4.2.3":
   version: 4.2.3
   resolution: "string-width@npm:4.2.3"
@@ -8849,6 +8876,13 @@ __metadata:
   dependencies:
     defaults: ^1.0.3
   checksum: 814e9d1ddcc9798f7377ffa448a5a3892232b9275ebb30a41b529607691c0491de47cba426e917a4d08ded3ee7e9ba2f3fe32e62ee3cd9c7d3bafb7754bd553c
+  languageName: node
+  linkType: hard
+
+"web-streams-polyfill@npm:^3.0.3":
+  version: 3.2.1
+  resolution: "web-streams-polyfill@npm:3.2.1"
+  checksum: b119c78574b6d65935e35098c2afdcd752b84268e18746606af149e3c424e15621b6f1ff0b42b2676dc012fc4f0d313f964b41a4b5031e525faa03997457da02
   languageName: node
   linkType: hard
 
