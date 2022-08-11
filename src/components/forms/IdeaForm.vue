@@ -41,7 +41,7 @@
             <div class="row q-col-gutter-xs">
                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments"
                     v-bind:key="index">
-                    <q-img :src="download_file(file.uuid)" spinner-color="black" style="height: 100%; width:100% "
+                    <q-img :src="file.url" spinner-color="black" style="height: 100%; width:100% "
                         fit="contain">
                         <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
                             style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
@@ -111,6 +111,10 @@ const props = defineProps({
         type: String,
         default: null,
     },
+    tenant_id: {
+        type: String,
+        default: null,
+    },
     mode: {
         type: String,
         default: 'anonymous',
@@ -132,6 +136,8 @@ let isLoading = ref(false);
 let attachments = ref(props.idea.file);
 
 
+
+
 // --------------- UPLOADER ---------------
 
 function uploadFile(file) {
@@ -140,6 +146,9 @@ function uploadFile(file) {
     if (props.token == null)
         token = UserStore.getToken
 
+    let tenant_id = props.tenant_id
+    if (props.tenant_id == null)
+        tenant_id = UserStore.getTenant
 
     new Compressor(file[0], {
         quality: 0.6,
@@ -165,11 +174,14 @@ function uploadFile(file) {
                 .post(process.env.VUE_APP_URL + "/files/", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Authorization': 'Bearer ' + token
+                        'Authorization': 'Bearer ' + token,
+                        'tenant' : tenant_id
                     }
                 })
                 .then((res) => {
                     attachments.value.push(res.data)
+                    console.log(res.data)
+                    console.log(attachments.value)
                     uploader.value.reset()
                     isLoading.value = false;
                 })

@@ -33,11 +33,11 @@
               v-bind:key="index"
             >
               <q-img
-                :src="downloadFileUrl(file.uuid)"
+                :src="file.url"
                 spinner-color="black"
                 style="height: 100%; width: 100%"
                 fit="contain"
-                @click="displayFullscreen(downloadFileUrl(file.uuid))"
+                @click="displayFullscreen(file.url)"
               >
               </q-img>
             </div>
@@ -89,11 +89,13 @@
             </q-btn>
           </q-bar>
 
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Musikverein%2C_Viena%2C_Austria%2C_2020-01-31%2C_DD_170-172_HDR.jpg/1908px-Musikverein%2C_Viena%2C_Austria%2C_2020-01-31%2C_DD_170-172_HDR.jpg"
+          <img class="img-responsive"
+            :src=fullscreenUrl.value
           />
+
+
           <a
-            href="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Musikverein%2C_Viena%2C_Austria%2C_2020-01-31%2C_DD_170-172_HDR.jpg/1908px-Musikverein%2C_Viena%2C_Austria%2C_2020-01-31%2C_DD_170-172_HDR.jpg"
+            :href=fullscreenUrl.value
             >Get</a
           >
           <q-btn>Get</q-btn>
@@ -123,17 +125,15 @@ function hasPermission(permission) {
 }
 
 let lastVote = ref(null);
+let fullscreenUrl = ref("")
 
 function displayFullscreen(url) {
+  fullscreenUrl.value = ref(url)
   dialog.value = !dialog.value;
 }
 
 const route = useRoute();
 let ideaDetails = ref(null);
-
-function downloadFileUrl(uuid) {
-  return process.env.VUE_APP_URL + "/files/download/" + uuid;
-}
 
 function convertTime(datetime) {
   let timeZone = "America/Los_Angeles";
@@ -230,3 +230,11 @@ onBeforeMount(() => {
 });
 
 </script>
+
+<style lang="scss" scoped>
+img.img-responsive {
+  display: block;
+  max-width: 90%;
+  height: auto;
+}
+</style>

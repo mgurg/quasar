@@ -99,7 +99,7 @@ let uploadedFiles = ref([]);
 let dialog = ref(false)
 
 
-function uploadFile(file, token = null) {
+function uploadFile(file, token = null, tenant_id=null) {
   console.log('AXIOS upload files')
 
   // let formData = new FormData()

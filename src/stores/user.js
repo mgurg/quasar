@@ -16,6 +16,7 @@ export const useUserStore = defineStore("user", {
     isAuthenticated: (state) => !!state.token,
 
     getToken: (state) => state.token,
+    getTenant: (state) => state.tenant,
     getPermissions: (state) => state.permissions,
 
     getCurrentUserId: (state) => state.uuid,

@@ -3,7 +3,7 @@
     <div class="row justify-center text-blue-grey-10">
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <div class="q-pa-md">
-          <idea-form button-text="Add" :mode="registrationMode" :mail="registrationMailDomain" :token="anonymousToken"
+          <idea-form button-text="Add" :mode="registrationMode" :mail="registrationMailDomain" :token="anonymousToken" :tenant_id="tenant_id" 
             @ideaFormBtnClick="signUpButtonPressed" v-if="registrationMode != 'logged_only'"></idea-form>
 
           <div v-if="registrationMode == 'logged_only'">
@@ -40,6 +40,7 @@ const activationId = ref(route.params.id)
 
 let isLoading = ref('false')
 let anonymousToken = ref(null);
+let tenant_id = ref(null)
 
 let registrationMode = ref('anonymous')
 let registrationMailDomain = ref('twojafirma.pl')
@@ -51,6 +52,7 @@ function checkId(id) {
     anonymousToken.value = res.data.token
     registrationMode.value = res.data.mode
     registrationMailDomain.value = res.email
+    tenant_id.value = atob(anonymousToken.value).split(".")[0]
 
   })
     .catch((err) => {
@@ -76,10 +78,7 @@ function signUpButtonPressed(ideaForm) {
 function createAnonymousIdea(body) {
   isLoading.value = true;
   const AuthStr = 'Bearer ' + anonymousToken.value;
-  // let bufferObj = Buffer.from(anonymousToken.value, "base64");
-  // let tenant_id = bufferObj.toString("utf8").split(".")[0]
-  let tenant_id = "a" //atob(anonymousToken.value).split(".")[0]
-  api.post("/ideas/", body, { headers: { Authorization: AuthStr,  tenant: atob(anonymousToken.value).split(".")[0]} })
+  api.post("/ideas/", body, { headers: { Authorization: AuthStr,  tenant: tenant_id.value} })
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;
