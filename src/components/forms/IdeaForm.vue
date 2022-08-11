@@ -208,15 +208,6 @@ function uploadFile(file) {
 
 let uploader = ref("");
 
-function download_file(uuid) {
-
-    return process.env.VUE_APP_URL + "/files/download/" + uuid
-}
-
-function uploadUrl() {
-    return process.env.VUE_APP_URL + "/files/"
-}
-
 function uploadFinished() {
     return new Promise((resolve) => {
         // simulating a delay of 2 seconds
@@ -229,8 +220,14 @@ function uploadFinished() {
 }
 
 function delete_file(uuid) {
-    authApi
-        .delete(process.env.VUE_APP_URL + "/files/" + uuid)
+    api
+        .delete(process.env.VUE_APP_URL + "/files/" + uuid, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + token,
+                        'tenant' : tenant_id
+                    }
+                })
         .then((res) => {
             attachments.value = attachments.value.filter(item => item.uuid !== uuid)
             //   listFiles()
