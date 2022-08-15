@@ -112,7 +112,7 @@ const routes = [
       // { path: "/tasks/:uuid", component: () => import("pages/Tasks/TaskView.vue") },
       // { path: "/tasks/edit/:uuid", component: () => import("pages/Tasks/TaskEdit.vue") },
       { path: "/files", component: () => import("pages/Files/FileIndex.vue") },
-      // { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
+      { path: "/editor", component: () => import("pages/Editor/EditorIndex.vue") },
 
       // { path: "/layout", component: () => import("pages/Maps/MapIndex.vue") },
       // {

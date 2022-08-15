@@ -1,7 +1,11 @@
 <template>
     <q-page class="flex flex-center">
-        <tiptap />
-        <q-btn @click="ping">ping</q-btn>
+        <div style="border: 3px solid black; border-radius: 25px; padding: 25px; width:95%;">
+ 
+            <tiptap />
+        </div>
+        
+        <!-- <q-btn @click="ping">ping</q-btn> -->
     </q-page>
 </template>
 
@@ -29,3 +33,12 @@ function ping() {
 }
 
 </script>
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+</style>
