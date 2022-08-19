@@ -1,13 +1,11 @@
+import {ref} from "vue";
 
-import { ref } from "vue";
+export function useAndroidDetection() {
+  const isAndroid = ref("");
+  isAndroid.value = /(android)/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : '')
 
-export function useAndroidDetection()
-{
-    const isAndroid = ref("");
-    isAndroid.value = /(android)/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : '')
-
-    return {
-        isAndroid
-      };
+  return {
+    isAndroid
+  };
 }
 
