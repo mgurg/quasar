@@ -2,9 +2,8 @@
   <div>
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Register") }}</div>
 
-    <q-linear-progress stripe size="10px" :value="0.8" class="q-mb-md"/>
-    <p class="text">⏰ Dostępnych kont: {{ availableAccounts }}, zarezerwuj dostęp teraz ⬇️</p>
-    {{ errors }}
+    <q-linear-progress stripe size="10px" :value=ratio class="q-mb-md"/>
+    <p class="text">⏰ Dostępnych kont: <strong>{{ availableAccounts }}</strong>, zarezerwuj dostęp teraz ⬇️</p>
     <q-form @submit="submit">
       <q-stepper
         v-model="step"
@@ -17,11 +16,11 @@
         style="max-width: 320px;"
       >
         <q-step
-          :name="1"
+          :name="0"
           title="1"
           icon="settings"
           no-header-navigation
-          :done="step > 1"
+          :done="step > 0"
         >
           <q-input
             :model-value="email"
@@ -30,6 +29,7 @@
             :error="!!errors.email"
             :error-message="errors.email"
             :label="$t('E-mail')"
+            :dense="$q.screen.lt.sm"
             outlined
             type="email"
           />
@@ -40,6 +40,7 @@
             :error-message="errors.password"
             :type="isPwd ? 'password' : 'text'"
             :label="$t('Password')"
+            :dense="$q.screen.lt.sm"
             outlined
           >
             <template v-slot:append>
@@ -52,43 +53,54 @@
           </q-input>
 
           <q-input
+            v-model="nip"
+            :disable="isLoading"
+            :error="!!errors.nip"
+            :error-message="errors.nip" type="text"
+            :label="$t('NIP')" 
+            :dense="$q.screen.lt.sm"
+            outlined />
+          <q-input
             v-model="firstName"
             :disable="isLoading"
             :error="!!errors.firstName"
             :error-message="errors.firstName"
-            :label="$t('First Name')" outlined type="text"
+            :label="$t('First Name')" 
+            :dense="$q.screen.lt.sm"
+            outlined 
+            type="text"
           />
           <q-input
             v-model="lastName"
             :disable="isLoading"
             :error="!!errors.lastName"
             :error-message="errors.lastName"
-            :label="$t('Last Name')" outlined type="text"
+            :label="$t('Last Name')" 
+            :dense="$q.screen.lt.sm"
+            outlined 
+            type="text"
           />
 
-          <q-input
-            v-model="nip"
-            :disable="isLoading"
-            :error="!!errors.nip"
-            :error-message="errors.nip" type="text"
-            :label="$t('NIP')" outlined>
-          </q-input>
 
-          <q-checkbox v-model="acceptTOS"
-                      keep-color
-                      :color="errors.acceptTOS ? 'red': 'primary'"
-                      :style="errors.acceptTOS ? 'color:red' : 'color:black'">{{
+          <q-checkbox 
+            v-model="acceptTOS"
+            keep-color
+            :dense="$q.screen.lt.sm"
+            :color="errors.acceptTOS ? 'red': 'primary'"
+            :style="errors.acceptTOS ? 'color:red' : 'color:black'">{{
               $t("I accept the terms and conditions")
             }}
+            
           </q-checkbox>
         </q-step>
 
         <q-step
-          :name="2"
+          :name="1"
           title="1"
           icon="create_new_folder"
-          :done="step > 2"
+          :done="step > 1"
         >
+
           <q-input
             v-model="companyName"
             :disable="isLoading"
@@ -96,7 +108,7 @@
             label="Company name"
             outlined
             type="text"
-            dense
+            :dense="$q.screen.lt.sm"
           />
           <q-input
             v-model="companyAddress"
@@ -105,7 +117,7 @@
             label="Company Street"
             outlined
             type="text"
-            dense
+            :dense="$q.screen.lt.sm"
           />
 
           <div class="row sm-gutter">
@@ -117,7 +129,7 @@
                 label="Postcode"
                 outlined
                 type="text"
-                dense
+                :dense="$q.screen.lt.sm"
               />
             </div>
             <div class="q-pa-xs col-xs-12 col-sm-6">
@@ -128,66 +140,40 @@
                 label="companyCity"
                 outlined
                 type="text"
-                dense
+                :dense="$q.screen.lt.sm"
               />
             </div>
           </div>
-
-
-          <!-- <div class="row">
-            <q-space/>
-            <q-btn
-              :disable="isLoading"
-              :label="$t('Register')"
-              :loading="isLoading"
-              color="primary"
-              type="submit"
-            />
-          </div> -->
-
         </q-step>
 
         <template v-slot:navigation>
           <q-stepper-navigation>
             <q-btn
-              v-if="step!==2"
-              @click="go_next()"
+              v-if="step!==1"
               color="primary"
               label="Continue"
               :disable="isLoading"
               :loading="isLoading"
+              type="submit"
             />
             <q-btn
+              v-if="step===1"
               :disable="isLoading"
               :label="$t('Register')"
               :loading="isLoading"
               color="primary"
               type="submit"
             />
-            <q-btn v-if="step > 1" flat color="primary" @click="go_back()" label="Back" class="q-ml-sm"/>
+            <q-btn v-if="step > 0" flat color="primary" @click="go_back" label="Back" class="q-ml-sm"/>
           </q-stepper-navigation>
         </template>
       </q-stepper>
     </q-form>
-
-
-    <!-- <q-input
-              v-model="firstName"
-              :disable="isLoading"
-              :error="!!errors.firstName"
-              :error-message="errors.firstName"
-              class="q-mb-md"
-              :label="$t('E-mail')"
-              outlined
-              type="text"
-          /> -->
-
-
   </div>
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import {ref, watch, computed} from "vue";
 import {api} from "boot/axios";
 import {useField, useForm} from "vee-validate";
 import {object, string, bool} from "yup";
@@ -196,35 +182,28 @@ import {useUserStore} from "stores/user";
 import {accountLimit} from 'src/composables/api/accountLimit.js'
 import {companyInfo} from 'src/composables/api/companyInfo.js'
 
-
-const {availableAccounts} = accountLimit()
+const {availableAccounts, ratio} = accountLimit()
 
 
 let isPwd = ref(true);
 let isLoading = ref(false);
 let errorMsg = ref(null);
-let step = ref(1)
+let step = ref(0)
 const router = useRouter();
 const UserStore = useUserStore();
 
 // -------------- VeeValidate --------------
+
 const validationSchema = object({
-  // firstName: string().required(),
   email: string().required("Provide an valid email").email(),
   password: string().required(),
+  nip: string().required(),
   firstName: string().required(),
+  lastName: string().required(),
   acceptTOS: bool().required().oneOf([true], "!"),
 });
 
-const {handleSubmit, errors} = useForm({
-  validationSchema,
-});
-
-watch(errors, (newValue, oldValue) => {
-
-  console.log("CHANGE", errors.value)
-
-})
+const {handleSubmit, errors} = useForm({ validationSchema:  validationSchema});
 
 
 // const { value: firstName } = useField("firstName");
@@ -232,8 +211,8 @@ const {value: email, handleChange} = useField("email");
 const {value: password} = useField("password");
 const {value: nip} = useField("nip", undefined, {initialValue: "9542752600"});
 const {value: acceptTOS} = useField("acceptTOS", undefined, {initialValue: false});
-const {value: firstName} = useField("firstName");
-const {value: lastName} = useField("lastName");
+const {value: firstName} = useField("firstName", undefined);
+const {value: lastName} = useField("lastName", undefined);
 const {value: companyName} = useField("companyName");
 const {value: companyAddress} = useField("companyAddress");
 const {value: companyPostCode} = useField("companyPostCode");
@@ -241,8 +220,37 @@ const {value: companyCity} = useField("companyCity");
 
 
 const submit = handleSubmit((values) => {
-  console.log("submit", values);
+  let isLoading = ref(true);
 
+  if (step.value !==1){
+      // const {name, short_name, street, postcode, city, country_code} = companyInfo({
+  //   country: 'pl',
+  //   id: nip.value
+  // })
+    api.post("auth/company_info", {"country": "pl", "company_national_id": nip.value})
+    .then((res) => {
+      isLoading.value = false;
+      companyName.value = res.data.short_name
+      companyAddress.value = res.data.street
+      companyPostCode.value = res.data.postcode
+      companyCity.value = res.data.city
+      step.value++
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+    
+    return;
+  }
+
+  
   function getLocale() {
     const userLocale =
       localStorage.getItem("lang") ||
@@ -260,17 +268,25 @@ const submit = handleSubmit((values) => {
 
 
   let data = {
-    // name: email.value,
+    first_name: firstName.value,
+    last_name: lastName.value,
     email: email.value,
     password: password.value,
     password_confirmation: password.value,
+    country: "pl",
+    company_national_id: nip.value,
+    company_name: companyName.value ,
+    company_street: companyAddress.value,
+    company_city: companyCity.value,
+    company_postcode: companyPostCode.value ,
+    company_info_changed: false,
     tos: acceptTOS.value,
     tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Warsaw",
     lang: getLocale(),
   };
   console.log(data);
 
-  registerAdmin(data);
+  // registerAdmin(data);
 });
 
 // --------------- VeeValidate --------------
@@ -296,47 +312,8 @@ async function registerAdmin(data) {
   isLoading.value = false;
 }
 
-function go_next() {
-  let isLoading = ref(true);
-
-  if (step.value == 2) {
-    console.log("DONE")
-    return;
-  }
-
-
-  api.post("auth/company_info", {"country": "pl", "company_national_id": "9542752600"})
-    .then((res) => {
-      console.log(res.data);
-      isLoading.value = false;
-      companyName.value = res.data.short_name
-      companyAddress.value = res.data.street
-      companyPostCode.value = res.data.postcode
-      companyCity.value = res.data.city
-      step.value += 1
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-
-  // const {name, short_name, street, postcode, city, country_code} = companyInfo({
-  //   country: 'pl',
-  //   id: nip.value
-  // })
-
-
-}
-
 function go_back() {
-  // $refs.stepper.next()
-  step.value -= 1
+  step.value--
 }
 </script>
 

@@ -11,32 +11,27 @@ export function companyInfo({ country, id }) {
   let city= ref("");
   let country_code= ref("");
 
-  async function execute() {
-    await api.post("auth/company_info",{    "country": country,    "company_national_id": "9542752600"  })
-    .then((res) => {
-      console.log(res.data);
-      name.value = res.data.name
-      short_name.value = res.data.short_name
-      street.value = res.data.street
-      postcode.value = res.data.postcode
-      city.value = res.data.city
-      country_code.value = res.data.country_code
+  const onDownload = async () => {
+    try{
+      const response = await  api.post("auth/company_info",{    "country": country,    "company_national_id": "9542752600"  })
+      name.value = response.data.name
+      short_name.value = response.data.short_name
+      street.value = response.data.street
+      postcode.value = response.data.postcode
+      city.value = response.data.city
+      country_code.value = response.data.country_code
       isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
+    }  catch (error) {
+      if (error.response) {
+        console.log(error.response);
+      } else if (error.request) {
+        console.log(error.request);
       } else {
         console.log("General Error");
       }
-
-    });
-
-  }
-
-  execute();
+    }
+  };
+  onDownload();
 
   return {
     isLoading,
