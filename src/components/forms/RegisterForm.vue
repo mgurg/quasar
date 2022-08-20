@@ -53,10 +53,10 @@
           </q-input>
 
           <q-input
-            v-model="nip"
+            v-model="companyTaxId"
             :disable="isLoading"
-            :error="!!errors.nip"
-            :error-message="errors.nip" type="text"
+            :error="!!errors.companyTaxId"
+            :error-message="errors.companyTaxId" type="text"
             :label="$t('NIP')" 
             :dense="$q.screen.lt.sm"
             outlined />
@@ -179,6 +179,7 @@ import {useField, useForm} from "vee-validate";
 import {object, string, bool} from "yup";
 import {useRouter} from "vue-router";
 import {useUserStore} from "stores/user";
+import { validatePolish } from 'validate-polish';
 import {accountLimit} from 'src/composables/api/accountLimit.js'
 import {companyInfo} from 'src/composables/api/companyInfo.js'
 
@@ -197,7 +198,13 @@ const UserStore = useUserStore();
 const validationSchema = object({
   email: string().required("Provide an valid email").email(),
   password: string().required(),
-  nip: string().required(),
+  companyTaxId: string().required().matches(/^[0-9]+$/, 'Must be numeric').test(
+        "check-nip",
+        "Provide valid NIP number",
+        function (value) {
+          return validatePolish.nip(value)
+        }
+  ),
   firstName: string().required(),
   lastName: string().required(),
   acceptTOS: bool().required().oneOf([true], "!"),
@@ -206,10 +213,10 @@ const validationSchema = object({
 const {handleSubmit, errors} = useForm({ validationSchema:  validationSchema});
 
 
-// const { value: firstName } = useField("firstName");
+// https://github.com/logaretm/vee-validate/releases/tag/v4.6.0 ->useFieldModel
 const {value: email, handleChange} = useField("email");
 const {value: password} = useField("password");
-const {value: nip} = useField("nip", undefined, {initialValue: "9542752600"});
+const {value: companyTaxId} = useField("companyTaxId", undefined, {initialValue: "9542752600"});
 const {value: acceptTOS} = useField("acceptTOS", undefined, {initialValue: false});
 const {value: firstName} = useField("firstName", undefined);
 const {value: lastName} = useField("lastName", undefined);
@@ -227,7 +234,7 @@ const submit = handleSubmit((values) => {
   //   country: 'pl',
   //   id: nip.value
   // })
-    api.post("auth/company_info", {"country": "pl", "company_national_id": nip.value})
+    api.post("auth/company_info", {"country": "pl", "company_tax_id": companyTaxId.value})
     .then((res) => {
       isLoading.value = false;
       companyName.value = res.data.short_name
@@ -274,7 +281,7 @@ const submit = handleSubmit((values) => {
     password: password.value,
     password_confirmation: password.value,
     country: "pl",
-    company_national_id: nip.value,
+    company_national_tax_id: companyTaxId.value,
     company_name: companyName.value ,
     company_street: companyAddress.value,
     company_city: companyCity.value,
