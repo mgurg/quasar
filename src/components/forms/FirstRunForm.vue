@@ -84,7 +84,7 @@ const submit = handleSubmit((values) => {
 });
 // --------------- VeeValidate --------------
 
-async function firstRun(data) {
+function firstRun(data) {
   isLoading.value = true;
   api
     .post("auth/first_run", data)

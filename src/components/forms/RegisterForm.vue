@@ -281,7 +281,7 @@ const submit = handleSubmit((values) => {
     password: password.value,
     password_confirmation: password.value,
     country: "pl",
-    company_national_tax_id: companyTaxId.value,
+    company_tax_id: companyTaxId.value,
     company_name: companyName.value ,
     company_street: companyAddress.value,
     company_city: companyCity.value,
@@ -293,12 +293,12 @@ const submit = handleSubmit((values) => {
   };
   console.log(data);
 
-  // registerAdmin(data);
+  registerAdmin(data);
 });
 
 // --------------- VeeValidate --------------
 
-async function registerAdmin(data) {
+function registerAdmin(data) {
   isLoading.value = true;
   api
     .post("auth/register", data)
