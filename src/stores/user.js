@@ -132,6 +132,7 @@ export const useUserStore = defineStore("user", {
       localStorage.removeItem("lastName");
       localStorage.removeItem("uuid");
       localStorage.removeItem("permissions");
+      localStorage.removeItem("tenant");
       sessionStorage.removeItem("klucz");
       this.token = null;
     },
