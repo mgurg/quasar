@@ -57,9 +57,11 @@ export const useUserStore = defineStore("user", {
         localStorage.removeItem("firstName");
         localStorage.removeItem("lastName");
         localStorage.removeItem("uuid");
+        localStorage.removeItem("tenant");
 
         sessionStorage.removeItem("klucz");
         localStorage.setItem("klucz", data.data.auth_token);
+        localStorage.setItem("tenant",data.data.tenant_id);
         localStorage.setItem("tz", data.data.tz);
         localStorage.setItem("lang", data.data.lang);
         localStorage.setItem("firstName", data.data.first_name);
