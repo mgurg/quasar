@@ -44,7 +44,7 @@
           </div>
 
           <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section>
-          <q-card-actions align="right" v-if="hasPermission('IDEAS_VOTE') && ideaDetails.status!='pending'">
+          <q-card-actions align="right" v-if="ideaDetails.status!='pending'"> <!-- hasPermission('IDEAS_VOTE') && -->
             <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" 
             :disable="lastVote=='down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
             <q-btn flat color="red-12" icon="thumb_up" @click="sendVote('up')" 
@@ -52,7 +52,7 @@
           </q-card-actions>
           <q-separator />
         </div>
-        <q-card-actions v-if="hasPermission('IDEAS_REVIEW')">
+        <q-card-actions > <!-- v-if="hasPermission('IDEAS_REVIEW')" -->
           <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle" v-if="ideaDetails.status=='pending'">&nbsp; Akceptuj</q-btn>
           <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever" v-if="ideaDetails.status=='pending'||ideaDetails.status=='accepted'">&nbsp; Odrzuć</q-btn>
           <q-btn @click="setState('todo')" flat color="primary" icon="verified" v-if="ideaDetails.status=='accepted'">&nbsp; Wykonaj</q-btn>
@@ -61,18 +61,18 @@
 
       <task-view-skeleton v-else />
 
-      <div class="q-pt-lg">
+      <!-- <div class="q-pt-lg">
       <p class="text-h6">Co o tym myślisz? </p>
       <q-input outlined type="textarea" >
           <template v-slot:append>
             <q-btn round dense flat icon="mic" /><br/>
             
-            <!-- <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" /> -->
+            <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
           </template>
       </q-input>
       <p></p>
       <q-btn outline color="primary" icon="send" label="wyślij" />
-      </div>
+      </div> -->
       <q-dialog
         v-model="dialog"
         persistent

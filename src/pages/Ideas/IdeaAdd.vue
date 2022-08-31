@@ -11,6 +11,7 @@
             <idea-form
                 button-text="Add"
                 @ideaFormBtnClick="signUpButtonPressed"
+                @cancelBtnClick="cancelButtonPressed"
             ></idea-form>
         </q-page>
     </div>
@@ -90,6 +91,13 @@ function signUpButtonPressed(ideaForm) {
     createIdea(ideaForm)
     console.log('Add ok')
 }
+
+
+function cancelButtonPressed() {
+    console.log('cancelBtnClick')
+    router.push("/ideas");
+}
+
 
 </script>
 

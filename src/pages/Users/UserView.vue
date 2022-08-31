@@ -63,7 +63,7 @@
             color="primary"
             icon="done"
             v-if="userDetails.status == null"
-            @click="changeState('accepted')"
+            @click="editUser(userDetails.uuid)"
           >Edit</q-btn>
 
          
@@ -88,9 +88,12 @@
 <script setup>
 import { ref, onActivated ,onBeforeMount} from "vue";
 import { DateTime } from "luxon";
+import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+
+const router = useRouter();
 
 let isLoading = ref(false);
 let slide = ref(1);
@@ -146,9 +149,9 @@ function activateUser() {
     });
 }
 
-// function editUser(uuid) {
-//     router.push("/users/edit/" + uuid);
-// }
+function editUser(uuid) {
+    router.push("/users/edit/" + uuid);
+}
 
 onBeforeMount(() => {
   isLoading.value = true;

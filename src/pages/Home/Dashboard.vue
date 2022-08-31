@@ -68,7 +68,7 @@ const status = reactive({'accepted': 0, 'todo': 0, 'pending': 0, 'rejected': 0})
 
 function ping() {
     authApi
-        .get("/stats/status")
+        .get("/ideas/stats")
         .then((res) => {
             // console.log(res.data);
             status.pending = res.data.pending

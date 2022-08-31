@@ -68,7 +68,7 @@
       </div>
 
       <div class="row">
-        <q-btn type="submit" color="red-12" @click="handleReset">Cancel</q-btn>
+        <q-btn type="submit" color="red-12" @click="cancelButtonHandle">Cancel</q-btn>
         <q-space/>
         <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
       </div>
@@ -301,6 +301,12 @@ const submit = handleSubmit(values => {
 })
 
 // --------------- Form --------------
+
+function  cancelButtonHandle()
+{
+    console.log('cancelBtnClick')
+    emit('cancelBtnClick')
+}
 
 </script>
 
