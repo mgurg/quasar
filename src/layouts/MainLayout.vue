@@ -135,6 +135,49 @@
       </q-list>
     </q-drawer>
 
+    <q-footer elevated>
+      <q-banner v-if="showAppInstallBanner"
+              class="bg-primary text-white"
+              inline-actions
+              dense
+            >
+              <template v-slot:avatar>
+                <q-avatar
+                  color="white"
+                  icon="tips_and_updates"
+                  text-color="grey-10"
+                  font-size="22px"
+                />
+              </template>
+
+              <b>Install Quasagram?</b>
+
+              <template v-slot:action>
+                <q-btn
+                  @click="installApp"
+                  label="Yes"
+                  class="q-px-sm"
+                  dense
+                  flat
+                />
+                <q-btn
+                  @click="showAppInstallBanner = false"
+                  label="Later"
+                  class="q-px-sm"
+                  dense
+                  flat
+                />
+                <q-btn
+                  @click="neverShowAppInstallBanner"
+                  label="Never"
+                  class="q-px-sm"
+                  dense
+                  flat
+                />
+              </template>
+            </q-banner>
+      </q-footer>
+
     <q-page-container>
       <!-- <router-view /> -->
       <!-- TODO: Looks like this is necessary to load onActivate -->
@@ -149,12 +192,16 @@
 
 <script setup>
 
-import { defineComponent, ref, computed, onBeforeMount } from "vue";
+import { defineComponent, ref, computed, onBeforeMount , onMounted} from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
+
+// let deferredPrompt;
+const deferredPrompt = ref(null);
+const showAppInstallBanner = ref(false)
 
 const $q = useQuasar();
 
@@ -217,13 +264,46 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
+function installApp() {
+      // Hide the app provided install promotion
+      showAppInstallBanner.value = false
+      // Show the install prompt
+      deferredPrompt.value.prompt();
+      // Wait for the user to respond to the prompt
+      deferredPrompt.value.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install prompt');
+          neverShowAppInstallBanner()
+        } else {
+          console.log('User dismissed the install prompt');
+        }
+      });
+    }
+
+function neverShowAppInstallBanner() {
+    showAppInstallBanner.value = false
+    localStorage.setItem('neverShowAppInstallBanner', true)
+    }
+
 onBeforeMount(() => {
   console.log(getLocale())
   //localStorage.setItem("lang", 'pl')
   // setLocale(setLocale())
   setLocale(getLocale())
-
-
 });
+
+onMounted(()=>{
+  let neverShowAppInstallBanner = localStorage.getItem('neverShowAppInstallBanner')
+
+  console.log("never:"+ neverShowAppInstallBanner)
+  if (!neverShowAppInstallBanner) {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt.value = e;
+      showAppInstallBanner.value = true
+    });
+  }
+
+})
 
 </script>
