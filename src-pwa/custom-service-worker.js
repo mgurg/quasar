@@ -6,5 +6,6 @@
 
 import { precacheAndRoute } from 'workbox-precaching'
 
+console.log('Custom Service Worker')
 // Use with precache injection
 precacheAndRoute(self.__WB_MANIFEST)
