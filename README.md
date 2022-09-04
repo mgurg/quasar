@@ -8,6 +8,12 @@ A Quasar Project
 quasalang generate
 ```
 
+## Icon
+```
+icongenie generate -i app_icon.png --skip-trim --theme-color 027be3
+```
+
+
 ## Install the dependencies
 ```bash
 yarn
