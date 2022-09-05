@@ -23,7 +23,12 @@ npm install
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
-quasar dev
+yarn quasar dev
+```
+
+### PWA
+```bash
+yarn quasar dev -m pwa
 ```
 
 ### Lint the files
