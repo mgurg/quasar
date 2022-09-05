@@ -45,6 +45,12 @@ export default boot(({ app, router }) => {
     }
     req.headers.authorization = "Bearer " + token;
     req.headers.tenant = tenant;
+
+    if (token===null || tenant===null ){
+      console.log("unauth interceptor ");
+      UserStore.logoutUser();
+      router.replace("/login");
+    }
     return req;
   });
 
