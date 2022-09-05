@@ -150,7 +150,7 @@
                 />
               </template>
 
-              <b>Install Quasagram?</b>
+              <b>Install Intio?</b>
 
               <template v-slot:action>
                 <q-btn
