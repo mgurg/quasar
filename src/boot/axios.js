@@ -47,7 +47,7 @@ export default boot(({ app, router }) => {
     req.headers.tenant = tenant;
 
     if (token===null || tenant===null ){
-      console.log("unauth interceptor ");
+      console.log("unAuth interceptor");
       UserStore.logoutUser();
       router.replace("/login");
     }
