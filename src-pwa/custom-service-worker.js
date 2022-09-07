@@ -51,3 +51,8 @@ registerRoute(
   ({url}) => url.href.startsWith('http'),
   new StaleWhileRevalidate()
 );
+
+
+// POST https://api.intio.es/ideas/
+// POST https://api.intio.es/files/
+
