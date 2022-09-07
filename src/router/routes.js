@@ -106,6 +106,9 @@ const routes = [
       { path: "/ideas/user/:uuid", component: () => import("pages/Ideas/IdeaUserIndex.vue") },
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
+      { path: "/settings/ideas", component: () => import("pages/Settings/SettingsIdea.vue") },
+      { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissions.vue") },
+      { path: "/settings/groups", component: () => import("pages/Settings/SettingsGroups.vue") },
 
       // { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
       // { path: "/tasks/add", component: () => import("pages/Tasks/TaskAdd.vue") },

@@ -80,7 +80,7 @@
         </q-item>
 
         <!--Ideas Index-->
-        <q-item to="/settings" exact clickable v-ripple v-if="hasPermission('SETTINGS_VIEW')">
+        <q-item to="/settings" exact clickable v-ripple> <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
           <q-item-section avatar>
             <q-icon size="md" name="settings" />
           </q-item-section>
