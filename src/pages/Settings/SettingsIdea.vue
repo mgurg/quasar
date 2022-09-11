@@ -83,7 +83,6 @@
 </template>
 
 <script setup>
-
 import { ref, onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'

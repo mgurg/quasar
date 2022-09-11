@@ -72,9 +72,7 @@
 </template>
 
 <script setup>
-
 import { ref, onBeforeMount } from "vue";
-
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()

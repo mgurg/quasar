@@ -2014,6 +2014,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-placeholder@npm:^2.0.0-beta.194":
+  version: 2.0.0-beta.194
+  resolution: "@tiptap/extension-placeholder@npm:2.0.0-beta.194"
+  dependencies:
+    prosemirror-model: 1.18.1
+    prosemirror-state: 1.4.1
+    prosemirror-view: 1.26.2
+  peerDependencies:
+    "@tiptap/core": ^2.0.0-beta.193
+  checksum: 724bd42b42a2edea94a0fad6b9e92c50c31b3b905e1c7862a9b13182a9513a555c0890ff72f6ba67e1d4fed85c9ddabd67bbae98d8a2fd3b1d2d61350863a90e
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-strike@npm:^2.0.0-beta.29":
   version: 2.0.0-beta.29
   resolution: "@tiptap/extension-strike@npm:2.0.0-beta.29"
@@ -7223,6 +7236,7 @@ __metadata:
     "@sentry/tracing": ^6.19.6
     "@sentry/vue": ^6.19.6
     "@tiptap/extension-highlight": ^2.0.0-beta.35
+    "@tiptap/extension-placeholder": ^2.0.0-beta.194
     "@tiptap/extension-typography": ^2.0.0-beta.22
     "@tiptap/starter-kit": ^2.0.0-beta.183
     "@tiptap/vue-3": ^2.0.0-beta.90

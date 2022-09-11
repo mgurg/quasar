@@ -1,12 +1,15 @@
 <template>
-    <q-page class="flex flex-center">
-        <div style="border: 3px solid black; border-radius: 25px; padding: 25px; width:95%;">
+        <div class="row justify-center text-blue-grey-10">
+        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+        <div style="border: 3px solid black; border-radius: 5px; padding-left: 5px;">
  
-            <tiptap />
+            <tiptap @editorContent="logText"  />
         </div>
         
-        <!-- <q-btn @click="ping">ping</q-btn> -->
+        <q-btn @click="ping">Save</q-btn>
+        
     </q-page>
+    </div>
 </template>
 
 <script setup>
@@ -30,6 +33,11 @@ function ping() {
                 console.log("General Error");
             }
         });
+}
+
+function logText(text) {
+  console.log("LOG: ")
+  console.log(text)
 }
 
 </script>
