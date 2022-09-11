@@ -1996,6 +1996,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-mention@npm:^2.0.0-beta.194":
+  version: 2.0.0-beta.194
+  resolution: "@tiptap/extension-mention@npm:2.0.0-beta.194"
+  dependencies:
+    prosemirror-model: 1.18.1
+    prosemirror-state: 1.4.1
+  peerDependencies:
+    "@tiptap/core": ^2.0.0-beta.193
+    "@tiptap/suggestion": ^2.0.0-beta.193
+  checksum: f7081fc76f5a01bfc07d1a6f06313779b774bc4f56146ad81efc79b3a62da9edf9250b447e11535c6baef3aa073fc0b181f7f7f54706c4cf7c4eb18cf6e9750f
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-ordered-list@npm:^2.0.0-beta.30":
   version: 2.0.0-beta.30
   resolution: "@tiptap/extension-ordered-list@npm:2.0.0-beta.30"
@@ -2078,6 +2091,19 @@ __metadata:
     "@tiptap/extension-strike": ^2.0.0-beta.29
     "@tiptap/extension-text": ^2.0.0-beta.17
   checksum: 93b3f5cb66dae2284e19c28f45358e95a8e03b7039417eb23e1e0a10a377d73ac84d7a2ba5a3609b98eb57e5699f50cc48d56b4efc3b133782651fd73457d740
+  languageName: node
+  linkType: hard
+
+"@tiptap/suggestion@npm:^2.0.0-beta.194":
+  version: 2.0.0-beta.194
+  resolution: "@tiptap/suggestion@npm:2.0.0-beta.194"
+  dependencies:
+    prosemirror-model: 1.18.1
+    prosemirror-state: 1.4.1
+    prosemirror-view: 1.26.2
+  peerDependencies:
+    "@tiptap/core": ^2.0.0-beta.193
+  checksum: a3183119b47b95214a3e2b93dea25180a8db8109ef4cf9071c6d7ec9a82fd1cda1b3965a2d674389d892c0c1740496823f5f49269bf67af3fba12353505489b1
   languageName: node
   linkType: hard
 
@@ -7236,9 +7262,11 @@ __metadata:
     "@sentry/tracing": ^6.19.6
     "@sentry/vue": ^6.19.6
     "@tiptap/extension-highlight": ^2.0.0-beta.35
+    "@tiptap/extension-mention": ^2.0.0-beta.194
     "@tiptap/extension-placeholder": ^2.0.0-beta.194
     "@tiptap/extension-typography": ^2.0.0-beta.22
     "@tiptap/starter-kit": ^2.0.0-beta.183
+    "@tiptap/suggestion": ^2.0.0-beta.194
     "@tiptap/vue-3": ^2.0.0-beta.90
     "@vue-leaflet/vue-leaflet": ^0.6.1
     axios: ^0.21.1
@@ -7250,6 +7278,7 @@ __metadata:
     pinia: ^2.0.20
     quasar: ^2.7.7
     stream-consumers: ^1.0.2
+    tippy.js: ^6.3.7
     validate-polish: ^2.0.40
     vee-validate: ^4.6.6
     vue: ^3.2.37

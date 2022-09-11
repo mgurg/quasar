@@ -1,7 +1,7 @@
 <template>
         <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-        <div style="border: 3px solid black; border-radius: 5px; padding-left: 5px;">
+        <div style="border: 1px solid rgb(38, 50, 56); border-radius: 5px; padding-left: 5px;">
  
             <tiptap @editorContent="logText"  />
         </div>
