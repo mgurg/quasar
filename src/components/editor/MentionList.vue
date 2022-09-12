@@ -18,6 +18,8 @@
 </template>
 
 <!-- https://github.com/15653391491/monaco_web/blob/97a173b89c44f13b5be01a219630a11d3b1b4f45/src/components/common/MentionList.vue -->
+<!-- https://github.com/mrfrase3/slack-export-vue/blob/69ad9485ad5c1dcfc4684d952e4f5f7e8b3ee59e/src/components/search/mention-list.vue -->
+<!-- https://github.com/AnoRebel/aio/blob/c88fd953ecbb18be325239e578e1b844f3808d85/src/components/TipTap/extensions/MentionList.vue -->
 
 <script>
 export default {
