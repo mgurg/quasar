@@ -22,6 +22,7 @@
 <!-- https://github.com/AnoRebel/aio/blob/c88fd953ecbb18be325239e578e1b844f3808d85/src/components/TipTap/extensions/MentionList.vue -->
 
 <script>
+import { ref, watch } from "vue";
 export default {
   props: {
     items: {
@@ -36,58 +37,51 @@ export default {
     },
   },
   
-  data() {
-    return {
-      selectedIndex: 0,
-    }
-  },
-  
-  watch: {
-    items() {
-      this.selectedIndex = 0
-    },
-  },
-  
-  methods: {
-    onKeyDown({ event }) {
-      if (event.key === 'ArrowUp') {
-        this.upHandler()
-        return true
+  setup(props) {
+    const selectedIndex = ref(0);
+    watch(
+      () => props.items,
+      () => {
+        selectedIndex.value = 0;
       }
-  
-      if (event.key === 'ArrowDown') {
-        this.downHandler()
-        return true
+    );
+    const onKeyDown = ({ event }) => {
+      if (event.key === "ArrowUp") {
+        upHandler();
+        return true;
       }
-  
-      if (event.key === 'Enter') {
-        this.enterHandler()
-        return true
+      if (event.key === "ArrowDown") {
+        downHandler();
+        return true;
       }
-  
-      return false
-    },
-  
-    upHandler() {
-        this.selectedIndex = ((this.selectedIndex + this.items.length) - 1) % this.items.length
-    },
-  
-    downHandler() {
-        this.selectedIndex = (this.selectedIndex + 1) % this.items.length
-    },
-  
-    enterHandler() {
-      this.selectItem(this.selectedIndex)
-    },
-  
-    selectItem(index) {
-      const item = this.items[index]
-  
+      if (event.key === "Enter") {
+        enterHandler();
+        return true;
+      }
+      return false;
+    };
+    const upHandler = () => {
+      selectedIndex.value = (selectedIndex.value + props.items.length - 1) % props.items.length;
+    };
+    const downHandler = () => {
+      selectedIndex.value = (selectedIndex.value + 1) % props.items.length;
+    };
+    const enterHandler = () => {
+      selectItem(selectedIndex.value);
+    };
+    const selectItem = index => {
+      const item = props.items[index];
       if (item) {
-        this.command({id: item.uuid, label: item.label})
+        props.command({ id: item.uuid, label: item.label });
       }
-    },
+    };
+    return {
+      selectedIndex,
+      selectItem,
+      onKeyDown,
+    };
   },
+
 }
 </script>
   
