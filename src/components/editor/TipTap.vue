@@ -92,8 +92,8 @@ const editor = useEditor({
     }
 
 
-    console.log("Title: " +json_array[0].hasOwnProperty("content"))
-    console.log("Body: " +json_array[1].hasOwnProperty("content"))
+    // console.log("Title: " +json_array[0].hasOwnProperty("content"))
+    // console.log("Body: " +json_array[1].hasOwnProperty("content"))
     // emit('editorContent', json)
 
   },
