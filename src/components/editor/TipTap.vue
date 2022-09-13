@@ -13,6 +13,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 
 import suggestion from './suggestions'
+import groups from './groups'
 // import { generateJSON } from '@tiptap/html'
 
 // https://github.com/kfields/quasar-tiptap-demo
@@ -49,7 +50,6 @@ const editor = useEditor({
         <p>
          ${props.body}
         </p>
-        <pre></pre>
       `,
   extensions: [
     CustomDocument,
@@ -64,12 +64,22 @@ const editor = useEditor({
         return 'Can you add some further context?'
       }
     }),
-    Mention.configure({
-          HTMLAttributes: {
-            class: 'mention',
-          },
-          suggestion,
-        }),
+    Mention.extend({
+        name: "userMention"
+      }).configure({
+        HTMLAttributes: {
+          class: "mention"
+        },
+        suggestion: suggestion
+      }),
+      Mention.extend({
+        name: "groupMention"
+      }).configure({
+        HTMLAttributes: {
+          class: "mention"
+        },
+        suggestion: groups
+      })
   ],
   onCreate({ editor }) {
     const isEmpty = editor.state.doc.textContent.length === 0
@@ -159,6 +169,13 @@ const editor = useEditor({
   border-radius: 0.4rem;
   padding: 0.1rem 0.3rem;
   box-decoration-break: clone;
-  background-color: rgb(250, 245, 148);
+}
+
+[data-type="groupMention"] {
+  background-color: rgb(236,253,99);
+}
+
+[data-type="userMention"] {
+  background-color: rgb(82,226,238);
 }
 </style>

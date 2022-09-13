@@ -1,9 +1,12 @@
 import { VueRenderer } from "@tiptap/vue-3";
+import { PluginKey } from "prosemirror-state";
 import tippy from "tippy.js";
 
 import MentionList from "./MentionList.vue";
 
 export default {
+  char: "@",
+  pluginKey: new PluginKey("userSuggest"),
   items: ({ query }) => {
     const users = [
       { uuid: "7105b056-c031-4228-965b-74b8cf872c1b", label: "Lea Thompson" ,"a":1},
