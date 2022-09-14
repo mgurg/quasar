@@ -1,13 +1,31 @@
 import { VueRenderer } from "@tiptap/vue-3";
 import { PluginKey } from "prosemirror-state";
 import tippy from "tippy.js";
-
+import { api } from "boot/axios";
 import MentionList from "./MentionList.vue";
+
+// https://github.com/search?q=VueRenderer+MentionList&type=code
 
 export default {
   char: "@",
   pluginKey: new PluginKey("userSuggest"),
-  items: ({ query }) => {
+  items:  ({ query }) => {
+
+  //   const {users} = api.get("/fake_users")
+  //   .then((res) => {
+  //     // const users = res.data
+  // })
+  // .catch((err) => {
+  //     if (err.response) {
+  //         console.log(err.response);
+  //     } else if (err.request) {
+  //         console.log(err.request);
+  //     } else {
+  //         console.log("General Error");
+  //     }
+
+  // }
+  // );
     const users = [
       { uuid: "7105b056-c031-4228-965b-74b8cf872c1b", label: "Lea Thompson" ,"a":1},
       { uuid: "113f5152-9130-4f20-a4dc-0d923e814988", label: "Cyndi Lauper","a":1 },
