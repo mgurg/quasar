@@ -5,6 +5,8 @@
 
 <script setup>
 import { ref, onBeforeMount, onUpdated } from "vue";
+import {useUserStore} from 'stores/user'
+
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Mention from '@tiptap/extension-mention'
 
@@ -22,7 +24,31 @@ import groups from './groups'
 
 // const content = ref('')
 const charCount = ref(0)
+const UserStore = useUserStore();
 
+async function getEditorUsers() {
+  try {
+    await UserStore.setEditorUsers();
+  } catch (err) {
+    console.log(err);
+    // console.log(err.error_description || err.message)
+    // console.log(err.data)
+    // errorMsg.value = err
+  }
+}
+async function getEditorGroups() {
+  try {
+    await UserStore.setEditorGroups();
+  } catch (err) {
+    console.log(err);
+    // console.log(err.error_description || err.message)
+    // console.log(err.data)
+    // errorMsg.value = err
+  }
+}
+
+getEditorUsers();
+getEditorGroups();
 
 const emit = defineEmits(['editorContent'])
 

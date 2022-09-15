@@ -11,6 +11,8 @@ export const useUserStore = defineStore("user", {
     tz: localStorage.getItem("tz") || null,
     lang: localStorage.getItem("lang") || null,
     uuid: localStorage.getItem("uuid") || null,
+    editorUsers : null,
+    editorGroups : null,
   }),
   getters: {
     isAuthenticated: (state) => !!state.token,
@@ -20,6 +22,10 @@ export const useUserStore = defineStore("user", {
     getPermissions: (state) => state.permissions,
 
     getCurrentUserId: (state) => state.uuid,
+
+    getEditorUsers: (state) => state.editorUsers,
+    getEditorGroups: (state) => state.editorGroups,
+
   },
   actions: {
     increment() {
@@ -83,6 +89,18 @@ export const useUserStore = defineStore("user", {
         throw error.response.data.detail;
       }
     },
+
+  async setEditorUsers() {
+    const data = await api.get("/fake_users")
+    console.log(data.data);
+    this.editorUsers = data.data;
+  },
+
+  async setEditorGroups() {
+    const data = await api.get("/fake_groups")
+    console.log(data.data);
+    this.editorGroups = data.data;
+  },
 
     fillStore(token, tenant, firstName, lastName, uuid, tz, lang) {
       this.token = token;
