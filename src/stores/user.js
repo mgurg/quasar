@@ -11,8 +11,8 @@ export const useUserStore = defineStore("user", {
     tz: localStorage.getItem("tz") || null,
     lang: localStorage.getItem("lang") || null,
     uuid: localStorage.getItem("uuid") || null,
-    editorUsers : null,
-    editorGroups : null,
+    editorUsers : [],
+    editorGroups : [],
   }),
   getters: {
     isAuthenticated: (state) => !!state.token,

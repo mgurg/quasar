@@ -107,7 +107,8 @@ const routes = [
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
       { path: "/settings/ideas", component: () => import("pages/Settings/SettingsIdea.vue") },
-      { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissions.vue") },
+      { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissionsIndex.vue") },
+      { path: "/settings/permissions/:uuid", component: () => import("pages/Settings/SettingsPermissionsView.vue") },
       { path: "/settings/groups", component: () => import("pages/Settings/SettingsGroups.vue") },
 
       // { path: "/tasks", component: () => import("pages/Tasks/TaskIndex.vue") },
