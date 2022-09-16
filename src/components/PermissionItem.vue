@@ -22,8 +22,8 @@
 
             <q-item-section side v-if="permission.uuid === selected">
                 <div class="text-grey-8 q-gutter-xs">
-                    <q-btn size="12px" flat dense round icon="edit" @click="editPermission(permission.uuid)" />
-                    <q-btn size="12px" flat dense round icon="delete" @click="deletePermission(permission.uuid)" v-if="(permission.uuid != currentUserUuid) &&  hasPermission('USERS_ADD')" />
+                    <q-btn size="12px" flat dense round icon="edit" @click="editPermission(permission.uuid)" v-if="(permission.is_custom == true)" />
+                    <q-btn size="12px" flat dense round icon="delete" @click="deletePermission(permission.uuid)" v-if="(permission.is_custom == true) && hasPermission('USERS_ADD')" />
                     <q-btn size="12px" flat dense round icon="info" @click="viewPermission(permission.uuid)" />
                 </div>
             </q-item-section>
@@ -101,7 +101,7 @@ function deletePermission(uuid) {
         persistent: true,
     }).onOk(() => {
         authApi
-            .delete("/users/" + uuid)
+            .delete("/settings/permissions/" + uuid)
             .then((res) => {
                 emit("forceRefresh")
             })
@@ -123,7 +123,7 @@ function deletePermission(uuid) {
 }
 
 function editPermission(uuid) {
-    router.push("/settings/permissions/edit/" + uuid);
+    router.push("/settings/permissions/" + uuid);
 }
 
 function viewPermission(uuid) {

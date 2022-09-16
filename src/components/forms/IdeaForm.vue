@@ -68,7 +68,7 @@
       </div>
 
       <div class="row">
-        <q-btn type="submit" color="red-12" @click="cancelButtonHandle">Cancel</q-btn>
+        <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
         <q-space/>
         <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
       </div>

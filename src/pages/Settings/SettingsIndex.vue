@@ -17,7 +17,7 @@
                                     <q-icon color="white" name="lightbulb" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">Ideas</q-item-label>
+                                    <q-item-label class="text-white text-h4">{{ $t("Settings") }}</q-item-label>
                                     <q-item-label class="text-white text-weight-bold"></q-item-label>
                                 </q-item-section>
                             </q-item>
@@ -30,7 +30,7 @@
                                     <q-icon color="white" name="ballot" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">Permissions</q-item-label>
+                                    <q-item-label class="text-white text-h4">{{ $t("Permissions") }}</q-item-label>
                                     <q-item-label class="text-white text-weight-bold"></q-item-label>
                                 </q-item-section>
                             </q-item>
@@ -43,7 +43,7 @@
                                     <q-icon color="white" name="groups" />
                                 </q-item-section>
                                 <q-item-section>
-                                    <q-item-label class="text-white text-h4">Groups</q-item-label>
+                                    <q-item-label class="text-white text-h4">{{ $t("Groups") }}</q-item-label>
                                     <q-item-label class="text-white text-weight-bold"></q-item-label>
                                 </q-item-section>
                             </q-item>

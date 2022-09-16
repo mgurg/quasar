@@ -5,15 +5,15 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Ideas')" icon="info" />
+          <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"  />
         </q-breadcrumbs>
       </div>
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Employees") }}</p></div>
+        <div class="col-6"><p class="text-h4">{{ $t("Permissions") }}</p></div>
         <div class="col-6">
           <!-- v-if="hasPermission('USERS_ADD')"  -->
           <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" no-caps>
-          {{ $t("New employee") }}
+          {{ $t("New permission") }}
           </q-btn></div>
       </div>
 

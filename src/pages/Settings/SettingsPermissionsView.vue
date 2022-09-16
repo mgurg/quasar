@@ -4,7 +4,8 @@
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el label="Users" icon="people" to="/users" />
+          <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
+          <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"  />
           <q-breadcrumbs-el :label="$t('View')" icon="info" />
         </q-breadcrumbs>
       </div>
@@ -18,24 +19,26 @@
                 outlined
                 v-model="roleName"
                 :disable="isLoading"
+                :readonly="!allowEdit"
                 :error="!!errors.roleName"
                 :error-message="errors.roleName"
-                :label="$t('First name')"
+                :label="$t('Name')"
             />
             <q-input
                 outlined
                 v-model="roleDescription"
                 :disable="isLoading"
+                :readonly="!allowEdit"
                 :error="!!errors.roleDescription"
                 :error-message="errors.roleDescription"
-                :label="$t('Last name')"
+                :label="$t('Description')"
             />
 
         <q-list>
           <div v-for="(permission, index) in allPermissions" v-bind:key="index">
             <q-item tag="label" v-ripple>
               <q-item-section avatar top>
-                <q-checkbox v-model="color" :val="permission.uuid" :disable="false" color="cyan" />
+                <q-checkbox v-model="color" :val="permission.uuid" :disable="!allowEdit" color="cyan" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>{{permission.title}}</q-item-label>
@@ -48,12 +51,13 @@
         </q-list>
 
         <div class="row">
-                <q-btn type="submit" color="red-12" @click="cancelButtonHandle">Cancel</q-btn>
+                <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
                 <q-space />
                 <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
 
       </q-form>
+
     </q-page>
   </div>
 </template>
@@ -66,6 +70,7 @@ import { authApi } from "boot/axios";
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
 import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+
 
 const props = defineProps({
     role: {
@@ -90,14 +95,15 @@ let isLoading = ref(false);
 let slide = ref(1);
 
 
+
+
 const route = useRoute();
-let taskUuid = ref(route.params.uuid)
+let permisionUuid = ref(route.params.uuid)
 let roleDetails = ref(null);
 let allPermissions = ref(null);
+let allowEdit = ref("false")
 
 let color = ref([])
-
-
 
 function getRoleDetails(uuid) {
   authApi
@@ -108,6 +114,9 @@ function getRoleDetails(uuid) {
       color.value = res.data.permission.map(value => value.uuid)
       console.log(color.value);
       roleDetails.value = res.data;
+      roleName.value = res.data.role_title
+      roleDescription.value = res.data.role_description
+      allowEdit.value = res.data.is_custom
       isLoading.value = false;
     })
     .catch((err) => {
@@ -140,6 +149,27 @@ function getAllPermissions() {
     });
 }
 
+function AddNewPermission(data){
+  isLoading.value = true;
+  console.log('adding permissions');
+  authApi
+    .post("/permissions/", data)
+    .then((res) => {
+      // permissions.value = res.data
+      // pagination.total = res.data.total
+      console.log(res.data);
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
 function editUser(uuid) {
   router.push("/users/edit/" + uuid);
@@ -169,15 +199,13 @@ const { value: roleName } = useField('roleName', undefined, { initialValue: prop
 const { value: roleDescription } = useField('roleDescription', undefined, { initialValue: props.role.role_description })
 
 const submit = handleSubmit(values => {
-
-
-
     let data = {
-        "role_name": roleName.value,
-        "role_description": roleDescription.value,
+        "title": roleName.value,
+        "description": roleDescription.value,
+        "permissions": JSON.parse(JSON.stringify(color.value))
     }
 
-
+    AddNewPermission(data);
     console.log('submit');
     console.log(data)
     emit('userFormBtnClick', data)

@@ -80,3 +80,13 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Anonymous with required confirmation""",Anonymous with required confirmation,Anonyme de confirmation requise,Anonymous mit der erforderlichen Bestätigung,Anonimowy z wymaganym potwierdzeniem
 """Only for logged users""",Only for logged users,Uniquement pour les utilisateurs enregistrés,Nur für protokollierte Benutzer,Tylko dla zalogowanych użytkowników
 """You must have an account""",You must have an account,Vous devez avoir un compte,Sie müssen ein Konto haben,Musisz mieć konto
+"""Ideas""",Ideas,Idées,Ideen,Pomysły
+"""Permissions""",Permissions,Autorisation,Berechtigungen,Uprawnienia
+"""Groups""",Groups,Groupes,Gruppen,Grupy
+,,,,
+#permissions,,,,
+"""Permissions""",Permissions,Autorisation,Berechtigungen,Uprawnienia
+"""Permission""",Permission,Autorisation,Genehmigung,Pozwolenie
+"""New permission""",New permission,Nouvelle autorisation,Neue Erlaubnis,Nowe pozwolenie
+"""Name""",Name,Nom,Name,Nazwa
+"""Description""",Description,La description,Beschreibung,Opis

@@ -83,4 +83,14 @@ export default {
 	"Anonymous with required confirmation": `Anonyme de confirmation requise`,
 	"Only for logged users": `Uniquement pour les utilisateurs enregistrés`,
 	"You must have an account": `Vous devez avoir un compte`,
+	"Ideas": `Idées`,
+	"Permissions": `Autorisation`,
+	"Groups": `Groupes`,
+
+	// permissions
+	"Permissions": `Autorisation`,
+	"Permission": `Autorisation`,
+	"New permission": `Nouvelle autorisation`,
+	"Name": `Nom`,
+	"Description": `La description`,
 }
