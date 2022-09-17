@@ -1,50 +1,78 @@
 <template>
     <div>
-        <q-form
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            class="q-gutter-md"
-            @submit.prevent
-        >
-        <div class="row justify-between items-center">
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employees") }}</h5>
+        <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+            @submit.prevent>
+            <div class="row justify-between items-center">
+                <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employees") }}</h5>
 
             </div>
-            <q-input
-                outlined
-                v-model="userFirstName"
-                :disable="isLoading"
-                :error="!!errors.userFirstName"
-                :error-message="errors.userFirstName"
-                :label="$t('First name')"
-            />
-            <q-input
-                outlined
-                v-model="userLastName"
-                :disable="isLoading"
-                :error="!!errors.userLastName"
-                :error-message="errors.userLastName"
-                :label="$t('Last name')"
-            />
-            <q-input
-                outlined
-                v-model="userEmail"
-                :disable="isLoading"
-                :error="!!errors.userEmail"
-                :error-message="errors.userEmail"
-                :label="$t('E-mail')"
-            />
-            <q-input
-                outlined
-                v-model="userPhone"
-                :disable="isLoading"
-                :error="!!errors.userPhone"
-                :error-message="errors.userPhone"
-                :label="$t('Phone')"
-            />
+            <div class="row sm-gutter">
+                <div class="q-pa-xs col-xs-5 col-sm-6">
+                    <q-input 
+                        outlined 
+                        v-model="userFirstName" 
+                        :disable="isLoading" 
+                        :error="!!errors.userFirstName"
+                        :error-message="errors.userFirstName" 
+                        :label="$t('First name')" 
+                    />
+                </div>
+                <div class="q-pa-xs col-xs-7 col-sm-6">
+                    <q-input 
+                        outlined 
+                        v-model="userLastName" 
+                        :disable="isLoading" 
+                        :error="!!errors.userLastName"
+                        :error-message="errors.userLastName" 
+                        :label="$t('Last name')" 
+                    />
+                </div>
+            </div>
+            <div class="row sm-gutter">
+                <div class="q-pa-xs col-xs-12 col-sm-6">
+                    <q-input 
+                        outlined 
+                        v-model="userEmail" 
+                        :disable="isLoading" 
+                        :error="!!errors.userEmail"
+                        :error-message="errors.userEmail" 
+                        :label="$t('E-mail')" 
+                    />
+                </div>
+                <div class="q-pa-xs col-xs-12 col-sm-6">
+                    <q-input 
+                        outlined 
+                        v-model="userPhone" 
+                        :disable="isLoading" 
+                        :error="!!errors.userPhone"
+                        :error-message="errors.userPhone" 
+                        :label="$t('Phone')" 
+                    />
+                </div>
+            </div>
 
+            <div class="row sm-gutter">
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+                    <q-select 
+                        outlined 
+                        v-model="userRole" 
+                        label="Rola" 
+                        :error="!!errors.userRole"
+                        :error-message="errors.userRole" :options="role"
+                        :option-value="opt => Object(opt) === opt && 'uuid' in opt ? opt.uuid : null"
+                        :option-label="opt => Object(opt) === opt && 'role_title' in opt ? opt.role_title : '----'"
+                        :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true" 
+                        emit-value 
+                        map-options 
+                    />
+                </div>
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+                    <!-- <q-select 
+                        outlined
+                        label="Grupa"  
+                    /> -->
+                </div>
+            </div>
 
             <div class="row">
                 <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
@@ -61,11 +89,10 @@
 
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
+import { authApi } from "boot/axios";
 import { useField, useForm } from "vee-validate";
-import { DateTime } from 'luxon';
 import * as yup from 'yup';
-import { api } from "boot/axios";
 
 const props = defineProps({
     user: {
@@ -78,19 +105,11 @@ const props = defineProps({
                 last_name: '',
                 email: '',
                 phone: null,
+                role_FK: null
 
             }
         }
     },
-    // usersList: {
-    //     type: Object,
-    //     default() {
-    //         return {
-    //             label: null,
-    //             value: null,
-    //         }
-    //     }
-    // },
 
     buttonText: {
         type: String,
@@ -102,8 +121,29 @@ const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 
 let isError = ref(false);
 let isLoading = ref(false);
+let role = ref(null)
+
+let model = ref(null);
 
 
+function getRoles(){
+    authApi
+    .get("/permissions")
+    .then((res) => {
+      console.log(res.data);
+      role.value = res.data;
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
 
 
@@ -116,6 +156,7 @@ const validationSchema = yup.object({
     userLastName: yup.string().required(),
     userEmail: yup.string().required(),
     userPhone: yup.string().nullable(),
+    userRole: yup.string().nullable(),
 })
 
 
@@ -127,6 +168,7 @@ const { value: userFirstName } = useField('userFirstName', undefined, { initialV
 const { value: userLastName } = useField('userLastName', undefined, { initialValue: props.user.last_name })
 const { value: userEmail } = useField('userEmail', undefined, { initialValue: props.user.email })
 const { value: userPhone } = useField('userPhone', undefined, { initialValue: props.user.phone })
+const { value: userRole } = useField('userRole', undefined, { initialValue: props.user.role_FK.uuid })
 
 const submit = handleSubmit(values => {
 
@@ -137,7 +179,7 @@ const submit = handleSubmit(values => {
         "last_name": userLastName.value,
         "email": userEmail.value,
         "phone": userPhone.value,
-        // "user": taskAssignee.value,
+        // "user": userRole.value,
     }
 
 
@@ -148,11 +190,16 @@ const submit = handleSubmit(values => {
 
 // --------------- Form --------------
 
-function  cancelButtonHandle()
-{
+function cancelButtonHandle() {
     console.log('cancelBtnClick')
     emit('cancelBtnClick')
 }
+
+onBeforeMount(() => {
+    getRoles();
+
+
+});
 
 </script>
 
@@ -166,12 +213,12 @@ input[type="checkbox"] {
     display: none;
 }
 
-input[type="checkbox"] + label {
+input[type="checkbox"]+label {
     color: #ccc;
     cursor: pointer;
 }
 
-input[type="checkbox"]:checked + label {
+input[type="checkbox"]:checked+label {
     color: #333;
     font-weight: bold;
 }
