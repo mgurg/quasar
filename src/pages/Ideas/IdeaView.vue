@@ -110,7 +110,7 @@ import { ref, computed, onBeforeMount } from "vue";
 import { useUserStore } from 'stores/user'
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
-import TaskViewSkeleton from "components/skeletons/TaskViewSkeleton";
+import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
 
 const UserStore = useUserStore();
 

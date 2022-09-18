@@ -8,15 +8,14 @@
                     <q-breadcrumbs-el label="Edit" icon="edit" />
                 </q-breadcrumbs>
             </div>
-            <user-form
+            <user-form v-if="userDetails != null"
                 :user="userDetails"
                 button-text="Edit"
                 @userFormBtnClick="signUpButtonPressed"
                 @cancelBtnClick="cancelButtonPressed"
-                v-if="userDetails != null"
                 :key="userDetails.uuid"
             />
-            <task-edit-skeleton v-else />
+            <user-edit-skeleton v-else />
         </q-page>
     </div>
 </template>
@@ -27,7 +26,7 @@
 <script setup>
 import { useQuasar } from 'quasar'
 import { onActivated, ref, onBeforeMount } from "vue";
-import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
+import UserEditSkeleton from 'components/skeletons/users/UserEditSkeleton.vue'
 import UserForm from 'src/components/forms/UserForm.vue'
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";

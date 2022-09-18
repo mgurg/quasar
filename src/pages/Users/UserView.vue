@@ -91,7 +91,7 @@ import { DateTime } from "luxon";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
-import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 const router = useRouter();
 

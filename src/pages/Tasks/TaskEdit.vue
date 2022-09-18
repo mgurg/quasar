@@ -27,7 +27,7 @@
 <script setup>
 import { useQuasar } from 'quasar'
 import { onActivated, ref } from "vue";
-import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
+import TaskEditSkeleton from 'components/skeletons/tasks/TaskEditSkeleton'
 import TaskForm from 'src/components/forms/TaskForm.vue'
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";

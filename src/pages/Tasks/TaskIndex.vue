@@ -41,7 +41,7 @@
 import { onActivated, ref, computed } from "vue";
 import { authApi } from "boot/axios";
 
-import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
+import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 import TaskItem from 'components/TaskItem.vue'
 
 

@@ -128,7 +128,7 @@ let model = ref(null);
 
 function getRoles(){
     authApi
-    .get("/permissions")
+    .get("/permissions/")
     .then((res) => {
       console.log(res.data);
       role.value = res.data;

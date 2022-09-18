@@ -4,7 +4,8 @@
       <div class="row justify-around q-mt-sm">
         <div class="col-6"><p class="text-h4">{{ $t("Employees") }}</p></div>
         <div class="col-6">
-          <q-btn v-if="hasPermission('USERS_ADD')" padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" no-caps>
+          <!-- v-if="hasPermission('USERS_ADD')" -->
+          <q-btn  padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" no-caps>
           {{ $t("New employee") }}
           </q-btn></div>
       </div>
@@ -62,7 +63,7 @@ import { authApi } from "boot/axios";
 import UserItem from 'components/UserItem.vue'
 import { useUserStore } from "stores/user";
 
-import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
+import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 
 const UserStore = useUserStore();
 const permissions = computed(() => UserStore.getPermissions );

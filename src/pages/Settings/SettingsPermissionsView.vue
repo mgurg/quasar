@@ -69,7 +69,7 @@ import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
-import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 
 const props = defineProps({

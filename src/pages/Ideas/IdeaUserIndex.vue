@@ -26,7 +26,7 @@ import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue"
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 
-import TaskIndexSkeleton from "components/skeletons/TaskIndexSkeleton.vue";
+import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import IdeaItem from "components/IdeaItem.vue";
 
 let isLoading = ref(false);

@@ -122,7 +122,7 @@ import { ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
-import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 let isLoading = ref(false);
 let slide = ref(1);
