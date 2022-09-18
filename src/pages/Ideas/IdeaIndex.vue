@@ -3,133 +3,150 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Ideas") }}</p></div>
+        <div class="col-6">
+          <p class="text-h4">{{ $t("Ideas") }}</p>
+        </div>
 
-        <div class="col-6"><q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/ideas/add" color="primary" label="Nowy pomysł" no-caps  /></div>
+        <div class="col-6">
+          <q-btn 
+            padding="sm" 
+            class="float-right" 
+            outline size="md" 
+            icon="add" 
+            to="/ideas/add" 
+            color="primary"
+            label="Nowy pomysł" 
+            no-caps
+          />
+        </div>
       </div>
 
-<div class="row q-gutter-xs items-center">
-  <div><q-input dense clearable outlined v-model="search" :label="$t('Type your search text')"  type="search" @keyup="fetchIdeas()" @clear="fetchIdeas()"/></div>
-  <div><q-btn outline class="float-right"  color="primary" icon="search">{{ $t("Search") }}</q-btn></div>
-  <div><q-btn-dropdown outline class="float-right"  color="primary" :label="$t('Filters')" icon="filter_list">
-     <div class="q-pa-xs" style="max-width: 350px">
-      <q-list class="rounded-borders">
-      <q-expansion-item
-        expand-separator
-        icon="attach_file"
-        :label="$t('Attachments')"
-      >
-        <q-card>
-            <q-list>
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setAttachmentFilter(true)"
-                    :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("Yes") }}</q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setAttachmentFilter(false)"
-                    :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("No") }}</q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setAttachmentFilter(null)"
-                    :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-        </q-card>
-      </q-expansion-item>
-
-      <q-expansion-item
-        expand-separator
-        icon="category"
-        label="Status"
-      >
-        <q-card>
-            <q-list>
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setStatusFilter('rejected')"
-                    :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
-                    {{ $t("Rejected") }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setStatusFilter('accepted')"
-                    :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("Accepted") }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setStatusFilter('todo')"
-                    :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'">Todo</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup>
-                <q-item-section>
-                  <q-item-label @click="setStatusFilter(null)"
-                    :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-        </q-card>
-      </q-expansion-item>
-    </q-list>
-    </div>
-  </q-btn-dropdown></div>
-</div>
-      
-
-      
-      <q-list  padding v-if="!isLoading">
-      
-      <q-item class="bg-blue-grey-1 rounded-borders">
-        <q-item-section avatar>
-          <span>&nbsp;
-            <q-btn 
-              padding="xs" 
-              :unelevated="sort.active=='counter'? true:false" 
-              :flat="sort.active=='counter'? false:true" 
-              size="sm" color="primary" 
-              :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'" 
-              @click="changeSortOrder('counter')"/>
-          </span>
-        </q-item-section>
-        <q-item-section>
-          <span>{{ $t("Name") }} 
-            <q-btn 
-            padding="xs" 
-            :unelevated="sort.active=='title'? true:false" 
-            :flat="sort.active=='title'? false:true" 
-            size="sm" 
+      <div class="row q-gutter-xs items-center">
+        <div>
+          <q-input 
+            dense 
+            clearable 
+            outlined 
+            v-model="search" 
+            :label="$t('Type your search text')" 
+            type="search"
+            @keyup="fetchIdeas()" 
+            @clear="fetchIdeas()" 
+          />
+        </div>
+        <div>
+          <q-btn 
+            outline 
+            class="float-right" 
             color="primary" 
-            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('title')" />
-          </span>
-        </q-item-section>
-        <q-item-section side>
-          <span>{{ $t("Age") }} 
-            <q-btn 
-            padding="xs" 
-            :unelevated="sort.active=='age'? true:false" 
-            :flat="sort.active=='age'? false:true" 
-            size="sm" 
-            color="primary" 
-            :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('age')"/>
-          </span>
-        </q-item-section>
-      </q-item>
+            icon="search">{{ $t("Search") }}
+        </q-btn>
+        </div>
+        <div>
+          <q-btn-dropdown outline class="float-right" color="primary" :label="$t('Filters')" icon="filter_list">
+            <div class="q-pa-xs" style="max-width: 350px">
+              <q-list class="rounded-borders">
+                <q-expansion-item expand-separator icon="attach_file" :label="$t('Attachments')">
+                  <q-card>
+                    <q-list>
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setAttachmentFilter(true)"
+                            :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("Yes") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setAttachmentFilter(false)"
+                            :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("No") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setAttachmentFilter(null)"
+                            :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-card>
+                </q-expansion-item>
+
+                <q-expansion-item expand-separator icon="category" label="Status">
+                  <q-card>
+                    <q-list>
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setStatusFilter('rejected')"
+                            :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
+                            {{ $t("Rejected") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setStatusFilter('accepted')"
+                            :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">{{
+                            $t("Accepted") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setStatusFilter('todo')"
+                            :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'">Todo
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable v-close-popup>
+                        <q-item-section>
+                          <q-item-label @click="setStatusFilter(null)"
+                            :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-card>
+                </q-expansion-item>
+              </q-list>
+            </div>
+          </q-btn-dropdown>
+        </div>
+      </div>
+
+
+
+      <q-list padding v-if="!isLoading">
+
+        <q-item class="bg-blue-grey-1 rounded-borders">
+          <q-item-section avatar>
+            <span>&nbsp;
+              <q-btn padding="xs" :unelevated="sort.active=='counter'? true:false"
+                :flat="sort.active=='counter'? false:true" size="sm" color="primary"
+                :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'" @click="changeSortOrder('counter')" />
+            </span>
+          </q-item-section>
+          <q-item-section>
+            <span>{{ $t("Name") }}
+              <q-btn padding="xs" :unelevated="sort.active=='title'? true:false"
+                :flat="sort.active=='title'? false:true" size="sm" color="primary"
+                :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" @click="changeSortOrder('title')" />
+            </span>
+          </q-item-section>
+          <q-item-section side>
+            <span>{{ $t("Age") }}
+              <q-btn padding="xs" :unelevated="sort.active=='age'? true:false" :flat="sort.active=='age'? false:true"
+                size="sm" color="primary" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'"
+                @click="changeSortOrder('age')" />
+            </span>
+          </q-item-section>
+        </q-item>
         <div v-for="(idea, index) in ideas" v-bind:key="index">
           <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
             v-if="!isLoading"></idea-item>
@@ -139,7 +156,7 @@
       <task-index-skeleton v-else />
 
       <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0">
-          Brak pomyslów 🤔? <br/>Niech Twój będzie pierwszy! 😎
+        Brak pomyslów 🤔? <br />Niech Twój będzie pierwszy! 😎
       </div>
 
       <div class="q-pa-lg flex flex-center">
@@ -169,13 +186,13 @@ let selected = ref(null);
 
 let sort = reactive({
   counter: "asc",
-  title : "asc",
+  title: "asc",
   age: "asc",
   active: "age"
 })
 
-function changeSortOrder(column){
-  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+function changeSortOrder(column) {
+  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
   sort.active = column
   fetchIdeas()
 }
@@ -233,15 +250,15 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 async function fetchIdeas() {
   isLoading.value = true;
-  let params = { 
-    search: search.value , 
-    hasImg: hasPhotos.value, 
-    status: hasStatus.value, 
-    page: pagination.page, 
+  let params = {
+    search: search.value,
+    hasImg: hasPhotos.value,
+    status: hasStatus.value,
+    page: pagination.page,
     size: pagination.size,
     sortOrder: sort[sort.active],
-    sortColumn: sort.active 
-     };
+    sortColumn: sort.active
+  };
   authApi
     .get("/ideas/", { params: params })
     .then((res) => {
@@ -271,12 +288,6 @@ function selectIdea(uuid) {
     selected.value = null;
   }
 }
-
-// onActivated(() => {
-//   console.log('onActivated')
-//   isLoading.value = true;
-//   fetchIdeas();
-// });
 
 onBeforeMount(() => {
   console.log('b')

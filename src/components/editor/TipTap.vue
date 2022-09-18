@@ -124,7 +124,7 @@ const editor = useEditor({
       json_array[0].hasOwnProperty("content") &&
       json_array[1].hasOwnProperty("content")
     ) {
-      emit('editorContent', json)
+      emit('editorContent', json, html)
     }
 
 

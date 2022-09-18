@@ -1,50 +1,52 @@
 <template>
   <div>
     <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
-            @submit.prevent>
+      @submit.prevent>
       <div class="row justify-between items-center">
         <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Idea") }}</h5>
         <div class="q-gutter-sm">
           <!-- <span>Color:</span> -->
           <span>
-                        <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11"/>
-                    </span>
+            <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
+          </span>
           <span>
-                        <q-radio keep-color v-model="ideaColor" val="orange" color="orange"/>
-                    </span>
+            <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
+          </span>
           <span>
-                        <q-radio keep-color v-model="ideaColor" val="red" color="red-12"/>
-                    </span>
+            <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
+          </span>
           <span>
-                        <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan"/>
-                    </span>
+            <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
+          </span>
         </div>
       </div>
-      <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
-               :error-message="errors.ideaTitle" :label="$t('Idea title')">
+
+      <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
+        <tiptap @editorContent="logText" />
+      </div>
+
+      <!-- <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
+        :error-message="errors.ideaTitle" :label="$t('Idea title')">
       </q-input>
       <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
-               :error="!!errors.ideaDescription" :error-message="errors.ideaDescription"
-               :label="$t('Idea description')">
+        :error="!!errors.ideaDescription" :error-message="errors.ideaDescription" :label="$t('Idea description')">
         <template v-if="isSupported" v-slot:append>
-          <q-btn round dense flat icon="mic" v-if="!isListening" @click="start"/>
-          <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop"/>
+          <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
+          <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
         </template>
-      </q-input>
+      </q-input> -->
 
       <!-- UPLOADER -->
-      <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file"
-                  label="No thumbnails" color="amber" accept=".jpg, image/*" flat bordered text-color="black"
-                  no-thumbnails style="width: auto;" v-if="attachments.length < 4"/>
+      <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file" label="No thumbnails"
+        color="amber" accept=".jpg, image/*" flat bordered text-color="black" no-thumbnails style="width: auto;"
+        v-if="attachments.length < 4" />
 
       <!-- IMG -->
       <div class="row q-col-gutter-xs">
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments"
-             v-bind:key="index">
-          <q-img :src="file.url" spinner-color="black" style="height: 100%; width:100% "
-                 fit="contain">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments" v-bind:key="index">
+          <q-img :src="file.url" spinner-color="black" style="height: 100%; width:100% " fit="contain">
             <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
-                    style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
+              style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
           </q-img>
@@ -53,8 +55,8 @@
 
       <!-- MODE -->
       <div v-if="mode == 'anonymous_with_mail'">
-        <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email"
-                 :error-message="errors.email" :label="$t('E-mail')">
+        <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email"
+          :label="$t('E-mail')">
         </q-input>
 
         <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
@@ -69,7 +71,7 @@
 
       <div class="row">
         <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
-        <q-space/>
+        <q-space />
         <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
       </div>
     </q-form>
@@ -77,16 +79,16 @@
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
-import {useField, useForm} from "vee-validate";
-import {DateTime} from 'luxon';
+import { ref, watch } from "vue";
+import Tiptap from 'src/components/editor/TipTap.vue'
+import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
-import {api, authApi} from "boot/axios";
-import {useUserStore} from "stores/user";
+import { api, authApi } from "boot/axios";
+import { useUserStore } from "stores/user";
 import Compressor from 'compressorjs';
-import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
+import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
 
-const {isListening, isSupported, stop, result, raw, start, error} = useSpeechRecognition({
+const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
   continuous: false,
   interimResults: false,
@@ -138,6 +140,14 @@ let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.idea.file);
 
+let jsonTxt = null;
+let htmlTxt = null;
+
+function logText(json, html) 
+{
+  jsonTxt = json
+  htmlTxt = html
+}
 
 // --------------- UPLOADER ---------------
 
@@ -256,7 +266,7 @@ watch(result, (newValue, oldValue) => {
 
 // --------------- Form --------------
 
-const {handleReset} = useForm();
+const { handleReset } = useForm();
 
 const validationSchema = yup.object({
   ideaColor: yup.string().required(),
@@ -276,14 +286,14 @@ const validationSchema = yup.object({
 })
 
 
-const {handleSubmit, errors} = useForm({
+const { handleSubmit, errors } = useForm({
   validationSchema
 })
 
-const {value: ideaTitle} = useField('ideaTitle', undefined, {initialValue: props.idea.title})
-const {value: ideaDescription} = useField('ideaDescription', undefined, {initialValue: props.idea.description})
-const {value: ideaColor} = useField('ideaColor', undefined, {initialValue: props.idea.color})
-const {value: email} = useField('email')
+const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
+const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
+const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
+const { value: email } = useField('email')
 
 
 const submit = handleSubmit(values => {
@@ -302,14 +312,14 @@ const submit = handleSubmit(values => {
 
 // --------------- Form --------------
 
-function  cancelButtonHandle()
-{
-    console.log('cancelBtnClick')
-    emit('cancelBtnClick')
+function cancelButtonHandle() {
+  console.log('cancelBtnClick')
+  emit('cancelBtnClick')
 }
 
 </script>
 
 
 <style lang="scss" scoped>
+
 </style>

@@ -17,18 +17,21 @@ import { onActivated, reactive, ref } from "vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import { api } from "boot/axios";
 
-let txt = null;
+let jsonTxt = null;
+let htmlTxt = null;
 
-function logText(text) {
-  txt = text
+function logText(json, html) {
+  jsonTxt = json
+  htmlTxt = html
   console.log("LOG: ")
-  console.log(text)
+  console.log(json)
 
 }
 
 function saveText() {
   console.log("SAVE: ")
-  console.log(txt)
+  console.log(jsonTxt)
+  console.log(htmlTxt)
 }
 
 
