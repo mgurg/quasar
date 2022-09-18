@@ -21,11 +21,9 @@
 </template>
 
 
-
-
 <script setup>
 import { useQuasar } from 'quasar'
-import { onActivated, ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
 import UserEditSkeleton from 'components/skeletons/users/UserEditSkeleton.vue'
 import UserForm from 'src/components/forms/UserForm.vue'
 import { useRoute, useRouter } from "vue-router";
@@ -45,7 +43,6 @@ let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
 let errors = ref(null);
-
 
 
 

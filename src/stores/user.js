@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { api } from "boot/axios";
+import { api, authApi } from "boot/axios";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -91,9 +91,9 @@ export const useUserStore = defineStore("user", {
     },
 
   async setEditorUsers() {
-    const data = await api.get("/fake_users")
-    console.log(data.data);
-    this.editorUsers = data.data;
+    const data = await authApi.get("/users/")
+    console.log(data.data.items);
+    this.editorUsers = data.data.items;
   },
 
   async setEditorGroups() {

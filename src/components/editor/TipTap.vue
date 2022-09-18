@@ -5,7 +5,7 @@
 
 <script setup>
 import { ref, onBeforeMount, onUpdated } from "vue";
-import {useUserStore} from 'stores/user'
+import { useUserStore } from 'stores/user'
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Mention from '@tiptap/extension-mention'
@@ -91,21 +91,21 @@ const editor = useEditor({
       }
     }),
     Mention.extend({
-        name: "userMention"
-      }).configure({
-        HTMLAttributes: {
-          class: "mention"
-        },
-        suggestion: suggestion
-      }),
-      Mention.extend({
-        name: "groupMention"
-      }).configure({
-        HTMLAttributes: {
-          class: "mention"
-        },
-        suggestion: groups
-      })
+      name: "userMention"
+    }).configure({
+      HTMLAttributes: {
+        class: "mention"
+      },
+      suggestion: suggestion
+    }),
+    Mention.extend({
+      name: "groupMention"
+    }).configure({
+      HTMLAttributes: {
+        class: "mention"
+      },
+      suggestion: groups
+    })
   ],
   onCreate({ editor }) {
     const isEmpty = editor.state.doc.textContent.length === 0
@@ -171,13 +171,14 @@ const editor = useEditor({
   >*+* {
     margin-top: 0.75em;
   }
+
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    line-height: 1.1;
+    line-height: 0.4;
   }
 }
 
@@ -198,10 +199,10 @@ const editor = useEditor({
 }
 
 [data-type="groupMention"] {
-  background-color: rgb(236,253,99);
+  background-color: rgb(236, 253, 99);
 }
 
 [data-type="userMention"] {
-  background-color: rgb(82,226,238);
+  background-color: rgb(82, 226, 238);
 }
 </style>

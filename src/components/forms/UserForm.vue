@@ -105,7 +105,7 @@ const props = defineProps({
                 last_name: '',
                 email: '',
                 phone: null,
-                role_FK: null
+                role_FK: {uuid: null}
 
             }
         }
@@ -156,7 +156,7 @@ const validationSchema = yup.object({
     userLastName: yup.string().required(),
     userEmail: yup.string().required(),
     userPhone: yup.string().nullable(),
-    userRole: yup.string().nullable(),
+    userRole: yup.string().required(),
 })
 
 
@@ -172,14 +172,15 @@ const { value: userRole } = useField('userRole', undefined, { initialValue: prop
 
 const submit = handleSubmit(values => {
 
-
-
     let data = {
         "first_name": userFirstName.value,
         "last_name": userLastName.value,
         "email": userEmail.value,
         "phone": userPhone.value,
-        // "user": userRole.value,
+        // "password": "string",
+        // "password_confirmation": "string",
+        // "is_verified": true,
+        "user_role_uuid": userRole.value,
     }
 
 

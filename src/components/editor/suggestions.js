@@ -20,7 +20,7 @@ export default {
 
     return users
       .filter((item) =>
-        item.label.toLowerCase().startsWith(query.toLowerCase())
+        item.first_name.toLowerCase().startsWith(query.toLowerCase())
       )
       .slice(0, 5);
   },

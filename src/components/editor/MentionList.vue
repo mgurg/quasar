@@ -8,7 +8,7 @@
     :key="index"
     @click="selectItem(index)"
   >
-        {{ item.label }}
+        {{ item.first_name }}
       </button>
     </template>
     <div class="item" v-else>
@@ -71,7 +71,7 @@ const enterHandler = () => {
 const selectItem = (index) => {
   const item = props.items[index];
   if (item) {
-    props.command({ id: item.uuid, label: item.label });
+    props.command({ id: item.uuid, label: item.first_name });
   }
 };
 

@@ -13,15 +13,6 @@
                 @userFormBtnClick="addUserButtonPressed"
                 @cancelBtnClick="cancelButtonPressed"
             ></user-form>
-
-            <!-- <task-form
-                button-text="Add"
-                :tasks="{ 'color': 'teal', 'title': 'hi', 'desc': 'hi', 'user': '265c8d5e-2921-4f05-b8f3-91a4512902ed', 'priority': 'low', 'mode': 'task' }"
-                :usersList="[{
-                    label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-                }, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]"
-                @taskFormBtnClick="addUserButtonPressed"
-            ></task-form>-->
         </q-page>
     </div>
 </template>
@@ -67,33 +58,6 @@ function createUser(body) {
 
         });
 }
-
-// function getUsers() {
-//     authApi
-//         .get("user")
-//         .then((res) => {
-//             console.log(res.data)
-
-//             usersList.value = res.data.map((opt) => ({
-//                 label: opt.first_name + ' ' + opt.last_name,
-//                 value: opt.uuid,
-//             }));
-//             console.log("usersList.value");
-//             console.log(usersList.value);
-//             isSuccess.value = true
-//         })
-//         .catch((err) => {
-//             if (err.response) {
-//                 console.log(err.response);
-//             } else if (err.request) {
-//                 console.log(err.request);
-//             } else {
-//                 console.log("General Error");
-//             }
-//         });
-// }
-
-
 
 function addUserButtonPressed(taskForm) {
     console.log('outside', taskForm)
