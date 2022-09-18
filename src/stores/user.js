@@ -92,8 +92,13 @@ export const useUserStore = defineStore("user", {
 
   async setEditorUsers() {
     const data = await authApi.get("/users/")
-    console.log(data.data.items);
-    this.editorUsers = data.data.items;
+    const users = data.data.items;
+    const usersWithFullName = users.map(users => ({
+      uuid: `${users.uuid}`, 
+      label: `${users.first_name} ${users.last_name}`
+    }));
+    console.log(usersWithFullName);
+    this.editorUsers = usersWithFullName;
   },
 
   async setEditorGroups() {

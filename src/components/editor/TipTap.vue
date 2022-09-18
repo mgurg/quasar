@@ -154,55 +154,110 @@ const editor = useEditor({
 </script>
 
 <style lang="scss">
-/* remove outline */
-.ProseMirror:focus {
-  outline: none !important;
-}
-
-/* set */
-// .ProseMirror {        
-//   min-height: 100px;
-//   // max-height: 100px;
-//   overflow: scroll;
-//   outline: none !important;
-// }
-
-.ProseMirror {
-  >*+* {
-    margin-top: 0.75em;
+  /* remove outline */
+  .ProseMirror:focus {
+    outline: none !important;
   }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: 0.4;
+  
+  /* set */
+  // .ProseMirror {        
+  //   min-height: 100px;
+  //   // max-height: 100px;
+  //   overflow: scroll;
+  //   outline: none !important;
+  // }
+  
+  .ProseMirror {
+    >*+* {
+      margin-top: 0.75em;
+    }
+  
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 0.4;
+    }
   }
-}
+  
+  /* Placeholder (on every new line) */
+  .ProseMirror .is-empty::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #ced4da;
+    pointer-events: none;
+    height: 0;
+  }
+  
+  .mention {
+    border: 0px solid #000;
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.3rem;
+    box-decoration-break: clone;
+  }
+  
+  [data-type="groupMention"] {
+    background-color: rgb(236, 253, 99);
+  }
+  
+  [data-type="userMention"] {
+    background-color: rgb(82, 226, 238);
+  }
+  </style>
 
-/* Placeholder (on every new line) */
-.ProseMirror .is-empty::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: #ced4da;
-  pointer-events: none;
-  height: 0;
-}
-
-.mention {
-  border: 0px solid #000;
-  border-radius: 0.4rem;
-  padding: 0.1rem 0.3rem;
-  box-decoration-break: clone;
-}
-
-[data-type="groupMention"] {
-  background-color: rgb(236, 253, 99);
-}
-
-[data-type="userMention"] {
-  background-color: rgb(82, 226, 238);
-}
-</style>
+<style lang="scss" scoped>
+  :deep(.ProseMirror) {
+      /* Basic editor styles */
+      > * + * {
+          margin-top: 0.5em;
+      }
+  
+      &:focus {
+          outline: none;
+      }
+  
+      /* Placeholder (at the top) */
+      p.is-editor-empty:first-child::before {
+          content: attr(data-placeholder);
+          float: left;
+          color: #4280be;
+          pointer-events: none;
+          height: 8rem;
+          outline: none;
+      }
+  
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+          line-height: 0.1;
+      }
+      .mention {
+    border: 0px solid #000;
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.3rem;
+    box-decoration-break: clone;
+  }
+  
+  [data-type="groupMention"] {
+    background-color: rgb(236, 253, 99);
+  }
+  
+  [data-type="userMention"] {
+    background-color: rgb(82, 226, 238);
+  }
+  
+      /* Placeholder (on every new line) */
+      /*.ProseMirror p.is-empty::before {
+        content: attr(data-placeholder);
+        float: left;
+        color: #ced4da;
+        pointer-events: none;
+        height: 0;
+      }*/
+  }
+  </style>

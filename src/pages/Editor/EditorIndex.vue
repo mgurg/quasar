@@ -6,47 +6,34 @@
             <tiptap @editorContent="logText"  />
         </div>
         
-        <q-btn @click="ping">Save</q-btn>
+        <q-btn @click="saveText">Save</q-btn>
         
     </q-page>
     </div>
 </template>
 
 <script setup>
-import { defineComponent } from "vue";
+import { onActivated, reactive, ref } from "vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import { api } from "boot/axios";
 
-
-function ping() {
-    api
-        .get("/")
-        .then((res) => {
-            console.log(res.data);
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-        });
-}
+let txt = null;
 
 function logText(text) {
+  txt = text
   console.log("LOG: ")
   console.log(text)
+
 }
+
+function saveText() {
+  console.log("SAVE: ")
+  console.log(txt)
+}
+
 
 </script>
 
 <style lang="scss">
-/* Basic editor styles */
-.ProseMirror {
-  > * + * {
-    margin-top: 0.75em;
-  }
-}
+
 </style>
