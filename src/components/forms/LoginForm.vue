@@ -57,10 +57,10 @@ import {object, string, bool} from "yup";
 import {useRouter} from "vue-router";
 import {useUserStore} from 'stores/user'
 import {useI18n} from 'vue-i18n';
-import {fr} from 'yup-locales';
+import {pl} from 'yup-locales';
 import {setLocale} from 'yup';
 
-setLocale(fr);
+setLocale(pl);
 
 const {t} = useI18n();
 const someProperty = computed(() => t("Error: Check username & password"));

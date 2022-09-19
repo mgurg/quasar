@@ -83,6 +83,7 @@ const editor = useEditor({
       document: false
     }),
     Placeholder.configure({
+      showOnlyCurrent: false,
       placeholder: ({ node }) => {
         if (node.type.name === 'heading') {
           return "What's the title?"
