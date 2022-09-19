@@ -29,6 +29,30 @@
                 </div>
             </div>
             <div class="row sm-gutter">
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+                    <q-input
+                        v-model="userPassword"
+                        :disable="isLoading"
+                        :error="!!errors.userPassword"
+                        :error-message="errors.userPassword"
+                        :type="isPwd ? 'password' : 'text'"
+                        :label="$t('Password')"
+                        outlined
+                    />
+                </div>
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+                    <q-input
+                        v-model="userPasswordConfirmation"
+                        :disable="isLoading"
+                        :error="!!errors.userPasswordConfirmation"
+                        :error-message="errors.userPasswordConfirmation"
+                        :type="isPwd ? 'password' : 'text'"
+                        :label="$t('Password')"
+                        outlined
+                    />
+                </div>
+            </div>
+            <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-12 col-sm-6">
                     <q-input 
                         outlined 
@@ -122,6 +146,7 @@ const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 let isError = ref(false);
 let isLoading = ref(false);
 let role = ref(null)
+const isPwd = ref('password')
 
 let model = ref(null);
 
@@ -154,7 +179,9 @@ const { resetForm } = useForm();
 const validationSchema = yup.object({
     userFirstName: yup.string().required(),
     userLastName: yup.string().required(),
-    userEmail: yup.string().required(),
+    userPassword: yup.string().required(),
+    userPasswordConfirmation: yup.string().required(),
+    userEmail: yup.string().email().required(),
     userPhone: yup.string().nullable(),
     userRole: yup.string().required(),
 })
@@ -166,6 +193,8 @@ const { handleSubmit, errors } = useForm({
 
 const { value: userFirstName } = useField('userFirstName', undefined, { initialValue: props.user.first_name })
 const { value: userLastName } = useField('userLastName', undefined, { initialValue: props.user.last_name })
+const { value: userPassword } = useField('userPassword', undefined, { initialValue: props.user.first_name })
+const { value: userPasswordConfirmation } = useField('userPasswordConfirmation', undefined, { initialValue: props.user.first_name })
 const { value: userEmail } = useField('userEmail', undefined, { initialValue: props.user.email })
 const { value: userPhone } = useField('userPhone', undefined, { initialValue: props.user.phone })
 const { value: userRole } = useField('userRole', undefined, { initialValue: props.user.role_FK.uuid })
@@ -177,9 +206,9 @@ const submit = handleSubmit(values => {
         "last_name": userLastName.value,
         "email": userEmail.value,
         "phone": userPhone.value,
-        // "password": "string",
-        // "password_confirmation": "string",
-        // "is_verified": true,
+        "password": "string",
+        "password_confirmation": "string",
+        "is_verified": true,
         "user_role_uuid": userRole.value,
     }
 
