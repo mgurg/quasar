@@ -1,6 +1,6 @@
 <template>
     <div>
-        <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+        <q-form autocorrect="off" autocapitalize="off" spellcheck="false" class="q-gutter-md"
             @submit.prevent>
             <div class="row justify-between items-center">
                 <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employees") }}</h5>
@@ -15,6 +15,7 @@
                         :error="!!errors.userFirstName"
                         :error-message="errors.userFirstName" 
                         :label="$t('First name')" 
+                        autocomplete="given-name"
                     />
                 </div>
                 <div class="q-pa-xs col-xs-7 col-sm-6">
@@ -24,20 +25,23 @@
                         :disable="isLoading" 
                         :error="!!errors.userLastName"
                         :error-message="errors.userLastName" 
-                        :label="$t('Last name')" 
+                        :label="$t('Last name')"
+                        autocomplete="family-name" 
                     />
                 </div>
             </div>
             <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-6 col-sm-6">
                     <q-input
+                        outlined
                         v-model="userPassword"
                         :disable="isLoading"
                         :error="!!errors.userPassword"
                         :error-message="errors.userPassword"
                         :type="isPwd ? 'password' : 'text'"
                         :label="$t('Password')"
-                        outlined
+                        
+                        autocomplete="new-password" 
                     />
                 </div>
                 <div class="q-pa-xs col-xs-6 col-sm-6">
