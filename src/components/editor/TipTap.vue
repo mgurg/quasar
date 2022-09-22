@@ -1,10 +1,43 @@
 <template>
   <editor-content :editor="editor" />
+  <div v-if="editor" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
+    <svg
+      height="20"
+      width="20"
+      viewBox="0 0 20 20"
+      class="character-count__graph"
+    >
+      <circle
+        r="10"
+        cx="10"
+        cy="10"
+        fill="#e9ecef"
+      />
+      <circle
+        r="5"
+        cx="10"
+        cy="10"
+        fill="transparent"
+        stroke="currentColor"
+        stroke-width="10"
+        :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`"
+        transform="rotate(-90) translate(-20)"
+      />
+      <circle
+        r="6"
+        cx="10"
+        cy="10"
+        fill="white"
+      />
+    </svg>
+
+    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} characters</div>
+  </div>
   <!-- <q-btn>AAAA</q-btn> -->
 </template>
 
 <script setup>
-import { ref, onBeforeMount, onUpdated } from "vue";
+import { ref, watch ,computed, onUpdated } from "vue";
 import { useUserStore } from 'stores/user'
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
@@ -13,6 +46,7 @@ import Mention from '@tiptap/extension-mention'
 import Document from '@tiptap/extension-document'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
+import CharacterCount from '@tiptap/extension-character-count'
 
 import suggestion from './suggestions'
 import groups from './groups'
@@ -22,8 +56,12 @@ import groups from './groups'
 // https://github.com/ueberdosis/tiptap/issues/1316#issuecomment-851518606
 // https://codesandbox.io/s/bold-voice-l58oq?file=/src/userProvider.js
 
+// https://github.com/Dashibase/lotion/blob/dev/src/components/elements/Editor.vue
+
 // const content = ref('')
 const charCount = ref(0)
+
+const charLimit = ref(2000)
 const UserStore = useUserStore();
 
 async function getEditorUsers() {
@@ -47,6 +85,8 @@ async function getEditorGroups() {
   }
 }
 
+
+
 getEditorUsers();
 getEditorGroups();
 
@@ -61,15 +101,16 @@ const props = defineProps({
   body: {
     type: String,
     default: ''
+  },
+  modelValue: {
+    type: String,
+    default: ''
   }
 })
 
-const CustomDocument = Document.extend({
-  content: 'heading block*'
-})
 
-const editor = useEditor({
-  content: `
+const content = ref(
+        `
         <h4>
         ${props.title}
         </h4>
@@ -77,8 +118,26 @@ const editor = useEditor({
          ${props.body}
         </p>
       `,
+)
+
+if (props.modelValue != null&& props.modelValue != ""){
+  console.log("props")
+  console.log(props.modelValue)
+  content.value = props.modelValue;
+}
+
+
+const CustomDocument = Document.extend({
+  content: 'heading block*'
+})
+
+const editor = useEditor({
+  content: content.value,
   extensions: [
     CustomDocument,
+    CharacterCount.configure({
+          limit: charLimit.value,
+        }),
     StarterKit.configure({
       document: false
     }),
@@ -119,7 +178,7 @@ const editor = useEditor({
     const json = editor.getJSON()
 
     let json_array = json.content
-    console.log(json_array.content)
+    // console.log(json_array.content)
     if (
       Array.isArray(json_array) &&
       json_array[0].hasOwnProperty("content") &&
@@ -134,23 +193,14 @@ const editor = useEditor({
     // emit('editorContent', json)
 
   },
+  
   beforeUnmount() {
     editor.destroy()
   },
 })
 
+const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
 
-
-// watch(
-//     () => props.modelValue,
-//     (value) => {
-//         const isSame = editor.getHTML() === value;
-//         if (isSame) {
-//             return;
-//         }
-//         editor.commands.setContent(value, false);
-//     }
-// );
 
 </script>
 
@@ -206,9 +256,28 @@ const editor = useEditor({
   [data-type="userMention"] {
     background-color: rgb(82, 226, 238);
   }
+  
+  .character-count {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  color: #68CEF8;
+
+  &--warning {
+    color: #FB5151;
+  }
+
+  &__graph {
+    margin-right: 0.5rem;
+  }
+
+  &__text {
+    color: #868e96;
+  }
+}
   </style>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
   :deep(.ProseMirror) {
       /* Basic editor styles */
       > * + * {
@@ -261,4 +330,4 @@ const editor = useEditor({
         height: 0;
       }*/
   }
-  </style>
+  </style> -->

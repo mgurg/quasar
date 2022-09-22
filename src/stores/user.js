@@ -39,9 +39,9 @@ export const useUserStore = defineStore("user", {
           permanent: permanent,
         };
 
-        console.log(body);
+        // console.log(body);
         const data = await api.post("/auth/login", body);
-        console.log(data.data);
+        // console.log(data.data);
         this.token = data.data.auth_token;
         this.firstName = data.data.first_name;
         this.lastName = data.data.last_name;
@@ -97,13 +97,13 @@ export const useUserStore = defineStore("user", {
       uuid: `${users.uuid}`, 
       label: `${users.first_name} ${users.last_name}`
     }));
-    console.log(usersWithFullName);
+    // console.log(usersWithFullName);
     this.editorUsers = usersWithFullName;
   },
 
   async setEditorGroups() {
     const data = await api.get("/fake_groups")
-    console.log(data.data);
+    // console.log(data.data);
     this.editorGroups = data.data;
   },
 

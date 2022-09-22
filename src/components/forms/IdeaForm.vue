@@ -270,8 +270,8 @@ const { handleReset } = useForm();
 
 const validationSchema = yup.object({
   ideaColor: yup.string().required(),
-  ideaTitle: yup.string().required(),
-  ideaDescription: yup.string().required('A cool description is required').min(3),
+  ideaTitle: yup.string(),//.required(),
+  ideaDescription: yup.string(), //.required('A cool description is required').min(3),
   email: yup.string().nullable().test(
     "check-startdate",
     "Start Date should not be later than current date",
@@ -301,8 +301,9 @@ const submit = handleSubmit(values => {
 
   let data = {
     "color": ideaColor.value,
-    "title": ideaTitle.value,
-    "description": ideaDescription.value,
+    "title": "ideaTitle.value",
+    "description": "ideaDescription.value",
+    "body_json": jsonTxt,
     "files": attachments.value.map(a => a.uuid)
   }
 

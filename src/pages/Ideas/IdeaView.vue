@@ -9,6 +9,7 @@
         </q-breadcrumbs>
       </div>
 
+
       <q-card class="my-card" bordered flat v-if="ideaDetails && !isLoading">
         <q-item>
           <q-item-section avatar>
@@ -43,7 +44,13 @@
             </div>
           </div>
 
-          <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section>
+          <!-- <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section> -->
+
+          <div style="border: 0px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
+        <tiptap v-model="json"/>
+      </div>
+
+
           <q-card-actions align="right" v-if="ideaDetails.status!='pending'"> <!-- hasPermission('IDEAS_VOTE') && -->
             <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')" 
             :disable="lastVote=='down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
@@ -107,6 +114,7 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
+import Tiptap from 'src/components/editor/TipTap.vue'
 import { useUserStore } from 'stores/user'
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
@@ -114,6 +122,10 @@ import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
 
 const UserStore = useUserStore();
 
+
+// const json = {"type": "doc", "content": [{"type": "heading", "attrs": {"level": 4}, "content": [{"type": "text", "text": "ADD"}]}, {"type": "paragraph", "content": [{"type": "text", "text": "TASK"}]}]}
+
+const json = ref(null);
 let isLoading = ref(false);
 let dialog = ref(false);
 
@@ -151,6 +163,7 @@ function getDetails(uuid) {
       console.log(uuid);
       console.log(res.data);
       ideaDetails.value = res.data;
+      json.value = res.data.body_json;
       isLoading.value = false;
     })
     .catch((err) => {
