@@ -57,6 +57,7 @@ import groups from './groups'
 // https://codesandbox.io/s/bold-voice-l58oq?file=/src/userProvider.js
 
 // https://github.com/Dashibase/lotion/blob/dev/src/components/elements/Editor.vue
+// https://github.com/Wizard-wen/Metagraph/blob/main/src/views/repository-editor/section-article/tiptap-readonly.vue
 
 // const content = ref('')
 const charCount = ref(0)
@@ -111,9 +112,9 @@ const props = defineProps({
 
 const content = ref(
         `
-        <h4>
+        <h1>
         ${props.title}
-        </h4>
+        </h1>
         <p>
          ${props.body}
         </p>
@@ -221,15 +222,26 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   .ProseMirror {
     >*+* {
       margin-top: 0.75em;
+      color: #1f2937!important;
     }
   
-    h1,
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    
+    }
     h2,
     h3,
-    h4,
+    h4{
+      font-size: 1rem;
+    }
     h5,
     h6 {
       line-height: 0.4;
+    }
+    p{
+      font-size: 1.1rem;
     }
   }
   
