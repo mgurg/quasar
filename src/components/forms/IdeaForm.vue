@@ -22,7 +22,7 @@
       </div>
 
       <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-        <tiptap @editorContent="logText" />
+        <tiptap @editorContent="logText"  />
       </div>
 
       <!-- <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
@@ -35,6 +35,13 @@
           <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
         </template>
       </q-input> -->
+
+      <!-- QFILE -->
+      <q-file outlined v-model="fileToUpload" label="Standard" >
+        <template v-slot:prepend>
+          <q-icon name="attach_file" />
+        </template>
+      </q-file>
 
       <!-- UPLOADER -->
       <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file" label="No thumbnails"
@@ -142,6 +149,7 @@ let attachments = ref(props.idea.file);
 
 let jsonTxt = null;
 let htmlTxt = null;
+const fileToUpload = ref(null);
 
 function logText(json, html) 
 {
@@ -304,6 +312,7 @@ const submit = handleSubmit(values => {
     "title": "ideaTitle.value",
     "description": "ideaDescription.value",
     "body_json": jsonTxt,
+    "body_html": htmlTxt,
     "files": attachments.value.map(a => a.uuid)
   }
 

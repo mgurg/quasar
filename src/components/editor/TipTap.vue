@@ -1,6 +1,6 @@
 <template>
   <editor-content :editor="editor" />
-  <div v-if="editor" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
+  <div v-if="editor && props.readonly == false" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
     <svg
       height="20"
       width="20"
@@ -104,9 +104,13 @@ const props = defineProps({
     default: ''
   },
   modelValue: {
-    type: String,
-    default: ''
-  }
+    type: Object,
+    default: null
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 
@@ -121,9 +125,7 @@ const content = ref(
       `,
 )
 
-if (props.modelValue != null&& props.modelValue != ""){
-  console.log("props")
-  console.log(props.modelValue)
+if (props.modelValue != null && props.modelValue != ""){
   content.value = props.modelValue;
 }
 
@@ -169,6 +171,8 @@ const editor = useEditor({
     })
   ],
   onCreate({ editor }) {
+    editor.setEditable(!props.readonly);
+    editor.commands.setContent(content.value);
     const isEmpty = editor.state.doc.textContent.length === 0
     console.log(isEmpty)
   },

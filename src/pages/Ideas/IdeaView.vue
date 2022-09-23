@@ -47,7 +47,7 @@
           <!-- <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section> -->
 
           <div style="border: 0px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-        <tiptap v-model="json"/>
+        <tiptap :model-value="json" :readonly=true />
       </div>
 
 
