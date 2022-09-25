@@ -56,7 +56,7 @@
         >
           <q-linear-progress
             class="absolute-full full-height"
-            :value="0.1"
+            :value="uploadProgress"
             color="green-2"
             track-color="grey-2"
           />
@@ -292,6 +292,7 @@ function cancelButtonHandle() {
 // ---------------- FILE UPLOAD ----------------
 
 const isUploading = ref(false);
+const uploadProgress = ref(0.1)
 
 function cancelFile (index) {
   files.value = null
@@ -323,7 +324,8 @@ const compressorFn = () => {
           // fileToBase64(result, (data) => {
           //   compressObj.url = data;
           // });
-
+          
+          uploadProgress.value = 0.5
 
           // size check
           let img = new Image();
@@ -336,7 +338,8 @@ const compressorFn = () => {
           console.log(result.size, result.type, result.name, result.lastModified)
           // console.log(token)
 
-          updateFiles();
+          // uploadFile();
+          // cancelFile();
         },
         error(err) {
           console.log(err.message);
@@ -349,7 +352,7 @@ const compressorFn = () => {
     //   // compressorFn();
     // });
 
-function  updateFiles (file) {
+function  uploadFile (file) {
   // console.log(file)
   console.log(files.value)
 
@@ -391,39 +394,11 @@ function  updateFiles (file) {
           isLoading.value = false;
         });  
 
-  //   new Compressor(files.value, {
-  //   quality: 0.6,
-  //   maxWidth: 1600,
-  //   mimeType: 'image/jpeg',
-  //   success(result) {
-  //     const formData = new FormData();
-
-  //     // The third parameter is required for server
-  //     formData.append('file', result, result.name);
-
-  //     // size check
-  //     let img = new Image();
-  //     let objectURL = URL.createObjectURL(result);
-  //     img.onload = function () {
-  //       console.log(img.width, img.height)
-  //     }
-  //     img.src = objectURL
-
-  //     console.log(result.size, result.type, result.name, result.lastModified)
-  //     console.log(token)
-
-
-
-
-  //   },
-  //   error(err) {
-  //     console.log(err.message);
-  //   },
-  // });
-    
+   
 
 }
 // https://github.com/sjq4499/vite-vue3/blob/8ffaf0cda0cf6d15e30242d97d6d2eaa824f1eb6/src/views/tool/compressImages.vue
+// https://github.com/H37kouya/miya-meshi/blob/736598180c428465628c14ca165831c04961d12f/admin/components/organisms/file/UploadImageFile.vue
 </script>
 
 
