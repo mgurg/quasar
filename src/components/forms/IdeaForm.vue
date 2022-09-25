@@ -44,6 +44,7 @@
       @update:model-value="updateFiles" 
       label="Standard"
       style="max-width: 400px" 
+      v-if="attachments.length < 4"
       >
       <template v-slot:file="{ index, file }">
         <q-chip
@@ -77,9 +78,9 @@
 
 
       <!-- UPLOADER -->
-      <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file" label="No thumbnails"
+      <!-- <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file" label="No thumbnails"
         color="amber" accept=".jpg, image/*" flat bordered text-color="black" no-thumbnails style="width: auto;"
-        v-if="attachments.length < 4" />
+        v-if="attachments.length < 4" /> -->
 
       <!-- IMG -->
       <div class="row q-col-gutter-xs">
@@ -192,86 +193,11 @@ function logText(json, html)
 
 // --------------- UPLOADER ---------------
 
-function uploadFile(file) {
 
-  let token = props.token
-  if (props.token == null)
-    token = UserStore.getToken
-
-  let tenant_id = props.tenant_id
-  if (props.tenant_id == null)
-    tenant_id = UserStore.getTenant
-
-  new Compressor(file[0], {
-    quality: 0.6,
-    maxWidth: 1600,
-    mimeType: 'image/jpeg',
-    success(result) {
-      const formData = new FormData();
-
-      // The third parameter is required for server
-      formData.append('file', result, result.name);
-
-      // size check
-      let img = new Image();
-      let objectURL = URL.createObjectURL(result);
-      img.onload = function () {
-        console.log(img.width, img.height)
-      }
-      img.src = objectURL
-
-      console.log(result.size, result.type, result.name, result.lastModified)
-      console.log(token)
-
-      isLoading.value = true;
-      api
-        .post(process.env.VUE_APP_URL + "/files/", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer ' + token,
-            'tenant': tenant_id
-          }
-        })
-        .then((res) => {
-          attachments.value.push(res.data)
-          console.log(res.data)
-          console.log(attachments.value)
-          uploader.value.reset()
-          isLoading.value = false;
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-          isLoading.value = false;
-        });
-
-
-    },
-    error(err) {
-      console.log(err.message);
-    },
-  });
-
-}
 
 
 let uploader = ref("");
 
-function uploadFinished() {
-  return new Promise((resolve) => {
-    // simulating a delay of 2 seconds
-    setTimeout(() => {
-      resolve(
-        uploader.value.reset()
-      )
-    }, 1000)
-  })
-}
 
 function delete_file(uuid) {
   api
