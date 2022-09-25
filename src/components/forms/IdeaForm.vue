@@ -40,16 +40,17 @@
       <div class="column items-start q-gutter-y-xs  ">
       <q-file 
       outlined 
-      v-model="fileToUpload" 
-      @update:model-value="updateFiles" 
-      label="Standard"
+      v-model="files" 
+      @update:model-value="compressorFn" 
+      label="Pick files"
+      :clearable="!isUploading"
       style="max-width: 400px" 
       v-if="attachments.length < 4"
       >
       <template v-slot:file="{ index, file }">
         <q-chip
           class="full-width q-my-xs"
-          :removable="true"
+          :removable="isUploading"
           @remove="cancelFile(index)"
           square
         >
@@ -76,6 +77,7 @@
       </q-file>
       </div>
 
+      {{compressor}}
 
       <!-- UPLOADER -->
       <!-- <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file" label="No thumbnails"
@@ -120,7 +122,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, reactive, watch } from "vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
@@ -183,7 +185,7 @@ let attachments = ref(props.idea.file);
 
 let jsonTxt = null;
 let htmlTxt = null;
-const fileToUpload = ref(null);
+const files = ref(null);
 
 function logText(json, html) 
 {
@@ -286,13 +288,70 @@ function cancelButtonHandle() {
   emit('cancelBtnClick')
 }
 
+
+// ---------------- FILE UPLOAD ----------------
+
+const isUploading = ref(false);
+
 function cancelFile (index) {
-  fileToUpload.value = null
+  files.value = null
       }
 
+let progress = ref(60);
+const compressor = ref(null);
+let compressObj = reactive({
+      size: 0,
+      file: "",
+      name:"",
+    });
+
+
+const compressorFn = () => {
+      let file = files.value;
+      console.log(files.value);
+      if (!file) {
+        return;
+      }
+      compressor.value = new Compressor(file, {
+        quality: 0.6,
+        maxWidth: 1600,
+        mimeType: 'image/jpeg',
+        success(result) {
+          compressObj.file = result;
+          compressObj.name = result.name
+          // compressObj.size = Math.round((result.size / 1024) * 100) / 100;
+          // fileToBase64(result, (data) => {
+          //   compressObj.url = data;
+          // });
+
+
+          // size check
+          let img = new Image();
+          let objectURL = URL.createObjectURL(result);
+          img.onload = function () {
+            console.log(img.width, img.height)
+          }
+          img.src = objectURL
+
+          console.log(result.size, result.type, result.name, result.lastModified)
+          // console.log(token)
+
+          updateFiles();
+        },
+        error(err) {
+          console.log(err.message);
+        },
+      });
+    };
+
+    // watch(compressorFn, (newV, oldV) => {
+    //   console.log("watch: " + newV +' / ' + oldV)
+    //   // compressorFn();
+    // });
+
 function  updateFiles (file) {
-  console.log(file)
-  console.log(fileToUpload.value)
+  // console.log(file)
+  console.log(files.value)
 
   let token = props.token
   if (props.token == null)
@@ -302,28 +361,10 @@ function  updateFiles (file) {
   if (props.tenant_id == null)
     tenant_id = UserStore.getTenant
 
-    new Compressor(fileToUpload.value, {
-    quality: 0.6,
-    maxWidth: 1600,
-    mimeType: 'image/jpeg',
-    success(result) {
-      const formData = new FormData();
+    const formData = new FormData();
+    formData.append('file', compressObj.file, compressObj.name); // The third parameter is required for server
 
-      // The third parameter is required for server
-      formData.append('file', result, result.name);
-
-      // size check
-      let img = new Image();
-      let objectURL = URL.createObjectURL(result);
-      img.onload = function () {
-        console.log(img.width, img.height)
-      }
-      img.src = objectURL
-
-      console.log(result.size, result.type, result.name, result.lastModified)
-      console.log(token)
-
-      isLoading.value = true;
+    isLoading.value = true;
       api
         .post(process.env.VUE_APP_URL + "/files/", formData, {
           headers: {
@@ -348,14 +389,37 @@ function  updateFiles (file) {
             console.log("General Error");
           }
           isLoading.value = false;
-        });
+        });  
+
+  //   new Compressor(files.value, {
+  //   quality: 0.6,
+  //   maxWidth: 1600,
+  //   mimeType: 'image/jpeg',
+  //   success(result) {
+  //     const formData = new FormData();
+
+  //     // The third parameter is required for server
+  //     formData.append('file', result, result.name);
+
+  //     // size check
+  //     let img = new Image();
+  //     let objectURL = URL.createObjectURL(result);
+  //     img.onload = function () {
+  //       console.log(img.width, img.height)
+  //     }
+  //     img.src = objectURL
+
+  //     console.log(result.size, result.type, result.name, result.lastModified)
+  //     console.log(token)
 
 
-    },
-    error(err) {
-      console.log(err.message);
-    },
-  });
+
+
+  //   },
+  //   error(err) {
+  //     console.log(err.message);
+  //   },
+  // });
     
 
 }
