@@ -37,11 +37,44 @@
       </q-input> -->
 
       <!-- QFILE -->
-      <q-file outlined v-model="fileToUpload" label="Standard" >
-        <template v-slot:prepend>
-          <q-icon name="attach_file" />
-        </template>
+      <div class="column items-start q-gutter-y-xs  ">
+      <q-file 
+      outlined 
+      v-model="fileToUpload" 
+      @update:model-value="updateFiles" 
+      label="Standard"
+      style="max-width: 400px" 
+      >
+      <template v-slot:file="{ index, file }">
+        <q-chip
+          class="full-width q-my-xs"
+          :removable="true"
+          @remove="cancelFile(index)"
+          square
+        >
+          <q-linear-progress
+            class="absolute-full full-height"
+            :value="0.1"
+            color="green-2"
+            track-color="grey-2"
+          />
+
+          <q-avatar>
+            <q-icon name="movie" />
+          </q-avatar>
+
+          <div class="ellipsis relative-position">
+            {{ file.name }}
+          </div>
+
+          <q-tooltip>
+            {{ file.name }}
+          </q-tooltip>
+        </q-chip>
+      </template>
       </q-file>
+      </div>
+
 
       <!-- UPLOADER -->
       <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file" label="No thumbnails"
@@ -327,6 +360,80 @@ function cancelButtonHandle() {
   emit('cancelBtnClick')
 }
 
+function cancelFile (index) {
+  fileToUpload.value = null
+      }
+
+function  updateFiles (file) {
+  console.log(file)
+  console.log(fileToUpload.value)
+
+  let token = props.token
+  if (props.token == null)
+    token = UserStore.getToken
+
+  let tenant_id = props.tenant_id
+  if (props.tenant_id == null)
+    tenant_id = UserStore.getTenant
+
+    new Compressor(fileToUpload.value, {
+    quality: 0.6,
+    maxWidth: 1600,
+    mimeType: 'image/jpeg',
+    success(result) {
+      const formData = new FormData();
+
+      // The third parameter is required for server
+      formData.append('file', result, result.name);
+
+      // size check
+      let img = new Image();
+      let objectURL = URL.createObjectURL(result);
+      img.onload = function () {
+        console.log(img.width, img.height)
+      }
+      img.src = objectURL
+
+      console.log(result.size, result.type, result.name, result.lastModified)
+      console.log(token)
+
+      isLoading.value = true;
+      api
+        .post(process.env.VUE_APP_URL + "/files/", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + token,
+            'tenant': tenant_id
+          }
+        })
+        .then((res) => {
+          attachments.value.push(res.data)
+          console.log(res.data)
+          console.log(attachments.value)
+          uploader.value.reset()
+          isLoading.value = false;
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+          isLoading.value = false;
+        });
+
+
+    },
+    error(err) {
+      console.log(err.message);
+    },
+  });
+    
+
+}
+// https://github.com/sjq4499/vite-vue3/blob/8ffaf0cda0cf6d15e30242d97d6d2eaa824f1eb6/src/views/tool/compressImages.vue
 </script>
 
 
