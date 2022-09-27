@@ -231,7 +231,7 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   
     h1 {
       font-size: 2rem;
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1;
     
     }
