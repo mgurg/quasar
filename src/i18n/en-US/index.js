@@ -93,4 +93,16 @@ export default {
 	"New permission": `New permission`,
 	"Name": `Name`,
 	"Description": `Description`,
+
+	// groups
+	"Groups": `Groups`,
+	"Group": `Group`,
+	"New Group": `New Group`,
+	"Name": `Name`,
+	"Description": `Description`,
+	"No groups, add a first one!": `No groups, add a first one!`,
+
+	// TipTap
+	"What's the title?": `What's the title?`,
+	"Can you add some further context? Use @ to mention users, # for groups": `Can you add some further context? Use @ to mention users, # for groups`,
 }

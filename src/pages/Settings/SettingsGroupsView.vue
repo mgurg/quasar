@@ -35,15 +35,15 @@
             />
 
         <q-list>
-          <div v-for="(permission, index) in allPermissions" v-bind:key="index">
+          <div v-for="(user, index) in allUsers" v-bind:key="index">
             <q-item tag="label" v-ripple>
               <q-item-section avatar top>
-                <q-checkbox v-model="color" :val="permission.uuid" :disable="!allowEdit" color="cyan" />
+                <q-checkbox v-model="color" :val="user.uuid" :disable="!allowEdit" color="cyan" />
               </q-item-section>
               <q-item-section>
-                <q-item-label>{{permission.title}}</q-item-label>
+                <q-item-label>{{user.first_name}} {{user.last_name}}</q-item-label>
                 <q-item-label caption>
-                  {{permission.description}}
+                  {{user.description}}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -98,19 +98,20 @@ let slide = ref(1);
 
 
 const route = useRoute();
-let permisionUuid = ref(route.params.uuid)
+let groupUuid = ref(route.params.uuid)
 let roleDetails = ref(null);
-let allPermissions = ref(null);
+let allUsers = ref(null);
 let allowEdit = ref("false")
 
 let color = ref([])
 
 function getRoleDetails(uuid) {
+
   if (uuid ==null || uuid == 'undefined' ){
     console.log('uF')
     return;
   }
-  
+
   authApi
     .get("/permissions/" + uuid)
     .then((res) => {
@@ -135,12 +136,12 @@ function getRoleDetails(uuid) {
     });
 }
 
-function getAllPermissions() {
+function getAllUsers() {
   authApi
-    .get("/permissions/all")
+    .get("/users/")
     .then((res) => {
       console.log(res.data);
-      allPermissions.value = res.data;
+      allUsers.value = res.data.items;
       isLoading.value = false;
     })
     .catch((err) => {
@@ -154,7 +155,7 @@ function getAllPermissions() {
     });
 }
 
-function AddNewPermission(data){
+function addNewGroup(data){
   isLoading.value = true;
   console.log('adding permissions');
   authApi
@@ -182,8 +183,10 @@ function editUser(uuid) {
 
 onBeforeMount(() => {
   isLoading.value = true;
-  getAllPermissions();
+  getAllUsers();
   getRoleDetails(route.params.uuid);
+
+  
 });
 
 // --------------------------------
@@ -210,7 +213,7 @@ const submit = handleSubmit(values => {
         "permissions": JSON.parse(JSON.stringify(color.value))
     }
 
-    AddNewPermission(data);
+    addNewGroup(data);
     console.log('submit');
     console.log(data)
     emit('userFormBtnClick', data)

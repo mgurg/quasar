@@ -90,3 +90,15 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """New permission""",New permission,Nouvelle autorisation,Neue Erlaubnis,Nowe pozwolenie
 """Name""",Name,Nom,Name,Nazwa
 """Description""",Description,La description,Beschreibung,Opis
+,,,,
+#groups,,,,
+"""Groups""",Groups,Groupes,Gruppen,Grupy
+"""Group""",Group,Groupe,Gruppe,Grupa
+"""New Group""",New Group,Nouveau groupe,Neue Gruppe,Nowa grupa
+"""Name""",Name,Nom,Name,Nazwa
+"""Description""",Description,La description,Beschreibung,Opis
+"""No groups, add a first one!""","No groups, add a first one!","Pas de groupes, ajoutez-en un premier!","Keine Gruppen, füge einen ersten hinzu!","Bez grup, dodaj pierwszy!"
+,,,,
+#TipTap,,,,
+"""What's the title?""",What's the title?,Quel est le titre?,Wie lautet der Titel?,Jaki jest tytuł?
+"""Can you add some further context? Use @ to mention users, # for groups""","Can you add some further context? Use @ to mention users, # for groups","Pouvez-vous ajouter un contexte supplémentaire? Utiliser @ pour mentionner les utilisateurs, # pour les groupes","Können Sie einen weiteren Kontext hinzufügen? Verwenden Sie @, um Benutzer zu erwähnen, # für Gruppen","Czy możesz dodać jakiś dalszy kontekst? Użyj @, aby wspomnieć o użytkownikach, # dla grup"

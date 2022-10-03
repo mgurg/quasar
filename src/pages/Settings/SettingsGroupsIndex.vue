@@ -5,45 +5,22 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"  />
+          <q-breadcrumbs-el :label="$t('Groups')" icon="info" />
         </q-breadcrumbs>
       </div>
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Permissions") }}</p></div>
+        <div class="col-6"><p class="text-h4">{{ $t("Groups") }}</p></div>
         <div class="col-6">
           <!-- v-if="hasPermission('USERS_ADD')"  -->
-          <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/settings/permissions/add" color="primary" no-caps>
-          {{ $t("New permission") }}
+          <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/settings/groups/add" color="primary" no-caps>
+          {{ $t("New Group") }}
           </q-btn></div>
       </div>
 
-      <q-list padding v-if="!isLoading">
-      <q-item class="bg-blue-grey-1 rounded-borders">
-        <q-item-section avatar>
-
-        </q-item-section>
-        <q-item-section>
-          <span>{{ $t("Name") }} 
-            <q-btn 
-            padding="xs" 
-            :unelevated="sort.active=='title'? true:false" 
-            :flat="sort.active=='title'? false:true" 
-            size="sm" 
-            color="primary" 
-            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('title')" />
-          </span>
-          
-        </q-item-section>
-        <q-item-section side>
-
-        </q-item-section>
-      </q-item>
-        <div v-for="(permission, index) in permissions" v-bind:key="index">
-        <permission-item @selectedItem="selectPermission" @refreshList="fetchPermissions" :permission="permission" :selected="selected" v-if="!isLoading"></permission-item>
-        </div>
-
-      </q-list>
+     
+      <div class="text-h5 text-center q-pa-lg">  <!--  v-if="groups.length == 0"-->
+        {{ $t("No groups, add a first one!") }} 🚀
+      </div>
 
 
     </q-page>
@@ -54,9 +31,9 @@
 import { ref, reactive, computed, watch,onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'
-import PermissionItem from 'components/PermissionItem.vue'
 
 const $q = useQuasar()
+
 let isLoading = ref(false);
 let selected = ref(null);
 
@@ -88,19 +65,19 @@ function selectPermission(uuid) {
 
 // watch(() => pagination.page, (oldPage, newPage) => {
 //   console.log(oldPage, newPage);
-//   fetchPermissions();
+//   fetchGroups();
 // })
 
-const permissions = ref(null);
+const groups = ref(null);
 
-function fetchPermissions() {
+function fetchGroups() {
   isLoading.value = true;
-  console.log('fetching permissions');
+  console.log('fetching groups');
     // let params = {page: pagination.page, size: pagination.size };
   authApi
-    .get("/permissions/")
+    .get("/groups/")
     .then((res) => {
-      permissions.value = res.data
+      groups.value = res.data
       // pagination.total = res.data.total
       console.log(res.data);
       isLoading.value = false;
@@ -118,8 +95,8 @@ function fetchPermissions() {
 
 
 onBeforeMount(() => {
-  console.log('b')
-  fetchPermissions();
+  console.log('Groups')
+  fetchGroups();
 });
 
 
