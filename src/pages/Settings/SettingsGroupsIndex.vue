@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Groups')" icon="info" />
+          <q-breadcrumbs-el :label="$t('Groups')" icon="info" to="/settings/groups"  />
         </q-breadcrumbs>
       </div>
       <div class="row justify-around q-mt-sm">
@@ -17,8 +17,34 @@
           </q-btn></div>
       </div>
 
-     
-      <div class="text-h5 text-center q-pa-lg">  <!--  v-if="groups.length == 0"-->
+      <q-list padding v-if="!isLoading">
+      <q-item class="bg-blue-grey-1 rounded-borders">
+        <q-item-section avatar>
+
+        </q-item-section>
+        <q-item-section>
+          <span>{{ $t("Name") }} 
+            <q-btn 
+            padding="xs" 
+            :unelevated="sort.active=='title'? true:false" 
+            :flat="sort.active=='title'? false:true" 
+            size="sm" 
+            color="primary" 
+            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('title')" />
+          </span>
+          
+        </q-item-section>
+        <q-item-section side>
+
+        </q-item-section>
+      </q-item>
+      <div v-for="(group, index) in groups" v-bind:key="index">
+        <group-item @selectedItem="selectGroup" @refreshList="fetchGroups" :group="group" :selected="selected" v-if="!isLoading">
+        </group-item>
+        </div>
+      </q-list>
+      <div  v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
         {{ $t("No groups, add a first one!") }} 🚀
       </div>
 
@@ -31,6 +57,7 @@
 import { ref, reactive, computed, watch,onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'
+import GroupItem from 'components/GroupItem.vue'
 
 const $q = useQuasar()
 
@@ -42,7 +69,7 @@ let sort = reactive({
   active: "name"
 })
 
-function selectPermission(uuid) {
+function selectGroup(uuid) {
   if (selected.value == null) {
     selected.value = uuid;
   } else if (selected.value !== uuid) {
@@ -68,7 +95,7 @@ function selectPermission(uuid) {
 //   fetchGroups();
 // })
 
-const groups = ref(null);
+const groups = ref(0);
 
 function fetchGroups() {
   isLoading.value = true;

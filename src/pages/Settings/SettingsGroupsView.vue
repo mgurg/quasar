@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"  />
+          <q-breadcrumbs-el :label="$t('Groups')" icon="info" to="/settings/groups"  />
           <q-breadcrumbs-el :label="$t('View')" icon="info" />
         </q-breadcrumbs>
       </div>
@@ -17,20 +17,20 @@
 
         <q-input
                 outlined
-                v-model="roleName"
+                v-model="groupName"
                 :disable="isLoading"
                 :readonly="!allowEdit"
-                :error="!!errors.roleName"
-                :error-message="errors.roleName"
+                :error="!!errors.groupName"
+                :error-message="errors.groupName"
                 :label="$t('Name')"
             />
             <q-input
                 outlined
-                v-model="roleDescription"
+                v-model="groupDescription"
                 :disable="isLoading"
                 :readonly="!allowEdit"
-                :error="!!errors.roleDescription"
-                :error-message="errors.roleDescription"
+                :error="!!errors.groupDescription"
+                :error-message="errors.groupDescription"
                 :label="$t('Description')"
             />
 
@@ -113,16 +113,16 @@ function getRoleDetails(uuid) {
   }
 
   authApi
-    .get("/permissions/" + uuid)
+    .get("/groups/" + uuid)
     .then((res) => {
       console.log(uuid);
       console.log(res.data);
-      color.value = res.data.permission.map(value => value.uuid)
+      color.value = res.data.users.map(value => value.uuid)
       console.log(color.value);
       roleDetails.value = res.data;
-      roleName.value = res.data.role_title
-      roleDescription.value = res.data.role_description
-      allowEdit.value = res.data.is_custom
+      groupName.value = res.data.name
+      groupDescription.value = res.data.description
+      // allowEdit.value = res.data.is_custom
       isLoading.value = false;
     })
     .catch((err) => {
@@ -157,14 +157,13 @@ function getAllUsers() {
 
 function addNewGroup(data){
   isLoading.value = true;
-  console.log('adding permissions');
+  console.log('adding Group');
   authApi
-    .post("/permissions/", data)
+    .post("/groups/", data)
     .then((res) => {
-      // permissions.value = res.data
-      // pagination.total = res.data.total
       console.log(res.data);
       isLoading.value = false;
+      router.push("/settings/groups");
     })
     .catch((err) => {
       if (err.response) {
@@ -194,8 +193,8 @@ onBeforeMount(() => {
 const { resetForm } = useForm();
 
 const validationSchema = yup.object({
-    roleName: yup.string().required(),
-    roleDescription: yup.string().required(),
+    groupName: yup.string().required(),
+    groupDescription: yup.string().required(),
 })
 
 
@@ -203,14 +202,14 @@ const { handleSubmit, errors } = useForm({
     validationSchema
 })
 
-const { value: roleName } = useField('roleName', undefined, { initialValue: props.role.role_name })
-const { value: roleDescription } = useField('roleDescription', undefined, { initialValue: props.role.role_description })
+const { value: groupName } = useField('groupName', undefined, { initialValue: props.role.role_name })
+const { value: groupDescription } = useField('groupDescription', undefined, { initialValue: props.role.role_description })
 
 const submit = handleSubmit(values => {
     let data = {
-        "title": roleName.value,
-        "description": roleDescription.value,
-        "permissions": JSON.parse(JSON.stringify(color.value))
+        "name": groupName.value,
+        "description": groupDescription.value,
+        "users": JSON.parse(JSON.stringify(color.value))
     }
 
     addNewGroup(data);
