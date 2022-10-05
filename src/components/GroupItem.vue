@@ -2,7 +2,7 @@
     <div @click="handleSelect(group.uuid)">
         <q-item :class="{ 'done bg-blue-1': group.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewGroup(group.uuid)">
-                <q-avatar rounded color="grey-6" text-color="white">💡
+                <q-avatar rounded color="blue-grey-11" text-color="white">💡
                     <q-badge v-if="group.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
                 </q-avatar>
             </q-item-section>
