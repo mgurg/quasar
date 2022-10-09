@@ -105,7 +105,6 @@ let step= ref(1)
 // UserStore.autoLogin();
 
 if (UserStore.isAuthenticated == true) {
-    console.log('Zalogowany')
     router.push({ path: "/home" });
 } else {
     console.log('Czeka na logowanie')

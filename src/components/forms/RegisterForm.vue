@@ -291,7 +291,7 @@ const submit = handleSubmit((values) => {
     tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Warsaw",
     lang: getLocale(),
   };
-  console.log(data);
+
 
   registerAdmin(data);
 });

@@ -62,6 +62,20 @@ export default boot(({ app, router }) => {
     }
   );
 
+  api.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      if (err.response.status === 401) {
+        // deleteUserToken();
+        // history.push(Routes.Login);
+        console.log("unauth interceptor " + err.response.status);
+        UserStore.logoutUser();
+        router.replace("/login");
+      }
+      return Promise.reject(err);
+    }
+  );
+
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;

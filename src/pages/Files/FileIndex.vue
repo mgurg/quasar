@@ -100,7 +100,6 @@ let dialog = ref(false)
 
 
 function uploadFile(file, token = null, tenant_id=null) {
-  console.log('AXIOS upload files')
 
   // let formData = new FormData()
   // formData.append('file', file[0])
@@ -108,7 +107,6 @@ function uploadFile(file, token = null, tenant_id=null) {
   if (token == null)
     token = UserStore.getToken
 
-  console.log('Bearer', token)
   new Compressor(file[0], {
     quality: 0.6,
     maxWidth: 1600,
@@ -135,7 +133,7 @@ function uploadFile(file, token = null, tenant_id=null) {
           }
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
         })
         .catch((err) => {
           if (err.response) {

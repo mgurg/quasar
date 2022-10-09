@@ -87,6 +87,8 @@ const props = defineProps({
         default: 'Save',
     },
 })
+
+
 const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 
 const router = useRouter();
@@ -99,6 +101,12 @@ let slide = ref(1);
 
 const route = useRoute();
 let groupUuid = ref(route.params.uuid)
+
+if (!!groupUuid.value){
+  // props.buttonText = "Edit";
+  
+  console.log("EDIT!");
+}
 let roleDetails = ref(null);
 let allUsers = ref(null);
 let allowEdit = ref("false")
@@ -176,6 +184,27 @@ function addNewGroup(data){
     });
 }
 
+function editExistingGroup(data, uuid){
+  isLoading.value = true;
+  console.log('editing Group');
+  authApi
+    .patch("/groups/" + uuid, data)
+    .then((res) => {
+      console.log(res.data);
+      isLoading.value = false;
+      router.push("/settings/groups");
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
+
 function editUser(uuid) {
   router.push("/users/edit/" + uuid);
 }
@@ -212,10 +241,19 @@ const submit = handleSubmit(values => {
         "users": JSON.parse(JSON.stringify(color.value))
     }
 
+    
+
+    if (!!groupUuid.value){
+      console.log('submit PATCH');
+      console.log(groupUuid.value);
+      editExistingGroup(data, groupUuid.value)
+    } else{
     addNewGroup(data);
-    console.log('submit');
+    console.log('submit POST');
     console.log(data)
     emit('userFormBtnClick', data)
+    }
+
 })
 
 function  cancelButtonHandle()

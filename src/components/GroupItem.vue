@@ -19,7 +19,8 @@
             <q-item-section side v-if="group.uuid === selected">
                 <div class="text-grey-8 q-gutter-xs">
                     <q-btn size="12px" flat dense round icon="edit" @click="editGroup(group.uuid)" v-if="(group.is_custom == true)" />
-                    <q-btn size="12px" flat dense round icon="delete" @click="deleteGroup(group.uuid)" v-if="(group.is_custom == true) && hasPermission('USERS_ADD')" />
+                    <!-- v-if="(group.is_custom == true) && hasPermission('USERS_ADD')" -->
+                    <q-btn size="12px" flat dense round icon="delete" @click="deleteGroup(group.uuid)"  />
                     <q-btn size="12px" flat dense round icon="info" @click="viewGroup(group.uuid)" />
                 </div>
             </q-item-section>
@@ -85,9 +86,9 @@ function deleteGroup(uuid) {
         persistent: true,
     }).onOk(() => {
         authApi
-            .delete("/settings/permissions/" + uuid)
+            .delete("/groups/" + uuid)
             .then((res) => {
-                emit("forceRefresh")
+                emit("refreshList")
             })
             .catch((err) => {
                 if (err.response) {
@@ -99,7 +100,7 @@ function deleteGroup(uuid) {
                 }
 
             });
-        $q.notify("User deleted");
+        $q.notify("Group deleted");
 
         handleRefresh()
         // fetchTasks()

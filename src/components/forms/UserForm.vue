@@ -159,7 +159,6 @@ function getRoles(){
     authApi
     .get("/permissions/")
     .then((res) => {
-      console.log(res.data);
       role.value = res.data;
       isLoading.value = false;
     })
@@ -216,9 +215,6 @@ const submit = handleSubmit(values => {
         "user_role_uuid": userRole.value,
     }
 
-
-    console.log('submit');
-    console.log(data)
     emit('userFormBtnClick', data)
 })
 

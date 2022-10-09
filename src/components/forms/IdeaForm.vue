@@ -331,7 +331,6 @@ const compressorFn = () => {
       qFileError.value = null
       uploadProgress.value = 0
       let file = files.value;
-      console.log(files.value);
       if (!file) {
         return;
       }

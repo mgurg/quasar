@@ -86,7 +86,6 @@ const {value: email, handleChange} = useField("email");
 const {value: password} = useField("password");
 const {value: rememberUser} = useField("rememberUser", undefined, {initialValue: false});
 const submit = handleSubmit((values) => {
-  console.log("submit", values);
   let data = {
     email: email.value,
     password: password.value,

@@ -52,7 +52,6 @@ function updateUser(body) {
     authApi
         .patch("/users/" + userUuid.value, body)
         .then((res) => {
-            console.log(res.data);
             isLoading.value = false;
             router.push("/users");
         })

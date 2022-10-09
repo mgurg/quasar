@@ -109,8 +109,6 @@ function getDetails(uuid) {
   authApi
     .get("/users/" + uuid)
     .then((res) => {
-      console.log(uuid);
-      console.log(res.data);
       userDetails.value = res.data;
       isLoading.value = false;
     })
@@ -129,8 +127,6 @@ function activateUser() {
   authApi
     .patch("users/" + userDetails.value.uuid, { "is_verified": true })
     .then((res) => {
-      console.log(uuid);
-      console.log(res.data);
 
       userDetails.value.is_verified = true
 

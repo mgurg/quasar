@@ -155,6 +155,7 @@ import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
+import { authApi } from "boot/axios";
 
 const $q = useQuasar();
 
@@ -217,13 +218,34 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
+function verifyToken(){
+  const token = UserStore.getToken
+
+  console.log(token)
+  authApi
+    .get("/auth/verify/" + token)
+    .then((res) => {
+      // UserStore.fillStore()
+
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
 onBeforeMount(() => {
+  verifyToken();
   console.log(getLocale())
   //localStorage.setItem("lang", 'pl')
   // setLocale(setLocale())
   setLocale(getLocale())
-
-
 });
 
 </script>

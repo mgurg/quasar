@@ -23,13 +23,11 @@ let htmlTxt = null;
 function logText(json, html) {
   jsonTxt = json
   htmlTxt = html
-  console.log("LOG: ")
-  console.log(json)
+
 
 }
 
 function saveText() {
-  console.log("SAVE: ")
   console.log(jsonTxt)
   console.log(htmlTxt)
 }

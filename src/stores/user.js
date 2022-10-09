@@ -39,9 +39,9 @@ export const useUserStore = defineStore("user", {
           permanent: permanent,
         };
 
-        // console.log(body);
+
         const data = await api.post("/auth/login", body);
-        // console.log(data.data);
+
         this.token = data.data.auth_token;
         this.firstName = data.data.first_name;
         this.lastName = data.data.last_name;
@@ -97,14 +97,19 @@ export const useUserStore = defineStore("user", {
       uuid: `${users.uuid}`, 
       label: `${users.first_name} ${users.last_name}`
     }));
-    // console.log(usersWithFullName);
+
     this.editorUsers = usersWithFullName;
   },
 
   async setEditorGroups() {
-    const data = await api.get("/fake_groups")
-    // console.log(data.data);
-    this.editorGroups = data.data;
+    const data = await authApi.get("/groups/")
+    const groups = data.data;
+    const groupsWithLabel = groups.map(groups => ({
+      uuid: `${groups.uuid}`, 
+      label: `${groups.name}`
+    }));
+
+    this.editorGroups = groupsWithLabel;
   },
 
     fillStore(token, tenant, firstName, lastName, uuid, tz, lang) {
@@ -124,14 +129,11 @@ export const useUserStore = defineStore("user", {
       //   var token = localStorage.getItem("klucz");
       // }
       if (sessionStorage.getItem("klucz") !== null) {
-        console.log("AutoLogin Start");
         await api
           .get("/auth/verify/" + token)
           .then((res) => {
-            console.log("token");
             if (res.data.ok == true) {
               this.token = token;
-              console.log("token valid: ", token);
             } else {
               this.logoutUser();
             }
