@@ -227,8 +227,6 @@ function cancelButtonHandle() {
 
 onBeforeMount(() => {
     getRoles();
-
-
 });
 
 </script>

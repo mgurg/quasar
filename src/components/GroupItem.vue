@@ -18,16 +18,12 @@
 
             <q-item-section side v-if="group.uuid === selected">
                 <div class="text-grey-8 q-gutter-xs">
-                    <q-btn size="12px" flat dense round icon="edit" @click="editGroup(group.uuid)" v-if="(group.is_custom == true)" />
+                    <q-btn size="12px" flat dense round icon="edit" @click="editGroup(group.uuid)" />
                     <!-- v-if="(group.is_custom == true) && hasPermission('USERS_ADD')" -->
                     <q-btn size="12px" flat dense round icon="delete" @click="deleteGroup(group.uuid)"  />
                     <q-btn size="12px" flat dense round icon="info" @click="viewGroup(group.uuid)" />
                 </div>
             </q-item-section>
-            <!-- <q-item-section side v-else>
-                <q-item-label caption>sdf</q-item-label>
-                <q-icon name="priority_high" color="red-12" />
-            </q-item-section> -->
         </q-item>
 
         <q-separator />
@@ -108,11 +104,11 @@ function deleteGroup(uuid) {
 }
 
 function editGroup(uuid) {
-    router.push("/settings/groups/" + uuid);
+    router.push("/settings/groups/edit/" + uuid);
 }
 
 function viewGroup(uuid) {
-    router.push("/settings/groups/" + uuid);
+    router.push("/settings/groups/view/" + uuid);
 }
 
 </script>
