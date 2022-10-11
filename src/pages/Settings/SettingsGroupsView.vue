@@ -84,28 +84,6 @@ function getGroupDetails(uuid) {
     });
 }
 
-// function getAllUsers() {
-//   authApi
-//     .get("/users/")
-//     .then((res) => {
-//       console.log(res.data);
-//       allUsers.value = res.data.items;
-//       isLoading.value = false;
-//     })
-//     .catch((err) => {
-//       if (err.response) {
-//         console.log(err.response);
-//       } else if (err.request) {
-//         console.log(err.request);
-//       } else {
-//         console.log("General Error");
-//       }
-//     });
-// }
-
-
-
-
 onBeforeMount(() => {
   isLoading.value = true;
   // getAllUsers();

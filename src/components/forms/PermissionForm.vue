@@ -9,33 +9,33 @@
     >
     <q-input
             outlined
-            v-model="groupName"
+            v-model="roleName"
             :disable="isLoading"
             :readonly="!allowEdit"
-            :error="!!errors.groupName"
-            :error-message="errors.groupName"
+            :error="!!errors.roleName"
+            :error-message="errors.roleName"
             :label="$t('Name')"
         />
         <q-input
             outlined
-            v-model="groupDescription"
+            v-model="roleDescription"
             :disable="isLoading"
             :readonly="!allowEdit"
-            :error="!!errors.groupDescription"
-            :error-message="errors.groupDescription"
+            :error="!!errors.roleDescription"
+            :error-message="errors.roleDescription"
             :label="$t('Description')"
         />
     <q-list>
-      <div v-for="(user, index) in allUsers" v-bind:key="index">
+      <div v-for="(permission, index) in allPermissions" v-bind:key="index">
         <q-item tag="label" v-ripple>
           <q-item-section avatar top>
-            <q-checkbox v-model="groupUsers" :val="user.uuid" :disable="!allowEdit" color="cyan" />
+            <q-checkbox v-model="groupUsers" :val="permission.uuid" :disable="!allowEdit" color="cyan" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{user.first_name}} {{user.last_name}}</q-item-label>
-            <q-item-label caption>
-              {{user.description}}
-            </q-item-label>
+                <q-item-label>{{permission.title}}</q-item-label>
+                <q-item-label caption>
+                  {{permission.description}}
+                </q-item-label>
           </q-item-section>
         </q-item>
       </div>
@@ -61,14 +61,13 @@ import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
 
 const props = defineProps({
-    group: {
+    role: {
         type: Object,
         default() {
             return {
-              name: '',
-              description: '',
-              users: []
-
+              role_name: null,
+              role_description: null,
+              permission: []
             }
         }
     },
@@ -95,15 +94,36 @@ let isLoading = ref(false);
 let roleDetails = ref(null);
 let groupUsers = ref([])
 
-let allUsers = ref(null);
+let allPermissions = ref(null);
 let allowEdit = props.canEdit
 
-function getAllUsers() {
+console.log(props.permission)
+// function getAllUsers() {
+//   authApi
+//     .get("/users/")
+//     .then((res) => {
+//       allPermissions.value = res.data.items;
+//       groupUsers.value = props.role.users.map(value => value.uuid);
+//       isLoading.value = false;
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//     });
+// }
+
+function getAllPermissions() {
   authApi
-    .get("/users/")
+    .get("/permissions/all")
     .then((res) => {
-      allUsers.value = res.data.items;
-      groupUsers.value = props.group.users.map(value => value.uuid);
+      console.log(res.data);
+      allPermissions.value = res.data;
+      groupUsers.value = props.role.permission.map(value => value.uuid);
       isLoading.value = false;
     })
     .catch((err) => {
@@ -117,13 +137,17 @@ function getAllUsers() {
     });
 }
 
-function addNewGroup(data){
+function addNewPermission(data){
   isLoading.value = true;
+  console.log('adding permissions');
   authApi
-    .post("/groups/", data)
+    .post("/permissions/", data)
     .then((res) => {
+      // permissions.value = res.data
+      // pagination.total = res.data.total
+      console.log(res.data);
       isLoading.value = false;
-      router.push("/settings/groups");
+      router.push("/settings/permissions");
     })
     .catch((err) => {
       if (err.response) {
@@ -139,10 +163,10 @@ function addNewGroup(data){
 function editExistingGroup(data, uuid){
   isLoading.value = true;
   authApi
-    .patch("/groups/" + uuid, data)
+    .patch("/permissions/" + uuid, data)
     .then((res) => {
       isLoading.value = false;
-      router.push("/settings/groups");
+      router.push("/settings/permissions");
     })
     .catch((err) => {
       if (err.response) {
@@ -159,8 +183,8 @@ function editExistingGroup(data, uuid){
 const { resetForm } = useForm();
 
 const validationSchema = yup.object({
-    groupName: yup.string().required(),
-    groupDescription: yup.string().required(),
+    roleName: yup.string().required(),
+    roleDescription: yup.string().required(),
 })
 
 
@@ -168,15 +192,15 @@ const { handleSubmit, errors } = useForm({
     validationSchema
 })
 
-const { value: groupName } = useField('groupName', undefined, { initialValue: props.group.name })
-const { value: groupDescription } = useField('groupDescription', undefined, { initialValue: props.group.description })
+const { value: roleName } = useField('roleName', undefined, { initialValue: props.role.role_name })
+const { value: roleDescription } = useField('roleDescription', undefined, { initialValue: props.role.role_description })
 
 const submit = handleSubmit(values => {
 
   
     let data = {
-        "name": groupName.value,
-        "description": groupDescription.value,
+        "name": roleName.value,
+        "description": roleDescription.value,
         "users": JSON.parse(JSON.stringify(groupUsers.value))
     }
 
@@ -185,7 +209,7 @@ const submit = handleSubmit(values => {
     //   emit('groupFormBtnClick', {data : data, uuid: props.groupUuid})
       editExistingGroup(data, props.groupUuid)
     } else{
-      addNewGroup(data);
+      addNewPermission(data);
     // emit('groupFormBtnClick', {data : data, uuid: null})
     }
 
@@ -193,14 +217,14 @@ const submit = handleSubmit(values => {
 
 function  cancelButtonHandle()
 {
-    router.push("/settings/groups");
+    router.push("/settings/permissions");
     // console.log('cancelBtnClick')
     // emit('cancelBtnClick')
 }
 // --------------- Form --------------
 
 onBeforeMount(() => {
-    getAllUsers();
+    getAllPermissions();
     // getRoles();
 });
 

@@ -123,11 +123,11 @@ function deletePermission(uuid) {
 }
 
 function editPermission(uuid) {
-    router.push("/settings/permissions/" + uuid);
+    router.push("/settings/permissions/edit/" + uuid);
 }
 
 function viewPermission(uuid) {
-    router.push("/settings/permissions/" + uuid);
+    router.push("/settings/permissions/view/" + uuid);
 }
 
 </script>
