@@ -97,7 +97,7 @@ let groupUsers = ref([])
 let allPermissions = ref(null);
 let allowEdit = props.canEdit
 
-console.log(props.permission)
+
 // function getAllUsers() {
 //   authApi
 //     .get("/users/")
@@ -121,9 +121,13 @@ function getAllPermissions() {
   authApi
     .get("/permissions/all")
     .then((res) => {
-      console.log(res.data);
+      
       allPermissions.value = res.data;
-      groupUsers.value = props.role.permission.map(value => value.uuid);
+
+      if (props.role.permission != null && props.role.permission !='undefined'){
+        groupUsers.value = props.role.permission.map(value => value.uuid);
+      }
+      
       isLoading.value = false;
     })
     .catch((err) => {

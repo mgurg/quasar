@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Groups')" icon="info" to="/settings/groups"  />
+          <q-breadcrumbs-el :label="$t('Groups')" icon="info" to="/settings/groups" />
           <q-breadcrumbs-el :label="$t('View')" icon="info" />
         </q-breadcrumbs>
       </div>
@@ -25,13 +25,12 @@
 </template>
 
 <script setup>
-import { ref,onBeforeMount } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import GroupForm from 'src/components/forms/GroupForm.vue'
 import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
-
 
 const router = useRouter();
 const route = useRoute();
@@ -40,14 +39,14 @@ let groupUuid = ref(route.params.uuid)
 let isLoading = ref(false);
 
 
-function signUpButtonPressed(options){
-  
+function signUpButtonPressed(options) {
+
   console.log('SEND')
   console.log(options.data)
   console.log(options.uuid)
 }
 
-function cancelButtonPressed(){
+function cancelButtonPressed() {
   console.log('CANCEL')
 }
 
@@ -60,7 +59,7 @@ let groupUsersList = ref([])
 
 function getGroupDetails(uuid) {
 
-  if (uuid ==null || uuid == 'undefined' ){
+  if (uuid == null || uuid == 'undefined') {
     console.log('uF')
     roleDetails.value = [];
     return;
@@ -88,14 +87,13 @@ onBeforeMount(() => {
   isLoading.value = true;
   // getAllUsers();
   getGroupDetails(route.params.uuid);
-  
+
 });
 
 
-function  cancelButtonHandle()
-{
-    console.log('cancelBtnClick')
-    emit('cancelBtnClick')
+function cancelButtonHandle() {
+  console.log('cancelBtnClick')
+  emit('cancelBtnClick')
 }
 
 

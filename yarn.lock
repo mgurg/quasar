@@ -1314,6 +1314,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.18.6":
+  version: 7.19.4
+  resolution: "@babel/runtime@npm:7.19.4"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: 66b7e3c13e9ee1d2c9397ea89144f29a875edee266a0eb2d9971be51b32fdbafc85808c7a45e011e6681899bb804b4e2ee2aed6dc07108dbbd6b11b6cc2afba6
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.18.10":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
@@ -3712,6 +3721,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.23.5":
+  version: 3.25.5
+  resolution: "core-js@npm:3.25.5"
+  checksum: 208b308c49bc022f90d4349d4c99802a73c9d55053976b3c529f10014c1e37845926defad8c519f2c7f71ea0acf18d2b323ab6aaee34dc85b4c4b3ced0623f3f
+  languageName: node
+  linkType: hard
+
 "core-js@npm:^3.6.5":
   version: 3.25.2
   resolution: "core-js@npm:3.25.2"
@@ -4213,6 +4229,19 @@ __metadata:
   dependencies:
     sax: 1.1.4
   checksum: f77183084fdadb9366d39e0110a31888e3719c77320d426168dcf31eaf4c78cec906c84f4ce00320f5095c88145a11716af0d5d35c5297355e3c3d3d4a6cbcd0
+  languageName: node
+  linkType: hard
+
+"emoji-mart-vue-fast@npm:^11.2.0":
+  version: 11.2.0
+  resolution: "emoji-mart-vue-fast@npm:11.2.0"
+  dependencies:
+    "@babel/runtime": ^7.18.6
+    core-js: ^3.23.5
+    vue-virtual-scroller: ^1.0.10
+  peerDependencies:
+    vue: ">2.0.0"
+  checksum: 69de10cb03c57d898b41267128fcca8770d36ad9b58ca4757a4aeb8baaaf3da756959ffe031f860757d442bf440f7dbd07e3d7c8985d163d8122038b0de02a50
   languageName: node
   linkType: hard
 
@@ -7353,6 +7382,7 @@ __metadata:
     compressorjs: ^1.1.1
     core-js: ^3.6.5
     dotenv: ^15.0.0
+    emoji-mart-vue-fast: ^11.2.0
     install: ^0.13.0
     leaflet: ^1.7.1
     luxon: ^3.0.3
@@ -7785,6 +7815,13 @@ __metadata:
     ajv-formats: ^2.1.1
     ajv-keywords: ^5.0.0
   checksum: c843e92fdd1a5c145dbb6ffdae33e501867f9703afac67bdf35a685e49f85b1dcc10ea250033175a64bd9d31f0555bc6785b8359da0c90bcea30cf6dfbb55a8f
+  languageName: node
+  linkType: hard
+
+"scrollparent@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "scrollparent@npm:2.0.1"
+  checksum: 9ff2b29c1233431ebd0910e5f8db4a058836ee0292d1bb18042fbb4d2175c3ed73fa28a71a96074ac6848173185238ad1139bdefc3863be4808df981175cb807
   languageName: node
   linkType: hard
 
@@ -8494,7 +8531,7 @@ __metadata:
 
 "typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
   version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=701156"
+  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -8719,6 +8756,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vue-observe-visibility@npm:^0.4.4":
+  version: 0.4.6
+  resolution: "vue-observe-visibility@npm:0.4.6"
+  checksum: 4e8484df30d9ae9246e4fec8a1998fb9340cca0efc702e75741bfea85cd3ca25f68259ed5fb127cc431a121fb138ca54e1381195bbb902f8da6181c1feecd822
+  languageName: node
+  linkType: hard
+
+"vue-resize@npm:^0.4.5":
+  version: 0.4.5
+  resolution: "vue-resize@npm:0.4.5"
+  peerDependencies:
+    vue: ^2.3.0
+  checksum: 045de8640feb6c48a684f844b13d2981b7365917f407500a729af722c01da424f78ec3107284d90dbd1ba566b196f46f5d6c903cd7c1e6141683710ab1fa4ab2
+  languageName: node
+  linkType: hard
+
 "vue-router@npm:^4.1.5":
   version: 4.1.5
   resolution: "vue-router@npm:4.1.5"
@@ -8737,6 +8790,19 @@ __metadata:
     hash-sum: ^1.0.2
     loader-utils: ^1.0.2
   checksum: ef79d0c6329303d69c87f128f67e486bd37e9a8d416aa662edafae62fab727117b7452f50be8b11fe0c4cb43992344d5ef6a46b206f375fca4d37ae5a5b99185
+  languageName: node
+  linkType: hard
+
+"vue-virtual-scroller@npm:^1.0.10":
+  version: 1.0.10
+  resolution: "vue-virtual-scroller@npm:1.0.10"
+  dependencies:
+    scrollparent: ^2.0.1
+    vue-observe-visibility: ^0.4.4
+    vue-resize: ^0.4.5
+  peerDependencies:
+    vue: ^2.6.11
+  checksum: 1de541472a613b0be12b6fafb33d2dfb4b0039e1afdbfd7815f29016f5f63ba1842a18d7c07aed618684cf0eecf33c3ba7cd5a3c0e41281d7bc0034ccaaeebbd
   languageName: node
   linkType: hard
 

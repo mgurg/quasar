@@ -1,30 +1,36 @@
 <template>
     <q-form 
-        autocorrect="off" 
-        autocapitalize="off" 
-        autocomplete="off" 
-        spellcheck="false" 
-        class="q-gutter-md" 
-        @submit.prevent
+      autocorrect="off" 
+      autocapitalize="off" 
+      autocomplete="off" 
+      spellcheck="false" 
+      class="q-gutter-md" 
+      @submit.prevent
     >
+
     <q-input
-            outlined
-            v-model="groupName"
-            :disable="isLoading"
-            :readonly="!allowEdit"
-            :error="!!errors.groupName"
-            :error-message="errors.groupName"
-            :label="$t('Name')"
-        />
-        <q-input
-            outlined
-            v-model="groupDescription"
-            :disable="isLoading"
-            :readonly="!allowEdit"
-            :error="!!errors.groupDescription"
-            :error-message="errors.groupDescription"
-            :label="$t('Description')"
-        />
+      outlined
+      v-model="groupName"
+      :disable="isLoading"
+      :readonly="!allowEdit"
+      :error="!!errors.groupName"
+      :error-message="errors.groupName"
+      :label="$t('Name')"
+    >                    
+      <template v-slot:prepend>
+        <q-avatar rounded color="blue-grey-1" size="xl" @click="showEmojiPicker = true" class="cursor-pointer"> {{nativeEmoji()}}</q-avatar>
+      </template>
+    </q-input>
+               
+    <q-input
+      outlined
+      v-model="groupDescription"
+      :disable="isLoading"
+      :readonly="!allowEdit"
+      :error="!!errors.groupDescription"
+      :error-message="errors.groupDescription"
+      :label="$t('Description')"
+    />
     <q-list>
       <div v-for="(user, index) in allUsers" v-bind:key="index">
         <q-item tag="label" v-ripple>
@@ -47,6 +53,20 @@
         </div>
 
     </q-form>
+
+    <q-dialog  v-model="showEmojiPicker">
+      <q-card>
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">Close icon</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
+        </q-card-section>
+
+        <q-card-section>
+          <Picker :showPreview="false" :data="emojiIndex" set="twitter" @select="showEmoji" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 </template>
 
 
@@ -57,8 +77,16 @@ import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 
 
+
+import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
+import data from "emoji-mart-vue-fast/data/twitter.json";
+import "emoji-mart-vue-fast/css/emoji-mart.css";
+
+
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
+
+const handleEmojiClick = (detail) => {}
 
 const props = defineProps({
     group: {
@@ -86,11 +114,33 @@ const props = defineProps({
     },
 })
 
+let emojiIndex = new EmojiIndex(data);
+let emojiOutput = ref(":necktie:");
+
+
+
+const showEmojiPicker = ref(false);
+
+function showEmoji(emoji) {
+  console.log(emoji)
+  emojiOutput.value = emoji.colons;
+  showEmojiPicker.value = false;
+}
+
+function nativeEmoji() {
+  let emojiIndex = new EmojiIndex(data);
+  let emoji = emojiIndex.findEmoji(emojiOutput.value)
+
+  return emoji.native
+}
+
 const emit = defineEmits(['groupFormBtnClick', 'cancelBtnClick'])
 
 const router = useRouter();
 
 let isLoading = ref(false);
+
+
 
 let roleDetails = ref(null);
 let groupUsers = ref([])
@@ -103,7 +153,9 @@ function getAllUsers() {
     .get("/users/")
     .then((res) => {
       allUsers.value = res.data.items;
+      if (props.group.users != null && props.group.users !='undefined'){
       groupUsers.value = props.group.users.map(value => value.uuid);
+      }
       isLoading.value = false;
     })
     .catch((err) => {
@@ -173,14 +225,16 @@ const { value: groupDescription } = useField('groupDescription', undefined, { in
 
 const submit = handleSubmit(values => {
 
-  
+    let symbol = emojiOutput.value.match(/[^:]+(\:[^:]+)?/g)[0];
+    
     let data = {
         "name": groupName.value,
         "description": groupDescription.value,
-        "users": JSON.parse(JSON.stringify(groupUsers.value))
+        "users": JSON.parse(JSON.stringify(groupUsers.value)),
+        "symbol": ":"+ symbol+":"
     }
 
-
+    console.log(data)
     if (!!props.groupUuid){
     //   emit('groupFormBtnClick', {data : data, uuid: props.groupUuid})
       editExistingGroup(data, props.groupUuid)
@@ -205,3 +259,10 @@ onBeforeMount(() => {
 });
 
 </script>
+
+<style lang="scss" scoped>
+
+:deep(.q-field__marginal) {
+  color: inherit !important;
+}
+</style>
