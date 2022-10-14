@@ -26,12 +26,12 @@
           <span>{{ $t("Name") }} 
             <q-btn 
             padding="xs" 
-            :unelevated="sort.active=='title'? true:false" 
-            :flat="sort.active=='title'? false:true" 
+            :unelevated="sort.active=='name'? true:false" 
+            :flat="sort.active=='name'? false:true" 
             size="sm" 
             color="primary" 
-            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('title')" />
+            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('name')" />
           </span>
           
         </q-item-section>
@@ -44,6 +44,9 @@
         </div>
 
       </q-list>
+      <div class="q-pa-lg flex flex-center">
+        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
+      </div>
 
 
     </q-page>
@@ -59,6 +62,7 @@ import PermissionItem from 'components/PermissionItem.vue'
 const $q = useQuasar()
 let isLoading = ref(false);
 let selected = ref(null);
+let search = ref(null);
 
 let sort = reactive({
   name: "asc",
@@ -75,34 +79,44 @@ function selectPermission(uuid) {
   }
 }
 
+function changeSortOrder(column){
+  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+  sort.active = column
+  fetchPermissions()
+}
 
-// const pagination = reactive({
-//   page: 1,
-//   size: 10,
-//   total: 1
-// })
+const pagination = reactive({
+  page: 1,
+  size: 10,
+  total: 1
+})
 
-// const pagesNo = computed(() => {
-//   return Math.ceil(pagination.total / pagination.size)
-// })
+const pagesNo = computed(() => {
+  return Math.ceil(pagination.total / pagination.size)
+})
 
-// watch(() => pagination.page, (oldPage, newPage) => {
-//   console.log(oldPage, newPage);
-//   fetchPermissions();
-// })
+watch(() => pagination.page, (oldPage, newPage) => {
+  console.log(oldPage, newPage);
+  fetchPermissions();
+})
 
 const permissions = ref(null);
 
 function fetchPermissions() {
   isLoading.value = true;
-  console.log('fetching permissions');
-    // let params = {page: pagination.page, size: pagination.size };
+  let params = {
+      search: search.value,
+      page: pagination.page, 
+      size: pagination.size,
+      sortOrder: sort[sort.active],
+      sortColumn: sort.active 
+    };
+    console.log(params)
   authApi
-    .get("/permissions/")
+    .get("/permissions/", { params: params })
     .then((res) => {
-      permissions.value = res.data
-      // pagination.total = res.data.total
-      console.log(res.data);
+      permissions.value = res.data.items
+      pagination.total = res.data.total
       isLoading.value = false;
     })
     .catch((err) => {

@@ -26,12 +26,12 @@
           <span>{{ $t("Name") }} 
             <q-btn 
             padding="xs" 
-            :unelevated="sort.active=='title'? true:false" 
-            :flat="sort.active=='title'? false:true" 
+            :unelevated="sort.active=='name'? true:false" 
+            :flat="sort.active=='name'? false:true" 
             size="sm" 
             color="primary" 
-            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('title')" />
+            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('name')" />
           </span>
           
         </q-item-section>
@@ -46,6 +46,9 @@
       </q-list>
       <div  v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
         {{ $t("No groups, add a first one!") }} 🚀
+      </div>
+      <div v-else class="q-pa-lg flex flex-center">
+        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
 
 
@@ -63,6 +66,8 @@ const $q = useQuasar()
 
 let isLoading = ref(false);
 let selected = ref(null);
+let search = ref(null);
+
 
 let sort = reactive({
   name: "asc",
@@ -79,34 +84,46 @@ function selectGroup(uuid) {
   }
 }
 
+function changeSortOrder(column){
+  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+  sort.active = column
+  fetchGroups()
+}
 
-// const pagination = reactive({
-//   page: 1,
-//   size: 10,
-//   total: 1
-// })
+const pagination = reactive({
+  page: 1,
+  size: 10,
+  total: 1
+})
 
-// const pagesNo = computed(() => {
-//   return Math.ceil(pagination.total / pagination.size)
-// })
+const pagesNo = computed(() => {
+  return Math.ceil(pagination.total / pagination.size)
+})
 
-// watch(() => pagination.page, (oldPage, newPage) => {
-//   console.log(oldPage, newPage);
-//   fetchGroups();
-// })
+watch(() => pagination.page, (oldPage, newPage) => {
+  console.log(oldPage, newPage);
+  fetchGroups();
+})
 
 const groups = ref(0);
 
 function fetchGroups() {
   isLoading.value = true;
-  console.log('fetching groups');
-    // let params = {page: pagination.page, size: pagination.size };
+
+  let params = {
+      search: search.value,
+      page: pagination.page, 
+      size: pagination.size,
+      sortOrder: sort[sort.active],
+      sortColumn: sort.active 
+    };
+
+    console.log(params)
   authApi
-    .get("/groups/")
+    .get("/groups/" , { params: params })
     .then((res) => {
-      groups.value = res.data
-      // pagination.total = res.data.total
-      console.log(res.data);
+      groups.value = res.data.items
+      pagination.total = res.data.total
       isLoading.value = false;
     })
     .catch((err) => {
@@ -122,7 +139,6 @@ function fetchGroups() {
 
 
 onBeforeMount(() => {
-  console.log('Groups')
   fetchGroups();
 });
 

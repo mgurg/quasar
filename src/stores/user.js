@@ -103,7 +103,7 @@ export const useUserStore = defineStore("user", {
 
   async setEditorGroups() {
     const data = await authApi.get("/groups/")
-    const groups = data.data;
+    const groups = data.data.items;
     const groupsWithLabel = groups.map(groups => ({
       uuid: `${groups.uuid}`, 
       label: `${groups.name}`

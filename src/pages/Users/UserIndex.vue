@@ -26,12 +26,12 @@
           <span>{{ $t("Name") }} 
             <q-btn 
             padding="xs" 
-            :unelevated="sort.active=='title'? true:false" 
-            :flat="sort.active=='title'? false:true" 
+            :unelevated="sort.active=='name'? true:false" 
+            :flat="sort.active=='name'? false:true" 
             size="sm" 
             color="primary" 
-            :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('title')" />
+            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'" 
+            @click="changeSortOrder('name')" />
           </span>
           
         </q-item-section>
@@ -134,7 +134,13 @@ watch(() => pagination.page, (oldPage, newPage) => {
 function fetchUsers() {
   isLoading.value = true;
   console.log('fetching users');
-    let params = { search: search.value ,page: pagination.page, size: pagination.size };
+    let params = { 
+      search: search.value,
+      page: pagination.page,
+      size: pagination.size,
+      sortOrder: sort[sort.active],
+      sortColumn: sort.active
+    };
   authApi
     .get("/users/", { params: params })
     .then((res) => {

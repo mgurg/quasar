@@ -2,7 +2,7 @@
     <div @click="handleSelect(group.uuid)">
         <q-item :class="{ 'done bg-blue-1': group.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewGroup(group.uuid)">
-                <q-avatar rounded color="blue-grey-1" text-color="white">💡
+                <q-avatar rounded color="blue-grey-1" text-color="white"> {{nativeEmoji(group.symbol)}}
                     <q-badge v-if="group.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
                 </q-avatar>
             </q-item-section>
@@ -36,6 +36,9 @@ import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import { useUserStore } from "stores/user";
 import { computed } from 'vue';
+import { EmojiIndex } from "emoji-mart-vue-fast/src";
+import data from "emoji-mart-vue-fast/data/twitter.json";
+
 
 const $q = useQuasar()
 const router = useRouter();
@@ -43,6 +46,13 @@ const router = useRouter();
 const UserStore = useUserStore();
 const currentUserUuid = UserStore.getCurrentUserId
 const permissions = computed(() => UserStore.getPermissions );
+
+function nativeEmoji(symbol) {
+  let emojiIndex = new EmojiIndex(data);
+  let emoji = emojiIndex.findEmoji(symbol)
+
+  return emoji.native
+}
 
 function hasPermission(group) {
   return Boolean(permissions.value.includes(group));
@@ -115,7 +125,7 @@ function viewGroup(uuid) {
 
 <style lang="scss" scoped>
 
-::v-deep .q-field__marginal {
+:deep(.q-field__marginal) {
   color: inherit !important;
 }
 </style>

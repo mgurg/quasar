@@ -63,7 +63,15 @@
         </q-card-section>
 
         <q-card-section>
-          <Picker :showPreview="false" :data="emojiIndex" set="twitter" @select="showEmoji" />
+          <Picker 
+          :data="emojiIndex"
+          :style="{ width: '100%'}"
+          set="twitter"      
+          @select="showEmoji"
+          :showSearch="false"
+          :showSkinTones="false"
+          :showPreview="false" 
+          />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -95,6 +103,7 @@ const props = defineProps({
             return {
               name: '',
               description: '',
+              symbol: ':+1:',
               users: []
 
             }
@@ -115,9 +124,7 @@ const props = defineProps({
 })
 
 let emojiIndex = new EmojiIndex(data);
-let emojiOutput = ref(":necktie:");
-
-
+let emojiOutput = ref(props.group.symbol);
 
 const showEmojiPicker = ref(false);
 
