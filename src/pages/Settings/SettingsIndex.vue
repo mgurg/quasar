@@ -7,7 +7,10 @@
         <div class="col-6"></div>
       </div>
 
-      <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
+      <card-social></card-social>
+      <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
+                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
+      <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
                 <div class="q-pa-none q-card__section q-card__section--vert">
                     <div class="row q-col-gutter-sm">
                       <router-link to="/settings/ideas" class="col-md-4 col-sm-6 col-xs-12" >
@@ -50,7 +53,7 @@
                         </div>
                       </router-link>
                         <q-space/>
-                          <!-- <div class="col-md-4 col-sm-6 col-xs-12">
+                          <div class="col-md-4 col-sm-6 col-xs-12">
                             <q-item class="bg-blue-grey-8 q-pa-md q-ml-xs">
                                 <q-item-section avatar>
                                     <q-icon color="white" name="delete_forever" />
@@ -60,12 +63,12 @@
                                     <q-item-label class="text-white text-weight-bold">Rejected</q-item-label>
                                 </q-item-section>
                             </q-item>
-                        </div> -->
+                        </div>
                         <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
                            Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
     </q-page>
   </div>
@@ -74,6 +77,7 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import { useQuasar } from 'quasar'
+import CardSocial from 'src/components/CardSocial.vue'
 
 const $q = useQuasar()
 

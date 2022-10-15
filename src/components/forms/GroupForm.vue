@@ -1,4 +1,8 @@
 <template>
+      <div class="row">
+        &nbsp;
+   
+      </div>
     <q-form 
       autocorrect="off" 
       autocapitalize="off" 
@@ -50,6 +54,7 @@
             <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
             <q-space />
             <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
+            <q-btn v-if="!allowEdit" type="submit" color="primary" @click="enableEditMode">{{ $t("Edit") }}</q-btn>
         </div>
 
     </q-form>
@@ -153,7 +158,11 @@ let roleDetails = ref(null);
 let groupUsers = ref([])
 
 let allUsers = ref(null);
-let allowEdit = props.canEdit
+let allowEdit = ref(props.canEdit)
+
+function enableEditMode(){
+  allowEdit.value = true
+}
 
 function getAllUsers() {
   authApi

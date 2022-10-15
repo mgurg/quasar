@@ -14,7 +14,7 @@
       v-if="permissionDetails != null" 
         :role="permissionDetails"
         :groupUuid="permisionUuid"
-        :canEdit="true"
+        :canEdit="canEdit"
         @groupFormBtnClick="signUpButtonPressed"
         @cancelBtnClick="cancelButtonPressed"
       />
@@ -36,6 +36,7 @@ import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
 const router = useRouter();
 const route = useRoute();
 let permisionUuid = ref(route.params.uuid)
+let canEdit = ref(route.params.mode == 'edit')
 
 let isLoading = ref(false);
 
