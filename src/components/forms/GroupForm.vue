@@ -59,7 +59,7 @@
 
     </q-form>
 
-    <q-dialog  v-model="showEmojiPicker">
+    <q-dialog  v-model="showEmojiPicker" v-if="allowEdit">
       <q-card>
         <q-card-section class="row items-center q-pb-none">
           <div class="text-h6">Close icon</div>

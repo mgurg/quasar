@@ -147,15 +147,18 @@
             </span>
           </q-item-section>
         </q-item>
-        <div v-for="(idea, index) in ideas" v-bind:key="index">
+
+        <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas!= null">
           <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
             v-if="!isLoading"></idea-item>
         </div>
+        <task-index-skeleton v-else />
+
       </q-list>
       <!-- Skeleton -->
-      <task-index-skeleton v-else />
+      
 
-      <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0">
+      <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0 || ideas == null">
         Brak pomyslów 🤔? <br />Niech Twój będzie pierwszy! 😎
       </div>
 

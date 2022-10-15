@@ -16,8 +16,7 @@
   <div><q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn></div>
 </div>
       
-
-      <q-list padding v-if="!isLoading">
+      <q-list padding v-if="!isLoading && users != null">
       <q-item class="bg-blue-grey-1 rounded-borders">
         <q-item-section avatar>
 
@@ -39,13 +38,16 @@
 
         </q-item-section>
       </q-item>
-        <div v-for="(user, index) in users" v-bind:key="index">
-        <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected" v-if="!isLoading"></user-item>
+
+        <div v-for="(user, index) in users" v-bind:key="index" v-if="users!=null">
+           <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected" v-if="!isLoading"></user-item>
         </div>
+        <task-index-skeleton v-else/>
+
 
       </q-list>
-      <!-- Skeleton -->
-      <task-index-skeleton v-else />
+      
+
 
       <div class="q-pa-lg flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />

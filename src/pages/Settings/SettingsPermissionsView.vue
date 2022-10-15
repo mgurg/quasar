@@ -11,7 +11,7 @@
       </div>
 
       <permission-form
-      v-if="permissionDetails != null" 
+        v-if="permissionDetails != null" 
         :role="permissionDetails"
         :groupUuid="permisionUuid"
         :canEdit="canEdit"
