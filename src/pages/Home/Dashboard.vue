@@ -1,6 +1,7 @@
 <template>
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+            <!-- <card-dashboard></card-dashboard> -->
             <!-- S -->
             <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
                 <div class="q-pa-none q-card__section q-card__section--vert">
@@ -63,6 +64,7 @@
 <script setup>
 import { onBeforeMount, reactive} from "vue";
 import { api, authApi } from "boot/axios";
+import CardDashboard from 'src/components/tiles/CardDashboard.vue'
 
 const status = reactive({'accepted': 0, 'todo': 0, 'pending': 0, 'rejected': 0});
 

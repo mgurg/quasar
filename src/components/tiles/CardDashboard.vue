@@ -2,7 +2,7 @@
     <q-card class="bg-transparent no-shadow no-border">
         <q-card-section class="q-pa-none">
             <div class="row q-col-gutter-sm ">
-                <div v-for="(item, index) in items" :key="index" class="col-md-4 col-sm-6 col-xs-12">
+                <div v-for="(item, index) in items" :key="index" class="col-md-3 col-sm-6 col-xs-12">
                     <router-link :to="item.link">
                     <q-item :style="`background-color: ${item.color1}`" class="q-pa-none rounded-borders">
                         <q-item-section v-if="icon_position === 'left'" side :style="`background-color: ${item.color2}`"
@@ -28,7 +28,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    name: "CardSocial",
+    name: "CardSettings",
     props: {
         icon_position: {
             required: false,
@@ -40,37 +40,37 @@ export default defineComponent({
             return this.icon_position === "left"
                 ? [
                     {
-                        title: "Ustawienia zgłoszeń: kody QR, tryb zgłoszenia",
-                        icon: "person",
-                        value: "Pomysły",
-                        color1: "#5064b5",
-                        color2: "#3e51b5",
+                        title: "New",
+                        icon: "auto_awesome",
+                        value: "4",
+                        color1: "#e91e63",
+                        color2: "#d81b60",
                         link: "/settings/ideas"
                     },
                     {
-                        title: "Kto ma jaki dostęp do funkcji w aplikacji",
+                        title: "Voted",
                         icon: "ballot",
-                        value: "Uprawnienia",
-                        color1: "#f37169",
-                        color2: "#f34636",
+                        value: "1",
+                        color1: "#ffb300",
+                        color2: "#ffa000",
                         link: "/settings/permissions"
                     },
                     {
-                        title: "Zdefiniowane grupy ludzi, np: serwis, biuro",
-                        icon: "groups",
-                        value: "Grupy użytkowników",
-                        color1: "#ea6a7f",
-                        color2: "#ea4b64",
+                        title: "Accepted",
+                        icon: "thumb_up_alt",
+                        value: "1",
+                        color1: "#009688",
+                        color2: "#00897b",
                         link: "/settings/groups"
                     },
-                    // {
-                    //     title: "Website Visits",
-                    //     icon: "bar_chart",
-                    //     value: "1020",
-                    //     color1: "#a270b1",
-                    //     color2: "#9f52b1",
-                    //     link: "/settings/ideas"
-                    // }
+                    {
+                        title: "Rejected",
+                        icon: "delete_forever",
+                        value: "1",
+                        color1: "#455a64",
+                        color2: "#37474f",
+                        link: "/settings/ideas"
+                    }
                 ]
                 : [
                     {

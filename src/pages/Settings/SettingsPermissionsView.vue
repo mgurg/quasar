@@ -17,6 +17,7 @@
         :canEdit="canEdit"
         @groupFormBtnClick="signUpButtonPressed"
         @cancelBtnClick="cancelButtonPressed"
+        :key="permisionUuid"
       />
       <group-edit-skeleton v-else />
 

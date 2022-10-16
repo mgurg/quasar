@@ -7,7 +7,7 @@
         <div class="col-6"></div>
       </div>
 
-      <card-social></card-social>
+      <card-settings></card-settings>
       <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
                            Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
       <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
@@ -77,7 +77,7 @@
 <script setup>
 import { ref, onBeforeMount } from "vue";
 import { useQuasar } from 'quasar'
-import CardSocial from 'src/components/CardSocial.vue'
+import CardSettings from 'src/components/tiles/CardSettings.vue'
 
 const $q = useQuasar()
 
