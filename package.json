@@ -9,11 +9,11 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.13.4",
-    "@sentry/browser": "^7.13.0",
-    "@sentry/integrations": "^7.13.0",
-    "@sentry/tracing": "^7.13.0",
-    "@sentry/vue": "^7.13.0",
+    "@quasar/extras": "^1.15.5",
+    "@sentry/browser": "^7.15.0",
+    "@sentry/integrations": "^7.15.0",
+    "@sentry/tracing": "^7.15.0",
+    "@sentry/vue": "^7.15.0",
     "@tiptap/core": "^2.0.0-beta.199",
     "@tiptap/extension-character-count": "^2.0.0-beta.199",
     "@tiptap/extension-highlight": "^2.0.0-beta.199",
@@ -32,7 +32,7 @@
     "leaflet": "^1.7.1",
     "luxon": "^3.0.3",
     "pinia": "^2.0.22",
-    "quasar": "^2.9.2",
+    "quasar": "^2.10.0",
     "stream-consumers": "^1.0.2",
     "tippy.js": "^6.3.7",
     "validate-polish": "^2.0.40",
@@ -44,7 +44,7 @@
     "yup-locales": "^1.2.10"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^3.0.0",
+    "@quasar/app-webpack": "^3.6.2",
     "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.14",
     "dotenv": "^15.0.0"
   },
