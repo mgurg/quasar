@@ -11,8 +11,8 @@
       </div>
 
       <permission-form
-        v-if="permissionDetails != null" 
-        :role="permissionDetails"
+        v-if="!isLoading"
+        :role="permissionDetails || undefined"
         :groupUuid="permisionUuid"
         :canEdit="canEdit"
         @groupFormBtnClick="signUpButtonPressed"
@@ -60,7 +60,6 @@ let permissionUsersList = ref([])
 function getPermissionDetails(uuid) {
   if (uuid ==null || uuid == 'undefined' ){
     console.log('uF')
-    permissionDetails.value = [];
     return;
   }
   

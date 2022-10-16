@@ -22,7 +22,7 @@
       :label="$t('Name')"
     >                    
       <template v-slot:prepend>
-        <q-avatar rounded color="blue-grey-1" size="xl" @click="showEmojiPicker = true" class="cursor-pointer"> {{nativeEmoji()}}</q-avatar>
+        <q-avatar rounded color="blue-grey-1" size="xl" @click="showEmojiPicker = true" class="cursor-pointer"> {{nativeEmojiSymbol}}</q-avatar>
       </template>
     </q-input>
                
@@ -84,7 +84,7 @@
 
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, onBeforeMount, computed } from "vue";
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -130,20 +130,15 @@ const props = defineProps({
 
 let emojiIndex = new EmojiIndex(data);
 let emojiOutput = ref(props.group.symbol);
+const nativeEmojiSymbol = computed(() => (emojiIndex.findEmoji(emojiOutput.value).native))
+
+console.log(props.group);
 
 const showEmojiPicker = ref(false);
 
 function showEmoji(emoji) {
-  console.log(emoji)
   emojiOutput.value = emoji.colons;
   showEmojiPicker.value = false;
-}
-
-function nativeEmoji() {
-  let emojiIndex = new EmojiIndex(data);
-  let emoji = emojiIndex.findEmoji(emojiOutput.value)
-
-  return emoji.native
 }
 
 const emit = defineEmits(['groupFormBtnClick', 'cancelBtnClick'])
@@ -151,8 +146,6 @@ const emit = defineEmits(['groupFormBtnClick', 'cancelBtnClick'])
 const router = useRouter();
 
 let isLoading = ref(false);
-
-
 
 let roleDetails = ref(null);
 let groupUsers = ref([])

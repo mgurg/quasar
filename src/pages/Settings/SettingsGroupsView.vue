@@ -10,15 +10,14 @@
         </q-breadcrumbs>
       </div>
 
-      <group-form
-        v-if="roleDetails != null" 
-        :group="roleDetails"
+      <group-form v-if="!isLoading"
+        :group="roleDetails || undefined"
         :groupUuid="groupUuid"
         :canEdit="canEdit"
         @groupFormBtnClick="signUpButtonPressed"
         @cancelBtnClick="cancelButtonPressed"
       />
-      <group-edit-skeleton v-else />
+      <group-edit-skeleton v-else/>
 
     </q-page>
   </div>
@@ -62,7 +61,7 @@ function getGroupDetails(uuid) {
 
   if (uuid == null || uuid == 'undefined') {
     console.log('uF')
-    roleDetails.value = [];
+    // roleDetails.value = 'undefined';
     return;
   }
 

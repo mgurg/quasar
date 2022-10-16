@@ -137,18 +137,17 @@
     </q-scroll-area>
       <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
           <div class="absolute-bottom bg-transparent">
-            <q-avatar size="56px" class="q-mb-sm">
+            <!-- <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar>
-            <div class="text-weight-bold">Razvan Stoenescu</div>
-            <div>@rstoenescu</div>
+            </q-avatar> -->
+            <div class="text-weight-bold">{{ fullName }}</div>
+            <!-- <div>@rstoenescu</div> -->
           </div>
         </q-img>
     </q-drawer>
 
     <q-page-container>
       <!-- <router-view /> -->
-      <!-- TODO: Looks like this is necessary to load onActivate -->
       <router-view v-slot="{ Component }">
         <!-- <keep-alive  :max="1"> -->
         <component :is="Component" />
@@ -175,6 +174,8 @@ const UserStore = useUserStore();
 
 const { locale } = useI18n({ useScope: "global" });
 const lang = ref(locale); // $q.lang.isoName
+
+const fullName = ref(UserStore.getFullName)
 
 watch(lang, (val) => {
   // dynamic import, so loading on demand only
