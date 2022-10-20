@@ -3,12 +3,13 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Settings") }}</p></div>
+        <div class="col-6">
+          <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Settings") }}</p></div>
         <div class="col-6"></div>
       </div>
 
       <card-settings></card-settings>
-      <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
+      <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
                            Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
       <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
                 <div class="q-pa-none q-card__section q-card__section--vert">

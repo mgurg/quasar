@@ -26,7 +26,7 @@
         </q-item>
 
         <q-separator />
-        <div class="bg-blue-grey-1">
+        <div :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
           <div class="row q-col-gutter-xs q-pa-md">
             <div
               class="col-xs-6 col-sm-6 col-md-3 col-lg-3"

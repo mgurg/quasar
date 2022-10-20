@@ -11,7 +11,7 @@
         </div>
         <div v-else>
           <header>
-            <p class="text-h4"> Speech Recognition </p>
+            <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'"> Speech Recognition </p>
             <i class="header-icon fas fa-microphone-alt"></i>
           </header>
           <main>

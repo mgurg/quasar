@@ -9,7 +9,8 @@
         </q-breadcrumbs>
       </div>
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Groups") }}</p></div>
+        <div class="col-6">
+          <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Groups") }}</p></div>
         <div class="col-6">
           <!-- v-if="hasPermission('USERS_ADD')"  -->
           <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/settings/groups/add" color="primary" no-caps>

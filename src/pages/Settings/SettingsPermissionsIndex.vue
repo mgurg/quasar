@@ -9,7 +9,8 @@
         </q-breadcrumbs>
       </div>
       <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Permissions") }}</p></div>
+        <div class="col-6">
+          <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Permissions") }}</p></div>
         <div class="col-6">
           <!-- v-if="hasPermission('USERS_ADD')"  -->
           <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/settings/permissions/add" color="primary" no-caps>
@@ -18,7 +19,7 @@
       </div>
 
       <q-list padding v-if="!isLoading">
-      <q-item class="bg-blue-grey-1 rounded-borders">
+      <q-item class=" rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
         <q-item-section avatar>
 
         </q-item-section>
