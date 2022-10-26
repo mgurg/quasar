@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center text-blue-grey-10">
+  <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
       <div class="row justify-around q-mt-sm">
