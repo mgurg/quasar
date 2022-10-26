@@ -41,9 +41,9 @@ let usr = ref([{
 function createUser(body) {
     isLoading.value = true;
     authApi
-        .post("/users", body)
+        .post("/users/", body)
         .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             isLoading.value = false;
             router.push("/users");
         })

@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center text-blue-grey-10">
+  <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
@@ -19,7 +19,7 @@
       </div>
 
       <q-list padding v-if="!isLoading">
-      <q-item class="bg-blue-grey-1 rounded-borders">
+      <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
         <q-item-section avatar>
 
         </q-item-section>

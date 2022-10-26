@@ -159,7 +159,7 @@ function getRoles(){
     authApi
     .get("/permissions/")
     .then((res) => {
-      role.value = res.data;
+      role.value = res.data.items;
       isLoading.value = false;
     })
     .catch((err) => {
