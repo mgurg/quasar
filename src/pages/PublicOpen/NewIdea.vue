@@ -1,5 +1,6 @@
 <template>
   <q-layout>
+    <q-page-container>
     <div class="row justify-center text-blue-grey-10">
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <div class="q-pa-md">
@@ -14,6 +15,7 @@
         </div>
       </q-page>
     </div>
+  </q-page-container>
   </q-layout>
 </template>
 

@@ -1,6 +1,11 @@
 <template>
   <editor-content :editor="editor" />
+  <div>
+
+  </div>
   <div v-if="editor && props.readonly == false" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
+    <q-btn round dense flat icon="mic" @click="insertText('\u03C0')" />
+    <q-space></q-space>
     <svg
       height="20"
       width="20"
@@ -31,13 +36,13 @@
       />
     </svg>
 
-    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} characters</div>
+    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} </div>
   </div>
   <!-- <q-btn>AAAA</q-btn> -->
 </template>
 
 <script setup>
-import { ref, watch ,computed, onUpdated } from "vue";
+import { ref,unref, watch ,computed, onUpdated } from "vue";
 import { useUserStore } from 'stores/user'
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
@@ -177,8 +182,6 @@ const editor = useEditor({
     console.log(isEmpty)
   },
   onUpdate({ editor }) {
-
-
     const html = editor.getHTML()
     const json = editor.getJSON()
 
@@ -193,6 +196,7 @@ const editor = useEditor({
     }
 
 
+
     // console.log("Title: " +json_array[0].hasOwnProperty("content"))
     // console.log("Body: " +json_array[1].hasOwnProperty("content"))
     // emit('editorContent', json)
@@ -205,7 +209,20 @@ const editor = useEditor({
 })
 
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
+const insertText = (text) => unref(editor).commands.insertContent(text);
 
+
+const text = ref([
+  {
+    type: 'paragraph',
+    content: [
+      {
+        type: 'text',
+        text: 'First paragraph',
+      },
+    ],
+  },
+])
 
 </script>
 
@@ -275,6 +292,9 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   
   .character-count {
   margin-top: 1rem;
+  margin-bottom: 0.1rem;
+  margin-left: 0.1rem;
+  margin-right: 0.3rem;
   display: flex;
   align-items: center;
   color: #68CEF8;

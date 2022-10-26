@@ -88,6 +88,7 @@ onBeforeMount(() => {
   isLoading.value = true;
   // getAllUsers();
   getGroupDetails(route.params.uuid);
+  isLoading.value = false;
 
 });
 
