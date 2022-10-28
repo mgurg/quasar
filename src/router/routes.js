@@ -81,14 +81,14 @@ const routes = [
       requiresNoAuth: true,
     },
   },
-  // {
-  //   path: "/qr",
-  //   name: "qr",
-  //   component: () => import("pages/PublicOpen/Qr.vue"),
-  //   meta: {
-  //     requiresNoAuth: true,
-  //   },
-  // },
+  {
+    path: "/qr",
+    name: "qr",
+    component: () => import("pages/PublicOpen/Qr.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),

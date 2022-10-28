@@ -15,6 +15,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@api.video/player-sdk@npm:^1.2.21":
+  version: 1.2.21
+  resolution: "@api.video/player-sdk@npm:1.2.21"
+  dependencies:
+    core-js: ^3.8.3
+    url-polyfill: ^1.1.12
+  checksum: ed1b4e9ada1d86146a5bd122875a9656702dff81b294f360adc3f4668507fe30fcb13b7a8f14c66de296c1d4440ce4f1077801c56d5f1826f7415e2096a3eb01
+  languageName: node
+  linkType: hard
+
+"@api.video/video-uploader@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@api.video/video-uploader@npm:1.1.0"
+  dependencies:
+    core-js: ^3.25.5
+  checksum: b55cd37945615c4525225c1a5bb93ba950a149398fb626d2c02938d839a22b30d412a21b163a894bf5ab0edd838b064401d01da4118a0c6d0b10d09dce420203
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.18.6, @babel/code-frame@npm:^7.8.3":
   version: 7.18.6
   resolution: "@babel/code-frame@npm:7.18.6"
@@ -3716,6 +3735,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.25.5, core-js@npm:^3.8.3":
+  version: 3.26.0
+  resolution: "core-js@npm:3.26.0"
+  checksum: 0149eb9d3909fde9c17626af3a6e625c326e8598d0bb5e6c5b48a18e5fcd4eaf48d4964d873667d8148542ff590fb98eb3f93618da114ca54999d6bc0349734b
+  languageName: node
+  linkType: hard
+
 "core-js@npm:^3.6.5":
   version: 3.25.2
   resolution: "core-js@npm:3.25.2"
@@ -7359,6 +7385,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "quasar@workspace:."
   dependencies:
+    "@api.video/player-sdk": ^1.2.21
+    "@api.video/video-uploader": ^1.1.0
     "@quasar/app-webpack": ^3.6.2
     "@quasar/extras": ^1.15.5
     "@quasar/quasar-app-extension-qcalendar": ^4.0.0-beta.14
@@ -8545,7 +8573,7 @@ __metadata:
 
 "typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
   version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=7ad353"
+  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -8669,6 +8697,13 @@ __metadata:
     file-loader:
       optional: true
   checksum: c1122a992c6cff70a7e56dfc2b7474534d48eb40b2cc75467cde0c6972e7597faf8e43acb4f45f93c2473645dfd803bcbc20960b57544dd1e4c96e77f72ba6fd
+  languageName: node
+  linkType: hard
+
+"url-polyfill@npm:^1.1.12":
+  version: 1.1.12
+  resolution: "url-polyfill@npm:1.1.12"
+  checksum: 3214cc82424c215e921dacadac56b4b099f995d24e14078369bea9ff8aa74d1a4c803ab03021e61e0a275bee7979d212d046092dba3aab73cf232ee6739ddee4
   languageName: node
   linkType: hard
 

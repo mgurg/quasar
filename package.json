@@ -9,6 +9,8 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@api.video/player-sdk": "^1.2.21",
+    "@api.video/video-uploader": "^1.1.0",
     "@quasar/extras": "^1.15.5",
     "@sentry/browser": "^7.15.0",
     "@sentry/integrations": "^7.15.0",
