@@ -36,11 +36,55 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRoute } from 'vue-router';
-import { api } from "boot/axios";
+import { api, authApi } from "boot/axios";
+import axios from "axios";
 import { VideoUploader } from '@api.video/video-uploader'
 
 const file = ref(null)
 const uploadToken = ref("")
+const apiToken = ref("")
+
+function getUploadToken(){
+  authApi.get("/files/video_upload_token/")            
+      .then((res) => {
+           uploadToken.value = "res.data.upload_token"
+           apiToken.value = "res.data.api_token"
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(err.response);
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log("General Error");
+                }
+
+            });
+}
+
+getUploadToken()
+
+function listAllVideos(){
+  axios.get("https://sandbox.api.video/videos?currentPage=1&pageSize=25", {headers: { 
+    'accept': 'application/json', 
+    'Authorization': 'Bearer 47yczv1m0huXDEg6iyNRqYT9QXmUcMAArHY0Qqzgz0I'
+  }})            
+      .then((res) => {
+           console.log(Object.values(res.data)[0])
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(err.response);
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log("General Error");
+                }
+
+            });
+}
+
+listAllVideos()
 
 function handleFileUpload() {
         console.log(file.value.files)
