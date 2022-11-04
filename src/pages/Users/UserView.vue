@@ -9,78 +9,70 @@
         </q-breadcrumbs>
       </div>
 
-      <q-card class="my-card" bordered flat v-if="userDetails && !isLoading">
+      <q-card  v-if="userDetails && !isLoading" bordered class="my-card no-shadow">
+      <q-item>
+        <q-item-section avatar>
+          <q-avatar rounded color="green" text-color="white">MG</q-avatar>
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label>{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
+          <q-item-label caption>{{ userDetails.last_name }}</q-item-label>
+          <q-btn flat  v-if="userDetails.is_verified==false" color="primary" icon="how_to_reg" @click="activateUser()"> Activate</q-btn>
+        </q-item-section>
+        <q-card-actions>
+        
+        <q-btn
+          color="grey"
+          round
+          flat
+          dense
+          :icon="expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+          @click="expanded = !expanded"
+        />
+      </q-card-actions>
+      <q-card-actions v-if="userDetails.is_verified==false">
+          <q-btn flat  color="primary" icon="how_to_reg" @click="activateUser()"> Activate</q-btn>
+          <!-- <q-btn flat color="primary">Activate</q-btn> -->
+        </q-card-actions>
+
+      </q-item>
+
+      <q-slide-transition>
+        <div v-show="expanded">
+          <q-separator />
+          <q-card-section class="text-subitle2">
+            <p>Phone: {{userDetails.phone}}</p>
+            <p>Email: {{userDetails.email}}</p>
+            <div class="row">
+    <q-space />
+            <q-btn            flat
+            color="primary"
+            icon="done" @click="editUser(userDetails.uuid)">Edit</q-btn>
+            </div>
+            
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+    </q-card>
+    <div>&nbsp;</div>
+      <!-- <q-card class="my-card" bordered flat v-if="userDetails && !isLoading">
         <q-item>
-          <q-item-section avatar>
-            <q-avatar rounded color="green" text-color="white">MG</q-avatar>
-          </q-item-section>
 
           <q-item-section>
-            <q-item-label class="text-h5">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
+            <q-item-label class="text-h5">Pomysły</q-item-label>
           </q-item-section>
         </q-item>
 
         <q-separator />
-        <div class="row q-col-gutter-xs">
-          <div
-            class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
-            v-for="(file, index) in userDetails.file"
-            v-bind:key="index"
-          >
-            <q-img
-              :src="downloadFileUrl(file.uuid)"
-              spinner-color="black"
-              style="height: 100%; width:100% "
-              fit="contain"
-            >
-              <!-- <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="delete"
-              color="blue-grey-5"
-              style="top: 8px; right: 8px"
-              @click="delete_file(file.uuid)"
-            >
-              <q-tooltip>Tooltip</q-tooltip>
-              </q-icon>-->
 
-              <!-- <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="download"
-              color="blue-grey-5"
-              style="top: 8px; left: 8px"
-              @click="window.open(download_file(file.uuid))"
-            >
-              <q-tooltip>Tooltip</q-tooltip>
-              </q-icon>-->
-            </q-img>
-          </div>
-        </div>
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            color="primary"
-            icon="done"
-            v-if="userDetails.status == null"
-            @click="editUser(userDetails.uuid)"
-          >Edit</q-btn>
-
-         
-        </q-card-actions>
-
-        <q-card-section class="q-pt-none">Phone: {{ userDetails.phone }}</q-card-section>
-        <q-card-section class="q-pt-none">Email: {{ userDetails.email }}</q-card-section>
-        <q-separator />
-
-        <q-card-actions v-if="userDetails.is_verified==false">
-          <q-btn flat  color="primary" icon="how_to_reg" @click="activateUser()"> Activate</q-btn>
-          <!-- <q-btn flat color="primary">Activate</q-btn> -->
-        </q-card-actions>
         
-      </q-card>
+      </q-card> -->
 
-      <task-view-skeleton v-else />
+      <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas!= null">
+          <idea-item :idea="idea" v-if="!isLoading"></idea-item>
+        </div>
+        <task-index-skeleton v-else />
     </q-page>
   </div>
 </template>
@@ -93,15 +85,19 @@ import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
+import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
+import IdeaItem from "components/IdeaItem.vue";
+
 const router = useRouter();
 
 let isLoading = ref(false);
 let slide = ref(1);
-
+let expanded =  ref(false);
 
 const route = useRoute();
-let taskUuid = ref(route.params.uuid)
+let userUuid = ref(route.params.uuid)
 let userDetails = ref(null);
+let ideas = ref(null);
 
 
 
@@ -144,6 +140,27 @@ function activateUser() {
       }
     });
 }
+
+function getUserIdeas(){
+  authApi
+    .get("ideas/user/" + userUuid.value)
+    .then((res) => {
+      console.log(res.data.items);
+      ideas.value = res.data.items
+
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
+
+getUserIdeas()
 
 function editUser(uuid) {
     router.push("/users/edit/" + uuid);
