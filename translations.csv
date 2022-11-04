@@ -62,6 +62,11 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
 """New idea""",New idea,Nouvelle idée,Neue Idee,Nowy pomysł
 ,,,,
+#Guides,,,,
+"""Guides""",Guides,Guides,Führer,Przewodniki
+"""Guide""",Guide,Guide,Führen,Przewodnik
+"""New guide""",New guide,Nouveau guide,Neuer Leitfaden,Nowy przewodnik
+,,,,
 #tasks,,,,
 """Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana
 """Action was successful""",Action was successful,L'action a réussi,Aktion war erfolgreich,Działanie zakończyło się sukcesem
@@ -94,7 +99,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 #groups,,,,
 """Groups""",Groups,Groupes,Gruppen,Grupy
 """Group""",Group,Groupe,Gruppe,Grupa
-"""New Group""",New Group,Nouveau groupe,Neue Gruppe,Nowa grupa
+"""New group""",New group,Nouveau groupe,Neue Gruppe,Nowa grupa
 """Name""",Name,Nom,Name,Nazwa
 """Description""",Description,La description,Beschreibung,Opis
 """No groups, add a first one!""","No groups, add a first one!","Pas de groupes, ajoutez-en un premier!","Keine Gruppen, füge einen ersten hinzu!","Bez grup, dodaj pierwszy!"

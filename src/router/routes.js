@@ -105,6 +105,11 @@ const routes = [
       { path: "/ideas/:uuid", component: () => import("pages/Ideas/IdeaView.vue") },
       { path: "/ideas/user/:uuid", component: () => import("pages/Ideas/IdeaUserIndex.vue") },
 
+      { path: "/guides", component: () => import("pages/Guides/GuideIndex.vue") },
+      { path: "/guides/add", component: () => import("pages/Guides/GuideAdd.vue") },
+      { path: "/guides/:uuid", component: () => import("pages/Guides/GuideView.vue") },
+
+
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
       { path: "/settings/ideas", component: () => import("pages/Settings/SettingsIdea.vue") },
       { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissionsIndex.vue") },
