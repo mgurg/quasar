@@ -65,6 +65,11 @@ export default {
 	"Would you like to improve something more?": `Czy chciałbyś poprawić coś więcej?`,
 	"New idea": `Nowy pomysł`,
 
+	// Guides
+	"Guides": `Przewodniki`,
+	"Guide": `Przewodnik`,
+	"New guide": `Nowy przewodnik`,
+
 	// tasks
 	"Action failed": `Akcja: nieudana`,
 	"Action was successful": `Działanie zakończyło się sukcesem`,
@@ -97,7 +102,7 @@ export default {
 	// groups
 	"Groups": `Grupy`,
 	"Group": `Grupa`,
-	"New Group": `Nowa grupa`,
+	"New group": `Nowa grupa`,
 	"Name": `Nazwa`,
 	"Description": `Opis`,
 	"No groups, add a first one!": `Bez grup, dodaj pierwszy!`,

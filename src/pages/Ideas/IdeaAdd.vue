@@ -4,7 +4,7 @@
             <div class="q-pa-md q-gutter-sm">
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/home" />
-                    <q-breadcrumbs-el label="Ideas" icon="tips_and_updates" to="/ideas" />
+                    <q-breadcrumbs-el :label="$t('Ideas')" icon="tips_and_updates" to="/ideas" />
                     <q-breadcrumbs-el :label="$t('Add')" icon="add" />
                 </q-breadcrumbs>
             </div>
