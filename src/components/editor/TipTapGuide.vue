@@ -54,7 +54,7 @@
     <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
       h3
     </q-btn>
-    <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
+    <!-- <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
       h4
     </q-btn>
     <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
@@ -62,7 +62,7 @@
     </q-btn>
     <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
       h6
-    </q-btn>
+    </q-btn> -->
     <q-btn 
       flat 
       @click="editor.chain().focus().toggleBulletList().run()" 
