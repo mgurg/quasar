@@ -5,10 +5,6 @@
                 <q-avatar rounded color="red-12" text-color="white">{{ initials }}
                     <q-badge v-if="user.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
                 </q-avatar>
-                <!-- <q-avatar rounded>
-                    <img src="~assets/stecker.jpg" />
-                    <q-badge floating rounded color="green" />
-                </q-avatar> -->
             </q-item-section>
 
             <q-item-section>

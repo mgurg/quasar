@@ -3,51 +3,54 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="row justify-around q-mt-sm">
         <div class="col-6">
-          <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Employees") }}</p></div>
+          <p class="text-h4" :class="$q.dark.isActive ? 'text-blue-grey-1' : 'text-blue-grey-10'">{{ $t("Employees") }}</p>
+        </div>
         <div class="col-6">
           <!-- v-if="hasPermission('USERS_ADD')" -->
-          <q-btn  padding="sm" class="float-right" outline  size="md" icon="add" to="/users/add" color="primary" no-caps>
-          {{ $t("New employee") }}
-          </q-btn></div>
+          <q-btn padding="sm" class="float-right" outline size="md" icon="add" to="/users/add" color="primary" no-caps>
+            {{ $t("New employee") }}
+          </q-btn>
+        </div>
       </div>
 
-<div class="row q-gutter-sm items-center">
-  <div><q-input dense clearable outlined v-model="search" :label="$t('Type your search text')"  type="search" @keyup="fetchUsers()" @clear="fetchUsers()">
-  </q-input></div>
-  <div><q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn></div>
-</div>
-      
-      <q-list padding v-if="!isLoading && users != null">
-      <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
-        <q-item-section avatar>
-
-        </q-item-section>
-        <q-item-section>
-          <span>{{ $t("Name") }} 
-            <q-btn 
-            padding="xs" 
-            :unelevated="sort.active=='name'? true:false" 
-            :flat="sort.active=='name'? false:true" 
-            size="sm" 
-            color="primary" 
-            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'" 
-            @click="changeSortOrder('name')" />
-          </span>
-          
-        </q-item-section>
-        <q-item-section side>
-
-        </q-item-section>
-      </q-item>
-
-        <div v-for="(user, index) in users" v-bind:key="index" v-if="users!=null">
-           <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected" v-if="!isLoading"></user-item>
+      <div class="row q-gutter-sm items-center">
+        <div>
+          <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
+            @keyup="fetchUsers()" @clear="fetchUsers()">
+          </q-input>
         </div>
-        <task-index-skeleton v-else/>
+        <div>
+          <q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn>
+        </div>
+      </div>
+
+      <q-list padding v-if="!isLoading && users != null">
+        <q-item class="rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1'">
+          <q-item-section avatar>
+
+          </q-item-section>
+          <q-item-section>
+            <span>{{ $t("Name") }}
+              <q-btn padding="xs" :unelevated="sort.active == 'name' ? true : false" :flat="sort.active == 'name' ? false : true"
+                size="sm" color="primary" :icon="sort.name == 'asc' ? 'arrow_upward' : 'arrow_downward'"
+                @click="changeSortOrder('name')" />
+            </span>
+
+          </q-item-section>
+          <q-item-section side>
+
+          </q-item-section>
+        </q-item>
+
+        <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
+          <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected"
+            v-if="!isLoading"></user-item>
+        </div>
+        <task-index-skeleton v-else />
 
 
       </q-list>
-      
+
 
 
       <div class="q-pa-lg flex flex-center">
@@ -69,7 +72,7 @@ import { useUserStore } from "stores/user";
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 
 const UserStore = useUserStore();
-const permissions = computed(() => UserStore.getPermissions );
+const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
   return Boolean(permissions.value.includes(permission));
@@ -89,8 +92,8 @@ let sort = reactive({
   active: "name"
 })
 
-function changeSortOrder(column){
-  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+function changeSortOrder(column) {
+  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
   sort.active = column
   fetchUsers()
 }
@@ -137,13 +140,13 @@ watch(() => pagination.page, (oldPage, newPage) => {
 function fetchUsers() {
   isLoading.value = true;
   console.log('fetching users');
-    let params = { 
-      search: search.value,
-      page: pagination.page,
-      size: pagination.size,
-      sortOrder: sort[sort.active],
-      sortColumn: sort.active
-    };
+  let params = {
+    search: search.value,
+    page: pagination.page,
+    size: pagination.size,
+    sortOrder: sort[sort.active],
+    sortColumn: sort.active
+  };
   authApi
     .get("/users/", { params: params })
     .then((res) => {

@@ -17,7 +17,7 @@
 
             <q-item class="q-px-none">
               <q-item-section avatar>
-                <q-avatar rounded color="green" text-color="white">MG</q-avatar>
+                <q-avatar rounded color="green" text-color="white">{{initials}}</q-avatar>
               </q-item-section>
               <q-item-section>
                 <q-item-label class="text-h6">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, onActivated, onBeforeMount } from "vue";
+import { ref,computed, onActivated, onBeforeMount } from "vue";
 import { DateTime } from "luxon";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -89,6 +89,8 @@ import IdeaItem from "components/IdeaItem.vue";
 
 const router = useRouter();
 
+
+
 let isLoading = ref(false);
 let slide = ref(1);
 let expanded = ref(false);
@@ -98,13 +100,14 @@ let userUuid = ref(route.params.uuid)
 let userDetails = ref(null);
 let ideas = ref(null);
 
-
+const initials =ref("")
 
 function getDetails(uuid) {
   authApi
     .get("/users/" + uuid)
     .then((res) => {
       userDetails.value = res.data;
+      initials.value = (res.data.first_name[0] + res.data.last_name[0]).toUpperCase()
       isLoading.value = false;
     })
     .catch((err) => {

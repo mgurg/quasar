@@ -5,7 +5,7 @@
             <q-card class="bg-transparent no-shadow no-border q-pt-md">
                 <q-card-section class="q-pa-none">
                     <div class="row q-col-gutter-sm ">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <router-link to="/ideas">
                                 <q-item style="background-color: #e91e63" class="q-pa-none rounded-borders">
                                     <q-item-section  side
@@ -21,7 +21,7 @@
                                 </q-item>
                             </router-link>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <router-link to="/ideas">
                                 <q-item style="background-color: #ffb300" class="q-pa-none rounded-borders">
                                     <q-item-section  side
@@ -37,7 +37,7 @@
                                 </q-item>
                             </router-link>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <router-link to="/ideas">
                                 <q-item style="background-color: #009688" class="q-pa-none rounded-borders">
                                     <q-item-section  side
@@ -53,7 +53,7 @@
                                 </q-item>
                             </router-link>
                         </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
                             <router-link to="/ideas">
                                 <q-item style="background-color: #455a64" class="q-pa-none rounded-borders">
                                     <q-item-section  side
