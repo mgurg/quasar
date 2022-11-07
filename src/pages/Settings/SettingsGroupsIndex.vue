@@ -14,7 +14,7 @@
         <div class="col-6">
           <!-- v-if="hasPermission('USERS_ADD')"  -->
           <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/settings/groups/add" color="primary" no-caps>
-          {{ $t("New Group") }}
+          {{ $t("New group") }}
           </q-btn></div>
       </div>
 
@@ -137,7 +137,6 @@ function fetchGroups() {
       }
     });
 }
-
 
 onBeforeMount(() => {
   fetchGroups();

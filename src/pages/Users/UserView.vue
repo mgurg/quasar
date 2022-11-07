@@ -1,13 +1,26 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="q-pa-md q-gutter-sm">
+      <!-- <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el label="Users" icon="people" to="/users" />
           <q-breadcrumbs-el :label="$t('View')" icon="info" />
         </q-breadcrumbs>
-      </div>
+      </div> -->
+
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section class="row q-pa-md">
+          <q-breadcrumbs>
+          <q-breadcrumbs-el icon="home" to="/" />
+          <q-breadcrumbs-el label="Users" icon="people" to="/users" />
+          <q-breadcrumbs-el :label="$t('View')" icon="info" />
+        </q-breadcrumbs>
+
+        </q-card-section>
+
+        
+      </q-card>
 
       <q-card  v-if="userDetails && !isLoading" bordered class="my-card no-shadow">
       <q-item>
@@ -46,7 +59,8 @@
             <p>Email: {{userDetails.email}}</p>
             <div class="row">
     <q-space />
-            <q-btn            flat
+            <q-btn            
+            flat
             color="primary"
             icon="done" @click="editUser(userDetails.uuid)">Edit</q-btn>
             </div>

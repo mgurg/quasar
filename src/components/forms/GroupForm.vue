@@ -54,7 +54,7 @@
             <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
             <q-space />
             <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
-            <q-btn v-if="!allowEdit" type="submit" color="primary" @click="enableEditMode">{{ $t("Edit") }}</q-btn>
+            <!-- <q-btn v-if="!allowEdit" type="submit" color="primary" @click="enableEditMode">{{ $t("Edit") }}</q-btn> -->
         </div>
 
     </q-form>
@@ -84,7 +84,7 @@
 
 
 <script setup>
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount, computed , watch} from "vue";
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -156,6 +156,11 @@ let allowEdit = ref(props.canEdit)
 function enableEditMode(){
   allowEdit.value = true
 }
+
+watch(() => props.canEdit, (newValue, oldValue) => {
+  allowEdit.value = newValue
+  console.log(newValue, oldValue)
+});
 
 function getAllUsers() {
   authApi

@@ -5,6 +5,7 @@ export default {
 	// common
 	"Add": `Hinzufügen`,
 	"Edit": `Bearbeiten`,
+	"Delete": `Löschen`,
 	"View": `Aussicht`,
 	"Cancel": `Absagen`,
 	"Save": `Speichern`,

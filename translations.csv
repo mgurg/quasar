@@ -2,6 +2,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 #common,,,,
 """Add""",Add,Ajouter,Hinzufügen,Dodaj
 """Edit""",Edit,Éditer,Bearbeiten,Edytuj
+"""Delete""",Delete,Effacer,Löschen,Usuń
 """View""",View,Voir,Aussicht,Podgląd
 """Cancel""",Cancel,Annuler,Absagen,Anuluj
 """Save""",Save,sauvegarder,Speichern,Zapisz

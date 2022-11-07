@@ -1,4 +1,8 @@
 <template>
+        <div class="row">
+        &nbsp;
+   
+      </div>
     <q-form 
         autocorrect="off" 
         autocapitalize="off" 
@@ -43,8 +47,7 @@
     <div class="row">
             <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
             <q-space />
-            <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
-            <q-btn v-if="!allowEdit" type="submit" color="primary" @click="enableEditMode">{{ $t("Edit") }}</q-btn>
+            <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t('Save') }}</q-btn>
         </div>
 
     </q-form>
@@ -52,7 +55,7 @@
 
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
+import { ref, watch, onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -103,24 +106,10 @@ function enableEditMode(){
 }
 
 
-// function getAllUsers() {
-//   authApi
-//     .get("/users/")
-//     .then((res) => {
-//       allPermissions.value = res.data.items;
-//       groupUsers.value = props.role.users.map(value => value.uuid);
-//       isLoading.value = false;
-//     })
-//     .catch((err) => {
-//       if (err.response) {
-//         console.log(err.response);
-//       } else if (err.request) {
-//         console.log(err.request);
-//       } else {
-//         console.log("General Error");
-//       }
-//     });
-// }
+watch(() => props.canEdit, (newValue, oldValue) => {
+  allowEdit.value = newValue
+  console.log(newValue, oldValue)
+});
 
 function getAllPermissions() {
   authApi

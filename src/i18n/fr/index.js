@@ -5,6 +5,7 @@ export default {
 	// common
 	"Add": `Ajouter`,
 	"Edit": `Éditer`,
+	"Delete": `Effacer`,
 	"View": `Voir`,
 	"Cancel": `Annuler`,
 	"Save": `sauvegarder`,
