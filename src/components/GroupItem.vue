@@ -1,5 +1,5 @@
 <template>
-    <div @click="handleSelect(group.uuid)">
+    <div @click="viewGroup(group.uuid)">
         <q-item :class="{ 'bg-blue-grey-6': (group.uuid == selected && $q.dark.isActive), 'bg-blue-grey-3': (group.uuid == selected && !$q.dark.isActive) }">
             <q-item-section avatar cursor-pointer ripple @click="viewGroup(group.uuid)">
                 <q-avatar rounded :color="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'"> {{nativeEmoji(group.symbol)}}
