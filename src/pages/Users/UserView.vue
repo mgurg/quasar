@@ -5,7 +5,7 @@
         <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
             <q-breadcrumbs-el icon="home" to="/" />
-            <q-breadcrumbs-el :label="$t('Users')" icon="people" to="/users" />
+            <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users" />
             <q-breadcrumbs-el :label="$t('View')" icon="info" />
           </q-breadcrumbs>
 
@@ -28,7 +28,7 @@
                   <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
                     :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGroup(permissionDetails.uuid)" />
                   <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
-                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="toggleEdit()" />
+                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
                 </div>
               </q-item-section>
             </q-item>
@@ -50,31 +50,28 @@
           </q-card-actions>
         </div>
 
-
-
-
-
       </q-card>
 
 
       <div>&nbsp;</div>
-      <!-- <q-card class="my-card" bordered flat v-if="userDetails && !isLoading">
-        <q-item>
-
-          <q-item-section>
-            <q-item-label class="text-h5">Pomysły</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-separator />
-
-        
-      </q-card> -->
-
-      <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
-        <idea-item :idea="idea" v-if="!isLoading"></idea-item>
-      </div>
-      <task-index-skeleton v-else />
+      <q-card class="my-card no-shadow" bordered v-if="userDetails && !isLoading">
+        <q-card-section>
+          <p class="text-h5">Szczegóły</p>
+          <p>Email: <strong>{{ userDetails.email }}</strong></p>
+          <p>Phone: <strong>{{ userDetails.phone }}</strong></p>
+          <p>Role: <strong>{{ userDetails.role_FK.role_title }}</strong></p>
+        </q-card-section>
+      </q-card>
+      <div>&nbsp;</div>
+      <q-card class="my-card no-shadow" bordered v-if="userDetails && !isLoading">
+        <q-card-section>
+          <p class="text-h5">Pomysły</p>
+          <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
+            <idea-item :idea="idea" v-if="!isLoading"></idea-item>
+          </div>
+          <task-index-skeleton v-else />
+        </q-card-section>
+      </q-card>
     </q-page>
   </div>
 </template>

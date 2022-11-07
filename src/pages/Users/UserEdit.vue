@@ -4,8 +4,8 @@
             <div class="q-pa-md q-gutter-sm">
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/" />
-                    <q-breadcrumbs-el label="Employees" icon="people" to="/users" />
-                    <q-breadcrumbs-el label="Edit" icon="edit" />
+                    <q-breadcrumbs-el :label="$t('Employee')" icon="people" to="/users" />
+                    <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />
                 </q-breadcrumbs>
             </div>
             <user-form v-if="userDetails != null"

@@ -3,7 +3,7 @@
         <q-form autocorrect="off" autocapitalize="off" spellcheck="false" class="q-gutter-md"
             @submit.prevent>
             <div class="row justify-between items-center">
-                <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employees") }}</h5>
+                <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employee") }}</h5>
 
             </div>
             <div class="row sm-gutter">
@@ -32,32 +32,6 @@
             </div>
             <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-6 col-sm-6">
-                    <q-input
-                        outlined
-                        v-model="userPassword"
-                        :disable="isLoading"
-                        :error="!!errors.userPassword"
-                        :error-message="errors.userPassword"
-                        :type="isPwd ? 'password' : 'text'"
-                        :label="$t('Password')"
-                        
-                        autocomplete="new-password" 
-                    />
-                </div>
-                <div class="q-pa-xs col-xs-6 col-sm-6">
-                    <q-input
-                        v-model="userPasswordConfirmation"
-                        :disable="isLoading"
-                        :error="!!errors.userPasswordConfirmation"
-                        :error-message="errors.userPasswordConfirmation"
-                        :type="isPwd ? 'password' : 'text'"
-                        :label="$t('Password')"
-                        outlined
-                    />
-                </div>
-            </div>
-            <div class="row sm-gutter">
-                <div class="q-pa-xs col-xs-12 col-sm-6">
                     <q-input 
                         outlined 
                         v-model="userEmail" 
@@ -67,6 +41,28 @@
                         :label="$t('E-mail')" 
                     />
                 </div>
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+                    <q-input
+                        outlined
+                        v-model="userPassword"
+                        :disable="isLoading"
+                        :error="!!errors.userPassword"
+                        :error-message="errors.userPassword"
+                        :type="isPwd ? 'password' : 'text'"
+                        :label="$t('Password')"
+                        autocomplete="new-password" 
+                    >
+                    <template v-slot:append>
+                        <q-icon
+                            :name="isPwd ? 'visibility_off' : 'visibility'"
+                            class="cursor-pointer"
+                            @click="isPwd = !isPwd"
+                        />
+                        </template>
+                    </q-input>
+                </div>
+            </div>
+            <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-12 col-sm-6">
                     <q-input 
                         outlined 
@@ -77,10 +73,7 @@
                         :label="$t('Phone')" 
                     />
                 </div>
-            </div>
-
-            <div class="row sm-gutter">
-                <div class="q-pa-xs col-xs-6 col-sm-6">
+                <div class="q-pa-xs col-xs-12 col-sm-6">
                     <q-select 
                         outlined 
                         v-model="userRole" 
@@ -93,6 +86,12 @@
                         emit-value 
                         map-options 
                     />
+                </div>
+            </div>
+
+            <div class="row sm-gutter">
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+
                 </div>
                 <div class="q-pa-xs col-xs-6 col-sm-6">
                     <!-- <q-select 
@@ -183,7 +182,6 @@ const validationSchema = yup.object({
     userFirstName: yup.string().required(),
     userLastName: yup.string().required(),
     userPassword: yup.string().required(),
-    userPasswordConfirmation: yup.string().required(),
     userEmail: yup.string().email().required(),
     userPhone: yup.string().nullable(),
     userRole: yup.string().required(),
@@ -196,8 +194,7 @@ const { handleSubmit, errors } = useForm({
 
 const { value: userFirstName } = useField('userFirstName', undefined, { initialValue: props.user.first_name })
 const { value: userLastName } = useField('userLastName', undefined, { initialValue: props.user.last_name })
-const { value: userPassword } = useField('userPassword', undefined, { initialValue: props.user.first_name })
-const { value: userPasswordConfirmation } = useField('userPasswordConfirmation', undefined, { initialValue: props.user.first_name })
+const { value: userPassword } = useField('userPassword', undefined, { initialValue: "" })
 const { value: userEmail } = useField('userEmail', undefined, { initialValue: props.user.email })
 const { value: userPhone } = useField('userPhone', undefined, { initialValue: props.user.phone })
 const { value: userRole } = useField('userRole', undefined, { initialValue: props.user.role_FK.uuid })

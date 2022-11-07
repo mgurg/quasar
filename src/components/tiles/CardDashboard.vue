@@ -10,7 +10,7 @@
                             <q-icon :name="item.icon" color="white" size="24px"></q-icon>
                         </q-item-section>
                         <q-item-section class=" q-pa-md q-ml-none  text-white">
-                            <q-item-label class="text-white text-h6 text-weight-bolder">{{ item.value }}</q-item-label>
+                            <q-item-label class="text-white text-h5 text-weight-bolder">{{ item.value }}</q-item-label>
                             <q-item-label>{{ item.title }}</q-item-label>
                         </q-item-section>
                         <q-item-section v-if="icon_position === 'right'" side class="q-mr-md text-white">
@@ -45,7 +45,7 @@ export default defineComponent({
                         value: "4",
                         color1: "#e91e63",
                         color2: "#d81b60",
-                        link: "/settings/ideas"
+                        link: "/ideas"
                     },
                     {
                         title: "Voted",
@@ -53,7 +53,7 @@ export default defineComponent({
                         value: "1",
                         color1: "#ffb300",
                         color2: "#ffa000",
-                        link: "/settings/permissions"
+                        link: "/ideas"
                     },
                     {
                         title: "Accepted",
@@ -61,7 +61,7 @@ export default defineComponent({
                         value: "1",
                         color1: "#009688",
                         color2: "#00897b",
-                        link: "/settings/groups"
+                        link: "/ideas"
                     },
                     {
                         title: "Rejected",
@@ -69,7 +69,7 @@ export default defineComponent({
                         value: "1",
                         color1: "#455a64",
                         color2: "#37474f",
-                        link: "/settings/ideas"
+                        link: "/ideas"
                     }
                 ]
                 : [
