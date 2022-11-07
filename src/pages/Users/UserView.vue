@@ -1,75 +1,63 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <!-- <div class="q-pa-md q-gutter-sm">
-        <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el label="Users" icon="people" to="/users" />
-          <q-breadcrumbs-el :label="$t('View')" icon="info" />
-        </q-breadcrumbs>
-      </div> -->
-
-      <q-card bordered class="my-card no-shadow q-mt-sm">
-        <q-card-section class="row q-pa-md">
+      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el label="Users" icon="people" to="/users" />
-          <q-breadcrumbs-el :label="$t('View')" icon="info" />
-        </q-breadcrumbs>
+            <q-breadcrumbs-el icon="home" to="/" />
+            <q-breadcrumbs-el :label="$t('Users')" icon="people" to="/users" />
+            <q-breadcrumbs-el :label="$t('View')" icon="info" />
+          </q-breadcrumbs>
 
         </q-card-section>
 
-        
+        <q-separator />
+        <q-card-section>
+          <q-list>
+
+            <q-item class="q-px-none">
+              <q-item-section avatar>
+                <q-avatar rounded color="green" text-color="white">MG</q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-h6">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
+                <q-item-label caption>{{ userDetails.last_name }}</q-item-label>
+              </q-item-section>
+              <q-item-section side v-if="$q.screen.gt.sm">
+                <div class="col-12 text-h6 q-mt-none">
+                  <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
+                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGroup(permissionDetails.uuid)" />
+                  <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
+                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="toggleEdit()" />
+                </div>
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </q-card-section>
+        <div v-if="$q.screen.lt.md">
+          <q-separator />
+          <q-card-actions>
+
+            <!-- <q-btn flat color="primary" icon="how_to_reg" class="float-right" @click="activateUser()"></q-btn> -->
+            <!-- <q-btn flat color="primary">Activate</q-btn> -->
+            <div class="col-12 text-h6 q-mt-none">
+              <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
+                :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGroup(permissionDetails.uuid)" />
+              <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
+                :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="toggleEdit()" />
+            </div>
+          </q-card-actions>
+        </div>
+
+
+
+
+
       </q-card>
 
-      <q-card  v-if="userDetails && !isLoading" bordered class="my-card no-shadow">
-      <q-item>
-        <q-item-section avatar>
-          <q-avatar rounded color="green" text-color="white">MG</q-avatar>
-        </q-item-section>
 
-        <q-item-section>
-          <q-item-label>{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
-          <q-item-label caption>{{ userDetails.last_name }}</q-item-label>
-          <q-btn flat  v-if="userDetails.is_verified==false" color="primary" icon="how_to_reg" @click="activateUser()"> Activate</q-btn>
-        </q-item-section>
-        <q-card-actions>
-        
-        <q-btn
-          color="grey"
-          round
-          flat
-          dense
-          :icon="expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-          @click="expanded = !expanded"
-        />
-      </q-card-actions>
-      <q-card-actions v-if="userDetails.is_verified==false">
-          <q-btn flat  color="primary" icon="how_to_reg" @click="activateUser()"> Activate</q-btn>
-          <!-- <q-btn flat color="primary">Activate</q-btn> -->
-        </q-card-actions>
-
-      </q-item>
-
-      <q-slide-transition>
-        <div v-show="expanded">
-          <q-separator />
-          <q-card-section class="text-subitle2">
-            <p>Phone: {{userDetails.phone}}</p>
-            <p>Email: {{userDetails.email}}</p>
-            <div class="row">
-    <q-space />
-            <q-btn            
-            flat
-            color="primary"
-            icon="done" @click="editUser(userDetails.uuid)">Edit</q-btn>
-            </div>
-            
-          </q-card-section>
-        </div>
-      </q-slide-transition>
-    </q-card>
-    <div>&nbsp;</div>
+      <div>&nbsp;</div>
       <!-- <q-card class="my-card" bordered flat v-if="userDetails && !isLoading">
         <q-item>
 
@@ -83,16 +71,16 @@
         
       </q-card> -->
 
-      <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas!= null">
-          <idea-item :idea="idea" v-if="!isLoading"></idea-item>
-        </div>
-        <task-index-skeleton v-else />
+      <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
+        <idea-item :idea="idea" v-if="!isLoading"></idea-item>
+      </div>
+      <task-index-skeleton v-else />
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref, onActivated ,onBeforeMount} from "vue";
+import { ref, onActivated, onBeforeMount } from "vue";
 import { DateTime } from "luxon";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -106,7 +94,7 @@ const router = useRouter();
 
 let isLoading = ref(false);
 let slide = ref(1);
-let expanded =  ref(false);
+let expanded = ref(false);
 
 const route = useRoute();
 let userUuid = ref(route.params.uuid)
@@ -155,7 +143,7 @@ function activateUser() {
     });
 }
 
-function getUserIdeas(){
+function getUserIdeas() {
   authApi
     .get("ideas/user/" + userUuid.value)
     .then((res) => {
@@ -177,7 +165,7 @@ function getUserIdeas(){
 getUserIdeas()
 
 function editUser(uuid) {
-    router.push("/users/edit/" + uuid);
+  router.push("/users/edit/" + uuid);
 }
 
 onBeforeMount(() => {

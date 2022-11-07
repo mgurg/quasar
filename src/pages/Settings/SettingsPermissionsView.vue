@@ -7,16 +7,14 @@
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
           <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"  />
-          <q-breadcrumbs-el :label="$t('View')" icon="info" />
+          <q-breadcrumbs-el :label="$t('View')" />
         </q-breadcrumbs>
-        <div class="col-12 text-h6 q-mt-sm">
-        <span class="text-h6" v-if="permissionDetails">{{permissionDetails.role_name}}</span> 
-      </div>
+
         </q-card-section>
         <q-separator />
         <q-card-actions>
           <div class="col-12 text-h6 q-mt-xs">
-            
+            <span class="text-h6" v-if="permissionDetails">{{permissionDetails.role_name}}</span> 
             <span>
             <q-btn 
             outline 
