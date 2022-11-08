@@ -90,6 +90,15 @@
           <q-item-section>{{ $t("Settings") }}</q-item-section>
         </q-item>
 
+        <!--Guides Index-->
+        <q-item to="/guides" exact clickable v-ripple> <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+          <q-item-section avatar>
+            <q-icon size="md" name="fact_check" />
+          </q-item-section>
+
+          <q-item-section>{{ $t("Guides") }}</q-item-section>
+        </q-item>
+
         <!-- Tasks Index -->
         <!-- <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>

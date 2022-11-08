@@ -4,7 +4,7 @@
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/home" />
-          <q-breadcrumbs-el :label="$t('Guides')" icon="tips_and_updates" to="/guides" />
+          <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides" />
           <q-breadcrumbs-el :label="$t('Add')" icon="add" />
         </q-breadcrumbs>
       </div>
@@ -15,6 +15,7 @@
 
       </div>
       <div>&nbsp;</div>
+      <q-img :src="videoThumbnail" v-if="videoThumbnail"></q-img>
       <q-file outlined v-model="file" label="Pick video" accept="video/*" @update:model-value="handleFileUpload()"
         type="file">
         <template v-slot:prepend>
@@ -53,9 +54,32 @@
         <!-- <video controls width="250">
           <source :src="video.assets.mp4">
         </video> -->
-        <div style="width: 100vmin; height: 70vmin;" v-html="video.assets.iframe"></div>
+        <q-img :src="video.assets.thumbnail" style="height: 140px; max-width: 150px" @click="PlayVideo()"></q-img>
+        <!-- <div style="width: 100vmin; height: 70vmin;" v-html="video.assets.iframe"></div> -->
         <!-- {{video.assets.iframe}} -->
+
+        <q-dialog v-model="alert">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Alert</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <!-- style="width: 100vmin; height: 70vmin;" -->
+          <div  v-html="video.assets.iframe"></div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="OK" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
       </div>
+
+
+
+
 
     </q-page>
   </div>
@@ -105,6 +129,9 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let isUploading = ref(false);
+let alert= ref(false);
+
+let videoThumbnail = ref(null)
 
 function createIdea(body) {
   isLoading.value = true;
@@ -169,7 +196,10 @@ function handleFileUpload() {
   });
 
   uploader.upload()
-    .then((video) => console.log(video))
+    .then((video) => {
+      videoThumbnail.value = video.assets.thumbnail
+      console.log(video)
+    })
     .catch((error) => console.log(error.status, error.message));
 
   uploader.onProgress((event) => {
@@ -248,6 +278,10 @@ function cancelButtonPressed() {
   router.push("/ideas");
 }
 
+function PlayVideo(){
+  console.log("playing...")
+  alert.value=true;
+}
 
 </script>
 

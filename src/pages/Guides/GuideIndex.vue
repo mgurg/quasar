@@ -1,27 +1,27 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h4">{{ $t("Guides") }}</q-item-label>
+                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+              </q-item-section>
+              <q-item-section side>
+                <div class="col-12 text-h6 q-mt-none">
+                  <q-btn outline class="float-right q-mr-xs"  icon="add" to="/guides/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
+                </div>
+              </q-item-section>
+            </q-item>
 
-      <div class="row justify-around q-mt-sm">
-        <div class="col-6">
-          <p class="text-h4">{{ $t("Ideas") }}</p>
-        </div>
+          </q-list>
+        </q-card-section>
+      </q-card>
 
-        <div class="col-6">
-          <q-btn 
-            padding="sm" 
-            class="float-right" 
-            outline size="md" 
-            icon="add" 
-            to="/ideas/add" 
-            color="primary"
-            label="Nowy pomysł" 
-            no-caps
-          />
-        </div>
-      </div>
 
-      <div class="row q-gutter-xs items-center">
+      <!-- <div class="row q-gutter-xs items-center">
         <div>
           <q-input 
             dense 
@@ -155,7 +155,7 @@
         <task-index-skeleton v-else />
 
       </q-list>
-      <!-- Skeleton -->
+
       
 
       <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0 || ideas == null">
@@ -165,7 +165,7 @@
       <div class="q-pa-lg flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
-      <q-space class="q-pa-sm" />
+      <q-space class="q-pa-sm" /> -->
 
     </q-page>
   </div>

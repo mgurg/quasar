@@ -14,14 +14,13 @@
         <q-separator />
         <q-card-section>
           <q-list>
-
             <q-item class="q-px-none">
               <q-item-section avatar>
                 <q-avatar rounded color="green" text-color="white">{{initials}}</q-avatar>
               </q-item-section>
               <q-item-section>
                 <q-item-label class="text-h6">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
-                <q-item-label caption>{{ userDetails.last_name }}</q-item-label>
+                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
               <q-item-section side v-if="$q.screen.gt.sm">
                 <div class="col-12 text-h6 q-mt-none">

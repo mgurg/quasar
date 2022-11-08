@@ -1,19 +1,31 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="row justify-around q-mt-sm">
-        <div class="col-6">
-          <p class="text-h4" :class="$q.dark.isActive ? 'text-blue-grey-1' : 'text-blue-grey-10'">{{ $t("Employees") }}</p>
-        </div>
-        <div class="col-6">
-          <!-- v-if="hasPermission('USERS_ADD')" -->
-          <q-btn padding="sm" class="float-right" outline size="md" icon="add" to="/users/add" color="primary" no-caps>
-            {{ $t("New employee") }}
-          </q-btn>
-        </div>
-      </div>
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h4">{{ $t("Employees") }}</q-item-label>
+                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+              </q-item-section>
+              <q-item-section side>
+                <div class="col-12 text-h6 q-mt-none">
+                  <q-btn outline class="float-right"  icon="add" to="/users/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New employee') : ''" />
+                  <q-btn outline class="float-right q-mr-xs"  icon="backup" to="/users/add" color="primary" no-caps :label="$q.screen.gt.xs ? 'Importuj' : ''" />
 
-      <div class="row q-gutter-sm items-center">
+                </div>
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </q-card-section>
+      </q-card>
+
+      <q-card  class="my-card no-shadow q-mt-sm q-pt-none">
+        
+        <q-card-section class="row q-pa-sm">
+          <div class="row q-gutter-sm items-center">
         <div>
           <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
             @keyup="fetchUsers()" @clear="fetchUsers()">
@@ -23,8 +35,9 @@
           <q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn>
         </div>
       </div>
-
-      <q-list padding v-if="!isLoading && users != null">
+        </q-card-section>
+        <!-- <q-separator /> -->
+      <q-list padding v-if="!isLoading && users != null" class="q-mt-none q-pt-none">
         <q-item class="rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1'">
           <q-item-section avatar>
 
@@ -57,7 +70,8 @@
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
 
-      <q-space class="q-pa-sm" />
+      <!-- <q-space class="q-pa-sm" /> -->
+    </q-card>
 
     </q-page>
   </div>
