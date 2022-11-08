@@ -20,6 +20,7 @@ export default {
 	"Pending": `Ausstehend`,
 	"Rejected": `Abgelehnt`,
 	"Accepted": `Akzeptiert`,
+	"Details": `Einzelheiten`,
 
 	// login
 	"Login": `Anmeldung`,
@@ -99,6 +100,7 @@ export default {
 	"New permission": `Neue Erlaubnis`,
 	"Name": `Name`,
 	"Description": `Beschreibung`,
+	"Role": `Rolle`,
 
 	// groups
 	"Groups": `Gruppen`,

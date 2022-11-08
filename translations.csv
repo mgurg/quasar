@@ -17,6 +17,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Pending""",Pending,En attente,Ausstehend,W oczekiwaniu
 """Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
 """Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+"""Details""",Details,Détails,Einzelheiten,Detale
 ,,,,
 #login,,,,
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
@@ -96,6 +97,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """New permission""",New permission,Nouvelle autorisation,Neue Erlaubnis,Nowe pozwolenie
 """Name""",Name,Nom,Name,Nazwa
 """Description""",Description,La description,Beschreibung,Opis
+"""Role""",Role,Rôle,Rolle,Rola
 ,,,,
 #groups,,,,
 """Groups""",Groups,Groupes,Gruppen,Grupy

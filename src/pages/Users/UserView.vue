@@ -26,7 +26,7 @@
               <q-item-section side v-if="$q.screen.gt.sm">
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGroup(permissionDetails.uuid)" />
+                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
                   <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
                     :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
                 </div>
@@ -43,9 +43,9 @@
             <!-- <q-btn flat color="primary">Activate</q-btn> -->
             <div class="col-12 text-h6 q-mt-none">
               <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGroup(permissionDetails.uuid)" />
+                :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
               <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
-                :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="toggleEdit()" />
+                :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
             </div>
           </q-card-actions>
         </div>
@@ -53,24 +53,65 @@
       </q-card>
 
 
-      <div>&nbsp;</div>
-      <q-card class="my-card no-shadow" bordered v-if="userDetails && !isLoading">
+      <q-card class="my-card no-shadow q-my-sm" bordered v-if="userDetails && !isLoading">
         <q-card-section>
-          <p class="text-h5">Szczegóły</p>
-          <p>Email: <strong>{{ userDetails.email }}</strong></p>
-          <p>Phone: <strong>{{ userDetails.phone }}</strong></p>
-          <p>Role: <strong>{{ userDetails.role_FK.role_title }}</strong></p>
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">{{$t('Details')}}</div>
+            <q-space></q-space>
+            <q-btn 
+              color="grey"
+              round
+              flat
+              dense
+              :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedDetails = !expandedDetails"
+            />
+          </div>
         </q-card-section>
+
+        <q-slide-transition>
+        <div v-show="expandedDetails">
+          <q-separator />
+          <q-card-section class="text-subitle2">
+            <p>{{$t('Email')}}:  <a :href="`mailto:${userDetails.email}`">{{ userDetails.email }}</a></p>
+            <p>{{$t('Phone')}}: <a :href="`tel:${userDetails.phone}`">{{ userDetails.phone }}</a></p>
+            <p>{{$t('Role')}}: <strong>{{ userDetails.role_FK.role_title }}</strong></p>
+          </q-card-section>
+        </div>
+      </q-slide-transition>
       </q-card>
-      <div>&nbsp;</div>
-      <q-card class="my-card no-shadow" bordered v-if="userDetails && !isLoading">
+
+
+      <q-card class="my-card no-shadow q-my-sm" bordered v-if="userDetails && !isLoading">
         <q-card-section>
-          <p class="text-h5">Pomysły</p>
-          <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">{{$t('Ideas')}}</div>
+            <q-space></q-space>
+            <q-btn 
+              color="grey"
+              round
+              flat
+              dense
+              :icon="expandedIdeas ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedIdeas = !expandedIdeas"
+            />
+          </div>
+        </q-card-section>
+
+        <q-slide-transition>
+        <div v-show="expandedIdeas">
+          <q-separator />
+          <q-card-section>
+            <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
             <idea-item :idea="idea" v-if="!isLoading"></idea-item>
           </div>
           <task-index-skeleton v-else />
-        </q-card-section>
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+
+
+
       </q-card>
     </q-page>
   </div>
@@ -78,6 +119,7 @@
 
 <script setup>
 import { ref,computed, onActivated, onBeforeMount } from "vue";
+import { useQuasar } from 'quasar'
 import { DateTime } from "luxon";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -88,8 +130,11 @@ import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue"
 import IdeaItem from "components/IdeaItem.vue";
 
 const router = useRouter();
+const $q = useQuasar()
 
 
+let expandedDetails = ref(true)
+let expandedIdeas = ref(true)
 
 let isLoading = ref(false);
 let slide = ref(1);
@@ -166,6 +211,36 @@ getUserIdeas()
 
 function editUser(uuid) {
   router.push("/users/edit/" + uuid);
+}
+
+function deleteUser(uuid) {
+    $q.dialog({
+        title: "Confirm",
+        message: "Really delete?",
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        authApi
+            .delete("/users/" + uuid)
+            .then((res) => {
+              $q.notify("User deleted");
+              router.push("/users/edit/" + uuid);
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(err.response);
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log("General Error");
+                }
+
+            });
+        // $q.notify("User deleted");
+
+        // handleRefresh()
+        // fetchTasks()
+    });
 }
 
 onBeforeMount(() => {
