@@ -49,7 +49,7 @@
       <div v-for="video in videoList">
         <br />
         <q-btn icon="delete" @click="deleteVideo(video.videoId)">{{ video.title }}</q-btn>
-         <br />
+        <br />
         <!-- <img :src="video.assets.thumbnail" /> -->
         <!-- <video controls width="250">
           <source :src="video.assets.mp4">
@@ -59,21 +59,20 @@
         <!-- {{video.assets.iframe}} -->
 
         <q-dialog v-model="alert">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Alert</div>
-        </q-card-section>
+          <q-card>
+            <q-card-section class="row items-center full-height q-pb-none">
+              <div class="text-h6">Video</div>
+              <q-space />
+              <q-btn icon="close" flat round dense v-close-popup />
+            </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          <!-- style="width: 100vmin; height: 70vmin;" -->
-          <div  v-html="video.assets.iframe"></div>
-        </q-card-section>
+            <q-card-section class="q-pt-none">
+              <!-- style="width: 100vmin; height: 70vmin;" -->
+              <div v-html="video.assets.iframe"></div>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
 
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
 
       </div>
 
@@ -129,7 +128,7 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let isUploading = ref(false);
-let alert= ref(false);
+let alert = ref(false);
 
 let videoThumbnail = ref(null)
 
@@ -249,7 +248,7 @@ function deleteVideo(videoId) {
     }
   })
     .then((res) => {
-     console.log(res)
+      console.log(res)
     })
     .catch((err) => {
       if (err.response) {
@@ -278,9 +277,9 @@ function cancelButtonPressed() {
   router.push("/ideas");
 }
 
-function PlayVideo(){
+function PlayVideo() {
   console.log("playing...")
-  alert.value=true;
+  alert.value = true;
 }
 
 </script>
