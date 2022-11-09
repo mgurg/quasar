@@ -40,8 +40,11 @@
           </q-chip>
         </template>
       </q-file>
+
+      <p>Id: {{                                   videoId                                   }}</p>
       <br />
-      <q-btn @click="listAllVideos()">List videos</q-btn>
+      <q-btn outline class="q-mx-xs" @click="getVideoStatus()">Status</q-btn>
+      <q-btn outline class="q-mx-xs" @click="listAllVideos()">List videos</q-btn>
 
       <!-- {{videoList}} -->
       <br />
@@ -57,18 +60,23 @@
         <q-img :src="video.assets.thumbnail" style="height: 140px; max-width: 150px" @click="PlayVideo()"></q-img>
         <!-- <div style="width: 100vmin; height: 70vmin;" v-html="video.assets.iframe"></div> -->
         <!-- {{video.assets.iframe}} -->
-
-        <q-dialog v-model="alert">
-          <q-card>
-            <q-card-section class="row items-center full-height q-pb-none">
-              <div class="text-h6">Video</div>
+        <div fixed-center style="width: 95vmin; height: 95vmin;" v-html="video.assets.iframe"></div>
+        <q-dialog v-model="alert" persistent :maximized="true" transition-show="slide-up" transition-hide="slide-down">
+          <q-card class="bg-primary text-white">
+            <q-bar>
               <q-space />
-              <q-btn icon="close" flat round dense v-close-popup />
-            </q-card-section>
+              <q-btn dense flat icon="close" v-close-popup>
+                <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+              </q-btn>
+            </q-bar>
+
+            <!-- <q-card-section>
+          <div class="text-h6">Alert</div>
+        </q-card-section> -->
 
             <q-card-section class="q-pt-none">
               <!-- style="width: 100vmin; height: 70vmin;" -->
-              <div v-html="video.assets.iframe"></div>
+              <div style="width: 95vmin; height: 95vmin; margin: auto;" v-html="video.assets.iframe"></div>
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -130,7 +138,10 @@ let isError = ref(false);
 let isUploading = ref(false);
 let alert = ref(false);
 
+const uploadToken = ref("")
+const apiToken = ref("")
 let videoThumbnail = ref(null)
+let videoId = ref("vi3WRVVz5JvEyOfRdPvi9KJH")
 
 function createIdea(body) {
   isLoading.value = true;
@@ -154,9 +165,6 @@ function createIdea(body) {
 
 }
 
-const uploadToken = ref("")
-const apiToken = ref("")
-
 function getUploadToken() {
   authApi.get("/files/video_upload_token/")
     .then((res) => {
@@ -176,10 +184,9 @@ function getUploadToken() {
     });
 }
 
-function uploadVideo() {
-  console.log("Dummy VIDEO upload")
-}
+
 getUploadToken();
+
 const file = ref(null)
 const uploadProgress = ref(0)
 
@@ -197,6 +204,7 @@ function handleFileUpload() {
   uploader.upload()
     .then((video) => {
       videoThumbnail.value = video.assets.thumbnail
+      videoId.value = video.videoId
       console.log(video)
     })
     .catch((error) => console.log(error.status, error.message));
@@ -241,7 +249,7 @@ function listAllVideos() {
 
 function deleteVideo(videoId) {
   console.log(videoId);
-  axios.delete("https://sandbox.api.video/videos/" + videoId, {
+  axios.delete("https://sandbox.api.video/videos/" + videoId.value, {
     headers: {
       'accept': 'application/json',
       'Authorization': 'Bearer ' + apiToken.value
@@ -262,7 +270,27 @@ function deleteVideo(videoId) {
     });
 }
 
+function getVideoStatus() {
+  axios.get("https://sandbox.api.video/videos/" + videoId.value + "/status", {
+    headers: {
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + apiToken.value
+    }
+  })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
 
+    });
+}
 
 
 function signUpButtonPressed(ideaForm) {
