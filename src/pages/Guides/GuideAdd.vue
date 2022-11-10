@@ -15,7 +15,11 @@
 
       </div>
       <div>&nbsp;</div>
-      <q-img :src="videoThumbnail" v-if="videoThumbnail"></q-img>
+      <q-img :src="videoThumbnail" v-if="videoThumbnail && videoItem === null"></q-img>
+      <div v-if="videoItem !== null" fixed-center style="width: 80vmin; height: 80vmin;" v-html="videoItem.assets.iframe"></div>
+
+      <!-- <div v-if="videoItem !== null" fixed-center :style="{ height: 95 * videoRatio + 'vmin' }+ ';' + { width: 95 * videoRatio + 'vmin' }" v-html="videoItem.assets.iframe"></div> -->
+
       <q-file outlined v-model="file" label="Pick video" accept="video/*" @update:model-value="handleFileUpload()"
         type="file">
         <template v-slot:prepend>
@@ -41,45 +45,22 @@
         </template>
       </q-file>
 
-      <p>Id: {{                                   videoId                                   }}</p>
+
       <br />
+      <q-btn outline class="q-mx-xs" @click="enablePooling = !enablePooling">Switch</q-btn>
       <q-btn outline class="q-mx-xs" @click="getVideoStatus()">Status</q-btn>
       <q-btn outline class="q-mx-xs" @click="listAllVideos()">List videos</q-btn>
 
-      <!-- {{videoList}} -->
+      <!-- {{videoItem}} -->
+      <p>{{ videoRatio }} - {{videoWidth}} / {{ videoHeight}}</p>
+      <!-- <q-img :src="video.assets.thumbnail" style="height: 140px; max-width: 150px" @click="PlayVideo()"></q-img>
+      <div fixed-center style="width: 95vmin; height: 95vmin;" v-html="video.assets.iframe"></div> -->
       <br />
       <!-- <iframe src="https://embed.api.video/vod/vi7fOWjmShIUdDmF8qRIJVx2" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe> -->
       <div v-for="video in videoList">
         <br />
         <q-btn icon="delete" @click="deleteVideo(video.videoId)">{{ video.title }}</q-btn>
-        <br />
-        <!-- <img :src="video.assets.thumbnail" /> -->
-        <!-- <video controls width="250">
-          <source :src="video.assets.mp4">
-        </video> -->
-        <q-img :src="video.assets.thumbnail" style="height: 140px; max-width: 150px" @click="PlayVideo()"></q-img>
-        <!-- <div style="width: 100vmin; height: 70vmin;" v-html="video.assets.iframe"></div> -->
-        <!-- {{video.assets.iframe}} -->
-        <div fixed-center style="width: 95vmin; height: 95vmin;" v-html="video.assets.iframe"></div>
-        <q-dialog v-model="alert" persistent :maximized="true" transition-show="slide-up" transition-hide="slide-down">
-          <q-card class="bg-primary text-white">
-            <q-bar>
-              <q-space />
-              <q-btn dense flat icon="close" v-close-popup>
-                <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-              </q-btn>
-            </q-bar>
 
-            <!-- <q-card-section>
-          <div class="text-h6">Alert</div>
-        </q-card-section> -->
-
-            <q-card-section class="q-pt-none">
-              <!-- style="width: 100vmin; height: 70vmin;" -->
-              <div style="width: 95vmin; height: 95vmin; margin: auto;" v-html="video.assets.iframe"></div>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
 
 
       </div>
@@ -92,37 +73,9 @@
   </div>
 </template>
 
-<!-- {
-    "videoId":"vi4iFvmsLTV9qrTUie2U38iH",
-    "title":"inewi-rejestrator-casu-pracy-promo.webm",
-    "description":"",
-    "panoramic":false,
-    "mp4Support":true,
-    "publishedAt":"2022-11-04T15:16:51.000Z",
-    "createdAt":"2022-11-04T15:16:51.000Z",
-    "updatedAt":"2022-11-04T15:16:51.000Z",
-    "tags":[
-      
-    ],
-    "metadata":[
-      
-    ],
-    "source":{
-      "type":"upload",
-      "uri":"/videos/vi4iFvmsLTV9qrTUie2U38iH/source"
-    },
-    "assets":{
-      "iframe":"<iframe src=\"https://embed.api.video/vod/vi4iFvmsLTV9qrTUie2U38iH\" width=\"100%\" height=\"100%\" frameborder=\"0\" scrolling=\"no\" allowfullscreen=\"true\"></iframe>",
-      "player":"https://embed.api.video/vod/vi4iFvmsLTV9qrTUie2U38iH",
-      "hls":"https://cdn.api.video/vod/vi4iFvmsLTV9qrTUie2U38iH/hls/manifest.m3u8",
-      "thumbnail":"https://cdn.api.video/vod/vi4iFvmsLTV9qrTUie2U38iH/thumbnail.jpg",
-      "mp4":"https://cdn.api.video/vod/vi4iFvmsLTV9qrTUie2U38iH/mp4/source.mp4"
-    },
-    "_public":true
-  } -->
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onBeforeUnmount } from "vue";
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -141,7 +94,12 @@ let alert = ref(false);
 const uploadToken = ref("")
 const apiToken = ref("")
 let videoThumbnail = ref(null)
-let videoId = ref("vi3WRVVz5JvEyOfRdPvi9KJH")
+// let videoId = ref("vi3WRVVz5JvEyOfRdPvi9KJH")
+let videoId = ref(null)
+let videoWidth = ref(null)
+let videoHeight = ref(null)
+let videoRatio = ref(null)
+
 
 function createIdea(body) {
   isLoading.value = true;
@@ -196,6 +154,7 @@ function handleFileUpload() {
   // console.log(file.value.files)
   const uploader = new VideoUploader({
     file: file.value,
+    name: "fca72d24-5211-4a3e-95fe-d9549648e2d3",
     uploadToken: uploadToken.value,
     chunkSize: 1024 * 1024 * 10, // 10MB
     retries: 10,
@@ -203,8 +162,9 @@ function handleFileUpload() {
 
   uploader.upload()
     .then((video) => {
-      videoThumbnail.value = video.assets.thumbnail
-      videoId.value = video.videoId
+      videoThumbnail.value = video.assets.thumbnail;
+      videoId.value = video.videoId;
+      enablePooling.value = true;
       console.log(video)
     })
     .catch((error) => console.log(error.status, error.message));
@@ -224,6 +184,7 @@ function handleFileUpload() {
 
 
 const videoList = ref(null)
+const videoItem = ref(null)
 
 function listAllVideos() {
   axios.get("https://sandbox.api.video/videos?currentPage=1&pageSize=25", {
@@ -247,8 +208,33 @@ function listAllVideos() {
     });
 }
 
-function deleteVideo(videoId) {
-  console.log(videoId);
+function getVideo() {
+  axios.get("https://sandbox.api.video/videos/" + videoId.value, {
+    headers: {
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + apiToken.value
+    }
+  })
+    .then((res) => {
+      console.log(res.data);
+      videoItem.value = res.data
+      videoThumbnail.value = res.data.assets.thumbnail
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
+
+function deleteVideo() {
+
   axios.delete("https://sandbox.api.video/videos/" + videoId.value, {
     headers: {
       'accept': 'application/json',
@@ -257,6 +243,7 @@ function deleteVideo(videoId) {
   })
     .then((res) => {
       console.log(res)
+      videoId.value = null;
     })
     .catch((err) => {
       if (err.response) {
@@ -270,45 +257,66 @@ function deleteVideo(videoId) {
     });
 }
 
-function getVideoStatus() {
-  axios.get("https://sandbox.api.video/videos/" + videoId.value + "/status", {
-    headers: {
-      'accept': 'application/json',
-      'Authorization': 'Bearer ' + apiToken.value
+
+const enablePooling = ref("false")
+var intervalID = null;
+
+function checkStatus() {
+  intervalID = setInterval(() => {
+
+    if (videoId.value !== null) {
+      console.log("Checking API")
+      axios.get("https://sandbox.api.video/videos/" + videoId.value + "/status", {
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer ' + apiToken.value
+        }
+      })
+        .then((res) => {
+
+          if (res.data.encoding.playable == true){
+            console.log(res.data);
+            videoWidth.value = res.data.encoding.metadata.width;
+            videoHeight.value = res.data.encoding.metadata.height;
+            videoRatio.value = res.data.encoding.metadata.width / res.data.encoding.metadata.height;
+            console.log("Downloading single Video");
+            getVideo();
+          }
+          enablePooling.value = !res.data.encoding.playable;
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+
+        });
+      // enablePooling.value = false;
     }
-  })
-    .then((res) => {
-      console.log(res.data)
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
 
-    });
+  }, 2000);
 }
 
 
-function signUpButtonPressed(ideaForm) {
-  console.log('outside', ideaForm)
-  createIdea(ideaForm)
-  console.log('Add ok')
-}
 
 
-function cancelButtonPressed() {
-  console.log('cancelBtnClick')
-  router.push("/ideas");
-}
+watch(enablePooling, (newValue, oldValue) => {
 
-function PlayVideo() {
-  console.log("playing...")
-  alert.value = true;
-}
+  console.log("Toggle to " + newValue)
+  if (newValue === true) {
+    checkStatus()
+  }
+  if (newValue === false) {
+    clearInterval(intervalID);
+  }
+});
+
+onBeforeUnmount(() => {
+  clearInterval(intervalID);
+});
 
 </script>
 
