@@ -15,11 +15,13 @@
 
       </div>
       <div>&nbsp;</div>
+      <div class="row justify-center">
       <q-img :src="videoThumbnail" v-if="videoThumbnail && videoItem === null"></q-img>
-      <div v-if="videoItem !== null" fixed-center style="width: 80vmin; height: 80vmin;" v-html="videoItem.assets.iframe"></div>
-
+      <div v-if="videoItem !== null && videoRatio <1" fixed-center style="width: 60vmin; height: 80vmin;" class="justify-center" v-html="videoItem.assets.iframe"></div>
+      <div v-if="videoItem !== null && videoRatio >1" fixed-center style="width: 80vmin; height: 60vmin;" class="justify-center" v-html="videoItem.assets.iframe"></div>
       <!-- <div v-if="videoItem !== null" fixed-center :style="{ height: 95 * videoRatio + 'vmin' }+ ';' + { width: 95 * videoRatio + 'vmin' }" v-html="videoItem.assets.iframe"></div> -->
-
+      </div>
+      
       <q-file outlined v-model="file" label="Pick video" accept="video/*" @update:model-value="handleFileUpload()"
         type="file">
         <template v-slot:prepend>
@@ -47,8 +49,7 @@
 
 
       <br />
-      <q-btn outline class="q-mx-xs" @click="enablePooling = !enablePooling">Switch</q-btn>
-      <q-btn outline class="q-mx-xs" @click="getVideoStatus()">Status</q-btn>
+
       <q-btn outline class="q-mx-xs" @click="listAllVideos()">List videos</q-btn>
 
       <!-- {{videoItem}} -->
@@ -154,7 +155,7 @@ function handleFileUpload() {
   // console.log(file.value.files)
   const uploader = new VideoUploader({
     file: file.value,
-    name: "fca72d24-5211-4a3e-95fe-d9549648e2d3",
+    videoName: "fca72d24-5211-4a3e-95fe-d9549648e2d3",
     uploadToken: uploadToken.value,
     chunkSize: 1024 * 1024 * 10, // 10MB
     retries: 10,
