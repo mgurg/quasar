@@ -4,7 +4,7 @@
       flat
       @click="editor.chain().focus().toggleBold().run()" 
       :disabled="!editor.can().chain().focus().toggleBold().run()" 
-      :class="{ 'is-active': editor.isActive('bold') }"
+      :class="{ 'shadow-1': editor.isActive('bold') }"
       icon="format_bold"
     />
 
@@ -12,14 +12,14 @@
       flat 
       @click="editor.chain().focus().toggleItalic().run()" 
       :disabled="!editor.can().chain().focus().toggleItalic().run()" 
-      :class="{ 'is-active': editor.isActive('italic') }"
+      :class="{ 'shadow-1': editor.isActive('italic') }"
       icon="format_italic"
       />
     <q-btn 
     flat 
     @click="editor.chain().focus().toggleStrike().run()" 
     :disabled="!editor.can().chain().focus().toggleStrike().run()" 
-    :class="{ 'is-active': editor.isActive('strike') }"
+    :class="{ 'shadow-1': editor.isActive('strike') }"
     icon="strikethrough_s"
     />
     <q-btn 
@@ -28,6 +28,7 @@
       :disabled="!editor.can().chain().focus().toggleCode().run()" 
       :class="{ 'is-active': editor.isActive('code') }"
       icon="code"
+      v-if="$q.screen.gt.sm" 
     />
     <!-- <q-btn 
       flat 
@@ -35,25 +36,28 @@
       icon="format_clear"  
     /> -->
 
-    <q-btn 
-      flat 
-      @click="editor.chain().focus().clearNodes().run()"
-      icon="format_clear" 
-      >
+
       
-    </q-btn>
      <!--    <q-btn flat @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
       paragraph
     </q-btn> -->
-    <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-      h1
-    </q-btn>
-    <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-      h2
-    </q-btn>
-    <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-      h3
-    </q-btn>
+    <q-btn 
+      flat 
+      @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" 
+      :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+      label="h1"
+    />
+    <q-btn 
+      flat 
+      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" 
+      :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+      label="h2"
+    />
+    <q-btn 
+      flat 
+      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+      label="h3"
+    />
     <!-- <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
       h4
     </q-btn>
@@ -63,6 +67,11 @@
     <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
       h6
     </q-btn> -->
+    <q-btn 
+      flat 
+      @click="editor.chain().focus().clearNodes().run()"
+      icon="format_clear" 
+    />
     <q-btn 
       flat 
       @click="editor.chain().focus().toggleBulletList().run()" 
@@ -86,26 +95,32 @@
       @click="editor.chain().focus().toggleBlockquote().run()" 
       :class="{ 'is-active': editor.isActive('blockquote') }"
       icon="format_quote"
+      v-if="$q.screen.gt.sm" 
     />
     <q-btn 
       flat 
       @click="editor.chain().focus().setHorizontalRule().run()"
       icon="horizontal_rule"
     />
-    <q-btn flat @click="editor.chain().focus().setHardBreak().run()">
-      hard break
-    </q-btn>
+    <q-btn 
+      flat 
+      @click="editor.chain().focus().setHardBreak().run()"
+      icon="keyboard_return"
+      v-if="$q.screen.gt.sm" 
+    />
     <q-btn 
       flat 
       @click="editor.chain().focus().undo().run()" 
       :disabled="!editor.can().chain().focus().undo().run()"
       icon="undo"
+      v-if="$q.screen.gt.sm" 
       />
     <q-btn 
       flat 
       @click="editor.chain().focus().redo().run()" 
       :disabled="!editor.can().chain().focus().redo().run()"
-      icon="redo" 
+      icon="redo"
+      v-if="$q.screen.gt.sm" 
     />
   </div>
   <editor-content :editor="editor" />

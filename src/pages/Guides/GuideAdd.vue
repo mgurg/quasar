@@ -21,8 +21,8 @@
       <div v-if="videoItem !== null && videoRatio >1" fixed-center style="width: 80vmin; height: 60vmin;" class="justify-center" v-html="videoItem.assets.iframe"></div>
       <!-- <div v-if="videoItem !== null" fixed-center :style="{ height: 95 * videoRatio + 'vmin' }+ ';' + { width: 95 * videoRatio + 'vmin' }" v-html="videoItem.assets.iframe"></div> -->
       </div>
-      
-      <q-file outlined v-model="file" label="Pick video" accept="video/*" @update:model-value="handleFileUpload()"
+      <q-btn v-if="videoItem !== null" outline icon="delete" @click="deleteVideo(videoId)">Delete Video</q-btn>
+      <q-file outlined v-if="videoItem === null" v-model="file" label="Pick video" accept="video/*" @update:model-value="handleFileUpload()"
         type="file">
         <template v-slot:prepend>
           <q-icon name="movie" />
@@ -50,26 +50,14 @@
 
       <br />
 
-      <q-btn outline class="q-mx-xs" @click="listAllVideos()">List videos</q-btn>
 
-      <!-- {{videoItem}} -->
-      <p>{{ videoRatio }} - {{videoWidth}} / {{ videoHeight}}</p>
-      <!-- <q-img :src="video.assets.thumbnail" style="height: 140px; max-width: 150px" @click="PlayVideo()"></q-img>
-      <div fixed-center style="width: 95vmin; height: 95vmin;" v-html="video.assets.iframe"></div> -->
-      <br />
-      <!-- <iframe src="https://embed.api.video/vod/vi7fOWjmShIUdDmF8qRIJVx2" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe> -->
-      <div v-for="video in videoList">
-        <br />
-        <q-btn icon="delete" @click="deleteVideo(video.videoId)">{{ video.title }}</q-btn>
+      <p>{{ videoRatio }} - [{{videoWidth}} / {{ videoHeight}}]</p>
 
-
-
-      </div>
-
-
-
-
-
+      <div class="row">
+            <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
+            <q-space />
+            <q-btn type="submit" color="primary" @click="submit">{{ $t('Save') }}</q-btn>
+        </div>
     </q-page>
   </div>
 </template>
@@ -301,7 +289,15 @@ function checkStatus() {
   }, 2000);
 }
 
+function  cancelButtonHandle()
+{
+    router.push("/guides");
+}
 
+function  submit()
+{
+    router.push("/guides");
+}
 
 
 watch(enablePooling, (newValue, oldValue) => {

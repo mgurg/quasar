@@ -118,7 +118,7 @@
             </div>
           </q-btn-dropdown>
         </div>
-      </div>
+      </div> -->
 
 
 
@@ -149,8 +149,8 @@
         </q-item>
 
         <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas!= null">
-          <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
-            v-if="!isLoading"></idea-item>
+          <guide-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
+            v-if="!isLoading"></guide-item>
         </div>
         <task-index-skeleton v-else />
 
@@ -165,7 +165,7 @@
       <div class="q-pa-lg flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
-      <q-space class="q-pa-sm" /> -->
+      <q-space class="q-pa-sm" />
 
     </q-page>
   </div>
@@ -176,7 +176,7 @@ import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue"
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import IdeaItem from "components/IdeaItem.vue";
+import GuideItem from "components/GuideItem.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
