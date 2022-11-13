@@ -8,12 +8,12 @@
             </q-item-section>
 
             <q-item-section>
-                <q-item-label lines="1" class="text-body1">{{ user.first_name }} {{ user.last_name }} </q-item-label>
+                <q-item-label lines="1" class="text-body1" :class="user.uuid == currentUserUuid ? 'text-weight-bold' : 'text-weight-regular'">{{ user.first_name }} {{ user.last_name }} </q-item-label>
                 <!-- <q-item-label caption lines="2">{{ user.uuid }}</q-item-label> -->
-                <q-item-label lines="1">
+                <!-- <q-item-label lines="1">
                     <q-chip square size="sm" color="blue-12" icon="star" text-color="white" v-if="user.uuid == currentUserUuid"></q-chip>
 
-                </q-item-label>
+                </q-item-label> -->
             </q-item-section>
 
             <q-item-section side v-if="user.uuid === selected">

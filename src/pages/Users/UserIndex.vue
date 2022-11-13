@@ -11,8 +11,10 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline class="float-right"  icon="add" to="/users/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New employee') : ''" />
-                  <q-btn outline class="float-right q-mr-xs"  icon="backup" to="/users/add" color="primary" no-caps :label="$q.screen.gt.xs ? 'Importuj' : ''" />
+                  <q-btn outline class="float-right" icon="add" to="/users/add" color="primary" no-caps
+                    :label="$q.screen.gt.xs ? $t('New employee') : ''" />
+                  <q-btn outline class="float-right q-mr-xs" icon="backup" to="/users/add" color="primary" no-caps
+                    :label="$q.screen.gt.xs ? 'Importuj' : ''" />
 
                 </div>
               </q-item-section>
@@ -22,56 +24,59 @@
         </q-card-section>
       </q-card>
 
-      <q-card  class="my-card no-shadow q-mt-sm q-pt-none">
-        
+      <q-card class="my-card no-shadow q-mt-sm q-pt-none">
+
         <q-card-section class="row q-pa-sm">
           <div class="row q-gutter-sm items-center">
-        <div>
-          <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
-            @keyup="fetchUsers()" @clear="fetchUsers()">
-          </q-input>
-        </div>
-        <div>
-          <q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn>
-        </div>
-      </div>
+            <div>
+              <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
+                @keyup="fetchUsers()" @clear="fetchUsers()">
+                <template v-if="!search" v-slot:append>
+                  <q-icon name="search" />
+                </template>
+              </q-input>
+            </div>
+            <!-- <div>
+              <q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn>
+            </div> -->
+          </div>
         </q-card-section>
         <!-- <q-separator /> -->
-      <q-list padding v-if="!isLoading && users != null" class="q-mt-none q-pt-none">
-        <q-item class="rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1'">
-          <q-item-section avatar>
+        <q-list padding v-if="!isLoading && users != null" class="q-mt-none q-pt-none">
+          <q-item class="rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1'">
+            <q-item-section avatar>
 
-          </q-item-section>
-          <q-item-section>
-            <span>{{ $t("Name") }}
-              <q-btn padding="xs" :unelevated="sort.active == 'name' ? true : false" :flat="sort.active == 'name' ? false : true"
-                size="sm" color="primary" :icon="sort.name == 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                @click="changeSortOrder('name')" />
-            </span>
+            </q-item-section>
+            <q-item-section>
+              <span>{{ $t("Name") }}
+                <q-btn padding="xs" :unelevated="sort.active == 'name' ? true : false"
+                  :flat="sort.active == 'name' ? false : true" size="sm" color="primary"
+                  :icon="sort.name == 'asc' ? 'arrow_upward' : 'arrow_downward'" @click="changeSortOrder('name')" />
+              </span>
 
-          </q-item-section>
-          <q-item-section side>
+            </q-item-section>
+            <q-item-section side>
 
-          </q-item-section>
-        </q-item>
+            </q-item-section>
+          </q-item>
 
-        <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
-          <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected"
-            v-if="!isLoading"></user-item>
+          <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
+            <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected"
+              v-if="!isLoading"></user-item>
+          </div>
+          <task-index-skeleton v-else />
+
+
+        </q-list>
+
+
+
+        <div class="q-pa-lg flex flex-center">
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
         </div>
-        <task-index-skeleton v-else />
 
-
-      </q-list>
-
-
-
-      <div class="q-pa-lg flex flex-center">
-        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
-      </div>
-
-      <!-- <q-space class="q-pa-sm" /> -->
-    </q-card>
+        <!-- <q-space class="q-pa-sm" /> -->
+      </q-card>
 
     </q-page>
   </div>

@@ -32,16 +32,21 @@
             type="search"
             @keyup="fetchIdeas()" 
             @clear="fetchIdeas()" 
-          />
+          >
+          <template v-if="!search" v-slot:append>
+                  <q-icon name="search" />
+                </template>
+
+        </q-input>
         </div>
-        <div>
+        <!-- <div>
           <q-btn 
             outline 
             class="float-right" 
             color="primary" 
             icon="search">{{ $t("Search") }}
         </q-btn>
-        </div>
+        </div> -->
         <div>
           <q-btn-dropdown outline class="float-right" color="primary" :label="$t('Filters')" icon="filter_list">
             <div class="q-pa-xs" style="max-width: 350px">

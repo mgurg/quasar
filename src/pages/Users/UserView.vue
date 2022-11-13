@@ -15,14 +15,12 @@
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">
-              <q-item-section avatar>
-                <q-avatar rounded color="green" text-color="white">{{initials}}</q-avatar>
-              </q-item-section>
+
               <q-item-section>
                 <q-item-label class="text-h6">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
                 <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
-              <q-item-section side v-if="$q.screen.gt.sm">
+              <q-item-section side >
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
                     :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
@@ -34,12 +32,12 @@
 
           </q-list>
         </q-card-section>
-        <div v-if="$q.screen.lt.md">
+
+
+
+        <!-- <div v-if="$q.screen.lt.md">
           <q-separator />
           <q-card-actions>
-
-            <!-- <q-btn flat color="primary" icon="how_to_reg" class="float-right" @click="activateUser()"></q-btn> -->
-            <!-- <q-btn flat color="primary">Activate</q-btn> -->
             <div class="col-12 text-h6 q-mt-none">
               <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
                 :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
@@ -47,7 +45,7 @@
                 :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
             </div>
           </q-card-actions>
-        </div>
+        </div> -->
 
       </q-card>
 
@@ -249,3 +247,9 @@ onBeforeMount(() => {
 
 
 </script>
+
+<style>
+.q-breadcrumbs{
+  opacity: 0.7;
+}
+</style>
