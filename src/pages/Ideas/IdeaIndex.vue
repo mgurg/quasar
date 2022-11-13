@@ -1,52 +1,39 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h4">{{ $t("Ideas") }}</q-item-label>
+                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+              </q-item-section>
+              <q-item-section side>
+                <div class="col-12 text-h6 q-mt-none">
+                  <q-btn outline class="float-right" icon="add" to="/ideas/add" color="primary" no-caps  :label="$q.screen.gt.xs ? $t('New idea') : ''"
+                     />
+                  </div>
+              </q-item-section>
+            </q-item>
 
-      <div class="row justify-around q-mt-sm">
-        <div class="col-6">
-          <p class="text-h4">{{ $t("Ideas") }}</p>
-        </div>
+          </q-list>
+        </q-card-section>
+      </q-card>
 
-        <div class="col-6">
-          <q-btn 
-            padding="sm" 
-            class="float-right" 
-            outline size="md" 
-            icon="add" 
-            to="/ideas/add" 
-            color="primary"
-            label="Nowy pomysł" 
-            no-caps
-          />
-        </div>
-      </div>
+      <q-card class="my-card no-shadow q-mt-sm q-pt-none">
 
+      <q-card-section class="row q-pa-sm">
       <div class="row q-gutter-xs items-center">
         <div>
-          <q-input 
-            dense 
-            clearable 
-            outlined 
-            v-model="search" 
-            :label="$t('Type your search text')" 
-            type="search"
-            @keyup="fetchIdeas()" 
-            @clear="fetchIdeas()" 
-          >
-          <template v-if="!search" v-slot:append>
-                  <q-icon name="search" />
-                </template>
+          <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
+            @keyup="fetchIdeas()" @clear="fetchIdeas()">
+            <template v-if="!search" v-slot:append>
+              <q-icon name="search" />
+            </template>
 
-        </q-input>
+          </q-input>
         </div>
-        <!-- <div>
-          <q-btn 
-            outline 
-            class="float-right" 
-            color="primary" 
-            icon="search">{{ $t("Search") }}
-        </q-btn>
-        </div> -->
         <div>
           <q-btn-dropdown outline class="float-right" color="primary" :label="$t('Filters')" icon="filter_list">
             <div class="q-pa-xs" style="max-width: 350px">
@@ -97,7 +84,8 @@
                         <q-item-section>
                           <q-item-label @click="setStatusFilter('accepted')"
                             :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">{{
-                            $t("Accepted") }}
+                                $t("Accepted")
+                            }}
                           </q-item-label>
                         </q-item-section>
                       </q-item>
@@ -124,36 +112,36 @@
           </q-btn-dropdown>
         </div>
       </div>
+    </q-card-section>
 
 
+      <q-list padding v-if="!isLoading" class="q-mt-none q-pt-none">
 
-      <q-list padding v-if="!isLoading">
-
-        <q-item class=" rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
+        <q-item class=" rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1'">
           <q-item-section avatar>
             <span>&nbsp;
-              <q-btn padding="xs" :unelevated="sort.active=='counter'? true:false"
-                :flat="sort.active=='counter'? false:true" size="sm" color="primary"
-                :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'" @click="changeSortOrder('counter')" />
+              <q-btn padding="xs" :unelevated="sort.active == 'counter' ? true : false"
+                :flat="sort.active == 'counter' ? false : true" size="sm" color="primary"
+                :icon="sort.counter == 'asc' ? 'arrow_upward' : 'arrow_downward'" @click="changeSortOrder('counter')" />
             </span>
           </q-item-section>
           <q-item-section>
             <span>{{ $t("Name") }}
-              <q-btn padding="xs" :unelevated="sort.active=='title'? true:false"
-                :flat="sort.active=='title'? false:true" size="sm" color="primary"
-                :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" @click="changeSortOrder('title')" />
+              <q-btn padding="xs" :unelevated="sort.active == 'title' ? true : false"
+                :flat="sort.active == 'title' ? false : true" size="sm" color="primary"
+                :icon="sort.title == 'asc' ? 'arrow_upward' : 'arrow_downward'" @click="changeSortOrder('title')" />
             </span>
           </q-item-section>
           <q-item-section side>
             <span>{{ $t("Age") }}
-              <q-btn padding="xs" :unelevated="sort.active=='age'? true:false" :flat="sort.active=='age'? false:true"
-                size="sm" color="primary" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'"
+              <q-btn padding="xs" :unelevated="sort.active == 'age' ? true : false" :flat="sort.active == 'age' ? false : true"
+                size="sm" color="primary" :icon="sort.age == 'asc' ? 'arrow_upward' : 'arrow_downward'"
                 @click="changeSortOrder('age')" />
             </span>
           </q-item-section>
         </q-item>
 
-        <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas!= null">
+        <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
           <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
             v-if="!isLoading"></idea-item>
         </div>
@@ -161,7 +149,7 @@
 
       </q-list>
       <!-- Skeleton -->
-      
+
 
       <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0 || ideas == null">
         Brak pomyslów 🤔? <br />Niech Twój będzie pierwszy! 😎
@@ -171,7 +159,7 @@
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
       <q-space class="q-pa-sm" />
-
+    </q-card>
     </q-page>
   </div>
 </template>
