@@ -1,16 +1,13 @@
 <template>
-  <div @click="viewIdea(idea.uuid)">
-    <q-item :class="{ 'bg-blue-grey-6': (idea.uuid == selected && $q.dark.isActive), 'bg-blue-grey-3': (idea.uuid == selected && !$q.dark.isActive) }">
-      <q-item-section avatar cursor-pointer ripple @click="viewIdea(idea.uuid)">
-        <q-avatar rounded color="red" text-color="white" icon="article">
-
-          </q-avatar
-        >
+  <div @click="viewGuide(guide.uuid)">
+    <q-item>
+      <q-item-section avatar cursor-pointer ripple @click="viewGuide(guide.uuid)">
+        <q-avatar rounded color="red" text-color="white" icon="article" />
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1" class="text-body1">{{ idea.title }}</q-item-label>
-        <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
+        <q-item-label lines="1" class="text-body1">{{ guide.name }}</q-item-label>
+        <q-item-label caption lines="2">{{ guide.name }}</q-item-label>
       </q-item-section>
 
 
@@ -38,30 +35,24 @@ const $q = useQuasar();
 const router = useRouter();
 
 const props = defineProps({
-  idea: {
+  guide: {
     type: Object,
     default() {
       return {
         uuid: null,
-        title: "Tile",
-        description: "Desc",
-        upvotes: 0,
-        downvotes: 0,
-        created_at: "2022-03-09T11:02:38.822164+00:00",
+        name: "Name",
+        // description: "Desc",
+        // upvotes: 0,
+        // downvotes: 0,
+        // created_at: "2022-03-09T11:02:38.822164+00:00",
       };
     },
-  },
-  selected: {
-    type: String,
-  },
+  }
 });
 
-const counter = computed(() => (props.idea.upvotes - props.idea.downvotes))
+const counter = computed(() => (props.guide.upvotes - props.guide.downvotes))
 
-const emit = defineEmits(["selectedItem", "forceRefresh"]);
-const handleSelect = (uuid) => {
-  emit("selectedItem", uuid);
-};
+const emit = defineEmits(["forceRefresh"]);
 
 const units = ["year", "month", "week", "day", "hour", "minute", "second"];
 
@@ -79,7 +70,7 @@ const timeAgo = (date) => {
   return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
 };
 
-function deleteIdea(uuid) {
+function deleteGuide(uuid) {
   $q.dialog({
     title: "Confirm",
     message: "Really delete?",
@@ -87,7 +78,7 @@ function deleteIdea(uuid) {
     persistent: true,
   }).onOk(() => {
     authApi
-      .delete("/ideas/" + uuid)
+      .delete("/guides/" + uuid)
       .then((res) => {
         emit("forceRefresh")
       })
@@ -105,11 +96,11 @@ function deleteIdea(uuid) {
   });
 }
 
-function editIdea(uuid) {
-  router.push("/ideas/edit/" + uuid);
+function editGuide(uuid) {
+  router.push("/guides/edit/" + uuid);
 }
 
-function viewIdea(uuid) {
-  router.push("/ideas/" + uuid);
+function viewGuide(uuid) {
+  router.push("/guides/" + uuid);
 }
 </script>

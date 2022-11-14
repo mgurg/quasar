@@ -11,7 +11,7 @@
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
 
       <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-        <tip-tap-guide />
+        <tip-tap-guide @editorContent="logText" />
 
       </div>
       <div>&nbsp;</div>
@@ -49,14 +49,12 @@
 
 
       <br />
-
-
-      <p>{{ videoRatio }} - [{{videoWidth}} / {{ videoHeight}}]</p>
-
+      <p>{{ videoRatio }} - [{{videoWidth}} / {{ videoHeight}}] | {{tenantUuid}}</p>
       <div class="row">
-            <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
             <q-space />
-            <q-btn type="submit" color="primary" @click="submit">{{ $t('Save') }}</q-btn>
+            <q-btn flat type="submit" class="q-mr-xs" icon="cancel" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
+            
+            <q-btn type="submit" class="q-mr-xs"  icon="done" color="primary" @click="createGuide()">{{ $t('Save') }}</q-btn>
         </div>
     </q-page>
   </div>
@@ -65,6 +63,7 @@
 
 <script setup>
 import { ref, watch, onBeforeUnmount } from "vue";
+import { useUserStore } from "stores/user";
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
 import axios from "axios";
@@ -72,6 +71,10 @@ import { VideoUploader } from '@api.video/video-uploader'
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 
 const router = useRouter();
+const UserStore = useUserStore();
+
+const tenantUuid = UserStore.getTenantUuid
+const userUuid = UserStore.getCurrentUserId
 
 const video = ref(null)
 let isLoading = ref(false);
@@ -79,6 +82,15 @@ let isSuccess = ref(false);
 let isError = ref(false);
 let isUploading = ref(false);
 let alert = ref(false);
+
+let jsonTxt = null;
+let htmlTxt = null;
+
+function logText(json, html) 
+{
+  jsonTxt = json
+  htmlTxt = html
+}
 
 const uploadToken = ref("")
 const apiToken = ref("")
@@ -90,14 +102,24 @@ let videoHeight = ref(null)
 let videoRatio = ref(null)
 
 
-function createIdea(body) {
+function createGuide() {
+
+  let data = {
+    "name": "string",
+    "text_html": htmlTxt,
+    "text_json": jsonTxt,
+    "video_id" : videoId.value
+  }
+
+  // console.log(data)
+
   isLoading.value = true;
   authApi
-    .post("/guides/", body)
+    .post("/guides/", data)
     .then((res) => {
       console.log(res.data);
       isLoading.value = false;
-      router.push("/ideas");
+      router.push("/guides");
     })
     .catch((err) => {
       if (err.response) {
@@ -143,7 +165,7 @@ function handleFileUpload() {
   // console.log(file.value.files)
   const uploader = new VideoUploader({
     file: file.value,
-    videoName: "fca72d24-5211-4a3e-95fe-d9549648e2d3",
+    videoName: tenantUuid + "_" + userUuid + "_" + file.value.name,
     uploadToken: uploadToken.value,
     chunkSize: 1024 * 1024 * 10, // 10MB
     retries: 10,

@@ -19,6 +19,7 @@ export const useUserStore = defineStore("user", {
 
     getToken: (state) => state.token,
     getTenant: (state) => state.tenant,
+    getTenantUuid: (state) => state.tenant.split('_').pop(),
 
     getFullName : (state) => state.firstName + " " + state.lastName,
     getPermissions: (state) => state.permissions,

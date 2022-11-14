@@ -24,17 +24,6 @@
         <tiptap @editorContent="logText"  />
       </div>
 
-      <!-- <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
-        :error-message="errors.ideaTitle" :label="$t('Idea title')">
-      </q-input>
-      <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
-        :error="!!errors.ideaDescription" :error-message="errors.ideaDescription" :label="$t('Idea description')">
-        <template v-if="isSupported" v-slot:append>
-          <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
-          <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
-        </template>
-      </q-input> -->
-
       <!-- QFILE -->
       <div class="column items-start q-gutter-y-xs  ">
       <q-file 
@@ -183,10 +172,11 @@ let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.idea.file);
 
-let jsonTxt = null;
-let htmlTxt = null;
+
 const files = ref(null);
 
+let jsonTxt = null;
+let htmlTxt = null;
 function logText(json, html) 
 {
   jsonTxt = json

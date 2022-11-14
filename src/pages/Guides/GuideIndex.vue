@@ -11,7 +11,7 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline class="float-right q-mr-xs"  icon="add" to="/guides/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
+                  <q-btn class="float-right q-mr-xs no-shadow"  icon="add" to="/guides/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
                 </div>
               </q-item-section>
             </q-item>
@@ -20,109 +20,7 @@
         </q-card-section>
       </q-card>
 
-
-      <!-- <div class="row q-gutter-xs items-center">
-        <div>
-          <q-input 
-            dense 
-            clearable 
-            outlined 
-            v-model="search" 
-            :label="$t('Type your search text')" 
-            type="search"
-            @keyup="fetchIdeas()" 
-            @clear="fetchIdeas()" 
-          />
-        </div>
-        <div>
-          <q-btn 
-            outline 
-            class="float-right" 
-            color="primary" 
-            icon="search">{{ $t("Search") }}
-        </q-btn>
-        </div>
-        <div>
-          <q-btn-dropdown outline class="float-right" color="primary" :label="$t('Filters')" icon="filter_list">
-            <div class="q-pa-xs" style="max-width: 350px">
-              <q-list class="rounded-borders">
-                <q-expansion-item expand-separator icon="attach_file" :label="$t('Attachments')">
-                  <q-card>
-                    <q-list>
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setAttachmentFilter(true)"
-                            :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("Yes") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setAttachmentFilter(false)"
-                            :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("No") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setAttachmentFilter(null)"
-                            :class="hasPhotos == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-card>
-                </q-expansion-item>
-
-                <q-expansion-item expand-separator icon="category" label="Status">
-                  <q-card>
-                    <q-list>
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setStatusFilter('rejected')"
-                            :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'">
-                            {{ $t("Rejected") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setStatusFilter('accepted')"
-                            :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'">{{
-                            $t("Accepted") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setStatusFilter('todo')"
-                            :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'">Todo
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                      <q-item clickable v-close-popup>
-                        <q-item-section>
-                          <q-item-label @click="setStatusFilter(null)"
-                            :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'">{{ $t("All") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-card>
-                </q-expansion-item>
-              </q-list>
-            </div>
-          </q-btn-dropdown>
-        </div>
-      </div> -->
-
-
-
-      <q-list padding v-if="!isLoading">
+      <q-list padding v-if="!isLoading && pagination.total > 0">
 
         <q-item class=" rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
           <q-item-section avatar>
@@ -148,24 +46,27 @@
           </q-item-section>
         </q-item>
 
-        <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas!= null">
-          <guide-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
-            v-if="!isLoading"></guide-item>
+        <div v-for="(guide, index) in guides" v-bind:key="index" v-if="guides!= null">
+          <guide-item @forceRefresh="fetchGuides" :guide="guide" v-if="!isLoading"></guide-item>
         </div>
         <task-index-skeleton v-else />
 
       </q-list>
 
-      
-
-      <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0 || ideas == null">
-        Brak pomyslów 🤔? <br />Niech Twój będzie pierwszy! 😎
-      </div>
-
-      <div class="q-pa-lg flex flex-center">
+      <div class="q-pa-lg flex flex-center" v-if="pagination.total > 10">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
+      </div> 
+
+      <div class="text-h5 text-center q-pa-lg" v-if="pagination.total == 0">
+        Brak przewodników 🤔? <br />Niech Twój będzie pierwszy!
+        <div class="col-12 text-h6 q-mt-none">
+          <q-btn class="q-py-md q-my-md" icon="add" to="/guides/add" color="primary" no-caps :label="$t('New guide')" />
+        </div>
+
       </div>
-      <q-space class="q-pa-sm" />
+
+
+
 
     </q-page>
   </div>
@@ -184,7 +85,7 @@ let isError = ref(false);
 let errorMsg = ref(null);
 let search = ref(null);
 
-const ideas = ref([]);
+const guides = ref([]);
 let selected = ref(null);
 
 let sort = reactive({
@@ -197,7 +98,7 @@ let sort = reactive({
 function changeSortOrder(column) {
   sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
   sort.active = column
-  fetchIdeas()
+  fetchGuides()
 }
 
 let hasPhotos = ref(null);
@@ -211,12 +112,12 @@ const pagination = reactive({
 
 function setAttachmentFilter(condition) {
   hasPhotos.value = condition;
-  fetchIdeas()
+  fetchGuides()
 }
 
 function setStatusFilter(condition) {
   hasStatus.value = condition;
-  fetchIdeas()
+  fetchGuides()
 }
 
 function goToPage(value) {
@@ -230,7 +131,7 @@ const pagesNo = computed(() => {
 
 watch(() => pagination.page, (oldPage, newPage) => {
   console.log(oldPage, newPage);
-  fetchIdeas();
+  fetchGuides();
 })
 
 
@@ -251,7 +152,7 @@ watch(() => pagination.page, (oldPage, newPage) => {
 //   }
 // });
 
-async function fetchIdeas() {
+async function fetchGuides() {
   isLoading.value = true;
   let params = {
     search: search.value,
@@ -263,9 +164,9 @@ async function fetchIdeas() {
     sortColumn: sort.active
   };
   authApi
-    .get("/ideas/", { params: params })
+    .get("/guides/")
     .then((res) => {
-      ideas.value = res.data.items;
+      guides.value = res.data.items;
       pagination.total = res.data.total;
 
       console.log(res.data);
@@ -282,19 +183,10 @@ async function fetchIdeas() {
     });
 }
 
-function selectIdea(uuid) {
-  if (selected.value == null) {
-    selected.value = uuid;
-  } else if (selected.value !== uuid) {
-    selected.value = uuid;
-  } else {
-    selected.value = null;
-  }
-}
+
 
 onBeforeMount(() => {
-  console.log('b')
   isLoading.value = true;
-  fetchIdeas();
+  fetchGuides();
 });
 </script>
