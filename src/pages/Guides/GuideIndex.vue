@@ -11,7 +11,7 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn class="float-right q-mr-xs no-shadow"  icon="add" to="/guides/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
+                  <q-btn outline class="float-right q-mr-xs no-shadow"  icon="add" to="/guides/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
                 </div>
               </q-item-section>
             </q-item>

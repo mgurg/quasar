@@ -1,5 +1,5 @@
 <template>
-    <div v-if="editor">
+    <div v-if="editor && !readonly">
     <q-btn 
       flat
       @click="editor.chain().focus().toggleBold().run()" 

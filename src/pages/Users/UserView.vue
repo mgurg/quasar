@@ -22,10 +22,11 @@
               </q-item-section>
               <q-item-section side >
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
                   <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
                     :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
+                  <q-btn flat color="red" icon="delete" class="float-right q-mr-sm" no-caps
+                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
+
                 </div>
               </q-item-section>
             </q-item>
