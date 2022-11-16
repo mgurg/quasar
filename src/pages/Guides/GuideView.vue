@@ -59,47 +59,10 @@
             style="height: 140px; max-width: 150px" />
         </q-card-section>
         <q-card-section>
-          <q-btn label="Alert" color="primary" @click="dialog = true" />
+          <q-btn label="Alert" color="primary" @click="previewURL()" />
         </q-card-section>
 
       </q-card>
-
-      <q-dialog v-model="dialog">
-      <q-card>
-        <q-card-section class="q-pt-none">
-          <img src="http://placeimg.com/1000/1000/arch?t=5" />
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-
-
-
-    <q-dialog
-      v-model="dialog"
-      persistent
-      :maximized="true"
-      transition-show="slide-up"
-      transition-hide="slide-down"
-    >
-      <q-card class="bg-primary text-white">
-        <q-bar>
-          <q-space />
-          <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-          </q-btn>
-        </q-bar>
-
-        <q-card-section>
-          <img src="http://placeimg.com/1000/1000/arch?t=5" />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-
     </q-page>
   </div>
 </template>
@@ -111,12 +74,94 @@ import { useUserStore } from 'stores/user'
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
+import { api as viewerApi } from "v-viewer";
+import VueViewer from "v-viewer";
+import "viewerjs/dist/viewer.css";
+
+
+VueViewer.setDefaults({
+  zIndex: 2021,
+  toolbar: {
+    zoomIn: {
+      show: 4,
+      size: 'large'
+    },
+    zoomOut: {
+      show: 4,
+      size: 'large'
+    },
+    oneToOne: false,
+    reset: false,
+    prev: {
+      show: 4,
+      size: 'large'
+    },
+    play: {
+      show: 4,
+      size: 'large'
+    },
+    next: {
+      show: 4,
+      size: 'large'
+    },
+    rotateLeft: {
+      show: 4,
+      size: 'large'
+    },
+    rotateRight: {
+      show: 4,
+      size: 'large'
+    },
+    flipHorizontal: false,
+    flipVertical: false,
+  }
+})
 
 const UserStore = useUserStore();
 
 const json = ref(null);
 let isLoading = ref(false);
 let dialog = ref(false);
+
+
+let map
+let portales
+let viales
+let images
+let control
+let viewer
+
+function getViewer() {
+  const options = {
+    navbar: false,
+    rotatable: false,
+    scalable: false,
+    title: [true, (image) => `${image.alt}`],
+  }
+  return viewerApi({ options, images })
+}
+
+function getImg(data) {
+  return { src: "https://placeimg.com/500/300/nature?t=4", alt: "alt_text" }
+}
+
+
+function showImg(index) {
+  viewer = getViewer()
+  viewer.view(index)
+}
+
+const sourceImageURLs = ["https://placeimg.com/1000/1000/nature?t=4", "https://placeimg.com/1000/1000/nature?t=5"]
+
+function previewURL() {
+  const $viewer = viewerApi({
+    images: sourceImageURLs,
+    rotatable: false,
+    scalable: false,
+    transition: false
+  })
+  console.log($viewer)
+}
 
 
 
@@ -170,9 +215,5 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss" scoped>
-img.img-responsive {
-  display: block;
-  max-width: 90%;
-  height: auto;
-}
+
 </style>

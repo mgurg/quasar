@@ -7432,6 +7432,7 @@ __metadata:
     quasar: ^2.10.1
     stream-consumers: ^1.0.2
     tippy.js: ^6.3.7
+    v-viewer: next
     validate-polish: ^2.0.40
     vee-validate: ^4.7.2
     vue: ^3.2.41
@@ -8588,7 +8589,7 @@ __metadata:
 
 "typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
   version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=701156"
+  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -8752,6 +8753,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"v-viewer@npm:next":
+  version: 3.0.11
+  resolution: "v-viewer@npm:3.0.11"
+  dependencies:
+    lodash: ^4.17.21
+    viewerjs: ^1.9.0
+  peerDependencies:
+    vue: ^3.0.0
+  checksum: e8ae6cd057768b21bb74eabb9b9e59aeb9505e9774b35edfea09ecf561a658165c4d497aba993e88493fa8f58d42e70837701d1a6f44f83f5a222031bc16d576
+  languageName: node
+  linkType: hard
+
 "validate-polish@npm:^2.0.40":
   version: 2.0.40
   resolution: "validate-polish@npm:2.0.40"
@@ -8774,6 +8787,13 @@ __metadata:
   peerDependencies:
     vue: ^3.0.0
   checksum: b585f6aa6d465bde291177c161dceacb33203eba1746c6a9d076385d71e1adb2fc8354788923c48a7b9919cb956f7605e6761f39f00f5980a0de168b81f59495
+  languageName: node
+  linkType: hard
+
+"viewerjs@npm:^1.9.0":
+  version: 1.11.1
+  resolution: "viewerjs@npm:1.11.1"
+  checksum: fd3a6afebdcef9bc4e44cd5a51adb063da6a8a3279a5bde8f3ff8efc7d9a064bfa0c3dcab81e9e7ba4b70b68de66821d22f79d36435384ad4cdd8687d708a273
   languageName: node
   linkType: hard
 

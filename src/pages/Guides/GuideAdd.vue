@@ -69,6 +69,8 @@ import { useRouter } from "vue-router";
 import axios from "axios";
 import { VideoUploader } from '@api.video/video-uploader'
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
+import { component as Viewer } from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
 
 const router = useRouter();
 const UserStore = useUserStore();

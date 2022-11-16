@@ -38,6 +38,7 @@
     "quasar": "^2.10.1",
     "stream-consumers": "^1.0.2",
     "tippy.js": "^6.3.7",
+    "v-viewer": "next",
     "validate-polish": "^2.0.40",
     "vee-validate": "^4.7.2",
     "vue": "^3.2.41",
