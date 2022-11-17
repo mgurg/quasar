@@ -108,6 +108,7 @@ const routes = [
       { path: "/guides", component: () => import("pages/Guides/GuideIndex.vue") },
       { path: "/guides/add", component: () => import("pages/Guides/GuideAdd.vue") },
       { path: "/guides/:uuid", component: () => import("pages/Guides/GuideView.vue") },
+      { path: "/guides/edit/:uuid", component: () => import("pages/Guides/GuideEdit.vue") },
 
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },

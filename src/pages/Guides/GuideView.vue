@@ -76,12 +76,14 @@ import { ref, computed, onBeforeMount } from "vue";
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import { useUserStore } from 'stores/user'
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
 import { api as viewerApi } from "v-viewer";
 import VueViewer from "v-viewer";
 import "viewerjs/dist/viewer.css";
 
+const router = useRouter();
 
 VueViewer.setDefaults({
   zIndex: 2021,
@@ -200,6 +202,9 @@ function getDetails(uuid) {
     });
 }
 
+function editGuide(uuid) {
+  router.push("/guides/edit/" + uuid);
+}
 
 onBeforeMount(() => {
   isLoading.value = true;
