@@ -12,11 +12,11 @@
 
         <q-separator />
 
-        <q-card-section>
+        <q-card-section v-if="guideDetails && !isLoading">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h6">Naprawa CNC</q-item-label>
+                <q-item-label class="text-h6">{{ guideDetails.name }}</q-item-label>
                 <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
               <q-item-section side>
@@ -165,7 +165,6 @@ function previewURL() {
 
 
 
-const counter = computed(() => ideaDetails.value.upvotes - ideaDetails.value.downvotes);
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
@@ -174,16 +173,7 @@ function hasPermission(permission) {
 
 
 const route = useRoute();
-let ideaDetails = ref(null);
-
-function convertTime(datetime) {
-  let timeZone = "America/Los_Angeles";
-  const dateObject = new Date(datetime).toLocaleString("en-US", {
-    timeZone,
-  });
-
-  return dateObject;
-}
+let guideDetails = ref(null);
 
 function getDetails(uuid) {
   authApi
@@ -191,8 +181,8 @@ function getDetails(uuid) {
     .then((res) => {
       console.log(uuid);
       console.log(res.data);
-      // ideaDetails.value = res.data;
-      // json.value = res.data.body_json;
+      guideDetails.value = res.data;
+      json.value = res.data.text_jsonb;
       isLoading.value = false;
     })
     .catch((err) => {

@@ -40,7 +40,11 @@ export default {
 	"NIP": `NIP`,
 	"Last step": `Last step`,
 	"Say something about yourself." : `Say something about yourself. `,
-	"Lets start": `Let's start`,
+	"Lets start": `Lets start`,
+
+	// files
+	"Pick Video to upload": `Pick Video to upload`,
+	"Pick Photo to upload": `Pick Photo to upload`,
 
 	// dashboard
 	"New": `New`,

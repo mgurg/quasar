@@ -1,5 +1,5 @@
 <template>
-    <div v-if="editor && !readonly">
+    <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
     <q-btn 
       flat
       @click="editor.chain().focus().toggleBold().run()" 
@@ -34,10 +34,7 @@
       flat 
       @click="editor.chain().focus().unsetAllMarks().run()" 
       icon="format_clear"  
-    /> -->
-
-
-      
+    /> -->      
      <!--    <q-btn flat @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
       paragraph
     </q-btn> -->
@@ -165,38 +162,23 @@
 
 <script setup>
 import { ref,unref, watch ,computed, onUpdated } from "vue";
-import { useUserStore } from 'stores/user'
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-import Mention from '@tiptap/extension-mention'
 
 import Document from '@tiptap/extension-document'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
 
-// import { generateJSON } from '@tiptap/html'
 
-// https://github.com/kfields/quasar-tiptap-demo
-// https://github.com/ueberdosis/tiptap/issues/1316#issuecomment-851518606
-// https://codesandbox.io/s/bold-voice-l58oq?file=/src/userProvider.js
-
-// https://github.com/Dashibase/lotion/blob/dev/src/components/elements/Editor.vue
-// https://github.com/Wizard-wen/Metagraph/blob/main/src/views/repository-editor/section-article/tiptap-readonly.vue
-
-// const content = ref('')
 const charCount = ref(0)
 
-const charLimit = ref(2000)
+const charLimit = ref(10000)
 
 const emit = defineEmits(['editorContent'])
 
 
 const props = defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
   body: {
     type: String,
     default: ''
@@ -214,9 +196,6 @@ const props = defineProps({
 
 const content = ref(
         `
-        <h1>
-        ${props.title}
-        </h1>
         <p>
          ${props.body}
         </p>
@@ -229,7 +208,7 @@ if (props.modelValue != null && props.modelValue != ""){
 
 
 const CustomDocument = Document.extend({
-  content: 'heading block*'
+  content: 'paragraph block*'
 })
 
 const editor = useEditor({
@@ -243,14 +222,9 @@ const editor = useEditor({
       document: false
     }),
     Placeholder.configure({
-      showOnlyCurrent: false,
-      placeholder: ({ node }) => {
-        if (node.type.name === 'heading') {
-          return "What's the title?"
-        }
-        return 'Can you add some further context?'
-      }
-    }),
+      showOnlyWhenEditable: false,
+  placeholder: 'My Custom Placeholder',
+}),
   ],
   onCreate({ editor }) {
     editor.setEditable(!props.readonly);
@@ -266,8 +240,7 @@ const editor = useEditor({
     // console.log(json_array.content)
     if (
       Array.isArray(json_array) &&
-      json_array[0].hasOwnProperty("content") &&
-      json_array[1].hasOwnProperty("content")
+      json_array[0].hasOwnProperty("content")
     ) {
       emit('editorContent', json, html)
     }

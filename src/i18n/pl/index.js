@@ -42,6 +42,10 @@ export default {
 	"Say something about yourself." : `Powiedz coś o sobie.`,
 	"Lets start": `Zaczynajmy`,
 
+	// files
+	"Pick Video to upload": `Wybierz wideo, aby przesłać`,
+	"Pick Photo to upload": `Wybierz zdjęcie, aby przesłać`,
+
 	// dashboard
 	"New": `Nowy`,
 	"Voted": `Głosował`,

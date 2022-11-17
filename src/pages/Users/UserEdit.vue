@@ -1,16 +1,35 @@
 <template>
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <div class="q-pa-md q-gutter-sm">
-                <q-breadcrumbs>
+        <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section class="row q-pa-sm">
+            <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/" />
                     <q-breadcrumbs-el :label="$t('Employee')" icon="people" to="/users" />
                     <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />
                 </q-breadcrumbs>
-            </div>
+
+        </q-card-section>
+
+        <q-separator />
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+
+              <q-item-section>
+                <q-item-label class="text-h6" v-if="userDetails != null">{{ $t('Edit') }}: {{userDetails.first_name}} {{userDetails.last_name}}</q-item-label>
+                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </q-card-section>
+    </q-card>
+
+    <div>&nbsp;</div>
             <user-form v-if="userDetails != null"
                 :user="userDetails"
-                button-text="Edit"
+                button-text="Save"
                 @userFormBtnClick="signUpButtonPressed"
                 @cancelBtnClick="cancelButtonPressed"
                 :key="userDetails.uuid"

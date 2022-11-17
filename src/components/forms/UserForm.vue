@@ -2,12 +2,12 @@
     <div>
         <q-form autocorrect="off" autocapitalize="off" spellcheck="false" class="q-gutter-md"
             @submit.prevent>
-            <div class="row justify-between items-center">
+            <!-- <div class="row justify-between items-center">
                 <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employee") }}</h5>
 
-            </div>
+            </div> -->
             <div class="row sm-gutter">
-                <div class="q-pa-xs col-xs-5 col-sm-6">
+                <div class="q-pa-xs col-xs-6 col-sm-6">
                     <q-input 
                         outlined 
                         v-model="userFirstName" 
@@ -18,7 +18,7 @@
                         autocomplete="given-name"
                     />
                 </div>
-                <div class="q-pa-xs col-xs-7 col-sm-6">
+                <div class="q-pa-xs col-xs-6 col-sm-6">
                     <q-input 
                         outlined 
                         v-model="userLastName" 
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="row sm-gutter">
-                <div class="q-pa-xs col-xs-6 col-sm-6">
+                <div class="q-pa-xs col-xs-12 col-sm-6">
                     <q-input 
                         outlined 
                         v-model="userEmail" 
@@ -41,7 +41,7 @@
                         :label="$t('E-mail')" 
                     />
                 </div>
-                <div class="q-pa-xs col-xs-6 col-sm-6">
+                <div class="q-pa-xs col-xs-12 col-sm-6">
                     <q-input
                         outlined
                         v-model="userPassword"
@@ -102,9 +102,10 @@
             </div>
 
             <div class="row">
-                <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
                 <q-space />
-                <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
+                <q-btn flat type="submit" class="q-mr-lg"  color="red-12" icon="cancel" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
+                
+                <q-btn type="submit" color="primary" icon="done" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
         </q-form>
     </div>

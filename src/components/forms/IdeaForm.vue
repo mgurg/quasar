@@ -2,9 +2,15 @@
   <div>
     <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
       @submit.prevent>
-      <div class="row justify-between items-center">
-        <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Idea") }}</h5>
-        <div class="q-gutter-sm">
+
+      <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
+        :error-message="errors.ideaTitle" :label="$t('Idea title')" />
+
+        <!-- <div class="row">
+        <div class="q-gutter-xs">
+          <span class="text">
+            Priorytet:
+          </span>
           <span>
             <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
           </span>
@@ -18,59 +24,39 @@
             <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
           </span>
         </div>
-      </div>
+      </div> -->
 
-      <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-        <tiptap @editorContent="logText"  />
+      <div class="tiptap">
+        <tiptap @editorContent="logText" />
       </div>
 
       <!-- QFILE -->
       <div class="column items-start q-gutter-y-xs  ">
-      <q-file 
-      outlined 
-      v-model="files" 
-      @update:model-value="compressorFn" 
-      label="Pick files"
-      :error="!!qFileError"
-      :error-message="qFileError" 
-      :clearable="!isUploading"
-      accept=".jpg, image/*"
-      @rejected="onRejected"
-      style="max-width: 400px" 
-      v-if="attachments.length < 4"
-      >
-      <template v-slot:prepend>
-          <q-icon name="photo" />
-        </template>
-      <template v-slot:file="{ index, file }">
-        <q-chip
-          class="full-width q-my-xs"
-          :removable="isUploading"
-          @remove="cancelFile()"
-          square
-        >
-          <q-linear-progress
-            class="absolute-full full-height"
-            :value="uploadProgress"
-            stripe
-            color="green-2"
-            track-color="grey-2"
-          />
-
-          <q-avatar>
+        <q-file outlined v-model="files" @update:model-value="compressorFn" :label="$t('Pick Photo to upload')"
+          :error="!!qFileError" :error-message="qFileError" :clearable="!isUploading" accept=".jpg, image/*"
+          @rejected="onRejected" style="max-width: 400px" v-if="attachments.length < 4">
+          <template v-slot:prepend>
             <q-icon name="photo" />
-          </q-avatar>
+          </template>
+          <template v-slot:file="{ index, file }">
+            <q-chip class="full-width q-my-xs" :removable="isUploading" @remove="cancelFile()" square>
+              <q-linear-progress class="absolute-full full-height" :value="uploadProgress" stripe color="green-2"
+                track-color="grey-2" />
 
-          <div class="ellipsis relative-position">
-            {{ file.name }}
-          </div>
+              <q-avatar>
+                <q-icon name="photo" />
+              </q-avatar>
 
-          <q-tooltip>
-            {{ file.name }}
-          </q-tooltip>
-        </q-chip>
-      </template>
-      </q-file>
+              <div class="ellipsis relative-position">
+                {{ file.name }}
+              </div>
+
+              <q-tooltip>
+                {{ file.name }}
+              </q-tooltip>
+            </q-chip>
+          </template>
+        </q-file>
       </div>
 
       <!-- IMG -->
@@ -102,9 +88,13 @@
       </div>
 
       <div class="row">
-        <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
         <q-space />
-        <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
+        <q-btn flat type="submit" class="q-mr-lg" color="red-12" icon="cancel" @click="cancelButtonHandle">{{
+            $t("Cancel")
+        }}</q-btn>
+
+        <q-btn type="submit" color="primary" icon="done" @click="submit" :loading="isLoading">{{ $t(buttonText) }}
+        </q-btn>
       </div>
     </q-form>
   </div>
@@ -177,8 +167,7 @@ const files = ref(null);
 
 let jsonTxt = null;
 let htmlTxt = null;
-function logText(json, html) 
-{
+function logText(json, html) {
   jsonTxt = json
   htmlTxt = html
 }
@@ -292,12 +281,12 @@ function cancelFile() {
     }, 1500)
   })
 
-  
-      }
-  
-  function onRejected() {
-    qFileError.value = "incorrect file, upload something else"
-    return new Promise((resolve) => {
+
+}
+
+function onRejected() {
+  qFileError.value = "incorrect file, upload something else"
+  return new Promise((resolve) => {
     // simulating a delay of 2 seconds
     setTimeout(() => {
       resolve(
@@ -306,65 +295,65 @@ function cancelFile() {
     }, 2500)
   })
 
-      }
+}
 
 let progress = ref(60);
 const compressor = ref(null);
 let compressObj = reactive({
-      size: 0,
-      file: "",
-      name:"",
-    });
+  size: 0,
+  file: "",
+  name: "",
+});
 
 
 const compressorFn = () => {
-      qFileError.value = null
-      uploadProgress.value = 0
-      let file = files.value;
-      if (!file) {
-        return;
+  qFileError.value = null
+  uploadProgress.value = 0
+  let file = files.value;
+  if (!file) {
+    return;
+  }
+  compressor.value = new Compressor(file, {
+    quality: 0.6,
+    maxWidth: 1600,
+    mimeType: 'image/jpeg',
+    success(result) {
+      compressObj.file = result;
+      compressObj.name = result.name
+      // compressObj.size = Math.round((result.size / 1024) * 100) / 100;
+      // fileToBase64(result, (data) => {
+      //   compressObj.url = data;
+      // });
+
+      uploadProgress.value = 0.5
+
+      // size check
+      let img = new Image();
+      let objectURL = URL.createObjectURL(result);
+      img.onload = function () {
+        console.log(img.width, img.height)
       }
-      compressor.value = new Compressor(file, {
-        quality: 0.6,
-        maxWidth: 1600,
-        mimeType: 'image/jpeg',
-        success(result) {
-          compressObj.file = result;
-          compressObj.name = result.name
-          // compressObj.size = Math.round((result.size / 1024) * 100) / 100;
-          // fileToBase64(result, (data) => {
-          //   compressObj.url = data;
-          // });
-          
-          uploadProgress.value = 0.5
+      img.src = objectURL
 
-          // size check
-          let img = new Image();
-          let objectURL = URL.createObjectURL(result);
-          img.onload = function () {
-            console.log(img.width, img.height)
-          }
-          img.src = objectURL
+      console.log(result.size, result.type, result.name, result.lastModified)
+      // console.log(token)
 
-          console.log(result.size, result.type, result.name, result.lastModified)
-          // console.log(token)
+      uploadFile();
 
-          uploadFile();
-          
-          uploadProgress.value = 0
-        },
-        error(err) {
-          console.log(err.message);
-        },
-      });
-    };
+      uploadProgress.value = 0
+    },
+    error(err) {
+      console.log(err.message);
+    },
+  });
+};
 
-    // watch(compressorFn, (newV, oldV) => {
-    //   console.log("watch: " + newV +' / ' + oldV)
-    //   // compressorFn();
-    // });
+// watch(compressorFn, (newV, oldV) => {
+//   console.log("watch: " + newV +' / ' + oldV)
+//   // compressorFn();
+// });
 
-function  uploadFile(file) {
+function uploadFile(file) {
   let token = props.token
   if (props.token == null)
     token = UserStore.getToken
@@ -373,56 +362,56 @@ function  uploadFile(file) {
   if (props.tenant_id == null)
     tenant_id = UserStore.getTenant
 
-    const formData = new FormData();
-    formData.append('file', compressObj.file, compressObj.name); // The third parameter is required for server
+  const formData = new FormData();
+  formData.append('file', compressObj.file, compressObj.name); // The third parameter is required for server
 
-    isLoading.value = true;
-      // api
-      //   .post(process.env.VUE_APP_URL + "/files/", formData, {
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data',
-      //       'Authorization': 'Bearer ' + token,
-      //       'tenant': tenant_id
-      //     }
-      //   })
-      //   .then((res) => {
-      //     attachments.value.push(res.data)
-      //     console.log(res.data)
-      //     console.log(attachments.value)
-      //     uploader.value.reset()
-      //     isLoading.value = false;
-      //   })
-      //   .catch((err) => {
-      //     if (err.response) {
-      //       console.log(err.response);
-      //     } else if (err.request) {
-      //       console.log(err.request);
-      //     } else {
-      //       console.log("General Error");
-      //     }
-      //     isLoading.value = false;
-      //   });  
+  isLoading.value = true;
+  // api
+  //   .post(process.env.VUE_APP_URL + "/files/", formData, {
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //       'Authorization': 'Bearer ' + token,
+  //       'tenant': tenant_id
+  //     }
+  //   })
+  //   .then((res) => {
+  //     attachments.value.push(res.data)
+  //     console.log(res.data)
+  //     console.log(attachments.value)
+  //     uploader.value.reset()
+  //     isLoading.value = false;
+  //   })
+  //   .catch((err) => {
+  //     if (err.response) {
+  //       console.log(err.response);
+  //     } else if (err.request) {
+  //       console.log(err.request);
+  //     } else {
+  //       console.log("General Error");
+  //     }
+  //     isLoading.value = false;
+  //   });  
 
-         api
-        .get('/fake_groups')
-        .then((res) => {
+  api
+    .get('/fake_groups')
+    .then((res) => {
 
-          console.log(res.data)
-          uploadProgress.value = 1.0
+      console.log(res.data)
+      uploadProgress.value = 1.0
 
-          isLoading.value = false;
-          cancelFile();
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.log(err.response);
-          } else if (err.request) {
-            console.log(err.request);
-          } else {
-            console.log("General Error");
-          }
-          isLoading.value = false;
-        });  
+      isLoading.value = false;
+      cancelFile();
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+      isLoading.value = false;
+    });
 
 }
 // https://github.com/sjq4499/vite-vue3/blob/8ffaf0cda0cf6d15e30242d97d6d2eaa824f1eb6/src/views/tool/compressImages.vue
@@ -431,5 +420,19 @@ function  uploadFile(file) {
 
 
 <style lang="scss" scoped>
+.tiptap {
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+  padding-left: 5px;
+}
 
+.tiptap:focus-within {
+  transition: 0.1s;
+  border: 2px solid #1976d2 !important;
+}
+
+.tiptap:hover {
+  transition: 0.5s;
+  border: 1px solid #000000 !important;
+}
 </style>

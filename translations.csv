@@ -37,7 +37,11 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """NIP""",NIP,NIP,NIP,NIP
 """Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
 """Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
-"""Lets start""",Let's start,Commençons,Lasst uns beginnen,Zaczynajmy
+"""Lets start""",Lets start,Commençons,Lasst uns beginnen,Zaczynajmy
+,,,,
+#files,,,,
+"""Pick Video to upload""",Pick Video to upload,Choisissez la vidéo à télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
+"""Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,Foto zum Hochladen auswählen,"Wybierz zdjęcie, aby przesłać"
 ,,,,
 #dashboard,,,,
 """New""",New,Nouveau,Neu,Nowy
