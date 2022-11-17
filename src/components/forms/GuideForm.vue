@@ -41,7 +41,9 @@
         />
             </div>
 
-        <q-file v-if="videoItem === null" 
+            <div class="row sm-gutter">
+              <div class="q-pa-xs col-xs-6 col-sm-6">
+                <q-file v-if="videoItem === null" 
         v-model="file" 
         outlined 
         :label="$t('Pick Video to upload')" 
@@ -49,7 +51,7 @@
         @update:model-value="handleFileUpload()" 
         type="file">
             <template v-slot:prepend>
-                <q-icon name="movie" />
+                <q-icon name="ondemand_video" />
             </template>
             <template v-slot:file="{ index, file }">
                 <q-chip 
@@ -72,6 +74,39 @@
                 </q-chip>
             </template>
         </q-file>
+                </div>
+                <div class="q-pa-xs col-xs-6 col-sm-6">
+                  <q-file 
+                  outlined 
+                  v-model="files" @update:model-value="compressorFn" 
+                  :label="$t('Pick Photo to upload')"
+          :error="!!qFileError" :error-message="qFileError" :clearable="!isUploading" accept=".jpg, image/*"
+          @rejected="onRejected"  v-if="attachments.length < 4">
+          <template v-slot:prepend>
+            <q-icon name="photo_camera" />
+          </template>
+          <template v-slot:file="{ index, file }">
+            <q-chip class="full-width q-my-xs" :removable="isUploading" @remove="cancelFile()" square>
+              <q-linear-progress class="absolute-full full-height" :value="uploadProgress" stripe color="green-2"
+                track-color="grey-2" />
+
+              <q-avatar>
+                <q-icon name="photo" />
+              </q-avatar>
+
+              <div class="ellipsis relative-position">
+                {{ file.name }}
+              </div>
+
+              <q-tooltip>
+                {{ file.name }}
+              </q-tooltip>
+            </q-chip>
+          </template>
+        </q-file>
+                </div>
+            </div>
+
 
 
         <br />
@@ -149,7 +184,9 @@ const { handleSubmit, errors } = useForm({
 
 const { value: guideName } = useField('guideName', undefined, { initialValue: props.guide.name })
 
-
+// IMG
+const files = ref(null)
+let attachments = ref([]);
 // VIDEO
 const apiToken = ref(null)
 const uploadToken = ref(null)
