@@ -22,7 +22,7 @@
       :label="$t('Name')"
     >                    
       <template v-slot:prepend>
-        <q-avatar rounded :color="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'" size="xl" @click="showEmojiPicker = true" class="cursor-pointer"> {{nativeEmojiSymbol}}</q-avatar>
+        <q-avatar rounded :color="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" size="xl" @click="showEmojiPicker = true" class="cursor-pointer"> {{nativeEmojiSymbol}}</q-avatar>
       </template>
     </q-input>
                

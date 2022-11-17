@@ -17,14 +17,14 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h6">{{ guideDetails.name }}</q-item-label>
-                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+                <!-- <q-item-label caption>{{ guideDetails.last_name }}</q-item-label> -->
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
-                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
+                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editGuide(guideDetails.uuid)" />
                   <q-btn flat color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
+                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGuide(guideDetails.uuid)" />
 
                 </div>
               </q-item-section>
@@ -44,11 +44,15 @@
         </q-card-section> -->
         <q-card-section>
           <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-            <tip-tap-guide :readonly="true" />
+            <tip-tap-guide :model-value="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
           </div>
         </q-card-section>
 
         <q-card-section>
+          <q-btn label="Alert" color="primary" @click="previewURL()" />
+        </q-card-section>
+
+        <!-- <q-card-section>
           <q-img src="https://placeimg.com/500/300/nature?t=1" class="q-ma-xs" style="height: 140px; max-width: 150px"
             native-context-menu />
           <q-img src="https://placeimg.com/500/300/nature?t=2" class="q-ma-xs" style="height: 140px; max-width: 150px"
@@ -60,7 +64,7 @@
         </q-card-section>
         <q-card-section>
           <q-btn label="Alert" color="primary" @click="previewURL()" />
-        </q-card-section>
+        </q-card-section> -->
 
       </q-card>
     </q-page>

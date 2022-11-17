@@ -1,6 +1,6 @@
 <template>
     <div @click="viewUser(user.uuid)">
-        <q-item :class="{ 'bg-blue-grey-6': (user.uuid == selected && $q.dark.isActive), 'bg-blue-grey-3': (user.uuid == selected && !$q.dark.isActive) }">
+        <q-item :class="{ 'bg-blue-grey-6': (user.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (user.uuid == selected && !$q.dark.isActive) }">
             <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
                 <q-avatar rounded color="red-12" text-color="white">{{ initials }}
                     <q-badge v-if="user.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>

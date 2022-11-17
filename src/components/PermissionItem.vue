@@ -1,6 +1,6 @@
 <template>
     <div @click="viewPermission(permission.uuid)">
-        <q-item :class="{ 'bg-blue-grey-6': (permission.uuid == selected && $q.dark.isActive), 'bg-blue-grey-3': (permission.uuid == selected && !$q.dark.isActive) }">
+        <q-item :class="{ 'bg-blue-grey-6': (permission.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (permission.uuid == selected && !$q.dark.isActive) }">
             <q-item-section avatar cursor-pointer ripple @click="viewPermission(permission.uuid)">
                 <q-avatar rounded color="red-12" text-color="white">{{permission.count}}
                     <q-badge v-if="permission.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>

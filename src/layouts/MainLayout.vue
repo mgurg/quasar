@@ -271,3 +271,12 @@ onBeforeMount(() => {
 });
 
 </script>
+
+<style>
+/* body.body--dark {
+  background: #000
+} */
+body.body--light {
+  background: #eceff1
+}
+</style>

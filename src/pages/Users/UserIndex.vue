@@ -43,7 +43,7 @@
         </q-card-section>
         <!-- <q-separator /> -->
         <q-list padding v-if="!isLoading && users != null" class="q-mt-none q-pt-none">
-          <q-item class="rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1'">
+          <q-item class="rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
 
             </q-item-section>

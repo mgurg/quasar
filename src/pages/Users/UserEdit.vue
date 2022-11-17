@@ -27,6 +27,7 @@
     </q-card>
 
     <div>&nbsp;</div>
+    <div style="background-color: white;" class="q-pa-md rounded-borders">
             <user-form v-if="userDetails != null"
                 :user="userDetails"
                 button-text="Save"
@@ -35,6 +36,7 @@
                 :key="userDetails.uuid"
             />
             <user-edit-skeleton v-else />
+        </div>
         </q-page>
     </div>
 </template>

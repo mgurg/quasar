@@ -30,11 +30,12 @@
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
 
       <div>&nbsp;</div>
-      <div>&nbsp;</div>
-      <!-- <q-card class="my-card no-shadow q-my-sm q-mx-none q-pa-none">
-        <q-card-section> -->
 
-          <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+      <!-- <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section> -->
+        <div style="background-color: white;" class="q-pa-md rounded-borders">
+          <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" 
+            class="q-gutter-md"
             @submit.prevent>
             <q-input outlined :label="$t('Idea title')" />
 
@@ -116,6 +117,7 @@
               </q-btn>
             </div>
           </q-form>
+        </div>
         <!-- </q-card-section>
       </q-card> -->
     </q-page>
