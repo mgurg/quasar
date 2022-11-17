@@ -117,7 +117,7 @@
 
       <q-list padding v-if="!isLoading" class="q-mt-none q-pt-none">
 
-        <q-item class=" rounded-borders" :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
+        <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
           <q-item-section avatar>
             <span>&nbsp;
               <q-btn padding="xs" :unelevated="sort.active == 'counter' ? true : false"

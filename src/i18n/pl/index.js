@@ -45,6 +45,8 @@ export default {
 	// files
 	"Pick Video to upload": `Wybierz wideo, aby przesłać`,
 	"Pick Photo to upload": `Wybierz zdjęcie, aby przesłać`,
+	"Delete Video": `Usuń wideo`,
+	"Delete Photo": `Usuń zdjęcie`,
 
 	// dashboard
 	"New": `Nowy`,
@@ -75,6 +77,7 @@ export default {
 	"Guides": `Przewodniki`,
 	"Guide": `Przewodnik`,
 	"New guide": `Nowy przewodnik`,
+	"Guide name": `Nazwa przewodnika`,
 
 	// tasks
 	"Action failed": `Akcja: nieudana`,

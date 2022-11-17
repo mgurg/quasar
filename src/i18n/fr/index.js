@@ -45,6 +45,8 @@ export default {
 	// files
 	"Pick Video to upload": `Choisissez la vidéo à télécharger`,
 	"Pick Photo to upload": `Choisissez la photo pour télécharger`,
+	"Delete Video": `Supprimer la vidéo`,
+	"Delete Photo": `Supprimer la photo`,
 
 	// dashboard
 	"New": `Nouveau`,
@@ -75,6 +77,7 @@ export default {
 	"Guides": `Guides`,
 	"Guide": `Guide`,
 	"New guide": `Nouveau guide`,
+	"Guide name": `Nom de guide`,
 
 	// tasks
 	"Action failed": `Action: échoué`,

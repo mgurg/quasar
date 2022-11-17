@@ -42,6 +42,8 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 #files,,,,
 """Pick Video to upload""",Pick Video to upload,Choisissez la vidéo à télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
 """Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,Foto zum Hochladen auswählen,"Wybierz zdjęcie, aby przesłać"
+"""Delete Video""",Delete Video,Supprimer la vidéo,Video löschen,Usuń wideo
+"""Delete Photo""",Delete Photo,Supprimer la photo,Foto löschen,Usuń zdjęcie
 ,,,,
 #dashboard,,,,
 """New""",New,Nouveau,Neu,Nowy
@@ -72,6 +74,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Guides""",Guides,Guides,Führer,Przewodniki
 """Guide""",Guide,Guide,Führen,Przewodnik
 """New guide""",New guide,Nouveau guide,Neuer Leitfaden,Nowy przewodnik
+"""Guide name""",Guide name,Nom de guide,Leitfadenname,Nazwa przewodnika
 ,,,,
 #tasks,,,,
 """Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana

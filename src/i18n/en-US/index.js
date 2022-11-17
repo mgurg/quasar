@@ -45,6 +45,8 @@ export default {
 	// files
 	"Pick Video to upload": `Pick Video to upload`,
 	"Pick Photo to upload": `Pick Photo to upload`,
+	"Delete Video": `Delete Video`,
+	"Delete Photo": `Delete Photo`,
 
 	// dashboard
 	"New": `New`,
@@ -75,6 +77,7 @@ export default {
 	"Guides": `Guides`,
 	"Guide": `Guide`,
 	"New guide": `New guide`,
+	"Guide name": `Guide name`,
 
 	// tasks
 	"Action failed": `Action failed`,
