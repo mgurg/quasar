@@ -27,14 +27,10 @@
 
         <q-separator />
         <div :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
-          <div class="row q-col-gutter-xs q-pa-md">
-            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in ideaDetails.pictures"
-              v-bind:key="index">
-              <q-img :src="file.url" spinner-color="black" style="height: 100%; width: 100%" fit="contain"
-                @click="previewImgObject(index)">
-              </q-img>
-            </div>
-          </div>
+
+          <!-- {{ ideaDetails.pictures}} -->
+          <photo-viewer :pictures-list="ideaDetails.pictures"/>
+
 
           <!-- <q-card-section class="q-pt-md text-body1">{{ ideaDetails.description }}</q-card-section> -->
 
@@ -75,73 +71,9 @@ import { useUserStore } from 'stores/user'
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
-import { api as viewerApi } from "v-viewer";
-import VueViewer from "v-viewer";
-import "viewerjs/dist/viewer.css";
+import PhotoViewer from 'src/components/uploader/PhotoViewer.vue'
 
 const UserStore = useUserStore();
-const sourceImageURLs = ref([]);
-
-VueViewer.setDefaults({
-  zIndex: 2021,
-  toolbar: {
-    zoomIn: {
-      show: 4,
-      size: 'large'
-    },
-    zoomOut: {
-      show: 4,
-      size: 'large'
-    },
-    oneToOne: false,
-    reset: false,
-    prev: {
-      show: 4,
-      size: 'large'
-    },
-    play: {
-      show: 4,
-      size: 'large'
-    },
-    next: {
-      show: 4,
-      size: 'large'
-    },
-    rotateLeft: {
-      show: 4,
-      size: 'large'
-    },
-    rotateRight: {
-      show: 4,
-      size: 'large'
-    },
-    flipHorizontal: false,
-    flipVertical: false,
-  }
-})
-
-function previewURL() {
-  const $viewer = viewerApi({
-    images: sourceImageURLs.value,
-    rotatable: false,
-    scalable: false,
-    transition: false
-  })
-  console.log($viewer)
-}
-
-function previewImgObject(index) {
-      console.log(index)
-      const $viewer = viewerApi({
-
-          toolbar: true,
-          url: 'data-source',
-          initialViewIndex: index,
-
-        images: sourceImageURLs.value,
-      })
-      console.log($viewer)
-    }
 
 const json = ref(null);
 let isLoading = ref(false);
@@ -182,13 +114,7 @@ function getDetails(uuid) {
       console.log(res.data);
       ideaDetails.value = res.data;
       json.value = res.data.body_json;
-      sourceImageURLs.value = res.data.pictures.map((e) => {
-        return {
-          'data-source': e.url,
-          'src': e.url,
-          'alt': e.file_name
-        }
-      });
+
       isLoading.value = false;
     })
     .catch((err) => {
