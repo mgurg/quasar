@@ -1734,82 +1734,82 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.17.4, @sentry/browser@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/browser@npm:7.17.4"
+"@sentry/browser@npm:7.20.0, @sentry/browser@npm:^7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/browser@npm:7.20.0"
   dependencies:
-    "@sentry/core": 7.17.4
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/core": 7.20.0
+    "@sentry/types": 7.20.0
+    "@sentry/utils": 7.20.0
     tslib: ^1.9.3
-  checksum: 9bdac67401edc2ba4abd7fa7928d192c001555efd029d0a6fac4664b75877a4f9d7177a3ef99033de69ca6888dde509bc06fc1879eaab9abf6a676ae532b2408
+  checksum: 740903325b83d6e1776040424eec2223a32a1fe2e785b9c3903ae985096f2ce0cc3bc8da0868b05fbac36e5d41518b997948df6a6135454809b9f2a673f6ca6f
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/core@npm:7.17.4"
+"@sentry/core@npm:7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/core@npm:7.20.0"
   dependencies:
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/types": 7.20.0
+    "@sentry/utils": 7.20.0
     tslib: ^1.9.3
-  checksum: 674921d165fa25837fc090c416db56210d1d3e2f530a474f29b76f6fcb8bb878d53fca5c47c2cc7e3d029c396111b7282c55f81fdef2e0a74a84258c206eb74c
+  checksum: 3998605dff85a56f83efaae747567b76941d4b6de9a30202f280d50ad38fb176ed8560067f122238fb1170c133dfc9a063ae71ee66b6ebd639977b44f3f8311c
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/integrations@npm:7.17.4"
+"@sentry/integrations@npm:^7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/integrations@npm:7.20.0"
   dependencies:
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/types": 7.20.0
+    "@sentry/utils": 7.20.0
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: 8c2f5550204e5f7d2403158b63c7ed4327e9ed4a464b6a84b453e71609339c158beef0d4b571fcccc619cbcae777b59d9a918d5cffe6e88672ae317e524f54f4
+  checksum: 9e364567481d5f0788af43e1feef03d9cfc58c4c83532c6eecf40f6a8586e72302b6f8c0fa77a392c9ee4aece50ab4de4aa6b9a7f72dc7e7712884e5de476374
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/tracing@npm:7.17.4"
+"@sentry/tracing@npm:^7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/tracing@npm:7.20.0"
   dependencies:
-    "@sentry/core": 7.17.4
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/core": 7.20.0
+    "@sentry/types": 7.20.0
+    "@sentry/utils": 7.20.0
     tslib: ^1.9.3
-  checksum: 30e70c557449657487ca704e8c9980124b8cedfe6665f8239843731c6ffe4eff4a6148f81d314bd383078845991663d0f158d3a932edd09e4569fa097aa5e99c
+  checksum: 12a13c374b113081faffedf772fee36e4a0d5f9f06c0d11023d18bb836002d6394532751e4254b43eb9c6b44e69894533be46a8180fa734feb711f82af485e30
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/types@npm:7.17.4"
-  checksum: b0d42c00e470aac7e058fe66171da36083dd9b901deca89400e04806a591a696bcb5012901ae48fd486584a3ad1515d985ce784b99e961fbd01b17a6c38c91be
+"@sentry/types@npm:7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/types@npm:7.20.0"
+  checksum: eb012cb9cd83b2747ffb256e9d1f783c5508b54f78e45a2714090bd6d44e472b5f8655c4614e9cf4da042b0ec277675cf9dd2ab7d864e04e58d1b67c43289ff9
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/utils@npm:7.17.4"
+"@sentry/utils@npm:7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/utils@npm:7.20.0"
   dependencies:
-    "@sentry/types": 7.17.4
+    "@sentry/types": 7.20.0
     tslib: ^1.9.3
-  checksum: dee909f9c3102700bee730b492f1ad0680eb52ebee1a48f242fa830bdd7b3d7344ad90ab0f7e3909d4d86a3493d98d06da1b314c74fb5d311b5acda2f0264c07
+  checksum: 510753d5afce22a521f5780ab87767ed1496eb24bad6adda14848abef69dac8aa3d3168d8bc861ddf7d7af4f7476b70e1d84405991ec5b000008743d63ad3820
   languageName: node
   linkType: hard
 
-"@sentry/vue@npm:^7.17.4":
-  version: 7.17.4
-  resolution: "@sentry/vue@npm:7.17.4"
+"@sentry/vue@npm:^7.20.0":
+  version: 7.20.0
+  resolution: "@sentry/vue@npm:7.20.0"
   dependencies:
-    "@sentry/browser": 7.17.4
-    "@sentry/core": 7.17.4
-    "@sentry/types": 7.17.4
-    "@sentry/utils": 7.17.4
+    "@sentry/browser": 7.20.0
+    "@sentry/core": 7.20.0
+    "@sentry/types": 7.20.0
+    "@sentry/utils": 7.20.0
     tslib: ^1.9.3
   peerDependencies:
     vue: 2.x || 3.x
-  checksum: f551ea2d6b21cb8294cd5893ee53a68aed607f06e55c84858d4b8e2af28715bf2d5b8786f77419defca8d378bd88c91ac04c159527caa61f73c0db5d4636747e
+  checksum: 20a2e12e21bb84e909a75dac41cb577f476d44dfa07086d6c52a4937aefc9f9ad8b73f2435895925153c2a18761d0349f93cb235c1283a3cb2fe9e0931c08976
   languageName: node
   linkType: hard
 
@@ -2495,7 +2495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/devtools-api@npm:^6.4.4, @vue/devtools-api@npm:^6.4.5":
+"@vue/devtools-api@npm:^6.4.5":
   version: 6.4.5
   resolution: "@vue/devtools-api@npm:6.4.5"
   checksum: 40c5adc8788cb283972ce09ba7ce105fa894f4decec9168829cc8e6211462763402442e6c31be76f9da62b0e74ae724971b924571367b4ac89b94dc6894e2d07
@@ -3750,6 +3750,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.26.1":
+  version: 3.26.1
+  resolution: "core-js@npm:3.26.1"
+  checksum: 0a01149f51ff1e9f41d1ea49cc4c9222047949ea597189ede7c4cf8cde3b097766b9c7615acc77c86fe65b4002f20b638a133dfba7b41dba830d707aeeed45ad
+  languageName: node
+  linkType: hard
+
 "core-js@npm:^3.6.5":
   version: 3.25.2
   resolution: "core-js@npm:3.25.2"
@@ -4264,16 +4271,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emoji-mart-vue-fast@npm:^11.2.0":
-  version: 11.2.0
-  resolution: "emoji-mart-vue-fast@npm:11.2.0"
+"emoji-mart-vue-fast@npm:^12.0.1":
+  version: 12.0.1
+  resolution: "emoji-mart-vue-fast@npm:12.0.1"
   dependencies:
     "@babel/runtime": ^7.18.6
     core-js: ^3.23.5
-    vue-virtual-scroller: ^1.0.10
   peerDependencies:
     vue: ">2.0.0"
-  checksum: 69de10cb03c57d898b41267128fcca8770d36ad9b58ca4757a4aeb8baaaf3da756959ffe031f860757d442bf440f7dbd07e3d7c8985d163d8122038b0de02a50
+  checksum: 4632ab2ced581f78e9e6793932ccf42f084cbe85ef974ad2476b1c662ff85e6a84217a9cb1519e6ce0abd18a561e3038a51987102cbfe90f86cd51241c832606
   languageName: node
   linkType: hard
 
@@ -6760,11 +6766,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinia@npm:^2.0.23":
-  version: 2.0.23
-  resolution: "pinia@npm:2.0.23"
+"pinia@npm:^2.0.24":
+  version: 2.0.24
+  resolution: "pinia@npm:2.0.24"
   dependencies:
-    "@vue/devtools-api": ^6.4.4
+    "@vue/devtools-api": ^6.4.5
     vue-demi: "*"
   peerDependencies:
     "@vue/composition-api": ^1.4.0
@@ -6775,7 +6781,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 004c76d80bc1127a25b26f92616f1243c570c6be90b04be83aa95108274036b64ed0678e537f3213c8b8f3dd7bcffb52e768e7445a1fd9378cb1db15ada92f83
+  checksum: b47fbb4e6fdac1aa5e2669291c9b5444c7d1a8a7bdc833700210b2a134dc38e22fdc7c05e6b72d80ae1ab06dfbaa6b50e248d6033461b42206fc64b83a6565ac
   languageName: node
   linkType: hard
 
@@ -7389,10 +7395,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quasar@npm:^2.10.1":
-  version: 2.10.1
-  resolution: "quasar@npm:2.10.1"
-  checksum: 53f6628eb0c13c2f2906d21153a96755535fd7317785e65b950a8eeb13e64fe7c4b3b97b7224f7cb0f8202412a38a82cad4b4a6690728250c4f97f2c6580c5a9
+"quasar@npm:^2.10.2":
+  version: 2.10.2
+  resolution: "quasar@npm:2.10.2"
+  checksum: 633e5564433b410c7617558fac2ff6e6ed4a244a78fff830b256466097b3bba72019833051c888675812274fcaace0f1f6f8a5bc0a8cd38635dc63f97825fa3f
   languageName: node
   linkType: hard
 
@@ -7405,10 +7411,10 @@ __metadata:
     "@quasar/app-webpack": ^3.6.2
     "@quasar/extras": ^1.15.5
     "@quasar/quasar-app-extension-qcalendar": ^4.0.0-beta.14
-    "@sentry/browser": ^7.17.4
-    "@sentry/integrations": ^7.17.4
-    "@sentry/tracing": ^7.17.4
-    "@sentry/vue": ^7.17.4
+    "@sentry/browser": ^7.20.0
+    "@sentry/integrations": ^7.20.0
+    "@sentry/tracing": ^7.20.0
+    "@sentry/vue": ^7.20.0
     "@tiptap/core": ^2.0.0-beta.200
     "@tiptap/extension-character-count": ^2.0.0-beta.200
     "@tiptap/extension-highlight": ^2.0.0-beta.200
@@ -7421,20 +7427,20 @@ __metadata:
     "@vue-leaflet/vue-leaflet": ^0.6.1
     axios: ^1.1.3
     compressorjs: ^1.1.1
-    core-js: ^3.6.5
+    core-js: ^3.26.1
     dotenv: ^16.0.3
     echarts: ^5.4.0
-    emoji-mart-vue-fast: ^11.2.0
+    emoji-mart-vue-fast: ^12.0.1
     install: ^0.13.0
     leaflet: ^1.9.2
     luxon: ^3.1.0
-    pinia: ^2.0.23
-    quasar: ^2.10.1
+    pinia: ^2.0.24
+    quasar: ^2.10.2
     stream-consumers: ^1.0.2
     tippy.js: ^6.3.7
     v-viewer: next
     validate-polish: ^2.0.40
-    vee-validate: ^4.7.2
+    vee-validate: ^4.7.3
     vue: ^3.2.41
     vue-echarts: ^6.2.3
     vue-i18n: ^9.2.2
@@ -7866,13 +7872,6 @@ __metadata:
     ajv-formats: ^2.1.1
     ajv-keywords: ^5.0.0
   checksum: c843e92fdd1a5c145dbb6ffdae33e501867f9703afac67bdf35a685e49f85b1dcc10ea250033175a64bd9d31f0555bc6785b8359da0c90bcea30cf6dfbb55a8f
-  languageName: node
-  linkType: hard
-
-"scrollparent@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "scrollparent@npm:2.0.1"
-  checksum: 9ff2b29c1233431ebd0910e5f8db4a058836ee0292d1bb18042fbb4d2175c3ed73fa28a71a96074ac6848173185238ad1139bdefc3863be4808df981175cb807
   languageName: node
   linkType: hard
 
@@ -8589,7 +8588,7 @@ __metadata:
 
 "typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
   version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=7ad353"
+  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -8779,14 +8778,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vee-validate@npm:^4.7.2":
-  version: 4.7.2
-  resolution: "vee-validate@npm:4.7.2"
+"vee-validate@npm:^4.7.3":
+  version: 4.7.3
+  resolution: "vee-validate@npm:4.7.3"
   dependencies:
     "@vue/devtools-api": ^6.1.4
   peerDependencies:
     vue: ^3.0.0
-  checksum: b585f6aa6d465bde291177c161dceacb33203eba1746c6a9d076385d71e1adb2fc8354788923c48a7b9919cb956f7605e6761f39f00f5980a0de168b81f59495
+  checksum: 97189ac92755e6da793dd8182a54c9c14242c9129a77d63914e89a7919a578804e6832057a5f86efa2d91d800a33ea4201ed1cbe9976176b62103de56a3827ea
   languageName: node
   linkType: hard
 
@@ -8857,22 +8856,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-observe-visibility@npm:^0.4.4":
-  version: 0.4.6
-  resolution: "vue-observe-visibility@npm:0.4.6"
-  checksum: 4e8484df30d9ae9246e4fec8a1998fb9340cca0efc702e75741bfea85cd3ca25f68259ed5fb127cc431a121fb138ca54e1381195bbb902f8da6181c1feecd822
-  languageName: node
-  linkType: hard
-
-"vue-resize@npm:^0.4.5":
-  version: 0.4.5
-  resolution: "vue-resize@npm:0.4.5"
-  peerDependencies:
-    vue: ^2.3.0
-  checksum: 045de8640feb6c48a684f844b13d2981b7365917f407500a729af722c01da424f78ec3107284d90dbd1ba566b196f46f5d6c903cd7c1e6141683710ab1fa4ab2
-  languageName: node
-  linkType: hard
-
 "vue-router@npm:^4.1.6":
   version: 4.1.6
   resolution: "vue-router@npm:4.1.6"
@@ -8891,19 +8874,6 @@ __metadata:
     hash-sum: ^1.0.2
     loader-utils: ^1.0.2
   checksum: ef79d0c6329303d69c87f128f67e486bd37e9a8d416aa662edafae62fab727117b7452f50be8b11fe0c4cb43992344d5ef6a46b206f375fca4d37ae5a5b99185
-  languageName: node
-  linkType: hard
-
-"vue-virtual-scroller@npm:^1.0.10":
-  version: 1.0.10
-  resolution: "vue-virtual-scroller@npm:1.0.10"
-  dependencies:
-    scrollparent: ^2.0.1
-    vue-observe-visibility: ^0.4.4
-    vue-resize: ^0.4.5
-  peerDependencies:
-    vue: ^2.6.11
-  checksum: 1de541472a613b0be12b6fafb33d2dfb4b0039e1afdbfd7815f29016f5f63ba1842a18d7c07aed618684cf0eecf33c3ba7cd5a3c0e41281d7bc0034ccaaeebbd
   languageName: node
   linkType: hard
 
