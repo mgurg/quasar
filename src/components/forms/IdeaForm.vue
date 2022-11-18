@@ -30,46 +30,11 @@
         <tiptap @editorContent="logText" />
       </div>
 
+      <div>
+        <photo-uploader @uploaded-photos="listUploadedImgs"/>
+      </div>
       <!-- QFILE -->
-      <div class="column items-start q-gutter-y-xs  ">
-        <q-file outlined v-model="files" @update:model-value="compressorFn" :label="$t('Pick Photo to upload')"
-          :error="!!qFileError" :error-message="qFileError" :clearable="!isUploading" accept=".jpg, image/*"
-          @rejected="onRejected" style="max-width: 400px" v-if="attachments.length < 4">
-          <template v-slot:prepend>
-            <q-icon name="photo" />
-          </template>
-          <template v-slot:file="{ index, file }">
-            <q-chip class="full-width q-my-xs" :removable="isUploading" @remove="cancelFile()" square>
-              <q-linear-progress class="absolute-full full-height" :value="uploadProgress" stripe color="green-2"
-                track-color="grey-2" />
-
-              <q-avatar>
-                <q-icon name="photo" />
-              </q-avatar>
-
-              <div class="ellipsis relative-position">
-                {{ file.name }}
-              </div>
-
-              <q-tooltip>
-                {{ file.name }}
-              </q-tooltip>
-            </q-chip>
-          </template>
-        </q-file>
-      </div>
-
-      <!-- IMG -->
-      <div class="row q-col-gutter-xs">
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments" v-bind:key="index">
-          <q-img :src="file.url" spinner-color="black" style="height: 100%; width:100% " fit="contain">
-            <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
-              style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
-              <q-tooltip>Tooltip</q-tooltip>
-            </q-icon>
-          </q-img>
-        </div>
-      </div>
+      
 
       <!-- MODE -->
       <div v-if="mode == 'anonymous_with_mail'">
@@ -105,10 +70,8 @@ import { ref, reactive, watch } from "vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
-import { api, authApi } from "boot/axios";
-import { useUserStore } from "stores/user";
-import Compressor from 'compressorjs';
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
+import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 
 const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
@@ -116,7 +79,6 @@ const { isListening, isSupported, stop, result, raw, start, error } = useSpeechR
   interimResults: false,
 })
 
-const UserStore = useUserStore();
 
 const props = defineProps({
   idea: {
@@ -163,40 +125,12 @@ let isLoading = ref(false);
 let attachments = ref(props.idea.file);
 
 
-const files = ref(null);
 
 let jsonTxt = null;
 let htmlTxt = null;
 function logText(json, html) {
   jsonTxt = json
   htmlTxt = html
-}
-
-// --------------- UPLOADER ---------------
-
-
-function delete_file(uuid) {
-  api
-    .delete(process.env.VUE_APP_URL + "/files/" + uuid, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': 'Bearer ' + token,
-        'tenant': tenant_id
-      }
-    })
-    .then((res) => {
-      attachments.value = attachments.value.filter(item => item.uuid !== uuid)
-      //   listFiles()
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
 }
 
 //voice recognition
@@ -248,11 +182,12 @@ const submit = handleSubmit(values => {
     "description": "ideaDescription.value",
     "body_json": jsonTxt,
     "body_html": htmlTxt,
-    "files": attachments.value.map(a => a.uuid)
+    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
   }
 
-  emit('ideaFormBtnClick', data)
-  handleReset();
+  console.log(data)
+  // emit('ideaFormBtnClick', data)
+  // handleReset();
 })
 
 // --------------- Form --------------
@@ -262,160 +197,16 @@ function cancelButtonHandle() {
   emit('cancelBtnClick')
 }
 
+const uploadedPhotos = ref([]);
 
-// ---------------- FILE UPLOAD ----------------
-
-const isUploading = ref(false);
-const uploadProgress = ref(0.1)
-const uploadProgressColor = "warning"
-
-const qFileError = ref(null)
-
-function cancelFile() {
-  return new Promise((resolve) => {
-    // simulating a delay of 2 seconds
-    setTimeout(() => {
-      resolve(
-        files.value = null
-      )
-    }, 1500)
-  })
-
-
+function listUploadedImgs(images){
+  console.log("UPLOADED IMAGES:")
+  console.log(JSON.stringify(images))
+  uploadedPhotos.value = images;
 }
 
-function onRejected() {
-  qFileError.value = "incorrect file, upload something else"
-  return new Promise((resolve) => {
-    // simulating a delay of 2 seconds
-    setTimeout(() => {
-      resolve(
-        qFileError.value = null
-      )
-    }, 2500)
-  })
-
-}
-
-let progress = ref(60);
-const compressor = ref(null);
-let compressObj = reactive({
-  size: 0,
-  file: "",
-  name: "",
-});
 
 
-const compressorFn = () => {
-  qFileError.value = null
-  uploadProgress.value = 0
-  let file = files.value;
-  if (!file) {
-    return;
-  }
-  compressor.value = new Compressor(file, {
-    quality: 0.6,
-    maxWidth: 1600,
-    mimeType: 'image/jpeg',
-    success(result) {
-      compressObj.file = result;
-      compressObj.name = result.name
-      // compressObj.size = Math.round((result.size / 1024) * 100) / 100;
-      // fileToBase64(result, (data) => {
-      //   compressObj.url = data;
-      // });
-
-      uploadProgress.value = 0.5
-
-      // size check
-      let img = new Image();
-      let objectURL = URL.createObjectURL(result);
-      img.onload = function () {
-        console.log(img.width, img.height)
-      }
-      img.src = objectURL
-
-      console.log(result.size, result.type, result.name, result.lastModified)
-      // console.log(token)
-
-      uploadFile();
-
-      uploadProgress.value = 0
-    },
-    error(err) {
-      console.log(err.message);
-    },
-  });
-};
-
-// watch(compressorFn, (newV, oldV) => {
-//   console.log("watch: " + newV +' / ' + oldV)
-//   // compressorFn();
-// });
-
-function uploadFile(file) {
-  let token = props.token
-  if (props.token == null)
-    token = UserStore.getToken
-
-  let tenant_id = props.tenant_id
-  if (props.tenant_id == null)
-    tenant_id = UserStore.getTenant
-
-  const formData = new FormData();
-  formData.append('file', compressObj.file, compressObj.name); // The third parameter is required for server
-
-  isLoading.value = true;
-  // api
-  //   .post(process.env.VUE_APP_URL + "/files/", formData, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data',
-  //       'Authorization': 'Bearer ' + token,
-  //       'tenant': tenant_id
-  //     }
-  //   })
-  //   .then((res) => {
-  //     attachments.value.push(res.data)
-  //     console.log(res.data)
-  //     console.log(attachments.value)
-  //     uploader.value.reset()
-  //     isLoading.value = false;
-  //   })
-  //   .catch((err) => {
-  //     if (err.response) {
-  //       console.log(err.response);
-  //     } else if (err.request) {
-  //       console.log(err.request);
-  //     } else {
-  //       console.log("General Error");
-  //     }
-  //     isLoading.value = false;
-  //   });  
-
-  api
-    .get('/fake_groups')
-    .then((res) => {
-
-      console.log(res.data)
-      uploadProgress.value = 1.0
-
-      isLoading.value = false;
-      cancelFile();
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-      isLoading.value = false;
-    });
-
-}
-// https://github.com/sjq4499/vite-vue3/blob/8ffaf0cda0cf6d15e30242d97d6d2eaa824f1eb6/src/views/tool/compressImages.vue
-// https://github.com/H37kouya/miya-meshi/blob/736598180c428465628c14ca165831c04961d12f/admin/components/organisms/file/UploadImageFile.vue
 </script>
 
 
@@ -431,8 +222,8 @@ function uploadFile(file) {
   border: 2px solid #1976d2 !important;
 }
 
-.tiptap:hover {
-  transition: 0.5s;
-  border: 1px solid #000000 !important;
-}
+// .tiptap:hover {
+//   transition: 0.5s;
+//   border: 1px solid #000000 !important;
+// }
 </style>

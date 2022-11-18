@@ -27,11 +27,13 @@
     </q-card>
 
     <div>&nbsp;</div>
+    <div style="background-color: white;" class="q-pa-md rounded-borders">
             <idea-form
                 button-text="Add"
                 @ideaFormBtnClick="signUpButtonPressed"
                 @cancelBtnClick="cancelButtonPressed"
             ></idea-form>
+        </div>
         </q-page>
     </div>
 </template>
