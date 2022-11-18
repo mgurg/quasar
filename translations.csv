@@ -35,6 +35,10 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """First Name""",First Name,Prénom,Vorname,Imię
 """Last Name""",Last Name,Nom de famille,Nachname,Nazwisko
 """NIP""",NIP,NIP,NIP,NIP
+"""Company name""",Company name,Nom de l'entreprise,Name der Firma,Nazwa firmy
+"""Street""",Street,Rue,Straße,Ulica
+"""Postcode""",Postcode,Code postal,Postleitzahl,Kod pocztowy
+"""City""",City,Ville,Stadt,Miasto
 """Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
 """Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
 """Lets start""",Lets start,Commençons,Lasst uns beginnen,Zaczynajmy

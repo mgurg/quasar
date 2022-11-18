@@ -21,7 +21,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total > 0">
 
       <q-card-section class="row q-pa-sm">
       <div class="row q-gutter-xs items-center">
@@ -151,15 +151,21 @@
       <!-- Skeleton -->
 
 
-      <div class="text-h5 text-center q-pa-lg" v-if="ideas.length == 0 || ideas == null">
-        Brak pomyslów 🤔? <br />Niech Twój będzie pierwszy! 😎
-      </div>
 
-      <div class="q-pa-lg flex flex-center">
+
+      <div class="q-pa-lg flex flex-center" v-if="pagination.total > 10">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
+
+
       <q-space class="q-pa-sm" />
     </q-card>
+    <div class="text-h5 text-center q-pa-lg" v-if="pagination.total == 0">
+        Brak pomysłów 🤔? <br />Niech Twój będzie pierwszy!
+        <div class="col-12 text-h6 q-mt-none">
+          <q-btn class="q-py-md q-my-md" icon="add" to="/ideas/add" color="primary" no-caps :label="$t('New idea')" />
+        </div>
+      </div>
     </q-page>
   </div>
 </template>

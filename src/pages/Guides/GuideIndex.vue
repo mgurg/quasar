@@ -58,7 +58,7 @@
       </div> 
 
       <div class="text-h5 text-center q-pa-lg" v-if="pagination.total == 0">
-        Brak przewodników 🤔? <br />Niech Twój będzie pierwszy!
+        Brak instrukcji 🤔? <br />Niech Twoja będzie pierwsza!
         <div class="col-12 text-h6 q-mt-none">
           <q-btn class="q-py-md q-my-md" icon="add" to="/guides/add" color="primary" no-caps :label="$t('New guide')" />
         </div>

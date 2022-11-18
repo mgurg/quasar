@@ -105,7 +105,7 @@
             v-model="companyName"
             :disable="isLoading"
             :error="!!errors.companyName"
-            label="Company name"
+            :label="$t('Company name')" 
             outlined
             type="text"
             :dense="$q.screen.lt.sm"
@@ -114,7 +114,7 @@
             v-model="companyAddress"
             :disable="isLoading"
             :error="!!errors.companyAddress"
-            label="Company Street"
+            :label="$t('Street')" 
             outlined
             type="text"
             :dense="$q.screen.lt.sm"
@@ -126,7 +126,7 @@
                 v-model="companyPostCode"
                 :disable="isLoading"
                 :error="!!errors.companyPostCode"
-                label="Postcode"
+                :label="$t('Postcode')"
                 outlined
                 type="text"
                 :dense="$q.screen.lt.sm"
@@ -137,7 +137,7 @@
                 v-model="companyCity"
                 :disable="isLoading"
                 :error="!!errors.companyCity"
-                label="companyCity"
+                :label="$t('City')"
                 outlined
                 type="text"
                 :dense="$q.screen.lt.sm"

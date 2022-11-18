@@ -12,11 +12,15 @@
         />
 
         <div class="tiptap">
-            <tip-tap-guide :model-value="props.guide.text_jsonb" />
+          <tip-tap-guide :model-value="tipTapText" />
+        </div>
+
+        <div>
+          <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId" />
         </div>
         <div>
-        <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId" />
-      </div>
+          <photo-uploader @uploaded-photos="listUploadedImgs" />
+        </div>
         <br />
 
         <div class="row">
@@ -51,6 +55,7 @@ import * as yup from 'yup';
 
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import MovieUploader from 'src/components/uploader/MovieUploader.vue'
+import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 
 
 const props = defineProps({
@@ -76,7 +81,13 @@ const props = defineProps({
 
 let isLoading = ref(false);
 const uploadedVideoId = ref(null)
+const listUploadedImgs = ref(null)
+const tipTapText = ref(null)
 
+
+if (props.guide.text_jsonb !== null){
+  tipTapText.value = props.guide.text_jsonb;
+}
 // FORM
 
 
