@@ -18,6 +18,7 @@
           </q-btn></div>
       </div>
 
+      <div style="background-color: white;" class="q-pa-md rounded-borders" v-if="groups.length > 0">
       <q-list padding v-if="!isLoading">
       <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
         <q-item-section avatar>
@@ -45,13 +46,16 @@
         </group-item>
         </div>
       </q-list>
-      <div  v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
-        {{ $t("No groups, add a first one!") }} 🚀
-      </div>
+
       <div v-else class="q-pa-lg flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
 
+    </div>
+
+    <div  v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
+        {{ $t("No groups, add a first one!") }} 🚀
+      </div>
 
     </q-page>
   </div>

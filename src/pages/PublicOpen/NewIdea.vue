@@ -133,7 +133,7 @@ function createAnonymousIdea(body) {
 
 onBeforeMount(() => {
    setLocale(getLocale())
-  console.log('b')
+  
   if (activationId.value != null)
     checkId(activationId.value)
 });

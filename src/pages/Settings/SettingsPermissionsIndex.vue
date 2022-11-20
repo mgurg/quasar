@@ -18,6 +18,7 @@
           </q-btn></div>
       </div>
 
+      <div style="background-color: white;" class="q-pa-md rounded-borders">
       <q-list padding v-if="!isLoading">
       <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
         <q-item-section avatar>
@@ -45,10 +46,10 @@
         </div>
 
       </q-list>
-      <div class="q-pa-lg flex flex-center">
+      <div class="q-pa-xs flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
-
+    </div>
 
     </q-page>
   </div>
@@ -133,7 +134,7 @@ function fetchPermissions() {
 
 
 onBeforeMount(() => {
-  console.log('b')
+  
   fetchPermissions();
 });
 

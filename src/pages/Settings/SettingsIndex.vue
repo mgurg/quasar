@@ -86,7 +86,7 @@ const $q = useQuasar()
 
 
 onBeforeMount(() => {
-  console.log('b')
+  
 });
 
 

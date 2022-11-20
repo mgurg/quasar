@@ -71,7 +71,7 @@
         <div v-show="expandedDetails">
           <q-separator />
           <q-card-section class="text-subitle2">
-            <p>{{$t('Email')}}:  <a :href="`mailto:${userDetails.email}`">{{ userDetails.email }}</a></p>
+            <p>{{$t('E-mail')}}:  <a :href="`mailto:${userDetails.email}`">{{ userDetails.email }}</a></p>
             <p>{{$t('Phone')}}: <a :href="`tel:${userDetails.phone}`">{{ userDetails.phone }}</a></p>
             <p>{{$t('Role')}}: <strong>{{ userDetails.role_FK.role_title }}</strong></p>
           </q-card-section>

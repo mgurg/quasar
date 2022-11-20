@@ -33,10 +33,12 @@
         </q-card-section>
       </q-card>
 
+      <div>&nbsp;</div>
+      <div style="background-color: white;" class="q-pa-md rounded-borders">
       <group-form v-if="!isLoading && isFetched" :group="roleDetails || undefined" :groupUuid="groupUuid" :canEdit="canEdit"
         @groupFormBtnClick="signUpButtonPressed" @cancelBtnClick="cancelButtonPressed" :key="groupUuid" />
       <group-edit-skeleton v-if="isLoading" />
-
+    </div>
     </q-page>
   </div>
 </template>

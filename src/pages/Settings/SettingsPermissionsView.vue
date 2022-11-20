@@ -37,6 +37,8 @@
       </q-card-actions>
       </q-card>
 
+      <div>&nbsp;</div>
+      <div style="background-color: white;" class="q-pa-md rounded-borders">
       <permission-form
         v-if="!isLoading && isFetched"
         :role="permissionDetails || undefined"
@@ -47,7 +49,7 @@
         :key="permisionUuid"
       />
       <group-edit-skeleton v-else />
-
+      </div>
     </q-page>
   </div>
 </template>

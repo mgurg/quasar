@@ -292,7 +292,7 @@ function selectIdea(uuid) {
 }
 
 onBeforeMount(() => {
-  console.log('b')
+  
   isLoading.value = true;
   fetchIdeas();
 });

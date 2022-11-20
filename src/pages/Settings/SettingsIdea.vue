@@ -14,8 +14,9 @@
         <div class="col-6"></div>
       </div> -->
 
-
+      
       <div class="q-pa-mt">&nbsp;</div>
+      <div style="background-color: white;" class="q-pa-md rounded-borders">
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
         @submit.prevent>
 
@@ -77,7 +78,7 @@
           <q-btn color="primary" :disable="isLoading" :loading="isLoading" type="submit" @click="save">Save</q-btn>
         </div>
       </q-form>
-
+    </div>
     </q-page>
   </div>
 </template>
@@ -93,7 +94,7 @@ let ActionUrl = ref("https://beta.remontmaszyn.pl/new/8tl+234");
 
 
 onBeforeMount(() => {
-  console.log('b')
+  
   //   isLoading.value = true;
   getBoardId()
   load()
