@@ -194,22 +194,14 @@ const props = defineProps({
 })
 
 
-const content = ref(
-        `
-        <p>
-         ${props.body}
-        </p>
-      `,
-)
+const content = ref('')
 
 if (props.modelValue != null && props.modelValue != ""){
   content.value = props.modelValue;
 }
 
 
-const CustomDocument = Document.extend({
-  content: 'paragraph block*'
-})
+const CustomDocument = Document.extend({})
 
 const editor = useEditor({
   content: content.value,
@@ -262,85 +254,316 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
 const insertText = (text) => unref(editor).commands.insertContent(text);
 
 
-const text = ref([
-  {
-    type: 'paragraph',
-    content: [
-      {
-        type: 'text',
-        text: 'First paragraph',
-      },
-    ],
-  },
-])
+// const text = ref([
+//   {
+//     type: 'paragraph',
+//     content: [
+//       {
+//         type: 'text',
+//         text: 'First paragraph',
+//       },
+//     ],
+//   },
+// ])
 
 </script>
 
 <style lang="scss">
-  /* remove outline */
-  .ProseMirror:focus {
-    outline: none !important;
-  }
-  
-  /* set */
-  // .ProseMirror {        
-  //   min-height: 100px;
-  //   // max-height: 100px;
-  //   overflow: scroll;
-  //   outline: none !important;
-  // }
-  
-  .ProseMirror {
-    >*+* {
-      margin-top: 0.75em;
-      color: #1f2937!important;
-    }
-  
-    h1 {
-      font-size: 2rem;
-      font-weight: 400;
-      line-height: 1;
+/* remove outline */
+.ProseMirror:focus {
+  outline: none !important;
+}
+
+/* set */
+// .ProseMirror {        
+//   min-height: 100px;
+//   // max-height: 100px;
+//   overflow: scroll;
+//   outline: none !important;
+// }
+
+.ProseMirror {
+  word-wrap: break-word !important;
+  white-space: pre-wrap;
+  white-space: break-spaces;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0; /* the above doesn't seem to work in Edge */
+}
+
+.ProseMirror {
+  >*+* {
+    color: #1f2937 !important;
     
-    }
-    h2,
-    h3,
-    h4{
-      font-size: 1rem;
-    }
-    h5,
-    h6 {
-      line-height: 0.4;
-    }
-    p{
-      font-size: 1.1rem;
-    }
   }
-  
-  /* Placeholder (on every new line) */
-  .ProseMirror .is-empty::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #ced4da;
+
+  // ------ Outstatic ------
+  // https://github.com/avitorio/outstatic/blob/canary/packages/outstatic/src/styles.css
+
+  // h1 {
+  //   letter-spacing: -0.02em;
+  //   font-weight: 700;
+  //   font-style: normal;
+  //   letter-spacing: 0;
+  //   font-size: 40px;
+  //   line-height: 1.15;
+  //   letter-spacing: -0.015em;
+  // }
+
+  // h2 {
+  //   letter-spacing: -0.02em;
+  //   font-weight: 700;
+  //   font-style: normal;
+  //   letter-spacing: 0;
+  //   font-size: 34px;
+  //   line-height: 1.15;
+  //   letter-spacing: -0.015em;
+  // }
+
+  // h3 {
+  //   letter-spacing: -0.02em;
+  //   font-weight: 700;
+  //   font-style: normal;
+  //   font-size: 26px;
+  //   line-height: 1.22;
+  //   letter-spacing: -0.012em;
+  // }
+
+  // h4,
+  // h5,
+  // h6 {
+
+  //   line-height: 1.1;
+  // }
+
+  // p {
+  //   font-family: 'Roboto', Arial, 'Cambria', 'Times New Roman', Times, serif;
+  //   font-weight: 400;
+  //   font-style: normal;
+  //   font-size: 21px;
+  //   line-height: 1.58;
+  //   letter-spacing: -0.003em;
+  // }
+
+  // p:first-child:before {
+  //   color: #adb5bd;
+  //   float: left;
+  //   height: 0;
+  //   pointer-events: none;
+  // }
+
+  // ------ Outstatic ------
+
+  // ------ publish.prx.org ------
+  // https://github.com/PRX/publish.prx.org/blob/main/src/app/shared/wysiwyg/wysiwyg.component.css
+  //    h1 {
+  //   font-size: 2em;
+  //   margin-top: 0.67em;
+  //   margin-bottom: 0.67em;
+  // }
+
+  //  h2 {
+  //   font-size: 1.5em;
+  //   margin-top: 0.83em;
+  //   margin-bottom: 0.83em;
+  // }
+
+  //  h3 {
+  //   font-size: 1.17em;
+  //   margin-top: 1em;
+  //   margin-bottom: 1em;
+  // }
+
+  //  h4 {
+  //   font-size: 1em;
+  //   margin-top: 1.33em;
+  //   margin-bottom: 1.33em;
+  // }
+
+  //  h5 {
+  //   font-size: .83em;
+  //   margin-top: 1.67em;
+  //   margin-bottom: 1.67em;
+  // }
+
+  //  h6 {
+  //   font-size: .67em;
+  //   margin-top: 2.33em;
+  //   margin-bottom: 2.33em;
+  // }
+
+  //  p {
+  //   margin-top: 1em;
+  //   margin-bottom: 1em;
+  // }
+
+  //  p:first-child {
+  //   margin-top: 0;
+  // }
+
+  // ------ publish.prx.org ------
+
+
+  // ------ Bangle ------
+  // https://github.com/ssoju/bangle.dev/blob/master/core/style.css
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  blockquote,
+  pre,
+  hr,
+  figure,
+  dl,
+  dd {
+    margin: 0;
+  }
+
+  p:first-child,
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child,
+  blockquote:first-child,
+  pre:first-child,
+  hr:first-child,
+  figure:first-child,
+  dl:first-child,
+  dd:first-child,
+  ul:first-child,
+  ol:first-child {
+    /** this prevents elements from bleeding out of the container */
+    margin-top: 0;
+  }
+
+  hr {
+    margin: 0.5em 0;
+    padding: 2px 2px;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-top: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    margin-top: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 1.25rem;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-top: 1.2rem;
+  }
+
+  h5 {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+
+  h6 {
+    font-weight: 500;
+    font-size: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.625;
+    font-size: 1.125rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+      Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  }
+
+  blockquote {
+    padding-left: 0.5rem;
+    background-color: #f7fafc;
+    color: #414e64;
+    margin-top: 1.5rem;
+    margin-bottom: 1.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  li {
+    position: relative;
+  }
+
+  li>span {
+    display: block;
+  }
+
+  li.ProseMirror-selectednode:after {
+    content: '';
+    position: absolute;
+    left: -32px;
+    right: -2px;
+    top: -2px;
+    bottom: -2px;
+    border: 2px solid #8cf;
     pointer-events: none;
-    height: 0;
   }
-  
-  .mention {
-    border: 0px solid #000;
-    border-radius: 0.4rem;
-    padding: 0.1rem 0.3rem;
-    box-decoration-break: clone;
+
+  ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
-  
-  [data-type="groupMention"] {
-    background-color: rgb(236, 253, 99);
+
+  ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+    padding-left: 1.5rem;
   }
-  
-  [data-type="userMention"] {
-    background-color: rgb(82, 226, 238);
+
+  /** Bullet List */
+  ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-left: 1.5rem;
   }
-  
-  .character-count {
+
+
+  // ------ Bangle ------
+}
+
+/* Placeholder (on every new line) */
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+
+.mention {
+  border: 0px solid #000;
+  border-radius: 0.4rem;
+  padding: 0.1rem 0.3rem;
+  box-decoration-break: clone;
+}
+
+[data-type="groupMention"] {
+  background-color: rgb(236, 253, 99);
+}
+
+[data-type="userMention"] {
+  background-color: rgb(82, 226, 238);
+}
+
+.character-count {
   margin-top: 1rem;
   margin-bottom: 0.1rem;
   margin-left: 0.1rem;
@@ -361,7 +584,7 @@ const text = ref([
     color: #868e96;
   }
 }
-  </style>
+</style>
 
 <!-- <style lang="scss" scoped>
   :deep(.ProseMirror) {
