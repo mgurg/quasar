@@ -76,7 +76,7 @@ function fetchTasks() {
     .get("/tasks/index?offset=0&limit=20")
     .then((res) => {
       tasks.value = res.data
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {

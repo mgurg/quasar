@@ -103,7 +103,7 @@ async function fetchIdeas() {
       }
 
 
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {

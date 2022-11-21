@@ -111,7 +111,7 @@ function getDetails(uuid) {
     .get("/ideas/" + uuid)
     .then((res) => {
       console.log(uuid);
-      console.log(res.data);
+      
       ideaDetails.value = res.data;
       json.value = res.data.body_json;
 
@@ -133,7 +133,7 @@ function sendVote(state) {
     .post("ideas/vote", { idea_uuid: ideaDetails.value.uuid, vote: state })
     .then((res) => {
       // console.log(uuid);
-      // console.log(res.data);
+      // 
       // console.log(res.data.vote)
       lastVote.value = state
       getDetails(route.params.uuid)

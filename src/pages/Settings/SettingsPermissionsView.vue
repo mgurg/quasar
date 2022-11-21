@@ -38,7 +38,8 @@
       </q-card>
 
       <div>&nbsp;</div>
-      <div style="background-color: white;" class="q-pa-md rounded-borders">
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
       <permission-form
         v-if="!isLoading && isFetched"
         :role="permissionDetails || undefined"
@@ -49,7 +50,7 @@
         :key="permisionUuid"
       />
       <group-edit-skeleton v-else />
-      </div>
+        </q-card-section></q-card>
     </q-page>
   </div>
 </template>
@@ -98,7 +99,7 @@ function getPermissionDetails(uuid) {
   authApi
     .get("/permissions/" + uuid)
     .then((res) => {
-      console.log(res.data)
+      
       permissionUsersList.value = res.data.permission.map(value => value.uuid)
       permissionDetails.value = res.data;
       allowEdit.value = res.data.is_custom

@@ -91,7 +91,7 @@ function ping() {
     authApi
         .get("/ideas/stats")
         .then((res) => {
-            // console.log(res.data);
+            // 
             status.pending = res.data.pending
             status.accepted = res.data.accepted
 

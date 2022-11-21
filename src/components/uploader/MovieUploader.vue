@@ -86,7 +86,7 @@ function getUploadToken() {
     .then((res) => {
       uploadToken.value = res.data.upload_token
       apiToken.value = res.data.api_token
-      console.log(res.data)
+      
       if (props.videoId != null){
         getVideo();
       }
@@ -153,7 +153,7 @@ function checkStatus() {
         .then((res) => {
 
           if (res.data.encoding.playable == true) {
-            // console.log(res.data);
+            // 
             // videoWidth.value = res.data.encoding.metadata.width;
             // videoHeight.value = res.data.encoding.metadata.height;
             // videoRatio.value = res.data.encoding.metadata.width / res.data.encoding.metadata.height;
@@ -198,7 +198,7 @@ function getVideo() {
     }
   })
     .then((res) => {
-      console.log(res.data);
+      
       videoItem.value = res.data
     //   videoThumbnail.value = res.data.assets.thumbnail
       file.value = null;

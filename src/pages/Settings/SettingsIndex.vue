@@ -1,12 +1,25 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-card bordered class="my-card no-shadow q-my-md">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t("Settings") }}</q-item-label>
+                <q-item-label caption>Zbieraj prawdziwe i szczere sugestie od każdego. Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</q-item-label>
+              </q-item-section>
+            </q-item>
 
-      <div class="row justify-around q-mt-sm">
+          </q-list>
+        </q-card-section>
+      </q-card>
+
+      <!-- <div class="row justify-around q-mt-sm">
         <div class="col-6">
           <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Settings") }}</p></div>
         <div class="col-6"></div>
-      </div>
+      </div> -->
 
       <card-settings></card-settings>
       <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 

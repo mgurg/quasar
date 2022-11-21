@@ -169,7 +169,7 @@ async function fetchGuides() {
       guides.value = res.data.items;
       pagination.total = res.data.total;
 
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {

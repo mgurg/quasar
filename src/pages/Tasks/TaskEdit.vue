@@ -56,7 +56,7 @@ function updateTask(body) {
     authApi
         .patch("/tasks/" + taskUuid.value, body)
         .then((res) => {
-            console.log(res.data);
+            
             isLoading.value = false;
             router.push("/tasks");
         })
@@ -77,7 +77,7 @@ function getDetails(uuid) {
         .get("/tasks/" + uuid)
         .then((res) => {
             console.log(uuid);
-            console.log(res.data);
+            
             taskDetails.value = res.data
 
             if (res.data.date_from == null) {
@@ -99,7 +99,7 @@ function getUsers() {
     authApi
         .get("user")
         .then((res) => {
-            console.log(res.data)
+            
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,

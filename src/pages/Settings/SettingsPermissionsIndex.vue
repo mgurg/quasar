@@ -18,7 +18,8 @@
           </q-btn></div>
       </div>
 
-      <div style="background-color: white;" class="q-pa-md rounded-borders">
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
       <q-list padding v-if="!isLoading">
       <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
         <q-item-section avatar>
@@ -49,7 +50,10 @@
       <div class="q-pa-xs flex flex-center">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div>
-    </div>
+    
+      </q-card-section>
+    </q-card>
+
 
     </q-page>
   </div>

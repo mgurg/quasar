@@ -6,7 +6,7 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h4">{{ $t("Ideas") }}</q-item-label>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t("Ideas") }}</q-item-label>
                 <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
               <q-item-section side>
@@ -267,7 +267,7 @@ async function fetchIdeas() {
       ideas.value = res.data.items;
       pagination.total = res.data.total;
 
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {

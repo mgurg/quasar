@@ -150,7 +150,7 @@ function getDetails(uuid) {
     .get("/tasks/" + uuid)
     .then((res) => {
       console.log(uuid);
-      console.log(res.data);
+      
       taskDetails.value = res.data;
       isLoading.value = false;
     })
@@ -170,7 +170,7 @@ function changeState(state) {
     .post("tasks/action/" + taskDetails.value.uuid, { "action_type": state })
     .then((res) => {
       console.log(uuid);
-      console.log(res.data);
+      
 
       // getDetails(taskDetails.value.uuid);
       // taskDetails.value = res.data;

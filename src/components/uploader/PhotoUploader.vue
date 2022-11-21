@@ -184,7 +184,7 @@ function uploadFile(file) {
         })
         .then((res) => {
             attachments.value.push(res.data);
-            console.log(res.data);
+            
             console.log(attachments.value);
             // uploader.value.reset()
             emit('uploadedPhotos', attachments.value)

@@ -12,9 +12,8 @@
         />
 
         <div class="tiptap">
-          <tip-tap-guide :model-value="tipTapText" />
+          <tip-tap-guide :body-content="tipTapText" @editor-content="logText"/>
         </div>
-
         <div>
           <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId" />
         </div>
@@ -67,7 +66,7 @@ const props = defineProps({
       return {
         name: '',
         text: '',
-        text_jsonb: {},
+        text_jsonb: null,
         video_id: null
 
       }
@@ -81,7 +80,7 @@ const props = defineProps({
 
 let isLoading = ref(false);
 const uploadedVideoId = ref(null)
-const listUploadedImgs = ref(null)
+
 const tipTapText = ref(null)
 
 
@@ -112,11 +111,47 @@ function cancelButtonHandle() {
   router.push("/guides");
 }
 
+
+function createGuide() {
+
+  let data = {
+    "name": guideName.value,
+    "text_html": htmlTxt,
+    "text_json": jsonTxt,
+    "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
+    "video_id": uploadedVideoId.value
+  }
+
+
+  console.log("Guide DATA:")
+  console.log(data);
+  // router.push("/guides");
+}
+
 // VIDEO
 
 function keepVideoId(id){
   console.log("UPLOADED VIDEO_ID: " + id);
   uploadedVideoId.value = id;
+}
+
+
+// RICH EDITOR
+let jsonTxt = null;
+let htmlTxt = null;
+function logText(json, html) {
+  jsonTxt = json
+  htmlTxt = html
+}
+
+//IMG
+
+const uploadedPhotos = ref([]);
+
+function listUploadedImgs(images){
+  console.log("UPLOADED IMAGES:")
+  console.log(JSON.stringify(images))
+  uploadedPhotos.value = images;
 }
 
 </script>

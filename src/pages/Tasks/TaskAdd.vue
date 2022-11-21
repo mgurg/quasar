@@ -51,7 +51,7 @@ function createTasks(body) {
     authApi
         .post("/tasks/add", body)
         .then((res) => {
-            console.log(res.data);
+            
             isLoading.value = false;
         })
         .catch((err) => {
@@ -70,7 +70,7 @@ function getUsers() {
     authApi
         .get("user")
         .then((res) => {
-            console.log(res.data)
+            
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,

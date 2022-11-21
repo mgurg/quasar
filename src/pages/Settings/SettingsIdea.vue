@@ -16,7 +16,8 @@
 
       
       <div class="q-pa-mt">&nbsp;</div>
-      <div style="background-color: white;" class="q-pa-md rounded-borders">
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
       <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
         @submit.prevent>
 
@@ -78,7 +79,11 @@
           <q-btn color="primary" :disable="isLoading" :loading="isLoading" type="submit" @click="save">Save</q-btn>
         </div>
       </q-form>
-    </div>
+  </q-card-section>
+  </q-card>
+
+      
+
     </q-page>
   </div>
 </template>
@@ -112,7 +117,7 @@ function load() {
   authApi
     .get("/settings/", { params: params })
     .then((res) => {
-      console.log(res.data);
+      
       registrationMode.value = res.data.idea_registration_mode
       registrationMode.value = res.data.idea_registration_mode
       isLoading.value = false;
@@ -135,7 +140,7 @@ function getBoardId() {
   authApi
     .get("/settings/board/")
     .then((res) => {
-      console.log(res.data);
+      
       ActionUrl.value = 'https://beta.remontmaszyn.pl/new/' + res.data + '+234'
       isLoading.value = false;
     })
@@ -165,7 +170,7 @@ function save() {
   authApi
     .post("/settings/", data)
     .then((res) => {
-      console.log(res.data);
+      
       isLoading.value = false;
 
       $q.notify({

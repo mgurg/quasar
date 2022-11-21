@@ -62,7 +62,7 @@ function resetPassword(email) {
     isLoading.value = true;
     api.get("/auth/remind-password/" + email)
         .then((res) => {
-            console.log(res.data);
+            
             isLoading.value = false;
             router.push("/tasks");
         })

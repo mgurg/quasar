@@ -303,7 +303,7 @@ function registerAdmin(data) {
   api
     .post("auth/register", data)
     .then((res) => {
-      console.log(res.data);
+      
       isLoading.value = false;
       router.push("/new_account");
     })

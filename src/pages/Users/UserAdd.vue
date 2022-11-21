@@ -17,7 +17,7 @@
             <q-item class="q-px-none">
 
               <q-item-section>
-                <q-item-label class="text-h6">{{ $t('New employee') }}</q-item-label>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t('New employee') }}</q-item-label>
                 <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label>
               </q-item-section>
             </q-item>
@@ -66,7 +66,7 @@ function createUser(body) {
     authApi
         .post("/users/", body)
         .then((res) => {
-            // console.log(res.data);
+            // 
             isLoading.value = false;
             router.push("/users");
         })

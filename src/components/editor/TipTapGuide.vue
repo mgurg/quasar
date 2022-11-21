@@ -169,6 +169,7 @@ import Document from '@tiptap/extension-document'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
+import { escapeJsonPointer } from "ajv/dist/compile/util";
 
 
 const charCount = ref(0)
@@ -179,13 +180,9 @@ const emit = defineEmits(['editorContent'])
 
 
 const props = defineProps({
-  body: {
+  bodyContent: {
     type: String,
     default: ''
-  },
-  modelValue: {
-    type: Object,
-    default: null
   },
   readonly: {
     type: Boolean,
@@ -196,8 +193,9 @@ const props = defineProps({
 
 const content = ref('')
 
-if (props.modelValue != null && props.modelValue != ""){
-  content.value = props.modelValue;
+if (props.bodyContent !== null && props.bodyContent !== ''){
+  console.log("Props:"  + JSON.stringify(props.bodyContent))
+  content.value = JSON.stringify(props.bodyContent);
 }
 
 
@@ -214,8 +212,8 @@ const editor = useEditor({
       document: false
     }),
     Placeholder.configure({
-      showOnlyWhenEditable: false,
-  placeholder: 'My Custom Placeholder',
+      // showOnlyWhenEditable: false,
+      placeholder: 'My Custom Placeholder',
 }),
   ],
   onCreate({ editor }) {
@@ -229,19 +227,19 @@ const editor = useEditor({
     const json = editor.getJSON()
 
     let json_array = json.content
-    // console.log(json_array.content)
-    if (
-      Array.isArray(json_array) &&
-      json_array[0].hasOwnProperty("content")
-    ) {
-      emit('editorContent', json, html)
-    }
+    console.log(json)
+    // if (
+    //   Array.isArray(json_array) &&
+    //   json_array[0].hasOwnProperty("content")
+    // ) {
+    //   emit('editorContent', json, html)
+    // }
 
 
 
     // console.log("Title: " +json_array[0].hasOwnProperty("content"))
     // console.log("Body: " +json_array[1].hasOwnProperty("content"))
-    // emit('editorContent', json)
+    emit('editorContent', json)
 
   },
   
@@ -249,6 +247,8 @@ const editor = useEditor({
     editor.destroy()
   },
 })
+
+
 
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
 const insertText = (text) => unref(editor).commands.insertContent(text);

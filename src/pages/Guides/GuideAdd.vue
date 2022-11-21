@@ -30,21 +30,14 @@
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
 
       <div>&nbsp;</div>
-
-      <!-- <q-card class="my-card no-shadow q-ma-none q-pa-none">
-        <q-card-section> -->
-        <div style="background-color: white;" class="q-pa-md rounded-borders">
           
-
-
+        <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
           <guide-form />
-
-
-
-
-        </div>
-        <!-- </q-card-section>
-      </q-card> -->
+        </q-card-section>
+      </q-card>
+      
+      
     </q-page>
   </div>
 </template>
@@ -108,7 +101,7 @@ function createGuide() {
   authApi
     .post("/guides/", data)
     .then((res) => {
-      console.log(res.data);
+      
       isLoading.value = false;
       router.push("/guides");
     })
@@ -130,7 +123,7 @@ function getUploadToken() {
     .then((res) => {
       uploadToken.value = res.data.upload_token
       apiToken.value = res.data.api_token
-      console.log(res.data)
+      
     })
     .catch((err) => {
       if (err.response) {
@@ -194,7 +187,7 @@ function getVideo() {
     }
   })
     .then((res) => {
-      console.log(res.data);
+      
       videoItem.value = res.data
       videoThumbnail.value = res.data.assets.thumbnail
       file.value = null;
@@ -257,7 +250,7 @@ function checkStatus() {
         .then((res) => {
 
           if (res.data.encoding.playable == true) {
-            console.log(res.data);
+            
             videoWidth.value = res.data.encoding.metadata.width;
             videoHeight.value = res.data.encoding.metadata.height;
             videoRatio.value = res.data.encoding.metadata.width / res.data.encoding.metadata.height;

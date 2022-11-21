@@ -143,7 +143,7 @@ function addNewPermission(data){
     .then((res) => {
       // permissions.value = res.data
       // pagination.total = res.data.total
-      console.log(res.data);
+      
       isLoading.value = false;
       router.push("/settings/permissions");
     })

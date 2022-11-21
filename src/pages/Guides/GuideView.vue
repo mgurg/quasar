@@ -186,7 +186,7 @@ function getDetails(uuid) {
     .get("/guides/" + uuid)
     .then((res) => {
       console.log(uuid);
-      console.log(res.data);
+      
       guideDetails.value = res.data;
       json.value = res.data.text_jsonb;
       isLoading.value = false;

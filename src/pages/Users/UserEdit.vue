@@ -17,7 +17,7 @@
             <q-item class="q-px-none">
 
               <q-item-section>
-                <q-item-label class="text-h6" v-if="userDetails != null">{{ $t('Edit') }}: {{userDetails.first_name}} {{userDetails.last_name}}</q-item-label>
+                <q-item-label class="text-h5 text-weight-medium" v-if="userDetails != null">{{ $t('Edit') }}: {{userDetails.first_name}} {{userDetails.last_name}}</q-item-label>
                 <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
               </q-item-section>
             </q-item>
@@ -27,7 +27,8 @@
     </q-card>
 
     <div>&nbsp;</div>
-    <div style="background-color: white;" class="q-pa-md rounded-borders">
+    <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
             <user-form v-if="userDetails != null"
                 :user="userDetails"
                 button-text="Save"
@@ -36,7 +37,7 @@
                 :key="userDetails.uuid"
             />
             <user-edit-skeleton v-else />
-        </div>
+        </q-card-section></q-card>
         </q-page>
     </div>
 </template>
@@ -93,7 +94,7 @@ function getDetails(uuid) {
         .get("/users/" + uuid)
         .then((res) => {
             console.log(uuid);
-            console.log(res.data);
+            
             userDetails.value = res.data
 
             // if (res.data.date_from == null) {
@@ -115,7 +116,7 @@ function getUsers() {
     authApi
         .get("user")
         .then((res) => {
-            console.log(res.data)
+            
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,

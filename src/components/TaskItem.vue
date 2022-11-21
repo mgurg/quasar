@@ -120,7 +120,7 @@ function deleteTask(uuid) {
         api
             .delete("/tasks/" + uuid)
             .then((res) => {
-                console.log(res.data);
+                
             })
             .catch((err) => {
                 if (err.response) {

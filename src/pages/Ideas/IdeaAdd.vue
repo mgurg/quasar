@@ -27,15 +27,18 @@
     </q-card>
 
     <div>&nbsp;</div>
-    <div style="background-color: white;" class="q-pa-md rounded-borders">
+        <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
             <idea-form
                 button-text="Add"
                 @ideaFormBtnClick="signUpButtonPressed"
                 @cancelBtnClick="cancelButtonPressed"
             ></idea-form>
-        </div>
+        </q-card-section>
+    </q-card>
         </q-page>
     </div>
+
 </template>
 
 
@@ -64,7 +67,7 @@ function createIdea(body) {
     authApi
         .post("/ideas/", body)
         .then((res) => {
-            console.log(res.data);
+            
             isLoading.value = false;
             router.push("/ideas");
         })
@@ -85,7 +88,7 @@ function getUsers() {
     authApi
         .get("/users/")
         .then((res) => {
-            console.log(res.data)
+            
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,

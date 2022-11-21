@@ -435,7 +435,7 @@ function delete_file(uuid) {
     api
         .delete(process.env.VUE_APP_URL + "/files/" + uuid)
         .then((res) => {
-            console.log(res.data);
+            
             attachments.value = attachments.value.filter(item => item.uuid !== uuid)
             console.log("after delete: ", attachments.value);
             //   listFiles()

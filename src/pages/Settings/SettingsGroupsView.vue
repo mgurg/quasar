@@ -34,11 +34,13 @@
       </q-card>
 
       <div>&nbsp;</div>
-      <div style="background-color: white;" class="q-pa-md rounded-borders">
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
       <group-form v-if="!isLoading && isFetched" :group="roleDetails || undefined" :groupUuid="groupUuid" :canEdit="canEdit"
         @groupFormBtnClick="signUpButtonPressed" @cancelBtnClick="cancelButtonPressed" :key="groupUuid" />
       <group-edit-skeleton v-if="isLoading" />
-    </div>
+        </q-card-section>
+        </q-card>
     </q-page>
   </div>
 </template>
@@ -96,7 +98,7 @@ function getGroupDetails(uuid) {
   authApi
     .get("/groups/" + uuid)
     .then((res) => {
-      console.log(res.data)
+      
       groupUsersList.value = res.data.users.map(value => value.uuid)
       roleDetails.value = res.data;
       isLoading.value = false;

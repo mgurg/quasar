@@ -82,7 +82,7 @@ function createAnonymousIdea(body) {
   const AuthStr = 'Bearer ' + anonymousToken.value;
   api.post("/ideas/", body, { headers: { Authorization: AuthStr,  tenant: tenant_id.value} })
     .then((res) => {
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {

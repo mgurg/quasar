@@ -31,20 +31,11 @@
 
       <div>&nbsp;</div>
 
-      <!-- <q-card class="my-card no-shadow q-ma-none q-pa-none">
-        <q-card-section> -->
-        <div style="background-color: white;" class="q-pa-md rounded-borders">
-          
-
-
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
           <guide-form v-if="guideDetails != null" :guide="guideDetails" />
-
-
-
-
-        </div>
-        <!-- </q-card-section>
-      </q-card> -->
+        </q-card-section>
+      </q-card>
     </q-page>
   </div>
 </template>
@@ -76,7 +67,7 @@ function getDetails(uuid) {
         .get("/guides/" + uuid)
         .then((res) => {
             console.log(uuid);
-            console.log(res.data);
+            
             guideDetails.value = res.data
 
             // if (res.data.date_from == null) {
@@ -112,7 +103,7 @@ function createGuide() {
   authApi
     .post("/guides/", data)
     .then((res) => {
-      console.log(res.data);
+      
       isLoading.value = false;
       router.push("/guides");
     })

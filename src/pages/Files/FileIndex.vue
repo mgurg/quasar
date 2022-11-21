@@ -133,7 +133,7 @@ function uploadFile(file, token = null, tenant_id=null) {
           }
         })
         .then((res) => {
-          // console.log(res.data);
+          // 
         })
         .catch((err) => {
           if (err.response) {
@@ -173,7 +173,7 @@ function listFiles() {
     .then((res) => {
 
       s3Files.value = res.data;
-      console.log(res.data);
+      
     })
     .catch((err) => {
       if (err.response) {
@@ -196,7 +196,7 @@ function delete_file(uuid) {
   authApi
     .delete(process.env.VUE_APP_URL + "/files/" + uuid)
     .then((res) => {
-      console.log(res.data);
+      
       uploadedFiles.value = uploadedFiles.value.filter(item => item !== uuid)
       listFiles()
     })
@@ -249,7 +249,7 @@ function finished() {
 //       }
 //     })
 //     .then((res) => {
-//       console.log(res.data);
+//       
 //     })
 //     .catch((err) => {
 //       if (err.response) {
