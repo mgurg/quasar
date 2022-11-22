@@ -20,7 +20,9 @@
         </q-card-section>
       </q-card>
 
-      <q-list padding v-if="!isLoading && pagination.total > 0">
+      <q-card class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total > 0">
+      
+      <q-list  v-if="!isLoading && pagination.total > 0">
 
         <q-item class=" rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
           <q-item-section avatar>
@@ -56,7 +58,8 @@
       <div class="q-pa-lg flex flex-center" v-if="pagination.total > 10">
         <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
       </div> 
-
+    </q-card>
+    
       <div class="text-h5 text-center q-pa-lg" v-if="pagination.total == 0">
         Brak instrukcji 🤔? <br />Niech Twoja będzie pierwsza!
         <div class="col-12 text-h6 q-mt-none">

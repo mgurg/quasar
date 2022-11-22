@@ -33,7 +33,7 @@
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <guide-form v-if="guideDetails != null" :guide="guideDetails" />
+          <guide-form v-if="guideDetails != null" :guide="guideDetails" button-text="Edit" />
         </q-card-section>
       </q-card>
     </q-page>
@@ -59,14 +59,11 @@ const UserStore = useUserStore();
 
 let guideDetails = ref(null);
 
-
-
-
 function getDetails(uuid) {
     authApi
         .get("/guides/" + uuid)
         .then((res) => {
-            console.log(uuid);
+            console.log(res.data);
             
             guideDetails.value = res.data
 

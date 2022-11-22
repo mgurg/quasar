@@ -44,12 +44,15 @@
         </q-card-section> -->
         <q-card-section>
           <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-            <tip-tap-guide :model-value="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
+            <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
           </div>
+        </q-card-section>
+        <q-card-section>
+          <photo-viewer :pictures-list="guideDetails.files_guide" v-if="guideDetails && !isLoading"/>
         </q-card-section>
 
         <q-card-section>
-          <q-btn label="Alert" color="primary" @click="previewURL()" />
+          <movie-viewer :video-id="guideDetails.video_id" v-if="guideDetails && !isLoading" />
         </q-card-section>
 
         <!-- <q-card-section>
@@ -73,110 +76,26 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
+import { useQuasar } from "quasar";
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import { useUserStore } from 'stores/user'
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
-import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
-import { api as viewerApi } from "v-viewer";
-import VueViewer from "v-viewer";
-import "viewerjs/dist/viewer.css";
+import PhotoViewer from 'src/components/uploader/PhotoViewer.vue'
+import MovieViewer from 'src/components/uploader/MovieViewer.vue'
+
+const $q = useQuasar();
 
 const router = useRouter();
 
-VueViewer.setDefaults({
-  zIndex: 2021,
-  toolbar: {
-    zoomIn: {
-      show: 4,
-      size: 'large'
-    },
-    zoomOut: {
-      show: 4,
-      size: 'large'
-    },
-    oneToOne: false,
-    reset: false,
-    prev: {
-      show: 4,
-      size: 'large'
-    },
-    play: {
-      show: 4,
-      size: 'large'
-    },
-    next: {
-      show: 4,
-      size: 'large'
-    },
-    rotateLeft: {
-      show: 4,
-      size: 'large'
-    },
-    rotateRight: {
-      show: 4,
-      size: 'large'
-    },
-    flipHorizontal: false,
-    flipVertical: false,
-  }
-})
-
 const UserStore = useUserStore();
-
-const json = ref(null);
-let isLoading = ref(false);
-let dialog = ref(false);
-
-
-let map
-let portales
-let viales
-let images
-let control
-let viewer
-
-function getViewer() {
-  const options = {
-    navbar: false,
-    rotatable: false,
-    scalable: false,
-    title: [true, (image) => `${image.alt}`],
-  }
-  return viewerApi({ options, images })
-}
-
-function getImg(data) {
-  return { src: "https://placeimg.com/500/300/nature?t=4", alt: "alt_text" }
-}
-
-
-function showImg(index) {
-  viewer = getViewer()
-  viewer.view(index)
-}
-
-const sourceImageURLs = ["https://placeimg.com/1000/1000/nature?t=4", "https://placeimg.com/1000/1000/nature?t=5"]
-
-function previewURL() {
-  const $viewer = viewerApi({
-    images: sourceImageURLs,
-    rotatable: false,
-    scalable: false,
-    transition: false
-  })
-  console.log($viewer)
-}
-
-
-
 const permissions = computed(() => UserStore.getPermissions);
-
 function hasPermission(permission) {
   return Boolean(permissions.value.includes(permission));
 }
 
+let isLoading = ref(false);
 
 const route = useRoute();
 let guideDetails = ref(null);
@@ -185,10 +104,8 @@ function getDetails(uuid) {
   authApi
     .get("/guides/" + uuid)
     .then((res) => {
-      console.log(uuid);
-      
+      console.log(res.data);
       guideDetails.value = res.data;
-      json.value = res.data.text_jsonb;
       isLoading.value = false;
     })
     .catch((err) => {
@@ -204,6 +121,32 @@ function getDetails(uuid) {
 
 function editGuide(uuid) {
   router.push("/guides/edit/" + uuid);
+}
+
+function deleteGuide(uuid) {
+  $q.dialog({
+    title: "Confirm",
+    message: "Really delete?",
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    authApi
+      .delete("/guides/" + uuid)
+      .then((res) => {
+        router.push("/guides");
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("General Error");
+        }
+      });
+    $q.notify("Task deleted");
+    // fetchTasks()
+  });
 }
 
 onBeforeMount(() => {

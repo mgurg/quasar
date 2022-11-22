@@ -59,6 +59,11 @@ const props = defineProps({
   },
 })
 
+
+if (props.videoId!== null){
+  emit('uploadedVideoId', props.videoId)
+}
+
 const emit = defineEmits(['uploadedVideoId'])
 
 // VIDEO
@@ -228,6 +233,7 @@ function deleteVideo(video_id) {
       videoId.value = null;
       videoItem.value = null;
       videoThumbnail.value = null;
+      emit('uploadedVideoId', video.videoId)
     })
     .catch((err) => {
       if (err.response) {

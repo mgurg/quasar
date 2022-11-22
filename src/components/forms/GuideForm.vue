@@ -18,7 +18,7 @@
           <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId" />
         </div>
         <div>
-          <photo-uploader @uploaded-photos="listUploadedImgs" />
+          <photo-uploader @uploaded-photos="listUploadedImgs" :file-list="props.guide.files_guide"/>
         </div>
         <br />
 
@@ -33,8 +33,17 @@
                 @click="cancelButtonHandle"
                 :label="$t('Cancel')"
             />
-
             <q-btn 
+                v-if="props.buttonText == 'Edit'"
+                type="submit" 
+                class="q-mr-xs" 
+                icon="done" 
+                color="primary"
+                @click="editGuide()"
+                :label="$t('Edit')"
+            />
+            <q-btn 
+              v-if="props.buttonText == 'Save'"
                 type="submit" 
                 class="q-mr-xs" 
                 icon="done" 
@@ -51,11 +60,14 @@ import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
 import { useUserStore } from "stores/user";
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
+import { authApi } from "boot/axios";
+import { useRoute, useRouter } from "vue-router";
 
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import MovieUploader from 'src/components/uploader/MovieUploader.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 
+const router = useRouter();
 
 const props = defineProps({
   guide: {
@@ -67,8 +79,8 @@ const props = defineProps({
         name: '',
         text: '',
         text_jsonb: null,
-        video_id: null
-
+        video_id: null,
+        files_guide: null
       }
     }
   },
@@ -77,6 +89,8 @@ const props = defineProps({
     default: 'Save',
   },
 })
+
+console.log(JSON.stringify(props.buttonText))
 
 let isLoading = ref(false);
 const uploadedVideoId = ref(null)
@@ -125,8 +139,58 @@ function createGuide() {
 
   console.log("Guide DATA:")
   console.log(data);
-  // router.push("/guides");
+
+  isLoading.value = true;
+  authApi
+    .post("/guides/", data)
+    .then((res) => {
+      
+      isLoading.value = false;
+      router.push("/guides");
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+
 }
+function editGuide() {
+
+let data = {
+  "name": guideName.value,
+  "text_html": htmlTxt,
+  "text_json": jsonTxt,
+  "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
+  "video_id": uploadedVideoId.value
+}
+console.log(data);
+
+isLoading.value = true;
+  authApi
+    .patch("/guides/", data)
+    .then((res) => {
+      
+      isLoading.value = false;
+      router.push("/guides");
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
 
 // VIDEO
 

@@ -57,7 +57,7 @@ import Compressor from "compressorjs";
 // https://github.com/H37kouya/miya-meshi/blob/736598180c428465628c14ca165831c04961d12f/admin/components/organisms/file/UploadImageFile.vue
 
 const props = defineProps({
-    attachments: {
+    fileList: {
         type: Object,
         default() {
             return {
@@ -67,11 +67,17 @@ const props = defineProps({
     },
 });
 
+let attachments = ref([]);
+if (props.fileList !==null){
+    attachments.value = props.fileList
+    emit('uploadedPhotos', attachments.value)
+}
+
 const emit = defineEmits(["uploadedPhotos"]);
 
 const UserStore = useUserStore();
 
-let attachments = ref([]);
+
 const files = ref(null);
 const isUploading = ref(false);
 const uploadProgress = ref(0.1);
@@ -221,7 +227,7 @@ function delete_file(uuid) {
             attachments.value = attachments.value.filter(
                 (item) => item.uuid !== uuid
             );
-            //   listFiles()
+            emit('uploadedPhotos', attachments.value)
         })
         .catch((err) => {
             if (err.response) {

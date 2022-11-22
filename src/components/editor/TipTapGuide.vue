@@ -181,8 +181,8 @@ const emit = defineEmits(['editorContent'])
 
 const props = defineProps({
   bodyContent: {
-    type: String,
-    default: ''
+    type: Object,
+    default: null
   },
   readonly: {
     type: Boolean,
@@ -194,8 +194,8 @@ const props = defineProps({
 const content = ref('')
 
 if (props.bodyContent !== null && props.bodyContent !== ''){
-  console.log("Props:"  + JSON.stringify(props.bodyContent))
-  content.value = JSON.stringify(props.bodyContent);
+  // console.log("Props:"  + JSON.stringify(props.bodyContent))
+  content.value = props.bodyContent;
 }
 
 
@@ -227,7 +227,7 @@ const editor = useEditor({
     const json = editor.getJSON()
 
     let json_array = json.content
-    console.log(json)
+    // console.log(json)
     // if (
     //   Array.isArray(json_array) &&
     //   json_array[0].hasOwnProperty("content")
@@ -239,7 +239,7 @@ const editor = useEditor({
 
     // console.log("Title: " +json_array[0].hasOwnProperty("content"))
     // console.log("Body: " +json_array[1].hasOwnProperty("content"))
-    emit('editorContent', json)
+    emit('editorContent', json, html)
 
   },
   

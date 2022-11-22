@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from "vue";
+import { ref } from "vue";
 import { api as viewerApi } from "v-viewer";
 import VueViewer from "v-viewer";
 import "viewerjs/dist/viewer.css";
@@ -77,7 +77,7 @@ const props = defineProps({
 
 const pictures = ref(props.picturesList)
 
-console.log(pictures.value)
+console.log(JSON.stringify(props.picturesList))
 
 
 const sourceImageURLs = ref([]);
@@ -90,7 +90,7 @@ sourceImageURLs.value = props.picturesList.map((e) => {
         }
       });
 
-
+console.log(JSON.stringify(sourceImageURLs.value))
 
 function previewURL() {
   const $viewer = viewerApi({
