@@ -34,26 +34,60 @@
       </q-card>
 
       <q-card class="my-card no-shadow q-my-sm" bordered>
-        <!-- <q-card-section>
+        <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">Film</div>
+            <q-space></q-space>
+            <q-btn color="grey" round flat dense :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedDetails = !expandedDetails" />
+          </div>
+          
+        </q-card-section>
+        <q-separator v-if="guideDetails && guideDetails.video_id !==null" />
+        <q-slide-transition>
+        <div v-show="expandedDetails">
+          <!-- <q-separator /> -->
+          <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
+            <movie-viewer :video-id="guideDetails.video_id" :video-metadata="guideDetails.video_jsonb.encoding.metadata" v-if="guideDetails && guideDetails.video_id !==null && !isLoading" />
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+      <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Opis</div>
             <q-space></q-space>
-            <q-btn color="grey" round flat dense icon="keyboard_arrow_down"
-              @click="expandedDetails = !expandedDetails" />
+            <q-btn color="grey" round flat dense :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedDescription = !expandedDescription" />
           </div>
-        </q-card-section> -->
-        <q-card-section>
+          
+        </q-card-section>
+
+        <q-slide-transition>
+        <div v-show="expandedDescription">
+          <!-- <q-separator /> -->
+          <q-card-section>
+            <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
+            <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
+          </div>
+          <div class="q-mt-md">
+            <photo-viewer :pictures-list="guideDetails.files_guide" v-if="guideDetails && !isLoading"/>
+        </div>
+          
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+
+
+        <!-- <q-card-section>
           <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
             <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
           </div>
         </q-card-section>
         <q-card-section>
           <photo-viewer :pictures-list="guideDetails.files_guide" v-if="guideDetails && !isLoading"/>
-        </q-card-section>
+        </q-card-section> -->
 
-        <q-card-section>
-          <movie-viewer :video-id="guideDetails.video_id" v-if="guideDetails && !isLoading" />
-        </q-card-section>
+
 
         <!-- <q-card-section>
           <q-img src="https://placeimg.com/500/300/nature?t=1" class="q-ma-xs" style="height: 140px; max-width: 150px"
@@ -99,6 +133,8 @@ let isLoading = ref(false);
 
 const route = useRoute();
 let guideDetails = ref(null);
+let expandedDetails = ref(true)
+let expandedDescription = ref(true)
 
 function getDetails(uuid) {
   authApi

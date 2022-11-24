@@ -1,10 +1,28 @@
 <template>
-    <div v-if="videoItem !== null" 
+  <div class="row justify-center centers">
+    <div v-if="videoItem !== null && videoRatio <1 && $q.screen.lt.md" 
+        style="width: 80vmin; height: 90vmin;" 
+        v-html="videoItem.assets.iframe"
+    >
+  </div>
+  <div v-if="videoItem !== null && videoRatio <1 && $q.screen.gt.md" 
+        style="width: 40vmin; height: 50vmin;" 
+        v-html="videoItem.assets.iframe"
+    >
+  </div>
+
+    <div v-if="videoItem !== null && videoRatio >=1 && $q.screen.lt.md" 
         fixed-center 
-        style="width: 60vmin; height: 80vmin;" 
-        class="justify-center"
+        style="width: 90vmin; height: 80vmin;" 
         v-html="videoItem.assets.iframe"
     ></div>
+    <div v-if="videoItem !== null && videoRatio >=1 && $q.screen.gt.md" 
+        fixed-center 
+        style="width: 50vmin; height: 40vmin;" 
+        v-html="videoItem.assets.iframe"
+    ></div>
+    <!-- {{props.videoMetadata}} -->
+  </div>
 </template>
 
 
@@ -17,12 +35,35 @@ import axios from "axios";
 const apiToken = ref(null)
 const videoItem = ref(null)
 
+
+
 const props = defineProps({
     videoId: {
         type: String,
         default: null,
     },
+    videoMetadata:{
+      type: Object,
+      default() {
+        return {
+          width: null,
+          height: null,
+          bitrate: null,
+          duration: null,
+          framerate: null,
+          audioCodec: null,
+          samplerate: null,
+          videoCodec: null,
+          aspectRatio: null
+        };
+      },
+    }
 });
+
+const videoRatio = ref(1)
+if (props.videoMetadata.width !==null && props.videoMetadata.height !==null){
+  videoRatio.value = props.videoMetadata.width / props.videoMetadata.height
+}
 
 function getUploadToken() {
   authApi.get("/files/video_upload_token/")
@@ -45,6 +86,7 @@ function getUploadToken() {
 }
 
 function getVideo() {
+  console.log(props.videoId)
   axios.get("https://sandbox.api.video/videos/" + props.videoId, {
     headers: {
       'accept': 'application/json',
@@ -52,11 +94,7 @@ function getVideo() {
     }
   })
     .then((res) => {
-      
       videoItem.value = res.data
-    //   videoThumbnail.value = res.data.assets.thumbnail
-      file.value = null;
-
     })
     .catch((err) => {
       if (err.response) {
@@ -64,7 +102,7 @@ function getVideo() {
       } else if (err.request) {
         console.log(err.request);
       } else {
-        console.log("General Error");
+        console.log("General Error: " + res);
       }
 
     });

@@ -292,10 +292,10 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
 }
 
 .ProseMirror {
-  >*+* {
-    color: #1f2937 !important;
+  // >*+* {
+  //   color: #1f2937 !important;
     
-  }
+  // }
 
   // ------ Outstatic ------
   // https://github.com/avitorio/outstatic/blob/canary/packages/outstatic/src/styles.css

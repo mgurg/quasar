@@ -10,7 +10,7 @@
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
         <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
-        <q-btn flat round @click="$q.dark.toggle()" :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"/>
+        <q-btn flat round @click="$q.dark.toggle()" :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'" />
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
             <q-list style="min-width: 100px">
@@ -36,9 +36,9 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
-      <q-list padding>
-        <!--Dashboard-->
-        <!-- <q-item to="/tasks" exact clickable v-ripple>
+        <q-list padding>
+          <!--Dashboard-->
+          <!-- <q-item to="/tasks" exact clickable v-ripple>
             <q-item-section avatar>
               <q-icon name="dashboard" />
             </q-item-section>
@@ -46,61 +46,63 @@
             <q-item-section>{{ $t("Dashboard") }}</q-item-section>
         </q-item>-->
 
-        <!--Home Index-->
-        <q-item to="/home" exact clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon size="md" name="dashboard" />
-          </q-item-section>
+          <!--Home Index-->
+          <q-item to="/home" exact clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon size="md" name="dashboard" />
+            </q-item-section>
 
-          <q-item-section>Index</q-item-section>
-        </q-item>
+            <q-item-section>Index</q-item-section>
+          </q-item>
 
-        <!--Users Index-->
-        <q-item to="/users" exact clickable v-ripple>
-          <q-item-section avatar>
-            <div class="relative-position">
-              <q-icon size="md" name="people"></q-icon>
-              <!-- <q-badge color="orange" floating>2</q-badge> -->
-            </div>
-          </q-item-section>
+          <!--Users Index-->
+          <q-item to="/users" exact clickable v-ripple>
+            <q-item-section avatar>
+              <div class="relative-position">
+                <q-icon size="md" name="people"></q-icon>
+                <!-- <q-badge color="orange" floating>2</q-badge> -->
+              </div>
+            </q-item-section>
 
-          <q-item-section>{{ $t("Employees") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Employees") }}</q-item-section>
+          </q-item>
 
-        <!--Ideas Index-->
-        <q-item to="/ideas" exact clickable v-ripple>
-          <q-item-section avatar>
-            <div class="relative-position">
-              <q-icon size="md" name="tips_and_updates">
-              </q-icon>
-              <q-badge color="orange" floating>1</q-badge>
-            </div>
+          <!--Ideas Index-->
+          <q-item to="/ideas" exact clickable v-ripple>
+            <q-item-section avatar>
+              <div class="relative-position">
+                <q-icon size="md" name="tips_and_updates">
+                </q-icon>
+                <q-badge color="orange" floating>1</q-badge>
+              </div>
 
-          </q-item-section>
+            </q-item-section>
 
-          <q-item-section>{{ $t("Ideas") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Ideas") }}</q-item-section>
+          </q-item>
 
-        <!--Ideas Index-->
-        <q-item to="/settings" exact clickable v-ripple> <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
-          <q-item-section avatar>
-            <q-icon size="md" name="settings" />
-          </q-item-section>
+          <!--Ideas Index-->
+          <q-item to="/settings" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="settings" />
+            </q-item-section>
 
-          <q-item-section>{{ $t("Settings") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Settings") }}</q-item-section>
+          </q-item>
 
-        <!--Guides Index-->
-        <q-item to="/guides" exact clickable v-ripple> <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
-          <q-item-section avatar>
-            <q-icon size="md" name="fact_check" />
-          </q-item-section>
+          <!--Guides Index-->
+          <q-item to="/guides" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="fact_check" />
+            </q-item-section>
 
-          <q-item-section>{{ $t("Guides") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Guides") }}</q-item-section>
+          </q-item>
 
-        <!-- Tasks Index -->
-        <!-- <q-item to="/tasks" exact clickable v-ripple>
+          <!-- Tasks Index -->
+          <!-- <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="add_task" />
           </q-item-section>
@@ -108,8 +110,8 @@
           <q-item-section>TODO List</q-item-section>
         </q-item> -->
 
-        <!--Maps Index-->
-        <!-- <q-item to="/layout" exact clickable v-ripple>
+          <!--Maps Index-->
+          <!-- <q-item to="/layout" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="place" />
           </q-item-section>
@@ -117,8 +119,8 @@
           <q-item-section>Items</q-item-section>
         </q-item> -->
 
-        <!--Files Index-->
-        <!-- <q-item to="/files" exact clickable v-ripple>
+          <!--Files Index-->
+          <!-- <q-item to="/files" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="inventory_2" />
           </q-item-section>
@@ -126,8 +128,8 @@
           <q-item-section>Files</q-item-section>
         </q-item> -->
 
-        <!--Editor Index-->
-        <!-- <q-item to="/editor" exact clickable v-ripple>
+          <!--Editor Index-->
+          <!-- <q-item to="/editor" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="post_add" />
           </q-item-section>
@@ -135,34 +137,41 @@
           <q-item-section>Editor</q-item-section>
         </q-item> -->
 
-        <!--Calendar Index-->
-        <!-- <q-item to="/calendar" exact clickable v-ripple>
+          <!--Calendar Index-->
+          <!-- <q-item to="/calendar" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="calendar_month" />
           </q-item-section>
 
           <q-item-section>Calendar</q-item-section>
         </q-item> -->
-      </q-list>
-    </q-scroll-area>
+        </q-list>
+      </q-scroll-area>
       <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
-          <div class="absolute-bottom bg-transparent">
-            <!-- <q-avatar size="56px" class="q-mb-sm">
+        <div class="absolute-bottom bg-transparent">
+          <!-- <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar> -->
-            <div class="text-weight-bold">{{ fullName }}</div>
-            <!-- <div>@rstoenescu</div> -->
-          </div>
-        </q-img>
+          <div class="text-weight-bold">{{ fullName }}</div>
+          <!-- <div>@rstoenescu</div> -->
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
-      <!-- <router-view /> -->
+
+
       <router-view v-slot="{ Component }">
-        <!-- <keep-alive  :max="1"> -->
-        <component :is="Component" />
-        <!-- </keep-alive> -->
+        <transition 
+          appear 
+          enter-active-class="animated fadeIn" 
+          leave-active-class="animated fadeOut"
+          :duration="400">
+          <component :is="Component" />
+        </transition>
       </router-view>
+
+
     </q-page-container>
   </q-layout>
 </template>

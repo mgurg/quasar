@@ -76,10 +76,12 @@ const props = defineProps({
     // a factory function
     default() {
       return {
+        uuid: null,
         name: '',
         text: '',
         text_jsonb: null,
         video_id: null,
+        // video_jsonb: null,
         files_guide: null
       }
     }
@@ -94,6 +96,7 @@ console.log(JSON.stringify(props.buttonText))
 
 let isLoading = ref(false);
 const uploadedVideoId = ref(null)
+const uploadedVideoMetadata = ref(null)
 
 const tipTapText = ref(null)
 
@@ -133,7 +136,8 @@ function createGuide() {
     "text_html": htmlTxt,
     "text_json": jsonTxt,
     "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
-    "video_id": uploadedVideoId.value
+    "video_id": uploadedVideoId.value,
+    "video_jsonb": uploadedVideoMetadata.value
   }
 
 
@@ -165,15 +169,18 @@ function editGuide() {
 let data = {
   "name": guideName.value,
   "text_html": htmlTxt,
-  "text_json": jsonTxt,
+  "text_jsonb": jsonTxt,
   "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
-  "video_id": uploadedVideoId.value
+  "video_id": uploadedVideoId.value,
+  "video_jsonb": uploadedVideoMetadata.value
 }
+
+console.log("Edit GUIDE");
 console.log(data);
 
 isLoading.value = true;
   authApi
-    .patch("/guides/", data)
+    .patch("/guides/" + props.guide.uuid, data)
     .then((res) => {
       
       isLoading.value = false;
@@ -194,9 +201,13 @@ isLoading.value = true;
 
 // VIDEO
 
-function keepVideoId(id){
-  console.log("UPLOADED VIDEO_ID: " + id);
-  uploadedVideoId.value = id;
+function keepVideoId(videoId, videoMetadata){
+  console.log("UPLOADED VIDEO_ID: ");
+  console.log(videoId);
+  console.log("UPLOADED METADATA: ");
+  console.log(videoMetadata);
+  uploadedVideoId.value = videoId;
+  uploadedVideoMetadata.value = videoMetadata;
 }
 
 

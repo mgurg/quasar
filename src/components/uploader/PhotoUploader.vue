@@ -37,10 +37,15 @@
     <!-- IMG -->
     <div class="row q-col-gutter-xs">
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments" v-bind:key="index">
-            <q-img :src="file.url" spinner-color="black" style="height: 100%; width: 100%" fit="contain">
+            <q-img 
+                :src="file.url" 
+                spinner-color="black" 
+                style="height: 300px; width: 100%; border: 1px solid gray;" 
+                fit="cover"
+                >
                 <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
                     style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
-                    <q-tooltip>Tooltip</q-tooltip>
+                    <q-tooltip>Remove image</q-tooltip>
                 </q-icon>
             </q-img>
         </div>

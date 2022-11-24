@@ -3,6 +3,19 @@
     <q-spinner v-if="videoThumbnail && videoItem === null" color="primary" size="3em" :thickness="10" />
 
     <div class="row justify-center" v-if="videoItem !== null">
+        <q-btn 
+          v-if="videoItem !== null"
+          flat   
+          style="width:80%" 
+          color="red-12"
+          icon="delete" 
+          class="row justify-center q-pt-xs q-ma-md"
+          @click="deleteVideo(videoId)" 
+          :label="$t('Delete Video')" no-caps 
+        />
+    </div>
+
+    <div class="row justify-center" v-if="videoItem !== null">
 
         <!-- <div v-if="videoItem !== null && videoRatio < 1" fixed-center style="width: 60vmin; height: 80vmin;"
         class="justify-center" v-html="videoItem.assets.iframe"></div>
@@ -15,10 +28,7 @@
 
 
     </div>
-    <div class="row justify-center" v-if="videoItem !== null">
-        <q-btn v-if="videoItem !== null" outline icon="delete" class="row justify-center q-pt-xs"
-            @click="deleteVideo(videoId)" :label="$t('Delete Video')" no-caps />
-    </div>
+
 
 
     <q-file v-if="videoItem === null" v-model="file" outlined :label="$t('Pick Video to upload')" accept="video/*"
@@ -57,6 +67,10 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  videoMetadata: {
+    type: String,
+    default: null,
+  },
 })
 
 
@@ -76,6 +90,7 @@ const uploadProgress = ref(0)
 const videoThumbnail = ref(null)
 
 const videoId = ref(props.videoId)
+const videoMetadata = ref(props.videoMetadata)
 const videoItem = ref(null)
 
 const UserStore = useUserStore();
@@ -126,7 +141,7 @@ function handleFileUpload() {
       videoId.value = video.videoId;
       enablePooling.value = true;
       console.log(video)
-      emit('uploadedVideoId', video.videoId)
+      
     })
     .catch((error) => console.log(error.status, error.message));
 
@@ -157,12 +172,18 @@ function checkStatus() {
       })
         .then((res) => {
 
+          videoMetadata.value = res.data
+          console.log("Downloading single Video");
+          console.log(res.data)
+          
           if (res.data.encoding.playable == true) {
             // 
             // videoWidth.value = res.data.encoding.metadata.width;
             // videoHeight.value = res.data.encoding.metadata.height;
             // videoRatio.value = res.data.encoding.metadata.width / res.data.encoding.metadata.height;
-            console.log("Downloading single Video");
+
+            
+            emit('uploadedVideoId', videoId.value, videoMetadata.value)
             getVideo();
           }
           enablePooling.value = !res.data.encoding.playable;
@@ -233,7 +254,8 @@ function deleteVideo(video_id) {
       videoId.value = null;
       videoItem.value = null;
       videoThumbnail.value = null;
-      emit('uploadedVideoId', video.videoId)
+      // emit('uploadedVideoId', video.videoId)
+      emit('uploadedVideoId', videoId.value, videoMetadata.value)
     })
     .catch((err) => {
       if (err.response) {
