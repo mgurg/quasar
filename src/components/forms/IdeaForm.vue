@@ -27,11 +27,11 @@
       </div> -->
 
       <div class="tiptap">
-        <tiptap @editorContent="logText" />
+        <tiptap :body-content="tipTapText" @editor-content="logText" />
       </div>
 
       <div>
-        <photo-uploader @uploaded-photos="listUploadedImgs"/>
+        <photo-uploader @uploaded-photos="listUploadedImgs" :file-list="props.idea.files_idea"/>
       </div>
       <!-- QFILE -->
       
@@ -54,12 +54,25 @@
 
       <div class="row">
         <q-space />
-        <q-btn flat type="submit" class="q-mr-lg" color="red-12" icon="cancel" @click="cancelButtonHandle">{{
-            $t("Cancel")
-        }}</q-btn>
+        <q-btn 
+          flat 
+          type="submit" 
+          class="q-mr-lg" 
+          color="red-12" 
+          icon="cancel" 
+          @click="cancelButtonHandle"
+          :label="$t('Cancel')"
+        />
 
-        <q-btn type="submit" color="primary" icon="done" @click="submit" :loading="isLoading">{{ $t(buttonText) }}
-        </q-btn>
+        <q-btn 
+          type="submit" 
+          color="primary" 
+          icon="done" 
+          @click="submit" 
+          :loading="isLoading"
+          :label="$t(buttonText)"
+        />
+
       </div>
     </q-form>
   </div>
@@ -70,6 +83,9 @@ import { ref, reactive, watch } from "vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
+import { authApi } from "boot/axios";
+import { useRoute, useRouter } from "vue-router";
+
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 
@@ -79,6 +95,8 @@ const { isListening, isSupported, stop, result, raw, start, error } = useSpeechR
   interimResults: false,
 })
 
+const router = useRouter();
+
 
 const props = defineProps({
   idea: {
@@ -87,11 +105,13 @@ const props = defineProps({
     // a factory function
     default() {
       return {
+        uuid: null,
         title: '',
         description: '',
         color: 'red',
         user: null,
-        file: [],
+        text_jsonb: null,
+        files_idea: null
 
       }
     }
@@ -124,6 +144,9 @@ let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.idea.file);
 
+// IMG
+const files = ref(null)
+
 
 
 let jsonTxt = null;
@@ -140,6 +163,12 @@ watch(result, (newValue, oldValue) => {
 
 })
 
+const tipTapText = ref(null)
+
+
+if (props.idea.text_jsonb !== null){
+  tipTapText.value = props.idea.text_jsonb;
+}
 
 // --------------- Form --------------
 
@@ -178,7 +207,7 @@ const submit = handleSubmit(values => {
 
   let data = {
     "color": ideaColor.value,
-    "title": "ideaTitle.value",
+    "title": ideaTitle.value,
     "description": "ideaDescription.value",
     "body_json": jsonTxt,
     "body_html": htmlTxt,
@@ -186,6 +215,26 @@ const submit = handleSubmit(values => {
   }
 
   console.log(data)
+
+  isLoading.value = true;
+    authApi
+        .post("/ideas/", data)
+        .then((res) => {
+            
+            isLoading.value = false;
+            router.push("/ideas");
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+
+        });
+
   // emit('ideaFormBtnClick', data)
   // handleReset();
 })

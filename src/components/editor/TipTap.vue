@@ -1,4 +1,28 @@
 <template>
+      <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
+    <q-btn 
+      flat
+      @click="editor.chain().focus().toggleBold().run()" 
+      :disabled="!editor.can().chain().focus().toggleBold().run()" 
+      :class="{ 'shadow-1': editor.isActive('bold') }"
+      icon="format_bold"
+    />
+
+    <q-btn 
+      flat 
+      @click="editor.chain().focus().toggleItalic().run()" 
+      :disabled="!editor.can().chain().focus().toggleItalic().run()" 
+      :class="{ 'shadow-1': editor.isActive('italic') }"
+      icon="format_italic"
+      />
+    <q-btn 
+    flat 
+    @click="editor.chain().focus().toggleStrike().run()" 
+    :disabled="!editor.can().chain().focus().toggleStrike().run()" 
+    :class="{ 'shadow-1': editor.isActive('strike') }"
+    icon="strikethrough_s"
+    />
+    </div>
   <editor-content :editor="editor" />
   <div>
 
@@ -38,7 +62,7 @@
 
     <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} </div>
   </div>
-  <!-- <q-btn>AAAA</q-btn> -->
+
 </template>
 
 <script setup>
@@ -100,15 +124,7 @@ const emit = defineEmits(['editorContent'])
 
 
 const props = defineProps({
-  title: {
-    type: String,
-    default: ''
-  },
-  body: {
-    type: String,
-    default: ''
-  },
-  modelValue: {
+  bodyContent: {
     type: Object,
     default: null
   },
@@ -119,25 +135,15 @@ const props = defineProps({
 })
 
 
-const content = ref(
-        `
-        <h1>
-        ${props.title}
-        </h1>
-        <p>
-         ${props.body}
-        </p>
-      `,
-)
+const content = ref('')
 
-if (props.modelValue != null && props.modelValue != ""){
-  content.value = props.modelValue;
+if (props.bodyContent !== null && props.bodyContent !== ''){
+  // console.log("Props:"  + JSON.stringify(props.bodyContent))
+  content.value = props.bodyContent;
 }
 
 
-const CustomDocument = Document.extend({
-  content: 'heading block*'
-})
+const CustomDocument = Document.extend({})
 
 const editor = useEditor({
   content: content.value,
@@ -150,30 +156,9 @@ const editor = useEditor({
       document: false
     }),
     Placeholder.configure({
-      showOnlyCurrent: false,
-      placeholder: ({ node }) => {
-        if (node.type.name === 'heading') {
-          return "What's the title?"
-        }
-        return 'Can you add some further context?'
-      }
-    }),
-    Mention.extend({
-      name: "userMention"
-    }).configure({
-      HTMLAttributes: {
-        class: "mention"
-      },
-      suggestion: suggestion
-    }),
-    Mention.extend({
-      name: "groupMention"
-    }).configure({
-      HTMLAttributes: {
-        class: "mention"
-      },
-      suggestion: groups
-    })
+      // showOnlyWhenEditable: false,
+      placeholder: 'My Custom Placeholder',
+}),
   ],
   onCreate({ editor }) {
     editor.setEditable(!props.readonly);
@@ -186,20 +171,19 @@ const editor = useEditor({
     const json = editor.getJSON()
 
     let json_array = json.content
-    // console.log(json_array.content)
-    if (
-      Array.isArray(json_array) &&
-      json_array[0].hasOwnProperty("content") &&
-      json_array[1].hasOwnProperty("content")
-    ) {
-      emit('editorContent', json, html)
-    }
+    // console.log(json)
+    // if (
+    //   Array.isArray(json_array) &&
+    //   json_array[0].hasOwnProperty("content")
+    // ) {
+    //   emit('editorContent', json, html)
+    // }
 
 
 
     // console.log("Title: " +json_array[0].hasOwnProperty("content"))
     // console.log("Body: " +json_array[1].hasOwnProperty("content"))
-    // emit('editorContent', json)
+    emit('editorContent', json, html)
 
   },
   
@@ -208,21 +192,23 @@ const editor = useEditor({
   },
 })
 
+
+
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
 const insertText = (text) => unref(editor).commands.insertContent(text);
 
 
-const text = ref([
-  {
-    type: 'paragraph',
-    content: [
-      {
-        type: 'text',
-        text: 'First paragraph',
-      },
-    ],
-  },
-])
+// const text = ref([
+//   {
+//     type: 'paragraph',
+//     content: [
+//       {
+//         type: 'text',
+//         text: 'First paragraph',
+//       },
+//     ],
+//   },
+// ])
 
 </script>
 

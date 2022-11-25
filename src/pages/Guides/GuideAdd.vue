@@ -177,7 +177,7 @@ function handleFileUpload() {
   isUploading.value = false;
 }
 
-const videoItem = ref(null)
+const videoItem = ref(null);
 
 function getVideo() {
   axios.get("https://sandbox.api.video/videos/" + videoId.value, {

@@ -157,7 +157,7 @@
 
     <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} </div>
   </div>
-  <!-- <q-btn flat>AAAA</q-btn> -->
+
 </template>
 
 <script setup>
@@ -169,7 +169,7 @@ import Document from '@tiptap/extension-document'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
-import { escapeJsonPointer } from "ajv/dist/compile/util";
+
 
 
 const charCount = ref(0)
