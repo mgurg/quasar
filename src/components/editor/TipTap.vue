@@ -28,6 +28,8 @@
 
   </div>
   <div v-if="editor && props.readonly == false" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
+    <q-btn round dense flat icon="person_add" @click="insertText('\u03C0')" />
+    <q-btn round dense flat icon="group_add" @click="insertText('\u03C0')" />
     <q-btn round dense flat icon="mic" @click="insertText('\u03C0')" />
     <q-space></q-space>
     <svg
@@ -159,6 +161,22 @@ const editor = useEditor({
       // showOnlyWhenEditable: false,
       placeholder: 'My Custom Placeholder',
 }),
+Mention.extend({
+      name: "userMention"
+    }).configure({
+      HTMLAttributes: {
+        class: "mention"
+      },
+      suggestion: suggestion
+    }),
+    Mention.extend({
+      name: "groupMention"
+    }).configure({
+      HTMLAttributes: {
+        class: "mention"
+      },
+      suggestion: groups
+    })
   ],
   onCreate({ editor }) {
     editor.setEditable(!props.readonly);
@@ -193,6 +211,7 @@ const editor = useEditor({
 })
 
 
+//  https://github.com/ueberdosis/tiptap/issues/1248
 
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
 const insertText = (text) => unref(editor).commands.insertContent(text);

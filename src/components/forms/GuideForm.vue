@@ -56,17 +56,16 @@
 </template>
 
 <script setup>
-import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
+import { ref } from "vue";
 import { useUserStore } from "stores/user";
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
-import { authApi } from "boot/axios";
 import { useRoute, useRouter } from "vue-router";
 
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import MovieUploader from 'src/components/uploader/MovieUploader.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
-import { addGuide, getGuide  } from 'src/components/api/GuideApiClient.js'
+import { addGuideRequest, editGuideRequest } from 'src/components/api/GuideApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
 const router = useRouter();
@@ -74,8 +73,6 @@ const router = useRouter();
 const props = defineProps({
   guide: {
     type: Object,
-    // Object or array defaults must be returned from
-    // a factory function
     default() {
       return {
         uuid: null,
@@ -97,6 +94,7 @@ const props = defineProps({
 console.log(JSON.stringify(props.buttonText))
 
 let isLoading = ref(false);
+let isError = ref(true);
 const uploadedVideoId = ref(null)
 const uploadedVideoMetadata = ref(null)
 
@@ -144,31 +142,13 @@ function createGuide() {
 
   isLoading.value = true;
 
-  addGuide(data).then(function (response) {
+  addGuideRequest(data).then(function (response) {
     console.log(response)
     isLoading.value = false;
     router.push("/guides");
   }).catch((err) => {
     const errorMessage = errorHandler(err);
   });
-
-  // authApi
-  //   .post("/guides/", data)
-  //   .then((res) => {
-      
-  //     isLoading.value = false;
-  //     router.push("/guides");
-  //   })
-  //   .catch((err) => {
-  //     if (err.response) {
-  //       console.log(err.response);
-  //     } else if (err.request) {
-  //       console.log(err.request);
-  //     } else {
-  //       console.log("General Error");
-  //     }
-
-  //   });
 
 }
 function editGuide() {
@@ -182,27 +162,16 @@ let data = {
   "video_jsonb": uploadedVideoMetadata.value
 }
 
-console.log("Edit GUIDE");
-console.log(data);
-
 isLoading.value = true;
-  authApi
-    .patch("/guides/" + props.guide.uuid, data)
-    .then((res) => {
-      
-      isLoading.value = false;
-      router.push("/guides");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
 
-    });
+editGuideRequest(props.guide.uuid, data).then(function (response) {
+    console.log(response)
+    isLoading.value = false;
+    router.push("/guides");
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
 
