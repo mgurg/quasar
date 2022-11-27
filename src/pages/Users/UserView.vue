@@ -3,8 +3,8 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-py-xs">
       <q-breadcrumbs class="row q-pa-sm">
             <q-breadcrumbs-el icon="home" to="/" />
-            <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users" />
-            <q-breadcrumbs-el :label="$t('View')" icon="info" />
+            <q-breadcrumbs-el :label="$t('Employees')" to="/users" />
+            <q-breadcrumbs-el :label="$t('View')"  />
           </q-breadcrumbs>
       <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-mt-sm">
         <!-- <q-card-section class="row q-pa-sm">

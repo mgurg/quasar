@@ -5,7 +5,7 @@
             <q-img 
                 :src="file.url" 
                 spinner-color="black" 
-                style="height: 300px; width: 100%; border: 1px solid gray;" 
+                style="height: 220px; width: 100%; border: 1px solid gray;" 
                 fit="cover"
                 @click="previewImgObject(index)">
             </q-img>

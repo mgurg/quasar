@@ -5,7 +5,7 @@
         v-html="videoItem.assets.iframe"
     >
   </div>
-  <div v-if="videoItem !== null && videoRatio <1 && $q.screen.gt.md" 
+  <div v-if="videoItem !== null && videoRatio <1 && $q.screen.gt.sm" 
         style="width: 40vmin; height: 50vmin;" 
         v-html="videoItem.assets.iframe"
     >
@@ -16,7 +16,7 @@
         style="width: 90vmin; height: 80vmin;" 
         v-html="videoItem.assets.iframe"
     ></div>
-    <div v-if="videoItem !== null && videoRatio >=1 && $q.screen.gt.md" 
+    <div v-if="videoItem !== null && videoRatio >=1 && $q.screen.gt.sm" 
         fixed-center 
         style="width: 50vmin; height: 40vmin;" 
         v-html="videoItem.assets.iframe"

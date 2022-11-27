@@ -69,41 +69,36 @@
             <div class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'">
             <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
           </div>
-          <div class="q-mt-md">
+
+          
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+      <q-separator v-if="guideDetails && guideDetails.files_guide !==null" />
+      <q-card-section>
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">Zdjęcia</div>
+            <q-space></q-space>
+            <q-btn color="grey" round flat dense :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedPhotos = !expandedPhotos" />
+          </div>
+          
+        </q-card-section>
+        <q-slide-transition>
+        <div v-show="expandedPhotos">
+          <!-- <q-separator /> -->
+          <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
+            <div class="q-mt-md">
             <photo-viewer :pictures-list="guideDetails.files_guide" v-if="guideDetails && !isLoading"/>
         </div>
+
           
           </q-card-section>
         </div>
       </q-slide-transition>
 
 
-        <!-- <q-card-section>
-          <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-            <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
-          </div>
-        </q-card-section>
-        <q-card-section>
-          <photo-viewer :pictures-list="guideDetails.files_guide" v-if="guideDetails && !isLoading"/>
-        </q-card-section> -->
-
-
-
-        <!-- <q-card-section>
-          <q-img src="https://placeimg.com/500/300/nature?t=1" class="q-ma-xs" style="height: 140px; max-width: 150px"
-            native-context-menu />
-          <q-img src="https://placeimg.com/500/300/nature?t=2" class="q-ma-xs" style="height: 140px; max-width: 150px"
-            draggable />
-          <q-img src="https://placeimg.com/500/300/nature?t=3" class="q-ma-xs"
-            style="height: 140px; max-width: 150px" />
-          <q-img src="https://placeimg.com/500/300/nature?t=4" class="q-ma-xs"
-            style="height: 140px; max-width: 150px" />
-        </q-card-section>
-        <q-card-section>
-          <q-btn label="Alert" color="primary" @click="previewURL()" />
-        </q-card-section> -->
-
-      </q-card>
+    </q-card>
     </q-page>
   </div>
 </template>
@@ -134,6 +129,7 @@ const route = useRoute();
 let guideDetails = ref(null);
 let expandedDetails = ref(true)
 let expandedDescription = ref(true)
+let expandedPhotos = ref(true)
 
 function getDetails(uuid) {
   authApi

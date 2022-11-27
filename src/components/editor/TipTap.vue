@@ -22,6 +22,18 @@
     :class="{ 'shadow-1': editor.isActive('strike') }"
     icon="strikethrough_s"
     />
+    <q-btn 
+    flat 
+    @click='editor.chain().focus().insertContent({"type":"userMention","attrs":{"id":"e21f3ca6-a7a6-4c48-896a-bb51663ef81e","label":"Jan Kłos"}}).insertContent(" ").run();' 
+    :disabled="!editor.can().chain().focus().toggleStrike().run()" 
+    icon="person_add"
+    />
+    <q-btn 
+    flat 
+    @click="editor.chain().focus().toggleStrike().run()" 
+    :disabled="!editor.can().chain().focus().toggleStrike().run()" 
+    icon="group_add"
+    />
     </div>
   <editor-content :editor="editor" />
   <div>
@@ -95,6 +107,8 @@ const charCount = ref(0)
 
 const charLimit = ref(2000)
 const UserStore = useUserStore();
+
+const customMention=ref('{"type":"userMention","attrs":{"id":"e21f3ca6-a7a6-4c48-896a-bb51663ef81e","label":"Jan Kłos"}}');
 
 async function getEditorUsers() {
   try {
