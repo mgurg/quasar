@@ -66,6 +66,8 @@ import { useRoute, useRouter } from "vue-router";
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import MovieUploader from 'src/components/uploader/MovieUploader.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import { addGuide, getGuide  } from 'src/components/api/GuideApiClient.js'
+import {errorHandler} from 'src/components/api/errorHandler.js'
 
 const router = useRouter();
 
@@ -140,28 +142,33 @@ function createGuide() {
     "video_jsonb": uploadedVideoMetadata.value
   }
 
-
-  console.log("Guide DATA:")
-  console.log(data);
-
   isLoading.value = true;
-  authApi
-    .post("/guides/", data)
-    .then((res) => {
-      
-      isLoading.value = false;
-      router.push("/guides");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
 
-    });
+  addGuide(data).then(function (response) {
+    console.log(response)
+    isLoading.value = false;
+    router.push("/guides");
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
+
+  // authApi
+  //   .post("/guides/", data)
+  //   .then((res) => {
+      
+  //     isLoading.value = false;
+  //     router.push("/guides");
+  //   })
+  //   .catch((err) => {
+  //     if (err.response) {
+  //       console.log(err.response);
+  //     } else if (err.request) {
+  //       console.log(err.request);
+  //     } else {
+  //       console.log("General Error");
+  //     }
+
+  //   });
 
 }
 function editGuide() {
