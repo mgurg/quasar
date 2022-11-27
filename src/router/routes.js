@@ -104,12 +104,17 @@ const routes = [
       { path: "/ideas/add", component: () => import("pages/Ideas/IdeaAdd.vue") },
       { path: "/ideas/:uuid", component: () => import("pages/Ideas/IdeaView.vue") },
       { path: "/ideas/user/:uuid", component: () => import("pages/Ideas/IdeaUserIndex.vue") },
+      { path: "/ideas/edit/:uuid", component: () => import("pages/Ideas/IdeaEdit.vue") },
 
       { path: "/guides", component: () => import("pages/Guides/GuideIndex.vue") },
       { path: "/guides/add", component: () => import("pages/Guides/GuideAdd.vue") },
       { path: "/guides/:uuid", component: () => import("pages/Guides/GuideView.vue") },
       { path: "/guides/edit/:uuid", component: () => import("pages/Guides/GuideEdit.vue") },
 
+      { path: "/items", component: () => import("pages/Items/ItemsIndex.vue") },
+      { path: "/items/add", component: () => import("pages/Items/ItemsAdd.vue") },
+      { path: "/items/:uuid", component: () => import("pages/Items/ItemsView.vue") },
+      { path: "/items/edit/:uuid", component: () => import("pages/Items/ItemsEdit.vue") },
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
       { path: "/settings/ideas", component: () => import("pages/Settings/SettingsIdea.vue") },

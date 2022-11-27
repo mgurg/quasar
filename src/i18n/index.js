@@ -6,7 +6,6 @@ import de from './de'
 import pl from './pl'
 
 export default { 
-	//TODO: Unify lang package naming
 	'en-US': enUS, // English
 	'fr': fr, // French
 	'de': de, // German

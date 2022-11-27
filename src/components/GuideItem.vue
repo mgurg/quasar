@@ -1,5 +1,5 @@
 <template>
-  <div @click="viewGuide(guide.uuid)">
+  <div class="cursor-pointer" @click="viewGuide(guide.uuid)">
     <q-item>
       <q-item-section avatar cursor-pointer ripple @click="viewGuide(guide.uuid)">
         <q-avatar rounded color="red" text-color="white" icon="article" />

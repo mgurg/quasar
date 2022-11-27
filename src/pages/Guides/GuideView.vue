@@ -65,8 +65,8 @@
         <q-slide-transition>
         <div v-show="expandedDescription">
           <!-- <q-separator /> -->
-          <q-card-section>
-            <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
+          <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
+            <div class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'">
             <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
           </div>
           <div class="q-mt-md">
@@ -113,8 +113,7 @@ import { ref, computed, onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
 import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import { useUserStore } from 'stores/user'
-import { useRoute } from "vue-router";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import PhotoViewer from 'src/components/uploader/PhotoViewer.vue'
 import MovieViewer from 'src/components/uploader/MovieViewer.vue'

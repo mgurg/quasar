@@ -74,6 +74,13 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
 """New idea""",New idea,Nouvelle idée,Neue Idee,Nowy pomysł
 ,,,,
+#items,,,,
+"""Items""",Items,Articles,Artikel,Przedmioty
+"""Item""",Item,Idée,Artikel,Przedmiot
+"""Item title""",Item title,Titre d'idée,Artikeltitel,Nazwa przedmiotu
+"""Item description""",Item description,Description de l'idée,Artikelbeschreibung,Opis przedmiotu
+"""New item""",New item,Nouvelle idée,Neuer Gegenstand,Nowy element
+,,,,
 #Guides,,,,
 """Guides""",Guides,Guides,Führer,Przewodniki
 """Guide""",Guide,Guide,Führen,Przewodnik

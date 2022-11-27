@@ -92,10 +92,20 @@
           </q-item>
 
           <!--Guides Index-->
+            <q-item to="/items" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="apps" />
+            </q-item-section>
+
+            <q-item-section>{{ $t("Items") }}</q-item-section>
+          </q-item>
+
+          <!--Guides Index-->
           <q-item to="/guides" exact clickable v-ripple>
             <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
             <q-item-section avatar>
-              <q-icon size="md" name="fact_check" />
+              <q-icon size="md" name="library_books" />
             </q-item-section>
 
             <q-item-section>{{ $t("Guides") }}</q-item-section>

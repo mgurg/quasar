@@ -65,12 +65,22 @@
         />
 
         <q-btn 
+          v-if="props.buttonText == 'Edit'"
           type="submit" 
-          color="primary" 
+          class="q-mr-xs" 
           icon="done" 
-          @click="submit" 
-          :loading="isLoading"
-          :label="$t(buttonText)"
+          color="primary"
+          @click="editIdea()"
+          :label="$t('Edit')"
+        />
+        <q-btn 
+          v-if="props.buttonText == 'Save'"
+          type="submit" 
+          class="q-mr-xs" 
+          icon="done" 
+          color="primary"
+          @click="submit()"
+          :label="$t('Save')"
         />
 
       </div>
@@ -110,11 +120,15 @@ const props = defineProps({
         description: '',
         color: 'red',
         user: null,
-        text_jsonb: null,
+        body_json: null,
         files_idea: null
 
       }
     }
+  },
+  buttonText: {
+    type: String,
+    default: 'Save',
   },
   token: {
     type: String,
@@ -131,11 +145,7 @@ const props = defineProps({
   mail: {
     type: String,
     default: 'twojafirma.pl',
-  },
-  buttonText: {
-    type: String,
-    default: 'Save',
-  },
+  }
 })
 
 const emit = defineEmits(['ideaFormBtnClick'])
@@ -166,8 +176,8 @@ watch(result, (newValue, oldValue) => {
 const tipTapText = ref(null)
 
 
-if (props.idea.text_jsonb !== null){
-  tipTapText.value = props.idea.text_jsonb;
+if (props.idea.body_json !== null){
+  tipTapText.value = props.idea.body_json;
 }
 
 // --------------- Form --------------
@@ -238,6 +248,40 @@ const submit = handleSubmit(values => {
   // emit('ideaFormBtnClick', data)
   // handleReset();
 })
+
+function editIdea(){
+  let data = {
+    "color": ideaColor.value,
+    "title": ideaTitle.value,
+    "description": "ideaDescription.value",
+    "body_json": jsonTxt,
+    "body_html": htmlTxt,
+    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
+}
+
+console.log("Edit GUIDE");
+console.log(data);
+
+isLoading.value = true;
+  authApi
+    .patch("/ideas/" + props.idea.uuid, data)
+    .then((res) => {
+      
+      isLoading.value = false;
+      router.push("/ideas");
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
 
 // --------------- Form --------------
 

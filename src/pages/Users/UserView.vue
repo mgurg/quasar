@@ -1,17 +1,18 @@
 <template>
   <div class="row justify-center">
-    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-mt-sm">
-        <q-card-section class="row q-pa-sm">
-          <q-breadcrumbs>
+    <q-page class="col-lg-8 col-sm-10 col-xs q-py-xs">
+      <q-breadcrumbs class="row q-pa-sm">
             <q-breadcrumbs-el icon="home" to="/" />
             <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users" />
             <q-breadcrumbs-el :label="$t('View')" icon="info" />
           </q-breadcrumbs>
+      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-mt-sm">
+        <!-- <q-card-section class="row q-pa-sm">
+
 
         </q-card-section>
 
-        <q-separator />
+        <q-separator /> -->
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">

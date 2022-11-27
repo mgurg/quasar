@@ -77,6 +77,13 @@ export default {
 	"Would you like to improve something more?": `Souhaitez-vous améliorer quelque chose de plus?`,
 	"New idea": `Nouvelle idée`,
 
+	// items
+	"Items": `Articles`,
+	"Item": `Idée`,
+	"Item title": `Titre d'idée`,
+	"Item description": `Description de l'idée`,
+	"New item": `Nouvelle idée`,
+
 	// Guides
 	"Guides": `Guides`,
 	"Guide": `Guide`,

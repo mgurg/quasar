@@ -26,10 +26,9 @@
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
-                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editGuide(ideaDetails.uuid)" />
+                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editIdea(ideaDetails.uuid)" />
                   <q-btn flat color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGuide(ideaDetails.uuid)" />
-
+                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteIdea(ideaDetails.uuid)" />
                 </div>
               </q-item-section>
             </q-item>
@@ -53,7 +52,7 @@
         <div v-show="expandedDescription">
    
           <q-card-section>
-            <div style="border: 1px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
+            <div class="rounded-borders q-py-md q-pl-sm" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
             <tiptap :body-content="ideaDetails.body_json" :readonly="true" v-if="ideaDetails && !isLoading" />
           </div>
           <div class="q-mt-md">
@@ -122,14 +121,18 @@
 
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
+import { useQuasar } from "quasar";
 import Tiptap from 'src/components/editor/TipTap.vue'
-import { useUserStore } from 'stores/user'
-import { useRoute } from "vue-router";
+import { useUserStore } from 'stores/user';
+import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
 import PhotoViewer from 'src/components/uploader/PhotoViewer.vue'
 
+const $q = useQuasar();
 const UserStore = useUserStore();
+const route = useRoute();
+const router = useRouter();
 
 const json = ref(null);
 let isLoading = ref(false);
@@ -152,7 +155,7 @@ function displayFullscreen(url) {
   dialog.value = !dialog.value;
 }
 
-const route = useRoute();
+
 let ideaDetails = ref(null);
 
 function convertTime(datetime) {
@@ -243,6 +246,36 @@ function setState(status) {
         console.log("General Error");
       }
     });
+}
+
+function editIdea(uuid){
+  router.push("/ideas/edit/" + uuid);
+}
+
+function deleteIdea(uuid) {
+  $q.dialog({
+    title: "Confirm",
+    message: "Really delete?",
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    authApi
+      .delete("/ideas/" + uuid)
+      .then((res) => {
+        router.push("/ideas");
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("General Error");
+        }
+      });
+    $q.notify("Idea deleted");
+    // fetchTasks()
+  });
 }
 
 onBeforeMount(() => {
