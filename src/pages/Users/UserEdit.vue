@@ -1,33 +1,52 @@
 <template>
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <div class="q-pa-md q-gutter-sm">
-                <q-breadcrumbs>
+        <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section class="row q-pa-sm">
+            <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/" />
-                    <q-breadcrumbs-el label="Users" icon="people" to="/users" />
-                    <q-breadcrumbs-el label="Edit" icon="edit" />
+                    <q-breadcrumbs-el :label="$t('Employee')" icon="people" to="/users" />
+                    <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />
                 </q-breadcrumbs>
-            </div>
-            <user-form
+
+        </q-card-section>
+
+        <q-separator />
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+
+              <q-item-section>
+                <q-item-label class="text-h5 text-weight-medium" v-if="userDetails != null">{{ $t('Edit') }}: {{userDetails.first_name}} {{userDetails.last_name}}</q-item-label>
+                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </q-card-section>
+    </q-card>
+
+    <div>&nbsp;</div>
+    <q-card class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section>
+            <user-form v-if="userDetails != null"
                 :user="userDetails"
-                button-text="Edit"
+                button-text="Save"
                 @userFormBtnClick="signUpButtonPressed"
                 @cancelBtnClick="cancelButtonPressed"
-                v-if="userDetails != null"
                 :key="userDetails.uuid"
             />
-            <task-edit-skeleton v-else />
+            <user-edit-skeleton v-else />
+        </q-card-section></q-card>
         </q-page>
     </div>
 </template>
 
 
-
-
 <script setup>
 import { useQuasar } from 'quasar'
-import { onActivated, ref, onBeforeMount } from "vue";
-import TaskEditSkeleton from 'components/skeletons/TaskEditSkeleton'
+import { ref, onBeforeMount } from "vue";
+import UserEditSkeleton from 'components/skeletons/users/UserEditSkeleton.vue'
 import UserForm from 'src/components/forms/UserForm.vue'
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
@@ -50,13 +69,11 @@ let errors = ref(null);
 
 
 
-
 function updateUser(body) {
     // isLoading.value = true;
     authApi
-        .patch("/user/" + userUuid.value, body)
+        .patch("/users/" + userUuid.value, body)
         .then((res) => {
-            console.log(res.data);
             isLoading.value = false;
             router.push("/users");
         })
@@ -74,10 +91,10 @@ function updateUser(body) {
 
 function getDetails(uuid) {
     authApi
-        .get("/user/" + uuid)
+        .get("/users/" + uuid)
         .then((res) => {
             console.log(uuid);
-            console.log(res.data);
+            
             userDetails.value = res.data
 
             // if (res.data.date_from == null) {
@@ -99,7 +116,7 @@ function getUsers() {
     authApi
         .get("user")
         .then((res) => {
-            console.log(res.data)
+            
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,

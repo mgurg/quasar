@@ -1,23 +1,34 @@
 import { defineStore } from "pinia";
-import { api } from "boot/axios";
+import { api, authApi } from "boot/axios";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
     token: localStorage.getItem("klucz") || null,
+    tenant: localStorage.getItem("tenant") || null,
     permissions: JSON.parse(localStorage.getItem("permissions")) || [],
     firstName: localStorage.getItem("firstName") || null,
     lastName: localStorage.getItem("lastName") || null,
     tz: localStorage.getItem("tz") || null,
     lang: localStorage.getItem("lang") || null,
     uuid: localStorage.getItem("uuid") || null,
+    editorUsers : [],
+    editorGroups : [],
   }),
   getters: {
     isAuthenticated: (state) => !!state.token,
 
     getToken: (state) => state.token,
+    getTenant: (state) => state.tenant,
+    getTenantUuid: (state) => state.tenant.split('_').pop(),
+
+    getFullName : (state) => state.firstName + " " + state.lastName,
     getPermissions: (state) => state.permissions,
 
     getCurrentUserId: (state) => state.uuid,
+
+    getEditorUsers: (state) => state.editorUsers,
+    getEditorGroups: (state) => state.editorGroups,
+
   },
   actions: {
     increment() {
@@ -31,9 +42,9 @@ export const useUserStore = defineStore("user", {
           permanent: permanent,
         };
 
-        console.log(body);
+
         const data = await api.post("/auth/login", body);
-        console.log(data.data);
+
         this.token = data.data.auth_token;
         this.firstName = data.data.first_name;
         this.lastName = data.data.last_name;
@@ -55,9 +66,11 @@ export const useUserStore = defineStore("user", {
         localStorage.removeItem("firstName");
         localStorage.removeItem("lastName");
         localStorage.removeItem("uuid");
+        localStorage.removeItem("tenant");
 
         sessionStorage.removeItem("klucz");
         localStorage.setItem("klucz", data.data.auth_token);
+        localStorage.setItem("tenant",data.data.tenant_id);
         localStorage.setItem("tz", data.data.tz);
         localStorage.setItem("lang", data.data.lang);
         localStorage.setItem("firstName", data.data.first_name);
@@ -80,8 +93,31 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    fillStore(token, firstName, lastName, uuid, tz, lang) {
+  async setEditorUsers() {
+    const data = await authApi.get("/users/")
+    const users = data.data.items;
+    const usersWithFullName = users.map(users => ({
+      uuid: `${users.uuid}`, 
+      label: `${users.first_name} ${users.last_name}`
+    }));
+
+    this.editorUsers = usersWithFullName;
+  },
+
+  async setEditorGroups() {
+    const data = await authApi.get("/groups/")
+    const groups = data.data.items;
+    const groupsWithLabel = groups.map(groups => ({
+      uuid: `${groups.uuid}`, 
+      label: `${groups.name}`
+    }));
+
+    this.editorGroups = groupsWithLabel;
+  },
+
+    fillStore(token, tenant, firstName, lastName, uuid, tz, lang) {
       this.token = token;
+      this.tenant = tenant;
       this.firstName = firstName;
       this.lastName = lastName;
       this.tz = tz;
@@ -96,14 +132,11 @@ export const useUserStore = defineStore("user", {
       //   var token = localStorage.getItem("klucz");
       // }
       if (sessionStorage.getItem("klucz") !== null) {
-        console.log("AutoLogin Start");
         await api
           .get("/auth/verify/" + token)
           .then((res) => {
-            console.log("token");
             if (res.data.ok == true) {
               this.token = token;
-              console.log("token valid: ", token);
             } else {
               this.logoutUser();
             }
@@ -129,6 +162,7 @@ export const useUserStore = defineStore("user", {
       localStorage.removeItem("lastName");
       localStorage.removeItem("uuid");
       localStorage.removeItem("permissions");
+      localStorage.removeItem("tenant");
       sessionStorage.removeItem("klucz");
       this.token = null;
     },

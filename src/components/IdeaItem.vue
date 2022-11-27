@@ -1,6 +1,6 @@
 <template>
-  <div @click="handleSelect(idea.uuid)">
-    <q-item :class="{ 'done bg-blue-1': idea.uuid == selected }">
+  <div class="cursor-pointer" @click="viewIdea(idea.uuid)">
+    <q-item :class="{ 'bg-blue-grey-6': (idea.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (idea.uuid == selected && !$q.dark.isActive) }">
       <q-item-section avatar cursor-pointer ripple @click="viewIdea(idea.uuid)">
         <q-avatar rounded :color="counter > 0? 'green': 'red'" text-color="white">
           {{ counter }}
@@ -9,10 +9,10 @@
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1" class="text-body1">{{ idea.title }} </q-item-label>
+        <q-item-label lines="1" class="text-body1">{{ idea.title }}</q-item-label>
         <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
         <!-- <q-item-label lines="1">
-          <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
+          <q-chip square size="sm" color="blue-12" text-color="white">#111</q-chip>
         </q-item-label> -->
       </q-item-section>
 
@@ -32,7 +32,7 @@
       </q-item-section>
       <q-item-section side v-else>
         <q-item-label caption>{{ timeAgo(idea.created_at) }}</q-item-label>
-        <!-- <q-icon name="priority_high" color="red" /> -->
+        <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>
     </q-item>
 
@@ -46,6 +46,9 @@ import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import { DateTime } from "luxon";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n({ useScope: "global" });
 
 const $q = useQuasar();
 const router = useRouter();
@@ -84,7 +87,7 @@ const timeAgo = (date) => {
   const diff = dateTime.diffNow().shiftTo(...units);
   const unit = units.find((unit) => diff.get(unit) !== 0) || "second";
 
-  const relativeFormatter = new Intl.RelativeTimeFormat("en", {
+  const relativeFormatter = new Intl.RelativeTimeFormat(locale.value, {
     localeMatcher: "best fit", // other values: "lookup"
     numeric: "always", // other values: "auto"
     style: "narrow", // "long", "short" or "narrow"

@@ -1,0 +1,166 @@
+<template>
+
+<q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+      @submit.prevent>
+
+      <q-input 
+        outlined 
+        v-model="ideaTitle" 
+        :disable="isLoading" 
+        :error="!!errors.ideaTitle"
+        :error-message="errors.ideaTitle" :label="$t('Idea title')" 
+    />
+        <q-input 
+        outlined 
+        v-model="ideaDescription" 
+        :disable="isLoading" 
+        :error="!!errors.ideaDescription"
+        :error-message="errors.ideaDescription" label="Opis" 
+    />
+
+    <div class="row">
+        <q-space />
+        <q-btn 
+          flat 
+          type="submit" 
+          class="q-mr-lg" 
+          color="red-12" 
+          icon="cancel" 
+          @click="cancelButtonHandle"
+          :label="$t('Cancel')"
+        />
+
+        <q-btn 
+          v-if="props.buttonText == 'Edit'"
+          type="submit" 
+          class="q-mr-xs" 
+          icon="done" 
+          color="primary"
+          @click="editIdea()"
+          :label="$t('Edit')"
+        />
+        <q-btn 
+          v-if="props.buttonText == 'Save'"
+          type="submit" 
+          class="q-mr-xs" 
+          icon="done" 
+          color="primary"
+          @click="submit()"
+          :label="$t('Save')"
+        />
+
+      </div>
+
+</q-form>
+
+
+</template>
+
+<script setup>
+import { ref, reactive, watch } from "vue";
+import { useField, useForm } from "vee-validate";
+import * as yup from 'yup';
+import { authApi } from "boot/axios";
+import { useRoute, useRouter } from "vue-router";
+
+const router = useRouter();
+
+let isLoading = ref(false);
+
+
+const props = defineProps({
+  idea: {
+    type: Object,
+    // Object or array defaults must be returned from
+    // a factory function
+    default() {
+      return {
+        uuid: null,
+        title: '',
+        description: '',
+        color: 'red',
+        user: null,
+        body_json: null,
+        files_idea: null
+
+      }
+    }
+  },
+  buttonText: {
+    type: String,
+    default: 'Save',
+  },
+})
+
+const { handleReset } = useForm();
+
+const validationSchema = yup.object({
+  ideaColor: yup.string().required(),
+  ideaTitle: yup.string(),//.required(),
+  ideaDescription: yup.string(), //.required('A cool description is required').min(3),
+  email: yup.string().nullable().test(
+    "check-startdate",
+    "Start Date should not be later than current date",
+    function (value) {
+      if (value == "1") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  )
+})
+
+
+const { handleSubmit, errors } = useForm({
+  validationSchema
+})
+
+const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
+const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
+const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
+const { value: email } = useField('email')
+
+function cancelButtonHandle() {
+  console.log('cancelBtnClick')
+  emit('cancelBtnClick')
+}
+
+const submit = handleSubmit(values => {
+  // isLoading.value = true;
+
+  let data = {
+    "color": ideaColor.value,
+    "title": ideaTitle.value,
+    "description": "ideaDescription.value",
+    "body_json": jsonTxt,
+    "body_html": htmlTxt,
+    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
+  }
+
+  console.log(data)
+
+  isLoading.value = true;
+    authApi
+        .post("/ideas/", data)
+        .then((res) => {
+            
+            isLoading.value = false;
+            router.push("/ideas");
+        })
+        .catch((err) => {
+            if (err.response) {
+                console.log(err.response);
+            } else if (err.request) {
+                console.log(err.request);
+            } else {
+                console.log("General Error");
+            }
+
+        });
+
+  // emit('ideaFormBtnClick', data)
+  // handleReset();
+})
+
+</script>

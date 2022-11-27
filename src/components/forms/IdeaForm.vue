@@ -1,128 +1,151 @@
 <template>
-    <div>
-        <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
-            @submit.prevent>
-            <div class="row justify-between items-center">
-                <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Idea") }}</h5>
-                <div class="q-gutter-sm">
-                    <!-- <span>Color:</span> -->
-                    <span>
-                        <q-radio keep-color v-model="ideaColor" val="teal" color="teal" />
-                    </span>
-                    <span>
-                        <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
-                    </span>
-                    <span>
-                        <q-radio keep-color v-model="ideaColor" val="red" color="red" />
-                    </span>
-                    <span>
-                        <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
-                    </span>
-                </div>
-            </div>
-            <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
-                :error-message="errors.ideaTitle" :label="$t('Idea title')">
-            </q-input>
-            <q-input outlined type="textarea" rows="5" v-model="ideaDescription" :disable="isLoading"
-                :error="!!errors.ideaDescription" :error-message="errors.ideaDescription"
-                :label="$t('Idea description')">
-                <template v-if="isSupported" v-slot:append>
-                  <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
-                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
-                </template>
-            </q-input>
+  <div>
+    <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+      @submit.prevent>
 
-            <!-- UPLOADER -->
-            <q-uploader @added="uploadFile" @finish="uploadFinished" ref="uploader" field-name="file"
-                label="No thumbnails" color="amber" accept=".jpg, image/*" flat bordered text-color="black"
-                no-thumbnails style="width: auto;" v-if="attachments.length < 4" />
+      <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
+        :error-message="errors.ideaTitle" :label="$t('Idea title')" />
 
-            <!-- IMG -->
-            <div class="row q-col-gutter-xs">
-                <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in attachments"
-                    v-bind:key="index">
-                    <q-img :src="download_file(file.uuid)" spinner-color="black" style="height: 100%; width:100% "
-                        fit="contain">
-                        <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
-                            style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
-                            <q-tooltip>Tooltip</q-tooltip>
-                        </q-icon>
-                    </q-img>
-                </div>
-            </div>
+        <!-- <div class="row">
+        <div class="q-gutter-xs">
+          <span class="text">
+            Priorytet:
+          </span>
+          <span>
+            <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
+          </span>
+          <span>
+            <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
+          </span>
+          <span>
+            <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
+          </span>
+          <span>
+            <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
+          </span>
+        </div>
+      </div> -->
 
-            <!-- MODE -->
-            <div v-if="mode == 'anonymous_with_mail'">
-                <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email"
-                    :error-message="errors.email" :label="$t('E-mail')">
-                </q-input>
+      <div class="tiptap">
+        <tiptap :body-content="tipTapText" @editor-content="logText" />
+      </div>
 
-                <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
-                    pracownikiem firmy. Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
+      <div>
+        <photo-uploader @uploaded-photos="listUploadedImgs" :file-list="props.idea.files_idea"/>
+      </div>
+      <!-- QFILE -->
+      
 
-                <p>Posiadasz konto? Możesz się <router-link to="/login">zalogować i dokonać zgłoszenia jako
-                        zarejestrowany użytkownik</router-link>
-                </p>
-            </div>
+      <!-- MODE -->
+      <div v-if="mode == 'anonymous_with_mail'">
+        <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email"
+          :label="$t('E-mail')">
+        </q-input>
 
-            <div class="row">
-                <q-btn type="submit" color="red" @click="handleReset">Cancel</q-btn>
-                <q-space />
-                <q-btn type="submit" color="primary" @click="submit" :loading="isLoading">{{ $t(buttonText) }}</q-btn>
-            </div>
-        </q-form>
-    </div>
+        <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
+          pracownikiem firmy. Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
+
+        <p>Posiadasz konto? Możesz się
+          <router-link to="/login">zalogować i dokonać zgłoszenia jako
+            zarejestrowany użytkownik
+          </router-link>
+        </p>
+      </div>
+
+      <div class="row">
+        <q-space />
+        <q-btn 
+          flat 
+          type="submit" 
+          class="q-mr-lg" 
+          color="red-12" 
+          icon="cancel" 
+          @click="cancelButtonHandle"
+          :label="$t('Cancel')"
+        />
+
+        <q-btn 
+          v-if="props.buttonText == 'Edit'"
+          type="submit" 
+          class="q-mr-xs" 
+          icon="done" 
+          color="primary"
+          @click="editIdea()"
+          :label="$t('Edit')"
+        />
+        <q-btn 
+          v-if="props.buttonText == 'Save'"
+          type="submit" 
+          class="q-mr-xs" 
+          icon="done" 
+          color="primary"
+          @click="submit()"
+          :label="$t('Save')"
+        />
+
+      </div>
+    </q-form>
+  </div>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, reactive, watch } from "vue";
+import Tiptap from 'src/components/editor/TipTap.vue'
 import { useField, useForm } from "vee-validate";
-import { DateTime } from 'luxon';
 import * as yup from 'yup';
-import { api, authApi } from "boot/axios";
-import { useUserStore } from "stores/user";
-import Compressor from 'compressorjs';
+import { authApi } from "boot/axios";
+import { useRoute, useRouter } from "vue-router";
+
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
+import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+
 const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
   lang: 'pl-PL',
   continuous: false,
   interimResults: false,
 })
 
-const UserStore = useUserStore();
+const router = useRouter();
+
 
 const props = defineProps({
-    idea: {
-        type: Object,
-        // Object or array defaults must be returned from
-        // a factory function
-        default() {
-            return {
-                title: '',
-                description: '',
-                color: 'red',
-                user: null,
-                file: [],
+  idea: {
+    type: Object,
+    // Object or array defaults must be returned from
+    // a factory function
+    default() {
+      return {
+        uuid: null,
+        title: '',
+        description: '',
+        color: 'red',
+        user: null,
+        body_json: null,
+        files_idea: null
 
-            }
-        }
-    },
-    token: {
-        type: String,
-        default: null,
-    },
-    mode: {
-        type: String,
-        default: 'anonymous',
-    },
-    mail: {
-        type: String,
-        default: 'twojafirma.pl',
-    },
-    buttonText: {
-        type: String,
-        default: 'Save',
-    },
+      }
+    }
+  },
+  buttonText: {
+    type: String,
+    default: 'Save',
+  },
+  token: {
+    type: String,
+    default: null,
+  },
+  tenant_id: {
+    type: String,
+    default: null,
+  },
+  mode: {
+    type: String,
+    default: 'anonymous',
+  },
+  mail: {
+    type: String,
+    default: 'twojafirma.pl',
+  }
 })
 
 const emit = defineEmits(['ideaFormBtnClick'])
@@ -131,97 +154,85 @@ let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.idea.file);
 
-
-// --------------- UPLOADER ---------------
-
-function uploadFile(file) {
-
-    let token = props.token
-    if (props.token == null)
-        token = UserStore.getToken
+// IMG
+const files = ref(null)
 
 
-    new Compressor(file[0], {
-        quality: 0.6,
-        maxWidth: 1600,
-        mimeType: 'image/jpeg',
-        success(result) {
-            const formData = new FormData();
 
-            // The third parameter is required for server
-            formData.append('file', result, result.name);
-
-            // size check
-            let img = new Image();
-            let objectURL = URL.createObjectURL(result);
-            img.onload = function () { console.log(img.width, img.height) }
-            img.src = objectURL
-
-            console.log(result.size, result.type, result.name, result.lastModified)
-            console.log(token)
-
-            isLoading.value = true;
-            api
-                .post(process.env.VUE_APP_URL + "/files/", formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-                .then((res) => {
-                    attachments.value.push(res.data)
-                    uploader.value.reset()
-                    isLoading.value = false;
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-                    isLoading.value = false;
-                });
-
-
-        },
-        error(err) {
-            console.log(err.message);
-        },
-    });
-
+let jsonTxt = null;
+let htmlTxt = null;
+function logText(json, html) {
+  jsonTxt = json
+  htmlTxt = html
 }
 
+//voice recognition
+watch(result, (newValue, oldValue) => {
 
-let uploader = ref("");
+  ideaDescription.value = ideaDescription.value + ' ' + newValue
 
-function download_file(uuid) {
+})
 
-    return process.env.VUE_APP_URL + "/files/download/" + uuid
+const tipTapText = ref(null)
+
+
+if (props.idea.body_json !== null){
+  tipTapText.value = props.idea.body_json;
 }
 
-function uploadUrl() {
-    return process.env.VUE_APP_URL + "/files/"
-}
+// --------------- Form --------------
 
-function uploadFinished() {
-    return new Promise((resolve) => {
-        // simulating a delay of 2 seconds
-        setTimeout(() => {
-            resolve(
-                uploader.value.reset()
-            )
-        }, 1000)
-    })
-}
+const { handleReset } = useForm();
 
-function delete_file(uuid) {
+const validationSchema = yup.object({
+  ideaColor: yup.string().required(),
+  ideaTitle: yup.string(),//.required(),
+  ideaDescription: yup.string(), //.required('A cool description is required').min(3),
+  email: yup.string().nullable().test(
+    "check-startdate",
+    "Start Date should not be later than current date",
+    function (value) {
+      if (value == "1") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  )
+})
+
+
+const { handleSubmit, errors } = useForm({
+  validationSchema
+})
+
+const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
+const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
+const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
+const { value: email } = useField('email')
+
+
+const submit = handleSubmit(values => {
+  // isLoading.value = true;
+
+  let data = {
+    "color": ideaColor.value,
+    "title": ideaTitle.value,
+    "description": "ideaDescription.value",
+    "body_json": jsonTxt,
+    "body_html": htmlTxt,
+    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
+  }
+
+  console.log(data)
+
+  isLoading.value = true;
     authApi
-        .delete(process.env.VUE_APP_URL + "/files/" + uuid)
+        .post("/ideas/", data)
         .then((res) => {
-            attachments.value = attachments.value.filter(item => item.uuid !== uuid)
-            //   listFiles()
+            
+            isLoading.value = false;
+            router.push("/ideas");
         })
         .catch((err) => {
             if (err.response) {
@@ -231,67 +242,81 @@ function delete_file(uuid) {
             } else {
                 console.log("General Error");
             }
+
         });
+
+  // emit('ideaFormBtnClick', data)
+  // handleReset();
+})
+
+function editIdea(){
+  let data = {
+    "color": ideaColor.value,
+    "title": ideaTitle.value,
+    "description": "ideaDescription.value",
+    "body_json": jsonTxt,
+    "body_html": htmlTxt,
+    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
 }
 
-//voice recognition
-watch(result, (newValue, oldValue) => {
+console.log("Edit GUIDE");
+console.log(data);
 
-    text.value = ideaDescription.value + ' ' + newValue 
+isLoading.value = true;
+  authApi
+    .patch("/ideas/" + props.idea.uuid, data)
+    .then((res) => {
+      
+      isLoading.value = false;
+      router.push("/ideas");
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
 
-})
+    });
+}
+
 
 // --------------- Form --------------
 
-const { handleReset } = useForm();
+function cancelButtonHandle() {
+  console.log('cancelBtnClick')
+  emit('cancelBtnClick')
+}
 
-const validationSchema = yup.object({
-    ideaColor: yup.string().required(),
-    ideaTitle: yup.string().required(),
-    ideaDescription: yup.string().required('A cool description is required').min(3),
-    email: yup.string().nullable().test(
-        "check-startdate",
-        "Start Date should not be later than current date",
-        function (value) {
-            if (value =="1") {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    )
-})
+const uploadedPhotos = ref([]);
+
+function listUploadedImgs(images){
+  console.log("UPLOADED IMAGES:")
+  console.log(JSON.stringify(images))
+  uploadedPhotos.value = images;
+}
 
 
-const { handleSubmit, errors } = useForm({
-    validationSchema
-})
-
-const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
-const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
-const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
-const { value: email } = useField('email')
-
-
-
-const submit = handleSubmit(values => {
-    // isLoading.value = true;
-
-    let data = {
-        "color": ideaColor.value,
-        "title": ideaTitle.value,
-        "description": ideaDescription.value,
-        "files": attachments.value.map(a => a.uuid)
-    }
-
-    emit('ideaFormBtnClick', data)
-    handleReset();
-})
-
-// --------------- Form --------------
 
 </script>
 
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
+.tiptap {
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.tiptap:focus-within {
+  transition: 0.1s;
+  border: 2px solid #1976d2 !important;
+}
+
+// .tiptap:hover {
+//   transition: 0.5s;
+//   border: 1px solid #000000 !important;
+// }
 </style>

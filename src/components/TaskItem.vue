@@ -1,8 +1,8 @@
 <template>
     <div @click="handleSelect(task.uuid)">
-        <q-item :class="{ 'done bg-blue-1': task.uuid == selected }">
+        <q-item :class="{ 'bg-blue-1': task.uuid == selected }">
             <q-item-section avatar cursor-pointer ripple @click="viewTask(task.uuid)">
-            <q-avatar rounded color="red" text-color="white" icon="question_mark" />
+            <q-avatar rounded color="red-12" text-color="white" icon="question_mark" />
                 <!-- <q-avatar rounded>
                     <img src="~assets/stecker.jpg" />
                     <q-badge floating rounded color="green" />
@@ -13,11 +13,11 @@
                 <q-item-label lines="1">{{ task.title }}</q-item-label>
                 <q-item-label caption lines="2">{{ task.description }}</q-item-label>
                 <q-item-label lines="1">
-                    <q-chip square size="sm" color="blue" text-color="white">#111</q-chip>
+                    <q-chip square size="sm" color="blue-12" text-color="white">#111</q-chip>
                     <q-chip
                         square
                         size="sm"
-                        color="blue"
+                        color="blue-12"
                         text-color="white"
                         icon="account_circle"
                         v-if="task.assignee != null"
@@ -41,7 +41,7 @@
             </q-item-section>
             <q-item-section side v-else>
                 <q-item-label caption>{{ timeAgo(task.created_at) }}</q-item-label>
-                <q-icon name="priority_high" color="red" />
+                <q-icon name="priority_high" color="red-12" />
             </q-item-section>
         </q-item>
 
@@ -120,7 +120,7 @@ function deleteTask(uuid) {
         api
             .delete("/tasks/" + uuid)
             .then((res) => {
-                console.log(res.data);
+                
             })
             .catch((err) => {
                 if (err.response) {

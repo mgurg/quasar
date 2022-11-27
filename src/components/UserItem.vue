@@ -1,23 +1,19 @@
 <template>
-    <div @click="handleSelect(user.uuid)">
-        <q-item :class="{ 'done bg-blue-1': user.uuid == selected }">
+    <div @click="viewUser(user.uuid)">
+        <q-item :class="{ 'bg-blue-grey-6': (user.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (user.uuid == selected && !$q.dark.isActive) }">
             <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
-                <q-avatar rounded color="red" text-color="white">{{ initials }}
-                    <q-badge v-if="user.is_verified === false" floating color="teal">new</q-badge>
+                <q-avatar rounded color="red-12" text-color="white">{{ initials }}
+                    <q-badge v-if="user.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
                 </q-avatar>
-                <!-- <q-avatar rounded>
-                    <img src="~assets/stecker.jpg" />
-                    <q-badge floating rounded color="green" />
-                </q-avatar> -->
             </q-item-section>
 
             <q-item-section>
-                <q-item-label lines="1" class="text-body1">{{ user.first_name }} {{ user.last_name }} </q-item-label>
+                <q-item-label lines="1" class="text-body1" :class="user.uuid == currentUserUuid ? 'text-weight-bold' : 'text-weight-regular'">{{ user.first_name }} {{ user.last_name }} </q-item-label>
                 <!-- <q-item-label caption lines="2">{{ user.uuid }}</q-item-label> -->
-                <q-item-label lines="1">
-                    <q-chip square size="sm" color="blue" text-color="white" v-if="user.uuid == currentUserUuid">me</q-chip>
+                <!-- <q-item-label lines="1">
+                    <q-chip square size="sm" color="blue-12" icon="star" text-color="white" v-if="user.uuid == currentUserUuid"></q-chip>
 
-                </q-item-label>
+                </q-item-label> -->
             </q-item-section>
 
             <q-item-section side v-if="user.uuid === selected">
@@ -29,7 +25,7 @@
             </q-item-section>
             <!-- <q-item-section side v-else>
                 <q-item-label caption>sdf</q-item-label>
-                <q-icon name="priority_high" color="red" />
+                <q-icon name="priority_high" color="red-12" />
             </q-item-section> -->
         </q-item>
 
@@ -102,7 +98,7 @@ function deleteUser(uuid) {
         persistent: true,
     }).onOk(() => {
         authApi
-            .delete("/user/" + uuid)
+            .delete("/users/" + uuid)
             .then((res) => {
                 emit("forceRefresh")
             })

@@ -18,13 +18,13 @@
             <div class="q-gutter-sm">
                 <!-- <span>Color:</span> -->
                 <span>
-                    <q-radio keep-color v-model="taskColor" val="teal" color="teal" />
+                    <q-radio keep-color v-model="taskColor" val="teal" color="deep-orange-11" />
                 </span>
                 <span>
                     <q-radio keep-color v-model="taskColor" val="orange" color="orange" />
                 </span>
                 <span>
-                    <q-radio keep-color v-model="taskColor" val="red" color="red" />
+                    <q-radio keep-color v-model="taskColor" val="red" color="red-12" />
                 </span>
                 <span>
                     <q-radio keep-color v-model="taskColor" val="cyan" color="cyan" />
@@ -169,7 +169,7 @@
                                 >
                                     <q-date v-model="taskDateFrom" :mask="qDtFormat">
                                         <div class="row items-center justify-end">
-                                            <q-btn label="Cancel" color="red" flat v-close-popup />
+                                            <q-btn :label="$t('Cancel')" color="red-12" flat v-close-popup />
                                             <q-btn v-close-popup label="Select" color="green" flat />
                                         </div>
                                     </q-date>
@@ -186,7 +186,7 @@
                                 >
                                     <q-time v-model="taskDateFrom" :mask="qDtFormat" format24h>
                                         <div class="row items-center justify-end">
-                                            <q-btn label="Cancel" color="black" flat v-close-popup />
+                                            <q-btn :label="$t('Cancel')" color="black" flat v-close-popup />
                                             <q-btn
                                                 v-close-popup
                                                 label="Close"
@@ -318,7 +318,7 @@
                 </div>
             </div>
             <div class="row">
-                <q-btn type="submit" color="red">Cancel</q-btn>
+                <q-btn type="submit" color="red-12">{{ $t("Cancel") }}</q-btn>
                 <q-space />
                 <q-btn type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
@@ -435,7 +435,7 @@ function delete_file(uuid) {
     api
         .delete(process.env.VUE_APP_URL + "/files/" + uuid)
         .then((res) => {
-            console.log(res.data);
+            
             attachments.value = attachments.value.filter(item => item.uuid !== uuid)
             console.log("after delete: ", attachments.value);
             //   listFiles()

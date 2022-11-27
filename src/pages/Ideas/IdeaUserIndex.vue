@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center text-blue-grey-10">
+  <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
       <q-list padding v-if="!isLoading">
@@ -26,7 +26,7 @@ import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue"
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 
-import TaskIndexSkeleton from "components/skeletons/TaskIndexSkeleton.vue";
+import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import IdeaItem from "components/IdeaItem.vue";
 
 let isLoading = ref(false);
@@ -103,7 +103,7 @@ async function fetchIdeas() {
       }
 
 
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {
@@ -134,7 +134,7 @@ function selectIdea(uuid) {
 // });
 
 onBeforeMount(() => {
-  console.log('b')
+  
   isLoading.value = true;
   fetchIdeas();
 });

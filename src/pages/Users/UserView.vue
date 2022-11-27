@@ -1,114 +1,157 @@
 <template>
-  <div class="row justify-center text-blue-grey-10">
-    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="q-pa-md q-gutter-sm">
-        <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el label="Users" icon="people" to="/users" />
-          <q-breadcrumbs-el label="View" icon="info" />
-        </q-breadcrumbs>
-      </div>
+  <div class="row justify-center">
+    <q-page class="col-lg-8 col-sm-10 col-xs q-py-xs">
+      <q-breadcrumbs class="row q-pa-sm">
+            <q-breadcrumbs-el icon="home" to="/" />
+            <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users" />
+            <q-breadcrumbs-el :label="$t('View')" icon="info" />
+          </q-breadcrumbs>
+      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-mt-sm">
+        <!-- <q-card-section class="row q-pa-sm">
 
-      <q-card class="my-card" bordered flat v-if="userDetails && !isLoading">
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar rounded color="green" text-color="white">MG</q-avatar>
-          </q-item-section>
 
-          <q-item-section>
-            <q-item-label class="text-h5">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
-          </q-item-section>
-        </q-item>
+        </q-card-section>
 
-        <q-separator />
-        <div class="row q-col-gutter-xs">
-          <div
-            class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
-            v-for="(file, index) in userDetails.file"
-            v-bind:key="index"
-          >
-            <q-img
-              :src="downloadFileUrl(file.uuid)"
-              spinner-color="black"
-              style="height: 100%; width:100% "
-              fit="contain"
-            >
-              <!-- <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="delete"
-              color="blue-grey-5"
-              style="top: 8px; right: 8px"
-              @click="delete_file(file.uuid)"
-            >
-              <q-tooltip>Tooltip</q-tooltip>
-              </q-icon>-->
+        <q-separator /> -->
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
 
-              <!-- <q-icon
-              class="absolute all-pointer-events"
-              size="sm"
-              name="download"
-              color="blue-grey-5"
-              style="top: 8px; left: 8px"
-              @click="window.open(download_file(file.uuid))"
-            >
-              <q-tooltip>Tooltip</q-tooltip>
-              </q-icon>-->
-            </q-img>
-          </div>
-        </div>
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            color="primary"
-            icon="done"
-            v-if="userDetails.status == null"
-            @click="changeState('accepted')"
-          >Edit</q-btn>
+              <q-item-section>
+                <q-item-label class="text-h6">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
+                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+              </q-item-section>
+              <q-item-section side >
+                <div class="col-12 text-h6 q-mt-none">
+                  <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
+                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
+                  <q-btn flat color="red" icon="delete" class="float-right q-mr-sm" no-caps
+                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
 
-         
-        </q-card-actions>
+                </div>
+              </q-item-section>
+            </q-item>
 
-        <q-card-section class="q-pt-none">Phone: {{ userDetails.phone }}</q-card-section>
-        <q-card-section class="q-pt-none">Email: {{ userDetails.email }}</q-card-section>
-        <q-separator />
+          </q-list>
+        </q-card-section>
 
-        <q-card-actions v-if="userDetails.is_verified==false">
-          <q-btn flat  color="primary" icon="how_to_reg" @click="activateUser()"> Activate</q-btn>
-          <!-- <q-btn flat color="primary">Activate</q-btn> -->
-        </q-card-actions>
-        
+
+
+        <!-- <div v-if="$q.screen.lt.md">
+          <q-separator />
+          <q-card-actions>
+            <div class="col-12 text-h6 q-mt-none">
+              <q-btn outline color="red" icon="delete" class="float-right q-mr-sm" no-caps
+                :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteUser(userDetails.uuid)" />
+              <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
+                :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editUser(userDetails.uuid)" />
+            </div>
+          </q-card-actions>
+        </div> -->
+
       </q-card>
 
-      <task-view-skeleton v-else />
+
+      <q-card class="my-card no-shadow q-my-sm" bordered v-if="userDetails && !isLoading">
+        <q-card-section>
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">{{$t('Details')}}</div>
+            <q-space></q-space>
+            <q-btn 
+              color="grey"
+              round
+              flat
+              dense
+              :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedDetails = !expandedDetails"
+            />
+          </div>
+        </q-card-section>
+
+        <q-slide-transition>
+        <div v-show="expandedDetails">
+          <q-separator />
+          <q-card-section class="text-subitle2">
+            <p>{{$t('E-mail')}}:  <a :href="`mailto:${userDetails.email}`">{{ userDetails.email }}</a></p>
+            <p>{{$t('Phone')}}: <a :href="`tel:${userDetails.phone}`">{{ userDetails.phone }}</a></p>
+            <p>{{$t('Role')}}: <strong>{{ userDetails.role_FK.role_title }}</strong></p>
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+      </q-card>
+
+
+      <q-card class="my-card no-shadow q-my-sm" bordered v-if="userDetails && !isLoading">
+        <q-card-section>
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">{{$t('Ideas')}}</div>
+            <q-space></q-space>
+            <q-btn 
+              color="grey"
+              round
+              flat
+              dense
+              :icon="expandedIdeas ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              @click="expandedIdeas = !expandedIdeas"
+            />
+          </div>
+        </q-card-section>
+
+        <q-slide-transition>
+        <div v-show="expandedIdeas">
+          <q-separator />
+          <q-card-section>
+            <div v-for="(idea, index) in ideas" v-bind:key="index" v-if="ideas != null">
+            <idea-item :idea="idea" v-if="!isLoading"></idea-item>
+          </div>
+          <task-index-skeleton v-else />
+          </q-card-section>
+        </div>
+      </q-slide-transition>
+
+
+
+      </q-card>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref, onActivated ,onBeforeMount} from "vue";
+import { ref,computed, onActivated, onBeforeMount } from "vue";
+import { useQuasar } from 'quasar'
 import { DateTime } from "luxon";
+import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
-import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
+
+import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
+import IdeaItem from "components/IdeaItem.vue";
+
+const router = useRouter();
+const $q = useQuasar()
+
+
+let expandedDetails = ref(true)
+let expandedIdeas = ref(true)
 
 let isLoading = ref(false);
 let slide = ref(1);
-
+let expanded = ref(false);
 
 const route = useRoute();
-let taskUuid = ref(route.params.uuid)
+let userUuid = ref(route.params.uuid)
 let userDetails = ref(null);
+let ideas = ref(null);
 
-
+const initials =ref("")
 
 function getDetails(uuid) {
   authApi
-    .get("/user/" + uuid)
+    .get("/users/" + uuid)
     .then((res) => {
-      console.log(uuid);
-      console.log(res.data);
       userDetails.value = res.data;
+      initials.value = (res.data.first_name[0] + res.data.last_name[0]).toUpperCase()
       isLoading.value = false;
     })
     .catch((err) => {
@@ -124,10 +167,8 @@ function getDetails(uuid) {
 
 function activateUser() {
   authApi
-    .patch("user/" + userDetails.value.uuid, { "is_verified": true })
+    .patch("users/" + userDetails.value.uuid, { "is_verified": true })
     .then((res) => {
-      console.log(uuid);
-      console.log(res.data);
 
       userDetails.value.is_verified = true
 
@@ -146,9 +187,60 @@ function activateUser() {
     });
 }
 
-// function editUser(uuid) {
-//     router.push("/users/edit/" + uuid);
-// }
+function getUserIdeas() {
+  authApi
+    .get("ideas/user/" + userUuid.value)
+    .then((res) => {
+      console.log(res.data.items);
+      ideas.value = res.data.items
+
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
+
+getUserIdeas()
+
+function editUser(uuid) {
+  router.push("/users/edit/" + uuid);
+}
+
+function deleteUser(uuid) {
+    $q.dialog({
+        title: "Confirm",
+        message: "Really delete?",
+        cancel: true,
+        persistent: true,
+    }).onOk(() => {
+        authApi
+            .delete("/users/" + uuid)
+            .then((res) => {
+              $q.notify("User deleted");
+              router.push("/users/edit/" + uuid);
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(err.response);
+                } else if (err.request) {
+                    console.log(err.request);
+                } else {
+                    console.log("General Error");
+                }
+
+            });
+        // $q.notify("User deleted");
+
+        // handleRefresh()
+        // fetchTasks()
+    });
+}
 
 onBeforeMount(() => {
   isLoading.value = true;
@@ -157,3 +249,9 @@ onBeforeMount(() => {
 
 
 </script>
+
+<style>
+.q-breadcrumbs{
+  opacity: 0.7;
+}
+</style>

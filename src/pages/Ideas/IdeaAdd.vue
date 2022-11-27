@@ -1,24 +1,50 @@
 <template>
-    <div class="row justify-center text-blue-grey-10">
+    <div class="row justify-center">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <div class="q-pa-md q-gutter-sm">
-                <q-breadcrumbs>
-                    <q-breadcrumbs-el icon="home" to="/home" />
-                    <q-breadcrumbs-el label="Ideas" icon="tips_and_updates" to="/ideas" />
-                    <q-breadcrumbs-el label="Add" icon="add" />
-                </q-breadcrumbs>
-            </div>
-            <idea-form
-                button-text="Add"
-                @ideaFormBtnClick="signUpButtonPressed"
-            ></idea-form>
+            <q-card bordered class="my-card no-shadow q-mt-sm">
+                <q-card-section class="row q-pa-sm">
+                    <q-breadcrumbs>
+                        <q-breadcrumbs-el icon="home" to="/home" />
+                        <q-breadcrumbs-el :label="$t('Ideas')" icon="tips_and_updates" to="/ideas" />
+                        <q-breadcrumbs-el :label="$t('Add')" icon="add" />
+                    </q-breadcrumbs>
+
+                </q-card-section>
+
+                <q-separator />
+                <q-card-section>
+                    <q-list>
+                        <q-item class="q-px-none">
+
+                            <q-item-section>
+                                <q-item-label class="text-h6">{{ $t("Idea") }} </q-item-label>
+                                <!-- 
+                <q-item-label caption>
+                    Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!
+                </q-item-label> 
+                -->
+                            </q-item-section>
+                        </q-item>
+
+                    </q-list>
+                </q-card-section>
+            </q-card>
+
+            <div>&nbsp;</div>
+            <q-card class="my-card no-shadow q-ma-none q-pa-none">
+                <q-card-section>
+                    <idea-form button-text="Add" @ideaFormBtnClick="signUpButtonPressed"
+                        @cancelBtnClick="cancelButtonPressed"></idea-form>
+                </q-card-section>
+            </q-card>
         </q-page>
     </div>
+
 </template>
 
 
 <script setup>
-import { onActivated, reactive, ref } from "vue";
+import { ref } from "vue";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
 import { authApi } from "boot/axios";
 import { useRouter } from "vue-router";
@@ -42,8 +68,9 @@ function createIdea(body) {
     authApi
         .post("/ideas/", body)
         .then((res) => {
-            console.log(res.data);
+
             isLoading.value = false;
+            router.push("/ideas");
         })
         .catch((err) => {
             if (err.response) {
@@ -55,14 +82,14 @@ function createIdea(body) {
             }
 
         });
-        router.push("/ideas");
+
 }
 
 function getUsers() {
     authApi
-        .get("/user/")
+        .get("/users/")
         .then((res) => {
-            console.log(res.data)
+
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,
@@ -91,14 +118,14 @@ function signUpButtonPressed(ideaForm) {
 }
 
 
-// onActivated(() => {
-    // isLoading.value = true;
-    // getUsers();
-    // isLoading.value = false;
-// });
+function cancelButtonPressed() {
+    console.log('cancelBtnClick')
+    router.push("/ideas");
+}
 
 
 </script>
 
 <style lang="scss"  scoped>
+
 </style>

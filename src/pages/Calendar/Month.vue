@@ -370,7 +370,7 @@ export default defineComponent({
             api
                 .get("/events/index?dt_from=2022-03-01&dt_to=2022-03-28")
                 .then((res) => {
-                    console.log(res.data);
+                    
                     // $this.events = res.data
                     events.value = res.data
 

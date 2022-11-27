@@ -1,77 +1,98 @@
 <template>
     <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <!-- S -->
-            <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
-                <div class="q-pa-none q-card__section q-card__section--vert">
-                    <div class="row q-col-gutter-sm">
+            <!-- <card-dashboard></card-dashboard> -->
+            <q-card class="bg-transparent no-shadow no-border q-pt-md">
+                <q-card-section class="q-pa-none">
+                    <div class="row q-col-gutter-sm ">
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-pink-6 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="auto_awesome" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4">{{status.pending}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">New</q-item-label>
-                                </q-item-section>
-                            </q-item>
+                            <router-link to="/ideas">
+                                <q-item style="background-color: #e91e63" class="q-pa-none rounded-borders">
+                                    <q-item-section  side
+                                    style="background-color: #d81b60"
+                                        class=" q-pa-lg q-mr-none text-white rounded-borders">
+                                        <q-icon name="auto_awesome" color="white" size="24px"></q-icon>
+                                    </q-item-section>
+                                    <q-item-section class=" q-pa-md q-ml-none  text-white">
+                                        <q-item-label class="text-white text-h5 text-weight-bolder">{{status.pending}}
+                                        </q-item-label>
+                                        <q-item-label>New</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </router-link>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-amber-7 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="ballot" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> {{status.accepted}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Voted</q-item-label>
-                                </q-item-section>
-                            </q-item>
+                            <router-link to="/ideas">
+                                <q-item style="background-color: #ffb300" class="q-pa-none rounded-borders">
+                                    <q-item-section  side
+                                    style="background-color: #ffa000"
+                                        class=" q-pa-lg q-mr-none text-white rounded-borders">
+                                        <q-icon name="ballot" color="white" size="24px"></q-icon>
+                                    </q-item-section>
+                                    <q-item-section class=" q-pa-md q-ml-none  text-white">
+                                        <q-item-label class="text-white text-h5 text-weight-bolder">{{status.accepted}}
+                                        </q-item-label>
+                                        <q-item-label>Voted</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </router-link>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-teal-6 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="thumb_up_alt" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> {{status.todo}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Accepted</q-item-label>
-                                </q-item-section>
-                            </q-item>
+                            <router-link to="/ideas">
+                                <q-item style="background-color: #009688" class="q-pa-none rounded-borders">
+                                    <q-item-section  side
+                                    style="background-color: #00897b"
+                                        class=" q-pa-lg q-mr-none text-white rounded-borders">
+                                        <q-icon name="thumb_up_alt" color="white" size="24px"></q-icon>
+                                    </q-item-section>
+                                    <q-item-section class=" q-pa-md q-ml-none  text-white">
+                                        <q-item-label class="text-white text-h5 text-weight-bolder">{{status.todo}}
+                                        </q-item-label>
+                                        <q-item-label>Accepted</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </router-link>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-blue-grey-8 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="delete_forever" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> {{status.rejected}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Rejected</q-item-label>
-                                </q-item-section>
-                            </q-item>
+                            <router-link to="/ideas">
+                                <q-item style="background-color: #455a64" class="q-pa-none rounded-borders">
+                                    <q-item-section  side
+                                    style="background-color: #37474f"
+                                        class=" q-pa-lg q-mr-none text-white rounded-borders">
+                                        <q-icon name="auto_awesome" color="white" size="24px"></q-icon>
+                                    </q-item-section>
+                                    <q-item-section class=" q-pa-md q-ml-none  text-white">
+                                        <q-item-label class="text-white text-h5 text-weight-bolder">{{status.rejected}}
+                                        </q-item-label>
+                                        <q-item-label>Rejected</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                            </router-link>
                         </div>
-                        <q-space/>
-                        <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
-                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
                     </div>
-                </div>
-            </div>
-            <!-- E -->
+                </q-card-section>
+            </q-card>
+            <p class="q-pt-md text-body1" :class="$q.dark.isActive ? 'text-blue-grey-1' : 'text-blue-grey-10'">Zbieraj
+                prawdziwe i <b>szczere sugestie</b> od każdego.
+                Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii
+                online.</p>
         </q-page>
     </div>
 </template>
 
 <script setup>
-import { onBeforeMount, reactive} from "vue";
+import { onBeforeMount, reactive } from "vue";
 import { api, authApi } from "boot/axios";
+import CardDashboard from 'src/components/tiles/CardDashboard.vue'
 
-const status = reactive({'accepted': 0, 'todo': 0, 'pending': 0, 'rejected': 0});
+const status = reactive({ 'accepted': 0, 'todo': 0, 'pending': 0, 'rejected': 0 });
 
 function ping() {
     authApi
-        .get("/stats/status")
+        .get("/ideas/stats")
         .then((res) => {
-            // console.log(res.data);
-            status.new = res.data.null
+            // 
+            status.pending = res.data.pending
             status.accepted = res.data.accepted
 
             status.todo = res.data.todo
@@ -91,8 +112,14 @@ function ping() {
 }
 
 onBeforeMount(() => {
-  ping()
+    ping()
 });
 
 
 </script>
+
+<style lang="scss"  scoped>
+a {
+  text-decoration: none;
+}
+</style>

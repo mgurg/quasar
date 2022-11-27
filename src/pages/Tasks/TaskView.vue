@@ -5,7 +5,7 @@
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/" />
           <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
-          <q-breadcrumbs-el label="View" icon="info" />
+          <q-breadcrumbs-el :label="$t('View')" icon="info" />
         </q-breadcrumbs>
       </div>
 
@@ -72,7 +72,7 @@
 
           <q-btn
             flat
-            color="red"
+            color="red-12"
             icon="lock_open"
             v-if="taskDetails.status == null"
             @click="changeState('rejected')"
@@ -80,14 +80,14 @@
 
           <q-btn
             flat
-            color="red"
+            color="red-12"
             icon="play_arrow"
             v-if="taskDetails.status == 'accepted' || taskDetails.status == 'paused'"
             @click="changeState('start')"
           >Start</q-btn>
           <q-btn
             flat
-            color="teal"
+            color="deep-orange-11"
             icon="pause"
             v-if="taskDetails.status == ('in_progress')"
             @click="changeState('pause')"
@@ -122,7 +122,7 @@ import { ref, onActivated } from "vue";
 import { DateTime } from "luxon";
 import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
-import TaskViewSkeleton from 'components/skeletons/TaskViewSkeleton'
+import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 let isLoading = ref(false);
 let slide = ref(1);
@@ -150,7 +150,7 @@ function getDetails(uuid) {
     .get("/tasks/" + uuid)
     .then((res) => {
       console.log(uuid);
-      console.log(res.data);
+      
       taskDetails.value = res.data;
       isLoading.value = false;
     })
@@ -170,7 +170,7 @@ function changeState(state) {
     .post("tasks/action/" + taskDetails.value.uuid, { "action_type": state })
     .then((res) => {
       console.log(uuid);
-      console.log(res.data);
+      
 
       // getDetails(taskDetails.value.uuid);
       // taskDetails.value = res.data;

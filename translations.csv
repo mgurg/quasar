@@ -1,4 +1,24 @@
 Key,"English, en-US","French, fr","German, de","Polish, pl"
+#common,,,,
+"""Add""",Add,Ajouter,Hinzufügen,Dodaj
+"""Edit""",Edit,Éditer,Bearbeiten,Edytuj
+"""Delete""",Delete,Effacer,Löschen,Usuń
+"""View""",View,Voir,Aussicht,Podgląd
+"""Cancel""",Cancel,Annuler,Absagen,Anuluj
+"""Save""",Save,sauvegarder,Speichern,Zapisz
+"""Search""",Search,Chercher,Suche,Szukaj
+"""Type your search text""",Type your search text,Tapez votre texte de recherche,Geben Sie Ihren Suchtext ein,Wpisz swój tekst wyszukiwania
+"""Filters""",Filters,Filtres,Filter,Filtry
+"""Attachments""",Attachments,Attachements,Anhänge,Załączniki
+"""Status""",Status,Statut,Status,Status
+"""Yes""",Yes,Oui,Ja,Tak
+"""No""",No,Non,Nein,Nie
+"""All""",All,Tout,Alle,Wszystko
+"""Pending""",Pending,En attente,Ausstehend,W oczekiwaniu
+"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
+"""Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+"""Details""",Details,Détails,Einzelheiten,Detale
+,,,,
 #login,,,,
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
 """E-mail""",E-mail,E-mail,Email,E-mail
@@ -15,17 +35,35 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """First Name""",First Name,Prénom,Vorname,Imię
 """Last Name""",Last Name,Nom de famille,Nachname,Nazwisko
 """NIP""",NIP,NIP,NIP,NIP
+"""Company name""",Company name,Nom de l'entreprise,Name der Firma,Nazwa firmy
+"""Street""",Street,Rue,Straße,Ulica
+"""Postcode""",Postcode,Code postal,Postleitzahl,Kod pocztowy
+"""City""",City,Ville,Stadt,Miasto
 """Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
 """Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
-"""Lets start""",Let's start,Commençons,Lasst uns beginnen,Zaczynajmy
+"""Lets start""",Lets start,Commençons,Lasst uns beginnen,Zaczynajmy
+,,,,
+#files,,,,
+"""Pick Video to upload""",Pick Video to upload,Choisissez la vidéo à télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
+"""Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,Foto zum Hochladen auswählen,"Wybierz zdjęcie, aby przesłać"
+"""Delete Video""",Delete Video,Supprimer la vidéo,Video löschen,Usuń wideo
+"""Delete Photo""",Delete Photo,Supprimer la photo,Foto löschen,Usuń zdjęcie
+,,,,
+#dashboard,,,,
+"""New""",New,Nouveau,Neu,Nowy
+"""Voted""",Voted,Voté,Gewählt,Głosował
+"""Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
 ,,,,
 #users,,,,
-"""User""",User,Utilisateur,Benutzer,Użytkownik
-"""Users""",Users,Utilisateurs,Benutzer,Użytkownicy
+"""Employee""",Employee,Employé,Angestellter,Pracownik
+"""Employees""",Employees,Des employés,Angestellte,Pracownicy
 """First name""",First name,Prénom,Vorname,Imię
 """Last name""",Last name,Nom de famille,Nachname,Nazwisko
 """Phone""",Phone,Téléphoner,Telefon,Telefon
-,,,,
+"""Name""",Name,Nom,Name,Nazwa
+"""Age""",Age,Âge,Das Alter,Wiek
+"""New employee""",New employee,Nouvel employé,Neuer Angestellter,Nowy pracownik
 ,,,,
 #ideas,,,,
 """Ideas""",Ideas,Idées,Ideen,Pomysły
@@ -34,6 +72,20 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Idea description""",Idea description,Description de l'idée,Ideenbeschreibung,Opis pomysłu
 """Your submission landed in our system""",Your submission landed in our system,Votre soumission a atterri dans notre système,Ihre Einreichung landete in unserem System,Twoje zgłoszenie wylądowało w naszym systemie
 """Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
+"""New idea""",New idea,Nouvelle idée,Neue Idee,Nowy pomysł
+,,,,
+#items,,,,
+"""Items""",Items,Articles,Artikel,Przedmioty
+"""Item""",Item,Idée,Artikel,Przedmiot
+"""Item title""",Item title,Titre d'idée,Artikeltitel,Nazwa przedmiotu
+"""Item description""",Item description,Description de l'idée,Artikelbeschreibung,Opis przedmiotu
+"""New item""",New item,Nouvelle idée,Neuer Gegenstand,Nowy element
+,,,,
+#Guides,,,,
+"""Guides""",Guides,Guides,Führer,Przewodniki
+"""Guide""",Guide,Guide,Führen,Przewodnik
+"""New guide""",New guide,Nouveau guide,Neuer Leitfaden,Nowy przewodnik
+"""Guide name""",Guide name,Nom de guide,Leitfadenname,Nazwa przewodnika
 ,,,,
 #tasks,,,,
 """Action failed""",Action failed,Action: échoué,Aktion: fehlgeschlagen,Akcja: nieudana
@@ -44,8 +96,6 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """All tasks""",All tasks,Toutes les tâches,Alle Aufgaben,Wszystkie zadania
 """Task name""",Task name,Nom de la tâche,Aufgabennname,Nazwa zadania
 """Task description""",Task description,Description de la tâche,Aufgabenbeschreibung,Opis zadania
-"""Add""",Add,Ajouter,Hinzufügen,Dodać
-"""Edit""",Edit,Éditer,Bearbeiten,Edytować
 ,,,,
 #settings,,,,
 """Settings""",Settings,Réglages,Einstellungen,Ustawienia
@@ -55,3 +105,26 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Anonymous with required confirmation""",Anonymous with required confirmation,Anonyme de confirmation requise,Anonymous mit der erforderlichen Bestätigung,Anonimowy z wymaganym potwierdzeniem
 """Only for logged users""",Only for logged users,Uniquement pour les utilisateurs enregistrés,Nur für protokollierte Benutzer,Tylko dla zalogowanych użytkowników
 """You must have an account""",You must have an account,Vous devez avoir un compte,Sie müssen ein Konto haben,Musisz mieć konto
+"""Ideas""",Ideas,Idées,Ideen,Pomysły
+"""Permissions""",Permissions,Autorisation,Berechtigungen,Uprawnienia
+"""Groups""",Groups,Groupes,Gruppen,Grupy
+,,,,
+#permissions,,,,
+"""Permissions""",Permissions,Autorisation,Berechtigungen,Uprawnienia
+"""Permission""",Permission,Autorisation,Genehmigung,Pozwolenie
+"""New permission""",New permission,Nouvelle autorisation,Neue Erlaubnis,Nowe pozwolenie
+"""Name""",Name,Nom,Name,Nazwa
+"""Description""",Description,La description,Beschreibung,Opis
+"""Role""",Role,Rôle,Rolle,Rola
+,,,,
+#groups,,,,
+"""Groups""",Groups,Groupes,Gruppen,Grupy
+"""Group""",Group,Groupe,Gruppe,Grupa
+"""New group""",New group,Nouveau groupe,Neue Gruppe,Nowa grupa
+"""Name""",Name,Nom,Name,Nazwa
+"""Description""",Description,La description,Beschreibung,Opis
+"""No groups, add a first one!""","No groups, add a first one!","Pas de groupes, ajoutez-en un premier!","Keine Gruppen, füge einen ersten hinzu!","Bez grup, dodaj pierwszy!"
+,,,,
+#TipTap,,,,
+"""What's the title?""",What's the title?,Quel est le titre?,Wie lautet der Titel?,Jaki jest tytuł?
+"""Can you add some further context? Use @ to mention users, # for groups""","Can you add some further context? Use @ to mention users, # for groups","Pouvez-vous ajouter un contexte supplémentaire? Utiliser @ pour mentionner les utilisateurs, # pour les groupes","Können Sie einen weiteren Kontext hinzufügen? Verwenden Sie @, um Benutzer zu erwähnen, # für Gruppen","Czy możesz dodać jakiś dalszy kontekst? Użyj @, aby wspomnieć o użytkownikach, # dla grup"

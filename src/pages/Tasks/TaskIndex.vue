@@ -41,7 +41,7 @@
 import { onActivated, ref, computed } from "vue";
 import { authApi } from "boot/axios";
 
-import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
+import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 import TaskItem from 'components/TaskItem.vue'
 
 
@@ -76,7 +76,7 @@ function fetchTasks() {
     .get("/tasks/index?offset=0&limit=20")
     .then((res) => {
       tasks.value = res.data
-      console.log(res.data);
+      
       isLoading.value = false;
     })
     .catch((err) => {

@@ -1,5 +1,6 @@
 <template>
   <q-layout>
+    <q-page-container>
     <div class="row justify-center text-blue-grey-10">
       <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
         <!-- <p class="text-h4">Voice recognition demo</p> -->
@@ -11,7 +12,7 @@
         </div>
         <div v-else>
           <header>
-            <p class="text-h4"> Speech Recognition </p>
+            <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'"> Speech Recognition </p>
             <i class="header-icon fas fa-microphone-alt"></i>
           </header>
           <main>
@@ -31,7 +32,7 @@
               <q-input outlined type="textarea" rows="5" v-model="text" :label="$t('Task description')">
                 <template v-slot:append>
                   <q-btn round dense flat icon="mic" v-if="!isListening" @click="start" />
-                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red" @click="stop" />
+                  <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop" />
                 </template>
               </q-input>
             </div>
@@ -43,6 +44,7 @@
 
       </q-page>
     </div>
+  </q-page-container>
   </q-layout>
 </template>
 

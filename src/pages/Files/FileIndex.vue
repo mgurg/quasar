@@ -99,8 +99,7 @@ let uploadedFiles = ref([]);
 let dialog = ref(false)
 
 
-function uploadFile(file, token = null) {
-  console.log('AXIOS upload files')
+function uploadFile(file, token = null, tenant_id=null) {
 
   // let formData = new FormData()
   // formData.append('file', file[0])
@@ -108,7 +107,6 @@ function uploadFile(file, token = null) {
   if (token == null)
     token = UserStore.getToken
 
-  console.log('Bearer', token)
   new Compressor(file[0], {
     quality: 0.6,
     maxWidth: 1600,
@@ -135,7 +133,7 @@ function uploadFile(file, token = null) {
           }
         })
         .then((res) => {
-          console.log(res.data);
+          // 
         })
         .catch((err) => {
           if (err.response) {
@@ -175,7 +173,7 @@ function listFiles() {
     .then((res) => {
 
       s3Files.value = res.data;
-      console.log(res.data);
+      
     })
     .catch((err) => {
       if (err.response) {
@@ -198,7 +196,7 @@ function delete_file(uuid) {
   authApi
     .delete(process.env.VUE_APP_URL + "/files/" + uuid)
     .then((res) => {
-      console.log(res.data);
+      
       uploadedFiles.value = uploadedFiles.value.filter(item => item !== uuid)
       listFiles()
     })
@@ -251,7 +249,7 @@ function finished() {
 //       }
 //     })
 //     .then((res) => {
-//       console.log(res.data);
+//       
 //     })
 //     .catch((err) => {
 //       if (err.response) {

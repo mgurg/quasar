@@ -10,6 +10,7 @@
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
         <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
+        <q-btn flat round @click="$q.dark.toggle()" :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'" />
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
             <q-list style="min-width: 100px">
@@ -34,9 +35,10 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list padding>
-        <!--Dashboard-->
-        <!-- <q-item to="/tasks" exact clickable v-ripple>
+      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+        <q-list padding>
+          <!--Dashboard-->
+          <!-- <q-item to="/tasks" exact clickable v-ripple>
             <q-item-section avatar>
               <q-icon name="dashboard" />
             </q-item-section>
@@ -44,52 +46,73 @@
             <q-item-section>{{ $t("Dashboard") }}</q-item-section>
         </q-item>-->
 
-        <!--Home Index-->
-        <q-item to="/home" exact clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon size="md" name="dashboard" />
-          </q-item-section>
+          <!--Home Index-->
+          <q-item to="/home" exact clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon size="md" name="dashboard" />
+            </q-item-section>
 
-          <q-item-section>Index</q-item-section>
-        </q-item>
+            <q-item-section>Index</q-item-section>
+          </q-item>
 
-        <!--Users Index-->
-        <q-item to="/users" exact clickable v-ripple>
-          <q-item-section avatar>
-            <div class="relative-position">
-            <q-icon size="md" name="people"></q-icon>
-            <q-badge color="orange" floating>2</q-badge>
-            </div>
-          </q-item-section>
+          <!--Users Index-->
+          <q-item to="/users" exact clickable v-ripple>
+            <q-item-section avatar>
+              <div class="relative-position">
+                <q-icon size="md" name="people"></q-icon>
+                <!-- <q-badge color="orange" floating>2</q-badge> -->
+              </div>
+            </q-item-section>
 
-          <q-item-section>{{ $t("Users") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Employees") }}</q-item-section>
+          </q-item>
 
-        <!--Ideas Index-->
-        <q-item to="/ideas" exact clickable v-ripple>
-          <q-item-section avatar>
-            <div class="relative-position">
-              <q-icon size="md" name="tips_and_updates">
-              </q-icon>
-              <q-badge color="orange" floating>3</q-badge>
-            </div>
+          <!--Ideas Index-->
+          <q-item to="/ideas" exact clickable v-ripple>
+            <q-item-section avatar>
+              <div class="relative-position">
+                <q-icon size="md" name="tips_and_updates">
+                </q-icon>
+                <q-badge color="orange" floating>1</q-badge>
+              </div>
 
-          </q-item-section>
+            </q-item-section>
 
-          <q-item-section>{{ $t("Ideas") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Ideas") }}</q-item-section>
+          </q-item>
 
-        <!--Ideas Index-->
-        <q-item to="/settings" exact clickable v-ripple v-if="hasPermission('SETTINGS_VIEW')">
-          <q-item-section avatar>
-            <q-icon size="md" name="settings" />
-          </q-item-section>
+          <!--Ideas Index-->
+          <q-item to="/settings" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="settings" />
+            </q-item-section>
 
-          <q-item-section>{{ $t("Settings") }}</q-item-section>
-        </q-item>
+            <q-item-section>{{ $t("Settings") }}</q-item-section>
+          </q-item>
 
-        <!-- Tasks Index -->
-        <!-- <q-item to="/tasks" exact clickable v-ripple>
+          <!--Guides Index-->
+            <q-item to="/items" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="apps" />
+            </q-item-section>
+
+            <q-item-section>{{ $t("Items") }}</q-item-section>
+          </q-item>
+
+          <!--Guides Index-->
+          <q-item to="/guides" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="library_books" />
+            </q-item-section>
+
+            <q-item-section>{{ $t("Guides") }}</q-item-section>
+          </q-item>
+
+          <!-- Tasks Index -->
+          <!-- <q-item to="/tasks" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="add_task" />
           </q-item-section>
@@ -97,8 +120,8 @@
           <q-item-section>TODO List</q-item-section>
         </q-item> -->
 
-        <!--Maps Index-->
-        <!-- <q-item to="/layout" exact clickable v-ripple>
+          <!--Maps Index-->
+          <!-- <q-item to="/layout" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="place" />
           </q-item-section>
@@ -106,8 +129,8 @@
           <q-item-section>Items</q-item-section>
         </q-item> -->
 
-        <!--Files Index-->
-        <!-- <q-item to="/files" exact clickable v-ripple>
+          <!--Files Index-->
+          <!-- <q-item to="/files" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="inventory_2" />
           </q-item-section>
@@ -115,8 +138,8 @@
           <q-item-section>Files</q-item-section>
         </q-item> -->
 
-        <!--Editor Index-->
-        <!-- <q-item to="/editor" exact clickable v-ripple>
+          <!--Editor Index-->
+          <!-- <q-item to="/editor" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="post_add" />
           </q-item-section>
@@ -124,100 +147,155 @@
           <q-item-section>Editor</q-item-section>
         </q-item> -->
 
-        <!--Calendar Index-->
-        <!-- <q-item to="/calendar" exact clickable v-ripple>
+          <!--Calendar Index-->
+          <!-- <q-item to="/calendar" exact clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="calendar_month" />
           </q-item-section>
 
           <q-item-section>Calendar</q-item-section>
         </q-item> -->
-      </q-list>
+        </q-list>
+      </q-scroll-area>
+      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+        <div class="absolute-bottom bg-transparent">
+          <!-- <q-avatar size="56px" class="q-mb-sm">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar> -->
+          <div class="text-weight-bold">{{ fullName }}</div>
+          <!-- <div>@rstoenescu</div> -->
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
-      <!-- <router-view /> -->
-      <!-- TODO: Looks like this is necessary to load onActivate -->
+
+
       <router-view v-slot="{ Component }">
-        <!-- <keep-alive  :max="1"> -->
-        <component :is="Component" />
-        <!-- </keep-alive> -->
+        <transition 
+          appear 
+          enter-active-class="animated fadeIn" 
+          leave-active-class="animated fadeOut"
+          :duration="400">
+          <component :is="Component" />
+        </transition>
       </router-view>
+
+
     </q-page-container>
   </q-layout>
 </template>
 
-<script>
+<script setup>
 
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed, onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
+import { authApi } from "boot/axios";
 
+const $q = useQuasar();
 
+const router = useRouter();
+const UserStore = useUserStore();
 
+const { locale } = useI18n({ useScope: "global" });
+const lang = ref(locale); // $q.lang.isoName
 
-export default defineComponent({
-  name: "MainLayout",
+const fullName = ref(UserStore.getFullName)
 
-
-  setup() {
-    const $q = useQuasar();
-
-    const router = useRouter();
-    const UserStore = useUserStore();
-
-    const { locale } = useI18n({ useScope: "global" });
-    const lang = ref(locale); // $q.lang.isoName
-
-    watch(lang, (val) => {
-      // dynamic import, so loading on demand only
-      import(
-        /* webpackInclude: /(pl|de|en-US)\.js$/ */
-        "quasar/lang/" + val
-      ).then((lang) => {
-        $q.lang.set(lang.default);
-      });
-    });
-
-    function setLocale(lang) {
-      locale.value = lang;
-    }
-    const leftDrawerOpen = ref(false);
-
-    function notify() {
-      $q.notify({
-        message: 'Danger, Will Robinson! Danger!',
-        position: 'top-right',
-        progress: true,
-      })
-    }
-
-    const envValue = process.env.S3_BUCKET;
-
-    function logout() {
-      UserStore.logoutUser()
-      router.push("/login");
-    }
-
-    const permissions = computed(() => UserStore.getPermissions);
-
-    function hasPermission(permission) {
-      return Boolean(permissions.value.includes(permission));
-    }
-
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-      notify,
-      setLocale,
-      logout,
-      hasPermission
-    };
-  },
+watch(lang, (val) => {
+  // dynamic import, so loading on demand only
+  import(
+    /* webpackInclude: /(pl|de|en-US)\.js$/ */
+    "quasar/lang/" + val
+  ).then((lang) => {
+    $q.lang.set(lang.default);
+  });
 });
+
+function getLocale() {
+  const userLocale =
+    localStorage.getItem("lang") ||
+    sessionStorage.getItem("lang") ||
+    navigator.language.split("-")[0] ||
+    "en-US";
+
+  // if detectedLocale is 'en' or 'es' return
+  if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+    return userLocale;
+  }
+  // else return default value
+  return "en-US";
+}
+
+function setLocale(lang) {
+  locale.value = lang;
+}
+const leftDrawerOpen = ref(false);
+
+function notify() {
+  $q.notify({
+    message: 'Danger, Will Robinson! Danger!',
+    position: 'top-right',
+    progress: true,
+  })
+}
+
+function logout() {
+  UserStore.logoutUser()
+  router.push("/login");
+}
+
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
+
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
+
+function verifyToken(){
+  const token = UserStore.getToken
+
+  console.log(token)
+  authApi
+    .get("/auth/verify/" + token)
+    .then((res) => {
+      // UserStore.fillStore()
+
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+
+    });
+}
+
+onBeforeMount(() => {
+  verifyToken();
+  console.log(getLocale())
+  //localStorage.setItem("lang", 'pl')
+  // setLocale(setLocale())
+  setLocale(getLocale())
+});
+
 </script>
+
+<style>
+/* body.body--dark {
+  background: #000
+} */
+body.body--light {
+  background: #eceff1
+}
+</style>

@@ -6,9 +6,11 @@
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">AnyName</h1>
-          <p class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
-          <p class="text-h6" v-if="$q.screen.gt.sm">
-            Zbieraj szczere pomysły od pracowników, wdrażaj je i wyrażaj uznanie tam, gdzie jest ono należne. Proste.
+          <p class="text-h4 text-weight-light" v-if="$q.screen.gt.md">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
+          <p class="text-h6 text-weight-regular" v-if="$q.screen.gt.sm">
+            🎯 Zbieraj szczere pomysły od pracowników <br> 
+            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br> 
+            Proste.
           </p>
         </div>
         <!-- </div> -->
@@ -18,7 +20,7 @@
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
-    <p>{{ $t("Almost done! Let's confirm your email") }} ✅</p>
+    <p>{{ $t("Almost done! Remember to confirm your email!") }} ✅</p>
 
 
 

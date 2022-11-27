@@ -19,7 +19,7 @@
 
       <div class="row">
         <q-space />
-        <q-btn :disable="isLoading" :label="$t('Lets start') + '! 🚀'" :loading="isLoading" color="red" type="submit" />
+        <q-btn :disable="isLoading" :label="$t('Lets start') + '! 🚀'" :loading="isLoading" color="red-12" type="submit" />
       </div>
     </q-form>
   </div>
@@ -84,7 +84,7 @@ const submit = handleSubmit((values) => {
 });
 // --------------- VeeValidate --------------
 
-async function firstRun(data) {
+function firstRun(data) {
   isLoading.value = true;
   api
     .post("auth/first_run", data)
@@ -97,8 +97,17 @@ async function firstRun(data) {
       localStorage.setItem("firstName", res.data.first_name);
       localStorage.setItem("lastName", res.data.last_name);
       localStorage.setItem("uuid", res.data.uuid);
+      localStorage.setItem("tenant", res.data.tenanat_id);
 
-      UserStore.fillStore(res.data.token, res.data.first_name, res.data.last_name, res.data.uuid, res.data.tz, res.data.lang)
+      UserStore.fillStore(
+        res.data.token, 
+        res.data.tenanat_id,
+        res.data.first_name, 
+        res.data.last_name, 
+        res.data.uuid, 
+        res.data.tz, 
+        res.data.lang
+        )
       router.push("/login");
     })
     .catch((err) => {

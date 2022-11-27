@@ -5,7 +5,7 @@
                 <q-breadcrumbs>
                     <q-breadcrumbs-el icon="home" to="/home" />
                     <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
-                    <q-breadcrumbs-el label="Add" icon="add" />
+                    <q-breadcrumbs-el :label="$t('Add')" icon="add" />
                 </q-breadcrumbs>
             </div>
             <task-form
@@ -51,7 +51,7 @@ function createTasks(body) {
     authApi
         .post("/tasks/add", body)
         .then((res) => {
-            console.log(res.data);
+            
             isLoading.value = false;
         })
         .catch((err) => {
@@ -70,7 +70,7 @@ function getUsers() {
     authApi
         .get("user")
         .then((res) => {
-            console.log(res.data)
+            
 
             usersList.value = res.data.map((opt) => ({
                 label: opt.first_name + ' ' + opt.last_name,
