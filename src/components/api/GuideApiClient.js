@@ -12,5 +12,5 @@ export function addGuide(data) {
 }
 
 export function editGuide(uuid, data) {
-  return authApi.post("/guides/" + uuid, data);
+  return authApi.patch("/guides/" + uuid, data);
 }
