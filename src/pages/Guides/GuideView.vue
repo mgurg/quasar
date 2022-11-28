@@ -5,7 +5,7 @@
         <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
             <q-breadcrumbs-el icon="home" to="/" />
-            <q-breadcrumbs-el :label="$t('Guides')" icon="tips_and_updates" to="/guides" />
+            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides" />
             <q-breadcrumbs-el :label="$t('View')" icon="info" />
           </q-breadcrumbs>
         </q-card-section>
@@ -110,8 +110,8 @@ import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
 import { useUserStore } from 'stores/user'
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
-import PhotoViewer from 'src/components/uploader/PhotoViewer.vue'
-import MovieViewer from 'src/components/uploader/MovieViewer.vue'
+import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
+import MovieViewer from 'src/components/viewer/MovieViewer.vue'
 
 const $q = useQuasar();
 

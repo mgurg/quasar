@@ -5,18 +5,19 @@
 
       <q-input 
         outlined 
-        v-model="ideaTitle" 
+        v-model="itemName" 
         :disable="isLoading" 
-        :error="!!errors.ideaTitle"
-        :error-message="errors.ideaTitle" :label="$t('Idea title')" 
+        :error="!!errors.itemName"
+        :error-message="errors.itemName" :label="$t('Item title')" 
     />
         <q-input 
         outlined 
-        v-model="ideaDescription" 
+        v-model="itemDescription" 
         :disable="isLoading" 
-        :error="!!errors.ideaDescription"
-        :error-message="errors.ideaDescription" label="Opis" 
+        :error="!!errors.itemDescription"
+        :error-message="errors.itemDescription" label="Opis" 
     />
+    <file-uploader @uploaded-photos="listUploadedImgs" :file-list="props.item.files_item" />
 
     <div class="row">
         <q-space />
@@ -36,7 +37,7 @@
           class="q-mr-xs" 
           icon="done" 
           color="primary"
-          @click="editIdea()"
+          @click="edititem()"
           :label="$t('Edit')"
         />
         <q-btn 
@@ -62,6 +63,9 @@ import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
 import { authApi } from "boot/axios";
 import { useRoute, useRouter } from "vue-router";
+import FileUploader from 'src/components/uploader/FileUploader.vue'
+import { getItemRequest, editItemRequest, addItemRequest, deleteItemRequest } from 'src/components/api/ItemApiClient'
+import {errorHandler} from 'src/components/api/errorHandler.js'
 
 const router = useRouter();
 
@@ -69,7 +73,7 @@ let isLoading = ref(false);
 
 
 const props = defineProps({
-  idea: {
+  item: {
     type: Object,
     // Object or array defaults must be returned from
     // a factory function
@@ -81,7 +85,7 @@ const props = defineProps({
         color: 'red',
         user: null,
         body_json: null,
-        files_idea: null
+        files_item: null
 
       }
     }
@@ -92,12 +96,24 @@ const props = defineProps({
   },
 })
 
+//IMG
+
+const uploadedPhotos = ref([]);
+
+function listUploadedImgs(images){
+  console.log("UPLOADED IMAGES:")
+  console.log(JSON.stringify(images))
+  uploadedPhotos.value = images;
+}
+
+
+
 const { handleReset } = useForm();
 
 const validationSchema = yup.object({
-  ideaColor: yup.string().required(),
-  ideaTitle: yup.string(),//.required(),
-  ideaDescription: yup.string(), //.required('A cool description is required').min(3),
+  itemColor: yup.string().required(),
+  itemName: yup.string(),//.required(),
+  itemDescription: yup.string(), //.required('A cool description is required').min(3),
   email: yup.string().nullable().test(
     "check-startdate",
     "Start Date should not be later than current date",
@@ -116,9 +132,9 @@ const { handleSubmit, errors } = useForm({
   validationSchema
 })
 
-const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
-const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
-const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
+const { value: itemName } = useField('itemName', undefined, { initialValue: props.item.title })
+const { value: itemDescription } = useField('itemDescription', undefined, { initialValue: props.item.description })
+const { value: itemColor } = useField('itemColor', undefined, { initialValue: props.item.color })
 const { value: email } = useField('email')
 
 function cancelButtonHandle() {
@@ -127,40 +143,29 @@ function cancelButtonHandle() {
 }
 
 const submit = handleSubmit(values => {
-  // isLoading.value = true;
-
   let data = {
-    "color": ideaColor.value,
-    "title": ideaTitle.value,
-    "description": "ideaDescription.value",
-    "body_json": jsonTxt,
-    "body_html": htmlTxt,
-    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
+    "name": itemName.value,
+    "description": "Opis",
+    "description_jsonb": {"a":"a"},
+    "qr_code": "string",
+    "files": uploadedPhotos.value.map(a => a.uuid)
   }
 
   console.log(data)
 
   isLoading.value = true;
-    authApi
-        .post("/ideas/", data)
-        .then((res) => {
-            
-            isLoading.value = false;
-            router.push("/ideas");
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
 
-        });
+  isLoading.value = false;
+  router.push("/items");
 
-  // emit('ideaFormBtnClick', data)
-  // handleReset();
+  addItemRequest(data).then(function (response) {
+    console.log(response)
+    isLoading.value = false;
+    router.push("/items");
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
+
 })
 
 </script>

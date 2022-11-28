@@ -127,7 +127,7 @@ import { useUserStore } from 'stores/user';
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
-import PhotoViewer from 'src/components/uploader/PhotoViewer.vue'
+import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
 
 const $q = useQuasar();
 const UserStore = useUserStore();
