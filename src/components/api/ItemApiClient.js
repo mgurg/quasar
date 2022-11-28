@@ -12,6 +12,10 @@ export function getItemRequest(params) {
   return authApi.get("/items/", { params: params });
 }
 
+export function getItemUuidRequest(uuid) {
+  return authApi.get("/items/"+ uuid);
+}
+
 export function addItemRequest(data) {
   return authApi.post("/items/", data);
 }
