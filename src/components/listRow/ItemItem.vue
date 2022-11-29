@@ -1,32 +1,31 @@
 <template>
-  <div class="cursor-pointer" @click="viewItem(item.uuid)">
+  <!-- <div class="cursor-pointer" @click="viewItem(item.uuid)"> -->
     <q-item>
-      <q-item-section avatar cursor-pointer ripple @click="viewItem(item.uuid)">
-        <q-avatar rounded color="red" text-color="white" icon="article" />
+      <q-item-section avatar cursor-pointer ripple >
+        <q-avatar rounded color="red" text-color="white" icon="article" class="cursor-pointer" @click="viewItem(item.uuid)" />
       </q-item-section>
 
-      <q-item-section>
+      <q-item-section class="cursor-pointer" @click="viewItem(item.uuid)">
         <q-item-label lines="1" class="text-body1">{{ item.name }}</q-item-label>
         <q-item-label caption lines="2">{{ item.name }}</q-item-label>
       </q-item-section>
 
 
       <q-item-section side>
-        <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label>
+        <q-btn outline @click="reportFailure">Awaria</q-btn>
+        <!-- <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label> -->
         <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>
     </q-item>
 
     <q-separator />
-  </div>
+  <!-- </div> -->
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { ref } from "vue";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
-import { authApi } from "boot/axios";
-import { DateTime } from "luxon";
 import { useI18n } from "vue-i18n";
 
 const { locale } = useI18n({ useScope: "global" });
@@ -52,5 +51,12 @@ const props = defineProps({
 
 function viewItem(uuid) {
   router.push("/items/" + uuid);
+}
+
+
+
+function reportFailure(){
+  console.log("New failure!")
+  router.push("/failure/" + uuid);
 }
 </script>

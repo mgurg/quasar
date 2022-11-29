@@ -111,6 +111,8 @@ const routes = [
       { path: "/guides/:uuid", component: () => import("pages/Guides/GuideView.vue") },
       { path: "/guides/edit/:uuid", component: () => import("pages/Guides/GuideEdit.vue") },
 
+      { path: "/failure/:uuid", component: () => import("pages/Failure/FailureReport.vue") },
+
       { path: "/items", component: () => import("pages/Items/ItemsIndex.vue") },
       { path: "/items/add", component: () => import("pages/Items/ItemsAdd.vue") },
       { path: "/items/:uuid", component: () => import("pages/Items/ItemsView.vue") },

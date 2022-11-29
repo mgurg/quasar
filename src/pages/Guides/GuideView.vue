@@ -8,6 +8,8 @@
             <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides" />
             <q-breadcrumbs-el :label="$t('View')" icon="info" />
           </q-breadcrumbs>
+          <q-space></q-space>
+          <a class="cursor-pointer" @click="router.back()">← back</a>
         </q-card-section>
 
         <q-separator />

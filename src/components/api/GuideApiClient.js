@@ -4,8 +4,12 @@
 
 import { authApi } from "boot/axios";
 
-export function getGuideRequest() {
+export function getGuidesRequest() {
   return authApi.get("/guides/");
+}
+
+export function getGuideRequest(params) {
+  return authApi.get("/guides/", { params: params });
 }
 
 export function addGuideRequest(data) {

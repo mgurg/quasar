@@ -63,58 +63,6 @@
         </div>
       </q-slide-transition>
     </q-card>
-
-
-    
-      <!-- <q-card class="my-card" bordered flat v-if="ideaDetails && !isLoading">
-        <q-item>
-          <q-item-section avatar>
-            <q-avatar rounded color="green" text-color="white">{{ counter }}</q-avatar>
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label class="text-h5">{{ ideaDetails.title }}</q-item-label>
-            <q-item-label caption>
-              <q-icon name="schedule" />
-              {{ convertTime(ideaDetails.created_at) }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-separator />
-        <div :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
-
-
-          <photo-viewer :pictures-list="ideaDetails.pictures"/>
-
-
-
-          <div style="border: 0px solid #c2c2c2; border-radius: 5px; padding-left: 5px;">
-            <tiptap :model-value="json" :readonly=true />
-          </div>
-
-
-          <q-card-actions align="right" v-if="ideaDetails.status != 'pending'">
-  
-            <q-btn flat color="primary" icon="thumb_down" @click="sendVote('down')"
-              :disable="lastVote == 'down' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
-            <q-btn flat color="red-12" icon="thumb_up" @click="sendVote('up')"
-              :disable="lastVote == 'up' || ideaDetails.status == 'rejected' || ideaDetails.status == 'todo'"></q-btn>
-          </q-card-actions>
-          <q-separator />
-        </div>
-        <q-card-actions>
-
-          <q-btn @click="setState('accepted')" flat color="primary" icon="check_circle"
-            v-if="ideaDetails.status == 'pending'">&nbsp; Akceptuj</q-btn>
-          <q-btn @click="setState('rejected')" flat color="primary" icon="delete_forever"
-            v-if="ideaDetails.status == 'pending' || ideaDetails.status == 'accepted'">&nbsp; Odrzuć</q-btn>
-          <q-btn @click="setState('todo')" flat color="primary" icon="verified" v-if="ideaDetails.status == 'accepted'">
-            &nbsp; Wykonaj</q-btn>
-        </q-card-actions>
-      </q-card>
-      <task-view-skeleton v-else /> -->
-
     </q-page>
   </div>
 </template>
@@ -122,11 +70,12 @@
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
-import Tiptap from 'src/components/editor/TipTap.vue'
 import { useUserStore } from 'stores/user';
 import { useRoute, useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
+
+import Tiptap from 'src/components/editor/TipTap.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
 
 const $q = useQuasar();
