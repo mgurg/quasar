@@ -126,7 +126,7 @@ import { authApi } from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import IdeaItem from "components/IdeaItem.vue";
+import IdeaItem from "components/listRow/IdeaItem.vue";
 
 const router = useRouter();
 const $q = useQuasar()

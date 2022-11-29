@@ -68,7 +68,7 @@
 import { ref, reactive, computed, watch,onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'
-import GroupItem from 'components/GroupItem.vue'
+import GroupItem from 'components/listRow/GroupItem.vue'
 
 const $q = useQuasar()
 

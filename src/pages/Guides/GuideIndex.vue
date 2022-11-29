@@ -80,7 +80,7 @@ import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue"
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import GuideItem from "components/GuideItem.vue";
+import GuideItem from "components/listRow/GuideItem.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);

@@ -175,7 +175,7 @@ import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue"
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import IdeaItem from "components/IdeaItem.vue";
+import IdeaItem from "components/listRow/IdeaItem.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);

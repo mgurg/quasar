@@ -85,7 +85,7 @@
 <script setup>
 import { onActivated, ref, computed, watch, onBeforeMount, onMounted, reactive } from "vue";
 import { authApi } from "boot/axios";
-import UserItem from 'components/UserItem.vue'
+import UserItem from 'components/listRow/UserItem.vue'
 import { useUserStore } from "stores/user";
 
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';

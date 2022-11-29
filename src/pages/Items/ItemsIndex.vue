@@ -84,7 +84,7 @@
 <script setup>
 import { onActivated, ref, computed, watch, onBeforeMount, onMounted, reactive } from "vue";
 import { authApi } from "boot/axios";
-import ItemItem from "components/ItemItem.vue";
+import ItemItem from "components/listRow/ItemItem.vue";
 
 import { getItemRequest, editItemRequest, addItemRequest, deleteItemRequest } from 'src/components/api/ItemApiClient'
 import { errorHandler } from 'src/components/api/errorHandler.js'

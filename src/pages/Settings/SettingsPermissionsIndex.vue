@@ -63,7 +63,7 @@
 import { ref, reactive, computed, watch,onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'
-import PermissionItem from 'components/PermissionItem.vue'
+import PermissionItem from 'components/listRow/PermissionItem.vue'
 
 const $q = useQuasar()
 let isLoading = ref(false);
