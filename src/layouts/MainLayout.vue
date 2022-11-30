@@ -157,7 +157,8 @@
         </q-item> -->
         </q-list>
       </q-scroll-area>
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+      <q-img class="absolute-top" src="pattern_4.svg" style="height: 150px">
+        <!-- https://more.graphics/bauhaus -->
         <div class="absolute-bottom bg-transparent">
           <!-- <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">

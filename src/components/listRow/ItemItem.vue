@@ -55,8 +55,8 @@ function viewItem(uuid) {
 
 
 
-function reportFailure(){
+function reportFailure(uuid){
   console.log("New failure!")
-  router.push("/failure/" + uuid);
+  router.push("/failure/" + 1);
 }
 </script>
