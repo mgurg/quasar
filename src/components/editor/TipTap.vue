@@ -22,7 +22,7 @@
     :class="{ 'shadow-1': editor.isActive('strike') }"
     icon="strikethrough_s"
     />
-    <q-btn 
+    <!-- <q-btn 
     flat 
     @click='editor.chain().focus().insertContent({"type":"userMention","attrs":{"id":"e21f3ca6-a7a6-4c48-896a-bb51663ef81e","label":"Jan Kłos"}}).insertContent(" ").run();' 
     :disabled="!editor.can().chain().focus().toggleStrike().run()" 
@@ -33,7 +33,7 @@
     @click="editor.chain().focus().toggleStrike().run()" 
     :disabled="!editor.can().chain().focus().toggleStrike().run()" 
     icon="group_add"
-    />
+    /> -->
     </div>
   <editor-content :editor="editor" />
   <div>
@@ -79,7 +79,7 @@
 
 
   <q-dialog v-model="alert">
-      <q-card>
+      <q-card style="width: 300px">
         <q-card-section>
           <div class="text-h6">Alert</div>
         </q-card-section>
@@ -233,7 +233,7 @@ const editor = useEditor({
     }),
     Placeholder.configure({
       // showOnlyWhenEditable: false,
-      placeholder: 'My Custom Placeholder',
+      placeholder: '',
 }),
 Mention.extend({
       name: "userMention"
@@ -297,7 +297,7 @@ function insertUser(first_name, last_name, uuid){
 
 
 let fullName = first_name + " " + last_name;
-unref(editor).commands.insertContent({"type":"userMention","attrs":{"id":uuid,"label":fullName}});
+unref(editor).commands.insertContent({"type":"userMention","attrs":{"id":uuid,"label":fullName}}).insertContent(" ");
 alert.value = false;
 }
 
@@ -386,7 +386,7 @@ alert.value = false;
   margin-right: 0.3rem;
   display: flex;
   align-items: center;
-  color: #68CEF8;
+  color: #256885;
 
   &--warning {
     color: #FB5151;
