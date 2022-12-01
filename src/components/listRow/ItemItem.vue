@@ -12,7 +12,7 @@
 
 
       <q-item-section side>
-        <q-btn outline @click="reportFailure">Awaria</q-btn>
+        <q-btn outline @click="reportFailure(item.uuid)">Awaria</q-btn>
         <!-- <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label> -->
         <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>
@@ -56,7 +56,7 @@ function viewItem(uuid) {
 
 
 function reportFailure(uuid){
-  console.log("New failure!")
-  router.push("/failure/" + 1);
+  console.log("New failure!" + uuid)
+  router.push("/failure/" + uuid);
 }
 </script>

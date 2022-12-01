@@ -59,7 +59,7 @@
   </q-item>
 
   <div v-for="(item, index) in items" v-bind:key="index" v-if="items != null">
-    <item-item @refreshList="fetchItems" :item="item" />
+    <item-item :item="item" />
     <!-- <user-item @selectedItem="selectUser" @refreshList="fetchItems" :user="user" :selected="selected"
       v-if="!isLoading"></user-item> -->
   </div>

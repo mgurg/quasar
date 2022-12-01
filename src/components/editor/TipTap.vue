@@ -40,7 +40,7 @@
 
   </div>
   <div v-if="editor && props.readonly == false" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
-    <q-btn round dense flat icon="person_add" @click="insertText('\u03C0')" />
+    <q-btn round dense flat icon="person_add" @click="alert = true" />
     <q-btn round dense flat icon="group_add" @click="insertText('\u03C0')" />
     <q-btn round dense flat icon="mic" @click="insertText('\u03C0')" />
     <q-space></q-space>
@@ -77,11 +77,40 @@
     <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} </div>
   </div>
 
+
+  <q-dialog v-model="alert">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Alert</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
+                @keyup="fetchUsers()" @clear="fetchUsers()">
+                <template v-if="!search" v-slot:append>
+                  <q-icon name="search" />
+                </template>
+
+              </q-input>
+              <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
+                  <q-btn @click="insertUser(user.first_name, user.last_name, user.uuid)">Dodaj: {{user.first_name}}</q-btn>
+                
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="OK" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
 </template>
 
 <script setup>
 import { ref,unref, watch ,computed, onUpdated } from "vue";
 import { useUserStore } from 'stores/user'
+
+import { authApi } from "boot/axios";
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import Mention from '@tiptap/extension-mention'
@@ -108,6 +137,8 @@ const charCount = ref(0)
 const charLimit = ref(2000)
 const UserStore = useUserStore();
 
+const alert = ref(false);
+
 const customMention=ref('{"type":"userMention","attrs":{"id":"e21f3ca6-a7a6-4c48-896a-bb51663ef81e","label":"Jan Kłos"}}');
 
 async function getEditorUsers() {
@@ -132,6 +163,35 @@ async function getEditorGroups() {
 }
 
 
+const search = ref(null)
+const isLoading = ref(false)
+const users = ref(null)
+
+function fetchUsers() {
+  isLoading.value = true;
+  console.log('fetching users');
+  let params = {
+    search: search.value,
+  };
+  authApi
+    .get("/users/", { params: params })
+    .then((res) => {
+      console.log(res.data.items)
+      users.value = res.data.items
+      // pagination.total = res.data.total
+      
+      isLoading.value = false;
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
+}
 
 getEditorUsers();
 getEditorGroups();
@@ -230,6 +290,16 @@ Mention.extend({
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
 const insertText = (text) => unref(editor).commands.insertContent(text);
 
+
+const insertMention = (text) => unref(editor).commands.insertContent(text);
+
+function insertUser(first_name, last_name, uuid){
+
+
+let fullName = first_name + " " + last_name;
+unref(editor).commands.insertContent({"type":"userMention","attrs":{"id":uuid,"label":fullName}});
+alert.value = false;
+}
 
 // const text = ref([
 //   {

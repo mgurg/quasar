@@ -325,3 +325,11 @@ function go_back() {
 </script>
 
 
+<style lang="scss" scoped>
+
+:deep(.q-stepper__header) {
+  display: none !important;
+}
+</style>
+
+

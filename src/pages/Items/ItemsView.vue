@@ -5,7 +5,7 @@
         <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
             <q-breadcrumbs-el icon="home" to="/" />
-            <q-breadcrumbs-el :label="$t('Guides')" icon="tips_and_updates" to="/guides" />
+            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/items" />
             <q-breadcrumbs-el :label="$t('View')" icon="info" />
           </q-breadcrumbs>
         </q-card-section>
@@ -30,6 +30,14 @@
             </q-item>
           </q-list>
         </q-card-section>
+        
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn outline  color="red" no-caps>Awaria</q-btn>
+          <q-btn outline color="warning" no-caps icon="lightbulb_outline" >Usprawnienie</q-btn>
+          <q-btn outline no-caps>Statystyki</q-btn>
+      </q-card-actions>
         </q-card>
 
 
@@ -63,6 +71,7 @@
             <div class="row q-col-gutter-xs">
               <div class="text-h5">Instrukcje</div>
               <q-space></q-space>
+              <q-btn flat no-caps color="primary" class="q-mr-lg">Dodaj nową</q-btn>
               <q-btn color="grey" round flat dense :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
                 @click="expandedGuide = !expandedGuide" />
             </div>
