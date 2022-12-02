@@ -2,14 +2,14 @@
   <!-- https://github.com/Joabsonlg/quasar-authentication -->
   <!-- https://github.com/patrickmonteiro/quasar-warren -->
   <div class="row justify-center" style="height: 100vh">
-    <div class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7" v-if="fade">
+    <div v-if="fade" class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">AnyName</h1>
-          <p class="text-h4 text-weight-light" v-if="$q.screen.gt.md">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
-          <p class="text-h6 text-weight-regular" v-if="$q.screen.gt.sm">
-            🎯 Zbieraj szczere pomysły od pracowników <br> 
-            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br> 
+          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
+          <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
+            🎯 Zbieraj szczere pomysły od pracowników <br>
+            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br>
             Proste.
           </p>
         </div>
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto"  style="min-width: 320px;">
+    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" style="min-width: 320px;">
 
       <!-- <first-run-form :activationId="activationId"></first-run-form> -->
       <p>Starting app... 🚀</p>
@@ -28,14 +28,13 @@
 </template>
 <script setup>
 // import FirstRunForm from 'src/components/forms/FirstRunForm.vue';
-import { ref,computed } from "vue";
-import { api } from "boot/axios";
-import { useRoute } from 'vue-router'
-import { useRouter } from "vue-router";
-import { useUserStore } from "stores/user";
+import {computed, ref} from "vue";
+import {api} from "boot/axios";
+import {useRoute, useRouter} from 'vue-router'
+import {useUserStore} from "stores/user";
 
 const route = useRoute()
-const path = computed(() =>route.path)
+const path = computed(() => route.path)
 const activationId = ref(route.params.id)
 
 let fade = ref(true);
@@ -53,7 +52,7 @@ function firstRun(activationId) {
 
   isLoading.value = false;
   api
-    .post("auth/first_run", {"token" : activationId})
+    .post("auth/first_run", {"token": activationId})
     .then((res) => {
       isLoading.value = false;
 
@@ -66,14 +65,14 @@ function firstRun(activationId) {
       localStorage.setItem("klucz", res.data.token);
 
       UserStore.fillStore(
-        res.data.token, 
+        res.data.token,
         res.data.tenanat_id,
-        res.data.first_name, 
-        res.data.last_name, 
-        res.data.uuid, 
-        res.data.tz, 
+        res.data.first_name,
+        res.data.last_name,
+        res.data.uuid,
+        res.data.tz,
         res.data.lang
-        )
+      )
       router.push("/login");
     })
     .catch((err) => {
@@ -90,9 +89,3 @@ function firstRun(activationId) {
 firstRun(activationId.value);
 
 </script>
-
-<style>
-.divider {
-  border-top: 2px solid #ebecf3;
-}
-</style>

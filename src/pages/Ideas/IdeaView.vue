@@ -4,20 +4,20 @@
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el :label="$t('Ideas')" icon="tips_and_updates" to="/ideas" />
-          <q-breadcrumbs-el :label="$t('View')" icon="info" />
-        </q-breadcrumbs>
+            <q-breadcrumbs-el icon="home" to="/"/>
+            <q-breadcrumbs-el :label="$t('Ideas')" icon="tips_and_updates" to="/ideas"/>
+            <q-breadcrumbs-el :label="$t('View')" icon="info"/>
+          </q-breadcrumbs>
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
 
         <q-card-section v-if="ideaDetails && !isLoading">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section avatar>
-            <q-avatar rounded color="green" text-color="white">{{ counter }}</q-avatar>
-          </q-item-section>
+                <q-avatar color="green" rounded text-color="white">{{ counter }}</q-avatar>
+              </q-item-section>
 
               <q-item-section>
                 <q-item-label class="text-h6">{{ ideaDetails.title }}</q-item-label>
@@ -25,10 +25,10 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
-                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editIdea(ideaDetails.uuid)" />
-                  <q-btn flat color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteIdea(ideaDetails.uuid)" />
+                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps
+                         outline @click="editIdea(ideaDetails.uuid)"/>
+                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"
+                         no-caps @click="deleteIdea(ideaDetails.uuid)"/>
                 </div>
               </q-item-section>
             </q-item>
@@ -37,43 +37,43 @@
       </q-card>
 
 
-      <q-card class="my-card no-shadow q-my-sm" bordered>
-      <q-card-section>
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Opis</div>
             <q-space></q-space>
-            <q-btn color="grey" round flat dense :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              @click="expandedDescription = !expandedDescription" />
+            <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
+                   round
+                   @click="expandedDescription = !expandedDescription"/>
           </div>
-          
+
         </q-card-section>
 
         <q-slide-transition>
-        <div v-show="expandedDescription">
-   
-          <q-card-section>
-            <div class="rounded-borders q-py-md q-pl-sm" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
-            <tiptap :body-content="ideaDetails.body_json" :readonly="true" v-if="ideaDetails && !isLoading" />
+          <div v-show="expandedDescription">
+
+            <q-card-section>
+              <div :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'" class="rounded-borders q-py-md q-pl-sm">
+                <tiptap v-if="ideaDetails && !isLoading" :body-content="ideaDetails.body_json" :readonly="true"/>
+              </div>
+              <div class="q-mt-md">
+                <photo-viewer v-if="ideaDetails && !isLoading" :pictures-list="ideaDetails.files_idea"/>
+              </div>
+
+            </q-card-section>
           </div>
-          <div class="q-mt-md">
-            <photo-viewer :pictures-list="ideaDetails.files_idea" v-if="ideaDetails && !isLoading"/>
-        </div>
-          
-          </q-card-section>
-        </div>
-      </q-slide-transition>
-    </q-card>
+        </q-slide-transition>
+      </q-card>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount } from "vue";
-import { useQuasar } from "quasar";
-import { useUserStore } from 'stores/user';
-import { useRoute, useRouter } from "vue-router";
-import { authApi } from "boot/axios";
-import TaskViewSkeleton from "components/skeletons/tasks/TaskViewSkeleton";
+import {computed, onBeforeMount, ref} from "vue";
+import {useQuasar} from "quasar";
+import {useUserStore} from 'stores/user';
+import {useRoute, useRouter} from "vue-router";
+import {authApi} from "boot/axios";
 
 import Tiptap from 'src/components/editor/TipTap.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
@@ -121,7 +121,7 @@ function getDetails(uuid) {
     .get("/ideas/" + uuid)
     .then((res) => {
       console.log(res.data);
-      
+
       ideaDetails.value = res.data;
       json.value = res.data.body_json;
 
@@ -140,10 +140,10 @@ function getDetails(uuid) {
 
 function sendVote(state) {
   authApi
-    .post("ideas/vote", { idea_uuid: ideaDetails.value.uuid, vote: state })
+    .post("ideas/vote", {idea_uuid: ideaDetails.value.uuid, vote: state})
     .then((res) => {
       // console.log(uuid);
-      // 
+      //
       // console.log(res.data.vote)
       lastVote.value = state
       getDetails(route.params.uuid)
@@ -181,7 +181,7 @@ function getLastVote(state) {
 
 function setState(status) {
   authApi
-    .patch("/ideas/" + route.params.uuid, { "status": status, "vote": null })
+    .patch("/ideas/" + route.params.uuid, {"status": status, "vote": null})
     .then((res) => {
       ideaDetails.value.status = status
 
@@ -197,7 +197,7 @@ function setState(status) {
     });
 }
 
-function editIdea(uuid){
+function editIdea(uuid) {
   router.push("/ideas/edit/" + uuid);
 }
 

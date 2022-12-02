@@ -1,45 +1,35 @@
 <template>
       <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
-    <q-btn 
+    <q-btn
       flat
-      @click="editor.chain().focus().toggleBold().run()" 
-      :disabled="!editor.can().chain().focus().toggleBold().run()" 
+      @click="editor.chain().focus().toggleBold().run()"
+      :disabled="!editor.can().chain().focus().toggleBold().run()"
       :class="{ 'shadow-1': editor.isActive('bold') }"
       icon="format_bold"
     />
 
-    <q-btn 
-      flat 
-      @click="editor.chain().focus().toggleItalic().run()" 
-      :disabled="!editor.can().chain().focus().toggleItalic().run()" 
+    <q-btn
+      flat
+      @click="editor.chain().focus().toggleItalic().run()"
+      :disabled="!editor.can().chain().focus().toggleItalic().run()"
       :class="{ 'shadow-1': editor.isActive('italic') }"
       icon="format_italic"
       />
-    <q-btn 
-    flat 
-    @click="editor.chain().focus().toggleStrike().run()" 
-    :disabled="!editor.can().chain().focus().toggleStrike().run()" 
+    <q-btn
+    flat
+    @click="editor.chain().focus().toggleStrike().run()"
+    :disabled="!editor.can().chain().focus().toggleStrike().run()"
     :class="{ 'shadow-1': editor.isActive('strike') }"
     icon="strikethrough_s"
     />
-    <!-- <q-btn 
-    flat 
-    @click='editor.chain().focus().insertContent({"type":"userMention","attrs":{"id":"e21f3ca6-a7a6-4c48-896a-bb51663ef81e","label":"Jan Kłos"}}).insertContent(" ").run();' 
-    :disabled="!editor.can().chain().focus().toggleStrike().run()" 
-    icon="person_add"
-    />
-    <q-btn 
-    flat 
-    @click="editor.chain().focus().toggleStrike().run()" 
-    :disabled="!editor.can().chain().focus().toggleStrike().run()" 
-    icon="group_add"
-    /> -->
     </div>
   <editor-content :editor="editor" />
   <div>
 
   </div>
-  <div v-if="editor && props.readonly == false" :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
+  <div v-if="editor && props.readonly == false"
+       :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}"
+  >
     <q-btn round dense flat icon="person_add" @click="alert = true" />
     <q-btn round dense flat icon="group_add" @click="insertText('\u03C0')" />
     <q-btn round dense flat icon="mic" @click="insertText('\u03C0')" />
@@ -94,7 +84,7 @@
               </q-input>
               <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
                   <q-btn @click="insertUser(user.first_name, user.last_name, user.uuid)">Dodaj: {{user.first_name}}</q-btn>
-                
+
           </div>
         </q-card-section>
 
@@ -179,7 +169,7 @@ function fetchUsers() {
       console.log(res.data.items)
       users.value = res.data.items
       // pagination.total = res.data.total
-      
+
       isLoading.value = false;
     })
     .catch((err) => {
@@ -278,7 +268,7 @@ Mention.extend({
     emit('editorContent', json, html)
 
   },
-  
+
   beforeUnmount() {
     editor.destroy()
   },
@@ -320,26 +310,26 @@ alert.value = false;
   .ProseMirror:focus {
     outline: none !important;
   }
-  
+
   /* set */
-  // .ProseMirror {        
+  // .ProseMirror {
   //   min-height: 100px;
   //   // max-height: 100px;
   //   overflow: scroll;
   //   outline: none !important;
   // }
-  
+
   .ProseMirror {
     >*+* {
       margin-top: 0.75em;
       color: #1f2937!important;
     }
-  
+
     h1 {
       font-size: 2rem;
       font-weight: 400;
       line-height: 1;
-    
+
     }
     h2,
     h3,
@@ -354,7 +344,7 @@ alert.value = false;
       font-size: 1.1rem;
     }
   }
-  
+
   /* Placeholder (on every new line) */
   .ProseMirror .is-empty::before {
     content: attr(data-placeholder);
@@ -363,22 +353,22 @@ alert.value = false;
     pointer-events: none;
     height: 0;
   }
-  
+
   .mention {
     border: 0px solid #000;
     border-radius: 0.4rem;
     padding: 0.1rem 0.3rem;
     box-decoration-break: clone;
   }
-  
+
   [data-type="groupMention"] {
     background-color: rgb(236, 253, 99);
   }
-  
+
   [data-type="userMention"] {
     background-color: rgb(82, 226, 238);
   }
-  
+
   .character-count {
   margin-top: 1rem;
   margin-bottom: 0.1rem;
@@ -408,11 +398,11 @@ alert.value = false;
       > * + * {
           margin-top: 0.5em;
       }
-  
+
       &:focus {
           outline: none;
       }
-  
+
       /* Placeholder (at the top) */
       p.is-editor-empty:first-child::before {
           content: attr(data-placeholder);
@@ -422,7 +412,7 @@ alert.value = false;
           height: 8rem;
           outline: none;
       }
-  
+
       h1,
       h2,
       h3,
@@ -437,15 +427,15 @@ alert.value = false;
     padding: 0.1rem 0.3rem;
     box-decoration-break: clone;
   }
-  
+
   [data-type="groupMention"] {
     background-color: rgb(236, 253, 99);
   }
-  
+
   [data-type="userMention"] {
     background-color: rgb(82, 226, 238);
   }
-  
+
       /* Placeholder (on every new line) */
       /*.ProseMirror p.is-empty::before {
         content: attr(data-placeholder);

@@ -2,14 +2,14 @@
   <!-- https://github.com/Joabsonlg/quasar-authentication -->
   <!-- https://github.com/patrickmonteiro/quasar-warren -->
   <div class="row justify-center" style="height: 100vh">
-    <div class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7" v-if="fade">
+    <div v-if="fade" class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">AnyName</h1>
-          <p class="text-h4 text-weight-light" v-if="$q.screen.gt.md">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
-          <p class="text-h6 text-weight-regular" v-if="$q.screen.gt.sm">
-            🎯 Zbieraj szczere pomysły od pracowników <br> 
-            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br> 
+          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
+          <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
+            🎯 Zbieraj szczere pomysły od pracowników <br>
+            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br>
             Proste.
           </p>
         </div>
@@ -19,9 +19,8 @@
 
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
-    <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
-    <p>{{ $t("Almost done! Remember to confirm your email!") }} ✅</p>
-
+      <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
+      <p>{{ $t("Almost done! Remember to confirm your email!") }} ✅</p>
 
 
       <div class="row divider q-pb-lg">
@@ -37,7 +36,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 
 let fade = ref(true);
 

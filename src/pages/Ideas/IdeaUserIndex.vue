@@ -2,29 +2,29 @@
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
-      <q-list padding v-if="!isLoading">
+      <q-list v-if="!isLoading" padding>
         <div v-for="(idea, index) in ideas" v-bind:key="index">
-          <idea-item @selectedItem="selectIdea" @forceRefresh="fetchIdeas" :idea="idea" :selected="selected"
-            v-if="!isLoading"></idea-item>
+          <idea-item v-if="!isLoading" :idea="idea" :selected="selected" @forceRefresh="fetchIdeas"
+                     @selectedItem="selectIdea"></idea-item>
         </div>
       </q-list>
       <!-- Skeleton -->
-      <task-index-skeleton v-else />
+      <task-index-skeleton v-else/>
       <div class="q-pa-lg flex flex-center">
-        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
+        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
       </div>
-      <q-space class="q-pa-sm" />
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/ideas/add" color="accent" />
+      <q-space class="q-pa-sm"/>
+      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+        <q-btn color="accent" fab icon="add" to="/ideas/add"/>
       </q-page-sticky>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue";
-import { useRoute } from "vue-router";
-import { authApi } from "boot/axios";
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
+import {useRoute} from "vue-router";
+import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import IdeaItem from "components/listRow/IdeaListRow.vue";
@@ -74,7 +74,6 @@ watch(() => pagination.page, (oldPage, newPage) => {
 })
 
 
-
 // const myTasks = computed(() => {
 //   if (tasks.value != null && isLoading.value == false) {
 //     return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
@@ -93,15 +92,14 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 async function fetchIdeas() {
   isLoading.value = true;
-  let params = { hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size };
+  let params = {hasImg: hasPhotos.value, status: hasStatus.value, page: pagination.page, size: pagination.size};
   authApi
     .get("/ideas/user/" + userUuid.value) //, { params: params }
     .then((res) => {
-      if (res.data.items.length >0){
-      ideas.value = res.data.items;
-      pagination.total = res.data.total;
+      if (res.data.items.length > 0) {
+        ideas.value = res.data.items;
+        pagination.total = res.data.total;
       }
-
 
 
       isLoading.value = false;

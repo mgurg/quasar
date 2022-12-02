@@ -1909,6 +1909,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-document@npm:^2.0.0-beta.204":
+  version: 2.0.0-beta.204
+  resolution: "@tiptap/extension-document@npm:2.0.0-beta.204"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0-beta.193
+  checksum: 60b7079022878fa5bfccecdd8c16d65b2ce611a36346cc992e465c7858cba88cb196dc9b1feb386849643cd95f5fbd66999c2f0ee53e0995cdc2bde1fcf85c15
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-dropcursor@npm:^2.0.0-beta.203":
   version: 2.0.0-beta.203
   resolution: "@tiptap/extension-dropcursor@npm:2.0.0-beta.203"
@@ -7417,6 +7426,7 @@ __metadata:
     "@sentry/vue": ^7.21.1
     "@tiptap/core": ^2.0.0-beta.203
     "@tiptap/extension-character-count": ^2.0.0-beta.203
+    "@tiptap/extension-document": ^2.0.0-beta.204
     "@tiptap/extension-highlight": ^2.0.0-beta.203
     "@tiptap/extension-mention": ^2.0.0-beta.203
     "@tiptap/extension-placeholder": ^2.0.0-beta.203
@@ -8588,7 +8598,7 @@ __metadata:
 
 "typescript@patch:typescript@4.5.5#~builtin<compat/typescript>":
   version: 4.5.5
-  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=7ad353"
+  resolution: "typescript@patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
