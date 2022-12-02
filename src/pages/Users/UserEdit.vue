@@ -1,59 +1,61 @@
 <template>
-    <div class="row justify-center text-blue-grey-10">
-        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-        <q-card bordered class="my-card no-shadow q-mt-sm">
+  <div class="row justify-center text-blue-grey-10">
+    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section class="row q-pa-sm">
-            <q-breadcrumbs>
-                    <q-breadcrumbs-el icon="home" to="/" />
-                    <q-breadcrumbs-el :label="$t('Employee')" icon="people" to="/users" />
-                    <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />
-                </q-breadcrumbs>
+          <q-breadcrumbs>
+            <q-breadcrumbs-el icon="home" to="/"/>
+            <q-breadcrumbs-el :label="$t('Employee')" icon="people" to="/users"/>
+            <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
+          </q-breadcrumbs>
 
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">
 
               <q-item-section>
-                <q-item-label class="text-h5 text-weight-medium" v-if="userDetails != null">{{ $t('Edit') }}: {{userDetails.first_name}} {{userDetails.last_name}}</q-item-label>
+                <q-item-label v-if="userDetails != null" class="text-h5 text-weight-medium">
+                  {{ $t('Edit') }}: {{ userDetails.first_name }} {{ userDetails.last_name }}
+                </q-item-label>
                 <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
               </q-item-section>
             </q-item>
 
           </q-list>
         </q-card-section>
-    </q-card>
+      </q-card>
 
-    <div>&nbsp;</div>
-    <q-card class="my-card no-shadow q-ma-none q-pa-none">
+      <div>&nbsp;</div>
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-            <user-form v-if="userDetails != null"
-                :user="userDetails"
-                button-text="Save"
-                @userFormBtnClick="signUpButtonPressed"
-                @cancelBtnClick="cancelButtonPressed"
-                :key="userDetails.uuid"
-            />
-            <user-edit-skeleton v-else />
-        </q-card-section></q-card>
-        </q-page>
-    </div>
+          <user-form v-if="userDetails != null"
+                     :key="userDetails.uuid"
+                     :user="userDetails"
+                     button-text="Save"
+                     @cancelBtnClick="cancelButtonPressed"
+                     @userFormBtnClick="signUpButtonPressed"
+          />
+          <user-edit-skeleton v-else/>
+        </q-card-section>
+      </q-card>
+    </q-page>
+  </div>
 </template>
 
 
 <script setup>
-import { useQuasar } from 'quasar'
-import { ref, onBeforeMount } from "vue";
+import {useQuasar} from 'quasar'
+import {onBeforeMount, ref} from "vue";
 import UserEditSkeleton from 'components/skeletons/users/UserEditSkeleton.vue'
 import UserForm from 'src/components/forms/UserForm.vue'
-import { useRoute, useRouter } from "vue-router";
-import { authApi } from "boot/axios";
+import {useRoute, useRouter} from "vue-router";
+import {getUserRequest, getUsersRequest, updateUserRequest} from "components/api/UserApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const $q = useQuasar()
-
-const tasks = ref(null);
 const route = useRoute();
 const router = useRouter();
 let userUuid = ref(route.params.uuid);
@@ -63,96 +65,58 @@ let usersList = ref(null);
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
-let errorMsg = ref(null);
-let errors = ref(null);
 
 
-
-
-function updateUser(body) {
-    // isLoading.value = true;
-    authApi
-        .patch("/users/" + userUuid.value, body)
-        .then((res) => {
-            isLoading.value = false;
-            router.push("/users");
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-
-        });
+function updateUser(uuid, data) {
+  isLoading.value = true;
+  updateUserRequest(uuid, data).then(function (response) {
+    router.push("/users");
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
-function getDetails(uuid) {
-    authApi
-        .get("/users/" + uuid)
-        .then((res) => {
-            console.log(uuid);
-            
-            userDetails.value = res.data
-
-            // if (res.data.date_from == null) {
-            //     userDetails.value.mode = 'task'
-            // }
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-        });
+function getUserDetails(uuid) {
+  isLoading.value = true;
+  getUserRequest(uuid).then(function (response) {
+    userDetails.value = response.data
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
 function getUsers() {
-    authApi
-        .get("user")
-        .then((res) => {
-            
-
-            usersList.value = res.data.map((opt) => ({
-                label: opt.first_name + ' ' + opt.last_name,
-                value: opt.uuid,
-            }));
-
-            console.log(usersList.value);
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-        });
+  isLoading.value = true;
+  getUsersRequest().then(function (response) {
+    usersList.value = response.data.map((opt) => ({
+      label: opt.first_name + ' ' + opt.last_name,
+      value: opt.uuid,
+    }));
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
-function signUpButtonPressed(taskForm) {
-    console.log('outside', taskForm)
-    updateUser(taskForm)
-    console.log('Edit ok')
+function signUpButtonPressed(formData) {
+  updateUser(userUuid.value, formData)
 }
 
 
 function cancelButtonPressed() {
-    console.log('cancelBtnClick')
-    router.push("/users");
+  router.push("/users");
 }
 
 onBeforeMount(() => {
-    if (route.params.uuid != null)
-        getDetails(route.params.uuid)
-    // getUsers();
-    isLoading.value = false;
+  isLoading.value = true;
+  if (route.params.uuid != null)
+    getUserDetails(route.params.uuid)
+  isLoading.value = false;
 });
 
 </script>

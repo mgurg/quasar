@@ -22,7 +22,7 @@
       </q-card>
 
 
-      <q-card class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
 
 <q-card-section class="row q-pa-sm">
   <div class="row q-gutter-sm items-center">
@@ -84,7 +84,7 @@
 <script setup>
 import { onActivated, ref, computed, watch, onBeforeMount, onMounted, reactive } from "vue";
 import { authApi } from "boot/axios";
-import ItemItem from "components/listRow/ItemItem.vue";
+import ItemItem from "components/listRow/ItemListRow.vue";
 
 import { getItemRequest, editItemRequest, addItemRequest, deleteItemRequest } from 'src/components/api/ItemApiClient'
 import { errorHandler } from 'src/components/api/errorHandler.js'

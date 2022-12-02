@@ -30,7 +30,7 @@
             </q-item>
           </q-list>
         </q-card-section>
-        
+
         <q-separator />
 
         <q-card-actions align="right">
@@ -49,12 +49,12 @@
               <q-btn color="grey" round flat dense :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
                 @click="expandedDescription = !expandedDescription" />
             </div>
-        
+
           </q-card-section>
-        
+
           <q-slide-transition>
             <div v-show="expandedDescription">
-        
+
               <q-card-section>
                 <div class="rounded-borders q-py-md q-pl-sm" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'">
                   <tiptap :body-content="itemDetails.description_jsonb" :readonly="true" v-if="itemDetails && !isLoading" />
@@ -62,7 +62,7 @@
                 <div class="q-mt-md">
                   <photo-viewer :pictures-list="itemDetails.files_item" v-if="itemDetails && !isLoading" />
                 </div>
-        
+
               </q-card-section>
             </div>
           </q-slide-transition>
@@ -75,14 +75,14 @@
               <q-btn color="grey" round flat dense :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
                 @click="expandedGuide = !expandedGuide" />
             </div>
-        
+
           </q-card-section>
-        
+
           <q-slide-transition>
             <div v-show="expandedGuide">
-        
+
               <q-card-section>
-        
+
                 <q-list  v-if="!isLoading && pagination.total > 0">
 
 <q-item class=" rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
@@ -129,7 +129,7 @@ import { ref, reactive, computed, onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
 import { useRoute, useRouter } from "vue-router";
 
-import GuideItem from "components/listRow/GuideItem.vue";
+import GuideItem from "components/listRow/GuideListRow.vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
 

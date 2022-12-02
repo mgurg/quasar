@@ -1,6 +1,6 @@
-<!-- 
+<!--
   TODO:
-  - Wydzielić komunikację API jeszcze bardziej na zewnątrz (Zrobić generyczny GET/POST/PATCH/DELETE)? 
+  - Wydzielić komunikację API jeszcze bardziej na zewnątrz (Zrobić generyczny GET/POST/PATCH/DELETE)?
   - użyć isLoading
   - wyliczenie relatywnego czasu (+ odświeżanie co 1 min?)
   - strefy czasowe
@@ -42,7 +42,7 @@ import { onActivated, ref, computed } from "vue";
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
-import TaskItem from 'components/TaskItem.vue'
+import TaskItem from 'components/TaskListRow.vue'
 
 
 let isLoading = ref(false);
@@ -76,7 +76,7 @@ function fetchTasks() {
     .get("/tasks/index?offset=0&limit=20")
     .then((res) => {
       tasks.value = res.data
-      
+
       isLoading.value = false;
     })
     .catch((err) => {

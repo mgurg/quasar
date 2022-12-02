@@ -12,7 +12,7 @@
 
 
       <q-item-section side>
-        <q-btn outline @click="reportFailure(item.uuid)">Awaria</q-btn>
+        <q-btn outline @click="reportFailure(item.uuid)">Zgłoś</q-btn>
         <!-- <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label> -->
         <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>

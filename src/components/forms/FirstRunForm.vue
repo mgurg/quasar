@@ -13,7 +13,7 @@
       <p style="max-width: 400px;">Pierwszy użytkownik w firmie jest jednocześnie administratorem systemu. <br>
         Jeżeli Twoja firma posiada już konto to zostanie utworzone dla ciebie użytkownik o standardowych uprawnieniach.
         <br>
-        Bedzie musiało być potwierdzone przez administratora.
+        Będzie musiało być potwierdzone przez administratora.
 
       </p>
 
@@ -75,7 +75,7 @@ const submit = handleSubmit((values) => {
 
   if (!validatePolish.nip(nip_plain)) {
     alert(`Invalid nip.`); // TODO replace alert with notify
-     
+
   } else {
     firstRun(data);
   }
@@ -100,12 +100,12 @@ function firstRun(data) {
       localStorage.setItem("tenant", res.data.tenanat_id);
 
       UserStore.fillStore(
-        res.data.token, 
+        res.data.token,
         res.data.tenanat_id,
-        res.data.first_name, 
-        res.data.last_name, 
-        res.data.uuid, 
-        res.data.tz, 
+        res.data.first_name,
+        res.data.last_name,
+        res.data.uuid,
+        res.data.tz,
         res.data.lang
         )
       router.push("/login");

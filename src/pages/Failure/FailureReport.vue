@@ -75,7 +75,7 @@
 <script setup>
 import { ref, reactive, computed, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import GuideItem from "components/listRow/GuideItem.vue";
+import GuideItem from "components/listRow/GuideListRow.vue";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
 import { getItemUuidRequest } from 'src/components/api/ItemApiClient.js'
 import { errorHandler } from 'src/components/api/errorHandler.js'

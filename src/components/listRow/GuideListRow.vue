@@ -11,10 +11,10 @@
       </q-item-section>
 
 
-      <q-item-section side>
-        <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label>
-        <!-- <q-icon name="priority_high" color="red-12" /> -->
-      </q-item-section>
+<!--      <q-item-section side>-->
+<!--        <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label>-->
+<!--         <q-icon name="priority_high" color="red-12" /> -->
+<!--      </q-item-section>-->
     </q-item>
 
     <q-separator />

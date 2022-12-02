@@ -27,7 +27,7 @@ import { useRoute } from "vue-router";
 import { authApi } from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import IdeaItem from "components/listRow/IdeaItem.vue";
+import IdeaItem from "components/listRow/IdeaListRow.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -99,11 +99,11 @@ async function fetchIdeas() {
     .then((res) => {
       if (res.data.items.length >0){
       ideas.value = res.data.items;
-      pagination.total = res.data.total;        
+      pagination.total = res.data.total;
       }
 
 
-      
+
       isLoading.value = false;
     })
     .catch((err) => {
@@ -134,7 +134,7 @@ function selectIdea(uuid) {
 // });
 
 onBeforeMount(() => {
-  
+
   isLoading.value = true;
   fetchIdeas();
 });

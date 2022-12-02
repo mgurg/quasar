@@ -2,43 +2,39 @@
     <div>
         <q-form autocorrect="off" autocapitalize="off" spellcheck="false" class="q-gutter-md"
             @submit.prevent>
-            <!-- <div class="row justify-between items-center">
-                <h5 class="q-mb-sm q-mt-sm q-mb-sm q-ml-md">{{ $t("Employee") }}</h5>
-
-            </div> -->
             <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-6 col-sm-6">
-                    <q-input 
-                        outlined 
-                        v-model="userFirstName" 
-                        :disable="isLoading" 
+                    <q-input
+                        outlined
+                        v-model="userFirstName"
+                        :disable="isLoading"
                         :error="!!errors.userFirstName"
-                        :error-message="errors.userFirstName" 
-                        :label="$t('First name')" 
+                        :error-message="errors.userFirstName"
+                        :label="$t('First name')"
                         autocomplete="given-name"
                     />
                 </div>
                 <div class="q-pa-xs col-xs-6 col-sm-6">
-                    <q-input 
-                        outlined 
-                        v-model="userLastName" 
-                        :disable="isLoading" 
+                    <q-input
+                        outlined
+                        v-model="userLastName"
+                        :disable="isLoading"
                         :error="!!errors.userLastName"
-                        :error-message="errors.userLastName" 
+                        :error-message="errors.userLastName"
                         :label="$t('Last name')"
-                        autocomplete="family-name" 
+                        autocomplete="family-name"
                     />
                 </div>
             </div>
             <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-12 col-sm-6">
-                    <q-input 
-                        outlined 
-                        v-model="userEmail" 
-                        :disable="isLoading" 
+                    <q-input
+                        outlined
+                        v-model="userEmail"
+                        :disable="isLoading"
                         :error="!!errors.userEmail"
-                        :error-message="errors.userEmail" 
-                        :label="$t('E-mail')" 
+                        :error-message="errors.userEmail"
+                        :label="$t('E-mail')"
                     />
                 </div>
                 <div class="q-pa-xs col-xs-12 col-sm-6">
@@ -50,7 +46,7 @@
                         :error-message="errors.userPassword"
                         :type="isPwd ? 'password' : 'text'"
                         :label="$t('Password')"
-                        autocomplete="new-password" 
+                        autocomplete="new-password"
                     >
                     <template v-slot:append>
                         <q-icon
@@ -64,27 +60,27 @@
             </div>
             <div class="row sm-gutter">
                 <div class="q-pa-xs col-xs-12 col-sm-6">
-                    <q-input 
-                        outlined 
-                        v-model="userPhone" 
-                        :disable="isLoading" 
+                    <q-input
+                        outlined
+                        v-model="userPhone"
+                        :disable="isLoading"
                         :error="!!errors.userPhone"
-                        :error-message="errors.userPhone" 
-                        :label="$t('Phone')" 
+                        :error-message="errors.userPhone"
+                        :label="$t('Phone')"
                     />
                 </div>
                 <div class="q-pa-xs col-xs-12 col-sm-6">
-                    <q-select 
-                        outlined 
-                        v-model="userRole" 
-                        label="Rola" 
+                    <q-select
+                        outlined
+                        v-model="userRole"
+                        label="Rola"
                         :error="!!errors.userRole"
                         :error-message="errors.userRole" :options="role"
                         :option-value="opt => Object(opt) === opt && 'uuid' in opt ? opt.uuid : null"
                         :option-label="opt => Object(opt) === opt && 'role_title' in opt ? opt.role_title : '----'"
-                        :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true" 
-                        emit-value 
-                        map-options 
+                        :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true"
+                        emit-value
+                        map-options
                     />
                 </div>
             </div>
@@ -94,9 +90,9 @@
 
                 </div>
                 <div class="q-pa-xs col-xs-6 col-sm-6">
-                    <!-- <q-select 
+                    <!-- <q-select
                         outlined
-                        label="Grupa"  
+                        label="Grupa"
                     /> -->
                 </div>
             </div>
@@ -104,7 +100,7 @@
             <div class="row">
                 <q-space />
                 <q-btn flat type="submit" class="q-mr-lg"  color="red-12" icon="cancel" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
-                
+
                 <q-btn type="submit" color="primary" icon="done" @click="submit">{{ $t(buttonText) }}</q-btn>
             </div>
         </q-form>
@@ -125,8 +121,6 @@ import * as yup from 'yup';
 const props = defineProps({
     user: {
         type: Object,
-        // Object or array defaults must be returned from
-        // a factory function
         default() {
             return {
                 first_name: '',
@@ -144,7 +138,6 @@ const props = defineProps({
         default: 'Save',
     },
 })
-// emits: ['taskFormBtnClick'],
 const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 
 let isError = ref(false);
@@ -219,7 +212,6 @@ const submit = handleSubmit(values => {
 // --------------- Form --------------
 
 function cancelButtonHandle() {
-    console.log('cancelBtnClick')
     emit('cancelBtnClick')
 }
 

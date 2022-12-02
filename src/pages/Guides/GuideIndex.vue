@@ -11,7 +11,8 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline class="float-right q-mr-xs no-shadow"  icon="add" to="/guides/add" color="primary" no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
+                  <q-btn :label="$q.screen.gt.xs ? $t('New guide') : ''" class="float-right q-mr-xs no-shadow" color="primary" icon="add" no-caps
+                         outline to="/guides/add"/>
                 </div>
               </q-item-section>
             </q-item>
@@ -20,55 +21,53 @@
         </q-card-section>
       </q-card>
 
-      <q-card class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total > 0">
-      
-      <q-list  v-if="!isLoading && pagination.total > 0">
+      <q-card v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
 
-        <q-item class=" rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
-          <q-item-section avatar>
+        <q-list v-if="!isLoading && pagination.total > 0">
+
+          <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
+            <q-item-section avatar>
             <span>&nbsp;
-              <q-btn padding="xs" :unelevated="sort.active=='counter'? true:false"
-                :flat="sort.active=='counter'? false:true" size="sm" color="primary"
-                :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'" @click="changeSortOrder('counter')" />
+              <q-btn :flat="sort.active=='counter'? false:true" :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'"
+                     :unelevated="sort.active=='counter'? true:false" color="primary" padding="xs"
+                     size="sm" @click="changeSortOrder('counter')"/>
             </span>
-          </q-item-section>
-          <q-item-section>
+            </q-item-section>
+            <q-item-section>
             <span>{{ $t("Name") }}
-              <q-btn padding="xs" :unelevated="sort.active=='title'? true:false"
-                :flat="sort.active=='title'? false:true" size="sm" color="primary"
-                :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'" @click="changeSortOrder('title')" />
+              <q-btn :flat="sort.active=='title'? false:true" :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'"
+                     :unelevated="sort.active=='title'? true:false" color="primary" padding="xs"
+                     size="sm" @click="changeSortOrder('title')"/>
             </span>
-          </q-item-section>
-          <q-item-section side>
+            </q-item-section>
+            <q-item-section side>
             <span>{{ $t("Age") }}
-              <q-btn padding="xs" :unelevated="sort.active=='age'? true:false" :flat="sort.active=='age'? false:true"
-                size="sm" color="primary" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'"
-                @click="changeSortOrder('age')" />
+              <q-btn :flat="sort.active=='age'? false:true" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'" :unelevated="sort.active=='age'? true:false"
+                     color="primary" padding="xs" size="sm"
+                     @click="changeSortOrder('age')"/>
             </span>
-          </q-item-section>
-        </q-item>
+            </q-item-section>
+          </q-item>
 
-        <div v-for="(guide, index) in guides" v-bind:key="index" v-if="guides!= null">
-          <guide-item @forceRefresh="fetchGuides" :guide="guide" v-if="!isLoading"></guide-item>
+          <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
+            <guide-item v-if="!isLoading" :guide="guide" @forceRefresh="fetchGuides"></guide-item>
+          </div>
+          <task-index-skeleton v-else/>
+
+        </q-list>
+
+        <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
         </div>
-        <task-index-skeleton v-else />
+      </q-card>
 
-      </q-list>
-
-      <div class="q-pa-lg flex flex-center" v-if="pagination.total > 10">
-        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
-      </div> 
-    </q-card>
-    
-      <div class="text-h5 text-center q-pa-lg" v-if="pagination.total == 0">
-        Brak instrukcji 🤔? <br />Niech Twoja będzie pierwsza!
+      <div v-if="pagination.total == 0" class="text-h5 text-center q-pa-lg">
+        Brak instrukcji 🤔? <br/>Niech Twoja będzie pierwsza!
         <div class="col-12 text-h6 q-mt-none">
-          <q-btn class="q-py-md q-my-md" icon="add" to="/guides/add" color="primary" no-caps :label="$t('New guide')" />
+          <q-btn :label="$t('New guide')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/guides/add"/>
         </div>
 
       </div>
-
-
 
 
     </q-page>
@@ -76,11 +75,11 @@
 </template>
 
 <script setup>
-import { onActivated, ref, computed, watch, reactive, onBeforeMount } from "vue";
-import { authApi } from "boot/axios";
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
+import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import GuideItem from "components/listRow/GuideItem.vue";
+import GuideItem from "components/listRow/GuideListRow.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -138,7 +137,6 @@ watch(() => pagination.page, (oldPage, newPage) => {
 })
 
 
-
 // const myTasks = computed(() => {
 //   if (tasks.value != null && isLoading.value == false) {
 //     return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
@@ -170,7 +168,7 @@ async function fetchGuides() {
     .get("/guides/")
     .then((res) => {
       guides.value = res.data.items;
-      pagination.total = res.data.total;   
+      pagination.total = res.data.total;
       isLoading.value = false;
     })
     .catch((err) => {
@@ -183,7 +181,6 @@ async function fetchGuides() {
       }
     });
 }
-
 
 
 onBeforeMount(() => {

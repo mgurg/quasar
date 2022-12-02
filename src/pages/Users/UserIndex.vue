@@ -11,10 +11,12 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline class="float-right" icon="add" to="/users/add" color="primary" no-caps
-                    :label="$q.screen.gt.xs ? $t('New employee') : ''" />
-                  <q-btn outline class="float-right q-mr-xs" icon="backup" to="/users/add" color="primary" no-caps
-                    :label="$q.screen.gt.xs ? 'Importuj' : ''" />
+                  <q-btn :label="$q.screen.gt.xs ? $t('New employee') : ''" class="float-right" color="primary"
+                         icon="add" no-caps outline
+                         to="/users/add"/>
+                  <q-btn :label="$q.screen.gt.xs ? 'Importuj' : ''" class="float-right q-mr-xs" color="primary"
+                         icon="backup" no-caps outline
+                         to="/users/add"/>
 
                 </div>
               </q-item-section>
@@ -24,34 +26,40 @@
         </q-card-section>
       </q-card>
 
-      <q-card class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
 
         <q-card-section class="row q-pa-sm">
           <div class="row q-gutter-sm items-center">
             <div>
-              <q-input dense clearable outlined v-model="search" :label="$t('Type your search text')" type="search"
-                @keyup="fetchUsers()" @clear="fetchUsers()">
+              <q-input
+                v-model="search"
+                :label="$t('Type your search text')"
+                clearable
+                debounce="300"
+                dense
+                outlined
+                type="search"
+                @update:model-value="fetchUsers()"
+              >
                 <template v-if="!search" v-slot:append>
-                  <q-icon name="search" />
+                  <q-icon name="search"/>
                 </template>
               </q-input>
             </div>
-            <!-- <div>
-              <q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn>
-            </div> -->
           </div>
         </q-card-section>
         <!-- <q-separator /> -->
-        <q-list padding v-if="!isLoading && users != null" class="q-mt-none q-pt-none">
+        <q-list v-if="!isLoading && users != null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
 
             </q-item-section>
             <q-item-section>
               <span>{{ $t("Name") }}
-                <q-btn padding="xs" :unelevated="sort.active == 'name' ? true : false"
-                  :flat="sort.active == 'name' ? false : true" size="sm" color="primary"
-                  :icon="sort.name == 'asc' ? 'arrow_upward' : 'arrow_downward'" @click="changeSortOrder('name')" />
+                <q-btn :flat="sort.active == 'name' ? false : true"
+                       :icon="sort.name == 'asc' ? 'arrow_upward' : 'arrow_downward'"
+                       :unelevated="sort.active == 'name' ? true : false" color="primary" padding="xs"
+                       size="sm" @click="changeSortOrder('name')"/>
               </span>
 
             </q-item-section>
@@ -60,19 +68,17 @@
             </q-item-section>
           </q-item>
 
-          <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
-            <user-item @selectedItem="selectUser" @refreshList="fetchUsers" :user="user" :selected="selected"
-              v-if="!isLoading"></user-item>
+          <div v-for="(user, index) in users" v-if="users != null" v-bind:key="index">
+            <user-item v-if="!isLoading" :user="user"></user-item>
           </div>
-          <task-index-skeleton v-else />
+          <task-index-skeleton v-else/>
 
 
         </q-list>
 
 
-
-        <div class="q-pa-lg flex flex-center">
-          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
+        <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
         </div>
 
         <!-- <q-space class="q-pa-sm" /> -->
@@ -83,11 +89,13 @@
 </template>
 
 <script setup>
-import { onActivated, ref, computed, watch, onBeforeMount, onMounted, reactive } from "vue";
-import { authApi } from "boot/axios";
-import UserItem from 'components/listRow/UserItem.vue'
-import { useUserStore } from "stores/user";
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 
+import {getUsersRequest} from 'src/components/api/UserApiClient.js'
+import {errorHandler} from 'src/components/api/errorHandler.js'
+import {useUserStore} from "stores/user";
+
+import UserItem from 'components/listRow/UserListRow.vue'
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 
 const UserStore = useUserStore();
@@ -106,6 +114,8 @@ const users = ref(null);
 let selected = ref(null);
 let search = ref(null);
 
+
+// sort & paginate
 let sort = reactive({
   name: "asc",
   active: "name"
@@ -117,26 +127,20 @@ function changeSortOrder(column) {
   fetchUsers()
 }
 
-const pagination = reactive({
-  page: 1,
-  size: 5,
-  total: 1
-})
+const pagination = reactive({page: 1, size: 5, total: 1});
 
 function goToPage(value) {
   console.log(value)
 }
 
 const pagesNo = computed(() => {
-  // console.log(Math.ceil(pagination.total/pagination.size))
   return Math.ceil(pagination.total / pagination.size)
 })
 
 watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
   fetchUsers();
 })
-
+// sort & paginate
 
 
 // const myTasks = computed(() => {
@@ -158,7 +162,6 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 function fetchUsers() {
   isLoading.value = true;
-  console.log('fetching users');
   let params = {
     search: search.value,
     page: pagination.page,
@@ -166,47 +169,22 @@ function fetchUsers() {
     sortOrder: sort[sort.active],
     sortColumn: sort.active
   };
-  authApi
-    .get("/users/", { params: params })
-    .then((res) => {
-      users.value = res.data.items
-      pagination.total = res.data.total
-      
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
+
+  getUsersRequest(params).then(function (response) {
+    users.value = response.data.items
+    pagination.total = response.data.total
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+
 }
 
-
-function selectUser(uuid) {
-  if (selected.value == null) {
-    selected.value = uuid;
-  } else if (selected.value !== uuid) {
-    selected.value = uuid;
-  } else {
-    selected.value = null;
-  }
-}
-
-// onActivated(() => {
-//   isLoading.value = true;
-//   fetchUsers()
-// });
 
 onBeforeMount(() => {
   isLoading.value = true;
   fetchUsers()
 });
-
-
-
 
 </script>

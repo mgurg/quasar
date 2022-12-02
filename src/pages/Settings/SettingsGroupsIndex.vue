@@ -28,17 +28,17 @@
 
         </q-item-section>
         <q-item-section>
-          <span>{{ $t("Name") }} 
-            <q-btn 
-            padding="xs" 
-            :unelevated="sort.active=='name'? true:false" 
-            :flat="sort.active=='name'? false:true" 
-            size="sm" 
-            color="primary" 
-            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'" 
+          <span>{{ $t("Name") }}
+            <q-btn
+            padding="xs"
+            :unelevated="sort.active=='name'? true:false"
+            :flat="sort.active=='name'? false:true"
+            size="sm"
+            color="primary"
+            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'"
             @click="changeSortOrder('name')" />
           </span>
-          
+
         </q-item-section>
         <q-item-section side>
 
@@ -68,7 +68,7 @@
 import { ref, reactive, computed, watch,onBeforeMount } from "vue";
 import { authApi } from "boot/axios";
 import { useQuasar } from 'quasar'
-import GroupItem from 'components/listRow/GroupItem.vue'
+import GroupItem from 'components/listRow/GroupListRow.vue'
 
 const $q = useQuasar()
 
@@ -120,10 +120,10 @@ function fetchGroups() {
 
   let params = {
       search: search.value,
-      page: pagination.page, 
+      page: pagination.page,
       size: pagination.size,
       sortOrder: sort[sort.active],
-      sortColumn: sort.active 
+      sortColumn: sort.active
     };
 
     console.log(params)
