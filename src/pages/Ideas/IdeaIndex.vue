@@ -11,7 +11,8 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn :label="$q.screen.gt.xs ? $t('New idea') : ''" class="float-right" color="primary" icon="add" no-caps outline
+                  <q-btn :label="$q.screen.gt.xs ? $t('New idea') : ''" class="float-right" color="primary" icon="add"
+                         no-caps outline
                          to="/ideas/add"
                   />
                 </div>
@@ -27,8 +28,15 @@
         <q-card-section class="row q-pa-sm">
           <div class="row q-gutter-xs items-center">
             <div>
-              <q-input v-model="search" :label="$t('Type your search text')" clearable dense outlined type="search"
-                       @clear="fetchIdeas()" @keyup="fetchIdeas()">
+              <q-input
+                v-model="search"
+                :label="$t('Type your search text')"
+                clearable
+                dense
+                outlined
+                type="search"
+                debounce="300"
+                @update:model-value="fetchIdeas()">
                 <template v-if="!search" v-slot:append>
                   <q-icon name="search"/>
                 </template>
@@ -44,7 +52,7 @@
                         <q-list>
                           <q-item v-close-popup clickable>
                             <q-item-section>
-                              <q-item-label :class="hasPhotos == true ? 'text-weight-bold' : 'text-weight-regular'"
+                              <q-item-label :class="hasPhotos === true ? 'text-weight-bold' : 'text-weight-regular'"
                                             @click="setAttachmentFilter(true)">
                                 {{ $t("Yes") }}
                               </q-item-label>
@@ -53,7 +61,7 @@
 
                           <q-item v-close-popup clickable>
                             <q-item-section>
-                              <q-item-label :class="hasPhotos == false ? 'text-weight-bold' : 'text-weight-regular'"
+                              <q-item-label :class="hasPhotos === false ? 'text-weight-bold' : 'text-weight-regular'"
                                             @click="setAttachmentFilter(false)">
                                 {{ $t("No") }}
                               </q-item-label>
@@ -77,8 +85,9 @@
                         <q-list>
                           <q-item v-close-popup clickable>
                             <q-item-section>
-                              <q-item-label :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
-                                            @click="setStatusFilter('rejected')">
+                              <q-item-label
+                                :class="hasStatus === 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
+                                @click="setStatusFilter('rejected')">
                                 {{ $t("Rejected") }}
                               </q-item-label>
                             </q-item-section>
@@ -86,8 +95,9 @@
 
                           <q-item v-close-popup clickable>
                             <q-item-section>
-                              <q-item-label :class="hasStatus == 'accepted' ? 'text-weight-bold' : 'text-weight-regular'"
-                                            @click="setStatusFilter('accepted')">
+                              <q-item-label
+                                :class="hasStatus === 'accepted' ? 'text-weight-bold' : 'text-weight-regular'"
+                                @click="setStatusFilter('accepted')">
                                 {{
                                   $t("Accepted")
                                 }}
@@ -97,7 +107,7 @@
 
                           <q-item v-close-popup clickable>
                             <q-item-section>
-                              <q-item-label :class="hasStatus == 'todo' ? 'text-weight-bold' : 'text-weight-regular'"
+                              <q-item-label :class="hasStatus === 'todo' ? 'text-weight-bold' : 'text-weight-regular'"
                                             @click="setStatusFilter('todo')">
                                 Todo
                               </q-item-label>
@@ -127,23 +137,23 @@
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
             <span>&nbsp;
-              <q-btn :flat="sort.active == 'counter' ? false : true" :icon="sort.counter == 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active == 'counter' ? true : false" color="primary" padding="xs"
+              <q-btn :flat="sort.active!=='counter'" :icon="sort.counter === 'asc' ? 'arrow_upward' : 'arrow_downward'"
+                     :unelevated="sort.active === 'counter'" color="primary" padding="xs"
                      size="sm"
                      @click="changeSortOrder('counter')"/>
             </span>
             </q-item-section>
             <q-item-section>
             <span>{{ $t("Name") }}
-              <q-btn :flat="sort.active == 'title' ? false : true" :icon="sort.title == 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active == 'title' ? true : false" color="primary" padding="xs"
+              <q-btn :flat="sort.active!=='title'" :icon="sort.title === 'asc' ? 'arrow_upward' : 'arrow_downward'"
+                     :unelevated="sort.active === 'title'" color="primary" padding="xs"
                      size="sm" @click="changeSortOrder('title')"/>
             </span>
             </q-item-section>
             <q-item-section side>
             <span>{{ $t("Age") }}
-              <q-btn :flat="sort.active == 'age' ? false : true" :icon="sort.age == 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active == 'age' ? true : false"
+              <q-btn :flat="sort.active!=='age'" :icon="sort.age === 'asc' ? 'arrow_upward' : 'arrow_downward'"
+                     :unelevated="sort.active === 'age'"
                      color="primary" padding="xs" size="sm"
                      @click="changeSortOrder('age')"/>
             </span>
@@ -151,7 +161,7 @@
           </q-item>
 
           <div v-for="(idea, index) in ideas" v-if="ideas != null" v-bind:key="index">
-            <idea-item v-if="!isLoading" :idea="idea" :selected="selected" @forceRefresh="fetchIdeas"
+            <idea-item v-if="!isLoading" :idea="idea" @forceRefresh="fetchIdeas"
                        @selectedItem="selectIdea"></idea-item>
           </div>
           <task-index-skeleton v-else/>
@@ -167,7 +177,7 @@
 
         <q-space class="q-pa-sm"/>
       </q-card>
-      <div v-if="pagination.total == 0" class="text-h5 text-center q-pa-lg">
+      <div v-if="pagination.total === 0" class="text-h5 text-center q-pa-lg">
         Brak pomysłów 🤔? <br/>Niech Twój będzie pierwszy!
         <div class="col-12 text-h6 q-mt-none">
           <q-btn :label="$t('New idea')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/ideas/add"/>
@@ -179,29 +189,25 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
-import {authApi} from "boot/axios";
+
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import IdeaItem from "components/listRow/IdeaListRow.vue";
+import {getIdeasRequest} from "components/api/IdeaApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
-let errorMsg = ref(null);
 let search = ref(null);
 
 const ideas = ref([]);
 let selected = ref(null);
 
-let sort = reactive({
-  counter: "asc",
-  title: "asc",
-  age: "asc",
-  active: "age"
-})
+let sort = reactive({  counter: "asc",  title: "asc",  age: "asc",  active: "age"})
 
 function changeSortOrder(column) {
-  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
+  sort[column] === "asc" ? sort[column] = 'desc' : sort[column] = "asc"
   sort.active = column
   fetchIdeas()
 }
@@ -209,11 +215,7 @@ function changeSortOrder(column) {
 let hasPhotos = ref(null);
 let hasStatus = ref(null);
 
-const pagination = reactive({
-  page: 1,
-  size: 10,
-  total: 1
-})
+const pagination = reactive({  page: 1,  size: 10,  total: 1})
 
 function setAttachmentFilter(condition) {
   hasPhotos.value = condition;
@@ -267,38 +269,20 @@ async function fetchIdeas() {
     sortOrder: sort[sort.active],
     sortColumn: sort.active
   };
-  authApi
-    .get("/ideas/", {params: params})
-    .then((res) => {
-      ideas.value = res.data.items;
-      pagination.total = res.data.total;
 
-
+    getIdeasRequest(params).then(function (response) {
+      ideas.value = response.data.items;
+      pagination.total = response.data.total
       isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
-function selectIdea(uuid) {
-  if (selected.value == null) {
-    selected.value = uuid;
-  } else if (selected.value !== uuid) {
-    selected.value = uuid;
-  } else {
-    selected.value = null;
-  }
-}
+
 
 onBeforeMount(() => {
-
   isLoading.value = true;
   fetchIdeas();
 });

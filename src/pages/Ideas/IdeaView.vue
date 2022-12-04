@@ -21,7 +21,7 @@
 
               <q-item-section>
                 <q-item-label class="text-h6">{{ ideaDetails.title }}</q-item-label>
-                <!-- <q-item-label caption>{{ ideaDetails.last_name }}</q-item-label> -->
+                 <q-item-label caption>{{ convertTime(ideaDetails.created_at) }}</q-item-label>
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
@@ -54,7 +54,7 @@
 
             <q-card-section>
               <div :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1'" class="rounded-borders q-py-md q-pl-sm">
-                <tiptap v-if="ideaDetails && !isLoading" :body-content="ideaDetails.body_json" :readonly="true"/>
+                <tip-tap v-if="ideaDetails && !isLoading" :body-content="ideaDetails.body_json" :readonly="true"/>
               </div>
               <div class="q-mt-md">
                 <photo-viewer v-if="ideaDetails && !isLoading" :pictures-list="ideaDetails.files_idea"/>
@@ -75,13 +75,20 @@ import {useUserStore} from 'stores/user';
 import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
 
-import Tiptap from 'src/components/editor/TipTap.vue'
+import TipTap from 'src/components/editor/TipTap.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
+import {useI18n} from "vue-i18n";
+import {deleteIdeaRequest} from "components/api/IdeaApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const $q = useQuasar();
 const UserStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
+
+const {t} = useI18n();
+const confirmDeleteMessage = computed(() => t("Error: Check username & password"));
+const successfulDeleteMessage = computed(() => t("Error: Check username & password"));
 
 const json = ref(null);
 let isLoading = ref(false);
@@ -97,18 +104,10 @@ function hasPermission(permission) {
 }
 
 let lastVote = ref(null);
-let fullscreenUrl = ref("")
-
-function displayFullscreen(url) {
-  fullscreenUrl.value = ref(url)
-  dialog.value = !dialog.value;
-}
-
 
 let ideaDetails = ref(null);
 
-function convertTime(datetime) {
-  let timeZone = "America/Los_Angeles";
+function convertTime(datetime, timeZone="America/Los_Angeles") {
   const dateObject = new Date(datetime).toLocaleString("en-US", {
     timeZone,
   });
@@ -204,26 +203,22 @@ function editIdea(uuid) {
 function deleteIdea(uuid) {
   $q.dialog({
     title: "Confirm",
-    message: "Really delete?",
+    message: confirmDeleteMessage.value,
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    authApi
-      .delete("/ideas/" + uuid)
-      .then((res) => {
-        router.push("/ideas");
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.log(err.response);
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("General Error");
-        }
+    isLoading = true;
+    deleteIdeaRequest(uuid).then(function (response) {
+      $q.notify({
+          type: 'warning',
+          message: successfulDeleteMessage.value,
       });
-    $q.notify("Idea deleted");
-    // fetchTasks()
+      router.push("/users/edit/" + uuid);
+      isLoading.value = false;
+    }).catch((err) => {
+      const errorMessage = errorHandler(err);
+      isError.value = true;
+    });
   });
 }
 

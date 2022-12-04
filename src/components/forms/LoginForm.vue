@@ -4,23 +4,23 @@
 
     <q-form @submit="submit">
       <q-input
-        :model-value="email"
-        @change="handleChange"
         :disable="isLoading"
         :error="!!errors.email"
         :error-message="errors.email"
-        class="q-mb-md"
         :label="$t('E-mail')"
+        :model-value="email"
+        class="q-mb-md"
         outlined
         type="email"
+        @change="handleChange"
       />
       <q-input
         v-model="password"
         :disable="isLoading"
         :error="!!errors.password"
         :error-message="errors.password"
-        :type="isPwd ? 'password' : 'text'"
         :label="$t('Password')"
+        :type="isPwd ? 'password' : 'text'"
         outlined
       >
         <template v-slot:append>
@@ -50,20 +50,21 @@
 
 
 <script setup>
-import {useQuasar} from 'quasar'
-import {ref, computed} from "vue";
-import {useField, useForm} from "vee-validate";
-import {object, string, bool} from "yup";
+import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
+import {useQuasar} from 'quasar'
 import {useUserStore} from 'stores/user'
+
+import {useField, useForm} from "vee-validate";
+import {bool, object, setLocale, string} from "yup";
+
 import {useI18n} from 'vue-i18n';
 import {pl} from 'yup-locales';
-import {setLocale} from 'yup';
 
 setLocale(pl);
 
 const {t} = useI18n();
-const someProperty = computed(() => t("Error: Check username & password"));
+const loginErrorMessage = computed(() => t("Error: Check username & password"));
 const $q = useQuasar()
 
 let isPwd = ref(true)
@@ -85,6 +86,7 @@ const {handleSubmit, errors} = useForm({
 const {value: email, handleChange} = useField("email");
 const {value: password} = useField("password");
 const {value: rememberUser} = useField("rememberUser", undefined, {initialValue: false});
+
 const submit = handleSubmit((values) => {
   let data = {
     email: email.value,
@@ -100,12 +102,12 @@ async function LoginUser(data) {
   isLoading.value = true;
   try {
     await UserStore.loginUsers(data.email, data.password, data.permanent);
-    router.push({path: "/home"});
+    await router.push({path: "/home"});
   } catch (err) {
     console.log(err);
     $q.notify({
       type: 'warning',
-      message: someProperty,
+      message: loginErrorMessage,
     });
     // console.log(err.error_description || err.message)
     // console.log(err.data)

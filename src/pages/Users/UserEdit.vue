@@ -20,7 +20,7 @@
                 <q-item-label v-if="userDetails != null" class="text-h5 text-weight-medium">
                   {{ $t('Edit') }}: {{ userDetails.first_name }} {{ userDetails.last_name }}
                 </q-item-label>
-                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
+                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
               </q-item-section>
             </q-item>
 
