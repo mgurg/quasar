@@ -164,7 +164,7 @@
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar> -->
           <div class="text-weight-bold">{{ fullName }}</div>
-          <!-- <div>@rstoenescu</div> -->
+          <!-- <div>@adam</div> -->
         </div>
       </q-img>
     </q-drawer>
@@ -173,9 +173,9 @@
 
 
       <router-view v-slot="{ Component }">
-        <transition 
-          appear 
-          enter-active-class="animated fadeIn" 
+        <transition
+          appear
+          enter-active-class="animated fadeIn"
           leave-active-class="animated fadeOut"
           :duration="400">
           <component :is="Component" />
@@ -189,18 +189,22 @@
 
 <script setup>
 
-import { defineComponent, ref, computed, onBeforeMount } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 import { useQuasar } from "quasar";
 import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useUserStore } from 'stores/user'
 import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
+import {getVerifyTokenRequest} from "components/api/AuthApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const $q = useQuasar();
 
 const router = useRouter();
 const UserStore = useUserStore();
+
+let isLoading = ref(false);
 
 const { locale } = useI18n({ useScope: "global" });
 const lang = ref(locale); // $q.lang.isoName
@@ -237,6 +241,10 @@ function setLocale(lang) {
 }
 const leftDrawerOpen = ref(false);
 
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value;
+}
+
 function notify() {
   $q.notify({
     message: 'Danger, Will Robinson! Danger!',
@@ -251,35 +259,23 @@ function logout() {
 }
 
 const permissions = computed(() => UserStore.getPermissions);
-
 function hasPermission(permission) {
   return Boolean(permissions.value.includes(permission));
 }
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
+
 
 function verifyToken(){
   const token = UserStore.getToken
-
-  console.log(token)
-  authApi
-    .get("/auth/verify/" + token)
-    .then((res) => {
+  isLoading.value = true;
+  getVerifyTokenRequest(token).then(function (response) {
       // UserStore.fillStore()
-
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
+      isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    logout();
+    isError.value = true;
+  });
 }
 
 onBeforeMount(() => {

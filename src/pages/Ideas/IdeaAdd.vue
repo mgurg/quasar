@@ -20,7 +20,7 @@
                 <q-item-label class="text-h6">{{ $t("Idea") }}</q-item-label>
                 <!--
 <q-item-label caption>
-    Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!
+    Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!
 </q-item-label>
 -->
               </q-item-section>
@@ -33,8 +33,11 @@
       <div>&nbsp;</div>
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <idea-form button-text="Add" @cancelBtnClick="cancelButtonPressed"
-                     @ideaFormBtnClick="signUpButtonPressed"></idea-form>
+          <idea-form
+            button-text="Save"
+            @cancelBtnClick="cancelButtonPressed"
+            @ideaFormBtnClick="addButtonPressed"
+          />
         </q-card-section>
       </q-card>
     </q-page>
@@ -46,8 +49,9 @@
 <script setup>
 import {ref} from "vue";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
-import {authApi} from "boot/axios";
 import {useRouter} from "vue-router";
+import {createIdeaRequest} from "components/api/IdeaApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const router = useRouter();
 
@@ -56,75 +60,25 @@ let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 
-let usersList = ref([]);
-let usr = ref([{
-  label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-}, {label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed'}]);
 
-
-function createIdea(body) {
+function createIdea(formData) {
   isLoading.value = true;
-  authApi
-    .post("/ideas/", body)
-    .then((res) => {
-
-      isLoading.value = false;
-      router.push("/ideas");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-
+  createIdeaRequest(formData).then(function (response) {
+    isLoading.value = false;
+    router.push("/ideas");
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
-function getUsers() {
-  authApi
-    .get("/users/")
-    .then((res) => {
-
-
-      usersList.value = res.data.map((opt) => ({
-        label: opt.first_name + ' ' + opt.last_name,
-        value: opt.uuid,
-      }));
-      console.log("usersList.value");
-      console.log(usersList.value);
-      isSuccess.value = true
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
-}
-
-
-function signUpButtonPressed(ideaForm) {
-  console.log('outside', ideaForm)
+function addButtonPressed(ideaForm) {
   createIdea(ideaForm)
-  console.log('Add ok')
 }
 
 
 function cancelButtonPressed() {
-  console.log('cancelBtnClick')
   router.push("/ideas");
 }
-
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>

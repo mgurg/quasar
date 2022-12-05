@@ -4,8 +4,7 @@
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Ideas") }}</h5>
       <q-list v-if="!isLoading" padding>
         <div v-for="(idea, index) in ideas" v-bind:key="index">
-          <idea-item v-if="!isLoading" :idea="idea" :selected="selected" @forceRefresh="fetchIdeas"
-                     @selectedItem="selectIdea"></idea-item>
+          <idea-item v-if="!isLoading" :idea="idea" @forceRefresh="fetchIdeas"></idea-item>
         </div>
       </q-list>
       <!-- Skeleton -->
@@ -115,15 +114,6 @@ async function fetchIdeas() {
     });
 }
 
-function selectIdea(uuid) {
-  if (selected.value == null) {
-    selected.value = uuid;
-  } else if (selected.value !== uuid) {
-    selected.value = uuid;
-  } else {
-    selected.value = null;
-  }
-}
 
 // onActivated(() => {
 //   console.log('onActivated')

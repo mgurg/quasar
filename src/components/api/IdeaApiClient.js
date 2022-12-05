@@ -12,6 +12,19 @@ export function getIdeasRequest(params) {
   return authApi.get("/ideas/", {params: params});
 }
 
+export function getIdeaRequest(uuid) {
+  return authApi.get("/ideas/" + uuid);
+}
+
+export function updateIdeaRequest(uuid, data) {
+  return authApi.patch("/ideas/"+uuid, data);
+}
+
+export function createIdeaRequest(data) {
+  return authApi.post("/ideas/", data);
+}
+
+
 export function deleteIdeaRequest(uuid) {
   return authApi.delete("/ideas/" + uuid);
 }

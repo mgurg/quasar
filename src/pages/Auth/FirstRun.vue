@@ -27,13 +27,16 @@
   </div>
 </template>
 <script setup>
-// import FirstRunForm from 'src/components/forms/FirstRunForm.vue';
 import {computed, ref} from "vue";
-import {api} from "boot/axios";
 import {useRoute, useRouter} from 'vue-router'
 import {useUserStore} from "stores/user";
+import {authFirstRunRequest} from "components/api/AuthApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const route = useRoute()
+const router = useRouter();
+const UserStore = useUserStore();
+
 const path = computed(() => route.path)
 const activationId = ref(route.params.id)
 
@@ -41,49 +44,37 @@ let fade = ref(true);
 
 let isLoading = ref(false);
 
-
-const router = useRouter();
-const UserStore = useUserStore();
-
-
 function firstRun(activationId) {
   isLoading.value = true;
   console.log("ID: ", activationId)
 
-  isLoading.value = false;
-  api
-    .post("auth/first_run", {"token": activationId})
-    .then((res) => {
-      isLoading.value = false;
+  authFirstRunRequest(activationId).then(function (response) {
 
-      localStorage.setItem("firstName", res.data.first_name);
-      localStorage.setItem("lastName", res.data.last_name);
-      localStorage.setItem("lang", res.data.lang);
-      localStorage.setItem("tz", res.data.tz);
-      localStorage.setItem("uuid", res.data.uuid);
-      localStorage.setItem("tenant", res.data.tenanat_id);
-      localStorage.setItem("klucz", res.data.token);
 
-      UserStore.fillStore(
-        res.data.token,
-        res.data.tenanat_id,
-        res.data.first_name,
-        res.data.last_name,
-        res.data.uuid,
-        res.data.tz,
-        res.data.lang
-      )
-      router.push("/login");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
+    localStorage.setItem("firstName", response.data.first_name);
+    localStorage.setItem("lastName", response.data.last_name);
+    localStorage.setItem("lang", response.data.lang);
+    localStorage.setItem("tz", response.data.tz);
+    localStorage.setItem("uuid", response.data.uuid);
+    localStorage.setItem("tenant", response.data.tenanat_id);
+    localStorage.setItem("klucz", response.data.token);
+
+    UserStore.fillStore(
+      response.data.token,
+      response.data.tenanat_id,
+      response.data.first_name,
+      response.data.last_name,
+      response.data.uuid,
+      response.data.tz,
+      response.data.lang
+    )
+    isLoading.value = false;
+    router.push("/login");
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
 firstRun(activationId.value);

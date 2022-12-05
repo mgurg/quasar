@@ -31,13 +31,13 @@
       </div>
 
       <div>
-        <photo-uploader @uploaded-photos="listUploadedImgs" :file-list="props.idea.files_idea"/>
+        <photo-uploader @uploaded-photos="listOfUploadedImages" :file-list="props.idea.files_idea"/>
       </div>
       <!-- QFILE -->
-      
+
 
       <!-- MODE -->
-      <div v-if="mode == 'anonymous_with_mail'">
+      <div v-if="mode === 'anonymous_with_mail'">
         <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email"
           :label="$t('E-mail')">
         </q-input>
@@ -54,30 +54,20 @@
 
       <div class="row">
         <q-space />
-        <q-btn 
-          flat 
-          type="submit" 
-          class="q-mr-lg" 
-          color="red-12" 
-          icon="cancel" 
-          @click="cancelButtonHandle"
+        <q-btn
+          flat
+          type="submit"
+          class="q-mr-lg"
+          color="red-12"
+          icon="cancel"
+          @click="cancelButtonHandle()"
           :label="$t('Cancel')"
         />
 
-        <q-btn 
-          v-if="props.buttonText == 'Edit'"
-          type="submit" 
-          class="q-mr-xs" 
-          icon="done" 
-          color="primary"
-          @click="editIdea()"
-          :label="$t('Edit')"
-        />
-        <q-btn 
-          v-if="props.buttonText == 'Save'"
-          type="submit" 
-          class="q-mr-xs" 
-          icon="done" 
+        <q-btn
+          type="submit"
+          class="q-mr-xs"
+          icon="done"
           color="primary"
           @click="submit()"
           :label="$t('Save')"
@@ -89,12 +79,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from "vue";
+import { ref, watch } from "vue";
 import Tiptap from 'src/components/editor/TipTap.vue'
 import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
 import { authApi } from "boot/axios";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
 import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
@@ -148,7 +138,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['ideaFormBtnClick'])
+const emit = defineEmits(['ideaFormBtnClick', 'cancelBtnClick'])
 
 let isError = ref(false);
 let isLoading = ref(false);
@@ -225,74 +215,20 @@ const submit = handleSubmit(values => {
   }
 
   console.log(data)
+  emit('ideaFormBtnClick', data)
 
-  isLoading.value = true;
-    authApi
-        .post("/ideas/", data)
-        .then((res) => {
-            
-            isLoading.value = false;
-            router.push("/ideas");
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-
-        });
-
-  // emit('ideaFormBtnClick', data)
-  // handleReset();
 })
-
-function editIdea(){
-  let data = {
-    "color": ideaColor.value,
-    "title": ideaTitle.value,
-    "description": "ideaDescription.value",
-    "body_json": jsonTxt,
-    "body_html": htmlTxt,
-    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
-}
-
-console.log("Edit GUIDE");
-console.log(data);
-
-isLoading.value = true;
-  authApi
-    .patch("/ideas/" + props.idea.uuid, data)
-    .then((res) => {
-      
-      isLoading.value = false;
-      router.push("/ideas");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
 
 
 // --------------- Form --------------
 
 function cancelButtonHandle() {
-  console.log('cancelBtnClick')
   emit('cancelBtnClick')
 }
 
 const uploadedPhotos = ref([]);
 
-function listUploadedImgs(images){
+function listOfUploadedImages(images){
   console.log("UPLOADED IMAGES:")
   console.log(JSON.stringify(images))
   uploadedPhotos.value = images;

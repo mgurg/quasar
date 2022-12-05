@@ -19,7 +19,7 @@
               <q-item-section>
                 <q-item-label v-if="ideaDetails != null" class="text-h6">{{ $t('Edit') }}: {{ ideaDetails.title }}
                 </q-item-label>
-                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
+                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
               </q-item-section>
             </q-item>
 
@@ -30,7 +30,13 @@
       <div>&nbsp;</div>
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <idea-form v-if="ideaDetails != null" :idea="ideaDetails" button-text="Edit"/>
+          <idea-form
+            v-if="ideaDetails != null"
+            :idea="ideaDetails"
+            button-text="Save"
+            @cancelBtnClick="cancelButtonPressed"
+            @ideaFormBtnClick="editButtonPressed"
+          />
         </q-card-section>
       </q-card>
     </q-page>
@@ -43,111 +49,88 @@
 import {onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
-import {authApi} from "boot/axios";
+import {errorHandler} from "components/api/errorHandler";
+import {getIdeaRequest, updateIdeaRequest} from "components/api/IdeaApiClient";
 
 
 const route = useRoute();
 const router = useRouter();
+let ideaUuid = ref(route.params.uuid);
 
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 
-let usersList = ref([]);
-let usr = ref([{
-  label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-}, {label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed'}]);
-
-
-function createIdea(body) {
+function updateIdea(uuid, formData) {
   isLoading.value = true;
-  authApi
-    .post("/ideas/", body)
-    .then((res) => {
-
-      isLoading.value = false;
-      router.push("/ideas");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-
+  updateIdeaRequest(uuid, formData).then(function (response) {
+        isLoading.value = false;
+        router.push("/ideas");
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
-function getUsers() {
-  authApi
-    .get("/users/")
-    .then((res) => {
+// function getUsers() {
+//   authApi
+//     .get("/users/")
+//     .then((res) => {
+//
+//
+//       usersList.value = res.data.map((opt) => ({
+//         label: opt.first_name + ' ' + opt.last_name,
+//         value: opt.uuid,
+//       }));
+//       console.log("usersList.value");
+//       console.log(usersList.value);
+//       isSuccess.value = true
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//     });
+// }
 
 
-      usersList.value = res.data.map((opt) => ({
-        label: opt.first_name + ' ' + opt.last_name,
-        value: opt.uuid,
-      }));
-      console.log("usersList.value");
-      console.log(usersList.value);
-      isSuccess.value = true
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
-}
+function editButtonPressed(formData) {
 
-
-function signUpButtonPressed(ideaForm) {
-  console.log('outside', ideaForm)
-  createIdea(ideaForm)
-  console.log('Add ok')
+  console.log("Update " + ideaUuid.value);
+  updateIdea(ideaUuid.value, formData);
 }
 
 
 function cancelButtonPressed() {
-  console.log('cancelBtnClick')
   router.push("/ideas");
 }
 
 let ideaDetails = ref(null);
 
-function getDetails(uuid) {
-  authApi
-    .get("/ideas/" + uuid)
-    .then((res) => {
-      console.log(res.data);
+function getIdeaDetails(uuid) {
+  isLoading.value = true;
+  getIdeaRequest(uuid).then(function (response) {
+        ideaDetails.value = response.data
 
-      ideaDetails.value = res.data
+        // if (res.data.date_from == null) {
+        //     ideaDetails.value.mode = 'task'
+        // }
 
-      // if (res.data.date_from == null) {
-      //     ideaDetails.value.mode = 'task'
-      // }
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
 onBeforeMount(() => {
   if (route.params.uuid != null)
-    getDetails(route.params.uuid)
+    getIdeaDetails(route.params.uuid)
   // getUsers();
   isLoading.value = false;
 });
@@ -155,5 +138,3 @@ onBeforeMount(() => {
 
 </script>
 
-<style lang="scss" scoped>
-</style>

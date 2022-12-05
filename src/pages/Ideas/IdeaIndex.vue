@@ -23,7 +23,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card v-if="pagination.total > 0" class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card v-if="pagination.total > 0 || search!==null" class="my-card no-shadow q-mt-sm q-pt-none">
 
         <q-card-section class="row q-pa-sm">
           <div class="row q-gutter-xs items-center">
@@ -161,8 +161,7 @@
           </q-item>
 
           <div v-for="(idea, index) in ideas" v-if="ideas != null" v-bind:key="index">
-            <idea-item v-if="!isLoading" :idea="idea" @forceRefresh="fetchIdeas"
-                       @selectedItem="selectIdea"></idea-item>
+            <idea-item v-if="!isLoading" :idea="idea" @forceRefresh="fetchIdeas"></idea-item>
           </div>
           <task-index-skeleton v-else/>
 

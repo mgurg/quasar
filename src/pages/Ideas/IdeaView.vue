@@ -28,7 +28,7 @@
                   <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps
                          outline @click="editIdea(ideaDetails.uuid)"/>
                   <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"
-                         no-caps @click="deleteIdea(ideaDetails.uuid)"/>
+                         no-caps @click="deleteIdea(ideaDetails.uuid, ideaDetails.title)"/>
                 </div>
               </q-item-section>
             </q-item>
@@ -86,9 +86,9 @@ const UserStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-const {t} = useI18n();
-const confirmDeleteMessage = computed(() => t("Error: Check username & password"));
-const successfulDeleteMessage = computed(() => t("Error: Check username & password"));
+const {t} = useI18n({ useScope: "global" });
+const confirmDeleteMessage = computed(() => t("Delete:"));
+const successfulDeleteMessage = computed(() => t("Deleted:"));
 
 const json = ref(null);
 let isLoading = ref(false);
@@ -200,10 +200,11 @@ function editIdea(uuid) {
   router.push("/ideas/edit/" + uuid);
 }
 
-function deleteIdea(uuid) {
+function deleteIdea(uuid, ideaName) {
+  console.log(ideaName);
   $q.dialog({
     title: "Confirm",
-    message: confirmDeleteMessage.value,
+    message: confirmDeleteMessage.value + " '" + ideaName + "' ?",
     cancel: true,
     persistent: true,
   }).onOk(() => {
@@ -211,7 +212,7 @@ function deleteIdea(uuid) {
     deleteIdeaRequest(uuid).then(function (response) {
       $q.notify({
           type: 'warning',
-          message: successfulDeleteMessage.value,
+          message: successfulDeleteMessage.value  + " " + ideaName,
       });
       router.push("/users/edit/" + uuid);
       isLoading.value = false;

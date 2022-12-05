@@ -76,6 +76,8 @@ export default {
 	"Your submission landed in our system": `Votre soumission a atterri dans notre système`,
 	"Would you like to improve something more?": `Souhaitez-vous améliorer quelque chose de plus?`,
 	"New idea": `Nouvelle idée`,
+	"Delete:": `Effacer:`,
+	"Deleted:": `Supprimé:`,
 
 	// items
 	"Items": `Articles`,
