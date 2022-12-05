@@ -77,12 +77,13 @@ const props = defineProps({
   },
 });
 
-const $q = useQuasar()
-const {t} = useI18n({ useScope: "global" });
-const confirmDeleteMessage = computed(() => t("Delete:"));
-const successfulDeleteMessage = computed(() => t("Deleted:"));
+// const $q = useQuasar()
+// const {t} = useI18n({ useScope: "global" });
+// const confirmDeleteMessage = computed(() => t("Delete:"));
+// const successfulDeleteMessage = computed(() => t("Deleted:"));
 
 let attachments = ref([]);
+let newAttachments = ref([]);
 if (props.fileList !== null) {
   attachments.value = props.fileList
   emit('uploadedPhotos', attachments.value)
@@ -200,7 +201,9 @@ function uploadFile(file) {
     })
     .then((res) => {
       attachments.value.push(res.data);
+      newAttachments.value.push(res.data.uuid)
 
+      console.log(newAttachments.value);
       console.log(attachments.value);
       // uploader.value.reset()
       emit('uploadedPhotos', attachments.value)
@@ -220,15 +223,8 @@ function uploadFile(file) {
 }
 
 function delete_file(uuid) {
-  $q.dialog({
-    title: "Confirm",
-    message: confirmDeleteMessage.value + " ?",
-    cancel: true,
-    persistent: true,
-  }).onOk(() => {
-
-
-    let token = props.token;
+  if (newAttachments.value.includes(uuid)){
+        let token = props.token;
     if (props.token == null) token = UserStore.getToken;
 
     let tenant_id = props.tenant_id;
@@ -236,20 +232,17 @@ function delete_file(uuid) {
 
     isLoading.value = true;
     deleteFileRequest(uuid, token, tenant_id).then(function (response) {
-      // console.log('DELETE IMAGE')
-      // console.log(attachments.value);
-      attachments.value = attachments.value.filter((item) => item.uuid !== uuid);
-      // console.log(attachments.value);
-      emit('uploadedPhotos', attachments.value)
+      console.log("Deleted from Uploader")
       isLoading.value = false;
 
     }).catch((err) => {
       const errorMessage = errorHandler(err);
       isError.value = true;
     });
+  }
 
-
-  });
+  attachments.value = attachments.value.filter((item) => item.uuid !== uuid);
+  emit('uploadedPhotos', attachments.value)
 
 
 }

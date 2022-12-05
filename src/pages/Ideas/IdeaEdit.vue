@@ -39,6 +39,12 @@
           />
         </q-card-section>
       </q-card>
+
+      <div v-if="(dbImagesUuidList!==null)">
+      <p>Oryginalne zdjęcia: {{dbImagesUuidList}}</p>
+        <hr>
+        <p>Form zdjęcia: {{filesFormUuidList}}</p>
+    </div>
     </q-page>
   </div>
 
@@ -47,30 +53,85 @@
 
 <script setup>
 import {onBeforeMount, ref} from "vue";
+import {useUserStore} from "stores/user";
 import {useRoute, useRouter} from "vue-router";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
 import {errorHandler} from "components/api/errorHandler";
 import {getIdeaRequest, updateIdeaRequest} from "components/api/IdeaApiClient";
+import {deleteFileRequest} from "components/api/FilesApiClient";
 
 
 const route = useRoute();
 const router = useRouter();
+const UserStore = useUserStore();
 let ideaUuid = ref(route.params.uuid);
+let ideaDetails = ref(null);
+let dbImagesUuidList = ref(null);
+let filesFormUuidList = ref(null);
 
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
+let isRemoving = ref(false);
 
 function updateIdea(uuid, formData) {
+
+  var arr1 = dbImagesUuidList.value;
+  var arr2 = formData.files;
+  
+  let removedItems = arr1.filter(x => !arr2.includes(x));
+  let withoutChanges = arr1.filter(x => arr2.includes(x));
+  let newItems = arr2.filter(x => !arr1.includes(x));
+
+  console.log("Removed:")
+  console.log(removedItems);
+
+  console.log("Added:"); 
+  console.log(newItems);
+
+  console.log("To save:"); 
+
+  let fileList = [...withoutChanges,  ...newItems];
+
+  formData.files = fileList;
+  console.log(formData);
+
+  isRemoving.value = true;
+  removedItems.forEach(function (item, index) {
+    deleteUnusedIdeaImages(item);
+  });
+  isRemoving.value = false;
+
   isLoading.value = true;
   updateIdeaRequest(uuid, formData).then(function (response) {
         isLoading.value = false;
-        router.push("/ideas");
+        if (isRemoving.value == false){
+          router.push("/ideas");
+        }
+        
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
+}
+
+function deleteUnusedIdeaImages(uuid){
+
+    console.log("Deleting...: " + uuid);
+
+    let token = UserStore.getToken;
+    let tenant_id = UserStore.getTenant;
+
+    isLoading.value = true;
+    deleteFileRequest(uuid, token, tenant_id).then(function (response) {
+
+      isLoading.value = false;
+
+    }).catch((err) => {
+      const errorMessage = errorHandler(err);
+      isError.value = true;
+    });
 }
 
 // function getUsers() {
@@ -100,8 +161,6 @@ function updateIdea(uuid, formData) {
 
 
 function editButtonPressed(formData) {
-
-  console.log("Update " + ideaUuid.value);
   updateIdea(ideaUuid.value, formData);
 }
 
@@ -110,13 +169,13 @@ function cancelButtonPressed() {
   router.push("/ideas");
 }
 
-let ideaDetails = ref(null);
+
 
 function getIdeaDetails(uuid) {
   isLoading.value = true;
   getIdeaRequest(uuid).then(function (response) {
         ideaDetails.value = response.data
-
+        dbImagesUuidList.value = response.data.files_idea.map(a => a.uuid)
         // if (res.data.date_from == null) {
         //     ideaDetails.value.mode = 'task'
         // }
