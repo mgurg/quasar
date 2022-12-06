@@ -87,8 +87,8 @@ const props = defineProps({
 // const confirmDeleteMessage = computed(() => t("Delete:"));
 // const successfulDeleteMessage = computed(() => t("Deleted:"));
 
-let attachments = ref(null);
-let newAttachments = ref(null);
+let attachments = ref([]);
+let newAttachments = ref([]);
 if (props.fileList !== null) {
   attachments.value = props.fileList
   emit('uploadedPhotos', attachments.value)

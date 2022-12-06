@@ -19,10 +19,18 @@
         </template>
 
       </q-input>
-      <div v-for="(user, index) in users" v-bind:key="index" v-if="users != null">
-        <q-btn @click="insertUser(user.first_name, user.last_name, user.uuid)">Dodaj: {{user.first_name}}</q-btn>
 
-      </div>
+      <q-list bordered separator v-for="(user, index) in users" v-bind:key="index" v-if="users != null" >
+        <div @click="insertUser(user.first_name, user.last_name, user.uuid)">
+        <q-item clickable v-ripple>
+          <q-item-section >
+            <q-item-label>{{user.first_name}} {{user.last_name}}</q-item-label>
+            <q-item-label caption>Dodaj</q-item-label>
+          </q-item-section>
+        </q-item>
+        </div>
+      </q-list>
+
     </q-card-section>
 
     <q-card-actions align="right">
