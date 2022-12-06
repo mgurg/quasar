@@ -71,6 +71,11 @@ const props = defineProps({
     type: Object,
     default() {
       return {
+        uuid: null,
+        file_name: null,
+        extension: null,
+        mimetype : null,
+        size: null,
         url: null,
       };
     },
@@ -82,8 +87,8 @@ const props = defineProps({
 // const confirmDeleteMessage = computed(() => t("Delete:"));
 // const successfulDeleteMessage = computed(() => t("Deleted:"));
 
-let attachments = ref([]);
-let newAttachments = ref([]);
+let attachments = ref(null);
+let newAttachments = ref(null);
 if (props.fileList !== null) {
   attachments.value = props.fileList
   emit('uploadedPhotos', attachments.value)

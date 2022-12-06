@@ -1,45 +1,45 @@
 <template>
   <div>
-    <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
-      @submit.prevent>
+    <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
+            @submit.prevent>
 
-      <q-input outlined v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle"
-        :error-message="errors.ideaTitle" :label="$t('Idea title')" />
+      <q-input v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle" :error-message="errors.ideaTitle"
+               :label="$t('Idea title')" outlined/>
 
-        <!-- <div class="row">
-        <div class="q-gutter-xs">
-          <span class="text">
-            Priorytet:
-          </span>
-          <span>
-            <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
-          </span>
-          <span>
-            <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
-          </span>
-          <span>
-            <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
-          </span>
-          <span>
-            <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
-          </span>
-        </div>
-      </div> -->
+      <!-- <div class="row">
+      <div class="q-gutter-xs">
+        <span class="text">
+          Priorytet:
+        </span>
+        <span>
+          <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
+        </span>
+        <span>
+          <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
+        </span>
+        <span>
+          <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
+        </span>
+        <span>
+          <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
+        </span>
+      </div>
+    </div> -->
 
       <div class="tiptap">
-        <tiptap :body-content="tipTapText" @editor-content="logText" />
+        <tip-tap :body-content="tipTapText" @editor-content="logText"/>
       </div>
 
       <div>
-        <photo-uploader @uploaded-photos="listOfUploadedImages" :file-list="props.idea.files_idea"/>
+        <photo-uploader :file-list="props.idea.files_idea" @uploaded-photos="listOfUploadedImages"/>
       </div>
       <!-- QFILE -->
 
 
       <!-- MODE -->
       <div v-if="mode === 'anonymous_with_mail'">
-        <q-input outlined v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email"
-          :label="$t('E-mail')">
+        <q-input v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email" :label="$t('E-mail')"
+                 outlined>
         </q-input>
 
         <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
@@ -53,24 +53,24 @@
       </div>
 
       <div class="row">
-        <q-space />
+        <q-space/>
         <q-btn
-          flat
-          type="submit"
+          :label="$t('Cancel')"
           class="q-mr-lg"
           color="red-12"
+          flat
           icon="cancel"
+          type="submit"
           @click="cancelButtonHandle()"
-          :label="$t('Cancel')"
         />
 
         <q-btn
-          type="submit"
-          class="q-mr-xs"
-          icon="done"
-          color="primary"
-          @click="submit()"
           :label="$t('Save')"
+          class="q-mr-xs"
+          color="primary"
+          icon="done"
+          type="submit"
+          @click="submit()"
         />
 
       </div>
@@ -79,17 +79,17 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import Tiptap from 'src/components/editor/TipTap.vue'
-import { useField, useForm } from "vee-validate";
+import {ref, watch} from "vue";
+import {useRouter} from "vue-router";
+import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
-import { authApi } from "boot/axios";
-import { useRouter } from "vue-router";
 
-import { useSpeechRecognition } from 'src/composables/useSpeechRecognition.js'
+
+import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
+import TipTap from 'src/components/editor/TipTap.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 
-const { isListening, isSupported, stop, result, raw, start, error } = useSpeechRecognition({
+const {isListening, isSupported, stop, result, raw, start, error} = useSpeechRecognition({
   lang: 'pl-PL',
   continuous: false,
   interimResults: false,
@@ -148,9 +148,9 @@ let attachments = ref(props.idea.file);
 const files = ref(null)
 
 
-
 let jsonTxt = null;
 let htmlTxt = null;
+
 function logText(json, html) {
   jsonTxt = json
   htmlTxt = html
@@ -166,13 +166,13 @@ watch(result, (newValue, oldValue) => {
 const tipTapText = ref(null)
 
 
-if (props.idea.body_json !== null){
+if (props.idea.body_json !== null) {
   tipTapText.value = props.idea.body_json;
 }
 
 // --------------- Form --------------
 
-const { handleReset } = useForm();
+const {handleReset} = useForm();
 
 const validationSchema = yup.object({
   ideaColor: yup.string().required(),
@@ -192,14 +192,14 @@ const validationSchema = yup.object({
 })
 
 
-const { handleSubmit, errors } = useForm({
+const {handleSubmit, errors} = useForm({
   validationSchema
 })
 
-const { value: ideaTitle } = useField('ideaTitle', undefined, { initialValue: props.idea.title })
-const { value: ideaDescription } = useField('ideaDescription', undefined, { initialValue: props.idea.description })
-const { value: ideaColor } = useField('ideaColor', undefined, { initialValue: props.idea.color })
-const { value: email } = useField('email')
+const {value: ideaTitle} = useField('ideaTitle', undefined, {initialValue: props.idea.title})
+const {value: ideaDescription} = useField('ideaDescription', undefined, {initialValue: props.idea.description})
+const {value: ideaColor} = useField('ideaColor', undefined, {initialValue: props.idea.color})
+const {value: email} = useField('email')
 
 
 const submit = handleSubmit(values => {
@@ -228,12 +228,11 @@ function cancelButtonHandle() {
 
 const uploadedPhotos = ref([]);
 
-function listOfUploadedImages(images){
+function listOfUploadedImages(images) {
   console.log("UPLOADED IMAGES:")
   console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
 }
-
 
 
 </script>

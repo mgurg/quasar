@@ -39,12 +39,6 @@
           />
         </q-card-section>
       </q-card>
-
-      <div v-if="(dbImagesUuidList!==null)">
-      <p>Oryginalne zdjęcia: {{dbImagesUuidList}}</p>
-        <hr>
-        <p>Form zdjęcia: {{filesFormUuidList}}</p>
-    </div>
     </q-page>
   </div>
 
@@ -79,7 +73,7 @@ function updateIdea(uuid, formData) {
 
   var arr1 = dbImagesUuidList.value;
   var arr2 = formData.files;
-  
+
   let removedItems = arr1.filter(x => !arr2.includes(x));
   let withoutChanges = arr1.filter(x => arr2.includes(x));
   let newItems = arr2.filter(x => !arr1.includes(x));
@@ -87,10 +81,10 @@ function updateIdea(uuid, formData) {
   console.log("Removed:")
   console.log(removedItems);
 
-  console.log("Added:"); 
+  console.log("Added:");
   console.log(newItems);
 
-  console.log("To save:"); 
+  console.log("To save:");
 
   let fileList = [...withoutChanges,  ...newItems];
 
@@ -109,7 +103,7 @@ function updateIdea(uuid, formData) {
         if (isRemoving.value == false){
           router.push("/ideas");
         }
-        
+
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
