@@ -1,92 +1,69 @@
 <template>
-      <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
+  <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
     <q-btn
-      flat
-      @click="editor.chain().focus().toggleBold().run()"
-      :disabled="!editor.can().chain().focus().toggleBold().run()"
       :class="{ 'shadow-1': editor.isActive('bold') }"
+      :disabled="!editor.can().chain().focus().toggleBold().run()"
+      flat
       icon="format_bold"
+      @click="editor.chain().focus().toggleBold().run()"
     />
 
     <q-btn
-      flat
-      @click="editor.chain().focus().toggleItalic().run()"
-      :disabled="!editor.can().chain().focus().toggleItalic().run()"
       :class="{ 'shadow-1': editor.isActive('italic') }"
+      :disabled="!editor.can().chain().focus().toggleItalic().run()"
+      flat
       icon="format_italic"
-      />
-    <q-btn
-    flat
-    @click="editor.chain().focus().toggleStrike().run()"
-    :disabled="!editor.can().chain().focus().toggleStrike().run()"
-    :class="{ 'shadow-1': editor.isActive('strike') }"
-    icon="strikethrough_s"
+      @click="editor.chain().focus().toggleItalic().run()"
     />
-    </div>
-  <editor-content :editor="editor" />
+    <q-btn
+      :class="{ 'shadow-1': editor.isActive('strike') }"
+      :disabled="!editor.can().chain().focus().toggleStrike().run()"
+      flat
+      icon="strikethrough_s"
+      @click="editor.chain().focus().toggleStrike().run()"
+    />
+  </div>
+  <editor-content :editor="editor"/>
   <div>
 
   </div>
   <div v-if="editor && props.readonly == false"
        :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}"
   >
-    <q-btn round dense flat icon="person_add" @click="showUserDialog = true" />
-    <q-btn round dense flat icon="group_add" @click="showGroupDialog = true" />
-    <q-btn round dense flat icon="mic" @click="insertText('\u03C0')" />
+    <q-btn dense flat icon="person_add" round @click="showUserDialog = true"/>
+    <q-btn dense flat icon="group_add" round @click="showGroupDialog = true"/>
+    <q-btn dense flat icon="mic" round @click="insertText('\u03C0')"/>
     <q-space></q-space>
-    <svg
-      height="20"
-      width="20"
-      viewBox="0 0 20 20"
-      class="character-count__graph"
-    >
-      <circle
-        r="10"
-        cx="10"
-        cy="10"
-        fill="#e9ecef"
-      />
-      <circle
-        r="5"
-        cx="10"
-        cy="10"
-        fill="transparent"
-        stroke="currentColor"
-        stroke-width="10"
-        :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`"
-        transform="rotate(-90) translate(-20)"
-      />
-      <circle
-        r="6"
-        cx="10"
-        cy="10"
-        fill="white"
-      />
+    <svg class="character-count__graph" height="20" viewBox="0 0 20 20" width="20">
+      <circle cx="10" cy="10" fill="#e9ecef" r="10"/>
+      <circle :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`" cx="10" cy="10" fill="transparent" r="5"
+              stroke="currentColor" stroke-width="10" transform="rotate(-90) translate(-20)"/>
+      <circle cx="10" cy="10" fill="white" r="6"/>
     </svg>
 
-    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }} </div>
+    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }}</div>
   </div>
 
 
   <q-dialog v-model="showUserDialog">
-    <UsersDialog @insertUserBtnClick="insertUserMention" />
+    <UsersDialog @insertUserBtnClick="insertUserMention"/>
   </q-dialog>
 
   <q-dialog v-model="showGroupDialog">
-    <GroupsDialog @insertUserBtnClick="insertGroupMention" />
+    <GroupsDialog @insertUserBtnClick="insertGroupMention"/>
   </q-dialog>
 
 </template>
 
 <script setup>
-import { ref,unref, watch ,computed, onUpdated } from "vue";
-import { useUserStore } from 'stores/user'
+import {computed, ref, unref} from "vue";
+import {useUserStore} from 'stores/user'
 
 
 import UsersDialog from 'components/dialog/UsersDialog.vue'
 import GroupsDialog from 'components/dialog/GroupsDialog.vue'
 
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import {EditorContent, useEditor} from '@tiptap/vue-3'
 import Mention from '@tiptap/extension-mention'
 
 import Document from '@tiptap/extension-document'
@@ -137,6 +114,7 @@ async function getEditorUsers() {
     // errorMsg.value = err
   }
 }
+
 async function getEditorGroups() {
   try {
     await UserStore.setEditorGroups();
@@ -154,7 +132,7 @@ getEditorGroups();
 
 const content = ref('')
 
-if (props.bodyContent !== null && props.bodyContent !== ''){
+if (props.bodyContent !== null && props.bodyContent !== '') {
   // console.log("Props:"  + JSON.stringify(props.bodyContent))
   content.value = props.bodyContent;
 }
@@ -167,16 +145,16 @@ const editor = useEditor({
   extensions: [
     CustomDocument,
     CharacterCount.configure({
-          limit: charLimit.value,
-        }),
+      limit: charLimit.value,
+    }),
     StarterKit.configure({
       document: false
     }),
     Placeholder.configure({
       // showOnlyWhenEditable: false,
       placeholder: '',
-}),
-Mention.extend({
+    }),
+    Mention.extend({
       name: "userMention"
     }).configure({
       HTMLAttributes: {
@@ -193,13 +171,13 @@ Mention.extend({
       suggestion: groups
     })
   ],
-  onCreate({ editor }) {
+  onCreate({editor}) {
     editor.setEditable(!props.readonly);
     editor.commands.setContent(content.value);
     const isEmpty = editor.state.doc.textContent.length === 0
     console.log(isEmpty)
   },
-  onUpdate({ editor }) {
+  onUpdate({editor}) {
     const html = editor.getHTML()
     const json = editor.getJSON()
     emit('editorContent', json, html)
@@ -217,13 +195,13 @@ Mention.extend({
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
 
 
-function insertUserMention(jsonMention){
+function insertUserMention(jsonMention) {
   unref(editor).commands.insertContent(jsonMention);
   unref(editor).commands.insertContent(" ");
   showUserDialog.value = false;
 }
 
-function insertGroupMention(jsonMention){
+function insertGroupMention(jsonMention) {
   unref(editor).commands.insertContent(jsonMention);
   unref(editor).commands.insertContent(" ");
   showUserDialog.value = false;
@@ -232,70 +210,73 @@ function insertGroupMention(jsonMention){
 </script>
 
 <style lang="scss">
-  /* remove outline */
-  .ProseMirror:focus {
-    outline: none !important;
+/* remove outline */
+.ProseMirror:focus {
+  outline: none !important;
+}
+
+/* set */
+// .ProseMirror {
+//   min-height: 100px;
+//   // max-height: 100px;
+//   overflow: scroll;
+//   outline: none !important;
+// }
+
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+    color: #1f2937 !important;
   }
 
-  /* set */
-  // .ProseMirror {
-  //   min-height: 100px;
-  //   // max-height: 100px;
-  //   overflow: scroll;
-  //   outline: none !important;
-  // }
+  h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
 
-  .ProseMirror {
-    >*+* {
-      margin-top: 0.75em;
-      color: #1f2937!important;
-    }
-
-    h1 {
-      font-size: 2rem;
-      font-weight: 400;
-      line-height: 1;
-
-    }
-    h2,
-    h3,
-    h4{
-      font-size: 1rem;
-    }
-    h5,
-    h6 {
-      line-height: 0.4;
-    }
-    p{
-      font-size: 1.1rem;
-    }
   }
 
-  /* Placeholder (on every new line) */
-  .ProseMirror .is-empty::before {
-    content: attr(data-placeholder);
-    float: left;
-    color: #ced4da;
-    pointer-events: none;
-    height: 0;
+  h2,
+  h3,
+  h4 {
+    font-size: 1rem;
   }
 
-  .mention {
-    border: 0px solid #000;
-    border-radius: 0.4rem;
-    padding: 0.1rem 0.3rem;
-    box-decoration-break: clone;
+  h5,
+  h6 {
+    line-height: 0.4;
   }
 
-  [data-type="groupMention"] {
-    background-color: rgb(236, 253, 99);
+  p {
+    font-size: 1.1rem;
   }
+}
 
-  [data-type="userMention"] {
-    background-color: rgb(82, 226, 238);
-  }
+/* Placeholder (on every new line) */
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
 
-  .character-count {
+.mention {
+  border: 0px solid #000;
+  border-radius: 0.4rem;
+  padding: 0.1rem 0.3rem;
+  box-decoration-break: clone;
+}
+
+[data-type="groupMention"] {
+  background-color: rgb(236, 253, 99);
+}
+
+[data-type="userMention"] {
+  background-color: rgb(82, 226, 238);
+}
+
+.character-count {
   margin-top: 1rem;
   margin-bottom: 0.1rem;
   margin-left: 0.1rem;
@@ -316,7 +297,7 @@ function insertGroupMention(jsonMention){
     color: #868e96;
   }
 }
-  </style>
+</style>
 
 <!-- <style lang="scss" scoped>
   :deep(.ProseMirror) {

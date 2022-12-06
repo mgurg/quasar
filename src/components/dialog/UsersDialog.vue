@@ -6,35 +6,35 @@
 
     <q-card-section class="q-pt-none">
       <q-input
-        dense
-        clearable
-        outlined
         v-model="search"
         :label="$t('Type your search text')"
-        type="search"
+        clearable
         debounce="300"
+        dense
+        outlined
+        type="search"
         @update:model-value="fetchUsers()">
         <template v-if="!search" v-slot:append>
-          <q-icon name="search" />
+          <q-icon name="search"/>
         </template>
 
       </q-input>
 
-      <q-list bordered separator v-for="(user, index) in users" v-bind:key="index" v-if="users != null" >
+      <q-list v-for="(user, index) in users" v-if="users != null" v-bind:key="index" bordered separator>
         <div @click="insertUser(user.first_name, user.last_name, user.uuid)">
-        <q-item clickable v-ripple>
-          <q-item-section >
-            <q-item-label>{{user.first_name}} {{user.last_name}}</q-item-label>
-            <q-item-label caption>Dodaj</q-item-label>
-          </q-item-section>
-        </q-item>
+          <q-item v-ripple clickable>
+            <q-item-section>
+              <q-item-label>{{ user.first_name }} {{ user.last_name }}</q-item-label>
+              <q-item-label caption>Dodaj</q-item-label>
+            </q-item-section>
+          </q-item>
         </div>
       </q-list>
 
     </q-card-section>
 
     <q-card-actions align="right">
-      <q-btn flat label="OK" color="primary" v-close-popup />
+      <q-btn v-close-popup color="primary" flat label="OK"/>
     </q-card-actions>
   </q-card>
 </template>
@@ -66,13 +66,12 @@ function fetchUsers() {
 
 }
 
-function insertUser(first_name, last_name, uuid){
+function insertUser(first_name, last_name, uuid) {
   let fullName = first_name + " " + last_name;
-  let jsonMention = {"type":"userMention","attrs":{"id":uuid,"label":fullName}}
+  let jsonMention = {"type": "userMention", "attrs": {"id": uuid, "label": fullName}}
   console.log(jsonMention);
 
   emit('insertUserBtnClick', jsonMention)
-
 
 }
 
