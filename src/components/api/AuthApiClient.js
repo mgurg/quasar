@@ -1,3 +1,5 @@
+//  https://github.com/search?q=useAsyncLoad+lang%3AVue+&type=code
+
 import { authApi } from "boot/axios";
 
 export function getVerifyTokenRequest(token) {

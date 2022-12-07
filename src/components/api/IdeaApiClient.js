@@ -1,5 +1,14 @@
 import { authApi } from "boot/axios";
 
+
+// export const getCallTrace = async (callUuid: string) => {
+//   const {data} = await authCrmAxios.get < {data: Track[]} > (
+//     `callHistory/trace/${callUuid}`
+//   );
+//
+//   return data.data;
+// };
+
 export function getIdeasStatsRequest() {
   return authApi.get("/ideas/stats");
 }

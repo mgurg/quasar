@@ -8,6 +8,11 @@
                 style="height: 220px; width: 100%; border: 1px solid gray;" 
                 fit="cover"
                 @click="previewImgObject(index)">
+                <template v-slot:error>
+        <div class="absolute-full flex flex-center bg-negative text-white">
+          Cannot load image
+        </div>
+      </template>
             </q-img>
         </div>
     </div>

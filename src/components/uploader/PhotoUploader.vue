@@ -48,6 +48,11 @@
                 style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
           <q-tooltip>Remove image</q-tooltip>
         </q-icon>
+        <template v-slot:error>
+        <div class="absolute-full flex flex-center bg-negative text-white">
+          Cannot load image
+        </div>
+      </template>
       </q-img>
     </div>
   </div>
