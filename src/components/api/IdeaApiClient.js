@@ -1,5 +1,8 @@
 import { authApi } from "boot/axios";
 
+// https://stackoverflow.com/a/70337392
+// https://medium.com/bb-tutorials-and-thoughts/how-to-make-parallel-api-calls-in-vuejs-applications-typescript-version-c3356814ecbf
+
 
 // export const getCallTrace = async (callUuid: string) => {
 //   const {data} = await authCrmAxios.get < {data: Track[]} > (
