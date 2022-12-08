@@ -45,14 +45,6 @@
 
     </div>
   </q-form>
-
-  <p>Uploaded Files</p>
-  <p>{{ uploadedFiles }}</p>
-  <p>Uploaded Photos</p>
-  <p>{{ uploadedPhotos }}</p>
-  <p>Uploaded All</p>
-  <p>{{ uploadedAll }}</p>
-
 </template>
 
 <script setup>

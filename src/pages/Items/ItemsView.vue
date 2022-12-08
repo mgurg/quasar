@@ -109,7 +109,7 @@
         </q-slide-transition>
 
         <!--        DOCS  -->
-        <q-separator v-if="itemDetails && photoFiles !==null"/>
+        <q-separator v-if="itemDetails && documentFiles !==null"/>
         <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Dokumenty</div>
@@ -125,13 +125,13 @@
           </div>
 
         </q-card-section>
-        <q-separator />
+        <q-separator/>
         <q-slide-transition>
           <div v-show="expandedDocs">
             <!-- <q-separator /> -->
             <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
               <div class="q-mt-md">
-                <document-viewer v-if="photoFiles && !isLoading" :files-list="photoFiles" />
+                <document-viewer v-if="documentFiles && !isLoading" :files-list="documentFiles"/>
               </div>
 
 
@@ -275,7 +275,8 @@ function getItemDetails(uuid) {
 
     console.log("photoFiles")
 
-    photoFiles.value =  response.data.files_item.filter((item) => item.mimetype.match('image.*'));
+    photoFiles.value = response.data.files_item.filter((item) => item.mimetype.match('image.*'));
+    documentFiles.value = response.data.files_item.filter((item) => !item.mimetype.match('image.*'));
     console.log(photoFiles.value)
 
     // documentFiles.value =  itemDetails.value;
