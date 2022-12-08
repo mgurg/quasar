@@ -3,7 +3,7 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <q-breadcrumbs class="row q-pa-sm">
         <q-breadcrumbs-el icon="home" to="/home" />
-        <q-breadcrumbs-el :label="$t('Ideas')" icon="tips_and_updates" to="/ideas" />
+        <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/items" />
         <q-breadcrumbs-el :label="$t('Add')" icon="add" />
       </q-breadcrumbs>
 
@@ -14,11 +14,11 @@
 
               <q-item-section>
                 <q-item-label class="text-h6">{{ $t("Item") }} </q-item-label>
-                <!-- 
+                <!--
                   <q-item-label caption>
-                  Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? 
+                  Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
                   Pamiętaj o opcji importu!
-                </q-item-label> 
+                </q-item-label>
                 -->
               </q-item-section>
             </q-item>

@@ -69,7 +69,7 @@
           </q-item>
 
           <div v-for="(user, index) in users" v-if="users != null" v-bind:key="index">
-            <user-item v-if="!isLoading" :user="user"></user-item>
+            <user-item  :user="user"/>
           </div>
           <task-index-skeleton v-else/>
 
@@ -80,8 +80,6 @@
         <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
         </div>
-
-        <!-- <q-space class="q-pa-sm" /> -->
       </q-card>
 
     </q-page>

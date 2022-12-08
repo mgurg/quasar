@@ -4,15 +4,15 @@
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
-            <q-breadcrumbs-el icon="home" to="/" />
-            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides" />
-            <q-breadcrumbs-el :label="$t('View')" icon="info" />
+            <q-breadcrumbs-el icon="home" to="/"/>
+            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides"/>
+            <q-breadcrumbs-el :label="$t('View')" icon="info"/>
           </q-breadcrumbs>
           <q-space></q-space>
           <a class="cursor-pointer" @click="router.back()">← back</a>
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
 
         <q-card-section v-if="guideDetails && !isLoading">
           <q-list>
@@ -23,10 +23,10 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn outline color="primary" no-caps icon="edit" class="float-right q-mr-sm"
-                    :label="$q.screen.gt.xs ? $t('Edit') : ''" @click="editGuide(guideDetails.uuid)" />
-                  <q-btn flat color="red" icon="delete" class="float-right q-mr-sm" no-caps
-                    :label="$q.screen.gt.xs ? $t('Delete') : ''" @click="deleteGuide(guideDetails.uuid)" />
+                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps
+                         outline @click="editGuide(guideDetails.uuid)"/>
+                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"
+                         no-caps @click="deleteGuide(guideDetails.uuid)"/>
 
                 </div>
               </q-item-section>
@@ -35,83 +35,93 @@
         </q-card-section>
       </q-card>
 
-      <q-card class="my-card no-shadow q-my-sm" bordered>
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <!--        VIDEO -->
         <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Film</div>
             <q-space></q-space>
-            <q-btn color="grey" round flat dense :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              @click="expandedDetails = !expandedDetails" />
+            <q-btn :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
+                   @click="expandedDetails = !expandedDetails"/>
           </div>
-          
+
         </q-card-section>
-        <q-separator v-if="guideDetails && guideDetails.video_id !==null" />
+        <q-separator v-if="guideDetails && guideDetails.video_id !==null"/>
         <q-slide-transition>
-        <div v-show="expandedDetails">
-          <!-- <q-separator /> -->
-          <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
-            <movie-viewer :video-id="guideDetails.video_id" :video-metadata="guideDetails.video_jsonb.encoding.metadata" v-if="guideDetails && guideDetails.video_id !==null && !isLoading" />
-          </q-card-section>
-        </div>
-      </q-slide-transition>
-      <q-card-section>
+          <div v-show="expandedDetails">
+            <!-- <q-separator /> -->
+            <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
+              <movie-viewer v-if="guideDetails && guideDetails.video_id !==null && !isLoading"
+                            :video-id="guideDetails.video_id"
+                            :video-metadata="guideDetails.video_jsonb.encoding.metadata"/>
+            </q-card-section>
+          </div>
+        </q-slide-transition>
+
+        <!--        DESCRIPTION -->
+        <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Opis</div>
             <q-space></q-space>
-            <q-btn color="grey" round flat dense :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              @click="expandedDescription = !expandedDescription" />
+            <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
+                   round
+                   @click="expandedDescription = !expandedDescription"/>
           </div>
-          
+
         </q-card-section>
 
         <q-slide-transition>
-        <div v-show="expandedDescription">
-          <!-- <q-separator /> -->
-          <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-            <div class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'">
-            <tip-tap-guide :body-content="guideDetails.text_jsonb" :readonly="true" v-if="guideDetails && !isLoading" />
-          </div>
+          <div v-show="expandedDescription">
+            <!-- <q-separator /> -->
+            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
+              <div :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
+                   class="rounded-borders">
+                <tip-tap-guide v-if="guideDetails && !isLoading" :body-content="guideDetails.text_jsonb"
+                               :readonly="true"/>
+              </div>
 
-          
-          </q-card-section>
-        </div>
-      </q-slide-transition>
-      <q-separator v-if="guideDetails && guideDetails.files_guide !==null" />
-      <q-card-section>
+
+            </q-card-section>
+          </div>
+        </q-slide-transition>
+
+        <!--        PHOTOS -->
+        <q-separator v-if="guideDetails && guideDetails.files_guide !==null"/>
+        <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Zdjęcia</div>
             <q-space></q-space>
-            <q-btn color="grey" round flat dense :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              @click="expandedPhotos = !expandedPhotos" />
+            <q-btn :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
+                   @click="expandedPhotos = !expandedPhotos"/>
           </div>
-          
+
         </q-card-section>
         <q-slide-transition>
-        <div v-show="expandedPhotos">
-          <!-- <q-separator /> -->
-          <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-            <div class="q-mt-md">
-            <photo-viewer :pictures-list="guideDetails.files_guide" v-if="guideDetails && !isLoading"/>
-        </div>
-
-          
-          </q-card-section>
-        </div>
-      </q-slide-transition>
+          <div v-show="expandedPhotos">
+            <!-- <q-separator /> -->
+            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
+              <div class="q-mt-md">
+                <photo-viewer v-if="guideDetails && !isLoading" :pictures-list="guideDetails.files_guide"/>
+              </div>
 
 
-    </q-card>
+            </q-card-section>
+          </div>
+        </q-slide-transition>
+
+
+      </q-card>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount } from "vue";
-import { useQuasar } from "quasar";
-import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
-import { useUserStore } from 'stores/user'
-import { useRoute, useRouter } from "vue-router";
-import { authApi } from "boot/axios";
+import {computed, onBeforeMount, ref} from "vue";
+import {useQuasar} from "quasar";
+import TipTapGuide from 'components/editor/TipTapBasic.vue'
+import {useUserStore} from 'stores/user'
+import {useRoute, useRouter} from "vue-router";
+import {authApi} from "boot/axios";
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
 import MovieViewer from 'src/components/viewer/MovieViewer.vue'
 
@@ -121,6 +131,7 @@ const router = useRouter();
 
 const UserStore = useUserStore();
 const permissions = computed(() => UserStore.getPermissions);
+
 function hasPermission(permission) {
   return Boolean(permissions.value.includes(permission));
 }
@@ -133,7 +144,7 @@ let expandedDetails = ref(true)
 let expandedDescription = ref(true)
 let expandedPhotos = ref(true)
 
-function getDetails(uuid) {
+function geGuideDetails(uuid) {
   authApi
     .get("/guides/" + uuid)
     .then((res) => {
@@ -184,7 +195,7 @@ function deleteGuide(uuid) {
 
 onBeforeMount(() => {
   isLoading.value = true;
-  getDetails(route.params.uuid);
+  geGuideDetails(route.params.uuid);
 });
 
 </script>

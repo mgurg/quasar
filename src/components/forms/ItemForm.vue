@@ -3,48 +3,60 @@
 <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
       @submit.prevent>
 
-      <q-input 
-        outlined 
-        v-model="itemName" 
-        :disable="isLoading" 
+      <q-input
+        outlined
+        v-model="itemName"
+        :disable="isLoading"
         :error="!!errors.itemName"
-        :error-message="errors.itemName" :label="$t('Item title')" 
+        :error-message="errors.itemName" :label="$t('Item title')"
     />
-        <q-input 
-        outlined 
-        v-model="itemDescription" 
-        :disable="isLoading" 
-        :error="!!errors.itemDescription"
-        :error-message="errors.itemDescription" label="Opis" 
-    />
-    <file-uploader @uploaded-photos="listUploadedImgs" :file-list="props.item.files_item" />
+
+  <div class="tiptap">
+    <tip-tap-basic :body-content="tipTapText" @editor-content="logText"/>
+  </div>
+
+  <div>
+    <photo-uploader :file-list="props.item.files_item" />
+  </div>
+
+  <div>
+    <file-uploader  :file-list="props.item.files_item" />
+  </div>
+<!--        <q-input -->
+<!--        outlined -->
+<!--        v-model="itemDescription" -->
+<!--        :disable="isLoading" -->
+<!--        :error="!!errors.itemDescription"-->
+<!--        :error-message="errors.itemDescription" label="Opis" -->
+<!--    />-->
+
 
     <div class="row">
         <q-space />
-        <q-btn 
-          flat 
-          type="submit" 
-          class="q-mr-lg" 
-          color="red-12" 
-          icon="cancel" 
+        <q-btn
+          flat
+          type="submit"
+          class="q-mr-lg"
+          color="red-12"
+          icon="cancel"
           @click="cancelButtonHandle"
           :label="$t('Cancel')"
         />
 
-        <q-btn 
-          v-if="props.buttonText == 'Edit'"
-          type="submit" 
-          class="q-mr-xs" 
-          icon="done" 
+        <q-btn
+          v-if="props.buttonText === 'Edit'"
+          type="submit"
+          class="q-mr-xs"
+          icon="done"
           color="primary"
           @click="edititem()"
           :label="$t('Edit')"
         />
-        <q-btn 
-          v-if="props.buttonText == 'Save'"
-          type="submit" 
-          class="q-mr-xs" 
-          icon="done" 
+        <q-btn
+          v-if="props.buttonText === 'Save'"
+          type="submit"
+          class="q-mr-xs"
+          icon="done"
           color="primary"
           @click="submit()"
           :label="$t('Save')"
@@ -63,9 +75,14 @@ import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
 import { authApi } from "boot/axios";
 import { useRoute, useRouter } from "vue-router";
-import FileUploader from 'src/components/uploader/FileUploader.vue'
+
 import { getItemRequest, editItemRequest, addItemRequest, deleteItemRequest } from 'src/components/api/ItemApiClient'
 import {errorHandler} from 'src/components/api/errorHandler.js'
+
+
+import TipTapBasic from 'src/components/editor/TipTapBasic.vue'
+import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import FileUploader from 'src/components/uploader/FileUploader.vue'
 
 const router = useRouter();
 
@@ -96,17 +113,33 @@ const props = defineProps({
   },
 })
 
-//IMG
+let jsonTxt = null;
+let htmlTxt = null;
 
+function logText(json, html) {
+  jsonTxt = json
+  htmlTxt = html
+}
+
+const tipTapText = ref(null)
+
+if (props.item.body_json !== null) {
+  tipTapText.value = props.item.body_json;
+}
+
+
+// IMG
+// const listOfUploadedImages = ref(null)
 const uploadedPhotos = ref([]);
 
-function listUploadedImgs(images){
+function listOfUploadedImages(images){
   console.log("UPLOADED IMAGES:")
   console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
 }
 
-
+// Files
+const uploadedFiles = ref([]);
 
 const { handleReset } = useForm();
 
@@ -169,3 +202,22 @@ const submit = handleSubmit(values => {
 })
 
 </script>
+
+
+<style lang="scss" scoped>
+.tiptap {
+  border: 1px solid #c2c2c2;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.tiptap:focus-within {
+  transition: 0.1s;
+  border: 2px solid #1976d2 !important;
+}
+
+// .tiptap:hover {
+//   transition: 0.5s;
+//   border: 1px solid #000000 !important;
+// }
+</style>

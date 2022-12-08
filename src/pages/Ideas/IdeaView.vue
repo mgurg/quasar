@@ -115,7 +115,7 @@ function convertTime(datetime, timeZone="America/Los_Angeles") {
   return dateObject;
 }
 
-function getDetails(uuid) {
+function getIdeaDetails(uuid) {
   authApi
     .get("/ideas/" + uuid)
     .then((res) => {
@@ -145,7 +145,7 @@ function sendVote(state) {
       //
       // console.log(res.data.vote)
       lastVote.value = state
-      getDetails(route.params.uuid)
+      getIdeaDetails(route.params.uuid)
     })
     .catch((err) => {
       if (err.response) {
@@ -225,7 +225,7 @@ function deleteIdea(uuid, ideaName) {
 
 onBeforeMount(() => {
   isLoading.value = true;
-  getDetails(route.params.uuid);
+  getIdeaDetails(route.params.uuid);
   getLastVote(route.params.uuid);
 });
 

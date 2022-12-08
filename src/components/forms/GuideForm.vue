@@ -2,13 +2,13 @@
     <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
         @submit.prevent>
 
-        <q-input 
-            outlined 
-            v-model="guideName" 
-            :disable="isLoading" 
+        <q-input
+            outlined
+            v-model="guideName"
+            :disable="isLoading"
             :error="!!errors.guideName"
-            :error-message="errors.guideName" 
-            :label="$t('Guide name')" 
+            :error-message="errors.guideName"
+            :label="$t('Guide name')"
         />
 
         <div class="tiptap">
@@ -24,29 +24,29 @@
 
         <div class="row">
             <q-space />
-            <q-btn 
-                flat 
-                type="submit" 
-                class="q-mr-lg" 
-                icon="cancel" 
-                color="red-12" 
+            <q-btn
+                flat
+                type="submit"
+                class="q-mr-lg"
+                icon="cancel"
+                color="red-12"
                 @click="cancelButtonHandle"
                 :label="$t('Cancel')"
             />
-            <q-btn 
+            <q-btn
                 v-if="props.buttonText == 'Edit'"
-                type="submit" 
-                class="q-mr-xs" 
-                icon="done" 
+                type="submit"
+                class="q-mr-xs"
+                icon="done"
                 color="primary"
                 @click="editGuide()"
                 :label="$t('Edit')"
             />
-            <q-btn 
+            <q-btn
               v-if="props.buttonText == 'Save'"
-                type="submit" 
-                class="q-mr-xs" 
-                icon="done" 
+                type="submit"
+                class="q-mr-xs"
+                icon="done"
                 color="primary"
                 @click="createGuide()"
                 :label="$t('Save')"
@@ -62,7 +62,7 @@ import { useField, useForm } from "vee-validate";
 import * as yup from 'yup';
 import { useRoute, useRouter } from "vue-router";
 
-import TipTapGuide from 'src/components/editor/TipTapGuide.vue'
+import TipTapGuide from 'components/editor/TipTapBasic.vue'
 import MovieUploader from 'src/components/uploader/MovieUploader.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 import { addGuideRequest, editGuideRequest } from 'src/components/api/GuideApiClient.js'

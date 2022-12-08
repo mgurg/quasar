@@ -43,7 +43,7 @@
         </q-input>
 
         <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
-          pracownikiem firmy. Zgłoszenia z prywanych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
+          pracownikiem firmy. Zgłoszenia z prywatnych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
 
         <p>Posiadasz konto? Możesz się
           <router-link to="/login">zalogować i dokonać zgłoszenia jako

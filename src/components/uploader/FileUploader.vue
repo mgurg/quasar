@@ -1,13 +1,13 @@
 <template>
-    <q-file 
-        outlined 
-        v-model="files" 
-        @update:model-value="compressorFn" 
+    <q-file
+        outlined
+        v-model="files"
+        @update:model-value="compressorFn"
         :label="$t('Pick Photo to upload')"
-        :error="!!qFileError" 
-        :error-message="qFileError" 
-        :clearable="!isUploading" 
-        @rejected="onRejected" 
+        :error="!!qFileError"
+        :error-message="qFileError"
+        :clearable="!isUploading"
+        @rejected="onRejected"
         v-if="imagesList.length < 4"
     >
         <template v-slot:prepend>
@@ -36,10 +36,10 @@
     <!-- IMG -->
     <div class="row q-col-gutter-xs">
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(image, index) in imagesList" v-bind:key="index">
-            <q-img 
-                :src="image.url" 
-                spinner-color="black" 
-                style="height: 300px; width: 100%; border: 1px solid gray;" 
+            <q-img
+                :src="image.url"
+                spinner-color="black"
+                style="height: 300px; width: 100%; border: 1px solid gray;"
                 fit="cover"
                 >
                 <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
@@ -81,10 +81,10 @@ let filesList = ref([]);
 
 if (props.fileList !==null){
     imagesList.value = props.fileList
-    emit('uploadedPhotos', imagesList.value)
+    emit('uploadedFiles', imagesList.value)
 }
 
-const emit = defineEmits(["uploadedPhotos", 'uploadedFiles']);
+const emit = defineEmits(['uploadedFiles']);
 
 const UserStore = useUserStore();
 
@@ -140,7 +140,7 @@ const compressorFn = () => {
     }else{
         console.log("Definatelly a image");
         console.log(files.value)
-        
+
     }
 
 
@@ -214,10 +214,10 @@ function uploadImage(file) {
         })
         .then((res) => {
             imagesList.value.push(res.data);
-            
+
             console.log(imagesList.value);
             // uploader.value.reset()
-            emit('uploadedPhotos', imagesList.value)
+            emit('uploadedFiles', imagesList.value)
             isLoading.value = false;
             files.value = null;
         })
@@ -259,7 +259,7 @@ function uploadFile(file) {
         })
         .then((res) => {
             filesList.value.push(res.data);
-            
+
             console.log(filesList.value);
             // uploader.value.reset()
             emit('uploadedFiles', filesList.value)
@@ -276,7 +276,7 @@ function uploadFile(file) {
             }
             isLoading.value = false;
         });
-    
+
 }
 
 function delete_file(uuid) {
@@ -297,7 +297,7 @@ function delete_file(uuid) {
             imagesList.value = imagesList.value.filter(
                 (item) => item.uuid !== uuid
             );
-            emit('uploadedPhotos', imagesList.value)
+            emit('uploadedFiles', imagesList.value)
         })
         .catch((err) => {
             if (err.response) {
