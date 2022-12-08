@@ -5,7 +5,7 @@
     :clearable="!isUploading"
     :error="!!qFileError"
     :error-message="qFileError"
-    :label="$t('Pick Photo to upload')"
+    :label="$t('Pick File to upload')"
     outlined
     @rejected="onRejected"
     @update:model-value="compressorFn"
@@ -34,23 +34,6 @@
     </template>
   </q-file>
 
-  <!-- IMG -->
-  <div class="row q-col-gutter-xs">
-    <div v-for="(image, index) in attachments" v-bind:key="index" class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
-      <q-img
-        :src="image.url"
-        fit="cover"
-        spinner-color="black"
-        style="height: 300px; width: 100%; border: 1px solid gray;"
-      >
-        <q-icon class="absolute all-pointer-events" color="blue-grey-5" name="delete" size="sm"
-                style="top: 8px; right: 8px" @click="delete_file(image.uuid)">
-          <q-tooltip>Remove image</q-tooltip>
-        </q-icon>
-      </q-img>
-    </div>
-  </div>
-
   <!-- FILES -->
 
   <q-list v-for="(file, index) in attachments" v-if="attachments != null" v-bind:key="index" bordered separator>
@@ -63,7 +46,7 @@
         <q-item-label caption>Dodaj</q-item-label>
       </q-item-section>
 
-      <q-item-section side top>
+      <q-item-section side>
         <div class="text-grey-8 q-gutter-xs">
           <q-btn v-ripple class="gt-xs" clickable dense flat icon="delete" round size="12px"
                  @click="delete_file(file.uuid)"/>

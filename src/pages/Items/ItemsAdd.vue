@@ -67,8 +67,8 @@ function createItem(formData) {
 }
 
 function addButtonPressed(itemForm) {
-  console.log(itemForm)
-  // createItem(itemForm)
+  // console.log(itemForm)
+  createItem(itemForm)
 }
 
 

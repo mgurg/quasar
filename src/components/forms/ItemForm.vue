@@ -23,8 +23,6 @@
       <file-uploader :file-list="props.item.files_item" @uploaded-files="listOfUploadedFiles"/>
     </div>
 
-
-
     <div class="row">
       <q-space/>
       <q-btn
@@ -121,6 +119,9 @@ if (props.item.body_json !== null) {
   tipTapText.value = props.item.body_json;
 }
 
+// ALL
+
+const uploadedAll = ref([]);
 
 // IMG
 
@@ -130,6 +131,7 @@ function listOfUploadedImages(images) {
   console.log("UPLOADED IMAGES:")
   console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
+  uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
 }
 
 // Files
@@ -139,11 +141,10 @@ function listOfUploadedFiles(files) {
   console.log("UPLOADED IMAGES:")
   console.log(JSON.stringify(files))
   uploadedFiles.value = files;
+  uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
 }
 
-// ALL
 
-const uploadedAll = ref([]);
 
 // Form
 
@@ -188,7 +189,7 @@ const submit = handleSubmit(values => {
     "qr_code": "string",
     "body_json": jsonTxt,
     "body_html": htmlTxt,
-    "files": uploadedPhotos.value.map(a => a.uuid)
+    "files": uploadedAll.value.map(a => a.uuid)
   }
 
   console.log(data)

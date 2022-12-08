@@ -46,8 +46,10 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 #files,,,,
 """Pick Video to upload""",Pick Video to upload,Choisissez la vidéo à télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
 """Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,Foto zum Hochladen auswählen,"Wybierz zdjęcie, aby przesłać"
+"""Pick File to upload""",Pick File to upload,Choisissez le fichier à télécharger,Datei zum Hochladen auswählen,"Wybierz plik, aby przesłać"
 """Delete Video""",Delete Video,Supprimer la vidéo,Video löschen,Usuń wideo
 """Delete Photo""",Delete Photo,Supprimer la photo,Foto löschen,Usuń zdjęcie
+"""Delete File""",Delete File,Supprimer le fichier,Datei löschen,Usunąć plik
 ,,,,
 #dashboard,,,,
 """New""",New,Nouveau,Neu,Nowy
@@ -83,7 +85,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Item description""",Item description,Description de l'idée,Artikelbeschreibung,Opis przedmiotu
 """New item""",New item,Nouvelle idée,Neuer Gegenstand,Nowy element
 ,,,,
-#Guides,,,,
+#guides,,,,
 """Guides""",Guides,Guides,Führer,Przewodniki
 """Guide""",Guide,Guide,Führen,Przewodnik
 """New guide""",New guide,Nouveau guide,Neuer Leitfaden,Nowy przewodnik

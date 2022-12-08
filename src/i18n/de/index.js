@@ -49,8 +49,10 @@ export default {
 	// files
 	"Pick Video to upload": `Video zum Hochladen auswählen`,
 	"Pick Photo to upload": `Foto zum Hochladen auswählen`,
+	"Pick File to upload": `Datei zum Hochladen auswählen`,
 	"Delete Video": `Video löschen`,
 	"Delete Photo": `Foto löschen`,
+	"Delete File": `Datei löschen`,
 
 	// dashboard
 	"New": `Neu`,
@@ -86,7 +88,7 @@ export default {
 	"Item description": `Artikelbeschreibung`,
 	"New item": `Neuer Gegenstand`,
 
-	// Guides
+	// guides
 	"Guides": `Führer`,
 	"Guide": `Führen`,
 	"New guide": `Neuer Leitfaden`,

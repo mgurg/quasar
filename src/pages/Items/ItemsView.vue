@@ -68,25 +68,18 @@
               <div
                 :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
                 class="rounded-borders">
-                <tiptap
+                <tip-tap
                   v-if="itemDetails && !isLoading"
                   :body-content="itemDetails.description_jsonb"
                   :readonly="true"
                 />
               </div>
-              <div class="q-mt-md">
-                <photo-viewer
-                  v-if="itemDetails && !isLoading"
-                  :pictures-list="itemDetails.files_item"
-                />
-              </div>
-
             </q-card-section>
           </div>
         </q-slide-transition>
 
         <!--        PHOTOS -->
-        <q-separator v-if="itemDetails && itemDetails.files_item !==null"/>
+        <q-separator v-if="itemDetails && photoFiles !==null"/>
         <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h5">Zdjęcia</div>
@@ -102,13 +95,43 @@
           </div>
 
         </q-card-section>
-        <q-separator />
         <q-slide-transition>
           <div v-show="expandedPhotos">
             <!-- <q-separator /> -->
             <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
               <div class="q-mt-md">
-                <photo-viewer v-if="itemDetails && !isLoading" :pictures-list="itemDetails.files_item"/>
+                <photo-viewer v-if="photoFiles && !isLoading" :pictures-list="photoFiles"/>
+              </div>
+
+
+            </q-card-section>
+          </div>
+        </q-slide-transition>
+
+        <!--        DOCS  -->
+        <q-separator v-if="itemDetails && photoFiles !==null"/>
+        <q-card-section>
+          <div class="row q-col-gutter-xs">
+            <div class="text-h5">Dokumenty</div>
+            <q-space></q-space>
+            <q-btn
+              :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              color="grey"
+              dense
+              flat
+              round
+              @click="expandedDocs = !expandedDocs"
+            />
+          </div>
+
+        </q-card-section>
+        <q-separator />
+        <q-slide-transition>
+          <div v-show="expandedDocs">
+            <!-- <q-separator /> -->
+            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
+              <div class="q-mt-md">
+                <document-viewer v-if="photoFiles && !isLoading" :files-list="photoFiles" />
               </div>
 
 
@@ -176,8 +199,9 @@ import {computed, onBeforeMount, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 import GuideItem from "components/listRow/GuideListRow.vue";
-import Tiptap from 'src/components/editor/TipTap.vue'
+import TipTap from 'src/components/editor/TipTap.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
+import DocumentViewer from 'src/components/viewer/DocumentViewer.vue'
 
 import {getGuideRequest} from 'src/components/api/GuideApiClient.js'
 import {deleteItemRequest, getItemUuidRequest} from 'src/components/api/ItemApiClient.js'
@@ -186,7 +210,10 @@ import {useQuasar} from "quasar";
 import {useUserStore} from "stores/user";
 import {useI18n} from "vue-i18n";
 
+
 let itemDetails = ref(null);
+let photoFiles = ref(null);
+let documentFiles = ref(null);
 const guides = ref([]);
 let isLoading = ref(false);
 
@@ -202,6 +229,7 @@ const successfulDeleteMessage = computed(() => t("Deleted:"));
 
 let expandedDescription = ref(true)
 let expandedPhotos = ref(true)
+let expandedDocs = ref(true)
 let expandedGuide = ref(true)
 
 let sort = reactive({
@@ -243,10 +271,19 @@ function getItemDetails(uuid) {
   getItemUuidRequest(uuid).then(function (response) {
     console.log(response.data);
     itemDetails.value = response.data;
+
+
+    console.log("photoFiles")
+
+    photoFiles.value =  response.data.files_item.filter((item) => item.mimetype.match('image.*'));
+    console.log(photoFiles.value)
+
+    // documentFiles.value =  itemDetails.value;
     // json.value = res.data.body_json;
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
+    console.log(errorMessage);
   });
 
 }

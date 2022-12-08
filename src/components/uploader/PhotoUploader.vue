@@ -56,6 +56,7 @@
       </q-img>
     </div>
   </div>
+  <q-separator></q-separator>
 </template>
 
 <script setup>
@@ -95,7 +96,8 @@ const emit = defineEmits(["uploadedPhotos"]);
 let attachments = ref([]);
 let newAttachments = ref([]);
 if (props.fileList !== null) {
-  attachments.value = props.fileList
+  attachments.value = props.fileList;
+  attachments.value = filter((item) => attachments.value.mimetype.match('image.*'))
   emit('uploadedPhotos', attachments.value)
 }
 

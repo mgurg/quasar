@@ -49,8 +49,10 @@ export default {
 	// files
 	"Pick Video to upload": `Choisissez la vidéo à télécharger`,
 	"Pick Photo to upload": `Choisissez la photo pour télécharger`,
+	"Pick File to upload": `Choisissez le fichier à télécharger`,
 	"Delete Video": `Supprimer la vidéo`,
 	"Delete Photo": `Supprimer la photo`,
+	"Delete File": `Supprimer le fichier`,
 
 	// dashboard
 	"New": `Nouveau`,
@@ -86,7 +88,7 @@ export default {
 	"Item description": `Description de l'idée`,
 	"New item": `Nouvelle idée`,
 
-	// Guides
+	// guides
 	"Guides": `Guides`,
 	"Guide": `Guide`,
 	"New guide": `Nouveau guide`,
