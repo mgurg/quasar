@@ -49,24 +49,22 @@
           <q-tooltip>Remove image</q-tooltip>
         </q-icon>
         <template v-slot:error>
-        <div class="absolute-full flex flex-center bg-negative text-white">
-          Cannot load image
-        </div>
-      </template>
+          <div class="absolute-full flex flex-center bg-negative text-white">
+            Cannot load image
+          </div>
+        </template>
       </q-img>
     </div>
   </div>
 </template>
 
 <script setup>
-import {computed, reactive, ref} from "vue";
+import {reactive, ref} from "vue";
 import {api} from "boot/axios";
 import {useUserStore} from "stores/user";
 import Compressor from "compressorjs";
 import {errorHandler} from "components/api/errorHandler";
 import {deleteFileRequest} from "components/api/FilesApiClient";
-import {useI18n} from "vue-i18n";
-import {useQuasar} from "quasar";
 
 // https://github.com/sjq4499/vite-vue3/blob/8ffaf0cda0cf6d15e30242d97d6d2eaa824f1eb6/src/views/tool/compressImages.vue
 // https://github.com/H37kouya/miya-meshi/blob/736598180c428465628c14ca165831c04961d12f/admin/components/organisms/file/UploadImageFile.vue
@@ -79,13 +77,15 @@ const props = defineProps({
         uuid: null,
         file_name: null,
         extension: null,
-        mimetype : null,
+        mimetype: null,
         size: null,
         url: null,
       };
     },
   },
 });
+
+const emit = defineEmits(["uploadedPhotos"]);
 
 // const $q = useQuasar()
 // const {t} = useI18n({ useScope: "global" });
@@ -99,9 +99,8 @@ if (props.fileList !== null) {
   emit('uploadedPhotos', attachments.value)
 }
 
-const emit = defineEmits(["uploadedPhotos"]);
-
 const UserStore = useUserStore();
+
 
 const files = ref(null);
 const isUploading = ref(false);
@@ -233,8 +232,8 @@ function uploadFile(file) {
 }
 
 function delete_file(uuid) {
-  if (newAttachments.value.includes(uuid)){
-        let token = props.token;
+  if (newAttachments.value.includes(uuid)) {
+    let token = props.token;
     if (props.token == null) token = UserStore.getToken;
 
     let tenant_id = props.tenant_id;
@@ -253,7 +252,7 @@ function delete_file(uuid) {
 
   attachments.value = attachments.value.filter((item) => item.uuid !== uuid);
   emit('uploadedPhotos', attachments.value)
-
-
 }
+
+
 </script>

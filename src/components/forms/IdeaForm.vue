@@ -1,10 +1,14 @@
 <template>
-  <div>
     <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
             @submit.prevent>
 
-      <q-input v-model="ideaTitle" :disable="isLoading" :error="!!errors.ideaTitle" :error-message="errors.ideaTitle"
-               :label="$t('Idea title')" outlined/>
+      <q-input
+        v-model="ideaTitle"
+        :disable="isLoading"
+        :error="!!errors.ideaTitle"
+        :error-message="errors.ideaTitle"
+        :label="$t('Idea title')" outlined
+      />
 
       <!-- <div class="row">
       <div class="q-gutter-xs">
@@ -75,7 +79,6 @@
 
       </div>
     </q-form>
-  </div>
 </template>
 
 <script setup>
@@ -142,7 +145,7 @@ const emit = defineEmits(['ideaFormBtnClick', 'cancelBtnClick'])
 
 let isError = ref(false);
 let isLoading = ref(false);
-let attachments = ref(props.idea.file);
+let attachments = ref(props.idea.files_idea);
 
 // IMG
 const files = ref(null)

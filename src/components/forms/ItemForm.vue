@@ -1,82 +1,69 @@
 <template>
 
-<q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
-      @submit.prevent>
+  <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
+          @submit.prevent>
 
-      <q-input
-        outlined
-        v-model="itemName"
-        :disable="isLoading"
-        :error="!!errors.itemName"
-        :error-message="errors.itemName" :label="$t('Item title')"
+    <q-input
+      v-model="itemName"
+      :disable="isLoading"
+      :error="!!errors.itemName"
+      :error-message="errors.itemName"
+      :label="$t('Item title')" outlined
     />
 
-  <div class="tiptap">
-    <tip-tap-basic :body-content="tipTapText" @editor-content="logText"/>
-  </div>
+    <div class="tiptap">
+      <tip-tap-basic :body-content="tipTapText" @editor-content="logText"/>
+    </div>
 
-  <div>
-    <photo-uploader :file-list="props.item.files_item" />
-  </div>
+    <div>
+      <photo-uploader :file-list="props.item.files_item" @uploaded-photos="listOfUploadedImages"/>
+    </div>
 
-  <div>
-    <file-uploader  :file-list="props.item.files_item" />
-  </div>
-<!--        <q-input -->
-<!--        outlined -->
-<!--        v-model="itemDescription" -->
-<!--        :disable="isLoading" -->
-<!--        :error="!!errors.itemDescription"-->
-<!--        :error-message="errors.itemDescription" label="Opis" -->
-<!--    />-->
+    <div>
+      <file-uploader :file-list="props.item.files_item" @uploaded-files="listOfUploadedFiles"/>
+    </div>
+
 
 
     <div class="row">
-        <q-space />
-        <q-btn
-          flat
-          type="submit"
-          class="q-mr-lg"
-          color="red-12"
-          icon="cancel"
-          @click="cancelButtonHandle"
-          :label="$t('Cancel')"
-        />
+      <q-space/>
+      <q-btn
+        :label="$t('Cancel')"
+        class="q-mr-lg"
+        color="red-12"
+        flat
+        icon="cancel"
+        type="submit"
+        @click="cancelButtonHandle"
+      />
+      <q-btn
+        :label="$t('Save')"
+        class="q-mr-xs"
+        color="primary"
+        icon="done"
+        type="submit"
+        @click="submit()"
+      />
 
-        <q-btn
-          v-if="props.buttonText === 'Edit'"
-          type="submit"
-          class="q-mr-xs"
-          icon="done"
-          color="primary"
-          @click="edititem()"
-          :label="$t('Edit')"
-        />
-        <q-btn
-          v-if="props.buttonText === 'Save'"
-          type="submit"
-          class="q-mr-xs"
-          icon="done"
-          color="primary"
-          @click="submit()"
-          :label="$t('Save')"
-        />
+    </div>
+  </q-form>
 
-      </div>
-
-</q-form>
-
+  <p>Uploaded Files</p>
+  <p>{{ uploadedFiles }}</p>
+  <p>Uploaded Photos</p>
+  <p>{{ uploadedPhotos }}</p>
+  <p>Uploaded All</p>
+  <p>{{ uploadedAll }}</p>
 
 </template>
 
 <script setup>
-import { ref, reactive, watch } from "vue";
-import { useField, useForm } from "vee-validate";
+import {ref} from "vue";
+import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
-import { authApi } from "boot/axios";
-import { useRoute, useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 
-import { getItemRequest, editItemRequest, addItemRequest, deleteItemRequest } from 'src/components/api/ItemApiClient'
+import {createItemRequest} from 'src/components/api/ItemApiClient'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
 
@@ -85,8 +72,6 @@ import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 import FileUploader from 'src/components/uploader/FileUploader.vue'
 
 const router = useRouter();
-
-let isLoading = ref(false);
 
 
 const props = defineProps({
@@ -103,15 +88,24 @@ const props = defineProps({
         user: null,
         body_json: null,
         files_item: null
-
       }
     }
   },
-  buttonText: {
+  token: {
     type: String,
-    default: 'Save',
+    default: null,
+  },
+  tenant_id: {
+    type: String,
+    default: null,
   },
 })
+
+const emit = defineEmits(['itemFormBtnClick', 'cancelBtnClick'])
+
+let isError = ref(false);
+let isLoading = ref(false);
+let attachments = ref(props.item.files_item);
 
 let jsonTxt = null;
 let htmlTxt = null;
@@ -129,10 +123,10 @@ if (props.item.body_json !== null) {
 
 
 // IMG
-// const listOfUploadedImages = ref(null)
+
 const uploadedPhotos = ref([]);
 
-function listOfUploadedImages(images){
+function listOfUploadedImages(images) {
   console.log("UPLOADED IMAGES:")
   console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
@@ -141,7 +135,19 @@ function listOfUploadedImages(images){
 // Files
 const uploadedFiles = ref([]);
 
-const { handleReset } = useForm();
+function listOfUploadedFiles(files) {
+  console.log("UPLOADED IMAGES:")
+  console.log(JSON.stringify(files))
+  uploadedFiles.value = files;
+}
+
+// ALL
+
+const uploadedAll = ref([]);
+
+// Form
+
+const {handleReset} = useForm();
 
 const validationSchema = yup.object({
   itemColor: yup.string().required(),
@@ -161,17 +167,16 @@ const validationSchema = yup.object({
 })
 
 
-const { handleSubmit, errors } = useForm({
+const {handleSubmit, errors} = useForm({
   validationSchema
 })
 
-const { value: itemName } = useField('itemName', undefined, { initialValue: props.item.title })
-const { value: itemDescription } = useField('itemDescription', undefined, { initialValue: props.item.description })
-const { value: itemColor } = useField('itemColor', undefined, { initialValue: props.item.color })
-const { value: email } = useField('email')
+const {value: itemName} = useField('itemName', undefined, {initialValue: props.item.title})
+const {value: itemDescription} = useField('itemDescription', undefined, {initialValue: props.item.description})
+const {value: itemColor} = useField('itemColor', undefined, {initialValue: props.item.color})
+const {value: email} = useField('email')
 
 function cancelButtonHandle() {
-  console.log('cancelBtnClick')
   emit('cancelBtnClick')
 }
 
@@ -179,25 +184,28 @@ const submit = handleSubmit(values => {
   let data = {
     "name": itemName.value,
     "description": "Opis",
-    "description_jsonb": {"a":"a"},
+    "description_jsonb": jsonTxt,
     "qr_code": "string",
+    "body_json": jsonTxt,
+    "body_html": htmlTxt,
     "files": uploadedPhotos.value.map(a => a.uuid)
   }
 
   console.log(data)
+  emit('itemFormBtnClick', data)
 
-  isLoading.value = true;
-
-  isLoading.value = false;
-  router.push("/items");
-
-  addItemRequest(data).then(function (response) {
-    console.log(response)
-    isLoading.value = false;
-    router.push("/items");
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-  });
+  // isLoading.value = true;
+  //
+  // isLoading.value = false;
+  // router.push("/items");
+  //
+  // createItemRequest(data).then(function (response) {
+  //   console.log(response)
+  //   isLoading.value = false;
+  //   router.push("/items");
+  // }).catch((err) => {
+  //   const errorMessage = errorHandler(err);
+  // });
 
 })
 

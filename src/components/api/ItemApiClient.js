@@ -16,7 +16,7 @@ export function getItemUuidRequest(uuid) {
   return authApi.get("/items/"+ uuid);
 }
 
-export function addItemRequest(data) {
+export function createItemRequest(data) {
   return authApi.post("/items/", data);
 }
 

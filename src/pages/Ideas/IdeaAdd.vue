@@ -34,7 +34,6 @@
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
           <idea-form
-            button-text="Save"
             @cancelBtnClick="cancelButtonPressed"
             @ideaFormBtnClick="addButtonPressed"
           />
