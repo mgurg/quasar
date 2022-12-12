@@ -71,8 +71,8 @@ let isRemoving = ref(false);
 
 function updateIdea(uuid, formData) {
 
-  var arr1 = dbImagesUuidList.value;
-  var arr2 = formData.files;
+  const arr1 = dbImagesUuidList.value;
+  const arr2 = formData.files;
 
   let removedItems = arr1.filter(x => !arr2.includes(x));
   let withoutChanges = arr1.filter(x => arr2.includes(x));

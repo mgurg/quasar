@@ -1,5 +1,5 @@
 <template>
-  <q-list v-for="(file, index) in files" v-if="files != null" v-bind:key="index" bordered separator>
+  <q-list v-for="(file, index) in files" v-if="files != null" v-bind:key="index" separator>
     <q-item>
       <q-item-section avatar>
         <q-avatar color="green" rounded text-color="white">F</q-avatar>
@@ -10,13 +10,14 @@
       </q-item-section>
 
       <q-item-section side>
-        <div class="text-grey-8 q-gutter-xs">
+        <div class="text-grey-8">
           <q-btn v-ripple class="gt-xs" clickable dense flat icon="download" round size="12px"
                  @click="downloadFile(file.uuid)"/>
         </div>
       </q-item-section>
 
     </q-item>
+    <q-separator />
   </q-list>
 </template>
 
