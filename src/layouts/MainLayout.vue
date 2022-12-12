@@ -205,6 +205,7 @@ const router = useRouter();
 const UserStore = useUserStore();
 
 let isLoading = ref(false);
+let isError = ref(false);
 
 const { locale } = useI18n({ useScope: "global" });
 const lang = ref(locale); // $q.lang.isoName

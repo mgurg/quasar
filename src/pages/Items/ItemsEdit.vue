@@ -31,7 +31,10 @@
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
+<!--          v-if="itemDetails != null"-->
+<!--          :item="itemDetails"-->
           <item-form
+
             @cancelBtnClick="cancelButtonPressed"
             @itemFormBtnClick="addButtonPressed"
           />
@@ -44,12 +47,17 @@
 
 <script setup>
 import ItemForm from 'src/components/forms/ItemForm.vue'
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
-import {createItemRequest} from "components/api/ItemApiClient";
-import {ref} from "vue";
+import {createItemRequest, getItemRequest, getItemUuidRequest} from "components/api/ItemApiClient";
+import {onBeforeMount, ref} from "vue";
+import {useUserStore} from "stores/user";
 
+const route = useRoute();
 const router = useRouter();
+const UserStore = useUserStore();
+let itemUuid = ref(route.params.uuid);
+let itemDetails = ref(null);
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -76,5 +84,26 @@ function cancelButtonPressed() {
   router.push("/items");
 }
 
+function getItemDetails(uuid) {
+  isLoading.value = true;
+  getItemUuidRequest(uuid).then(function (response) {
+    itemDetails.value = response.data
+    console.log(response.data)
+    // dbImagesUuidList.value = response.data.files_idea.map(a => a.uuid)
 
+
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    console.log(errorMessage)
+    isError.value = true;
+  });
+}
+
+onBeforeMount(() => {
+  if (route.params.uuid != null)
+    getItemDetails(route.params.uuid)
+  // getUsers();
+  isLoading.value = false;
+});
 </script>
