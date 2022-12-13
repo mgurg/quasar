@@ -42,9 +42,9 @@
         <q-separator/>
 
         <q-card-actions align="right">
-          <q-btn color="red" no-caps outline>Awaria</q-btn>
-          <q-btn color="warning" icon="lightbulb_outline" no-caps outline>Usprawnienie</q-btn>
-          <q-btn no-caps outline>Statystyki</q-btn>
+          <q-btn color="primary" icon="bug_report" no-caps flat>Zgłoś awarie</q-btn>
+          <q-btn color="primary" icon="lightbulb_outline" no-caps flat>Usprawnienie</q-btn>
+          <q-btn color="primary" icon="insights" no-caps flat>Statystyki</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -53,7 +53,7 @@
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
 
-            <div class="text-h6 text-weight-regular">Opis</div>
+            <div @click="expandedDescription = !expandedDescription" class="text-h6 text-weight-regular cursor-pointer">Opis</div>
             <q-space />
             <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
                    color="grey"
@@ -81,10 +81,10 @@
         </q-slide-transition>
 
         <!--        PHOTOS -->
-        <div :style="expandedPhotos ? 'border-left: 5px solid #c62828':''">
+        <div :style="expandedPhotos ? 'border-left: 5px solid #2d7df8':''">
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular">Zdjęcia</div>
+            <div @click="expandedPhotos = !expandedPhotos" class="text-h6 text-weight-regular cursor-pointer">Zdjęcia</div>
             <q-space></q-space>
             <q-btn
               :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
@@ -114,10 +114,10 @@
         </div>
         <!--        DOCS  -->
 
-        <div :style="expandedDocs ? 'border-left: 5px solid #6a1b9a':''">
+        <div :style="expandedDocs ? 'border-left: 5px solid #f31060':''">
         <q-card-section class="q-py-sm" >
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular">Dokumenty</div>
+            <div @click="expandedDocs = !expandedDocs" class="text-h6 text-weight-regular cursor-pointer">Dokumenty</div>
             <q-space></q-space>
             <q-btn
               :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
@@ -165,10 +165,10 @@
         </q-slide-transition>
         </div>
         <!--        GUIDES -->
-        <div :style="expandedGuide ? 'border-left: 5px solid #00838f':''">
+        <div :style="expandedGuide ? 'border-left: 5px solid #2bba82':''">
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular">Instrukcje</div>
+            <div @click="expandedGuide = !expandedGuide" class="text-h6 text-weight-regular cursor-pointer">Instrukcje</div>
             <q-space></q-space>
             <q-btn class="q-mr-lg" color="primary" flat no-caps>Dodaj nową</q-btn>
             <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
@@ -217,10 +217,10 @@
         </div>
 
         <!--  QR CODE -->
-        <div :style="expandedQR ? 'border-left: 5px solid #9e9d24':''">
+        <div :style="expandedQR ? 'border-left: 5px solid #4c29bb':''">
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular">Kod QR</div>
+            <div @click="expandedQR = !expandedQR" class="text-h6 text-weight-regular cursor-pointer">Kod QR</div>
             <q-space></q-space>
             <q-btn :icon="expandedQR ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                    @click="expandedQR = !expandedQR"/>
@@ -257,10 +257,10 @@
         </div>
 
         <!--  Comments -->
-        <div :style="expandedComments ? 'border-left: 5px solid #37474f':''">
+        <div :style="expandedComments ? 'border-left: 5px solid #fb510a':''">
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular" >Komentarze</div>
+            <div @click="expandedComments = !expandedComments" class="text-h6 text-weight-regular cursor-pointer">Komentarze</div>
             <q-space></q-space>
             <q-btn :icon="expandedComments ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                    @click="expandedComments = !expandedComments"/>
@@ -317,10 +317,10 @@
 
 
         <!--  Timeline -->
-        <div :style="expandedTimeline ? 'border-left: 5px solid #ba68c8':''">
+        <div :style="expandedTimeline ? 'border-left: 5px solid #a04d2c':''">
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular" :class="expandedTimeline ? 'text-grey-4' : 'text-grey-10'">Timeline</div>
+            <div @click="expandedTimeline = !expandedTimeline" class="text-h6 text-weight-regular cursor-pointer">Oś zdarzeń</div>
             <q-space></q-space>
             <q-btn :icon="expandedTimeline ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                    @click="expandedTimeline = !expandedTimeline"/>
@@ -328,7 +328,7 @@
 
         </q-card-section>
 
-        <q-separator/>
+        <q-separator v-if="!expandedTimeline" />
         <q-slide-transition>
           <div v-show="expandedTimeline">
 

@@ -8,7 +8,18 @@ A Quasar Project
 quasalang generate
 ```
 
+### Icons
+
+```
+https://github.com/thecotne/square-file-icons
+```
+
+
+
+
+
 ## Install the dependencies
+
 ```bash
 yarn
 # or

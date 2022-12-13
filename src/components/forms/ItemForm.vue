@@ -32,7 +32,7 @@
         flat
         icon="cancel"
         type="submit"
-        @click="cancelButtonHandle"
+        @click="cancelButtonHandle()"
       />
       <q-btn
         :label="$t('Save')"
@@ -53,10 +53,6 @@ import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
 import {useRouter} from "vue-router";
 
-import {createItemRequest} from 'src/components/api/ItemApiClient'
-import {errorHandler} from 'src/components/api/errorHandler.js'
-
-
 import TipTapBasic from 'src/components/editor/TipTapBasic.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 import FileUploader from 'src/components/uploader/FileUploader.vue'
@@ -72,11 +68,11 @@ const props = defineProps({
     default() {
       return {
         uuid: null,
-        title: '',
+        name: '',
         description: '',
         color: 'red',
         user: null,
-        body_json: null,
+        description_jsonb: null,
         files_item: null
       }
     }
@@ -97,6 +93,9 @@ let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.item.files_item);
 
+// IMG
+const files = ref(null)
+
 let jsonTxt = null;
 let htmlTxt = null;
 
@@ -107,8 +106,8 @@ function logText(json, html) {
 
 const tipTapText = ref(null)
 
-if (props.item.body_json !== null) {
-  tipTapText.value = props.item.body_json;
+if (props.item.description_jsonb !== null) {
+  tipTapText.value = props.item.description_jsonb;
 }
 
 // ALL
@@ -143,20 +142,7 @@ function listOfUploadedFiles(files) {
 const {handleReset} = useForm();
 
 const validationSchema = yup.object({
-  itemColor: yup.string().required(),
   itemName: yup.string(),//.required(),
-  itemDescription: yup.string(), //.required('A cool description is required').min(3),
-  email: yup.string().nullable().test(
-    "check-startdate",
-    "Start Date should not be later than current date",
-    function (value) {
-      if (value == "1") {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  )
 })
 
 
@@ -164,16 +150,15 @@ const {handleSubmit, errors} = useForm({
   validationSchema
 })
 
-const {value: itemName} = useField('itemName', undefined, {initialValue: props.item.title})
-const {value: itemDescription} = useField('itemDescription', undefined, {initialValue: props.item.description})
-const {value: itemColor} = useField('itemColor', undefined, {initialValue: props.item.color})
-const {value: email} = useField('email')
+const {value: itemName} = useField('itemName', undefined, {initialValue: props.item.name})
 
 function cancelButtonHandle() {
   emit('cancelBtnClick')
 }
 
 const submit = handleSubmit(values => {
+  console.log('Submitting')
+
   let data = {
     "name": itemName.value,
     "description": "Opis",
@@ -184,7 +169,7 @@ const submit = handleSubmit(values => {
     "files": uploadedAll.value.map(a => a.uuid)
   }
 
-  console.log(data)
+  // console.log(data)
   emit('itemFormBtnClick', data)
 
   // isLoading.value = true;
@@ -201,6 +186,7 @@ const submit = handleSubmit(values => {
   // });
 
 })
+
 
 </script>
 

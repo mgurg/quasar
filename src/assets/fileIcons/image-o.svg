@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg122"
+   width="666.66669"
+   height="666.66669"
+   viewBox="0 0 666.66669 666.66669"
+   sodipodi:docname="image-o.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs126">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath138">
+      <path
+         d="M 0,500 H 500 V 0 H 0 Z"
+         id="path136" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview124"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.35399999"
+     inkscape:cx="333.33334"
+     inkscape:cy="333.33334"
+     inkscape:window-width="1920"
+     inkscape:window-height="1131"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g130">
+    <inkscape:page
+       x="0"
+       y="0"
+       id="page128"
+       width="666.66669"
+       height="666.66669" />
+  </sodipodi:namedview>
+  <g
+     id="g130"
+     inkscape:groupmode="layer"
+     inkscape:label="Page 1"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,666.66667)">
+    <g
+       id="g132">
+      <g
+         id="g134"
+         clip-path="url(#clipPath138)">
+        <g
+           id="g140"
+           transform="translate(73.3332,131.6666)">
+          <path
+             d="m 0,0 71.666,56.667 36.667,-28.334 145.001,113.333 53.333,-41.667 36.667,28.334 V 1.666 L 0,1.666 Z M 63.334,243.333 C 90,243.333 111.667,221.667 111.667,195 111.667,168.333 90,146.667 63.334,146.667 36.667,146.667 15,168.333 15,195 c 0,28.333 21.667,48.333 48.334,48.333 M -25,-81.667 h 403.333 v 400 H -25 m 451.667,-450 h -500 v 500 h 500 z"
+             style="fill:#5b2d8d;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path142" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

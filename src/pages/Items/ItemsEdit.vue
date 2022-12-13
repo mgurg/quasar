@@ -31,12 +31,12 @@
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-<!--          v-if="itemDetails != null"-->
-<!--          :item="itemDetails"-->
-          <item-form
 
+          <item-form
+            v-if="itemDetails != null"
+            :item="itemDetails"
             @cancelBtnClick="cancelButtonPressed"
-            @itemFormBtnClick="addButtonPressed"
+            @itemFormBtnClick="editButtonPressed"
           />
         </q-card-section>
       </q-card>
@@ -49,34 +49,89 @@
 import ItemForm from 'src/components/forms/ItemForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
-import {createItemRequest, getItemRequest, getItemUuidRequest} from "components/api/ItemApiClient";
+import {createItemRequest, getItemRequest, getItemUuidRequest, updateItemRequest} from "components/api/ItemApiClient";
 import {onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
+import {updateIdeaRequest} from "components/api/IdeaApiClient";
+import {deleteFileRequest} from "components/api/FilesApiClient";
 
 const route = useRoute();
 const router = useRouter();
 const UserStore = useUserStore();
 let itemUuid = ref(route.params.uuid);
 let itemDetails = ref(null);
+let dbImagesUuidList = ref(null);
+let filesFormUuidList = ref(null);
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
+let isRemoving = ref(false);
 
-function createItem(formData) {
+function updateItem(uuid, formData) {
+
+  const arr1 = dbImagesUuidList.value;
+  const arr2 = formData.files;
+
+  let removedItems = arr1.filter(x => !arr2.includes(x));
+  let withoutChanges = arr1.filter(x => arr2.includes(x));
+  let newItems = arr2.filter(x => !arr1.includes(x));
+
+  console.log("Removed:")
+  console.log(removedItems);
+
+  console.log("Added:");
+  console.log(newItems);
+
+  console.log("To save:");
+
+  let fileList = [...withoutChanges,  ...newItems];
+
+  formData.files = fileList;
+  console.log(formData);
+
+  isRemoving.value = true;
+  removedItems.forEach(function (item, index) {
+    deleteUnusedIdeaImages(item);
+  });
+  isRemoving.value = false;
+
   isLoading.value = true;
-  createItemRequest(formData).then(function (response) {
+  updateItemRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    router.push("/items");
+    if (isRemoving.value == false){
+      router.push("/items");
+    }
+
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
 }
 
-function addButtonPressed(itemForm) {
-  // console.log(itemForm)
-  createItem(itemForm)
+
+function deleteUnusedIdeaImages(uuid){
+
+  console.log("Deleting...: " + uuid);
+
+  let token = UserStore.getToken;
+  let tenant_id = UserStore.getTenant;
+
+  isLoading.value = true;
+  deleteFileRequest(uuid, token, tenant_id).then(function (response) {
+
+    isLoading.value = false;
+
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
+
+function editButtonPressed(itemForm) {
+  console.log(itemForm)
+  updateItem(itemUuid.value, itemForm)
 }
 
 
@@ -89,7 +144,7 @@ function getItemDetails(uuid) {
   getItemUuidRequest(uuid).then(function (response) {
     itemDetails.value = response.data
     console.log(response.data)
-    // dbImagesUuidList.value = response.data.files_idea.map(a => a.uuid)
+    dbImagesUuidList.value = response.data.files_item.map(a => a.uuid)
 
 
     isLoading.value = false;

@@ -150,7 +150,6 @@ let attachments = ref(props.idea.files_idea);
 // IMG
 const files = ref(null)
 
-
 let jsonTxt = null;
 let htmlTxt = null;
 

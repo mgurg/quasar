@@ -2,27 +2,34 @@
   <q-list v-for="(file, index) in files" v-if="files != null" v-bind:key="index" separator>
     <q-item>
       <q-item-section avatar>
-        <q-avatar color="green" rounded text-color="white">F</q-avatar>
+        <q-avatar rounded>
+          <img src="~assets/fileIcons/pdf-o.svg">
+        </q-avatar>
       </q-item-section>
       <q-item-section>
         <q-item-label>{{ file.file_name }}</q-item-label>
-        <q-item-label caption>Dodaj</q-item-label>
+        <q-item-label caption>{{ prettyBytes(file.size) }}</q-item-label>
       </q-item-section>
 
       <q-item-section side>
-        <div class="text-grey-8">
-          <q-btn v-ripple class="gt-xs" clickable dense flat icon="download" round size="12px"
-                 @click="downloadFile(file.uuid)"/>
-        </div>
+        <q-btn
+          v-ripple
+          clickable
+          dense
+          flat
+          icon="download"
+          round
+          size="12px"
+          @click="downloadFile(file.uuid)"/>
       </q-item-section>
 
     </q-item>
-    <q-separator />
+    <q-separator/>
   </q-list>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 
 
 const props = defineProps({
@@ -31,9 +38,9 @@ const props = defineProps({
     default() {
       return {
         uuid: null,
-        file_name : null,
+        file_name: null,
         extension: null,
-        mimetype:null,
+        mimetype: null,
         size: null,
         url: null
       };
@@ -45,9 +52,20 @@ const files = ref(props.filesList)
 
 console.log(JSON.stringify(props.filesList))
 
+const prettyBytes = (num, precision = 3, addSpace = true) => {
+  const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  if (Math.abs(num) < 1) return num + (addSpace ? ' ' : '') + UNITS[0];
+  const exponent = Math.min(Math.floor(Math.log10(num < 0 ? -num : num) / 3), UNITS.length - 1);
+  const n = Number(((num < 0 ? -num : num) / 1000 ** exponent).toPrecision(precision));
+  return (num < 0 ? '-' : '') + n + (addSpace ? ' ' : '') + UNITS[exponent];
+};
 
 function downloadFile(uuid) {
   console.log("Downloading" + uuid)
+}
+
+function getIcon(extension){
+  return "~assets/fileIcons/excel-o.svg";
 }
 
 </script>

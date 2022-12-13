@@ -128,30 +128,10 @@ function deleteUnusedIdeaImages(uuid){
     });
 }
 
-// function getUsers() {
-//   authApi
-//     .get("/users/")
-//     .then((res) => {
-//
-//
 //       usersList.value = res.data.map((opt) => ({
 //         label: opt.first_name + ' ' + opt.last_name,
 //         value: opt.uuid,
 //       }));
-//       console.log("usersList.value");
-//       console.log(usersList.value);
-//       isSuccess.value = true
-//     })
-//     .catch((err) => {
-//       if (err.response) {
-//         console.log(err.response);
-//       } else if (err.request) {
-//         console.log(err.request);
-//       } else {
-//         console.log("General Error");
-//       }
-//     });
-// }
 
 
 function editButtonPressed(formData) {
@@ -170,9 +150,6 @@ function getIdeaDetails(uuid) {
   getIdeaRequest(uuid).then(function (response) {
         ideaDetails.value = response.data
         dbImagesUuidList.value = response.data.files_idea.map(a => a.uuid)
-        // if (res.data.date_from == null) {
-        //     ideaDetails.value.mode = 'task'
-        // }
 
     isLoading.value = false;
   }).catch((err) => {

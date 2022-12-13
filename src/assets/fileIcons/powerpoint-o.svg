@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg171"
+   width="666.66669"
+   height="666.66669"
+   viewBox="0 0 666.66669 666.66669"
+   sodipodi:docname="powerpoint-o.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs175">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath187">
+      <path
+         d="M 0,500 H 500 V 0 H 0 Z"
+         id="path185" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview173"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.35399999"
+     inkscape:cx="333.33334"
+     inkscape:cy="333.33334"
+     inkscape:window-width="1920"
+     inkscape:window-height="1131"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g179">
+    <inkscape:page
+       x="0"
+       y="0"
+       id="page177"
+       width="666.66669"
+       height="666.66669" />
+  </sodipodi:namedview>
+  <g
+     id="g179"
+     inkscape:groupmode="layer"
+     inkscape:label="Page 1"
+     transform="matrix(1.3333333,0,0,-1.3333333,0,666.66667)">
+    <g
+       id="g181">
+      <g
+         id="g183"
+         clip-path="url(#clipPath187)">
+        <g
+           id="g189"
+           transform="translate(48.3332,50)">
+          <path
+             d="M 0,0 H 403.333 V 400 H 0 M 451.667,-50 h -500 v 500 h 500 z M 298.333,225 c 0,-20 -5,-38.333 -15,-51.667 C 270,156.667 250,146.666 220,146.666 H 181.667 V 66.667 H 123.334 V 300 h 95 c 26.667,0 48.333,-8.333 61.667,-23.333 11.666,-13.334 18.332,-30.001 18.332,-51.667 M 240,225 c 0,10 -3.334,16.667 -8.333,21.666 -5,5 -15,8.334 -28.334,8.334 h -21.666 v -61.667 h 21.666 c 15,0 23.333,3.333 30,10 5.001,5 6.667,11.667 6.667,21.667"
+             style="fill:#dd5b26;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path191" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

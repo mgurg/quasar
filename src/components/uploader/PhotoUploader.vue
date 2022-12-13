@@ -97,7 +97,7 @@ let attachments = ref([]);
 let newAttachments = ref([]);
 if (props.fileList !== null) {
   attachments.value = props.fileList;
-  attachments.value = filter((item) => attachments.value.mimetype.match('image.*'))
+  attachments.value = attachments.value.filter((item) => item.mimetype.match('image.*'))
   emit('uploadedPhotos', attachments.value)
 }
 
