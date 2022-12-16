@@ -82,7 +82,7 @@ const routes = [
     },
   },
   {
-    path: "/qr",
+    path: "/qr/:qr",
     name: "qr",
     component: () => import("pages/PublicOpen/Qr.vue"),
     meta: {

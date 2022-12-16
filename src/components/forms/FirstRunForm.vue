@@ -91,7 +91,7 @@ function firstRun(data) {
     .then((res) => {
       isLoading.value = false;
 
-      localStorage.setItem("klucz", res.data.token);
+      localStorage.setItem("token", res.data.token);
       localStorage.setItem("tz", res.data.tz);
       localStorage.setItem("lang", res.data.lang);
       localStorage.setItem("firstName", res.data.first_name);

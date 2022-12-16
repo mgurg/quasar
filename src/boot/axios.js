@@ -16,14 +16,14 @@ const api = axios.create({ baseURL: process.env.VUE_APP_URL });
 const noAuthApi = axios.create();
 
 // const authApi = axios.create({ baseURL: process.env.VUE_APP_URL })
-// authApi.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('klucz');
+// authApi.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
-// const token = localStorage.getItem('klucz');
+// const token = localStorage.getItem('token');
 
 const authApi = axios.create({
   baseURL: process.env.VUE_APP_URL,
   // headers: {
-  //   'Authorization': 'Bearer ' + localStorage.getItem('klucz')
+  //   'Authorization': 'Bearer ' + localStorage.getItem('token')
   // },
 });
 
@@ -33,10 +33,10 @@ export default boot(({ app, router }) => {
   authApi.interceptors.request.use((req) => {
     // `req` is the Axios request config, so you can modify
     // the `headers`.
-    if (localStorage.getItem("klucz") === null){
-      var token = sessionStorage.getItem("klucz");
+    if (localStorage.getItem("token") === null){
+      var token = sessionStorage.getItem("token");
     } else{
-      var token = localStorage.getItem("klucz");
+      var token = localStorage.getItem("token");
     }
     if (localStorage.getItem("tenant") === null){
       var tenant = sessionStorage.getItem("tenant");

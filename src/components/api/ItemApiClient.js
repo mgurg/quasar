@@ -2,7 +2,7 @@
 // https://blog.openreplay.com/making-api-calls-in-vue-with-axios/
 // https://vuejsdevelopers.com/2017/08/28/vue-js-ajax-recipes/#pattern-5-from-a-service-module
 
-import {authApi} from "boot/axios";
+import {api, authApi} from "boot/axios";
 
 export function getItemsRequest() {
   return authApi.get("/items/");
@@ -14,6 +14,14 @@ export function getItemRequest(params) {
 
 export function getItemUuidRequest(uuid) {
   return authApi.get("/items/" + uuid);
+}
+
+export function getAnonymousItemUuidRequest(uuid, token,tenant_id) {
+  return api.get("/items/" + uuid,{
+    headers: {
+      Authorization: "Bearer " + token,
+      tenant: tenant_id,
+    },});
 }
 
 export function createItemRequest(data) {

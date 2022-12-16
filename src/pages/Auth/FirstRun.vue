@@ -57,7 +57,7 @@ function firstRun(activationId) {
     localStorage.setItem("tz", response.data.tz);
     localStorage.setItem("uuid", response.data.uuid);
     localStorage.setItem("tenant", response.data.tenanat_id);
-    localStorage.setItem("klucz", response.data.token);
+    localStorage.setItem("token", response.data.token);
 
     UserStore.fillStore(
       response.data.token,

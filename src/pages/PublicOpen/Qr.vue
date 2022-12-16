@@ -1,115 +1,129 @@
 <template>
   <q-layout>
-  <q-page-container>
-    <div class="row justify-center">
-      <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-        <div class="q-pa-md">
+    <q-page-container>
+      <div class="row justify-center">
+        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+          <div class="q-pa-md">
 
-        <video controls width="250">
-          <source src="https://embed.api.video/vod/vi6OW7O2SOawCNi0KgZ6wSkJ" type="video/webm">
-          <source src="https://cdn.api.video/vod/vi5jBfdZuZtBRL9ipjdDsKrp/mp4/source.mp4" type="video/mp4">
 
-          Download the
-          <a href="https://embed.api.video/vod/vi6OW7O2SOawCNi0KgZ6wSkJ">WEBM</a>
-          or
-          <a href="https://cdn.api.video/vod/vi5jBfdZuZtBRL9ipjdDsKrp/mp4/source.mp4">MP4</a>video.
-        </video>
 
-        <h3>QR CODE</h3>
-        <form>
-          <input ref="file" v-on:change="handleFileUpload()"  type="file">
-</form>
+            <div v-if="itemDetails!==null">
+              <h3>{{itemDetails.name}}</h3>
+            </div>
+            <div v-if="isAuthenticated===false">
+              <q-btn outline @click="getItemDetails('094b4373-a120-42f5-90ed-23dbfbe1cd9d')">Zobacz przewodniki</q-btn>
+              <q-btn outline>Zgłoś problem</q-btn>
+            </div>
 
-    <!-- <img
-      src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=https://remontmaszyn.pl/new/8tl+234&choe=UTF-8&chld=M"
-      alt="string"
-    /> -->
+            <div v-if="redirectTo!=null">
+              {{isAuthenticated}} <br>
+              {{ qrId }} <br>
+              {{ anonymousToken }} <br>
+              {{ tenantId }} <br>
+              {{redirectTo}}
+            </div>
+            <!-- <img
+              src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=https://remontmaszyn.pl/new/8tl+234&choe=UTF-8&chld=M"
+              alt="string"
+            /> -->
 
-        </div>
-      </q-page>
-    </div>
-  </q-page-container>
+          </div>
+        </q-page>
+      </div>
+    </q-page-container>
   </q-layout>
 
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRoute } from 'vue-router';
-import { api, authApi } from "boot/axios";
-import axios from "axios";
-import { VideoUploader } from '@api.video/video-uploader'
+import {onBeforeMount, ref} from "vue";
+import {useRoute} from "vue-router";
+import {resolveQRtoURL} from "components/api/AuthApiClient";
+import {errorHandler} from "components/api/errorHandler";
+import {useUserStore} from "stores/user";
+import {getAnonymousItemUuidRequest, getItemUuidRequest} from "components/api/ItemApiClient";
 
-const file = ref(null)
-const uploadToken = ref("")
-const apiToken = ref("")
+const route = useRoute();
+const UserStore = useUserStore();
 
-function getUploadToken(){
-  authApi.get("/files/video_upload_token/")            
-      .then((res) => {
-           uploadToken.value = "res.data.upload_token"
-           apiToken.value = "res.data.api_token"
-            })
-            .catch((err) => {
-                if (err.response) {
-                    console.log(err.response);
-                } else if (err.request) {
-                    console.log(err.request);
-                } else {
-                    console.log("General Error");
-                }
+const qrId = ref(null);
+const isAuthenticated = ref(null);
+const anonymousToken = ref(null);
+const tenantId = ref(null);
+const redirectTo = ref(null);
 
-            });
+const isLoading = ref(false);
+let isError = ref(false);
+
+async function verifyToken() {
+  console.log('verifyToken')
+  await UserStore.autoLogin();
 }
 
-getUploadToken()
+function resolveQrCode(qrCode) {
+  isLoading.value = true;
+  console.log("ID: ", qrCode)
 
-function listAllVideos(){
-  axios.get("https://sandbox.api.video/videos?currentPage=1&pageSize=25", {headers: { 
-    'accept': 'application/json', 
-    'Authorization': 'Bearer 47yczv1m0huXDEg6iyNRqYT9QXmUcMAArHY0Qqzgz0I'
-  }})            
-      .then((res) => {
-           console.log(Object.values(res.data)[0])
-            })
-            .catch((err) => {
-                if (err.response) {
-                    console.log(err.response);
-                } else if (err.request) {
-                    console.log(err.request);
-                } else {
-                    console.log("General Error");
-                }
+  resolveQRtoURL(qrCode).then(function (response) {
+    console.log(response.data)
 
-            });
-}
-
-listAllVideos()
-
-function handleFileUpload() {
-        console.log(file.value.files)
-        const uploader = new VideoUploader({
-            file: file.value.files[0],
-            uploadToken: uploadToken.value,
-            chunkSize: 1024*1024*10, // 10MB
-            retries: 10,
-        });
-
-        uploader.upload()
-        .then((video) => console.log(video))
-        .catch((error) => console.log(error.status, error.message));
-
-        uploader.onProgress((event) => {
-        console.log(`total number of bytes uploaded for this upload: ${event.uploadedBytes}.`);
-        console.log(`total size of the file: ${event.totalBytes}.`);
-        console.log(`number of upload chunks: ${event.chunksCount} .`);
-        console.log(`size of a chunk: ${event.chunksBytes}.`);
-        console.log(`index of the chunk being uploaded: ${event.currentChunk}.`);
-        console.log(`number of bytes uploaded for the current chunk: ${event.currentChunkUploadedBytes}.`);
-    });
-
+    anonymousToken.value = response.data.anonymous_token
+    tenantId.value = atob(anonymousToken.value).split(".")[0]
+    redirectTo.value = response.data.url;
+    isAuthenticated.value = UserStore.isAuthenticated;
+    if (UserStore.isAuthenticated === true) {
+      router.push(redirectTo.value);
+    } else {
+      getItemDetails('094b4373-a120-42f5-90ed-23dbfbe1cd9d')
+      console.log('Czeka na logowanie')
     }
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
 
+
+let itemDetails = ref(null);
+let photoFiles = ref(null);
+let documentFiles = ref(null);
+
+
+function getItemDetails(uuid) {
+  isLoading.value = true;
+
+  getAnonymousItemUuidRequest(uuid, anonymousToken.value, tenantId.value).then(function (response) {
+    console.log(response.data);
+    itemDetails.value = response.data;
+
+
+    console.log("photoFiles")
+
+    photoFiles.value = response.data.files_item.filter((item) => item.mimetype.match('image.*'));
+    documentFiles.value = response.data.files_item.filter((item) => !item.mimetype.match('image.*'));
+    console.log(photoFiles.value)
+
+    // documentFiles.value =  itemDetails.value;
+    // json.value = res.data.body_json;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    console.log(errorMessage);
+  });
+}
+
+onBeforeMount(() => {
+  isLoading.value = true;
+  verifyToken();
+  // UserStore.autoLogin();
+
+  if (route.params.qr != null) {
+    qrId.value = route.params.qr
+    resolveQrCode(qrId.value);
+  }
+  isLoading.value = false;
+});
 
 
 </script>
