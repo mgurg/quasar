@@ -13,7 +13,9 @@
             <div v-if="isAuthenticated===false">
               <q-btn outline @click="getItemDetails('094b4373-a120-42f5-90ed-23dbfbe1cd9d')">Zobacz przewodniki</q-btn>
               <q-btn outline>Zgłoś problem</q-btn>
+
             </div>
+            <q-btn v-if="isAuthenticated==true" @click="goToPage">Szczegóły (dla zalogowanych)</q-btn>
 
             <div v-if="redirectTo!=null">
               {{isAuthenticated}} <br>
@@ -22,6 +24,8 @@
               {{ tenantId }} <br>
               {{redirectTo}}
             </div>
+            <br>
+            <router-link v-if="isAuthenticated===false" to="/login">Zaloguj</router-link>
             <!-- <img
               src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=https://remontmaszyn.pl/new/8tl+234&choe=UTF-8&chld=M"
               alt="string"
@@ -37,13 +41,14 @@
 
 <script setup>
 import {onBeforeMount, ref} from "vue";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {resolveQRtoURL} from "components/api/AuthApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {useUserStore} from "stores/user";
 import {getAnonymousItemUuidRequest, getItemUuidRequest} from "components/api/ItemApiClient";
 
 const route = useRoute();
+const router = useRouter();
 const UserStore = useUserStore();
 
 const qrId = ref(null);
@@ -60,6 +65,11 @@ async function verifyToken() {
   await UserStore.autoLogin();
 }
 
+function goToPage(){
+  if (UserStore.isAuthenticated === true) {
+    router.push(redirectTo.value);
+  }
+}
 function resolveQrCode(qrCode) {
   isLoading.value = true;
   console.log("ID: ", qrCode)
@@ -96,7 +106,6 @@ function getItemDetails(uuid) {
   getAnonymousItemUuidRequest(uuid, anonymousToken.value, tenantId.value).then(function (response) {
     console.log(response.data);
     itemDetails.value = response.data;
-
 
     console.log("photoFiles")
 

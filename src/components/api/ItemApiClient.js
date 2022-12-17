@@ -16,12 +16,13 @@ export function getItemUuidRequest(uuid) {
   return authApi.get("/items/" + uuid);
 }
 
-export function getAnonymousItemUuidRequest(uuid, token,tenant_id) {
-  return api.get("/items/" + uuid,{
+export function getAnonymousItemUuidRequest(uuid, token, tenant_id) {
+  return api.get("/items/" + uuid, {
     headers: {
       Authorization: "Bearer " + token,
       tenant: tenant_id,
-    },});
+    },
+  });
 }
 
 export function createItemRequest(data) {

@@ -120,7 +120,7 @@ export const useUserStore = defineStore("user", {
 
     fillStore(token, tenant, firstName, lastName, uuid, tz, lang) {
       this.token = token;
-      this.tenant = tenant;
+      this.tenant = this.tenant;
       this.firstName = firstName;
       this.lastName = lastName;
       this.tz = tz;
@@ -129,7 +129,8 @@ export const useUserStore = defineStore("user", {
     },
 
     async autoLogin() {
-      let token = null
+      let token = null;
+      let tenant_id = null;
 
       if (this.token !== null){
         token = this.token
@@ -145,15 +146,36 @@ export const useUserStore = defineStore("user", {
         console.log('Token From localStorage');
       }
 
-      if (token !== null) {
+      if (this.tenant !== null){
+        tenant_id = this.tenant
+        console.log('Tenant From Store');
+      }
+      if(token == null && sessionStorage.getItem("tenant") !== null){
+        tenant_id = sessionStorage.getItem("tenant");
+        console.log('Tenant From sessionStorage');
+      }
+
+      if(token == null && localStorage.getItem("tenant") !== null){
+        tenant_id = localStorage.getItem("tenant")
+        console.log('Token From localStorage');
+      }
+
+      console.log(token)
+      console.log(tenant_id)
+
+      if (token !== null && tenant_id!==null) {
         await api
-          .get("/auth/verify/" + token)
+          .get("/auth/verify/" + token, {
+            headers: {
+              tenant: tenant_id,
+            },
+          })
           .then((res) => {
-            if (res.data.ok == true) {
+            console.log('verify result')
+            console.log(res.data)
+
               this.token = token;
-            } else {
-              this.logoutUser();
-            }
+
             // return('OK');
           })
           .catch((err) => {
@@ -164,6 +186,7 @@ export const useUserStore = defineStore("user", {
             } else {
               console.log("General Error");
             }
+            this.logoutUser();
           });
       } else{
         await this.logoutUser();
