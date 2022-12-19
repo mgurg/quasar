@@ -26,12 +26,17 @@
 
       <div class="row divider q-pb-lg">
         <div class="col-12">
-          <p class="text-body2 q-pa-xs">
-            <span v-if="path !=='/register'"><router-link to="/register">{{ $t("Register") }}</router-link> · </span>
-            <span v-if="path !=='/login'"><router-link to="/login">{{ $t("Login") }} </router-link>  · </span>
-            <span><router-link to="reset_password">{{ $t("Reset password") }} </router-link></span>
-            <!-- <span> · {{ $t("I need help") }}</span> -->
-          </p>
+          <br>
+          <span v-if="path !=='/register'"><q-btn flat no-caps color="secondary" @click="redirectTo('/register')" :label="$t('Register')" /> </span>
+          <span v-if="path !=='/login'"><q-btn flat no-caps color="secondary" @click="redirectTo('/login')" :label="$t('Login')" /> </span>
+          <span><q-btn flat no-caps color="secondary" @click="redirectTo('/reset_password')" :label="$t('Reset password')" /></span>
+
+<!--          <p class="text-body2 q-pa-xs">-->
+<!--            <span v-if="path !=='/register'"><router-link to="/register">{{ $t("Register") }}</router-link> · </span>-->
+<!--            <span v-if="path !=='/login'"><router-link to="/login">{{ $t("Login") }} </router-link>  · </span>-->
+<!--            <span><router-link to="reset_password">{{ $t("Reset password") }} </router-link></span>-->
+<!--            &lt;!&ndash; <span> · {{ $t("I need help") }}</span> &ndash;&gt;-->
+<!--          </p>-->
         </div>
       </div>
 
@@ -68,6 +73,10 @@ if (UserStore.isAuthenticated === true) {
   router.push({path: "/home"});
 } else {
   console.log('Czeka na logowanie')
+}
+
+function redirectTo(page){
+  router.push(page)
 }
 
 

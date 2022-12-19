@@ -118,10 +118,11 @@
 <script setup>
 import {computed, onBeforeMount, ref} from "vue";
 import {useQuasar} from "quasar";
-import TipTapGuide from 'components/editor/TipTapBasic.vue'
+
 import {useUserStore} from 'stores/user'
 import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
+import TipTapGuide from 'components/editor/TipTapBasic.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
 import MovieViewer from 'src/components/viewer/MovieViewer.vue'
 

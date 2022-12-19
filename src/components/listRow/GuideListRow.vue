@@ -101,6 +101,7 @@ function editGuide(uuid) {
 }
 
 function viewGuide(uuid) {
-  router.push("/guides/" + uuid);
+  router.push('/public/guides/'+uuid)
+  // router.push("/guides/" + uuid);
 }
 </script>

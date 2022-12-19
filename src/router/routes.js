@@ -90,6 +90,14 @@ const routes = [
     },
   },
   {
+    path: "/public/guides/:uuid",
+    name: "publicGuides",
+    component: () => import("pages/PublicOpen/PublicGuideView.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [

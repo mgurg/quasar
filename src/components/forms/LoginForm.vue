@@ -32,7 +32,7 @@
         </template>
       </q-input>
 
-      <q-checkbox v-model="rememberUser" :label="$t('Remember me for 30 days')"/>
+<!--      <q-checkbox v-model="rememberUser" :label="$t('Remember me for 30 days')"/>-->
       {{ errorMsg }}
       <div class="row">
         <q-space/>
@@ -51,7 +51,7 @@
 
 <script setup>
 import {computed, ref} from "vue";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useQuasar} from 'quasar'
 import {useUserStore} from 'stores/user'
 
@@ -71,6 +71,7 @@ let isPwd = ref(true)
 let isLoading = ref(false);
 let errorMsg = ref(null);
 
+const route = useRoute();
 const router = useRouter();
 const UserStore = useUserStore();
 
@@ -87,13 +88,8 @@ const {value: email, handleChange} = useField("email");
 const {value: password} = useField("password");
 const {value: rememberUser} = useField("rememberUser", undefined, {initialValue: false});
 
-const submit = handleSubmit((values) => {
-  let data = {
-    email: email.value,
-    password: password.value,
-    permanent: rememberUser.value,
-  };
-  LoginUser(data);
+const submit = handleSubmit(() => {
+  LoginUser({email: email.value, password: password.value, permanent: rememberUser.value,});
 });
 
 // --------------- VeeValidate --------------
@@ -102,7 +98,8 @@ async function LoginUser(data) {
   isLoading.value = true;
   try {
     await UserStore.loginUsers(data.email, data.password, data.permanent);
-    await router.push({path: "/home"});
+    // await router.push({path: "/home"});
+    await router.push(route.query.redirect || '/home')
   } catch (err) {
     console.log(err);
     $q.notify({
