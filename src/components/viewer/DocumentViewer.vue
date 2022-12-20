@@ -3,7 +3,7 @@
     <q-item>
       <q-item-section avatar>
         <q-avatar rounded>
-          <img src="~assets/fileIcons/pdf-o.svg">
+          <img :src="getIcon('.pdf')">
         </q-avatar>
       </q-item-section>
       <q-item-section>
@@ -20,7 +20,10 @@
           icon="download"
           round
           size="12px"
-          @click="downloadFile(file.uuid)"/>
+          type="a"
+          :download="file.file_name"
+          :href="file.url"
+        />
       </q-item-section>
 
     </q-item>
@@ -30,6 +33,7 @@
 
 <script setup>
 import {ref} from "vue";
+
 
 
 const props = defineProps({
@@ -65,7 +69,30 @@ function downloadFile(uuid) {
 }
 
 function getIcon(extension){
-  return "~assets/fileIcons/excel-o.svg";
+
+  switch (extension) {
+    case '.pdf':
+      return "./fileIcons/pdf-o.svg";
+      break;
+    case '.doc':
+    case '.docx':
+      return "./fileIcons/word-o.svg";
+      break;
+    case '.xls':
+    case '.xlsx':
+      return "./fileIcons/excel-o.svg";
+      break;
+    case '.ppt':
+    case '.pptx':
+      return "./fileIcons/excel-o.svg";
+      break;
+    default:
+      console.log(`Sorry, we are out of ${extension}.`);
+  }
+
+
+
+  return "~assets/fileIcons/pdf-o.svg";
 }
 
 </script>

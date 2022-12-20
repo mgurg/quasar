@@ -24,7 +24,7 @@
       </q-card>
 
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card  v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
 
         <q-card-section class="row q-pa-sm">
           <div class="row q-gutter-sm items-center">
@@ -82,6 +82,15 @@
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
         </div>
       </q-card>
+
+      <div v-if="pagination.total == 0" class="text-h5 text-center q-pa-lg">
+        Brak przedmiotów 🤔? <br/>Dodaj pierwsze urządzenie!
+        <div class="col-12 text-h6 q-mt-none">
+          <q-btn :label="$t('New item')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/items/add"/>
+        </div>
+
+      </div>
+
 
     </q-page>
   </div>

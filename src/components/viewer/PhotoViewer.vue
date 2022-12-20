@@ -2,10 +2,10 @@
     <div class="row q-col-gutter-xs q-pa-none">
         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in pictures"
             v-bind:key="index">
-            <q-img 
-                :src="file.url" 
-                spinner-color="black" 
-                style="height: 220px; width: 100%; border: 1px solid gray;" 
+            <q-img
+                :src="file.url"
+                spinner-color="black"
+                style="height: 220px; width: 100%; border: 1px solid gray;"
                 fit="cover"
                 @click="previewImgObject(index)">
                 <template v-slot:error>
@@ -81,7 +81,7 @@ const props = defineProps({
 
 const pictures = ref(props.picturesList)
 
-console.log(JSON.stringify(props.picturesList))
+// console.log(JSON.stringify(props.picturesList))
 
 
 const sourceImageURLs = ref([]);
@@ -94,7 +94,7 @@ sourceImageURLs.value = props.picturesList.map((e) => {
         }
       });
 
-console.log(JSON.stringify(sourceImageURLs.value))
+// console.log(JSON.stringify(sourceImageURLs.value))
 
 function previewURL() {
   const $viewer = viewerApi({

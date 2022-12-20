@@ -2,7 +2,7 @@
   <q-layout>
     <q-page-container>
       <div class="row justify-center">
-        <q-linear-progress stripe size="20px" :value="0.2" />
+        <q-linear-progress stripe size="20px" :value="validToProgress" />
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
 
@@ -37,7 +37,7 @@
             </q-card-actions>
           </q-card>
 
-          <q-card  bordered class="my-card no-shadow q-my-sm">
+          <q-card bordered class="my-card no-shadow q-my-sm">
             <!--        GUIDES -->
             <div>
               <q-card-section class="q-py-sm">
@@ -153,10 +153,13 @@ const router = useRouter();
 const UserStore = useUserStore();
 
 const qrId = ref(null);
+const itemUuid = ref(null);
+
 const isAuthenticated = ref(null);
 const anonymousToken = ref(null);
 const tenantId = ref(null);
 const validTo = ref(null);
+const validToProgress = ref(0);
 const redirectTo = ref(null);
 
 let expandedGuide = ref(true)
@@ -183,7 +186,7 @@ async function verifyToken() {
 
 function redirectToPage(page){
   //  /items/094b4373-a120-42f5-90ed-23dbfbe1cd9d
-  router.push({ name: 'login', query: { redirect: '/items/094b4373-a120-42f5-90ed-23dbfbe1cd9d' } })
+  router.push({ name: 'login', query: { redirect: redirectTo.value } })
 }
 
 function goToPage() {
@@ -193,9 +196,21 @@ function goToPage() {
 }
 
 function countDown(){
-  const to = DateTime.fromFormat('2022-12-19 12:49:46', 'yyyy-MM-dd HH:mm:ss')
-  console.log(to.diff(DateTime.now(), 'minutes').toObject())
-  setTimeout(countDown, 10000);
+
+  if (validTo.value !==null){
+    console.log("validTo: " + DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'}).toFormat('yyyy-LL-dd HH:mm:ss z'))
+    console.log("validFrom: " + DateTime.now().setZone("UTC").toFormat('yyyy-LL-dd HH:mm:ss z'))
+
+    const to = DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss',{zone: 'UTC'})
+    const now = DateTime.now().setZone("UTC")
+
+    const remainingTime = Math.abs(now.diff(to, 'minutes').as('minutes'));
+    console.log(1-(remainingTime/15))
+    validToProgress.value = 1-(remainingTime/15)
+  }
+    setTimeout(countDown, 5000);
+
+
 }
 
 function resolveQrCode(qrCode) {
@@ -204,6 +219,15 @@ function resolveQrCode(qrCode) {
 
   resolveQRtoURL(qrCode).then(function (response) {
     console.log(response.data)
+
+
+
+    const lastIndex = response.data.url.lastIndexOf('/');
+    if (lastIndex !== -1) {
+      itemUuid.value = response.data.url.slice(lastIndex + 1)
+      console.log(response.data.url.slice(lastIndex + 1));
+    }
+
 
     anonymousToken.value = response.data.anonymous_token
     tenantId.value = atob(anonymousToken.value).split(".")[0]
@@ -237,7 +261,7 @@ function resolveQrCode(qrCode) {
     if (UserStore.isAuthenticated === true) {
       router.push(redirectTo.value);
     } else {
-      getItemDetails('dd11ca7d-038f-4315-9b0d-a582a07db4d1')
+      // getItemDetails('dd11ca7d-038f-4315-9b0d-a582a07db4d1')
       console.log('Czeka na logowanie')
     }
     isLoading.value = false;

@@ -42,9 +42,9 @@
         <q-separator/>
 
         <q-card-actions align="right">
-          <q-btn color="primary" icon="bug_report" no-caps flat>Zgłoś awarie</q-btn>
-          <q-btn color="primary" icon="lightbulb_outline" no-caps flat>Usprawnienie</q-btn>
-          <q-btn color="primary" icon="insights" no-caps flat>Statystyki</q-btn>
+          <q-btn color="primary" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
+          <q-btn color="primary" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>
+          <q-btn color="primary" flat icon="insights" no-caps>Statystyki</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -53,8 +53,10 @@
         <q-card-section class="q-py-sm">
           <div class="row q-col-gutter-xs">
 
-            <div @click="expandedDescription = !expandedDescription" class="text-h6 text-weight-regular cursor-pointer">Opis</div>
-            <q-space />
+            <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDescription = !expandedDescription">
+              Opis
+            </div>
+            <q-space/>
             <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
                    color="grey"
                    dense
@@ -82,108 +84,61 @@
 
         <!--        PHOTOS -->
         <div :style="expandedPhotos ? 'border-left: 5px solid #2d7df8':''">
-        <q-card-section class="q-py-sm">
-          <div class="row q-col-gutter-xs">
-            <div @click="expandedPhotos = !expandedPhotos" class="text-h6 text-weight-regular cursor-pointer">Zdjęcia</div>
-            <q-space></q-space>
-            <q-btn
-              :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              color="grey"
-              dense
-              flat
-              round
-              @click="expandedPhotos = !expandedPhotos"
-            />
-          </div>
-
-        </q-card-section>
-        <q-separator v-show="!expandedPhotos"/>
-        <q-slide-transition>
-          <div v-show="expandedPhotos">
-
-            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-              <div class="q-mt-md">
-                <photo-viewer v-if="photoFiles && !isLoading" :pictures-list="photoFiles"/>
+          <q-card-section class="q-py-sm">
+            <div class="row q-col-gutter-xs">
+              <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedPhotos = !expandedPhotos">
+                Zdjęcia
               </div>
+              <q-space></q-space>
+              <q-btn
+                :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+                color="grey"
+                dense
+                flat
+                round
+                @click="expandedPhotos = !expandedPhotos"
+              />
+            </div>
+
+          </q-card-section>
+          <q-separator v-show="!expandedPhotos"/>
+          <q-slide-transition>
+            <div v-show="expandedPhotos">
+
+              <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
+                <div class="q-mt-md">
+                  <photo-viewer v-if="photoFiles && !isLoading" :pictures-list="photoFiles"/>
+                </div>
 
 
-            </q-card-section>
-            <q-separator />
-          </div>
-        </q-slide-transition>
+              </q-card-section>
+              <q-separator/>
+            </div>
+          </q-slide-transition>
         </div>
         <!--        DOCS  -->
 
         <div :style="expandedDocs ? 'border-left: 5px solid #f31060':''">
-        <q-card-section class="q-py-sm" >
-          <div class="row q-col-gutter-xs">
-            <div @click="expandedDocs = !expandedDocs" class="text-h6 text-weight-regular cursor-pointer">Dokumenty</div>
-            <q-space></q-space>
-            <q-btn
-              :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              color="grey"
-              dense
-              flat
-              round
-              @click="expandedDocs = !expandedDocs"
-            />
-          </div>
-
-        </q-card-section>
-          <q-separator v-if="!expandedDocs" />
-        <q-slide-transition>
-          <div v-show="expandedDocs">
-            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-
-              <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
-                <q-item-section avatar>
-                  <span>&nbsp;</span>
-                </q-item-section>
-                <q-item-section>
-                    <span>
-                      {{ $t("Name") }}
-                      <q-btn
-                        :flat="sort.active!=='title'"
-                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"
-                        :unelevated="sort.active==='title'"
-                        color="primary"
-                        padding="xs"
-                        size="sm"
-                        @click="changeSortOrder('title')"/>
-                    </span>
-                </q-item-section>
-
-              </q-item>
-              <div >
-                <document-viewer v-if="documentFiles && !isLoading" :files-list="documentFiles"/>
+          <q-card-section class="q-py-sm">
+            <div class="row q-col-gutter-xs">
+              <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">Dokumenty
               </div>
+              <q-space></q-space>
+              <q-btn
+                :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+                color="grey"
+                dense
+                flat
+                round
+                @click="expandedDocs = !expandedDocs"
+              />
+            </div>
 
-
-            </q-card-section>
-            <q-separator />
-          </div>
-        </q-slide-transition>
-        </div>
-        <!--        GUIDES -->
-        <div :style="expandedGuide ? 'border-left: 5px solid #2bba82':''">
-        <q-card-section class="q-py-sm">
-          <div class="row q-col-gutter-xs">
-            <div @click="expandedGuide = !expandedGuide" class="text-h6 text-weight-regular cursor-pointer">Instrukcje</div>
-            <q-space></q-space>
-            <q-btn class="q-mr-lg" color="primary" flat no-caps>Dodaj nową</q-btn>
-            <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                   @click="expandedGuide = !expandedGuide"/>
-          </div>
-
-        </q-card-section>
-
-        <q-separator v-if="!expandedGuide" />
-        <q-slide-transition>
-          <div v-show="expandedGuide">
-
-            <q-card-section>
-
-              <q-list v-if="!isLoading && pagination.total > 0">
+          </q-card-section>
+          <q-separator v-if="!expandedDocs"/>
+          <q-slide-transition>
+            <div v-show="expandedDocs">
+              <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
 
                 <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
                   <q-item-section avatar>
@@ -204,250 +159,355 @@
                   </q-item-section>
 
                 </q-item>
-
-                <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
-                  <guide-item v-if="!isLoading" :guide="guide" @forceRefresh="fetchGuides"></guide-item>
+                <div>
+                  <document-viewer v-if="documentFiles && !isLoading" :files-list="documentFiles"/>
                 </div>
 
-              </q-list>
 
-            </q-card-section>
-          </div>
-        </q-slide-transition>
+              </q-card-section>
+              <q-separator/>
+            </div>
+          </q-slide-transition>
+        </div>
+        <!--        GUIDES -->
+        <div :style="expandedGuide ? 'border-left: 5px solid #2bba82':''">
+          <q-card-section class="q-py-sm">
+            <div class="row q-col-gutter-xs">
+              <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedGuide = !expandedGuide">
+                Instrukcje
+              </div>
+              <q-space></q-space>
+              <q-btn class="q-mr-lg" color="primary" flat no-caps>Dodaj nową</q-btn>
+              <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
+                     @click="expandedGuide = !expandedGuide"/>
+            </div>
+
+          </q-card-section>
+
+          <q-separator v-if="!expandedGuide"/>
+          <q-slide-transition>
+            <div v-show="expandedGuide">
+
+              <q-card-section>
+
+                <q-list v-if="!isLoading && pagination.total > 0">
+
+                  <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
+                    <q-item-section avatar>
+                      <span>&nbsp;</span>
+                    </q-item-section>
+                    <q-item-section>
+                    <span>
+                      {{ $t("Name") }}
+                      <q-btn
+                        :flat="sort.active!=='title'"
+                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"
+                        :unelevated="sort.active==='title'"
+                        color="primary"
+                        padding="xs"
+                        size="sm"
+                        @click="changeSortOrder('title')"/>
+                    </span>
+                    </q-item-section>
+
+                  </q-item>
+
+                  <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
+                    <guide-item v-if="!isLoading" :guide="guide" @forceRefresh="fetchGuides"></guide-item>
+                  </div>
+
+                </q-list>
+
+              </q-card-section>
+            </div>
+          </q-slide-transition>
         </div>
 
         <!--  QR CODE -->
         <div :style="expandedQR ? 'border-left: 5px solid #4c29bb':''">
-        <q-card-section class="q-py-sm">
-          <div class="row q-col-gutter-xs">
-            <div @click="expandedQR = !expandedQR" class="text-h6 text-weight-regular cursor-pointer">Kod QR</div>
-            <q-space></q-space>
-            <q-btn :icon="expandedQR ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                   @click="expandedQR = !expandedQR"/>
-          </div>
+          <q-card-section class="q-py-sm">
+            <div class="row q-col-gutter-xs">
+              <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedQR = !expandedQR">Kod QR</div>
+              <q-space></q-space>
+              <q-btn :icon="expandedQR ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
+                     @click="expandedQR = !expandedQR"/>
+            </div>
 
-        </q-card-section>
+          </q-card-section>
 
-        <q-separator v-if="!expandedQR" />
-        <q-slide-transition>
-          <div v-show="expandedQR">
+          <q-separator v-if="!expandedQR"/>
+          <q-slide-transition>
+            <div v-show="expandedQR">
 
-            <q-card-section>
+              <q-card-section>
 
-              <div class="row">
-                <div class="q-pa-xs col-xs-12 col-sm-6">
-                  <img
-                    alt="string"
-                    src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=https://remontmaszyn.pl/new/8tl+234&choe=UTF-8&chld=M"
-                  />
+                <div v-if="qrCode!==null" class="row">
+                  <div class="q-pa-xs col-xs-12 col-sm-6">
+                    <img
+                      :src="GenerateQR(qrCode.qr_code_content, qrCode.ecc)"
+                    />
+                    <p>Jeśli chcesz wygenerować kod samodzielnie, użyj tekstu:</p>
+                    <p class="text-weight-bold">{{ generateQRUrl(qrCode.qr_code_content) }}</p>
+                  </div>
+                  <div class="q-pa-xs col-xs-12 col-sm-6">
+                    <p>To specjalny <span class="text-weight-bold">obraz z zakodowaną informacją</span>, który może być
+                      odczytany przez kamerę/aparat w telefonie komórkowym.
+                      <span class="text-weight-bold">Wydruku i przyklej na urządzenie.</span></p>
+                    <img v-if="$q.screen.gt.sm" src="~assets/qr-code-scan-mini.gif">
+                    <p>Uruchom opcję robienia zdjęć w telefonie - jeżeli obraz znajdzie się kadrze zobaczysz
+                      rozszyfrowany tekst.
+                      Jego <span class="text-weight-bold">kliknięcie otworzy kartę informacyjną</span> tego urządzenia
+                    </p>
+                    <!--                    <p>{{ qrCode }} {{qrCodeSize}}</p>-->
+                    <!--                    <q-btn-toggle-->
+                    <!--                      class="q-mr-sm"-->
+                    <!--                      v-model="qrCodeSize"-->
+                    <!--                      unelevated-->
+                    <!--                      :options="[-->
+                    <!--                        {label: 'S', value: 300},-->
+                    <!--                        {label: 'M', value: 600},-->
+                    <!--                        {label: 'L', value: 1000}-->
+                    <!--                      ]"-->
+                    <!--                      toggle-color="primary"-->
+                    <!--                    />-->
+
+                    <q-btn
+                      :href="GenerateQR(qrCode.qr_code_content, qrCode.ecc, qrCodeSize)"
+
+                      download
+                      icon="download"
+                      no-caps
+                      outline
+                      target="_blank"
+                      type="a"
+                    >Pobierz plik do druku
+                    </q-btn>
+                  </div>
                 </div>
-                <div class="q-pa-xs col-xs-12 col-sm-6">
-                  <p>Kod QR dla urządzenia. Zeskanuj telefonem żeby bezpośrednio przejść do urządzenia w aplikacji. </p>
-                  <q-btn icon="download" outline no-caps>Pobierz plik do druku</q-btn>
-                </div>
-              </div>
-
-
-
-
-
-            </q-card-section>
-          </div>
-        </q-slide-transition>
+              </q-card-section>
+            </div>
+          </q-slide-transition>
         </div>
 
         <!--  Comments -->
         <div :style="expandedComments ? 'border-left: 5px solid #fb510a':''">
-        <q-card-section class="q-py-sm">
-          <div class="row q-col-gutter-xs">
-            <div @click="expandedComments = !expandedComments" class="text-h6 text-weight-regular cursor-pointer">Komentarze</div>
-            <q-space></q-space>
-            <q-btn :icon="expandedComments ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                   @click="expandedComments = !expandedComments"/>
-          </div>
+          <q-card-section class="q-py-sm">
+            <div class="row q-col-gutter-xs">
+              <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedComments = !expandedComments">
+                Komentarze
+              </div>
+              <q-space></q-space>
+              <q-btn :icon="expandedComments ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
+                     round
+                     @click="expandedComments = !expandedComments"/>
+            </div>
 
-        </q-card-section>
+          </q-card-section>
 
-        <q-separator v-if="!expandedComments" />
-        <q-slide-transition>
-          <div v-show="expandedComments">
+          <q-separator v-if="!expandedComments"/>
+          <q-slide-transition>
+            <div v-show="expandedComments">
 
-            <q-card-section>
+              <q-card-section>
 
-              <div class="q-pa-md row justify-center">
-                <div style="width: 100%; max-width: 600px">
-                  <q-chat-message
-                    :text="['Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n'+
+                <div class="q-pa-md row justify-center">
+                  <div style="width: 100%; max-width: 600px">
+                    <q-chat-message
+                      :text="['Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut\n'+
 '                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris\n'+
 '                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit\n'+
 '                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt\n'+
 '                      in culpa qui officia deserunt mollit anim id est laborum.']"
-                    name="me"
-                    sent
-                    size="10"
-                    stamp="7 minutes ago"
-                  >
-                    <template v-slot:avatar>
-                      <q-avatar class="q-message-avatar q-message-avatar--sent" color="red" text-color="white">MG
-                      </q-avatar>
-                    </template>
-                  </q-chat-message>
-                  <q-chat-message
-                    :text="[`doing fine, how r you?`]"
-                    name="Jane"
-                    size="8"
-                    stamp="4 minutes ago"
-                  >
-                    <template v-slot:avatar>
-                      <q-avatar class="q-message-avatar q-message-avatar--sent" color="red" text-color="white">MG
-                      </q-avatar>
-                    </template>
-                  </q-chat-message>
+                      name="me"
+                      sent
+                      size="10"
+                      stamp="7 minutes ago"
+                    >
+                      <template v-slot:avatar>
+                        <q-avatar class="q-message-avatar q-message-avatar--sent" color="red" text-color="white">MG
+                        </q-avatar>
+                      </template>
+                    </q-chat-message>
+                    <q-chat-message
+                      :text="[`doing fine, how r you?`]"
+                      name="Jane"
+                      size="8"
+                      stamp="4 minutes ago"
+                    >
+                      <template v-slot:avatar>
+                        <q-avatar class="q-message-avatar q-message-avatar--sent" color="red" text-color="white">MG
+                        </q-avatar>
+                      </template>
+                    </q-chat-message>
+                  </div>
                 </div>
-              </div>
-              <q-input outlined label="Wyślij wiadomość" >
-                <template v-slot:after>
-                  <q-btn round dense flat icon="send" />
-                </template>
-              </q-input>
-            </q-card-section>
-          </div>
-        </q-slide-transition>
+                <q-input label="Wyślij wiadomość" outlined>
+                  <template v-slot:after>
+                    <q-btn dense flat icon="send" round/>
+                  </template>
+                </q-input>
+              </q-card-section>
+            </div>
+          </q-slide-transition>
         </div>
 
 
         <!--  Timeline -->
         <div :style="expandedTimeline ? 'border-left: 5px solid #a04d2c':''">
-        <q-card-section class="q-py-sm">
-          <div class="row q-col-gutter-xs">
-            <div @click="expandedTimeline = !expandedTimeline" class="text-h6 text-weight-regular cursor-pointer">Oś zdarzeń</div>
-            <q-space></q-space>
-            <q-btn :icon="expandedTimeline ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                   @click="expandedTimeline = !expandedTimeline"/>
-          </div>
-
-        </q-card-section>
-
-        <q-separator v-if="!expandedTimeline" />
-        <q-slide-transition>
-          <div v-show="expandedTimeline">
-
-            <q-card-section>
-              <div class="q-px-lg q-pb-md">
-                <q-timeline :layout="layout" color="secondary">
-                  <q-timeline-entry heading>
-                    Timeline heading
-                    <br>
-                    ({{ $q.screen.lt.sm ? 'Dense' : ($q.screen.lt.md ? 'Comfortable' : 'Loose') }} layout)
-                  </q-timeline-entry>
-
-                  <q-timeline-entry
-                    side="left"
-                    subtitle="February 22, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-
-                  <q-timeline-entry
-                    icon="delete"
-                    side="right"
-                    subtitle="February 21, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-
-                  <q-timeline-entry heading>November, 2017</q-timeline-entry>
-
-                  <q-timeline-entry
-                    side="left"
-                    subtitle="February 22, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-
-                  <q-timeline-entry
-                    side="right"
-                    subtitle="February 22, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-
-                  <q-timeline-entry
-                    color="orange"
-                    icon="done_all"
-                    side="left"
-                    subtitle="February 22, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-
-                  <q-timeline-entry
-                    side="right"
-                    subtitle="February 22, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-
-                  <q-timeline-entry
-                    side="left"
-                    subtitle="February 22, 1986"
-                    title="Event Title"
-                  >
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                      in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                  </q-timeline-entry>
-                </q-timeline>
+          <q-card-section class="q-py-sm">
+            <div class="row q-col-gutter-xs">
+              <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedTimeline = !expandedTimeline">Oś
+                zdarzeń
               </div>
-            </q-card-section>
-          </div>
-        </q-slide-transition>
+              <q-space></q-space>
+              <q-btn :icon="expandedTimeline ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
+                     round
+                     @click="expandedTimeline = !expandedTimeline"/>
+            </div>
+
+          </q-card-section>
+
+          <q-separator v-if="!expandedTimeline"/>
+          <q-slide-transition>
+            <div v-show="expandedTimeline">
+
+              <q-card-section>
+                <div class="q-px-lg q-pb-md">
+                  <q-timeline :layout="layout" color="secondary">
+                    <q-timeline-entry heading>
+                      Timeline heading
+                      <br>
+                      ({{ $q.screen.lt.sm ? 'Dense' : ($q.screen.lt.md ? 'Comfortable' : 'Loose') }} layout)
+                    </q-timeline-entry>
+
+                    <q-timeline-entry
+                      side="left"
+                      subtitle="February 22, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+
+                    <q-timeline-entry
+                      icon="delete"
+                      side="right"
+                      subtitle="February 21, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+
+                    <q-timeline-entry heading>November, 2017</q-timeline-entry>
+
+                    <q-timeline-entry
+                      side="left"
+                      subtitle="February 22, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+
+                    <q-timeline-entry
+                      side="right"
+                      subtitle="February 22, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+
+                    <q-timeline-entry
+                      color="orange"
+                      icon="done_all"
+                      side="left"
+                      subtitle="February 22, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+
+                    <q-timeline-entry
+                      side="right"
+                      subtitle="February 22, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+
+                    <q-timeline-entry
+                      side="left"
+                      subtitle="February 22, 1986"
+                      title="Event Title"
+                    >
+                      <div>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris
+                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit
+                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                        sunt
+                        in culpa qui officia deserunt mollit anim id est laborum.
+                      </div>
+                    </q-timeline-entry>
+                  </q-timeline>
+                </div>
+              </q-card-section>
+            </div>
+          </q-slide-transition>
         </div>
 
       </q-card>
@@ -475,8 +535,11 @@ import {useI18n} from "vue-i18n";
 let itemDetails = ref(null);
 let photoFiles = ref(null);
 let documentFiles = ref(null);
+let qrCode = ref(null);
+let qrCodeSize = ref(300);
 const guides = ref([]);
 let isLoading = ref(false);
+let isError = ref(false);
 
 
 const $q = useQuasar();
@@ -544,11 +607,12 @@ function getItemDetails(uuid) {
     itemDetails.value = response.data;
 
 
-    console.log("photoFiles")
+    // console.log("photoFiles")
 
     photoFiles.value = response.data.files_item.filter((item) => item.mimetype.match('image.*'));
     documentFiles.value = response.data.files_item.filter((item) => !item.mimetype.match('image.*'));
-    console.log(photoFiles.value)
+    qrCode.value = response.data.qr_code;
+    // console.log(photoFiles.value)
 
     // documentFiles.value =  itemDetails.value;
     // json.value = res.data.body_json;
@@ -584,7 +648,7 @@ function deleteItem(uuid, itemName) {
         type: 'warning',
         message: successfulDeleteMessage.value + " " + itemName,
       });
-      router.push("/users/edit/" + uuid);
+      router.push("/items/");
       isLoading.value = false;
     }).catch((err) => {
       const errorMessage = errorHandler(err);
@@ -593,6 +657,18 @@ function deleteItem(uuid, itemName) {
   });
 }
 
+function generateQRUrl(qrCodeId) {
+  return process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
+}
+
+function GenerateQR(qrCodeId, ecc, size = 300) {
+  // http://beta.remontmaszyn.pl/qr/mxw+234
+
+  let url = process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
+  console.log(url)
+
+  return "https://chart.googleapis.com/chart?chs=" + size + "x" + size + "&cht=qr&chl=" + url + "&choe=UTF-8&chld=" + ecc
+}
 
 onBeforeMount(() => {
   isLoading.value = true;
