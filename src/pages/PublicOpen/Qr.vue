@@ -2,67 +2,71 @@
   <q-layout>
     <q-page-container>
       <div class="row justify-center">
-        <q-linear-progress stripe size="20px" :value="validToProgress" />
-        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+        <div v-if="isError===false">
+          <q-linear-progress :value="validToProgress" size="20px" stripe/>
+          <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
 
-          <q-card bordered class="my-card no-shadow q-mt-sm">
-            <q-card-section v-if="itemDetails && !isLoading">
-              <q-list>
-                <q-item class="q-px-none">
-                  <q-item-section>
-                    <q-item-label class="text-h4">{{ itemDetails.name }}</q-item-label>
-                    <!-- <q-item-label caption>{{ itemDetails.last_name }}</q-item-label> -->
-                  </q-item-section>
-                  <q-item-section side>
-                    <div class="col-12 text-h6 q-mt-none">
-                      <q-btn
-                        :label="$q.screen.gt.xs ? 'Zaloguj się żeby zobaczyć wszystkie dane' : ''"
-                        class="float-right q-mr-sm" color="primary"
-                        icon="login" no-caps
-                        outline
-                        @click="redirectToPage('/login')"
-                      />
+            <q-card bordered class="my-card no-shadow q-mt-sm">
+              <q-card-section v-if="itemDetails && !isLoading">
+                <q-list>
+                  <q-item class="q-px-none">
+                    <q-item-section>
+                      <q-item-label class="text-h4">{{ itemDetails.name }}</q-item-label>
+                      <!-- <q-item-label caption>{{ itemDetails.last_name }}</q-item-label> -->
+                    </q-item-section>
+                    <q-item-section side>
+                      <div class="col-12 text-h6 q-mt-none">
+                        <q-btn
+                          :label="$q.screen.gt.xs ? 'Zaloguj się żeby zobaczyć wszystkie dane' : ''"
+                          class="float-right q-mr-sm" color="primary"
+                          icon="login" no-caps
+                          outline
+                          @click="redirectToPage('/login')"
+                        />
 
-                    </div>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-card-section>
-
-            <q-separator/>
-
-            <q-card-actions align="right">
-              <q-btn color="primary" icon="bug_report" no-caps flat>Zgłoś awarie</q-btn>
-            </q-card-actions>
-          </q-card>
-
-          <q-card bordered class="my-card no-shadow q-my-sm">
-            <!--        GUIDES -->
-            <div>
-              <q-card-section class="q-py-sm">
-                <div class="row q-col-gutter-xs">
-                  <div @click="expandedGuide = !expandedGuide" class="text-h6 text-weight-regular cursor-pointer">Instrukcje</div>
-                  <q-space></q-space>
-                  <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                         @click="expandedGuide = !expandedGuide"/>
-                </div>
-
+                      </div>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
               </q-card-section>
 
-              <q-separator v-if="!expandedGuide" />
-              <q-slide-transition>
-                <div v-show="expandedGuide">
+              <q-separator/>
 
-                  <q-card-section>
+              <q-card-actions align="right">
+                <q-btn color="primary" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
+              </q-card-actions>
+            </q-card>
 
-                    <q-list v-if="!isLoading">
+            <q-card bordered class="my-card no-shadow q-my-sm">
+              <!--        GUIDES -->
+              <div>
+                <q-card-section class="q-py-sm">
+                  <div class="row q-col-gutter-xs">
+                    <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedGuide = !expandedGuide">
+                      Instrukcje
+                    </div>
+                    <q-space></q-space>
+                    <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
+                           round
+                           @click="expandedGuide = !expandedGuide"/>
+                  </div>
 
-                      <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
-                        <q-item-section avatar>
-                          <span>&nbsp;</span>
-                        </q-item-section>
-                        <q-item-section>
+                </q-card-section>
+
+                <q-separator v-if="!expandedGuide"/>
+                <q-slide-transition>
+                  <div v-show="expandedGuide">
+
+                    <q-card-section>
+
+                      <q-list v-if="!isLoading">
+
+                        <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
+                          <q-item-section avatar>
+                            <span>&nbsp;</span>
+                          </q-item-section>
+                          <q-item-section>
                     <span>
                       {{ $t("Name") }}
                       <q-btn
@@ -74,64 +78,91 @@
                         size="sm"
                         @click="changeSortOrder('title')"/>
                     </span>
-                        </q-item-section>
+                          </q-item-section>
 
-                      </q-item>
+                        </q-item>
 
-                      <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
-                        <guide-item v-if="!isLoading" :guide="guide"></guide-item>
-                      </div>
+                        <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
+                          <guide-item v-if="!isLoading" :guide="guide"></guide-item>
+                        </div>
 
-                    </q-list>
+                      </q-list>
 
-                  </q-card-section>
+                    </q-card-section>
+                  </div>
+                </q-slide-transition>
+              </div>
+            </q-card>
+
+            <q-card bordered class="my-card no-shadow q-my-sm">
+              <q-card-section>
+                <div class="row q-col-gutter-xs">
+                  <div class="text-h5">Awaria</div>
+                  <q-space></q-space>
+                  <q-btn :icon="expandedFailureReport ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense
+                         flat
+                         round
+                         @click="expandedFailureReport = !expandedFailureReport"/>
+                </div>
+
+              </q-card-section>
+
+              <q-slide-transition>
+                <div v-show="expandedFailureReport">
+                  AAAA
                 </div>
               </q-slide-transition>
-            </div>
-          </q-card>
+            </q-card>
 
-          <q-card bordered class="my-card no-shadow q-my-sm">
-            <q-card-section>
-              <div class="row q-col-gutter-xs">
-                <div class="text-h5">Awaria</div>
-                <q-space></q-space>
-                <q-btn :icon="expandedFailureReport ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
-                       round
-                       @click="expandedFailureReport = !expandedFailureReport"/>
+            <div class="q-pa-md">
+
+
+              <div v-if="redirectTo!=null">
+                {{ isAuthenticated }} <br>
+                {{ qrId }} <br>
+                {{ anonymousToken }} <br>
+                {{ tenantId }} <br>
+                {{ validTo }} <br>
+                {{ redirectTo }}<br>
+
               </div>
+
+
+              <br>
+              <router-link v-if="isAuthenticated===false" to="/login">Zaloguj</router-link>
+              <!-- <img
+                src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=https://remontmaszyn.pl/new/8tl+234&choe=UTF-8&chld=M"
+                alt="string"
+              /> -->
+
+            </div>
+          </q-page>
+        </div>
+        <div v-else class="window-height window-width row justify-center items-center">
+          <q-card bordered class="my-card" flat style="max-width: 300px">
+            <q-card-section class="bg-grey-1">
+              <div class="text-h6">Nie znalazłem kodu QR</div>
+              <!--              <div class="text-subtitle2">by John Doe</div>-->
 
             </q-card-section>
+            <q-separator dark/>
+            <q-card-section>
+              Nie mogłem odnaleźć maszyny. Być może została ona usunięta z spisu maszyn
+            </q-card-section>
 
-            <q-slide-transition>
-              <div v-show="expandedFailureReport">
-                AAAA
-              </div>
-            </q-slide-transition>
+            <q-separator/>
+
+            <q-card-actions vertical>
+              <q-btn v-if="isAuthenticated === false" color="primary" flat to="/login">Zaloguj się żeby przejrzeć listę
+                wszystkich maszyn
+              </q-btn>
+              <q-btn v-if="isAuthenticated === true" color="primary" flat to="/items">Otwórz listę wszystkich maszyn
+              </q-btn>
+            </q-card-actions>
           </q-card>
 
-          <div class="q-pa-md">
 
-
-            <div v-if="redirectTo!=null">
-              {{ isAuthenticated }} <br>
-              {{ qrId }} <br>
-              {{ anonymousToken }} <br>
-              {{ tenantId }} <br>
-              {{ validTo }} <br>
-              {{ redirectTo }}<br>
-
-            </div>
-
-
-            <br>
-            <router-link v-if="isAuthenticated===false" to="/login">Zaloguj</router-link>
-            <!-- <img
-              src="https://chart.googleapis.com/chart?chs=400x400&cht=qr&chl=https://remontmaszyn.pl/new/8tl+234&choe=UTF-8&chld=M"
-              alt="string"
-            /> -->
-
-          </div>
-        </q-page>
+        </div>
       </div>
     </q-page-container>
   </q-layout>
@@ -139,7 +170,7 @@
 </template>
 
 <script setup>
-import {computed, onBeforeMount, reactive, ref} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {resolveQRtoURL} from "components/api/AuthApiClient";
 import {errorHandler} from "components/api/errorHandler";
@@ -184,9 +215,9 @@ async function verifyToken() {
   await UserStore.autoLogin();
 }
 
-function redirectToPage(page){
+function redirectToPage(page) {
   //  /items/094b4373-a120-42f5-90ed-23dbfbe1cd9d
-  router.push({ name: 'login', query: { redirect: redirectTo.value } })
+  router.push({name: 'login', query: {redirect: redirectTo.value}})
 }
 
 function goToPage() {
@@ -195,20 +226,20 @@ function goToPage() {
   }
 }
 
-function countDown(){
+function countDown() {
 
-  if (validTo.value !==null){
+  if (validTo.value !== null) {
     console.log("validTo: " + DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'}).toFormat('yyyy-LL-dd HH:mm:ss z'))
     console.log("validFrom: " + DateTime.now().setZone("UTC").toFormat('yyyy-LL-dd HH:mm:ss z'))
 
-    const to = DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss',{zone: 'UTC'})
+    const to = DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'})
     const now = DateTime.now().setZone("UTC")
 
     const remainingTime = Math.abs(now.diff(to, 'minutes').as('minutes'));
-    console.log(1-(remainingTime/15))
-    validToProgress.value = 1-(remainingTime/15)
+    console.log(1 - (remainingTime / 15))
+    validToProgress.value = 1 - (remainingTime / 15)
   }
-    setTimeout(countDown, 5000);
+  setTimeout(countDown, 5000);
 
 
 }
@@ -221,7 +252,6 @@ function resolveQrCode(qrCode) {
     console.log(response.data)
 
 
-
     const lastIndex = response.data.url.lastIndexOf('/');
     if (lastIndex !== -1) {
       itemUuid.value = response.data.url.slice(lastIndex + 1)
@@ -231,12 +261,12 @@ function resolveQrCode(qrCode) {
 
     anonymousToken.value = response.data.anonymous_token
     tenantId.value = atob(anonymousToken.value).split(".")[0]
-    validTo.value= atob(anonymousToken.value).split(".")[1]
+    validTo.value = atob(anonymousToken.value).split(".")[1]
 
     sessionStorage.clear();
-    sessionStorage.setItem("anonymousToken", anonymousToken.value );
-    sessionStorage.setItem("anonymousTenantId", tenantId.value );
-    sessionStorage.setItem("anonymousTokenValidTo", validTo.value );
+    sessionStorage.setItem("anonymousToken", anonymousToken.value);
+    sessionStorage.setItem("anonymousTenantId", tenantId.value);
+    sessionStorage.setItem("anonymousTokenValidTo", validTo.value);
 
     // const now = DateTime.now()
     // const to =  DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss')
@@ -246,14 +276,10 @@ function resolveQrCode(qrCode) {
     // const diff = now.diff(to, ["years", "months", "days", "hours"])
 
 
-
-
-
     // console.log(diff.as('seconds'))
 
     // const diff = DateTime.fromFormat('2022-12-19 11:12:35', 'yyyy-MM-dd HH:mm:ss').diff(DateTime.now(),'minutes');
     // console.log("Time  diff: " + diff)
-
 
 
     redirectTo.value = response.data.url;
@@ -267,6 +293,8 @@ function resolveQrCode(qrCode) {
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
+    isAuthenticated.value = UserStore.isAuthenticated;
+    console.log(errorMessage.status);
     isError.value = true;
   });
 }

@@ -30,21 +30,21 @@
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
 
       <div>&nbsp;</div>
-          
+
         <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
           <guide-form />
         </q-card-section>
       </q-card>
-      
-      
+
+
     </q-page>
   </div>
 </template>
 
 
 <script setup>
-import { ref, watch, onBeforeUnmount } from "vue";
+import {ref, watch, onBeforeUnmount, onBeforeMount} from "vue";
 import GuideForm from 'src/components/forms/GuideForm.vue'
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "stores/user";
@@ -55,11 +55,13 @@ import { VideoUploader } from '@api.video/video-uploader'
 import { component as Viewer } from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
 
+const route = useRoute()
 const router = useRouter();
 const UserStore = useUserStore();
 
 const tenantUuid = UserStore.getTenantUuid
 const userUuid = UserStore.getCurrentUserId
+const itemUuid = ref(null);
 
 const video = ref(null)
 let isLoading = ref(false);
@@ -101,7 +103,7 @@ function createGuide() {
   authApi
     .post("/guides/", data)
     .then((res) => {
-      
+
       isLoading.value = false;
       router.push("/guides");
     })
@@ -123,7 +125,7 @@ function getUploadToken() {
     .then((res) => {
       uploadToken.value = res.data.upload_token
       apiToken.value = res.data.api_token
-      
+
     })
     .catch((err) => {
       if (err.response) {
@@ -187,7 +189,7 @@ function getVideo() {
     }
   })
     .then((res) => {
-      
+
       videoItem.value = res.data
       videoThumbnail.value = res.data.assets.thumbnail
       file.value = null;
@@ -250,7 +252,7 @@ function checkStatus() {
         .then((res) => {
 
           if (res.data.encoding.playable == true) {
-            
+
             videoWidth.value = res.data.encoding.metadata.width;
             videoHeight.value = res.data.encoding.metadata.height;
             videoRatio.value = res.data.encoding.metadata.width / res.data.encoding.metadata.height;
@@ -299,6 +301,15 @@ onBeforeUnmount(() => {
   clearInterval(intervalID);
 });
 
+
+onBeforeMount(() => {
+  if ((route.query.item !== undefined) && (route.query.item !== null) && (route.query.item !== "")) {
+    console.log("Query: " + route.query.item);
+    itemUuid.value = route.query.item
+  }
+
+
+});
 </script>
 
 <style lang="scss" scoped>

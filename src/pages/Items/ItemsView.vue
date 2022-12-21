@@ -44,7 +44,7 @@
         <q-card-actions align="right">
           <q-btn color="primary" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
           <q-btn color="primary" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>
-          <q-btn color="primary" flat icon="insights" no-caps>Statystyki</q-btn>
+          <q-btn color="primary" flat icon="insights" no-caps>Raporty</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -177,7 +177,7 @@
                 Instrukcje
               </div>
               <q-space></q-space>
-              <q-btn class="q-mr-lg" color="primary" flat no-caps>Dodaj nową</q-btn>
+              <q-btn class="q-mr-lg" color="primary" flat no-caps @click="addGuide(itemDetails.uuid)">Dodaj nową</q-btn>
               <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                      @click="expandedGuide = !expandedGuide"/>
             </div>
@@ -668,6 +668,12 @@ function GenerateQR(qrCodeId, ecc, size = 300) {
   console.log(url)
 
   return "https://chart.googleapis.com/chart?chs=" + size + "x" + size + "&cht=qr&chl=" + url + "&choe=UTF-8&chld=" + ecc
+}
+
+function addGuide(itemUuid){
+  console.log(itemUuid)
+  // router.push("/guides/add/" + itemUuid);
+  router.push({ path: '/guides/add/', query: { item: itemUuid }})
 }
 
 onBeforeMount(() => {
