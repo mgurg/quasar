@@ -57,7 +57,7 @@
             :disable="isLoading"
             :error="!!errors.companyTaxId"
             :error-message="errors.companyTaxId" type="text"
-            :label="$t('NIP')" 
+            :label="$t('NIP')"
             :dense="$q.screen.lt.sm"
             outlined />
           <q-input
@@ -65,9 +65,9 @@
             :disable="isLoading"
             :error="!!errors.firstName"
             :error-message="errors.firstName"
-            :label="$t('First Name')" 
+            :label="$t('First Name')"
             :dense="$q.screen.lt.sm"
-            outlined 
+            outlined
             type="text"
           />
           <q-input
@@ -75,14 +75,14 @@
             :disable="isLoading"
             :error="!!errors.lastName"
             :error-message="errors.lastName"
-            :label="$t('Last Name')" 
+            :label="$t('Last Name')"
             :dense="$q.screen.lt.sm"
-            outlined 
+            outlined
             type="text"
           />
 
 
-          <q-checkbox 
+          <q-checkbox
             v-model="acceptTOS"
             keep-color
             :dense="$q.screen.lt.sm"
@@ -90,7 +90,7 @@
             :style="errors.acceptTOS ? 'color:red' : 'color:black'">{{
               $t("I accept the terms and conditions")
             }}
-            
+
           </q-checkbox>
         </q-step>
 
@@ -101,11 +101,16 @@
           :done="step > 1"
         >
 
+        <!--
+        Pobraliśmy dane firmy: RINGIER AXEL SPRINGER POLSKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ.
+        Fakturę wystawimy automatycznie po zakupie. Możesz zrewidować dane później
+        -->
+
           <q-input
             v-model="companyName"
             :disable="isLoading"
             :error="!!errors.companyName"
-            :label="$t('Company name')" 
+            :label="$t('Company name')"
             outlined
             type="text"
             :dense="$q.screen.lt.sm"
@@ -114,7 +119,7 @@
             v-model="companyAddress"
             :disable="isLoading"
             :error="!!errors.companyAddress"
-            :label="$t('Street')" 
+            :label="$t('Street')"
             outlined
             type="text"
             :dense="$q.screen.lt.sm"
@@ -156,15 +161,17 @@
               :loading="isLoading"
               type="submit"
             />
+            <q-btn v-if="step > 0" flat color="primary" @click="go_back" label="Back" class="q-ml-sm"/>
             <q-btn
               v-if="step===1"
+              flat
               :disable="isLoading"
               :label="$t('Register')"
               :loading="isLoading"
               color="primary"
               type="submit"
             />
-            <q-btn v-if="step > 0" flat color="primary" @click="go_back" label="Back" class="q-ml-sm"/>
+
           </q-stepper-navigation>
         </template>
       </q-stepper>
@@ -253,11 +260,11 @@ const submit = handleSubmit((values) => {
       }
 
     });
-    
+
     return;
   }
 
-  
+
   function getLocale() {
     const userLocale =
       localStorage.getItem("lang") ||
@@ -303,7 +310,7 @@ function registerAdmin(data) {
   api
     .post("auth/register", data)
     .then((res) => {
-      
+
       isLoading.value = false;
       router.push("/new_account");
     })

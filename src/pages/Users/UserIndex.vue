@@ -69,7 +69,7 @@
           </q-item>
 
           <div v-for="(user, index) in users" v-if="users != null" v-bind:key="index">
-            <user-item  :user="user"/>
+            <user-list-row  :user="user"/>
           </div>
           <task-index-skeleton v-else/>
 
@@ -93,7 +93,7 @@ import {getUsersRequest} from 'src/components/api/UserApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
 
-import UserItem from 'components/listRow/UserListRow.vue'
+import UserListRow from 'components/listRow/UserListRow.vue'
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 
 const UserStore = useUserStore();

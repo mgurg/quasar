@@ -69,10 +69,10 @@ const props = defineProps({
       return {
         uuid: null,
         name: '',
-        description: '',
+        text: '',
         color: 'red',
         user: null,
-        description_jsonb: null,
+        text_json: null,
         files_item: null
       }
     }
@@ -106,8 +106,8 @@ function logText(json, html) {
 
 const tipTapText = ref(null)
 
-if (props.item.description_jsonb !== null) {
-  tipTapText.value = props.item.description_jsonb;
+if (props.item.text_json !== null) {
+  tipTapText.value = props.item.text_json;
 }
 
 // ALL
@@ -161,15 +161,13 @@ const submit = handleSubmit(values => {
 
   let data = {
     "name": itemName.value,
-    "description": "Opis",
-    "description_jsonb": jsonTxt,
-    "qr_code": "string",
-    "body_json": jsonTxt,
-    "body_html": htmlTxt,
+    "summary" : "Some public summary",
+    "text_html": htmlTxt,
+    "text_json": jsonTxt,
     "files": uploadedAll.value.map(a => a.uuid)
   }
 
-  // console.log(data)
+  console.log(data)
   emit('itemFormBtnClick', data)
 
   // isLoading.value = true;

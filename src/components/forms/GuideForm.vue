@@ -78,7 +78,7 @@ const props = defineProps({
         uuid: null,
         name: '',
         text: '',
-        text_jsonb: null,
+        text_json: null,
         video_id: null,
         // video_jsonb: null,
         files_guide: null
@@ -101,8 +101,8 @@ const uploadedVideoMetadata = ref(null)
 const tipTapText = ref(null)
 
 
-if (props.guide.text_jsonb !== null){
-  tipTapText.value = props.guide.text_jsonb;
+if (props.guide.text_json !== null){
+  tipTapText.value = props.guide.text_json;
 }
 // FORM
 
@@ -156,7 +156,7 @@ function editGuide() {
 let data = {
   "name": guideName.value,
   "text_html": htmlTxt,
-  "text_jsonb": jsonTxt,
+  "text_json": jsonTxt,
   "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
   "video_id": uploadedVideoId.value,
   "video_jsonb": uploadedVideoMetadata.value

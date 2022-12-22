@@ -1,5 +1,5 @@
 <template>
-  <div @click="viewUser(user.uuid)">
+  <div class="cursor-pointer" @click="viewUser(user.uuid)">
     <q-item>
       <q-item-section avatar cursor-pointer ripple @click="viewUser(user.uuid)">
         <q-avatar color="red-12" rounded text-color="white">{{ initials }}

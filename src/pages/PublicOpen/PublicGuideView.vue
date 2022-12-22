@@ -45,7 +45,7 @@
                   <div
                     :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
                     class="rounded-borders">
-                    <tip-tap-guide v-if="guideDetails && !isLoading" :body-content="guideDetails.text_jsonb"
+                    <tip-tap-guide v-if="guideDetails && !isLoading" :body-content="guideDetails.text_json"
                                    :readonly="true"/>
                   </div>
 

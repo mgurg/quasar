@@ -21,12 +21,13 @@
 
       <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
       <p>{{ $t("Almost done! Remember to confirm your email!") }} ✅</p>
+      <!-- TODO: Redirect to most common emails with search feature -->
 
 
       <div class="row divider q-pb-lg">
         <div class="col-12">
           <p class="text-body2 q-pa-xs">
-            <span><router-link to="/login">{{ $t("Login") }} </router-link></span>
+<!--            <span><router-link to="/login">{{ $t("Login") }} </router-link></span>-->
             <!-- <span> · {{ $t("I need help") }}</span> -->
           </p>
         </div>

@@ -69,7 +69,7 @@
           </q-item>
 
           <div v-for="(item, index) in items" v-if="items != null" v-bind:key="index">
-            <item-item :item="item"/>
+            <item-list-row :item="item"/>
             <!-- <user-item @selectedItem="selectUser" @refreshList="fetchItems" :user="user" :selected="selected"
               v-if="!isLoading"></user-item> -->
           </div>
@@ -98,7 +98,7 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
-import ItemItem from "components/listRow/ItemListRow.vue";
+import ItemListRow from "components/listRow/ItemListRow.vue";
 
 import {getItemRequest} from 'src/components/api/ItemApiClient'
 import {errorHandler} from 'src/components/api/errorHandler.js'

@@ -2,12 +2,12 @@
   <!-- <div class="cursor-pointer" @click="viewItem(item.uuid)"> -->
     <q-item>
       <q-item-section avatar cursor-pointer ripple >
-        <q-avatar rounded color="red" text-color="white" icon="article" class="cursor-pointer" @click="viewItem(item.uuid)" />
+        <q-avatar rounded color="cyan-14" text-color="white" icon="article" class="cursor-pointer" @click="viewItem(item.uuid)" />
       </q-item-section>
 
       <q-item-section class="cursor-pointer" @click="viewItem(item.uuid)">
         <q-item-label lines="1" class="text-body1">{{ item.name }}</q-item-label>
-        <q-item-label caption lines="2">{{ item.name }}</q-item-label>
+        <q-item-label caption lines="2">{{ item.text }}</q-item-label>
       </q-item-section>
 
 
@@ -48,6 +48,16 @@ const props = defineProps({
     },
   }
 });
+
+
+function  truncate(value, length) {
+  if (value.length > length) {
+    return value.substring(0, length) + "...";
+  }
+
+  return value;
+
+}
 
 function viewItem(uuid) {
   router.push("/items/" + uuid);
