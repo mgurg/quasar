@@ -4,20 +4,20 @@
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section class="row q-pa-sm">
           <q-breadcrumbs>
-            <q-breadcrumbs-el icon="home" to="/home" />
-            <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides" />
-            <q-breadcrumbs-el :label="$t('Add')" icon="add" />
+            <q-breadcrumbs-el icon="home" to="/home"/>
+            <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides"/>
+            <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
           </q-breadcrumbs>
 
         </q-card-section>
 
-        <q-separator />
+        <q-separator/>
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">
 
               <q-item-section>
-                <q-item-label class="text-h6">{{ $t("New guide") }} </q-item-label>
+                <q-item-label class="text-h6">{{ $t("New guide") }}</q-item-label>
                 <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
               </q-item-section>
             </q-item>
@@ -31,9 +31,9 @@
 
       <div>&nbsp;</div>
 
-        <q-card class="my-card no-shadow q-ma-none q-pa-none">
+      <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <guide-form />
+          <guide-form/>
         </q-card-section>
       </q-card>
 
@@ -44,15 +44,13 @@
 
 
 <script setup>
-import {ref, watch, onBeforeUnmount, onBeforeMount} from "vue";
+import {onBeforeMount, onBeforeUnmount, ref, watch} from "vue";
 import GuideForm from 'src/components/forms/GuideForm.vue'
-import { useRoute, useRouter } from "vue-router";
-import { useUserStore } from "stores/user";
-import { authApi } from "boot/axios";
+import {useRoute, useRouter} from "vue-router";
+import {useUserStore} from "stores/user";
+import {authApi} from "boot/axios";
 import axios from "axios";
-import { VideoUploader } from '@api.video/video-uploader'
-
-import { component as Viewer } from 'v-viewer'
+import {VideoUploader} from '@api.video/video-uploader'
 import 'viewerjs/dist/viewer.css'
 
 const route = useRoute()
@@ -94,7 +92,8 @@ function createGuide() {
     "name": "string",
     "text_html": htmlTxt,
     "text_json": jsonTxt,
-    "video_id": videoId.value
+    "video_id": videoId.value,
+    "item_uuid": itemUuid.value
   }
 
   // console.log(data)
@@ -105,7 +104,13 @@ function createGuide() {
     .then((res) => {
 
       isLoading.value = false;
-      router.push("/guides");
+
+      if (itemUuid.value !== null){
+        router.push("/items/"+itemUuid.value );
+      }else{
+        router.push("/guides");
+      }
+
     })
     .catch((err) => {
       if (err.response) {

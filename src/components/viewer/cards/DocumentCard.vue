@@ -1,12 +1,14 @@
 <template>
   <!-- DOCS -->
-  <q-card bordered class="my-card no-shadow q-my-xs">
+  <q-card bordered class="my-card no-shadow q-my-xs" v-if="documentFiles.length>0">
     <!--        DOCS  -->
 
     <div :style="expandedDocs ? 'border-left: 5px solid #f31060':''">
       <q-card-section class="q-py-sm">
         <div class="row q-col-gutter-xs">
-          <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">Dokumenty
+          <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">
+            Dokumenty
+            <q-badge floating align="top">{{ documentFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
           <q-btn

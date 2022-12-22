@@ -50,7 +50,7 @@
           </q-item>
 
           <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
-            <guide-item v-if="!isLoading" :guide="guide" @forceRefresh="fetchGuides"></guide-item>
+            <guide-list-row v-if="!isLoading" :guide="guide" :public-access="false" @forceRefresh="fetchGuides"></guide-list-row>
           </div>
           <task-index-skeleton v-else/>
 
@@ -79,7 +79,7 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import GuideItem from "components/listRow/GuideListRow.vue";
+import GuideListRow from "components/listRow/GuideListRow.vue";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);

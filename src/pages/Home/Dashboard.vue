@@ -2,7 +2,7 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
-      <q-banner inline-actions class="text-brown-10 bg-yellow-14">
+      <q-banner rounded inline-actions class="text-brown-10 bg-yellow-14 q-mt-md">
         <template v-slot:avatar>
           <q-icon name="warning" color="warning" />
         </template>

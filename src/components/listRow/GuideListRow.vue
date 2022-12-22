@@ -47,7 +47,11 @@ const props = defineProps({
         // created_at: "2022-03-09T11:02:38.822164+00:00",
       };
     },
-  }
+  },
+  publicAccess: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const counter = computed(() => (props.guide.upvotes - props.guide.downvotes))
@@ -91,7 +95,7 @@ function deleteGuide(uuid) {
           console.log("General Error");
         }
       });
-    $q.notify("Task deleted");
+    $q.notify("Guide deleted");
     // fetchTasks()
   });
 }
@@ -101,7 +105,12 @@ function editGuide(uuid) {
 }
 
 function viewGuide(uuid) {
-  router.push('/public/guides/'+uuid)
-  // router.push("/guides/" + uuid);
+  if (props.publicAccess === false){
+    console.log("/guides/" + uuid)
+    router.push("/guides/" + uuid);
+  } else{
+    console.log('/public/guides/'+uuid)
+    router.push('/public/guides/'+uuid)
+  }
 }
 </script>

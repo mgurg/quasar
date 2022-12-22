@@ -91,7 +91,7 @@
             <q-item-section>{{ $t("Settings") }}</q-item-section>
           </q-item>
 
-          <!--Guides Index-->
+          <!--Items Index-->
             <q-item to="/items" exact clickable v-ripple>
             <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
             <q-item-section avatar>

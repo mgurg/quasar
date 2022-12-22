@@ -116,7 +116,7 @@ function deleteIdea(uuid) {
           console.log("General Error");
         }
       });
-    $q.notify("Task deleted");
+    $q.notify("Idea deleted");
     // fetchTasks()
   });
 }
