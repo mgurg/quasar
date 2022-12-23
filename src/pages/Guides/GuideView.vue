@@ -76,7 +76,7 @@
       <!--      </q-card>-->
 
       <video-card
-        v-if="guideDetails!==null"
+        v-if="guideDetails!==null && guideDetails.video_id!==null"
         :expanded-video="true"
         :video-id="guideDetails.video_id"
         :video-metadata="guideDetails.video_json.encoding.metadata"

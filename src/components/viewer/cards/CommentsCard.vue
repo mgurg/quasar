@@ -34,10 +34,7 @@
                   size="10"
                   stamp="7 minutes ago"
                 >
-                  <template v-slot:avatar>
-                    <q-avatar class="q-message-avatar q-message-avatar--sent" color="red" text-color="white">MG
-                    </q-avatar>
-                  </template>
+
                 </q-chat-message>
                 <q-chat-message
                   :text="[`doing fine, how r you?`]"
@@ -45,10 +42,6 @@
                   size="8"
                   stamp="4 minutes ago"
                 >
-                  <template v-slot:avatar>
-                    <q-avatar class="q-message-avatar q-message-avatar--sent" color="red" text-color="white">MG
-                    </q-avatar>
-                  </template>
                 </q-chat-message>
               </div>
             </div>

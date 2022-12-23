@@ -14,7 +14,7 @@
       <div v-show="expandedVideo">
         <!-- <q-separator /> -->
         <q-card-section>
-          <movie-viewer :video-id="videoId"
+          <movie-viewer v-if="videoId!==null" :video-id="videoId"
                         :video-metadata="videoMetadata"/>
         </q-card-section>
       </div>

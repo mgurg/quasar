@@ -1,40 +1,68 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <!--          <q-breadcrumbs>-->
+      <!--            <q-breadcrumbs-el icon="home" to="/"/>-->
+      <!--            <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>-->
+      <!--            <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"/>-->
+      <!--            <q-breadcrumbs-el :label="$t('View')"/>-->
+      <!--          </q-breadcrumbs>-->
       <q-card bordered class="my-card no-shadow q-mt-sm">
-        <q-card-section class="row q-pa-md">
-          <q-breadcrumbs>
-            <q-breadcrumbs-el icon="home" to="/"/>
-            <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
-            <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"/>
-            <q-breadcrumbs-el :label="$t('View')"/>
-          </q-breadcrumbs>
+        <q-list>
+          <q-item class="q-px-sm">
+            <q-item-section avatar>
+              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+                  $t("Return")
+                }}
+              </q-btn>
+            </q-item-section>
+            <q-item-section></q-item-section>
+            <q-item-section side>
+              <div class="col-12 text-h6 q-mt-none">
+<!--                <q-btn-->
+<!--                  :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
+<!--                  class="float-right q-mr-sm" color="primary" flat-->
+<!--                  icon="edit" no-caps-->
+<!--                  outline @click="editGuide(guideDetails.uuid)"-->
+<!--                />-->
+<!--                <q-btn-->
+<!--                  :label="$q.screen.gt.xs ? $t('Delete') : ''"-->
+<!--                  class="float-right q-mr-sm" color="red" flat-->
+<!--                  icon="delete"-->
+<!--                  no-caps @click="deleteGuide(guideDetails.uuid)"-->
+<!--                />-->
+                <q-btn
+                  :label="$q.screen.gt.xs ?  $t('Edit') : ''"
+                  class="float-right "
+                  color="primary" icon="edit"
+                  no-caps
+                  flat
+                  @click="toggleEdit()"/>
+                <q-btn
+                  :label="$q.screen.gt.xs ?  $t('Delete') : ''"
+                  class="float-right q-mr-sm"
+                  color="red"
+                  icon="delete"
+                  no-caps
+                  flat
+                  @click="deleteGroup(permissionDetails.uuid)"
+                />
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
 
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h5" v-if="permissionDetails">{{ permissionDetails.role_name }}</q-item-label>
+                <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
+                <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-card-section>
-        <q-separator/>
-        <q-card-actions>
-          <div class="col-12 text-h6 q-mt-xs">
-            <span class="text-h6" v-if="permissionDetails">{{ permissionDetails.role_name }}</span>
-            <span>
-            <q-btn
-              outline
-              color="primary"
-              no-caps icon="edit"
-              class="float-right "
-              :label="$q.screen.gt.xs ?  $t('Edit') : ''"
-              @click="toggleEdit()"/>
-            <q-btn
-              outline
-              color="red"
-              icon="delete"
-              class="float-right q-mr-sm"
-              no-caps
-              :label="$q.screen.gt.xs ?  $t('Delete') : ''"
-              @click="deleteGroup(permissionDetails.uuid)"
-            />
-          </span>
-          </div>
-        </q-card-actions>
       </q-card>
 
       <div>&nbsp;</div>

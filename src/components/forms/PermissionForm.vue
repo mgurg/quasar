@@ -45,9 +45,25 @@
       </div>
     </q-list>
     <div class="row">
-      <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
       <q-space/>
-      <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t('Save') }}</q-btn>
+      <q-btn
+        :label="$t('Cancel')"
+        class="q-mr-lg"
+        color="red-12"
+        flat
+        icon="cancel"
+        type="submit"
+        @click="cancelButtonHandle"
+       />
+      <q-btn
+        v-if="allowEdit"
+        :label="$t('Save')"
+        class="q-mr-xs"
+        color="primary"
+        icon="done"
+        type="submit"
+        @click="submit"
+      />
     </div>
 
   </q-form>
