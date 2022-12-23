@@ -64,7 +64,7 @@ function firstRun(activationId) {
       response.data.tenanat_id,
       response.data.first_name,
       response.data.last_name,
-      response.data.uuid,                                                                                                                                                       
+      response.data.uuid,
       response.data.tz,
       response.data.lang
     )

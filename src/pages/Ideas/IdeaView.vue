@@ -21,13 +21,15 @@
 
               <q-item-section>
                 <q-item-label class="text-h6">{{ ideaDetails.title }}</q-item-label>
-                 <q-item-label caption>{{ convertTime(ideaDetails.created_at) }}</q-item-label>
+                <q-item-label caption>{{ convertTime(ideaDetails.created_at) }}</q-item-label>
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps
+                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary"
+                         icon="edit" no-caps
                          outline @click="editIdea(ideaDetails.uuid)"/>
-                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"
+                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat
+                         icon="delete"
                          no-caps @click="deleteIdea(ideaDetails.uuid, ideaDetails.title)"/>
                 </div>
               </q-item-section>
@@ -86,7 +88,7 @@ const UserStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
-const {t} = useI18n({ useScope: "global" });
+const {t} = useI18n({useScope: "global"});
 const confirmDeleteMessage = computed(() => t("Delete:"));
 const successfulDeleteMessage = computed(() => t("Deleted:"));
 
@@ -107,7 +109,7 @@ let lastVote = ref(null);
 
 let ideaDetails = ref(null);
 
-function convertTime(datetime, timeZone="America/Los_Angeles") {
+function convertTime(datetime, timeZone = "America/Los_Angeles") {
   const dateObject = new Date(datetime).toLocaleString("en-US", {
     timeZone,
   });
@@ -211,8 +213,8 @@ function deleteIdea(uuid, ideaName) {
     isLoading = true;
     deleteIdeaRequest(uuid).then(function (response) {
       $q.notify({
-          type: 'warning',
-          message: successfulDeleteMessage.value  + " " + ideaName,
+        type: 'warning',
+        message: successfulDeleteMessage.value + " " + ideaName,
       });
       router.push("/users/edit/" + uuid);
       isLoading.value = false;

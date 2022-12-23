@@ -86,7 +86,7 @@ function updateIdea(uuid, formData) {
 
   console.log("To save:");
 
-  let fileList = [...withoutChanges,  ...newItems];
+  let fileList = [...withoutChanges, ...newItems];
 
   formData.files = fileList;
   console.log(formData);
@@ -99,10 +99,10 @@ function updateIdea(uuid, formData) {
 
   isLoading.value = true;
   updateIdeaRequest(uuid, formData).then(function (response) {
-        isLoading.value = false;
-        if (isRemoving.value == false){
-          router.push("/ideas");
-        }
+    isLoading.value = false;
+    if (isRemoving.value == false) {
+      router.push("/ideas");
+    }
 
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -110,22 +110,22 @@ function updateIdea(uuid, formData) {
   });
 }
 
-function deleteUnusedIdeaImages(uuid){
+function deleteUnusedIdeaImages(uuid) {
 
-    console.log("Deleting...: " + uuid);
+  console.log("Deleting...: " + uuid);
 
-    let token = UserStore.getToken;
-    let tenant_id = UserStore.getTenant;
+  let token = UserStore.getToken;
+  let tenant_id = UserStore.getTenant;
 
-    isLoading.value = true;
-    deleteFileRequest(uuid, token, tenant_id).then(function (response) {
+  isLoading.value = true;
+  deleteFileRequest(uuid, token, tenant_id).then(function (response) {
 
-      isLoading.value = false;
+    isLoading.value = false;
 
-    }).catch((err) => {
-      const errorMessage = errorHandler(err);
-      isError.value = true;
-    });
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
 //       usersList.value = res.data.map((opt) => ({
@@ -144,12 +144,11 @@ function cancelButtonPressed() {
 }
 
 
-
 function getIdeaDetails(uuid) {
   isLoading.value = true;
   getIdeaRequest(uuid).then(function (response) {
-        ideaDetails.value = response.data
-        dbImagesUuidList.value = response.data.files_idea.map(a => a.uuid)
+    ideaDetails.value = response.data
+    dbImagesUuidList.value = response.data.files_idea.map(a => a.uuid)
 
     isLoading.value = false;
   }).catch((err) => {

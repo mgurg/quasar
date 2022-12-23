@@ -11,8 +11,8 @@
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
-        <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides" />
-        <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />
+        <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides"/>
+        <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
       <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
@@ -22,7 +22,8 @@
 
               <q-item-section>
 
-                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{guideDetails.name}} </q-item-label>
+                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{ guideDetails.name }}
+                </q-item-label>
                 <!--
                   <q-item-label caption>
                   Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
@@ -36,30 +37,30 @@
         </q-card-section>
       </q-card>
 
-<!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
-<!--        <q-card-section class="row q-pa-sm">-->
-<!--          <q-breadcrumbs>-->
-<!--            <q-breadcrumbs-el icon="home" to="/home" />-->
-<!--            <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides" />-->
-<!--            <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />-->
-<!--          </q-breadcrumbs>-->
+      <!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
+      <!--        <q-card-section class="row q-pa-sm">-->
+      <!--          <q-breadcrumbs>-->
+      <!--            <q-breadcrumbs-el icon="home" to="/home" />-->
+      <!--            <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides" />-->
+      <!--            <q-breadcrumbs-el :label="$t('Edit')" icon="edit" />-->
+      <!--          </q-breadcrumbs>-->
 
-<!--        </q-card-section>-->
+      <!--        </q-card-section>-->
 
-<!--        <q-separator />-->
-<!--        <q-card-section>-->
-<!--          <q-list>-->
-<!--            <q-item class="q-px-none">-->
+      <!--        <q-separator />-->
+      <!--        <q-card-section>-->
+      <!--          <q-list>-->
+      <!--            <q-item class="q-px-none">-->
 
-<!--              <q-item-section>-->
-<!--                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{guideDetails.name}} </q-item-label>-->
-<!--                &lt;!&ndash; <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> &ndash;&gt;-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
+      <!--              <q-item-section>-->
+      <!--                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{guideDetails.name}} </q-item-label>-->
+      <!--                &lt;!&ndash; <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników? Pamiętaj o opcji importu!</q-item-label> &ndash;&gt;-->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
-<!--          </q-list>-->
-<!--        </q-card-section>-->
-<!--      </q-card>-->
+      <!--          </q-list>-->
+      <!--        </q-card-section>-->
+      <!--      </q-card>-->
 
 
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
@@ -71,7 +72,7 @@
             :guide="guideDetails"
             @cancelBtnClick="cancelButtonPressed"
             @guideFormBtnClick="addButtonPressed"
-             />
+          />
         </q-card-section>
       </q-card>
     </q-page>
@@ -80,19 +81,14 @@
 
 
 <script setup>
-import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
+import {onBeforeMount, ref} from "vue";
 import GuideForm from 'src/components/forms/GuideForm.vue'
-import { useRoute, useRouter } from "vue-router";
-import { useUserStore } from "stores/user";
-import { authApi } from "boot/axios";
-import axios from "axios";
-import { VideoUploader } from '@api.video/video-uploader'
-
-import { component as Viewer } from 'v-viewer'
+import {useRoute, useRouter} from "vue-router";
+import {useUserStore} from "stores/user";
+import {authApi} from "boot/axios";
 import 'viewerjs/dist/viewer.css'
 import {deleteFileRequest} from "components/api/FilesApiClient";
 import {errorHandler} from "components/api/errorHandler";
-import {updateItemRequest} from "components/api/ItemApiClient";
 import {updateGuideRequest} from "components/api/GuideApiClient";
 
 const route = useRoute();
@@ -104,34 +100,34 @@ let guideDetails = ref(null);
 let dbImagesUuidList = ref(null);
 
 function getDetails(uuid) {
-    authApi
-        .get("/guides/" + uuid)
-        .then((response) => {
-            console.log(response.data);
+  authApi
+    .get("/guides/" + uuid)
+    .then((response) => {
+      console.log(response.data);
 
-            guideDetails.value = response.data
-            dbImagesUuidList.value = response.data.files_item.map(a => a.uuid)
+      guideDetails.value = response.data
+      dbImagesUuidList.value = response.data.files_item.map(a => a.uuid)
 
-            // if (response.data.date_from == null) {
-            //     guideDetails.value.mode = 'task'
-            // }
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-        });
+      // if (response.data.date_from == null) {
+      //     guideDetails.value.mode = 'task'
+      // }
+    })
+    .catch((err) => {
+      if (err.response) {
+        console.log(err.response);
+      } else if (err.request) {
+        console.log(err.request);
+      } else {
+        console.log("General Error");
+      }
+    });
 }
 
 
 let isLoading = ref(false);
 let isRemoving = ref(false);
 
-function updateGuide(uuid, formData){
+function updateGuide(uuid, formData) {
   console.log(uuid)
   console.log(formData)
 
@@ -149,7 +145,7 @@ function updateGuide(uuid, formData){
   console.log(newItems);
 
   console.log("To save:");
-  let fileList = [...withoutChanges,  ...newItems];
+  let fileList = [...withoutChanges, ...newItems];
 
   formData.files = fileList;
   console.log(formData);
@@ -163,7 +159,7 @@ function updateGuide(uuid, formData){
   isLoading.value = true;
   updateGuideRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    if (isRemoving.value == false){
+    if (isRemoving.value == false) {
       router.push("/items");
     }
 
@@ -194,7 +190,7 @@ function deleteUnusedIdeaImages(uuid) {
 
 function addButtonPressed(itemForm) {
   // console.log(itemForm)
-  updateGuide(guideUuid.value,  itemForm)
+  updateGuide(guideUuid.value, itemForm)
 }
 
 function cancelButtonPressed() {
@@ -202,15 +198,12 @@ function cancelButtonPressed() {
 }
 
 
-
-
 onBeforeMount(() => {
-    if (route.params.uuid != null)
-        getDetails(route.params.uuid)
-    // getUsers();
-    isLoading.value = false;
+  if (route.params.uuid != null)
+    getDetails(route.params.uuid)
+  // getUsers();
+  isLoading.value = false;
 });
-
 
 
 </script>

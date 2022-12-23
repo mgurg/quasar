@@ -158,7 +158,7 @@ const submit = handleSubmit(values => {
 
   let data = {
     "name": itemName.value,
-    "summary" : "Some public summary",
+    "summary": "Some public summary",
     "text_html": htmlTxt,
     "text_json": jsonTxt,
     "files": uploadedAll.value.map(a => a.uuid)

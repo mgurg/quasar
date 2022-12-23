@@ -3,9 +3,9 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks" />
-          <q-breadcrumbs-el :label="$t('View')" icon="info" />
+          <q-breadcrumbs-el icon="home" to="/"/>
+          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks"/>
+          <q-breadcrumbs-el :label="$t('View')" icon="info"/>
         </q-breadcrumbs>
       </div>
 
@@ -18,13 +18,13 @@
           <q-item-section>
             <q-item-label>{{ taskDetails.title }}</q-item-label>
             <q-item-label caption>
-              <q-icon name="schedule" />
+              <q-icon name="schedule"/>
               {{ convertTime(taskDetails.date_from) }}
             </q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-separator />
+        <q-separator/>
         <div class="row q-col-gutter-xs">
           <div
             class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
@@ -68,7 +68,8 @@
             icon="done"
             v-if="taskDetails.status == null"
             @click="changeState('accepted')"
-          >Accept</q-btn>
+          >Accept
+          </q-btn>
 
           <q-btn
             flat
@@ -76,7 +77,8 @@
             icon="lock_open"
             v-if="taskDetails.status == null"
             @click="changeState('rejected')"
-          >Reject</q-btn>
+          >Reject
+          </q-btn>
 
           <q-btn
             flat
@@ -84,14 +86,16 @@
             icon="play_arrow"
             v-if="taskDetails.status == 'accepted' || taskDetails.status == 'paused'"
             @click="changeState('start')"
-          >Start</q-btn>
+          >Start
+          </q-btn>
           <q-btn
             flat
             color="deep-orange-11"
             icon="pause"
             v-if="taskDetails.status == ('in_progress')"
             @click="changeState('pause')"
-          >Hold</q-btn>
+          >Hold
+          </q-btn>
 
           <q-btn
             flat
@@ -99,29 +103,29 @@
             icon="stop"
             v-if="taskDetails.status != null"
             @click="changeState('stop')"
-          >Done</q-btn>
+          >Done
+          </q-btn>
         </q-card-actions>
 
         <q-card-section class="q-pt-none">{{ taskDetails.description }}</q-card-section>
 
-        <q-separator />
+        <q-separator/>
 
         <q-card-actions>
-          <q-btn flat round icon="event" />
+          <q-btn flat round icon="event"/>
           <q-btn flat color="primary">Reserve</q-btn>
         </q-card-actions>
       </q-card>
 
-      <task-view-skeleton v-else />
+      <task-view-skeleton v-else/>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref, onActivated } from "vue";
-import { DateTime } from "luxon";
-import { useRoute } from "vue-router";
-import { authApi } from "boot/axios";
+import {onActivated, ref} from "vue";
+import {useRoute} from "vue-router";
+import {authApi} from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 let isLoading = ref(false);
@@ -150,7 +154,7 @@ function getDetails(uuid) {
     .get("/tasks/" + uuid)
     .then((res) => {
       console.log(uuid);
-      
+
       taskDetails.value = res.data;
       isLoading.value = false;
     })
@@ -167,10 +171,10 @@ function getDetails(uuid) {
 
 function changeState(state) {
   authApi
-    .post("tasks/action/" + taskDetails.value.uuid, { "action_type": state })
+    .post("tasks/action/" + taskDetails.value.uuid, {"action_type": state})
     .then((res) => {
       console.log(uuid);
-      
+
 
       // getDetails(taskDetails.value.uuid);
       // taskDetails.value = res.data;

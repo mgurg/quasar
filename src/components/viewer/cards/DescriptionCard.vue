@@ -38,7 +38,6 @@ import {ref} from "vue";
 import TipTap from 'src/components/editor/TipTap.vue'
 
 
-
 const props = defineProps({
   text: {
     type: Object,

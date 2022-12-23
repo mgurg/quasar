@@ -1,66 +1,65 @@
 <template>
 
-    <q-spinner v-if="videoThumbnail && videoItem === null" color="primary" size="3em" :thickness="10" />
+  <q-spinner v-if="videoThumbnail && videoItem === null" color="primary" size="3em" :thickness="10"/>
 
-    <div class="row justify-center" v-if="videoItem !== null">
-        <q-btn 
-          v-if="videoItem !== null"
-          flat   
-          style="width:80%" 
-          color="red-12"
-          icon="delete" 
-          class="row justify-center q-pt-xs q-ma-md"
-          @click="deleteVideo(videoId)" 
-          :label="$t('Delete Video')" no-caps 
-        />
-    </div>
+  <div class="row justify-center" v-if="videoItem !== null">
+    <q-btn
+      v-if="videoItem !== null"
+      flat
+      style="width:80%"
+      color="red-12"
+      icon="delete"
+      class="row justify-center q-pt-xs q-ma-md"
+      @click="deleteVideo(videoId)"
+      :label="$t('Delete Video')" no-caps
+    />
+  </div>
 
-    <div class="row justify-center" v-if="videoItem !== null">
+  <div class="row justify-center" v-if="videoItem !== null">
 
-        <!-- <div v-if="videoItem !== null && videoRatio < 1" fixed-center style="width: 60vmin; height: 80vmin;"
-        class="justify-center" v-html="videoItem.assets.iframe"></div>
+    <!-- <div v-if="videoItem !== null && videoRatio < 1" fixed-center style="width: 60vmin; height: 80vmin;"
+    class="justify-center" v-html="videoItem.assets.iframe"></div>
 
-    <div v-if="videoItem !== null && videoRatio > 1" fixed-center style="width: 80vmin; height: 60vmin;"
-        class="justify-center" v-html="videoItem.assets.iframe"></div> -->
+<div v-if="videoItem !== null && videoRatio > 1" fixed-center style="width: 80vmin; height: 60vmin;"
+    class="justify-center" v-html="videoItem.assets.iframe"></div> -->
 
-        <div v-if="videoItem !== null" fixed-center style="width: 60vmin; height: 80vmin;" class="justify-center"
-            v-html="videoItem.assets.iframe"></div>
-
-
-    </div>
+    <div v-if="videoItem !== null" fixed-center style="width: 60vmin; height: 80vmin;" class="justify-center"
+         v-html="videoItem.assets.iframe"></div>
 
 
+  </div>
 
-    <q-file v-if="videoItem === null" v-model="file" outlined :label="$t('Pick Video to upload')" accept="video/*"
-        @update:model-value="handleFileUpload()" type="file">
-        <template v-slot:prepend>
-            <q-icon name="ondemand_video" />
-        </template>
-        <template v-slot:file="{ index, file }">
-            <q-chip class="full-width q-my-xs" :removable="isUploading" @remove="cancelFile()" square>
-                <q-linear-progress class="absolute-full full-height" :value="uploadProgress" stripe color="green-2"
-                    track-color="grey-2" />
-                <q-avatar>
-                    <q-icon name="photo" />
-                </q-avatar>
-                <div class="ellipsis relative-position">
-                    {{ file.name }}
-                </div>
-                <q-tooltip>
-                    {{ file.name }}
-                </q-tooltip>
-            </q-chip>
-        </template>
-    </q-file>
+
+  <q-file v-if="videoItem === null" v-model="file" outlined :label="$t('Pick Video to upload')" accept="video/*"
+          @update:model-value="handleFileUpload()" type="file">
+    <template v-slot:prepend>
+      <q-icon name="ondemand_video"/>
+    </template>
+    <template v-slot:file="{ index, file }">
+      <q-chip class="full-width q-my-xs" :removable="isUploading" @remove="cancelFile()" square>
+        <q-linear-progress class="absolute-full full-height" :value="uploadProgress" stripe color="green-2"
+                           track-color="grey-2"/>
+        <q-avatar>
+          <q-icon name="photo"/>
+        </q-avatar>
+        <div class="ellipsis relative-position">
+          {{ file.name }}
+        </div>
+        <q-tooltip>
+          {{ file.name }}
+        </q-tooltip>
+      </q-chip>
+    </template>
+  </q-file>
 </template>
 
 
 <script setup>
-import { ref, watch, onBeforeUnmount, onBeforeMount } from "vue";
-import { useUserStore } from "stores/user";
-import { authApi } from "boot/axios";
+import {onBeforeMount, onBeforeUnmount, ref, watch} from "vue";
+import {useUserStore} from "stores/user";
+import {authApi} from "boot/axios";
 import axios from "axios";
-import { VideoUploader } from '@api.video/video-uploader'
+import {VideoUploader} from '@api.video/video-uploader'
 
 const props = defineProps({
   videoId: {
@@ -74,7 +73,7 @@ const props = defineProps({
 })
 
 
-if (props.videoId!== null){
+if (props.videoId !== null) {
   emit('uploadedVideoId', props.videoId)
 }
 
@@ -106,8 +105,8 @@ function getUploadToken() {
     .then((res) => {
       uploadToken.value = res.data.upload_token
       apiToken.value = res.data.api_token
-      
-      if (props.videoId != null){
+
+      if (props.videoId != null) {
         getVideo();
       }
     })
@@ -141,7 +140,7 @@ function handleFileUpload() {
       videoId.value = video.videoId;
       enablePooling.value = true;
       console.log(video)
-      
+
     })
     .catch((error) => console.log(error.status, error.message));
 
@@ -175,14 +174,14 @@ function checkStatus() {
           videoMetadata.value = res.data
           console.log("Downloading single Video");
           console.log(res.data)
-          
+
           if (res.data.encoding.playable == true) {
-            // 
+            //
             // videoWidth.value = res.data.encoding.metadata.width;
             // videoHeight.value = res.data.encoding.metadata.height;
             // videoRatio.value = res.data.encoding.metadata.width / res.data.encoding.metadata.height;
 
-            
+
             emit('uploadedVideoId', videoId.value, videoMetadata.value)
             getVideo();
           }
@@ -207,13 +206,13 @@ function checkStatus() {
 
 watch(enablePooling, (newValue, oldValue) => {
 
-    console.log("Toggle to " + newValue)
-    if (newValue === true) {
-        checkStatus()
-    }
-    if (newValue === false) {
-        clearInterval(intervalID);
-    }
+  console.log("Toggle to " + newValue)
+  if (newValue === true) {
+    checkStatus()
+  }
+  if (newValue === false) {
+    clearInterval(intervalID);
+  }
 });
 
 function getVideo() {
@@ -224,9 +223,9 @@ function getVideo() {
     }
   })
     .then((res) => {
-      
+
       videoItem.value = res.data
-    //   videoThumbnail.value = res.data.assets.thumbnail
+      //   videoThumbnail.value = res.data.assets.thumbnail
       file.value = null;
 
     })
@@ -263,14 +262,14 @@ function deleteVideo(video_id) {
       } else if (err.request) {
         console.log(err.request);
       } else {
-        console.log("General Error"  + err);
+        console.log("General Error" + err);
       }
 
     });
 }
 
 onBeforeMount(() => {
-    getUploadToken();
+  getUploadToken();
 });
 
 onBeforeUnmount(() => {

@@ -10,8 +10,8 @@
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
-        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-        <q-breadcrumbs-el :label="$t('Permissions')" icon="ballot" to="/settings/permissions" />
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
+        <q-breadcrumbs-el :label="$t('Permissions')" icon="ballot" to="/settings/permissions"/>
       </q-breadcrumbs>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
@@ -44,12 +44,12 @@
       </q-card>
 
       <q-card v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
-             <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
-            <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class="rounded-borders">
-              <q-item-section avatar>
+        <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
+          <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class="rounded-borders">
+            <q-item-section avatar>
 
-              </q-item-section>
-              <q-item-section>
+            </q-item-section>
+            <q-item-section>
           <span>{{ $t("Name") }}
             <q-btn
               :flat="sort.active=='name'? false:true"
@@ -61,19 +61,19 @@
               @click="changeSortOrder('name')"/>
           </span>
 
-              </q-item-section>
-              <q-item-section side>
+            </q-item-section>
+            <q-item-section side>
 
-              </q-item-section>
-            </q-item>
-            <div v-for="(permission, index) in permissions" v-if="permissions != null"  v-bind:key="index">
-              <permission-list-row :permission="permission" @refreshList="fetchPermissions" />
-            </div>
-
-          </q-list>
-          <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
-            <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
+            </q-item-section>
+          </q-item>
+          <div v-for="(permission, index) in permissions" v-if="permissions != null" v-bind:key="index">
+            <permission-list-row :permission="permission" @refreshList="fetchPermissions"/>
           </div>
+
+        </q-list>
+        <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
+        </div>
 
       </q-card>
 

@@ -59,7 +59,7 @@
             :error-message="errors.companyTaxId" type="text"
             :label="$t('NIP')"
             :dense="$q.screen.lt.sm"
-            outlined />
+            outlined/>
           <q-input
             v-model="firstName"
             :disable="isLoading"
@@ -101,10 +101,10 @@
           :done="step > 1"
         >
 
-        <!--
-        Pobraliśmy dane firmy: RINGIER AXEL SPRINGER POLSKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ.
-        Fakturę wystawimy automatycznie po zakupie. Możesz zrewidować dane później
-        -->
+          <!--
+          Pobraliśmy dane firmy: RINGIER AXEL SPRINGER POLSKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ.
+          Fakturę wystawimy automatycznie po zakupie. Możesz zrewidować dane później
+          -->
 
           <q-input
             v-model="companyName"
@@ -180,15 +180,14 @@
 </template>
 
 <script setup>
-import {ref, watch, computed} from "vue";
+import {ref} from "vue";
 import {api} from "boot/axios";
 import {useField, useForm} from "vee-validate";
-import {object, string, bool} from "yup";
+import {bool, object, string} from "yup";
 import {useRouter} from "vue-router";
 import {useUserStore} from "stores/user";
-import { validatePolish } from 'validate-polish';
+import {validatePolish} from 'validate-polish';
 import {accountLimit} from 'src/composables/api/accountLimit.js'
-import {companyInfo} from 'src/composables/api/companyInfo.js'
 
 const {availableAccounts, ratio} = accountLimit()
 
@@ -206,18 +205,18 @@ const validationSchema = object({
   email: string().required("Provide an valid email").email(),
   password: string().required(),
   companyTaxId: string().required().matches(/^[0-9]+$/, 'Must be numeric').test(
-        "check-nip",
-        "Provide valid NIP number",
-        function (value) {
-          return validatePolish.nip(value)
-        }
+    "check-nip",
+    "Provide valid NIP number",
+    function (value) {
+      return validatePolish.nip(value)
+    }
   ),
   firstName: string().required(),
   lastName: string().required(),
   acceptTOS: bool().required().oneOf([true], "!"),
 });
 
-const {handleSubmit, errors} = useForm({ validationSchema:  validationSchema});
+const {handleSubmit, errors} = useForm({validationSchema: validationSchema});
 
 
 // https://github.com/logaretm/vee-validate/releases/tag/v4.6.0 ->useFieldModel
@@ -236,30 +235,30 @@ const {value: companyCity} = useField("companyCity");
 const submit = handleSubmit((values) => {
   let isLoading = ref(true);
 
-  if (step.value !==1){
-      // const {name, short_name, street, postcode, city, country_code} = companyInfo({
-  //   country: 'pl',
-  //   id: nip.value
-  // })
+  if (step.value !== 1) {
+    // const {name, short_name, street, postcode, city, country_code} = companyInfo({
+    //   country: 'pl',
+    //   id: nip.value
+    // })
     api.post("auth/company_info", {"country": "pl", "company_tax_id": companyTaxId.value})
-    .then((res) => {
-      isLoading.value = false;
-      companyName.value = res.data.short_name
-      companyAddress.value = res.data.street
-      companyPostCode.value = res.data.postcode
-      companyCity.value = res.data.city
-      step.value++
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
+      .then((res) => {
+        isLoading.value = false;
+        companyName.value = res.data.short_name
+        companyAddress.value = res.data.street
+        companyPostCode.value = res.data.postcode
+        companyCity.value = res.data.city
+        step.value++
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err.response);
+        } else if (err.request) {
+          console.log(err.request);
+        } else {
+          console.log("General Error");
+        }
 
-    });
+      });
 
     return;
   }
@@ -289,10 +288,10 @@ const submit = handleSubmit((values) => {
     password_confirmation: password.value,
     country: "pl",
     company_tax_id: companyTaxId.value,
-    company_name: companyName.value ,
+    company_name: companyName.value,
     company_street: companyAddress.value,
     company_city: companyCity.value,
-    company_postcode: companyPostCode.value ,
+    company_postcode: companyPostCode.value,
     company_info_changed: false,
     tos: acceptTOS.value,
     tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Warsaw",

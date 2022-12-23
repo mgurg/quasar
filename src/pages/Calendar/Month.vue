@@ -1,456 +1,455 @@
 <template>
-    <!-- https://github.com/Benny-Sankevich/cosmetics/blob/efc66aaf040788b8a28c021d3b76adfe80b0e710/frontend/src/components/calendar/Calendar.vue -->
-    <div class="row justify-center text-blue-grey-10">
-        <q-page class="col-lg-12 col-sm-10 col-xs q-pa-xs">
-            <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
+  <!-- https://github.com/Benny-Sankevich/cosmetics/blob/efc66aaf040788b8a28c021d3b76adfe80b0e710/frontend/src/components/calendar/Calendar.vue -->
+  <div class="row justify-center text-blue-grey-10">
+    <q-page class="col-lg-12 col-sm-10 col-xs q-pa-xs">
+      <navigation-bar @today="onToday" @prev="onPrev" @next="onNext"/>
 
-            <div class="row justify-center">
-                <div style="display: flex; max-width: 1400px; width: 100%;">
-                    <q-calendar-month
-                        ref="calendar"
-                        v-model="selectedDate"
-                        animated
-                        bordered
-                        focusable
-                        hoverable
-                        no-active-date
-                        :locale="locale" 
-                        :day-min-height="60"
-                        :day-height="0"
-                        @change="onChange"
-                        @moved="onMoved"
-                        @click-date="onClickDate"
-                        @click-day="onClickDay"
-                        @click-workweek="onClickWorkweek"
-                        @click-head-workweek="onClickHeadWorkweek"
-                        @click-head-day="onClickHeadDay"
-                    >
-                        <template #week="{ scope: { week, weekdays } }">
-                            <template
-                                v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
-                                :key="index"
-                            >
-                                <div
-                                    :class="badgeClasses(computedEvent)"
-                                    :style="badgeStyles(computedEvent, week.length)"
-                                    @click="onClickEvent(computedEvent)"
-                                >
-                                    <div
-                                        v-if="computedEvent.event && computedEvent.event.details"
-                                        class="title q-calendar__ellipsis"
-                                    >
-                                        {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
-                                        <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
-                                    </div>
-                                </div>
-                            </template>
-                        </template>
-                    </q-calendar-month>
+      <div class="row justify-center">
+        <div style="display: flex; max-width: 1400px; width: 100%;">
+          <q-calendar-month
+            ref="calendar"
+            v-model="selectedDate"
+            animated
+            bordered
+            focusable
+            hoverable
+            no-active-date
+            :locale="locale"
+            :day-min-height="60"
+            :day-height="0"
+            @change="onChange"
+            @moved="onMoved"
+            @click-date="onClickDate"
+            @click-day="onClickDay"
+            @click-workweek="onClickWorkweek"
+            @click-head-workweek="onClickHeadWorkweek"
+            @click-head-day="onClickHeadDay"
+          >
+            <template #week="{ scope: { week, weekdays } }">
+              <template
+                v-for="(computedEvent, index) in getWeekEvents(week, weekdays)"
+                :key="index"
+              >
+                <div
+                  :class="badgeClasses(computedEvent)"
+                  :style="badgeStyles(computedEvent, week.length)"
+                  @click="onClickEvent(computedEvent)"
+                >
+                  <div
+                    v-if="computedEvent.event && computedEvent.event.details"
+                    class="title q-calendar__ellipsis"
+                  >
+                    {{ computedEvent.event.title + (computedEvent.event.time ? ' - ' + computedEvent.event.time : '') }}
+                    <q-tooltip>{{ computedEvent.event.details }}</q-tooltip>
+                  </div>
                 </div>
-            </div>
-            <q-btn @click="getEvents">Fetch</q-btn>
-            {{lang}}
-        </q-page>
-    </div>
+              </template>
+            </template>
+          </q-calendar-month>
+        </div>
+      </div>
+      <q-btn @click="getEvents">Fetch</q-btn>
+      {{ lang }}
+    </q-page>
+  </div>
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
 import {
-    QCalendarMonth,
-    daysBetween,
-    isOverlappingDates,
-    parsed,
-    parseDate,
-    today,
-    indexOf
+  daysBetween,
+  indexOf,
+  isOverlappingDates,
+  parsed,
+  parseDate,
+  QCalendarMonth,
+  today
 } from '@quasar/quasar-ui-qcalendar/src/index.js'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
-import {
-    defineComponent,
-    ref,
-    reactive,
-    computed,
-    onMounted
-} from 'vue'
+import {defineComponent, reactive, ref} from 'vue'
 
-import { api } from "boot/axios";
+import {api} from "boot/axios";
 import NavigationBar from 'components/NavigationBar.vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
+
 function getCurrentDay(day) {
-    const newDay = new Date(CURRENT_DAY)
-    newDay.setDate(day)
-    const tm = parseDate(newDay)
-    return tm.date
+  const newDay = new Date(CURRENT_DAY)
+  newDay.setDate(day)
+  const tm = parseDate(newDay)
+  return tm.date
 }
 
 export default defineComponent({
-    name: 'MonthSlotWeek',
-    components: {
-        NavigationBar,
-        QCalendarMonth
-    },
-    // data() {
-    //     return {
-    setup() {
-        const router = useRouter();
-        const selectedDate = ref(today())
-        const calendar = ref(null)
-        const locale = ref('ko-KR')
-        const selectedMonth = reactive([])
-        const month = ref(new Date().getMonth() + 1)
-        const year = ref(new Date().getFullYear())
-        const keyValue = ref(0);
-        const events = ref([
-            {
+  name: 'MonthSlotWeek',
+  components: {
+    NavigationBar,
+    QCalendarMonth
+  },
+  // data() {
+  //     return {
+  setup() {
+    const router = useRouter();
+    const selectedDate = ref(today())
+    const calendar = ref(null)
+    const locale = ref('ko-KR')
+    const selectedMonth = reactive([])
+    const month = ref(new Date().getMonth() + 1)
+    const year = ref(new Date().getFullYear())
+    const keyValue = ref(0);
+    const events = ref([
+        {
 
-                "uuid": "440e6fd9-2631-42de-aaf3-2af78bf86776",
-                "task_uuid": "5017e1a1-3ae2-46f3-83cd-4c2a44da4d44",
-                "title": "Task#1",
-                "details": "Task#1",
-                "start": "2022-03-04",
-                "end": "2022-03-04",
-                "bgcolor": 'red',
-            },
-            // {
-            //     id: 1,
-            //     title: '1st of the Month',
-            //     details: 'Everything is funny as long as it is happening to someone else',
-            //     start: '2022-03-01',
-            //     end: '2022-03-01',
-            //     bgcolor: 'orange'
-            // },
-            // {
-            //     id: 2,
-            //     title: 'Sisters Birthday',
-            //     details: 'Buy a nice present',
-            //     start: getCurrentDay(4),
-            //     end: getCurrentDay(4),
-            //     bgcolor: 'green',
-            //     icon: 'fas fa-birthday-cake'
-            // },
-            // {
-            //     id: 3,
-            //     title: 'Meeting',
-            //     details: 'Time to pitch my idea to the company',
-            //     start: getCurrentDay(10),
-            //     end: getCurrentDay(10),
-            //     time: '10:00',
-            //     duration: 120,
-            //     bgcolor: 'red',
-            //     icon: 'fas fa-handshake'
-            // },
-            // {
-            //     id: 4,
-            //     title: 'Lunch',
-            //     details: 'Company is paying!',
-            //     start: getCurrentDay(10),
-            //     end: getCurrentDay(10),
-            //     time: '11:30',
-            //     duration: 90,
-            //     bgcolor: 'teal',
-            //     icon: 'fas fa-hamburger'
-            // },
-            // {
-            //     id: 5,
-            //     title: 'Visit mom',
-            //     details: 'Always a nice chat with mom',
-            //     start: getCurrentDay(20),
-            //     end: getCurrentDay(20),
-            //     time: '17:00',
-            //     duration: 90,
-            //     bgcolor: 'grey',
-            //     icon: 'fas fa-car'
-            // },
-            // {
-            //     id: 6,
-            //     title: 'Conference',
-            //     details: 'Teaching Javascript 101',
-            //     start: getCurrentDay(22),
-            //     end: getCurrentDay(22),
-            //     time: '08:00',
-            //     duration: 540,
-            //     bgcolor: 'blue',
-            //     icon: 'fas fa-chalkboard-teacher'
-            // },
-            // {
-            //     id: 7,
-            //     title: 'Girlfriend',
-            //     details: 'Meet GF for dinner at Swanky Restaurant',
-            //     start: getCurrentDay(22),
-            //     end: getCurrentDay(22),
-            //     time: '19:00',
-            //     duration: 180,
-            //     bgcolor: 'teal',
-            //     icon: 'fas fa-utensils'
-            // },
-            // {
-            //     id: 8,
-            //     title: 'Rowing',
-            //     details: 'Stay in shape!',
-            //     start: getCurrentDay(27),
-            //     end: getCurrentDay(28),
-            //     bgcolor: 'purple',
-            //     icon: 'rowing'
-            // },
-            // {
-            //     id: 9,
-            //     title: 'Fishing',
-            //     details: 'Time for some weekend R&R',
-            //     start: getCurrentDay(22),
-            //     end: getCurrentDay(29),
-            //     bgcolor: 'purple',
-            //     icon: 'fas fa-fish'
-            // },
-            // {
-            //     id: 10,
-            //     title: 'Vacation',
-            //     details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
-            //     start: getCurrentDay(22),
-            //     end: getCurrentDay(29),
-            //     bgcolor: 'purple',
-            //     icon: 'fas fa-plane'
-            // }
-        ]
-        );
-        const show_event = ref(false);
-        // const show_add_edit_dialog = ref(false);
-        const eventToShow = ref(null);
-        // const eventToEdit = ref(null);
-        // const model = ref(null);
+          "uuid": "440e6fd9-2631-42de-aaf3-2af78bf86776",
+          "task_uuid": "5017e1a1-3ae2-46f3-83cd-4c2a44da4d44",
+          "title": "Task#1",
+          "details": "Task#1",
+          "start": "2022-03-04",
+          "end": "2022-03-04",
+          "bgcolor": 'red',
+        },
+        // {
+        //     id: 1,
+        //     title: '1st of the Month',
+        //     details: 'Everything is funny as long as it is happening to someone else',
+        //     start: '2022-03-01',
+        //     end: '2022-03-01',
+        //     bgcolor: 'orange'
+        // },
+        // {
+        //     id: 2,
+        //     title: 'Sisters Birthday',
+        //     details: 'Buy a nice present',
+        //     start: getCurrentDay(4),
+        //     end: getCurrentDay(4),
+        //     bgcolor: 'green',
+        //     icon: 'fas fa-birthday-cake'
+        // },
+        // {
+        //     id: 3,
+        //     title: 'Meeting',
+        //     details: 'Time to pitch my idea to the company',
+        //     start: getCurrentDay(10),
+        //     end: getCurrentDay(10),
+        //     time: '10:00',
+        //     duration: 120,
+        //     bgcolor: 'red',
+        //     icon: 'fas fa-handshake'
+        // },
+        // {
+        //     id: 4,
+        //     title: 'Lunch',
+        //     details: 'Company is paying!',
+        //     start: getCurrentDay(10),
+        //     end: getCurrentDay(10),
+        //     time: '11:30',
+        //     duration: 90,
+        //     bgcolor: 'teal',
+        //     icon: 'fas fa-hamburger'
+        // },
+        // {
+        //     id: 5,
+        //     title: 'Visit mom',
+        //     details: 'Always a nice chat with mom',
+        //     start: getCurrentDay(20),
+        //     end: getCurrentDay(20),
+        //     time: '17:00',
+        //     duration: 90,
+        //     bgcolor: 'grey',
+        //     icon: 'fas fa-car'
+        // },
+        // {
+        //     id: 6,
+        //     title: 'Conference',
+        //     details: 'Teaching Javascript 101',
+        //     start: getCurrentDay(22),
+        //     end: getCurrentDay(22),
+        //     time: '08:00',
+        //     duration: 540,
+        //     bgcolor: 'blue',
+        //     icon: 'fas fa-chalkboard-teacher'
+        // },
+        // {
+        //     id: 7,
+        //     title: 'Girlfriend',
+        //     details: 'Meet GF for dinner at Swanky Restaurant',
+        //     start: getCurrentDay(22),
+        //     end: getCurrentDay(22),
+        //     time: '19:00',
+        //     duration: 180,
+        //     bgcolor: 'teal',
+        //     icon: 'fas fa-utensils'
+        // },
+        // {
+        //     id: 8,
+        //     title: 'Rowing',
+        //     details: 'Stay in shape!',
+        //     start: getCurrentDay(27),
+        //     end: getCurrentDay(28),
+        //     bgcolor: 'purple',
+        //     icon: 'rowing'
+        // },
+        // {
+        //     id: 9,
+        //     title: 'Fishing',
+        //     details: 'Time for some weekend R&R',
+        //     start: getCurrentDay(22),
+        //     end: getCurrentDay(29),
+        //     bgcolor: 'purple',
+        //     icon: 'fas fa-fish'
+        // },
+        // {
+        //     id: 10,
+        //     title: 'Vacation',
+        //     details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
+        //     start: getCurrentDay(22),
+        //     end: getCurrentDay(29),
+        //     bgcolor: 'purple',
+        //     icon: 'fas fa-plane'
+        // }
+      ]
+    );
+    const show_event = ref(false);
+    // const show_add_edit_dialog = ref(false);
+    const eventToShow = ref(null);
+    // const eventToEdit = ref(null);
+    // const model = ref(null);
 
-        const getWeekEvents = (week, weekdays) => {
-            const firstDay = parsed(week[0].date + ' 00:00')
-            const lastDay = parsed(week[week.length - 1].date + ' 23:59')
-            const eventsWeek = [];
-            events.value.forEach((event, _id) => {
-                const startDate = parsed(event.start + ' 00:00')
-                const endDate = parsed(event.end + ' 23:59')
-                if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
-                    const left = daysBetween(firstDay, startDate, true)
-                    const right = daysBetween(endDate, lastDay, true)
+    const getWeekEvents = (week, weekdays) => {
+      const firstDay = parsed(week[0].date + ' 00:00')
+      const lastDay = parsed(week[week.length - 1].date + ' 23:59')
+      const eventsWeek = [];
+      events.value.forEach((event, _id) => {
+        const startDate = parsed(event.start + ' 00:00')
+        const endDate = parsed(event.end + ' 23:59')
+        if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
+          const left = daysBetween(firstDay, startDate, true)
+          const right = daysBetween(endDate, lastDay, true)
 
-                    eventsWeek.push({
-                        _id, // index event
-                        left, // Position initial day [0-6]
-                        right, // Number days available
-                        size: week.length - (left + right), // Size current event (in days)
-                        event // Info
-                    })
-                }
-            })
+          eventsWeek.push({
+            _id, // index event
+            left, // Position initial day [0-6]
+            right, // Number days available
+            size: week.length - (left + right), // Size current event (in days)
+            event // Info
+          })
+        }
+      })
 
-            const events1 = []
-            if (eventsWeek.length > 0) {
-                const infoWeek = eventsWeek.sort((a, b) => a.left - b.left)
-                infoWeek.forEach((_, i) => {
-                    insertEvent(events1, week.length, infoWeek, i, 0, 0)
-                })
-            }
-            return events1
+      const events1 = []
+      if (eventsWeek.length > 0) {
+        const infoWeek = eventsWeek.sort((a, b) => a.left - b.left)
+        infoWeek.forEach((_, i) => {
+          insertEvent(events1, week.length, infoWeek, i, 0, 0)
+        })
+      }
+      return events1
+    }
+
+    const insertEvent = (events, weekLength, infoWeek, index, availableDays, level) => {
+      const iEvent = infoWeek[index];
+      if (iEvent !== undefined && iEvent.left >= availableDays) {
+        // If you have space available, more events are placed
+        if (iEvent.left - availableDays) {
+          // It is filled with empty events
+          events.push({size: iEvent.left - availableDays})
+        }
+        // The event is built
+        events.push({size: iEvent.size, event: iEvent.event})
+
+        if (level !== 0) {
+          // If it goes into recursion, then the item is deleted
+          infoWeek.splice(index, 1)
         }
 
-        const insertEvent = (events, weekLength, infoWeek, index, availableDays, level) => {
-            const iEvent = infoWeek[index];
-            if (iEvent !== undefined && iEvent.left >= availableDays) {
-                // If you have space available, more events are placed
-                if (iEvent.left - availableDays) {
-                    // It is filled with empty events
-                    events.push({ size: iEvent.left - availableDays })
-                }
-                // The event is built
-                events.push({ size: iEvent.size, event: iEvent.event })
+        const currentAvailableDays = iEvent.left + iEvent.size
 
-                if (level !== 0) {
-                    // If it goes into recursion, then the item is deleted
-                    infoWeek.splice(index, 1)
-                }
-
-                const currentAvailableDays = iEvent.left + iEvent.size
-
-                if (currentAvailableDays < weekLength) {
-                    const indexNextEvent = indexOf(
-                        infoWeek,
-                        (e) => e._id !== iEvent._id && e.left >= currentAvailableDays
-                    );
-                    insertEvent(
-                        events,
-                        weekLength,
-                        infoWeek,
-                        indexNextEvent !== -1 ? indexNextEvent : index,
-                        currentAvailableDays,
-                        level + 1
-                    );
-                    // else: There are no more days available, end of iteration
-                }
-            } else {
-                events.push({ size: weekLength - availableDays });
-            }
-        };
-
-        const badgeClasses = (computedEvent) => {
-            if (computedEvent.event !== undefined) {
-                return {
-                    'my-event': true,
-                    'text-white': true,
-                    [`bg-${computedEvent.event.bgcolor}`]: true,
-                    'rounded-border': true,
-                    'q-calendar__ellipsis': true,
-                };
-            }
-            return {
-                'my-void-event': true,
-            };
-        };
-        const badgeStyles = (computedEvent, weekLength) => {
-            const s = { width: '' };
-            if (computedEvent.size !== undefined) {
-                s.width = (100 / weekLength) * computedEvent.size + '%';
-            }
-            return s;
-        };
-
-        function isBetweenDatesWeek(dateStart, dateEnd, weekStart, weekEnd) {
-            return (
-                (dateEnd < weekEnd && dateEnd >= weekStart)
-                || dateEnd === weekEnd
-                || (dateEnd > weekEnd && dateStart <= weekEnd)
-            )
+        if (currentAvailableDays < weekLength) {
+          const indexNextEvent = indexOf(
+            infoWeek,
+            (e) => e._id !== iEvent._id && e.left >= currentAvailableDays
+          );
+          insertEvent(
+            events,
+            weekLength,
+            infoWeek,
+            indexNextEvent !== -1 ? indexNextEvent : index,
+            currentAvailableDays,
+            level + 1
+          );
+          // else: There are no more days available, end of iteration
         }
+      } else {
+        events.push({size: weekLength - availableDays});
+      }
+    };
 
-        const showEvent = (event) => {
-            eventToShow.value = event;
-            show_event.value = true;
-        };
-
-        const onToday = () => {
-            calendar.value.moveToToday();
-        };
-        const onPrev = () => {
-            calendar.value.prev();
-        };
-        const onNext = () => {
-            calendar.value.next();
-        };
-
-        function onMoved(data) {
-            console.log('onMoved', data)
-        }
-
-        function onChange(data) {
-            console.log('onChange', data)
-        }
-
-        function onClickDate(data) {
-            console.log('onClickDate', data)
-        }
-        function onClickDay(data) {
-            console.log('onClickDay', data)
-        }
-        function onClickWorkweek(data) {
-            console.log('onClickWorkweek', data)
-        }
-        function onClickHeadDay(data) {
-            console.log('onClickHeadDay', data)
-        }
-        function onClickHeadWorkweek(data) {
-            console.log('onClickHeadWorkweek', data)
-        }
-        function onClickEvent(data) {
-            console.log('onClickEvent', data)
-            router.push("/tasks/" + data.event.task_uuid);
-        }
-
-        function getEvents() {
-            api
-                .get("/events/index?dt_from=2022-03-01&dt_to=2022-03-28")
-                .then((res) => {
-                    
-                    // $this.events = res.data
-                    events.value = res.data
-
-                    //   tasks.value = res.data
-
-                    //   isLoading.value = false;
-                })
-                .catch((err) => {
-                    if (err.response) {
-                        console.log(err.response);
-                    } else if (err.request) {
-                        console.log(err.request);
-                    } else {
-                        console.log("General Error");
-                    }
-
-                });
-        }
-
-
-
+    const badgeClasses = (computedEvent) => {
+      if (computedEvent.event !== undefined) {
         return {
-            calendar,
-            locale,
-            selectedDate,
-            onToday,
-            onPrev,
-            onNext,
-            onMoved,
-            onChange,
-            onClickDate,
-            onClickDay,
-            onClickWorkweek,
-            onClickHeadDay,
-            onClickHeadWorkweek,
-            onClickEvent,
-            badgeClasses,
-            badgeStyles,
-            getWeekEvents,
-            getEvents,
-            isBetweenDatesWeek
+          'my-event': true,
+          'text-white': true,
+          [`bg-${computedEvent.event.bgcolor}`]: true,
+          'rounded-border': true,
+          'q-calendar__ellipsis': true,
         };
-    },
+      }
+      return {
+        'my-void-event': true,
+      };
+    };
+    const badgeStyles = (computedEvent, weekLength) => {
+      const s = {width: ''};
+      if (computedEvent.size !== undefined) {
+        s.width = (100 / weekLength) * computedEvent.size + '%';
+      }
+      return s;
+    };
+
+    function isBetweenDatesWeek(dateStart, dateEnd, weekStart, weekEnd) {
+      return (
+        (dateEnd < weekEnd && dateEnd >= weekStart)
+        || dateEnd === weekEnd
+        || (dateEnd > weekEnd && dateStart <= weekEnd)
+      )
+    }
+
+    const showEvent = (event) => {
+      eventToShow.value = event;
+      show_event.value = true;
+    };
+
+    const onToday = () => {
+      calendar.value.moveToToday();
+    };
+    const onPrev = () => {
+      calendar.value.prev();
+    };
+    const onNext = () => {
+      calendar.value.next();
+    };
+
+    function onMoved(data) {
+      console.log('onMoved', data)
+    }
+
+    function onChange(data) {
+      console.log('onChange', data)
+    }
+
+    function onClickDate(data) {
+      console.log('onClickDate', data)
+    }
+
+    function onClickDay(data) {
+      console.log('onClickDay', data)
+    }
+
+    function onClickWorkweek(data) {
+      console.log('onClickWorkweek', data)
+    }
+
+    function onClickHeadDay(data) {
+      console.log('onClickHeadDay', data)
+    }
+
+    function onClickHeadWorkweek(data) {
+      console.log('onClickHeadWorkweek', data)
+    }
+
+    function onClickEvent(data) {
+      console.log('onClickEvent', data)
+      router.push("/tasks/" + data.event.task_uuid);
+    }
+
+    function getEvents() {
+      api
+        .get("/events/index?dt_from=2022-03-01&dt_to=2022-03-28")
+        .then((res) => {
+
+          // $this.events = res.data
+          events.value = res.data
+
+          //   tasks.value = res.data
+
+          //   isLoading.value = false;
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.log(err.response);
+          } else if (err.request) {
+            console.log(err.request);
+          } else {
+            console.log("General Error");
+          }
+
+        });
+    }
+
+
+    return {
+      calendar,
+      locale,
+      selectedDate,
+      onToday,
+      onPrev,
+      onNext,
+      onMoved,
+      onChange,
+      onClickDate,
+      onClickDay,
+      onClickWorkweek,
+      onClickHeadDay,
+      onClickHeadWorkweek,
+      onClickEvent,
+      badgeClasses,
+      badgeStyles,
+      getWeekEvents,
+      getEvents,
+      isBetweenDatesWeek
+    };
+  },
 });
 
-    //         events: [
-    //             {
-    //                 id: 1,
-    //                 title: '1st of the Month',
-    //                 details: 'Everything is funny as long as it is happening to someone else',
-    //                 start: '2022-03-01',
-    //                 end: '2022-03-01',
-    //                 bgcolor: 'orange'
-    //             }
-    //         ]
-    //     }
-    // },
+//         events: [
+//             {
+//                 id: 1,
+//                 title: '1st of the Month',
+//                 details: 'Everything is funny as long as it is happening to someone else',
+//                 start: '2022-03-01',
+//                 end: '2022-03-01',
+//                 bgcolor: 'orange'
+//             }
+//         ]
+//     }
+// },
 
-        // getWeekEvents(week, weekdays) {
-        //     const firstDay = parsed(week[0].date + ' 00:00')
-        //     const lastDay = parsed(week[week.length - 1].date + ' 23:59')
+// getWeekEvents(week, weekdays) {
+//     const firstDay = parsed(week[0].date + ' 00:00')
+//     const lastDay = parsed(week[week.length - 1].date + ' 23:59')
 
-        //     const eventsWeek = []
-        //     this.events.forEach((event, id) => {
-        //         const startDate = parsed(event.start + ' 00:00')
-        //         const endDate = parsed(event.end + ' 23:59')
+//     const eventsWeek = []
+//     this.events.forEach((event, id) => {
+//         const startDate = parsed(event.start + ' 00:00')
+//         const endDate = parsed(event.end + ' 23:59')
 
-        //         if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
-        //             const left = daysBetween(firstDay, startDate, true)
-        //             const right = daysBetween(endDate, lastDay, true)
+//         if (isOverlappingDates(startDate, endDate, firstDay, lastDay)) {
+//             const left = daysBetween(firstDay, startDate, true)
+//             const right = daysBetween(endDate, lastDay, true)
 
-        //             eventsWeek.push({
-        //                 id, // index event
-        //                 left, // Position initial day [0-6]
-        //                 right, // Number days available
-        //                 size: week.length - (left + right), // Size current event (in days)
-        //                 event // Info
-        //             })
-        //         }
-        //     })
+//             eventsWeek.push({
+//                 id, // index event
+//                 left, // Position initial day [0-6]
+//                 right, // Number days available
+//                 size: week.length - (left + right), // Size current event (in days)
+//                 event // Info
+//             })
+//         }
+//     })
 
 //             const events = []
 //             if (eventsWeek.length > 0) {
@@ -500,36 +499,36 @@ export default defineComponent({
 //             }
 //         }
 
-        // badgeClasses(computedEvent) {
-        //     if (computedEvent.event !== undefined) {
-        //         return {
-        //             'my-event': true,
-        //             'text-white': true,
-        //             [`bg-${computedEvent.event.bgcolor}`]: true,
-        //             'rounded-border': true,
-        //             'q-calendar__ellipsis': true
-        //         }
-        //     }
-        //     return {
-        //         'my-void-event': true
-        //     }
-        // },
+// badgeClasses(computedEvent) {
+//     if (computedEvent.event !== undefined) {
+//         return {
+//             'my-event': true,
+//             'text-white': true,
+//             [`bg-${computedEvent.event.bgcolor}`]: true,
+//             'rounded-border': true,
+//             'q-calendar__ellipsis': true
+//         }
+//     }
+//     return {
+//         'my-void-event': true
+//     }
+// },
 
-        // badgeStyles(computedEvent, weekLength) {
-        //     const s = {}
-        //     if (computedEvent.size !== undefined) {
-        //         s.width = ((100 / weekLength) * computedEvent.size) + '%'
-        //     }
-        //     return s
-        // },
+// badgeStyles(computedEvent, weekLength) {
+//     const s = {}
+//     if (computedEvent.size !== undefined) {
+//         s.width = ((100 / weekLength) * computedEvent.size) + '%'
+//     }
+//     return s
+// },
 
-        // isBetweenDatesWeek(dateStart, dateEnd, weekStart, weekEnd) {
-        //     return (
-        //         (dateEnd < weekEnd && dateEnd >= weekStart)
-        //         || dateEnd === weekEnd
-        //         || (dateEnd > weekEnd && dateStart <= weekEnd)
-        //     )
-        // },
+// isBetweenDatesWeek(dateStart, dateEnd, weekStart, weekEnd) {
+//     return (
+//         (dateEnd < weekEnd && dateEnd >= weekStart)
+//         || dateEnd === weekEnd
+//         || (dateEnd > weekEnd && dateStart <= weekEnd)
+//     )
+// },
 
 //         onToday() {
 //             this.$refs.calendar.moveToToday()
@@ -571,54 +570,54 @@ export default defineComponent({
 <style lang="sass" scoped>
 
 .my-event
-    position: relative
-    display: inline-flex
-    white-space: nowrap
-    font-size: 12px
-    height: 16px
-    max-height: 16px
-    margin: 1px 0 0 0
-    justify-content: center
-    text-overflow: ellipsis
-    overflow: hidden
-    cursor: pointer
+  position: relative
+  display: inline-flex
+  white-space: nowrap
+  font-size: 12px
+  height: 16px
+  max-height: 16px
+  margin: 1px 0 0 0
+  justify-content: center
+  text-overflow: ellipsis
+  overflow: hidden
+  cursor: pointer
 
 .title
-    position: relative
-    display: flex
-    justify-content: center
-    align-items: center
-    height: 100%
+  position: relative
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100%
 
 .my-void-event
-    display: inline-flex
-    white-space: nowrap
-    height: 1px
+  display: inline-flex
+  white-space: nowrap
+  height: 1px
 
 .text-white
-    color: white
+  color: white
 
 .bg-blue
-    background: blue
+  background: blue
 
 .bg-green
-    background: green
+  background: green
 
 .bg-orange
-    background: orange
+  background: orange
 
 .bg-red
-    background: red
+  background: red
 
 .bg-teal
-    background: teal
+  background: teal
 
 .bg-grey
-    background: grey
+  background: grey
 
 .bg-purple
-    background: purple
+  background: purple
 
 .rounded-border
-    border-radius: 2px
+  border-radius: 2px
 </style>

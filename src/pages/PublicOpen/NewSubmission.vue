@@ -17,9 +17,9 @@
 
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
-    <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
-    <p>{{ $t("Your submission landed in our system") }} 🚀<br> {{ $t("Would you like to improve something more?") }}</p>
-
+      <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
+      <p>{{ $t("Your submission landed in our system") }} 🚀<br> {{ $t("Would you like to improve something more?") }}
+      </p>
 
 
       <div class="row divider q-pb-lg">
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 
 let fade = ref(true);
 

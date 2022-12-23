@@ -1,10 +1,8 @@
-import { VueRenderer } from "@tiptap/vue-3";
-import { PluginKey } from "prosemirror-state";
+import {VueRenderer} from "@tiptap/vue-3";
+import {PluginKey} from "prosemirror-state";
 import tippy from "tippy.js";
-import { api } from "boot/axios";
 import MentionList from "./MentionList.vue";
-import { useUserStore } from "stores/user";
-import { ref, watch } from "vue";
+import {useUserStore} from "stores/user";
 
 // https://github.com/search?q=VueRenderer+MentionList&type=code
 
@@ -12,8 +10,8 @@ export default {
   char: "@",
   pluginKey: new PluginKey("userSuggest"),
 
-  
-  items: async ({ query }) => {
+
+  items: async ({query}) => {
 
     const UserStore = useUserStore();
     const users = UserStore.getEditorUsers

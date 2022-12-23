@@ -203,7 +203,7 @@ let search = ref(null);
 const ideas = ref([]);
 let selected = ref(null);
 
-let sort = reactive({  counter: "asc",  title: "asc",  age: "asc",  active: "age"})
+let sort = reactive({counter: "asc", title: "asc", age: "asc", active: "age"})
 
 function changeSortOrder(column) {
   sort[column] === "asc" ? sort[column] = 'desc' : sort[column] = "asc"
@@ -214,7 +214,7 @@ function changeSortOrder(column) {
 let hasPhotos = ref(null);
 let hasStatus = ref(null);
 
-const pagination = reactive({  page: 1,  size: 10,  total: 1})
+const pagination = reactive({page: 1, size: 10, total: 1})
 
 function setAttachmentFilter(condition) {
   hasPhotos.value = condition;
@@ -269,16 +269,15 @@ async function fetchIdeas() {
     sortColumn: sort.active
   };
 
-    getIdeasRequest(params).then(function (response) {
-      ideas.value = response.data.items;
-      pagination.total = response.data.total
-      isLoading.value = false;
+  getIdeasRequest(params).then(function (response) {
+    ideas.value = response.data.items;
+    pagination.total = response.data.total
+    isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
 }
-
 
 
 onBeforeMount(() => {

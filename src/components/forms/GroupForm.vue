@@ -1,16 +1,16 @@
 <template>
-      <div class="row">
-        &nbsp;
-   
-      </div>
-    <q-form 
-      autocorrect="off" 
-      autocapitalize="off" 
-      autocomplete="off" 
-      spellcheck="false" 
-      class="q-gutter-md" 
-      @submit.prevent
-    >
+  <div class="row">
+    &nbsp;
+
+  </div>
+  <q-form
+    autocorrect="off"
+    autocapitalize="off"
+    autocomplete="off"
+    spellcheck="false"
+    class="q-gutter-md"
+    @submit.prevent
+  >
 
     <q-input
       outlined
@@ -20,12 +20,14 @@
       :error="!!errors.groupName"
       :error-message="errors.groupName"
       :label="$t('Name')"
-    >                    
+    >
       <template v-slot:prepend>
-        <q-avatar rounded :color="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" size="xl" @click="showEmojiPicker = true" class="cursor-pointer"> {{nativeEmojiSymbol}}</q-avatar>
+        <q-avatar rounded :color="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" size="xl"
+                  @click="showEmojiPicker = true" class="cursor-pointer"> {{ nativeEmojiSymbol }}
+        </q-avatar>
       </template>
     </q-input>
-               
+
     <q-input
       outlined
       v-model="groupDescription"
@@ -39,93 +41,92 @@
       <div v-for="(user, index) in allUsers" v-bind:key="index">
         <q-item tag="label" v-ripple>
           <q-item-section avatar top>
-            <q-checkbox v-model="groupUsers" :val="user.uuid" :disable="!allowEdit" color="cyan" />
+            <q-checkbox v-model="groupUsers" :val="user.uuid" :disable="!allowEdit" color="cyan"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{user.first_name}} {{user.last_name}}</q-item-label>
+            <q-item-label>{{ user.first_name }} {{ user.last_name }}</q-item-label>
             <q-item-label caption>
-              {{user.description}}
+              {{ user.description }}
             </q-item-label>
           </q-item-section>
         </q-item>
       </div>
     </q-list>
     <div class="row">
-            <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
-            <q-space />
-            <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
-            <!-- <q-btn v-if="!allowEdit" type="submit" color="primary" @click="enableEditMode">{{ $t("Edit") }}</q-btn> -->
-        </div>
+      <q-btn type="submit" color="red-12" @click="cancelButtonHandle">{{ $t("Cancel") }}</q-btn>
+      <q-space/>
+      <q-btn v-if="allowEdit" type="submit" color="primary" @click="submit">{{ $t(buttonText) }}</q-btn>
+      <!-- <q-btn v-if="!allowEdit" type="submit" color="primary" @click="enableEditMode">{{ $t("Edit") }}</q-btn> -->
+    </div>
 
-    </q-form>
+  </q-form>
 
-    <q-dialog  v-model="showEmojiPicker" v-if="allowEdit">
-      <q-card>
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Close icon</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
-        </q-card-section>
+  <q-dialog v-model="showEmojiPicker" v-if="allowEdit">
+    <q-card>
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6">Close icon</div>
+        <q-space/>
+        <q-btn icon="close" flat round dense v-close-popup/>
+      </q-card-section>
 
-        <q-card-section>
-          <Picker 
+      <q-card-section>
+        <Picker
           :data="emojiIndex"
           :style="{ width: '100%'}"
-          set="twitter"      
+          set="twitter"
           @select="showEmoji"
           :showSearch="false"
           :showSkinTones="false"
-          :showPreview="false" 
-          />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+          :showPreview="false"
+        />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 
 <script setup>
-import { ref, onBeforeMount, computed , watch} from "vue";
-import { authApi } from "boot/axios";
-import { useRouter } from "vue-router";
-import { useRoute } from "vue-router";
+import {computed, onBeforeMount, ref, watch} from "vue";
+import {authApi} from "boot/axios";
+import {useRouter} from "vue-router";
 
 
-
-import { Picker, EmojiIndex } from "emoji-mart-vue-fast/src";
+import {EmojiIndex, Picker} from "emoji-mart-vue-fast/src";
 import data from "emoji-mart-vue-fast/data/twitter.json";
 import "emoji-mart-vue-fast/css/emoji-mart.css";
 
 
-import { useField, useForm } from "vee-validate";
+import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
 
-const handleEmojiClick = (detail) => {}
+const handleEmojiClick = (detail) => {
+}
 
 const props = defineProps({
-    group: {
-        type: Object,
-        default() {
-            return {
-              name: '',
-              description: '',
-              symbol: ':+1:',
-              users: []
+  group: {
+    type: Object,
+    default() {
+      return {
+        name: '',
+        description: '',
+        symbol: ':+1:',
+        users: []
 
-            }
-        }
-    },
-    groupUuid: {
-        type: String,
-        default: null,
-    },
-    buttonText: {
-        type: String,
-        default: 'Save',
-    },
-    canEdit: {
-        type: Boolean,
-        default: false,
-    },
+      }
+    }
+  },
+  groupUuid: {
+    type: String,
+    default: null,
+  },
+  buttonText: {
+    type: String,
+    default: 'Save',
+  },
+  canEdit: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 let emojiIndex = new EmojiIndex(data);
@@ -153,7 +154,7 @@ let groupUsers = ref([])
 let allUsers = ref(null);
 let allowEdit = ref(props.canEdit)
 
-function enableEditMode(){
+function enableEditMode() {
   allowEdit.value = true
 }
 
@@ -167,8 +168,8 @@ function getAllUsers() {
     .get("/users/")
     .then((res) => {
       allUsers.value = res.data.items;
-      if (props.group.users != null && props.group.users !='undefined'){
-      groupUsers.value = props.group.users.map(value => value.uuid);
+      if (props.group.users != null && props.group.users != 'undefined') {
+        groupUsers.value = props.group.users.map(value => value.uuid);
       }
       isLoading.value = false;
     })
@@ -183,7 +184,7 @@ function getAllUsers() {
     });
 }
 
-function addNewGroup(data){
+function addNewGroup(data) {
   isLoading.value = true;
   authApi
     .post("/groups/", data)
@@ -202,7 +203,7 @@ function addNewGroup(data){
     });
 }
 
-function editExistingGroup(data, uuid){
+function editExistingGroup(data, uuid) {
   isLoading.value = true;
   authApi
     .patch("/groups/" + uuid, data)
@@ -222,54 +223,54 @@ function editExistingGroup(data, uuid){
 }
 
 // --------------- Form --------------
-const { resetForm } = useForm();
+const {resetForm} = useForm();
 
 const validationSchema = yup.object({
-    groupName: yup.string().required(),
-    groupDescription: yup.string().required(),
+  groupName: yup.string().required(),
+  groupDescription: yup.string().required(),
 })
 
 
-const { handleSubmit, errors } = useForm({
-    validationSchema
+const {handleSubmit, errors} = useForm({
+  validationSchema
 })
 
-const { value: groupName } = useField('groupName', undefined, { initialValue: props.group.name })
-const { value: groupDescription } = useField('groupDescription', undefined, { initialValue: props.group.description })
+const {value: groupName} = useField('groupName', undefined, {initialValue: props.group.name})
+const {value: groupDescription} = useField('groupDescription', undefined, {initialValue: props.group.description})
 
 const submit = handleSubmit(values => {
 
-    let symbol = emojiOutput.value.match(/[^:]+(\:[^:]+)?/g)[0];
-    
-    let data = {
-        "name": groupName.value,
-        "description": groupDescription.value,
-        "users": JSON.parse(JSON.stringify(groupUsers.value)),
-        "symbol": ":"+ symbol+":"
-    }
+  let symbol = emojiOutput.value.match(/[^:]+(\:[^:]+)?/g)[0];
 
-    console.log(data)
-    if (!!props.groupUuid){
+  let data = {
+    "name": groupName.value,
+    "description": groupDescription.value,
+    "users": JSON.parse(JSON.stringify(groupUsers.value)),
+    "symbol": ":" + symbol + ":"
+  }
+
+  console.log(data)
+  if (!!props.groupUuid) {
     //   emit('groupFormBtnClick', {data : data, uuid: props.groupUuid})
-      editExistingGroup(data, props.groupUuid)
-    } else{
-      addNewGroup(data);
+    editExistingGroup(data, props.groupUuid)
+  } else {
+    addNewGroup(data);
     // emit('groupFormBtnClick', {data : data, uuid: null})
-    }
+  }
 
 })
 
-function  cancelButtonHandle()
-{
-    router.push("/settings/groups");
-    // console.log('cancelBtnClick')
-    // emit('cancelBtnClick')
+function cancelButtonHandle() {
+  router.push("/settings/groups");
+  // console.log('cancelBtnClick')
+  // emit('cancelBtnClick')
 }
+
 // --------------- Form --------------
 
 onBeforeMount(() => {
-    getAllUsers();
-    // getRoles();
+  getAllUsers();
+  // getRoles();
 });
 
 </script>

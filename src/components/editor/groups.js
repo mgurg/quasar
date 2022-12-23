@@ -1,14 +1,14 @@
-import { VueRenderer } from "@tiptap/vue-3";
-import { PluginKey } from "prosemirror-state";
+import {VueRenderer} from "@tiptap/vue-3";
+import {PluginKey} from "prosemirror-state";
 import tippy from "tippy.js";
-import { useUserStore } from "stores/user";
+import {useUserStore} from "stores/user";
 
 import MentionList from "./MentionList.vue";
 
 export default {
   char: "#",
   pluginKey: new PluginKey("groupSuggest"),
-  items: ({ query }) => {
+  items: ({query}) => {
     const UserStore = useUserStore();
     const users = UserStore.getEditorGroups
     return users

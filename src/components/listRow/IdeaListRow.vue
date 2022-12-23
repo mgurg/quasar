@@ -1,10 +1,11 @@
 <template>
   <div class="cursor-pointer" @click="viewIdea(idea.uuid)">
-    <q-item :class="{ 'bg-blue-grey-6': (idea.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (idea.uuid == selected && !$q.dark.isActive) }">
+    <q-item
+      :class="{ 'bg-blue-grey-6': (idea.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (idea.uuid == selected && !$q.dark.isActive) }">
       <q-item-section avatar cursor-pointer ripple @click="viewIdea(idea.uuid)">
         <q-avatar rounded :color="counter > 0? 'green': 'red'" text-color="white">
           {{ counter }}
-          </q-avatar
+        </q-avatar
         >
       </q-item-section>
 
@@ -27,7 +28,7 @@
             icon="delete"
             @click="deleteIdea(idea.uuid)"
           />
-          <q-btn size="12px" flat dense round icon="info" @click="viewIdea(idea.uuid)" />
+          <q-btn size="12px" flat dense round icon="info" @click="viewIdea(idea.uuid)"/>
         </div>
       </q-item-section>
       <q-item-section side v-else>
@@ -36,19 +37,19 @@
       </q-item-section>
     </q-item>
 
-    <q-separator />
+    <q-separator/>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useQuasar } from "quasar";
-import { useRouter } from "vue-router";
-import { authApi } from "boot/axios";
-import { DateTime } from "luxon";
-import { useI18n } from "vue-i18n";
+import {computed} from "vue";
+import {useQuasar} from "quasar";
+import {useRouter} from "vue-router";
+import {authApi} from "boot/axios";
+import {DateTime} from "luxon";
+import {useI18n} from "vue-i18n";
 
-const { locale } = useI18n({ useScope: "global" });
+const {locale} = useI18n({useScope: "global"});
 
 const $q = useQuasar();
 const router = useRouter();

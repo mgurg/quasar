@@ -4,7 +4,8 @@
       <div class="row justify-center text-blue-grey-10">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
           <div class="q-pa-md">
-            <idea-form v-if="registrationMode != 'logged_only'" :mail="registrationMailDomain" :mode="registrationMode" :tenant_id="tenant_id"
+            <idea-form v-if="registrationMode != 'logged_only'" :mail="registrationMailDomain" :mode="registrationMode"
+                       :tenant_id="tenant_id"
                        :token="anonymousToken"
                        button-text="Add" @ideaFormBtnClick="signUpButtonPressed"></idea-form>
 

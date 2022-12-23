@@ -4,7 +4,7 @@
 
       <q-banner rounded inline-actions class="text-brown-10 bg-yellow-14 q-mt-md">
         <template v-slot:avatar>
-          <q-icon name="warning" color="warning" />
+          <q-icon name="warning" color="warning"/>
         </template>
         Ten projekt nie jest jeszcze wydany! Możesz stracić wszystkie swoje dane. Publiczna beta już wkrótce.
       </q-banner>

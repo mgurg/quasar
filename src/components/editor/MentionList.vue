@@ -13,8 +13,8 @@
     </template>
     <div class="item" v-else>
       No result
+    </div>
   </div>
-</div>
 </template>
 
 <!-- https://github.com/15653391491/monaco_web/blob/97a173b89c44f13b5be01a219630a11d3b1b4f45/src/components/common/MentionList.vue -->
@@ -22,7 +22,7 @@
 <!-- https://github.com/AnoRebel/aio/blob/c88fd953ecbb18be325239e578e1b844f3808d85/src/components/TipTap/extensions/MentionList.vue -->
 
 <script setup>
-import { ref, watch } from "vue";
+import {ref, watch} from "vue";
 
 const props = defineProps({
   items: {
@@ -40,9 +40,11 @@ const props = defineProps({
 
 const selectedIndex = ref(0);
 
-watch(() => props.items, () => { selectedIndex.value = 0; });
+watch(() => props.items, () => {
+  selectedIndex.value = 0;
+});
 
-const onKeyDown = ({ event }) => {
+const onKeyDown = ({event}) => {
   if (event.key === 'ArrowUp') {
     upHandler();
     return true;
@@ -71,7 +73,7 @@ const enterHandler = () => {
 const selectItem = (index) => {
   const item = props.items[index];
   if (item) {
-    props.command({ id: item.uuid, label: item.label });
+    props.command({id: item.uuid, label: item.label});
   }
 };
 
@@ -80,7 +82,7 @@ defineExpose({
 });
 
 </script>
-  
+
 <style lang="scss">
 .items {
   padding: 0.2rem;
@@ -90,10 +92,8 @@ defineExpose({
   color: rgba(0, 0, 0, 0.8);
   overflow: hidden;
   font-size: 0.9rem;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.05),
-    0px 10px 20px rgba(0, 0, 0, 0.1),
-  ;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05),
+  0px 10px 20px rgba(0, 0, 0, 0.1),;
 }
 
 .item {

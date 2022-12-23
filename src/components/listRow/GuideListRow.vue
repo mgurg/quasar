@@ -2,7 +2,7 @@
   <div class="cursor-pointer" @click="viewGuide(guide.uuid)">
     <q-item>
       <q-item-section avatar cursor-pointer ripple @click="viewGuide(guide.uuid)">
-        <q-avatar rounded color="red" text-color="white" icon="article" />
+        <q-avatar rounded color="red" text-color="white" icon="article"/>
       </q-item-section>
 
       <q-item-section>
@@ -11,25 +11,25 @@
       </q-item-section>
 
 
-<!--      <q-item-section side>-->
-<!--        <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label>-->
-<!--         <q-icon name="priority_high" color="red-12" /> -->
-<!--      </q-item-section>-->
+      <!--      <q-item-section side>-->
+      <!--        <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label>-->
+      <!--         <q-icon name="priority_high" color="red-12" /> -->
+      <!--      </q-item-section>-->
     </q-item>
 
-    <q-separator />
+    <q-separator/>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { useQuasar } from "quasar";
-import { useRouter } from "vue-router";
-import { authApi } from "boot/axios";
-import { DateTime } from "luxon";
-import { useI18n } from "vue-i18n";
+import {computed} from "vue";
+import {useQuasar} from "quasar";
+import {useRouter} from "vue-router";
+import {authApi} from "boot/axios";
+import {DateTime} from "luxon";
+import {useI18n} from "vue-i18n";
 
-const { locale } = useI18n({ useScope: "global" });
+const {locale} = useI18n({useScope: "global"});
 
 const $q = useQuasar();
 const router = useRouter();
@@ -105,12 +105,12 @@ function editGuide(uuid) {
 }
 
 function viewGuide(uuid) {
-  if (props.publicAccess === false){
+  if (props.publicAccess === false) {
     console.log("/guides/" + uuid)
     router.push("/guides/" + uuid);
-  } else{
-    console.log('/public/guides/'+uuid)
-    router.push('/public/guides/'+uuid)
+  } else {
+    console.log('/public/guides/' + uuid)
+    router.push('/public/guides/' + uuid)
   }
 }
 </script>

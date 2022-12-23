@@ -35,7 +35,6 @@
 import {ref} from "vue";
 
 
-
 const props = defineProps({
   filesList: {
     type: Object,
@@ -68,7 +67,7 @@ function downloadFile(uuid) {
   console.log("Downloading" + uuid)
 }
 
-function getIcon(extension){
+function getIcon(extension) {
 
   switch (extension) {
     case '.pdf':
@@ -89,7 +88,6 @@ function getIcon(extension){
     default:
       console.log(`Sorry, we are out of ${extension}.`);
   }
-
 
 
   return "~assets/fileIcons/pdf-o.svg";

@@ -10,7 +10,7 @@
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
-        <q-breadcrumbs-el :label="$t('Settings')" icon="apps" to="/settings" />
+        <q-breadcrumbs-el :label="$t('Settings')" icon="apps" to="/settings"/>
       </q-breadcrumbs>
 
       <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
@@ -19,7 +19,9 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Settings") }}</q-item-label>
-                <q-item-label caption>Zbieraj prawdziwe i szczere sugestie od każdego. Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</q-item-label>
+                <q-item-label caption>Zbieraj prawdziwe i szczere sugestie od każdego. Rozpocznij błyskawicznie
+                  zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.
+                </q-item-label>
               </q-item-section>
             </q-item>
 
@@ -34,8 +36,8 @@
       </div> -->
 
       <card-settings></card-settings>
-<!--      <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego.-->
-<!--                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>-->
+      <!--      <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego.-->
+      <!--                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>-->
       <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
                 <div class="q-pa-none q-card__section q-card__section--vert">
                     <div class="row q-col-gutter-sm">
@@ -101,8 +103,8 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
-import { useQuasar } from 'quasar'
+import {onBeforeMount} from "vue";
+import {useQuasar} from 'quasar'
 import CardSettings from 'src/components/tiles/CardSettings.vue'
 
 const $q = useQuasar()
@@ -115,13 +117,9 @@ onBeforeMount(() => {
 });
 
 
-
-
-
-
 </script>
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 a {
   text-decoration: none;
 }

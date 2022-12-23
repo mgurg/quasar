@@ -4,30 +4,30 @@
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section class="row q-pa-md">
           <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el :label="$t('Settings')" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Groups')"  to="/settings/groups" />
-          <q-breadcrumbs-el :label="$t('View')"  />
-        </q-breadcrumbs>
-        <div class="col-12 text-h6 q-mt-xs">
-            <span class="text-h6" v-if="roleDetails">{{roleDetails.name}}</span> 
+            <q-breadcrumbs-el icon="home" to="/"/>
+            <q-breadcrumbs-el :label="$t('Settings')" to="/settings"/>
+            <q-breadcrumbs-el :label="$t('Groups')" to="/settings/groups"/>
+            <q-breadcrumbs-el :label="$t('View')"/>
+          </q-breadcrumbs>
+          <div class="col-12 text-h6 q-mt-xs">
+            <span class="text-h6" v-if="roleDetails">{{ roleDetails.name }}</span>
             <span>
-            <q-btn 
-            outline 
-            color="primary" 
-            no-caps icon="edit" 
-            class="float-right " 
-            :label = "$q.screen.gt.xs ?  $t('Edit') : ''"
-            @click="toggleEdit()"  />
-            <q-btn 
-            outline  
-            color="red" 
-            icon="delete" 
-            class="float-right q-mr-sm" 
-            no-caps 
-            :label = "$q.screen.gt.xs ?  $t('Delete') : ''"
-            @click="deleteGroup(roleDetails.uuid)"
-             />
+            <q-btn
+              outline
+              color="primary"
+              no-caps icon="edit"
+              class="float-right "
+              :label="$q.screen.gt.xs ?  $t('Edit') : ''"
+              @click="toggleEdit()"/>
+            <q-btn
+              outline
+              color="red"
+              icon="delete"
+              class="float-right q-mr-sm"
+              no-caps
+              :label="$q.screen.gt.xs ?  $t('Delete') : ''"
+              @click="deleteGroup(roleDetails.uuid)"
+            />
           </span>
           </div>
         </q-card-section>
@@ -36,21 +36,21 @@
       <div>&nbsp;</div>
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-      <group-form v-if="!isLoading && isFetched" :group="roleDetails || undefined" :groupUuid="groupUuid" :canEdit="canEdit"
-        @groupFormBtnClick="signUpButtonPressed" @cancelBtnClick="cancelButtonPressed" :key="groupUuid" />
-      <group-edit-skeleton v-if="isLoading" />
+          <group-form v-if="!isLoading && isFetched" :group="roleDetails || undefined" :groupUuid="groupUuid"
+                      :canEdit="canEdit"
+                      @groupFormBtnClick="signUpButtonPressed" @cancelBtnClick="cancelButtonPressed" :key="groupUuid"/>
+          <group-edit-skeleton v-if="isLoading"/>
         </q-card-section>
-        </q-card>
+      </q-card>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref,watch, onBeforeMount } from "vue";
-import { useQuasar } from "quasar";
-import { useRouter } from "vue-router";
-import { useRoute } from "vue-router";
-import { authApi } from "boot/axios";
+import {onBeforeMount, ref, watch} from "vue";
+import {useQuasar} from "quasar";
+import {useRoute, useRouter} from "vue-router";
+import {authApi} from "boot/axios";
 import GroupForm from 'src/components/forms/GroupForm.vue'
 import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
 
@@ -64,8 +64,8 @@ let isLoading = ref(true);
 let isFetched = ref(false)
 
 watch(isLoading, (newValue, oldValue) => {
-    console.log("isLoading", oldValue ,newValue )
-  });
+  console.log("isLoading", oldValue, newValue)
+});
 
 
 function signUpButtonPressed(options) {
@@ -90,7 +90,7 @@ function getGroupDetails(uuid) {
 
   if (uuid == null || uuid == 'undefined') {
     console.log('uF')
-    isFetched.value=true
+    isFetched.value = true
     // roleDetails.value = 'undefined';
     return;
   }
@@ -98,11 +98,11 @@ function getGroupDetails(uuid) {
   authApi
     .get("/groups/" + uuid)
     .then((res) => {
-      
+
       groupUsersList.value = res.data.users.map(value => value.uuid)
       roleDetails.value = res.data;
       isLoading.value = false;
-      isFetched.value=true;
+      isFetched.value = true;
     })
     .catch((err) => {
       if (err.response) {
@@ -155,7 +155,7 @@ function cancelButtonHandle() {
   emit('cancelBtnClick')
 }
 
-function toggleEdit(){
+function toggleEdit() {
   canEdit.value = !canEdit.value
 }
 

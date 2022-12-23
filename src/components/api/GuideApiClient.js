@@ -2,14 +2,14 @@
 // https://blog.openreplay.com/making-api-calls-in-vue-with-axios/
 // https://vuejsdevelopers.com/2017/08/28/vue-js-ajax-recipes/#pattern-5-from-a-service-module
 
-import { authApi } from "boot/axios";
+import {authApi} from "boot/axios";
 
 export function getGuidesRequest() {
   return authApi.get("/guides/");
 }
 
 export function getGuideRequest(params) {
-  return authApi.get("/guides/", { params: params });
+  return authApi.get("/guides/", {params: params});
 }
 
 export function addGuideRequest(data) {
@@ -21,5 +21,5 @@ export function updateGuideRequest(uuid, data) {
 }
 
 export function deleteGuideRequest(uuid) {
-    return authApi.delete("/guides/" + uuid);
-  }
+  return authApi.delete("/guides/" + uuid);
+}

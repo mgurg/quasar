@@ -5,7 +5,10 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{ $t("Return") }}</q-btn>
+              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+                  $t("Return")
+                }}
+              </q-btn>
             </q-item-section>
             <q-item-section></q-item-section>
             <q-item-section side>
@@ -37,8 +40,8 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5">{{ userDetails.first_name }} {{ userDetails.last_name }}</q-item-label>
-                                 <q-item-label caption>{{ userDetails.role_FK.role_title }}</q-item-label>
-<!--                <q-item-label caption>Krótki opis</q-item-label>-->
+                <q-item-label caption>{{ userDetails.role_FK.role_title }}</q-item-label>
+                <!--                <q-item-label caption>Krótki opis</q-item-label>-->
               </q-item-section>
             </q-item>
           </q-list>
@@ -46,52 +49,56 @@
 
         <q-separator/>
 
-        <q-card-actions  v-if="userDetails && !isLoading" align="right">
-<!--          <q-btn-dropdown-->
-<!--            split-->
-<!--            no-caps-->
-<!--            outline-->
-<!--            color="primary"-->
-<!--            :label="userDetails.email"-->
-<!--            dropdown-icon="copy">-->
-<!--            <q-list>-->
-<!--            </q-list>-->
-<!--          </q-btn-dropdown>-->
-          <q-btn color="primary" icon="mail" no-caps type="a" :href="`mailto:${userDetails.email}`" flat>&nbsp;{{ userDetails.email }}</q-btn>
-          <q-btn color="primary" icon="phone" no-caps type="a" :href="`tel:${userDetails.phone}`" flat>&nbsp;{{ userDetails.phone }}</q-btn>
+        <q-card-actions v-if="userDetails && !isLoading" align="right">
+          <!--          <q-btn-dropdown-->
+          <!--            split-->
+          <!--            no-caps-->
+          <!--            outline-->
+          <!--            color="primary"-->
+          <!--            :label="userDetails.email"-->
+          <!--            dropdown-icon="copy">-->
+          <!--            <q-list>-->
+          <!--            </q-list>-->
+          <!--          </q-btn-dropdown>-->
+          <q-btn color="primary" icon="mail" no-caps type="a" :href="`mailto:${userDetails.email}`" flat>
+            &nbsp;{{ userDetails.email }}
+          </q-btn>
+          <q-btn color="primary" icon="phone" no-caps type="a" :href="`tel:${userDetails.phone}`" flat>
+            &nbsp;{{ userDetails.phone }}
+          </q-btn>
 
         </q-card-actions>
       </q-card>
 
-<!--      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-my-sm">-->
-<!--        <q-card-section>-->
-<!--          <div class="row q-col-gutter-xs">-->
-<!--            <div class="text-h5">{{ $t('Details') }}</div>-->
-<!--            <q-space></q-space>-->
-<!--            <q-btn-->
-<!--              :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"-->
-<!--              color="grey"-->
-<!--              dense-->
-<!--              flat-->
-<!--              round-->
-<!--              @click="expandedDetails = !expandedDetails"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </q-card-section>-->
+      <!--      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-my-sm">-->
+      <!--        <q-card-section>-->
+      <!--          <div class="row q-col-gutter-xs">-->
+      <!--            <div class="text-h5">{{ $t('Details') }}</div>-->
+      <!--            <q-space></q-space>-->
+      <!--            <q-btn-->
+      <!--              :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"-->
+      <!--              color="grey"-->
+      <!--              dense-->
+      <!--              flat-->
+      <!--              round-->
+      <!--              @click="expandedDetails = !expandedDetails"-->
+      <!--            />-->
+      <!--          </div>-->
+      <!--        </q-card-section>-->
 
-<!--        <q-slide-transition>-->
-<!--          <div v-show="expandedDetails">-->
-<!--            <q-separator/>-->
-<!--            <q-card-section class="text-subitle2">-->
-<!--              <q-btn icon="mail" no-caps type="a" :href="`mailto:${userDetails.email}`" flat>{{ userDetails.email }}</q-btn>-->
-<!--              <q-btn icon="phone" no-caps type="a" :href="`tel:${userDetails.phone}`" flat>{{ userDetails.phone }}</q-btn>-->
-<!--              <p>{{ $t('E-mail') }}: <a :href="`mailto:${userDetails.email}`">{{ userDetails.email }}</a></p>-->
-<!--              <p>{{ $t('Phone') }}: <a :href="`tel:${userDetails.phone}`">{{ userDetails.phone }}</a></p>-->
-<!--              <p>{{ $t('Role') }}: <strong>{{ userDetails.role_FK.role_title }}</strong></p>-->
-<!--            </q-card-section>-->
-<!--          </div>-->
-<!--        </q-slide-transition>-->
-<!--      </q-card>-->
+      <!--        <q-slide-transition>-->
+      <!--          <div v-show="expandedDetails">-->
+      <!--            <q-separator/>-->
+      <!--            <q-card-section class="text-subitle2">-->
+      <!--              <q-btn icon="mail" no-caps type="a" :href="`mailto:${userDetails.email}`" flat>{{ userDetails.email }}</q-btn>-->
+      <!--              <q-btn icon="phone" no-caps type="a" :href="`tel:${userDetails.phone}`" flat>{{ userDetails.phone }}</q-btn>-->
+      <!--              <p>{{ $t('E-mail') }}: <a :href="`mailto:${userDetails.email}`">{{ userDetails.email }}</a></p>-->
+      <!--              <p>{{ $t('Phone') }}: <a :href="`tel:${userDetails.phone}`">{{ userDetails.phone }}</a></p>-->
+      <!--              <p>{{ $t('Role') }}: <strong>{{ userDetails.role_FK.role_title }}</strong></p>-->
+      <!--            </q-card-section>-->
+      <!--          </div>-->
+      <!--        </q-slide-transition>-->
+      <!--      </q-card>-->
 
 
       <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-my-sm">
@@ -188,7 +195,7 @@ function getUserIdeas(uuid) {
   getUserIdeasRequest(uuid).then(function (response) {
     ideas.value = response.data.items
 
-    if (response.data.items.length  == 0){
+    if (response.data.items.length == 0) {
       expandedIdeas.value = false;
     }
     isLoading.value = false;

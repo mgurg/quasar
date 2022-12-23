@@ -53,10 +53,9 @@
 import ItemForm from 'src/components/forms/ItemForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
-import {createItemRequest, getItemRequest, getItemUuidRequest, updateItemRequest} from "components/api/ItemApiClient";
+import {getItemUuidRequest, updateItemRequest} from "components/api/ItemApiClient";
 import {onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
-import {updateIdeaRequest} from "components/api/IdeaApiClient";
 import {deleteFileRequest} from "components/api/FilesApiClient";
 
 const route = useRoute();
@@ -89,7 +88,7 @@ function updateItem(uuid, formData) {
 
   console.log("To save:");
 
-  let fileList = [...withoutChanges,  ...newItems];
+  let fileList = [...withoutChanges, ...newItems];
 
   formData.files = fileList;
   console.log(formData);
@@ -103,7 +102,7 @@ function updateItem(uuid, formData) {
   isLoading.value = true;
   updateItemRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    if (isRemoving.value == false){
+    if (isRemoving.value == false) {
       router.push("/items");
     }
 
@@ -114,7 +113,7 @@ function updateItem(uuid, formData) {
 }
 
 
-function deleteUnusedIdeaImages(uuid){
+function deleteUnusedIdeaImages(uuid) {
 
   console.log("Deleting...: " + uuid);
 

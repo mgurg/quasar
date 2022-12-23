@@ -11,7 +11,8 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn :label="$q.screen.gt.xs ? $t('New guide') : ''" class="float-right q-mr-xs no-shadow" color="primary" icon="add" no-caps
+                  <q-btn :label="$q.screen.gt.xs ? $t('New guide') : ''" class="float-right q-mr-xs no-shadow"
+                         color="primary" icon="add" no-caps
                          outline to="/guides/add"/>
                 </div>
               </q-item-section>
@@ -28,7 +29,8 @@
           <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
             <q-item-section avatar>
             <span>&nbsp;
-              <q-btn :flat="sort.active=='counter'? false:true" :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'"
+              <q-btn :flat="sort.active=='counter'? false:true"
+                     :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'"
                      :unelevated="sort.active=='counter'? true:false" color="primary" padding="xs"
                      size="sm" @click="changeSortOrder('counter')"/>
             </span>
@@ -42,7 +44,8 @@
             </q-item-section>
             <q-item-section side>
             <span>{{ $t("Age") }}
-              <q-btn :flat="sort.active=='age'? false:true" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'" :unelevated="sort.active=='age'? true:false"
+              <q-btn :flat="sort.active=='age'? false:true" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'"
+                     :unelevated="sort.active=='age'? true:false"
                      color="primary" padding="xs" size="sm"
                      @click="changeSortOrder('age')"/>
             </span>
@@ -50,7 +53,8 @@
           </q-item>
 
           <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
-            <guide-list-row v-if="!isLoading" :guide="guide" :public-access="false" @forceRefresh="fetchGuides"></guide-list-row>
+            <guide-list-row v-if="!isLoading" :guide="guide" :public-access="false"
+                            @forceRefresh="fetchGuides"></guide-list-row>
           </div>
           <task-index-skeleton v-else/>
 

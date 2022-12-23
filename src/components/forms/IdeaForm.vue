@@ -1,84 +1,85 @@
 <template>
-    <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
-            @submit.prevent>
+  <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
+          @submit.prevent>
 
-      <q-input
-        v-model="ideaTitle"
-        :disable="isLoading"
-        :error="!!errors.ideaTitle"
-        :error-message="errors.ideaTitle"
-        :label="$t('Idea title')" outlined
+    <q-input
+      v-model="ideaTitle"
+      :disable="isLoading"
+      :error="!!errors.ideaTitle"
+      :error-message="errors.ideaTitle"
+      :label="$t('Idea title')" outlined
+    />
+
+    <!-- <div class="row">
+    <div class="q-gutter-xs">
+      <span class="text">
+        Priorytet:
+      </span>
+      <span>
+        <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
+      </span>
+      <span>
+        <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
+      </span>
+      <span>
+        <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
+      </span>
+      <span>
+        <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
+      </span>
+    </div>
+  </div> -->
+
+    <div class="tiptap">
+      <tip-tap :body-content="tipTapText" @editor-content="logText"/>
+    </div>
+
+    <div>
+      <photo-uploader :file-list="props.idea.files_idea" @uploaded-photos="listOfUploadedImages"/>
+    </div>
+    <!-- QFILE -->
+
+
+    <!-- MODE -->
+    <div v-if="mode === 'anonymous_with_mail'">
+      <q-input v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email"
+               :label="$t('E-mail')"
+               outlined>
+      </q-input>
+
+      <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
+        pracownikiem firmy. Zgłoszenia z prywatnych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
+
+      <p>Posiadasz konto? Możesz się
+        <router-link to="/login">zalogować i dokonać zgłoszenia jako
+          zarejestrowany użytkownik
+        </router-link>
+      </p>
+    </div>
+
+    <div class="row">
+      <q-space/>
+      <q-btn
+        :label="$t('Cancel')"
+        class="q-mr-lg"
+        color="red-12"
+        flat
+        icon="cancel"
+        type="submit"
+        @click="cancelButtonHandle()"
       />
 
-      <!-- <div class="row">
-      <div class="q-gutter-xs">
-        <span class="text">
-          Priorytet:
-        </span>
-        <span>
-          <q-radio keep-color v-model="ideaColor" val="teal" color="deep-orange-11" />
-        </span>
-        <span>
-          <q-radio keep-color v-model="ideaColor" val="orange" color="orange" />
-        </span>
-        <span>
-          <q-radio keep-color v-model="ideaColor" val="red" color="red-12" />
-        </span>
-        <span>
-          <q-radio keep-color v-model="ideaColor" val="cyan" color="cyan" />
-        </span>
-      </div>
-    </div> -->
+      <q-btn
+        :label="$t('Save')"
+        class="q-mr-xs"
+        color="primary"
+        icon="done"
+        type="submit"
+        @click="submit()"
+      />
 
-      <div class="tiptap">
-        <tip-tap :body-content="tipTapText" @editor-content="logText"/>
-      </div>
-
-      <div>
-        <photo-uploader :file-list="props.idea.files_idea" @uploaded-photos="listOfUploadedImages"/>
-      </div>
-      <!-- QFILE -->
-
-
-      <!-- MODE -->
-      <div v-if="mode === 'anonymous_with_mail'">
-        <q-input v-model="email" :disable="isLoading" :error="!!errors.email" :error-message="errors.email" :label="$t('E-mail')"
-                 outlined>
-        </q-input>
-
-        <p>Twój mail nie będzie nigdzie widoczny. Jego podanie jest konieczne żeby zweryfikować że jesteś
-          pracownikiem firmy. Zgłoszenia z prywatnych skrzynek (interia.pl, gmail.com, wp.pl) nie są przyjmowane</p>
-
-        <p>Posiadasz konto? Możesz się
-          <router-link to="/login">zalogować i dokonać zgłoszenia jako
-            zarejestrowany użytkownik
-          </router-link>
-        </p>
-      </div>
-
-      <div class="row">
-        <q-space/>
-        <q-btn
-          :label="$t('Cancel')"
-          class="q-mr-lg"
-          color="red-12"
-          flat
-          icon="cancel"
-          type="submit"
-          @click="cancelButtonHandle()"
-        />
-
-        <q-btn
-          :label="$t('Save')"
-          class="q-mr-xs"
-          color="primary"
-          icon="done"
-          type="submit"
-          @click="submit()"
-        />
-
-      </div>
-    </q-form>
+    </div>
+  </q-form>
 </template>
 
 <script setup>

@@ -3,37 +3,37 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="q-pa-md">
         <q-form
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="off"
-            spellcheck="false"
-            class="q-gutter-md"
-            @submit.prevent
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+          class="q-gutter-md"
+          @submit.prevent
         >
-        <q-input outlined v-model="text" label="Nazwa" />
-        <q-input outlined v-model="text" label="Opis" />
+          <q-input outlined v-model="text" label="Nazwa"/>
+          <q-input outlined v-model="text" label="Opis"/>
 
-        
-        <q-btn outline @click="addPin">Dodaj Pin</q-btn>
-        <q-btn outline @click="addPin">Dodaj</q-btn>
+
+          <q-btn outline @click="addPin">Dodaj Pin</q-btn>
+          <q-btn outline @click="addPin">Dodaj</q-btn>
         </q-form>
       </div>
 
       <l-map style="height: 80%; width: 100%" :min-zoom="minZoom" :crs="crs">
         <l-image-overlay :url="url" :bounds="bounds"></l-image-overlay>
         <l-marker v-for="star in stars" :lat-lng="star" :key="star.name" :draggable="star.draggable">
-          <l-popup :content="star.name" />
+          <l-popup :content="star.name"/>
         </l-marker>
       </l-map>
     </q-page>
-</div>
+  </div>
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue';
-import { LMap, LImageOverlay, LMarker, LPopup } from '@vue-leaflet/vue-leaflet';
+import {reactive, ref} from 'vue';
+import {LImageOverlay, LMap, LMarker, LPopup} from '@vue-leaflet/vue-leaflet';
 import "leaflet/dist/leaflet.css"
-import { latLng, CRS } from "leaflet"
+import {CRS} from "leaflet"
 
 export default {
   components: {
@@ -55,7 +55,7 @@ export default {
       stars.push(newPin);
     }
 
-    const text=ref('');
+    const text = ref('');
 
     const crs = CRS.Simple;
     //  ^ +y
@@ -66,14 +66,14 @@ export default {
     const minZoom = -2;
 
     const stars = reactive([
-      { name: 'Sol', lng: 175.2, lat: 145.0,   draggable: true, },
-      { name: 'Mizar', lng: 41.6, lat: 130.1 ,draggable: true,   },
-      { name: 'Krueger-Z',lng: 13.4, lat: 56.5 ,draggable: true },
-      { name: 'Deneb', lng: 218.7, lat: 8.3 ,draggable: true  }
+      {name: 'Sol', lng: 175.2, lat: 145.0, draggable: true,},
+      {name: 'Mizar', lng: 41.6, lat: 130.1, draggable: true,},
+      {name: 'Krueger-Z', lng: 13.4, lat: 56.5, draggable: true},
+      {name: 'Deneb', lng: 218.7, lat: 8.3, draggable: true}
     ])
 
     return {
-        //  url: 'https://www.veryfrenchgangsters.com/include/asset/leaflet/docs/examples/crs-simple/uqm_map_full.png',
+      //  url: 'https://www.veryfrenchgangsters.com/include/asset/leaflet/docs/examples/crs-simple/uqm_map_full.png',
       url: process.env.VUE_APP_URL + '/files/download/46557648-ec8b-4b9b-95e3-a3b652146d5e',
       bounds,
       minZoom,

@@ -3,9 +3,8 @@
     <q-page-container>
       <div class="row justify-center">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-        <div v-if="isError===false && validToProgress < 0.9">
-          <q-linear-progress rounded :value="validToProgress" size="20px" stripe/>
-
+          <div v-if="isError===false && validToProgress < 0.9">
+            <q-linear-progress rounded :value="validToProgress" size="20px" stripe/>
 
 
             <q-card bordered class="my-card no-shadow q-mt-sm">
@@ -66,65 +65,67 @@
               </q-slide-transition>
             </q-card>
 
-<!--            <div class="q-pa-md">-->
-<!--              <div v-if="redirectTo!=null">-->
-<!--                {{ isAuthenticated }} <br>-->
-<!--                {{ qrId }} <br>-->
-<!--                {{ anonymousToken }} <br>-->
-<!--                {{ tenantId }} <br>-->
-<!--                {{ validTo }} <br>-->
-<!--                {{ redirectTo }}<br>-->
+            <!--            <div class="q-pa-md">-->
+            <!--              <div v-if="redirectTo!=null">-->
+            <!--                {{ isAuthenticated }} <br>-->
+            <!--                {{ qrId }} <br>-->
+            <!--                {{ anonymousToken }} <br>-->
+            <!--                {{ tenantId }} <br>-->
+            <!--                {{ validTo }} <br>-->
+            <!--                {{ redirectTo }}<br>-->
 
-<!--              </div>-->
-<!--            </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
 
-        </div>
+          </div>
 
-        <div v-if="isError===false && validToProgress > 0.9"
-             class="window-height window-width row justify-center items-center">
-          <q-card bordered class="my-card" flat style="max-width: 300px">
-            <q-card-section class="bg-grey-1">
-              <div class="text-h6">Nie znalazłem kodu QR</div>
-            </q-card-section>
-            <q-separator dark/>
-            <q-card-section>
-              Kod QR Stracił ważność. Zeskanuj go ponownie, lub zaloguj się żeby mieć stały dostęp do rozszerzonego
-              opisu
-            </q-card-section>
+          <div v-if="isError===false && validToProgress > 0.9"
+               class="window-height window-width row justify-center items-center">
+            <q-card bordered class="my-card" flat style="max-width: 300px">
+              <q-card-section class="bg-grey-1">
+                <div class="text-h6">Nie znalazłem kodu QR</div>
+              </q-card-section>
+              <q-separator dark/>
+              <q-card-section>
+                Kod QR Stracił ważność. Zeskanuj go ponownie, lub zaloguj się żeby mieć stały dostęp do rozszerzonego
+                opisu
+              </q-card-section>
 
-            <q-separator/>
+              <q-separator/>
 
-            <q-card-actions vertical>
-              <q-btn v-if="isAuthenticated === false" color="primary" flat to="/login">Zaloguj się żeby przejrzeć listę
-                wszystkich maszyn
-              </q-btn>
-            </q-card-actions>
-          </q-card>
-        </div>
+              <q-card-actions vertical>
+                <q-btn v-if="isAuthenticated === false" color="primary" flat to="/login">Zaloguj się żeby przejrzeć
+                  listę
+                  wszystkich maszyn
+                </q-btn>
+              </q-card-actions>
+            </q-card>
+          </div>
 
-        <div v-if="isError===true" class="window-height window-width row justify-center items-center">
-          <q-card bordered class="my-card" flat style="max-width: 300px">
-            <q-card-section class="bg-grey-1">
-              <div class="text-h6">Nie znalazłem kodu QR</div>
-              <!--              <div class="text-subtitle2">by John Doe</div>-->
+          <div v-if="isError===true" class="window-height window-width row justify-center items-center">
+            <q-card bordered class="my-card" flat style="max-width: 300px">
+              <q-card-section class="bg-grey-1">
+                <div class="text-h6">Nie znalazłem kodu QR</div>
+                <!--              <div class="text-subtitle2">by John Doe</div>-->
 
-            </q-card-section>
-            <q-separator dark/>
-            <q-card-section>
-              Nie mogłem odnaleźć maszyny. Być może została ona usunięta z spisu maszyn
-            </q-card-section>
+              </q-card-section>
+              <q-separator dark/>
+              <q-card-section>
+                Nie mogłem odnaleźć maszyny. Być może została ona usunięta z spisu maszyn
+              </q-card-section>
 
-            <q-separator/>
+              <q-separator/>
 
-            <q-card-actions vertical>
-              <q-btn v-if="isAuthenticated === false" color="primary" flat to="/login">Zaloguj się żeby przejrzeć listę
-                wszystkich maszyn
-              </q-btn>
-              <q-btn v-if="isAuthenticated === true" color="primary" flat to="/items">Otwórz listę wszystkich maszyn
-              </q-btn>
-            </q-card-actions>
-          </q-card>
-        </div>
+              <q-card-actions vertical>
+                <q-btn v-if="isAuthenticated === false" color="primary" flat to="/login">Zaloguj się żeby przejrzeć
+                  listę
+                  wszystkich maszyn
+                </q-btn>
+                <q-btn v-if="isAuthenticated === true" color="primary" flat to="/items">Otwórz listę wszystkich maszyn
+                </q-btn>
+              </q-card-actions>
+            </q-card>
+          </div>
 
         </q-page>
       </div>

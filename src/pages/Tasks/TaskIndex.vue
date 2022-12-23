@@ -27,19 +27,19 @@
         </div>
       </q-list>
       <!-- Skeleton -->
-      <task-index-skeleton v-else />
+      <task-index-skeleton v-else/>
 
-      <q-space class="q-pa-sm" />
+      <q-space class="q-pa-sm"/>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/tasks/add" color="accent" />
+        <q-btn fab icon="add" to="/tasks/add" color="accent"/>
       </q-page-sticky>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { onActivated, ref, computed } from "vue";
-import { authApi } from "boot/axios";
+import {computed, onActivated, ref} from "vue";
+import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 import TaskItem from 'components/TaskListRow.vue'
@@ -63,7 +63,7 @@ const myTasks = computed(() => {
 });
 
 const otherTasks = computed(() => {
-  if (tasks.value != null  && isLoading.value == false) {
+  if (tasks.value != null && isLoading.value == false) {
     return tasks.value.filter(task => (task.assignee == null || task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
   } else {
     return tasks.value;

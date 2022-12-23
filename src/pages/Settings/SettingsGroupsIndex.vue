@@ -10,8 +10,8 @@
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
-        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-        <q-breadcrumbs-el :label="$t('Permissions')" icon="ballot" to="/settings/permissions" />
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
+        <q-breadcrumbs-el :label="$t('Permissions')" icon="ballot" to="/settings/permissions"/>
       </q-breadcrumbs>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
@@ -47,52 +47,54 @@
         <q-card-section>
 
 
-      <q-list padding v-if="!isLoading">
-      <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
-        <q-item-section avatar>
+          <q-list padding v-if="!isLoading">
+            <q-item class="rounded-borders" :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'">
+              <q-item-section avatar>
 
-        </q-item-section>
-        <q-item-section>
+              </q-item-section>
+              <q-item-section>
           <span>{{ $t("Name") }}
             <q-btn
-            padding="xs"
-            :unelevated="sort.active=='name'? true:false"
-            :flat="sort.active=='name'? false:true"
-            size="sm"
-            color="primary"
-            :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'"
-            @click="changeSortOrder('name')" />
+              padding="xs"
+              :unelevated="sort.active=='name'? true:false"
+              :flat="sort.active=='name'? false:true"
+              size="sm"
+              color="primary"
+              :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'"
+              @click="changeSortOrder('name')"/>
           </span>
 
-        </q-item-section>
-        <q-item-section side>
+              </q-item-section>
+              <q-item-section side>
 
-        </q-item-section>
-      </q-item>
-      <div v-for="(group, index) in groups" v-bind:key="index">
-        <group-item @selectedItem="selectGroup" @refreshList="fetchGroups" :group="group" :selected="selected" v-if="!isLoading">
-        </group-item>
-        </div>
-      </q-list>
+              </q-item-section>
+            </q-item>
+            <div v-for="(group, index) in groups" v-bind:key="index">
+              <group-item @selectedItem="selectGroup" @refreshList="fetchGroups" :group="group" :selected="selected"
+                          v-if="!isLoading">
+              </group-item>
+            </div>
+          </q-list>
 
-      <div v-else class="q-pa-lg flex flex-center">
-        <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)" />
-      </div>
+          <div v-else class="q-pa-lg flex flex-center">
+            <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
+          </div>
 
-        </q-card-section></q-card>
+        </q-card-section>
+      </q-card>
 
-    <div  v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
+      <div v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
         {{ $t("No groups, add a first one!") }} 🚀
       </div>
 
-  </q-page>
+    </q-page>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, watch,onBeforeMount } from "vue";
-import { authApi } from "boot/axios";
-import { useQuasar } from 'quasar'
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
+import {authApi} from "boot/axios";
+import {useQuasar} from 'quasar'
 import GroupItem from 'components/listRow/GroupListRow.vue'
 
 const $q = useQuasar()
@@ -117,8 +119,8 @@ function selectGroup(uuid) {
   }
 }
 
-function changeSortOrder(column){
-  sort[column] == "asc" ?  sort[column] = 'desc' : sort[column] = "asc"
+function changeSortOrder(column) {
+  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
   sort.active = column
   fetchGroups()
 }
@@ -144,16 +146,16 @@ function fetchGroups() {
   isLoading.value = true;
 
   let params = {
-      search: search.value,
-      page: pagination.page,
-      size: pagination.size,
-      sortOrder: sort[sort.active],
-      sortColumn: sort.active
-    };
+    search: search.value,
+    page: pagination.page,
+    size: pagination.size,
+    sortOrder: sort[sort.active],
+    sortColumn: sort.active
+  };
 
-    console.log(params)
+  console.log(params)
   authApi
-    .get("/groups/" , { params: params })
+    .get("/groups/", {params: params})
     .then((res) => {
       groups.value = res.data.items
       pagination.total = res.data.total
@@ -175,13 +177,9 @@ onBeforeMount(() => {
 });
 
 
-
-
-
-
 </script>
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 a {
   text-decoration: none;
 }

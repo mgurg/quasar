@@ -32,7 +32,7 @@
         </template>
       </q-input>
 
-<!--      <q-checkbox v-model="rememberUser" :label="$t('Remember me for 30 days')"/>-->
+      <!--      <q-checkbox v-model="rememberUser" :label="$t('Remember me for 30 days')"/>-->
       {{ errorMsg }}
       <div class="row">
         <q-space/>

@@ -1,6 +1,6 @@
 <template>
   <!--        PHOTOS -->
-  <q-card bordered class="my-card no-shadow q-my-xs" >
+  <q-card bordered class="my-card no-shadow q-my-xs">
     <div :style="expandedPhotos ? 'border-left: 5px solid #2d7df8':''">
       <q-card-section class="q-py-sm">
         <div class="row q-col-gutter-xs">

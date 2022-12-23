@@ -16,7 +16,8 @@
             flat
             no-caps
             @click="addGuide(itemUuid)"
-            >Dodaj nową</q-btn>
+          >Dodaj nową
+          </q-btn>
           <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                  @click="expandedGuide = !expandedGuide"/>
         </div>
@@ -31,30 +32,29 @@
 
             <q-list>
 
-<!--              <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
-<!--                <q-item-section avatar>-->
-<!--                  <span>&nbsp;</span>-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                    <span>-->
-<!--                      {{ $t("Name") }}-->
-<!--                      <q-btn-->
-<!--                        :flat="sort.active!=='title'"-->
-<!--                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"-->
-<!--                        :unelevated="sort.active==='title'"-->
-<!--                        color="primary"-->
-<!--                        padding="xs"-->
-<!--                        size="sm"-->
-<!--                        @click="changeSortOrder('title')"/>-->
-<!--                    </span>-->
-<!--                </q-item-section>-->
+              <!--              <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
+              <!--                <q-item-section avatar>-->
+              <!--                  <span>&nbsp;</span>-->
+              <!--                </q-item-section>-->
+              <!--                <q-item-section>-->
+              <!--                    <span>-->
+              <!--                      {{ $t("Name") }}-->
+              <!--                      <q-btn-->
+              <!--                        :flat="sort.active!=='title'"-->
+              <!--                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"-->
+              <!--                        :unelevated="sort.active==='title'"-->
+              <!--                        color="primary"-->
+              <!--                        padding="xs"-->
+              <!--                        size="sm"-->
+              <!--                        @click="changeSortOrder('title')"/>-->
+              <!--                    </span>-->
+              <!--                </q-item-section>-->
 
-<!--              </q-item>-->
+              <!--              </q-item>-->
 
               <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
-                <guide-item  :guide="guide" :public-access="publicAccess"></guide-item>
+                <guide-item :guide="guide" :public-access="publicAccess"></guide-item>
               </div>
-
 
 
             </q-list>
@@ -104,8 +104,8 @@ const guides = ref(props.guides)
 const publicAccess = ref(props.publicAccess)
 
 
-function addGuide(itemUuid){
-  router.push({ path: '/guides/add/', query: { item: itemUuid }})
+function addGuide(itemUuid) {
+  router.push({path: '/guides/add/', query: {item: itemUuid}})
 }
 
 </script>

@@ -27,25 +27,25 @@
         <div v-show="expandedDocs">
           <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
 
-<!--            <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
-<!--              <q-item-section avatar>-->
-<!--                <span>&nbsp;</span>-->
-<!--              </q-item-section>-->
-<!--              <q-item-section>-->
-<!--                    <span>-->
-<!--                      {{ $t("Name") }}-->
-<!--                      <q-btn-->
-<!--                        :flat="sort.active!=='title'"-->
-<!--                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"-->
-<!--                        :unelevated="sort.active==='title'"-->
-<!--                        color="primary"-->
-<!--                        padding="xs"-->
-<!--                        size="sm"-->
-<!--                        @click="changeSortOrder('title')"/>-->
-<!--                    </span>-->
-<!--              </q-item-section>-->
+            <!--            <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
+            <!--              <q-item-section avatar>-->
+            <!--                <span>&nbsp;</span>-->
+            <!--              </q-item-section>-->
+            <!--              <q-item-section>-->
+            <!--                    <span>-->
+            <!--                      {{ $t("Name") }}-->
+            <!--                      <q-btn-->
+            <!--                        :flat="sort.active!=='title'"-->
+            <!--                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"-->
+            <!--                        :unelevated="sort.active==='title'"-->
+            <!--                        color="primary"-->
+            <!--                        padding="xs"-->
+            <!--                        size="sm"-->
+            <!--                        @click="changeSortOrder('title')"/>-->
+            <!--                    </span>-->
+            <!--              </q-item-section>-->
 
-<!--            </q-item>-->
+            <!--            </q-item>-->
             <div>
               <document-viewer :files-list="documentFiles"/>
             </div>

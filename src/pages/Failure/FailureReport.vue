@@ -14,7 +14,7 @@
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn outline class="float-right q-mr-xs no-shadow" icon="add" to="/guides/add" color="primary"
-                    no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''" />
+                         no-caps :label="$q.screen.gt.xs ? $t('New guide') : ''"/>
                 </div>
               </q-item-section>
             </q-item>
@@ -27,7 +27,7 @@
 
         <q-stepper v-model="step" ref="stepper" color="primary" animated>
           <q-step :name="1" title="Rozwiązania" icon="lightbulb_circle" :done="step > 1"
-            style="min-height: 100px;" >
+                  style="min-height: 100px;">
 
             <div v-for="(guide, index) in itemDetails.item_guides" v-bind:key="index" v-if="itemDetails!= null">
               <guide-item :guide="guide" v-if="!isLoading"></guide-item>
@@ -38,15 +38,14 @@
           </q-step>
 
           <q-step :name="2" title="Zgłos problem" icon="create_new_folder" :done="step > 2"
-            style="min-height: 100px;">
-            <idea-form button-text="Save" ></idea-form>
+                  style="min-height: 100px;">
+            <idea-form button-text="Save"></idea-form>
           </q-step>
 
 
-
           <template v-slot:navigation>
-            <q-stepper-navigation >
-              <q-btn v-if="step == 1" @click="$refs.stepper.next()" color="primary" label="Continue" />
+            <q-stepper-navigation>
+              <q-btn v-if="step == 1" @click="$refs.stepper.next()" color="primary" label="Continue"/>
 
               <!-- <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 2 ? 'Finish' : 'Continue'" />
               <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back"
@@ -73,12 +72,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onBeforeMount } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import {onBeforeMount, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import GuideItem from "components/listRow/GuideListRow.vue";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
-import { getItemUuidRequest } from 'src/components/api/ItemApiClient.js'
-import { errorHandler } from 'src/components/api/errorHandler.js'
+import {getItemUuidRequest} from 'src/components/api/ItemApiClient.js'
+import {errorHandler} from 'src/components/api/errorHandler.js'
 
 
 const route = useRoute();
@@ -104,7 +103,7 @@ function getDetails(uuid) {
 
 }
 
-function goToSolution(uuid){
+function goToSolution(uuid) {
   console.log(uuid)
   router.push("/guides/" + uuid);
 }

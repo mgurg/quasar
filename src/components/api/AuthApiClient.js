@@ -1,6 +1,6 @@
 //  https://github.com/search?q=useAsyncLoad+lang%3AVue+&type=code
 
-import { api, authApi } from "boot/axios";
+import {api, authApi} from "boot/axios";
 
 
 export function getVerifyTokenRequest(token) {
@@ -12,5 +12,5 @@ export function authFirstRunRequest(activationId) {
 }
 
 export function resolveQRtoURL(qrId) {
-  return api.post("auth/qr/"+qrId);
+  return api.post("auth/qr/" + qrId);
 }
