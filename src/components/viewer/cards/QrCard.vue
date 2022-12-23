@@ -14,7 +14,7 @@
 
     </q-card-section>
 
-    <q-separator v-if="!expandedQR"/>
+
     <q-slide-transition>
       <div v-show="expandedQR">
 

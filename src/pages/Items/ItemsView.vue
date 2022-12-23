@@ -5,7 +5,10 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{ $t("Return") }}</q-btn>
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
+                  $t("Return")
+                }}
+              </q-btn>
             </q-item-section>
             <q-item-section></q-item-section>
             <q-item-section side>
@@ -77,47 +80,14 @@
         <q-separator/>
 
         <q-card-actions align="right">
-          <q-btn color="primary" class="q-px-xs" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
-<!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
-          <q-btn color="primary" class="q-px-xs" flat icon="insights" no-caps>Raporty</q-btn>
+          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
+          <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
+          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>
         </q-card-actions>
       </q-card>
 
 
-      <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-py-sm">
-          <div class="row q-col-gutter-xs">
-
-            <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDescription = !expandedDescription">
-              Opis
-            </div>
-            <q-space/>
-            <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-                   color="grey"
-                   dense
-                   flat
-                   round
-                   @click="expandedDescription = !expandedDescription"/>
-          </div>
-        </q-card-section>
-        <q-separator v-if="!expandedDescription"/>
-        <q-slide-transition>
-          <div v-show="expandedDescription">
-            <q-card-section>
-              <div
-                :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
-                class="rounded-borders">
-                <tip-tap
-                  v-if="itemDetails && !isLoading"
-                  :body-content="itemDetails.text_json"
-                  :readonly="true"
-                />
-              </div>
-            </q-card-section>
-          </div>
-        </q-slide-transition>
-
-      </q-card>
+      <description-card v-if="itemDetails!==null" :expanded-description="true" :text="itemDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
       <document-card v-if="documentFiles!==null" :document-files="documentFiles" :expanded-docs="false"/>
       <guide-card v-if="guidesList!==null && itemDetails !==null" :expanded-guide="false" :guides="guidesList"
@@ -132,20 +102,20 @@
 <script setup>
 import {computed, onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import TipTap from 'src/components/editor/TipTap.vue'
+import {useQuasar} from "quasar";
+import {useUserStore} from "stores/user";
+import {useI18n} from "vue-i18n";
 
+import {deleteItemRequest, getItemUuidRequest} from 'src/components/api/ItemApiClient.js'
+import {errorHandler} from 'src/components/api/errorHandler.js'
+
+import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 import DocumentCard from "components/viewer/cards/DocumentCard.vue";
 import GuideCard from "components/viewer/cards/GuideCard.vue";
 import QrCard from "components/viewer/cards/QrCard.vue";
 import CommentsCard from "components/viewer/cards/CommentsCard.vue";
 import TimelineCard from "components/viewer/cards/TimelineCard.vue";
-import {deleteItemRequest, getItemUuidRequest} from 'src/components/api/ItemApiClient.js'
-import {errorHandler} from 'src/components/api/errorHandler.js'
-import {useQuasar} from "quasar";
-import {useUserStore} from "stores/user";
-import {useI18n} from "vue-i18n";
-
 
 let itemDetails = ref(null);
 let photoFiles = ref(null);
@@ -155,7 +125,6 @@ let qrCode = ref(null);
 const guides = ref([]);
 let isLoading = ref(false);
 let isError = ref(false);
-
 
 const $q = useQuasar();
 const UserStore = useUserStore();

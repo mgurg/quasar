@@ -1,12 +1,12 @@
 <template>
   <!--        PHOTOS -->
-  <q-card bordered class="my-card no-shadow q-my-xs" v-if="photoFiles.length>0">
+  <q-card bordered class="my-card no-shadow q-my-xs" >
     <div :style="expandedPhotos ? 'border-left: 5px solid #2d7df8':''">
       <q-card-section class="q-py-sm">
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedPhotos = !expandedPhotos">
             {{ $t("Photos") }}
-            <q-badge floating align="top">{{ photoFiles.length }}</q-badge>
+            <q-badge v-if="photoFiles.length>0" floating align="top">{{ photoFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
           <q-btn
@@ -20,7 +20,7 @@
         </div>
 
       </q-card-section>
-      <q-separator v-show="!expandedPhotos"/>
+
       <q-slide-transition>
         <div v-show="expandedPhotos">
 

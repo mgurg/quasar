@@ -22,7 +22,7 @@
         </div>
 
       </q-card-section>
-      <q-separator v-if="!expandedDocs"/>
+
       <q-slide-transition>
         <div v-show="expandedDocs">
           <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">

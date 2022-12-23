@@ -15,7 +15,7 @@
 
     </q-card-section>
 
-    <q-separator v-if="!expandedComments"/>
+
     <q-slide-transition>
       <div v-show="expandedComments">
 

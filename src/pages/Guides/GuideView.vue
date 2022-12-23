@@ -48,116 +48,33 @@
 <!--          <q-btn color="primary" class="q-px-xs" flat icon="insights" no-caps>Raporty</q-btn>-->
 <!--        </q-card-actions>-->
       </q-card>
-<!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
-<!--        <q-card-section class="row q-pa-sm">-->
-<!--          <q-breadcrumbs>-->
-<!--            <q-breadcrumbs-el icon="home" to="/"/>-->
-<!--            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides"/>-->
-<!--            <q-breadcrumbs-el :label="$t('View')" icon="info"/>-->
-<!--          </q-breadcrumbs>-->
-<!--          <q-space></q-space>-->
-<!--          <a class="cursor-pointer" @click="router.back()">← back</a>-->
+<!--      <q-card bordered class="my-card no-shadow q-my-sm">-->
+<!--        &lt;!&ndash;        VIDEO &ndash;&gt;-->
+<!--        <q-card-section v-if="guideDetails && guideDetails.video_id !==null">-->
+<!--          <div class="row q-col-gutter-xs">-->
+<!--            <div class="text-h5">Film</div>-->
+<!--            <q-space></q-space>-->
+<!--            <q-btn :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round-->
+<!--                   @click="expandedDetails = !expandedDetails"/>-->
+<!--          </div>-->
+
 <!--        </q-card-section>-->
-
-<!--        <q-separator/>-->
-
-<!--        <q-card-section v-if="guideDetails && !isLoading">-->
-<!--          <q-list>-->
-<!--            <q-item class="q-px-none">-->
-<!--              <q-item-section>-->
-<!--                <q-item-label class="text-h6">{{ guideDetails.name }}</q-item-label>-->
-<!--                &lt;!&ndash; <q-item-label caption>{{ guideDetails.last_name }}</q-item-label> &ndash;&gt;-->
-<!--              </q-item-section>-->
-<!--              <q-item-section side>-->
-<!--                <div class="col-12 text-h6 q-mt-none">-->
-<!--                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps-->
-<!--                         outline @click="editGuide(guideDetails.uuid)"/>-->
-<!--                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"-->
-<!--                         no-caps @click="deleteGuide(guideDetails.uuid)"/>-->
-
-<!--                </div>-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
-<!--          </q-list>-->
-<!--        </q-card-section>-->
+<!--        <q-separator v-if="guideDetails && guideDetails.video_id !==null"/>-->
+<!--        <q-slide-transition>-->
+<!--          <div v-show="expandedDetails">-->
+<!--            &lt;!&ndash; <q-separator /> &ndash;&gt;-->
+<!--            <q-card-section v-if="guideDetails && guideDetails.video_id !==null">-->
+<!--              <movie-viewer v-if="guideDetails && guideDetails.video_id !==null && !isLoading"-->
+<!--                            :video-id="guideDetails.video_id"-->
+<!--                            :video-metadata="guideDetails.video_jsonb.encoding.metadata"/>-->
+<!--            </q-card-section>-->
+<!--          </div>-->
+<!--        </q-slide-transition>-->
 <!--      </q-card>-->
 
-      <q-card bordered class="my-card no-shadow q-my-sm">
-        <!--        VIDEO -->
-        <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
-          <div class="row q-col-gutter-xs">
-            <div class="text-h5">Film</div>
-            <q-space></q-space>
-            <q-btn :icon="expandedDetails ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                   @click="expandedDetails = !expandedDetails"/>
-          </div>
+      <description-card v-if="guideDetails!==null" :expanded-description="true" :text="guideDetails.text_json"/>
+      <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
 
-        </q-card-section>
-        <q-separator v-if="guideDetails && guideDetails.video_id !==null"/>
-        <q-slide-transition>
-          <div v-show="expandedDetails">
-            <!-- <q-separator /> -->
-            <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
-              <movie-viewer v-if="guideDetails && guideDetails.video_id !==null && !isLoading"
-                            :video-id="guideDetails.video_id"
-                            :video-metadata="guideDetails.video_jsonb.encoding.metadata"/>
-            </q-card-section>
-          </div>
-        </q-slide-transition>
-
-        <!--        DESCRIPTION -->
-        <q-card-section>
-          <div class="row q-col-gutter-xs">
-            <div class="text-h5">Opis</div>
-            <q-space></q-space>
-            <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat
-                   round
-                   @click="expandedDescription = !expandedDescription"/>
-          </div>
-
-        </q-card-section>
-
-        <q-slide-transition>
-          <div v-show="expandedDescription">
-            <!-- <q-separator /> -->
-            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-              <div :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
-                   class="rounded-borders">
-                <tip-tap-guide v-if="guideDetails && !isLoading" :body-content="guideDetails.text_json"
-                               :readonly="true"/>
-              </div>
-
-
-            </q-card-section>
-          </div>
-        </q-slide-transition>
-
-        <!--        PHOTOS -->
-        <q-separator v-if="guideDetails && guideDetails.files_guide !==null"/>
-        <q-card-section>
-          <div class="row q-col-gutter-xs">
-            <div class="text-h5">Zdjęcia</div>
-            <q-space></q-space>
-            <q-btn :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
-                   @click="expandedPhotos = !expandedPhotos"/>
-          </div>
-
-        </q-card-section>
-        <q-slide-transition>
-          <div v-show="expandedPhotos">
-            <!-- <q-separator /> -->
-            <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-              <div class="q-mt-md">
-                <photo-viewer v-if="guideDetails && !isLoading" :pictures-list="guideDetails.files_guide"/>
-              </div>
-
-
-            </q-card-section>
-          </div>
-        </q-slide-transition>
-
-
-      </q-card>
     </q-page>
   </div>
 </template>
@@ -172,6 +89,10 @@ import {authApi} from "boot/axios";
 import TipTapGuide from 'components/editor/TipTapBasic.vue'
 import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
 import MovieViewer from 'src/components/viewer/MovieViewer.vue'
+
+import VideoCard from "components/viewer/cards/VideoCard.vue";
+import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
+import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 
 const $q = useQuasar();
 
@@ -188,6 +109,9 @@ let isLoading = ref(false);
 
 const route = useRoute();
 let guideDetails = ref(null);
+let photoFiles = ref(null);
+let documentFiles = ref(null);
+
 let expandedDetails = ref(true)
 let expandedDescription = ref(true)
 let expandedPhotos = ref(true)
@@ -195,9 +119,11 @@ let expandedPhotos = ref(true)
 function geGuideDetails(uuid) {
   authApi
     .get("/guides/" + uuid)
-    .then((res) => {
-      console.log(res.data);
-      guideDetails.value = res.data;
+    .then((response) => {
+      console.log(response.data);
+      guideDetails.value = response.data;
+      photoFiles.value = response.data.files_guide.filter((item) => item.mimetype.match('image.*'));
+      documentFiles.value = response.data.files_guide.filter((item) => !item.mimetype.match('image.*'));
       isLoading.value = false;
     })
     .catch((err) => {

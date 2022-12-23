@@ -29,11 +29,14 @@
 
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
 
-      <div>&nbsp;</div>
-
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <guide-form v-if="guideDetails != null" :guide="guideDetails" button-text="Edit" />
+          <guide-form
+            v-if="guideDetails != null"
+            :guide="guideDetails"
+            @cancelBtnClick="cancelButtonPressed"
+            @guideFormBtnClick="addButtonPressed"
+             />
         </q-card-section>
       </q-card>
     </q-page>
@@ -52,22 +55,29 @@ import { VideoUploader } from '@api.video/video-uploader'
 
 import { component as Viewer } from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
+import {deleteFileRequest} from "components/api/FilesApiClient";
+import {errorHandler} from "components/api/errorHandler";
+import {updateItemRequest} from "components/api/ItemApiClient";
+import {updateGuideRequest} from "components/api/GuideApiClient";
 
 const route = useRoute();
 const router = useRouter();
 const UserStore = useUserStore();
 
+let guideUuid = ref(route.params.uuid);
 let guideDetails = ref(null);
+let dbImagesUuidList = ref(null);
 
 function getDetails(uuid) {
     authApi
         .get("/guides/" + uuid)
-        .then((res) => {
-            console.log(res.data);
-            
-            guideDetails.value = res.data
+        .then((response) => {
+            console.log(response.data);
 
-            // if (res.data.date_from == null) {
+            guideDetails.value = response.data
+            dbImagesUuidList.value = response.data.files_item.map(a => a.uuid)
+
+            // if (response.data.date_from == null) {
             //     guideDetails.value.mode = 'task'
             // }
         })
@@ -84,46 +94,110 @@ function getDetails(uuid) {
 
 
 let isLoading = ref(false);
+let isRemoving = ref(false);
 
-function createGuide() {
+// function createGuide() {
+//
+//   let data = {
+//     "name": "string",
+//     "text_html": htmlTxt,
+//     "text_json": jsonTxt,
+//     "video_id": videoId.value
+//   }
+//
+//   // console.log(data)
+//
+//   isLoading.value = true;
+//   authApi
+//     .post("/guides/", data)
+//     .then((res) => {
+//
+//       isLoading.value = false;
+//       router.push("/guides");
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//
+//     });
+//
+// }
 
-  let data = {
-    "name": "string",
-    "text_html": htmlTxt,
-    "text_json": jsonTxt,
-    "video_id": videoId.value
-  }
+function updateGuide(uuid, formData){
+  console.log(uuid)
+  console.log(formData)
 
-  // console.log(data)
+  const arr1 = dbImagesUuidList.value || [];
+  const arr2 = formData.files;
+
+  let removedItems = arr1.filter(x => !arr2.includes(x));
+  let withoutChanges = arr1.filter(x => arr2.includes(x));
+  let newItems = arr2.filter(x => !arr1.includes(x));
+
+  console.log("Removed:")
+  console.log(removedItems);
+
+  console.log("Added:");
+  console.log(newItems);
+
+  console.log("To save:");
+  let fileList = [...withoutChanges,  ...newItems];
+
+  formData.files = fileList;
+  console.log(formData);
+
+  isRemoving.value = true;
+  removedItems.forEach(function (item, index) {
+    deleteUnusedIdeaImages(item);
+  });
+  isRemoving.value = false;
 
   isLoading.value = true;
-  authApi
-    .post("/guides/", data)
-    .then((res) => {
-      
-      isLoading.value = false;
-      router.push("/guides");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
+  updateGuideRequest(uuid, formData).then(function (response) {
+    isLoading.value = false;
+    if (isRemoving.value == false){
+      router.push("/items");
+    }
 
-    });
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 
 }
 
-function cancelButtonHandle() {
+function deleteUnusedIdeaImages(uuid) {
+
+  console.log("Deleting...: " + uuid);
+
+  let token = UserStore.getToken;
+  let tenant_id = UserStore.getTenant;
+
+  isLoading.value = true;
+  deleteFileRequest(uuid, token, tenant_id).then(function (response) {
+
+    isLoading.value = false;
+
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
+function addButtonPressed(itemForm) {
+  // console.log(itemForm)
+  updateGuide(guideUuid.value,  itemForm)
+}
+
+function cancelButtonPressed() {
   router.push("/guides");
 }
 
-function submit() {
-  router.push("/guides");
-}
 
 
 

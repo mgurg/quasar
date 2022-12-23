@@ -15,7 +15,6 @@
 
     </q-card-section>
 
-    <q-separator v-if="!expandedTimeline"/>
     <q-slide-transition>
       <div v-show="expandedTimeline">
 

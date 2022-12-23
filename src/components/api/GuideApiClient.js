@@ -16,7 +16,7 @@ export function addGuideRequest(data) {
   return authApi.post("/guides/", data);
 }
 
-export function editGuideRequest(uuid, data) {
+export function updateGuideRequest(uuid, data) {
   return authApi.patch("/guides/" + uuid, data);
 }
 

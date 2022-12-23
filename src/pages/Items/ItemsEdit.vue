@@ -70,7 +70,7 @@ let isRemoving = ref(false);
 
 function updateItem(uuid, formData) {
 
-  const arr1 = dbImagesUuidList.value;
+  const arr1 = dbImagesUuidList.value || [];
   const arr2 = formData.files;
 
   let removedItems = arr1.filter(x => !arr2.includes(x));

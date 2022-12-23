@@ -23,7 +23,7 @@
 
       </q-card-section>
 
-      <q-separator v-if="!expandedGuide"/>
+
       <q-slide-transition>
         <div v-show="expandedGuide">
 
