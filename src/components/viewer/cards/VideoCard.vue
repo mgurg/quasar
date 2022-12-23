@@ -1,7 +1,7 @@
 <template>
+  <!--        VIDEO -->
   <q-card bordered class="my-card no-shadow q-my-sm">
-    <!--        VIDEO -->
-    <q-card-section v-if="guideDetails && guideDetails.video_id !==null">
+    <q-card-section>
       <div class="row q-col-gutter-xs">
         <div class="text-h5">Film</div>
         <q-space></q-space>

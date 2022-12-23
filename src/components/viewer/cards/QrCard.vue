@@ -2,7 +2,7 @@
   <!--  QR CODE -->
   <q-card bordered class="my-card no-shadow q-my-xs">
     <div :style="expandedQR ? 'border-left: 5px solid #4c29bb':''">
-      <q-card-section class="q-py-sm">
+      <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedQR = !expandedQR">
             {{ $t("QR Code") }}

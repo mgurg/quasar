@@ -1,16 +1,21 @@
 <template>
   <!-- DOCS -->
   <q-card bordered class="my-card no-shadow q-my-xs" v-if="documentFiles.length>0">
-    <!--        DOCS  -->
-
     <div :style="expandedDocs ? 'border-left: 5px solid #f31060':''">
-      <q-card-section class="q-py-sm">
+      <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">
             {{ $t("Documents") }}
             <q-badge floating align="top">{{ documentFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
+          <q-btn
+            :label="$t('Edit')"
+            class="q-mr-lg"
+            color="primary"
+            flat
+            no-caps
+          />
           <q-btn
             :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"

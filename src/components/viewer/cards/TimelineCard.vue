@@ -1,8 +1,8 @@
 <template>
+  <!--  Timeline -->
   <q-card bordered class="my-card no-shadow q-my-xs">
-    <!--  Timeline -->
     <div :style="expandedTimeline ? 'border-left: 5px solid #a04d2c':''">
-      <q-card-section class="q-py-sm">
+      <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedTimeline = !expandedTimeline">
             {{ $t("Timeline") }}

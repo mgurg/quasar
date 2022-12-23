@@ -145,7 +145,7 @@ const submit = handleSubmit(values => {
     "text_json": jsonTxt,
     "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
     "video_id": uploadedVideoId.value,
-    "video_jsonb": uploadedVideoMetadata.value
+    "video_json": uploadedVideoMetadata.value
   }
 
   console.log(data)

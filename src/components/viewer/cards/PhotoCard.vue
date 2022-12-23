@@ -2,13 +2,20 @@
   <!--        PHOTOS -->
   <q-card bordered class="my-card no-shadow q-my-xs">
     <div :style="expandedPhotos ? 'border-left: 5px solid #2d7df8':''">
-      <q-card-section class="q-py-sm">
+      <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedPhotos = !expandedPhotos">
             {{ $t("Photos") }}
             <q-badge v-if="photoFiles.length>0" floating align="top">{{ photoFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
+          <q-btn
+            :label="$t('Edit')"
+            class="q-mr-lg"
+            color="primary"
+            flat
+            no-caps
+          />
           <q-btn
             :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"

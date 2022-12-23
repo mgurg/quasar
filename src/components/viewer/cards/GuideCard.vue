@@ -2,7 +2,7 @@
   <!--        GUIDES -->
   <q-card bordered class="my-card no-shadow q-my-xs">
     <div :style="expandedGuide ? 'border-left: 5px solid #2bba82':''">
-      <q-card-section class="q-py-sm">
+      <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedGuide = !expandedGuide">
             {{ $t("Guides") }}
@@ -11,13 +11,13 @@
           <q-space></q-space>
           <q-btn
             v-if="itemUuid"
+            :label="$t('Add')"
             class="q-mr-lg"
             color="primary"
             flat
             no-caps
             @click="addGuide(itemUuid)"
-          >Dodaj nową
-          </q-btn>
+          />
           <q-btn :icon="expandedGuide ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                  @click="expandedGuide = !expandedGuide"/>
         </div>
@@ -27,9 +27,7 @@
 
       <q-slide-transition>
         <div v-show="expandedGuide">
-
           <q-card-section>
-
             <q-list>
 
               <!--              <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
