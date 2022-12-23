@@ -1,22 +1,47 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="q-pa-md q-gutter-sm">
-        <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/" />
-          <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
-          <q-breadcrumbs-el :label="$t('Groups')" icon="info" to="/settings/groups"  />
-        </q-breadcrumbs>
-      </div>
-      <div class="row justify-around q-mt-sm">
-        <div class="col-6">
-          <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Groups") }}</p></div>
-        <div class="col-6">
-          <!-- v-if="hasPermission('USERS_ADD')"  -->
-          <q-btn padding="sm" class="float-right" outline  size="md" icon="add" to="/settings/groups/add" color="primary" no-caps>
-          {{ $t("New group") }}
-          </q-btn></div>
-      </div>
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings" />
+        <q-breadcrumbs-el :label="$t('Permissions')" icon="ballot" to="/settings/permissions" />
+      </q-breadcrumbs>
+
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t("Groups") }}</q-item-label>
+                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+              </q-item-section>
+              <q-item-section side>
+                <div class="col-12 text-h6 q-mt-none">
+                  <!-- v-if="hasPermission('USERS_ADD')"  -->
+                  <q-btn
+                    :label="$q.screen.gt.xs ? $t('New group') : ''"
+                    class="float-right"
+                    color="primary"
+                    flat
+                    icon="add"
+                    no-caps size="md"
+                    to="/settings/groups/add"
+                  />
+
+                </div>
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </q-card-section>
+      </q-card>
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none" v-if="groups.length > 0">
         <q-card-section>
@@ -60,7 +85,7 @@
         {{ $t("No groups, add a first one!") }} 🚀
       </div>
 
-    </q-page>
+  </q-page>
   </div>
 </template>
 

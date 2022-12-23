@@ -5,132 +5,71 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn color="grey" flat @click="router.back()">← back</q-btn>
+              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{ $t("Return") }}</q-btn>
             </q-item-section>
-          <q-item-section></q-item-section>
-          <q-item-section side>
-            <div class="col-12 text-h6 q-mt-none">
-<!--              <q-btn-->
-<!--                class="float-right q-mr-sm"-->
-<!--                color="grey"-->
-<!--                dense-->
-<!--                flat-->
-<!--                round-->
-<!--                icon="settings"-->
-<!--                no-caps @click="deleteItem(itemDetails.uuid, itemDetails.name)"-->
-<!--              />-->
-              <q-btn-dropdown color="grey" class="float-right q-mr-sm" dense flat round dropdown-icon="settings">
-                <q-list bordered>
-                  <q-item-label header>Notifications</q-item-label>
+            <q-item-section></q-item-section>
+            <q-item-section side>
+              <div class="col-12 text-h6 q-mt-none">
+                <q-btn-dropdown class="float-right q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
+                  <q-list bordered>
+                    <q-item-label header>Notifications</q-item-label>
 
-                  <q-item tag="label" v-ripple>
-                    <q-item-section>
-                      <q-item-label>Opis</q-item-label>
-                    </q-item-section>
-                    <q-item-section side >
-                      <q-toggle v-model="expandedDescription" />
-                    </q-item-section>
-                  </q-item>
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Opis</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-toggle v-model="expandedDescription"/>
+                      </q-item-section>
+                    </q-item>
 
-                  <q-item tag="label" v-ripple>
-                    <q-item-section>
-                      <q-item-label>Zdjęcia</q-item-label>
-                      <q-item-label caption>Allow notification</q-item-label>
-                    </q-item-section>
-                    <q-item-section side top>
-                      <q-toggle v-model="expandedPhotos"  />
-                    </q-item-section>
-                  </q-item>
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Zdjęcia</q-item-label>
+                        <q-item-label caption>Allow notification</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-toggle v-model="expandedPhotos"/>
+                      </q-item-section>
+                    </q-item>
 
-                  <q-item tag="label" v-ripple>
-                    <q-item-section>
-                      <q-item-label>Dokumenty</q-item-label>
-                      <q-item-label caption>Allow notification when uploading images</q-item-label>
-                    </q-item-section>
-                    <q-item-section side top>
-                      <q-toggle v-model="expandedDocs" />
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
-              <q-btn
-                :label="$q.screen.gt.xs ? $t('Edit') : ''"
-                class="float-right q-mr-sm" color="primary" flat
-                icon="edit" no-caps
-                outline @click="editItem(itemDetails.uuid)"
-              />
-              <q-btn
-                :label="$q.screen.gt.xs ? $t('Delete') : ''"
-                class="float-right q-mr-sm" color="red" flat
-                icon="delete"
-                no-caps @click="deleteItem(itemDetails.uuid, itemDetails.name)"
-              />
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Dokumenty</q-item-label>
+                        <q-item-label caption>Allow notification when uploading images</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-toggle v-model="expandedDocs"/>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+                <q-btn
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
+                  class="float-right q-mr-sm" color="primary" flat
+                  icon="edit" no-caps
+                  outline @click="editItem(itemDetails.uuid)"
+                />
+                <q-btn
+                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
+                  class="float-right q-mr-sm" color="red" flat
+                  icon="delete"
+                  no-caps @click="deleteItem(itemDetails.uuid, itemDetails.name)"
+                />
 
-            </div>
-          </q-item-section>
+              </div>
+            </q-item-section>
           </q-item>
         </q-list>
 
-<!--        <q-card-section class="row q-pa-sm">-->
-
-<!--          <a class="cursor-pointer" @click="router.back()">← back</a>-->
-<!--          <q-space></q-space>-->
-
-<!--&lt;!&ndash;          <q-breadcrumbs>&ndash;&gt;-->
-<!--&lt;!&ndash;            <q-breadcrumbs-el icon="home" to="/"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <q-breadcrumbs-el :label="$t('View')" icon="info"/>&ndash;&gt;-->
-<!--&lt;!&ndash;          </q-breadcrumbs>&ndash;&gt;-->
-<!--          <div class="col-12 text-h6 q-mt-none">-->
-<!--            <q-btn-->
-<!--              :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
-<!--              dense-->
-<!--              class="float-right q-mr-sm" color="primary"-->
-<!--              icon="edit" no-caps-->
-<!--              outline @click="editItem(itemDetails.uuid)"-->
-<!--            />-->
-<!--            <q-btn-->
-<!--              :label="$q.screen.gt.xs ? $t('Delete') : ''"-->
-<!--              dense-->
-<!--              class="float-right q-mr-sm" color="red" flat-->
-<!--              icon="delete"-->
-<!--              no-caps @click="deleteItem(itemDetails.uuid, itemDetails.name)"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </q-card-section>-->
-
-<!--        <q-separator/>-->
-
         <q-card-section v-if="itemDetails && !isLoading" class="q-pt-none">
-<!--          <q-breadcrumbs>-->
-<!--            <q-breadcrumbs-el icon="home" to="/"/>-->
-<!--            <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>-->
-<!--            <q-breadcrumbs-el icon="info"/>-->
-<!--          </q-breadcrumbs>-->
-
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5">{{ itemDetails.name }}</q-item-label>
-<!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
+                <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
                 <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>
               </q-item-section>
-<!--              <q-item-section side>-->
-<!--                <div class="col-12 text-h6 q-mt-none">-->
-<!--                  <q-btn-->
-<!--                    :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
-<!--                    class="float-right q-mr-sm" color="primary"-->
-<!--                    icon="edit" no-caps-->
-<!--                    outline @click="editItem(itemDetails.uuid)"-->
-<!--                  />-->
-<!--                  <q-btn-->
-<!--                    :label="$q.screen.gt.xs ? $t('Delete') : ''"-->
-<!--                    class="float-right q-mr-sm" color="red" flat-->
-<!--                    icon="delete"-->
-<!--                    no-caps @click="deleteItem(itemDetails.uuid, itemDetails.name)"-->
-<!--                  />-->
-<!--                </div>-->
-<!--              </q-item-section>-->
             </q-item>
           </q-list>
         </q-card-section>
@@ -138,9 +77,9 @@
         <q-separator/>
 
         <q-card-actions align="right">
-          <q-btn color="primary" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
-          <q-btn color="primary" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>
-          <q-btn color="primary" flat icon="insights" no-caps>Raporty</q-btn>
+          <q-btn color="primary" class="q-px-xs" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
+<!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
+          <q-btn color="primary" class="q-px-xs" flat icon="insights" no-caps>Raporty</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -183,8 +122,8 @@
       <document-card v-if="documentFiles!==null" :document-files="documentFiles" :expanded-docs="false"/>
       <guide-card v-if="guidesList!==null && itemDetails !==null" :expanded-guide="false" :guides="guidesList"
                   :item-uuid="itemDetails.uuid" :public-access="false"/>
-      <qr-card v-if="qrCode!==null" :expanded-q-r="false" :qr-code="qrCode"/>
-      <chat-card :expanded-comments="false"/>
+      <qr-card v-if="qrCode!==null" :expanded-qr="false" :qr-code="qrCode"/>
+      <comments-card :expanded-comments="false"/>
       <timeline-card :expanded-timeline="false"/>
     </q-page>
   </div>
@@ -199,7 +138,7 @@ import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 import DocumentCard from "components/viewer/cards/DocumentCard.vue";
 import GuideCard from "components/viewer/cards/GuideCard.vue";
 import QrCard from "components/viewer/cards/QrCard.vue";
-import ChatCard from "components/viewer/cards/ChatCard.vue";
+import CommentsCard from "components/viewer/cards/CommentsCard.vue";
 import TimelineCard from "components/viewer/cards/TimelineCard.vue";
 import {deleteItemRequest, getItemUuidRequest} from 'src/components/api/ItemApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'

@@ -9,6 +9,8 @@ export default {
 	"View": `Podgląd`,
 	"Cancel": `Anuluj`,
 	"Save": `Zapisz`,
+	"Back": `Wróć`,
+	"Return": `Powrót`,
 	"Search": `Szukaj`,
 	"Type your search text": `Wpisz swój tekst wyszukiwania`,
 	"Filters": `Filtry`,
@@ -18,9 +20,14 @@ export default {
 	"No": `Nie`,
 	"All": `Wszystko`,
 	"Pending": `W oczekiwaniu`,
-	"Rejected": `Odrzucony`,
-	"Accepted": `Przyjęty`,
 	"Details": `Detale`,
+	"Photos": `Zdjęcia`,
+	"Documents": `Dokumenty`,
+	"QR Code": `Kod QR`,
+	"Comments": `Uwagi`,
+	"Timeline": `Oś czasu`,
+	"Name": `Nazwa`,
+	"Description": `Opis`,
 
 	// login
 	"Login": `Zaloguj sie`,
@@ -62,11 +69,10 @@ export default {
 
 	// users
 	"Employee": `Pracownik`,
-	"Employees": `Pracownicy`,
+	"Employees": `Pracowników`,
 	"First name": `Imię`,
 	"Last name": `Nazwisko`,
 	"Phone": `Telefon`,
-	"Name": `Nazwa`,
 	"Age": `Wiek`,
 	"New employee": `Nowy pracownik`,
 
@@ -93,6 +99,7 @@ export default {
 	"Guide": `Przewodnik`,
 	"New guide": `Nowy przewodnik`,
 	"Guide name": `Nazwa przewodnika`,
+	"Add new": `Dodaj nowe`,
 
 	// tasks
 	"Action failed": `Akcja: nieudana`,
@@ -112,24 +119,17 @@ export default {
 	"Anonymous with required confirmation": `Anonimowy z wymaganym potwierdzeniem`,
 	"Only for logged users": `Tylko dla zalogowanych użytkowników`,
 	"You must have an account": `Musisz mieć konto`,
-	"Ideas": `Pomysły`,
-	"Permissions": `Uprawnienia`,
-	"Groups": `Grupy`,
 
 	// permissions
 	"Permissions": `Uprawnienia`,
 	"Permission": `Pozwolenie`,
 	"New permission": `Nowe pozwolenie`,
-	"Name": `Nazwa`,
-	"Description": `Opis`,
 	"Role": `Rola`,
 
 	// groups
 	"Groups": `Grupy`,
 	"Group": `Grupa`,
 	"New group": `Nowa grupa`,
-	"Name": `Nazwa`,
-	"Description": `Opis`,
 	"No groups, add a first one!": `Bez grup, dodaj pierwszy!`,
 
 	// TipTap

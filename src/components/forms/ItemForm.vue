@@ -1,14 +1,20 @@
 <template>
-
-  <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
-          @submit.prevent>
+  <q-form
+    autocapitalize="off"
+    autocomplete="off"
+    autocorrect="off"
+    class="q-gutter-md"
+    spellcheck="false"
+    @submit.prevent
+  >
 
     <q-input
       v-model="itemName"
       :disable="isLoading"
       :error="!!errors.itemName"
       :error-message="errors.itemName"
-      :label="$t('Item title')" outlined
+      :label="$t('Item title')"
+      outlined
     />
 
     <div class="tiptap">
@@ -42,7 +48,6 @@
         type="submit"
         @click="submit()"
       />
-
     </div>
   </q-form>
 </template>
@@ -58,7 +63,6 @@ import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 import FileUploader from 'src/components/uploader/FileUploader.vue'
 
 const router = useRouter();
-
 
 const props = defineProps({
   item: {
@@ -93,7 +97,6 @@ let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.item.files_item);
 
-// IMG
 const files = ref(null)
 
 let jsonTxt = null;
@@ -115,12 +118,11 @@ if (props.item.text_json !== null) {
 const uploadedAll = ref([]);
 
 // IMG
-
 const uploadedPhotos = ref([]);
 
 function listOfUploadedImages(images) {
-  console.log("UPLOADED IMAGES:")
-  console.log(JSON.stringify(images))
+  // console.log("UPLOADED IMAGES:")
+  // console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
   uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
 }
@@ -135,16 +137,11 @@ function listOfUploadedFiles(files) {
   uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
 }
 
-
-
 // Form
-
 const {handleReset} = useForm();
-
 const validationSchema = yup.object({
   itemName: yup.string(),//.required(),
 })
-
 
 const {handleSubmit, errors} = useForm({
   validationSchema
@@ -170,22 +167,7 @@ const submit = handleSubmit(values => {
   console.log(data)
   emit('itemFormBtnClick', data)
 
-  // isLoading.value = true;
-  //
-  // isLoading.value = false;
-  // router.push("/items");
-  //
-  // createItemRequest(data).then(function (response) {
-  //   console.log(response)
-  //   isLoading.value = false;
-  //   router.push("/items");
-  // }).catch((err) => {
-  //   const errorMessage = errorHandler(err);
-  // });
-
 })
-
-
 </script>
 
 

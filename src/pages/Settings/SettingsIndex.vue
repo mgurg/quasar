@@ -1,7 +1,19 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-card bordered class="my-card no-shadow q-my-md">
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="apps" to="/settings" />
+      </q-breadcrumbs>
+
+      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">
@@ -22,8 +34,8 @@
       </div> -->
 
       <card-settings></card-settings>
-      <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
-                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
+<!--      <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego.-->
+<!--                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>-->
       <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
                 <div class="q-pa-none q-card__section q-card__section--vert">
                     <div class="row q-col-gutter-sm">
@@ -78,7 +90,7 @@
                                 </q-item-section>
                             </q-item>
                         </div>
-                        <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
+                        <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego.
                            Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
                     </div>
                 </div>
@@ -99,7 +111,7 @@ const $q = useQuasar()
 
 
 onBeforeMount(() => {
-  
+
 });
 
 

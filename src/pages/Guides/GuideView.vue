@@ -2,38 +2,85 @@
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <q-card bordered class="my-card no-shadow q-mt-sm">
-        <q-card-section class="row q-pa-sm">
-          <q-breadcrumbs>
-            <q-breadcrumbs-el icon="home" to="/"/>
-            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides"/>
-            <q-breadcrumbs-el :label="$t('View')" icon="info"/>
-          </q-breadcrumbs>
-          <q-space></q-space>
-          <a class="cursor-pointer" @click="router.back()">← back</a>
-        </q-card-section>
+        <q-list>
+          <q-item class="q-px-sm">
+            <q-item-section avatar>
+              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{ $t("Return") }}</q-btn>
+            </q-item-section>
+            <q-item-section></q-item-section>
+            <q-item-section side>
+              <div class="col-12 text-h6 q-mt-none">
+                <q-btn
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
+                  class="float-right q-mr-sm" color="primary" flat
+                  icon="edit" no-caps
+                  outline @click="editGuide(guideDetails.uuid)"
+                />
+                <q-btn
+                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
+                  class="float-right q-mr-sm" color="red" flat
+                  icon="delete"
+                  no-caps @click="deleteGuide(guideDetails.uuid)"
+                />
 
-        <q-separator/>
+              </div>
+            </q-item-section>
+          </q-item>
+        </q-list>
 
-        <q-card-section v-if="guideDetails && !isLoading">
+        <q-card-section v-if="guideDetails && !isLoading" class="q-pt-none">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h6">{{ guideDetails.name }}</q-item-label>
-                <!-- <q-item-label caption>{{ guideDetails.last_name }}</q-item-label> -->
-              </q-item-section>
-              <q-item-section side>
-                <div class="col-12 text-h6 q-mt-none">
-                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps
-                         outline @click="editGuide(guideDetails.uuid)"/>
-                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"
-                         no-caps @click="deleteGuide(guideDetails.uuid)"/>
-
-                </div>
+                <q-item-label class="text-h5">{{ guideDetails.name }}</q-item-label>
+                <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
+                <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
+
+<!--        <q-separator/>-->
+
+<!--        <q-card-actions align="right">-->
+<!--          <q-btn color="primary" class="q-px-xs" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>-->
+<!--          &lt;!&ndash;          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>&ndash;&gt;-->
+<!--          <q-btn color="primary" class="q-px-xs" flat icon="insights" no-caps>Raporty</q-btn>-->
+<!--        </q-card-actions>-->
       </q-card>
+<!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
+<!--        <q-card-section class="row q-pa-sm">-->
+<!--          <q-breadcrumbs>-->
+<!--            <q-breadcrumbs-el icon="home" to="/"/>-->
+<!--            <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/guides"/>-->
+<!--            <q-breadcrumbs-el :label="$t('View')" icon="info"/>-->
+<!--          </q-breadcrumbs>-->
+<!--          <q-space></q-space>-->
+<!--          <a class="cursor-pointer" @click="router.back()">← back</a>-->
+<!--        </q-card-section>-->
+
+<!--        <q-separator/>-->
+
+<!--        <q-card-section v-if="guideDetails && !isLoading">-->
+<!--          <q-list>-->
+<!--            <q-item class="q-px-none">-->
+<!--              <q-item-section>-->
+<!--                <q-item-label class="text-h6">{{ guideDetails.name }}</q-item-label>-->
+<!--                &lt;!&ndash; <q-item-label caption>{{ guideDetails.last_name }}</q-item-label> &ndash;&gt;-->
+<!--              </q-item-section>-->
+<!--              <q-item-section side>-->
+<!--                <div class="col-12 text-h6 q-mt-none">-->
+<!--                  <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary" icon="edit" no-caps-->
+<!--                         outline @click="editGuide(guideDetails.uuid)"/>-->
+<!--                  <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat icon="delete"-->
+<!--                         no-caps @click="deleteGuide(guideDetails.uuid)"/>-->
+
+<!--                </div>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--          </q-list>-->
+<!--        </q-card-section>-->
+<!--      </q-card>-->
 
       <q-card bordered class="my-card no-shadow q-my-sm">
         <!--        VIDEO -->

@@ -6,9 +6,11 @@ export default {
 	"Add": `Ajouter`,
 	"Edit": `Éditer`,
 	"Delete": `Effacer`,
-	"View": `Voir`,
+	"View": `Vue`,
 	"Cancel": `Annuler`,
-	"Save": `sauvegarder`,
+	"Save": `Sauver`,
+	"Back": `Arrière`,
+	"Return": `Retour`,
 	"Search": `Chercher`,
 	"Type your search text": `Tapez votre texte de recherche`,
 	"Filters": `Filtres`,
@@ -18,9 +20,14 @@ export default {
 	"No": `Non`,
 	"All": `Tout`,
 	"Pending": `En attente`,
-	"Rejected": `Rejeté`,
-	"Accepted": `Accepté`,
 	"Details": `Détails`,
+	"Photos": `Photos`,
+	"Documents": `Documents`,
+	"QR Code": `QR Code`,
+	"Comments": `commentaires`,
+	"Timeline": `Chronologie`,
+	"Name": `Nom`,
+	"Description": `Description`,
 
 	// login
 	"Login": `Connexion`,
@@ -29,7 +36,7 @@ export default {
 	"Error: Check username & password": `Erreur: vérifiez le nom d'utilisateur et le mot de passe`,
 	"Password confirmation": `Confirmation mot de passe`,
 	"Remember me for 30 days": `Souviens-toi de moi pendant 30 jours`,
-	"Register": `S'inscrire`,
+	"Register": `Enregistrer`,
 	"I need help": `j'ai besoin d'aide`,
 	"Reset password": `Réinitialiser le mot de passe`,
 	"I accept the terms and conditions": `J'accepte les termes et conditions`,
@@ -62,11 +69,10 @@ export default {
 
 	// users
 	"Employee": `Employé`,
-	"Employees": `Des employés`,
+	"Employees": `Employés`,
 	"First name": `Prénom`,
 	"Last name": `Nom de famille`,
-	"Phone": `Téléphoner`,
-	"Name": `Nom`,
+	"Phone": `Téléphone`,
 	"Age": `Âge`,
 	"New employee": `Nouvel employé`,
 
@@ -93,6 +99,7 @@ export default {
 	"Guide": `Guide`,
 	"New guide": `Nouveau guide`,
 	"Guide name": `Nom de guide`,
+	"Add new": `Ajouter un nouveau`,
 
 	// tasks
 	"Action failed": `Action: échoué`,
@@ -112,24 +119,17 @@ export default {
 	"Anonymous with required confirmation": `Anonyme de confirmation requise`,
 	"Only for logged users": `Uniquement pour les utilisateurs enregistrés`,
 	"You must have an account": `Vous devez avoir un compte`,
-	"Ideas": `Idées`,
-	"Permissions": `Autorisation`,
-	"Groups": `Groupes`,
 
 	// permissions
 	"Permissions": `Autorisation`,
 	"Permission": `Autorisation`,
 	"New permission": `Nouvelle autorisation`,
-	"Name": `Nom`,
-	"Description": `La description`,
 	"Role": `Rôle`,
 
 	// groups
 	"Groups": `Groupes`,
 	"Group": `Groupe`,
 	"New group": `Nouveau groupe`,
-	"Name": `Nom`,
-	"Description": `La description`,
 	"No groups, add a first one!": `Pas de groupes, ajoutez-en un premier!`,
 
 	// TipTap

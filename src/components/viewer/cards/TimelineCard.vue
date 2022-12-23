@@ -4,8 +4,8 @@
   <div :style="expandedTimeline ? 'border-left: 5px solid #a04d2c':''">
     <q-card-section class="q-py-sm">
       <div class="row q-col-gutter-xs">
-        <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedTimeline = !expandedTimeline">Oś
-          zdarzeń
+        <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedTimeline = !expandedTimeline">
+          {{ $t("Timeline") }}
         </div>
         <q-space></q-space>
         <q-btn :icon="expandedTimeline ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat

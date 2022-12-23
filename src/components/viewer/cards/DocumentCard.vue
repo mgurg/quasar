@@ -7,7 +7,7 @@
       <q-card-section class="q-py-sm">
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">
-            Dokumenty
+            {{ $t("Documents") }}
             <q-badge floating align="top">{{ documentFiles.length }}</q-badge>
           </div>
           <q-space></q-space>

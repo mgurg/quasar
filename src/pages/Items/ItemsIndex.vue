@@ -1,6 +1,17 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>
+      </q-breadcrumbs>
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <q-list>
@@ -17,14 +28,14 @@
                     color="primary"
                     icon="search"
                     no-caps
-                    outline
+                    flat
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
                     :label="$q.screen.gt.xs ? $t('New item') : ''"
                     class="float-right q-mr-xs"
                     color="primary" icon="add"
-                    no-caps outline
+                    no-caps flat
                     to="/items/add"
                   />
                 </div>
@@ -36,52 +47,26 @@
       </q-card>
 
       <q-slide-transition>
-      <q-card class="no-border no-shadow bg-transparent" v-show="showSearchBar===true">
-        <q-card-section class="q-pa-sm">
-          <q-input
-                          v-model="search"
-                          :label="$t('Type your search text')"
-                          clearable
-                          debounce="300"
-                          outlined
-                          type="search"
-                          @update:model-value="fetchItems()"
-          >
-            <template v-slot:append>
-              <q-icon v-if="!search" name="search"/>
-<!--              <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''"/>-->
-            </template>
-          </q-input>
-        </q-card-section>
-      </q-card>
+        <q-card v-show="showSearchBar===true" class="no-border no-shadow bg-transparent">
+          <q-card-section class="q-pa-sm">
+            <q-input
+              v-model="search"
+              :label="$t('Type your search text')"
+              clearable
+              debounce="300"
+              outlined
+              type="search"
+              @update:model-value="fetchItems()"
+            >
+              <template v-slot:append>
+                <q-icon v-if="!search" name="search"/>
+              </template>
+            </q-input>
+          </q-card-section>
+        </q-card>
       </q-slide-transition>
 
-      <q-card  v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
-
-<!--        <q-card-section class="row q-pa-sm">-->
-<!--          <div class="row q-gutter-sm items-center">-->
-<!--            <div>-->
-<!--              <q-input-->
-<!--                v-model="search"-->
-<!--                :label="$t('Type your search text')"-->
-<!--                clearable-->
-<!--                debounce="300"-->
-<!--                dense-->
-<!--                outlined-->
-<!--                type="search"-->
-<!--                @update:model-value="fetchItems()"-->
-<!--              >-->
-<!--                <template v-if="!search" v-slot:append>-->
-<!--                  <q-icon name="search"/>-->
-<!--                </template>-->
-<!--              </q-input>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; <div>-->
-<!--              <q-btn outline class="float-right" color="primary" icon="search">{{ $t("Search") }}</q-btn>-->
-<!--            </div> &ndash;&gt;-->
-<!--          </div>-->
-<!--        </q-card-section>-->
-        <!-- <q-separator /> -->
+      <q-card v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading && items != null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
@@ -89,9 +74,14 @@
             </q-item-section>
             <q-item-section>
       <span>{{ $t("Name") }}
-        <q-btn :flat="sort.active!=='name'" :icon="sort.name === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-               :unelevated="sort.active === 'name'" color="primary" padding="xs"
-               size="sm" @click="changeSortOrder('name')"/>
+        <q-btn
+          :flat="sort.active!=='name'"
+          :icon="sort.name === 'asc' ? 'arrow_upward' : 'arrow_downward'"
+          :unelevated="sort.active === 'name'"
+          color="primary"
+          padding="xs"
+          size="sm"
+          @click="changeSortOrder('name')"/>
       </span>
 
             </q-item-section>
@@ -102,14 +92,9 @@
 
           <div v-for="(item, index) in items" v-if="items != null" v-bind:key="index">
             <item-list-row :item="item"/>
-            <!-- <user-item @selectedItem="selectUser" @refreshList="fetchItems" :user="user" :selected="selected"
-              v-if="!isLoading"></user-item> -->
           </div>
 
-
         </q-list>
-
-
         <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
         </div>

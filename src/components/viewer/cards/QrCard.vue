@@ -4,7 +4,9 @@
   <div :style="expandedQR ? 'border-left: 5px solid #4c29bb':''">
     <q-card-section class="q-py-sm">
       <div class="row q-col-gutter-xs">
-        <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedQR = !expandedQR">Kod QR</div>
+        <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedQR = !expandedQR">
+          {{ $t("QR Code") }}
+        </div>
         <q-space></q-space>
         <q-btn :icon="expandedQR ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                @click="expandedQR = !expandedQR"/>
@@ -82,13 +84,13 @@ const props = defineProps({
       }
     }
   },
-  expandedQR: {
+  expandedQr: {
     type: Boolean,
     default: false,
   },
 })
 
-const expandedQR = ref(props.expandedQR)
+const expandedQR = ref(props.expandedQr)
 const qrCode = ref(props.qrCode)
 const qrCodeSize = ref(300)
 

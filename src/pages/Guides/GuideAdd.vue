@@ -33,7 +33,10 @@
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <guide-form/>
+          <guide-form
+            @cancelBtnClick="cancelButtonPressed"
+            @guideFormBtnClick="addButtonPressed"
+          />
         </q-card-section>
       </q-card>
 
@@ -52,6 +55,8 @@ import {authApi} from "boot/axios";
 import axios from "axios";
 import {VideoUploader} from '@api.video/video-uploader'
 import 'viewerjs/dist/viewer.css'
+import {addGuideRequest} from "components/api/GuideApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const route = useRoute()
 const router = useRouter();
@@ -86,43 +91,20 @@ let videoHeight = ref(null)
 let videoRatio = ref(null)
 
 
-function createGuide() {
-
-  let data = {
-    "name": "string",
-    "text_html": htmlTxt,
-    "text_json": jsonTxt,
-    "video_id": videoId.value,
-    "item_uuid": itemUuid.value
-  }
-
-  // console.log(data)
-
-  isLoading.value = true;
-  authApi
-    .post("/guides/", data)
-    .then((res) => {
-
-      isLoading.value = false;
-
-      if (itemUuid.value !== null){
-        router.push("/items/"+itemUuid.value );
-      }else{
-        router.push("/guides");
-      }
-
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-
+function createGuide(formData) {
+  formData["item_uuid"] = itemUuid.value
+  // console.log(formData)
+  addGuideRequest(formData).then(function (response) {
+    console.log(response)
+    isLoading.value = false;
+    if (itemUuid.value !== null) {
+      router.push("/items/" + itemUuid.value);
+    } else {
+      router.push("/guides");
+    }
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
 }
 
 function getUploadToken() {
@@ -302,17 +284,25 @@ watch(enablePooling, (newValue, oldValue) => {
   }
 });
 
+
+function addButtonPressed(itemForm) {
+  // console.log(itemForm)
+  createGuide(itemForm)
+}
+
+function cancelButtonPressed() {
+  router.push("/guides");
+}
+
 onBeforeUnmount(() => {
   clearInterval(intervalID);
 });
-
 
 onBeforeMount(() => {
   if ((route.query.item !== undefined) && (route.query.item !== null) && (route.query.item !== "")) {
     console.log("Query: " + route.query.item);
     itemUuid.value = route.query.item
   }
-
 
 });
 </script>

@@ -1,6 +1,18 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Employees')" icon="apps" to="/users"/>
+      </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <q-list>
@@ -11,12 +23,26 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn :label="$q.screen.gt.xs ? $t('New employee') : ''" class="float-right" color="primary"
-                         icon="add" no-caps outline
-                         to="/users/add"/>
-                  <q-btn :label="$q.screen.gt.xs ? 'Importuj' : ''" class="float-right q-mr-xs" color="primary"
-                         icon="backup" no-caps outline
-                         to="/users/add"/>
+                  <q-btn
+                    :label="$q.screen.gt.xs ? $t('Search') : ''"
+                    class="float-right"
+                    color="primary"
+                    icon="search"
+                    no-caps
+                    flat
+                    @click="showSearchBar = !showSearchBar"
+                  />
+                  <q-btn
+                    :label="$q.screen.gt.xs ? $t('New employee') : ''"
+                    class="float-right  q-mr-xs"
+                    color="primary"
+                    icon="add" no-caps flat
+                    to="/users/add"
+                  />
+<!--                  <q-btn :label="$q.screen.gt.xs ? 'Importuj' : ''" class="float-right q-mr-xs" color="primary"-->
+<!--                         icon="backup" no-caps flat-->
+<!--                         to="/users/add"-->
+<!--                  />-->
 
                 </div>
               </q-item-section>
@@ -26,29 +52,27 @@
         </q-card-section>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-slide-transition>
+        <q-card v-show="showSearchBar===true" class="no-border no-shadow bg-transparent">
+          <q-card-section class="q-pa-sm">
+            <q-input
+              v-model="search"
+              :label="$t('Type your search text')"
+              clearable
+              debounce="300"
+              outlined
+              type="search"
+              @update:model-value="fetchUsers()"
+            >
+              <template v-slot:append>
+                <q-icon v-if="!search" name="search"/>
+              </template>
+            </q-input>
+          </q-card-section>
+        </q-card>
+      </q-slide-transition>
 
-        <q-card-section class="row q-pa-sm">
-          <div class="row q-gutter-sm items-center">
-            <div>
-              <q-input
-                v-model="search"
-                :label="$t('Type your search text')"
-                clearable
-                debounce="300"
-                dense
-                outlined
-                type="search"
-                @update:model-value="fetchUsers()"
-              >
-                <template v-if="!search" v-slot:append>
-                  <q-icon name="search"/>
-                </template>
-              </q-input>
-            </div>
-          </div>
-        </q-card-section>
-        <!-- <q-separator /> -->
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading && users != null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
@@ -69,7 +93,7 @@
           </q-item>
 
           <div v-for="(user, index) in users" v-if="users != null" v-bind:key="index">
-            <user-list-row  :user="user"/>
+            <user-list-row :user="user"/>
           </div>
           <task-index-skeleton v-else/>
 
@@ -111,6 +135,7 @@ let errorMsg = ref(null);
 const users = ref(null);
 let selected = ref(null);
 let search = ref(null);
+const showSearchBar = ref(false);
 
 
 // sort & paginate

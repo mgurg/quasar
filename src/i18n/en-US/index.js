@@ -9,6 +9,8 @@ export default {
 	"View": `View`,
 	"Cancel": `Cancel`,
 	"Save": `Save`,
+	"Back": `Back`,
+	"Return": `Return`,
 	"Search": `Search`,
 	"Type your search text": `Type your search text`,
 	"Filters": `Filters`,
@@ -18,9 +20,14 @@ export default {
 	"No": `No`,
 	"All": `All`,
 	"Pending": `Pending`,
-	"Rejected": `Rejected`,
-	"Accepted": `Accepted`,
 	"Details": `Details`,
+	"Photos": `Photos`,
+	"Documents": `Documents`,
+	"QR Code": `QR Code`,
+	"Comments": `Comments`,
+	"Timeline": `Timeline`,
+	"Name": `Name`,
+	"Description": `Description`,
 
 	// login
 	"Login": `Login`,
@@ -66,7 +73,6 @@ export default {
 	"First name": `First name`,
 	"Last name": `Last name`,
 	"Phone": `Phone`,
-	"Name": `Name`,
 	"Age": `Age`,
 	"New employee": `New employee`,
 
@@ -93,6 +99,7 @@ export default {
 	"Guide": `Guide`,
 	"New guide": `New guide`,
 	"Guide name": `Guide name`,
+	"Add new": `Add new`,
 
 	// tasks
 	"Action failed": `Action failed`,
@@ -112,24 +119,17 @@ export default {
 	"Anonymous with required confirmation": `Anonymous with required confirmation`,
 	"Only for logged users": `Only for logged users`,
 	"You must have an account": `You must have an account`,
-	"Ideas": `Ideas`,
-	"Permissions": `Permissions`,
-	"Groups": `Groups`,
 
 	// permissions
 	"Permissions": `Permissions`,
 	"Permission": `Permission`,
 	"New permission": `New permission`,
-	"Name": `Name`,
-	"Description": `Description`,
 	"Role": `Role`,
 
 	// groups
 	"Groups": `Groups`,
 	"Group": `Group`,
 	"New group": `New group`,
-	"Name": `Name`,
-	"Description": `Description`,
 	"No groups, add a first one!": `No groups, add a first one!`,
 
 	// TipTap

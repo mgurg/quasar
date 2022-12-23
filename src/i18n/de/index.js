@@ -3,12 +3,14 @@
 
 export default {
 	// common
-	"Add": `Hinzufügen`,
+	"Add": `Addieren`,
 	"Edit": `Bearbeiten`,
 	"Delete": `Löschen`,
-	"View": `Aussicht`,
-	"Cancel": `Absagen`,
+	"View": `Sicht`,
+	"Cancel": `Stornieren`,
 	"Save": `Speichern`,
+	"Back": `Der Rücken`,
+	"Return": `Zurückkehren`,
 	"Search": `Suche`,
 	"Type your search text": `Geben Sie Ihren Suchtext ein`,
 	"Filters": `Filter`,
@@ -16,11 +18,16 @@ export default {
 	"Status": `Status`,
 	"Yes": `Ja`,
 	"No": `Nein`,
-	"All": `Alle`,
+	"All": `Alles`,
 	"Pending": `Ausstehend`,
-	"Rejected": `Abgelehnt`,
-	"Accepted": `Akzeptiert`,
 	"Details": `Einzelheiten`,
+	"Photos": `Fotos`,
+	"Documents": `Unterlagen`,
+	"QR Code": `QR-Code`,
+	"Comments": `Bemerkungen`,
+	"Timeline": `Zeitleiste`,
+	"Name": `Name`,
+	"Description": `Beschreibung`,
 
 	// login
 	"Login": `Anmeldung`,
@@ -58,15 +65,14 @@ export default {
 	"New": `Neu`,
 	"Voted": `Gewählt`,
 	"Accepted": `Akzeptiert`,
-	"Rejected": `Abgelehnt`,
+	"Rejected": `Hat abgelehnt`,
 
 	// users
-	"Employee": `Angestellter`,
+	"Employee": `Mitarbeiter`,
 	"Employees": `Angestellte`,
 	"First name": `Vorname`,
 	"Last name": `Nachname`,
 	"Phone": `Telefon`,
-	"Name": `Name`,
 	"Age": `Das Alter`,
 	"New employee": `Neuer Angestellter`,
 
@@ -90,9 +96,10 @@ export default {
 
 	// guides
 	"Guides": `Führer`,
-	"Guide": `Führen`,
+	"Guide": `Handbuch`,
 	"New guide": `Neuer Leitfaden`,
 	"Guide name": `Leitfadenname`,
+	"Add new": `Neue hinzufügen`,
 
 	// tasks
 	"Action failed": `Aktion: fehlgeschlagen`,
@@ -112,24 +119,17 @@ export default {
 	"Anonymous with required confirmation": `Anonymous mit der erforderlichen Bestätigung`,
 	"Only for logged users": `Nur für protokollierte Benutzer`,
 	"You must have an account": `Sie müssen ein Konto haben`,
-	"Ideas": `Ideen`,
-	"Permissions": `Berechtigungen`,
-	"Groups": `Gruppen`,
 
 	// permissions
 	"Permissions": `Berechtigungen`,
 	"Permission": `Genehmigung`,
 	"New permission": `Neue Erlaubnis`,
-	"Name": `Name`,
-	"Description": `Beschreibung`,
 	"Role": `Rolle`,
 
 	// groups
 	"Groups": `Gruppen`,
 	"Group": `Gruppe`,
 	"New group": `Neue Gruppe`,
-	"Name": `Name`,
-	"Description": `Beschreibung`,
 	"No groups, add a first one!": `Keine Gruppen, füge einen ersten hinzu!`,
 
 	// TipTap
