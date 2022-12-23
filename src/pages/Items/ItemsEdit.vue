@@ -1,13 +1,20 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="row q-pa-sm">
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
-        <q-breadcrumbs-el :label="$t('Items')" icon="tips_and_updates" to="/items"/>
-        <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
+        <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>
+        <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">
@@ -27,11 +34,8 @@
         </q-card-section>
       </q-card>
 
-      <div>&nbsp;</div>
-
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-
           <item-form
             v-if="itemDetails != null"
             :item="itemDetails"
