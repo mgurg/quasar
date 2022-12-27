@@ -87,6 +87,14 @@ export default {
 	"Delete:": `Effacer:`,
 	"Deleted:": `Supprimé:`,
 
+	// issues
+	"Issues": `Problèmes`,
+	"Issue": `Publier`,
+	"Issue name": `Nom d'émission`,
+	"Issue description": `Description du problème`,
+	"New issue": `Nouveau problème`,
+
+
 	// items
 	"Items": `Articles`,
 	"Item": `Idée`,

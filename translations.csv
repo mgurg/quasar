@@ -66,7 +66,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 ,,,,
 #users,,,,
 """Employee""",Employee,Employé,Mitarbeiter,Pracownik
-"""Employees""",Employees,Employés,Angestellte,Pracowników
+"""Employees""",Employees,Employés,Angestellte,Pracownicy
 """First name""",First name,Prénom,Vorname,Imię
 """Last name""",Last name,Nom de famille,Nachname,Nazwisko
 """Phone""",Phone,Téléphone,Telefon,Telefon
@@ -83,6 +83,14 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """New idea""",New idea,Nouvelle idée,Neue Idee,Nowy pomysł
 """Delete:""",Delete:,Effacer:,Löschen:,Usunąć:
 """Deleted:""",Deleted:,Supprimé:,Gelöscht:,Usunięte:
+,,,,
+#issues,,,,
+"""Issues""",Issues,Problèmes,Probleme,Problemy
+"""Issue""",Issue,Publier,Problem,Problem
+"""Issue name""",Issue name,Nom d'émission,Ausgabename,Nazwa problemu
+"""Issue description""",Issue description,Description du problème,Fehlerbeschreibung,Opis problemu
+"""New issue""",New issue,Nouveau problème,Neues Problem,Nowy problem
+,,,,
 ,,,,
 #items,,,,
 """Items""",Items,Articles,Artikel,Przedmioty

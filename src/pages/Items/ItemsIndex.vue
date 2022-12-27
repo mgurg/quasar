@@ -158,7 +158,6 @@ let isError = ref(false);
 // let errorMsg = ref(null);
 
 const items = ref(null);
-let selected = ref(null);
 let search = ref(null);
 const showSearchBar = ref(false);
 

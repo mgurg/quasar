@@ -55,6 +55,41 @@
             <q-item-section>Index</q-item-section>
           </q-item>
 
+
+          <!--Issues Index-->
+          <q-item to="/issues" exact clickable v-ripple>
+            <q-item-section avatar>
+              <div class="relative-position">
+                <q-icon size="md" name="bug_report">
+                </q-icon>
+<!--                <q-badge color="orange" floating>1</q-badge>-->
+              </div>
+
+            </q-item-section>
+
+            <q-item-section>{{ $t("Issues") }}</q-item-section>
+          </q-item>
+
+          <!--Items Index-->
+          <q-item to="/items" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="apps" />
+            </q-item-section>
+
+            <q-item-section>{{ $t("Items") }}</q-item-section>
+          </q-item>
+
+          <!--Guides Index-->
+          <q-item to="/guides" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="library_books" />
+            </q-item-section>
+
+            <q-item-section>{{ $t("Guides") }}</q-item-section>
+          </q-item>
+
           <!--Users Index-->
           <q-item to="/users" exact clickable v-ripple>
             <q-item-section avatar>
@@ -81,7 +116,7 @@
             <q-item-section>{{ $t("Ideas") }}</q-item-section>
           </q-item>
 
-          <!--Ideas Index-->
+          <!--Settings Index-->
           <q-item to="/settings" exact clickable v-ripple>
             <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
             <q-item-section avatar>
@@ -91,25 +126,7 @@
             <q-item-section>{{ $t("Settings") }}</q-item-section>
           </q-item>
 
-          <!--Items Index-->
-            <q-item to="/items" exact clickable v-ripple>
-            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
-            <q-item-section avatar>
-              <q-icon size="md" name="apps" />
-            </q-item-section>
 
-            <q-item-section>{{ $t("Items") }}</q-item-section>
-          </q-item>
-
-          <!--Guides Index-->
-          <q-item to="/guides" exact clickable v-ripple>
-            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
-            <q-item-section avatar>
-              <q-icon size="md" name="library_books" />
-            </q-item-section>
-
-            <q-item-section>{{ $t("Guides") }}</q-item-section>
-          </q-item>
 
           <!-- Tasks Index -->
           <!-- <q-item to="/tasks" exact clickable v-ripple>

@@ -11,9 +11,24 @@
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
-                  <q-btn :label="$q.screen.gt.xs ? $t('New guide') : ''" class="float-right q-mr-xs no-shadow"
-                         color="primary" icon="add" no-caps
-                         outline to="/guides/add"/>
+                  <q-btn
+                    :label="$q.screen.gt.xs ? $t('Search') : ''"
+                    class="float-right"
+                    color="primary"
+                    icon="search"
+                    no-caps
+                    flat
+                    @click="showSearchBar = !showSearchBar"
+                  />
+                  <q-btn
+                    :label="$q.screen.gt.xs ? $t('New guide') : ''"
+                    class="float-right q-mr-xs"
+                    color="primary"
+                    icon="add"
+                    no-caps
+                    flat
+                    to="/guides/add"
+                  />
                 </div>
               </q-item-section>
             </q-item>
@@ -21,6 +36,26 @@
           </q-list>
         </q-card-section>
       </q-card>
+
+      <q-slide-transition>
+        <q-card v-show="showSearchBar===true" class="no-border no-shadow bg-transparent">
+          <q-card-section class="q-pa-sm">
+            <q-input
+              v-model="search"
+              :label="$t('Type your search text')"
+              clearable
+              debounce="300"
+              outlined
+              type="search"
+              @update:model-value="fetchGuides()"
+            >
+              <template v-slot:append>
+                <q-icon v-if="!search" name="search"/>
+              </template>
+            </q-input>
+          </q-card-section>
+        </q-card>
+      </q-slide-transition>
 
       <q-card v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
 
@@ -84,21 +119,24 @@ import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import GuideListRow from "components/listRow/GuideListRow.vue";
+import {getItemRequest} from "components/api/ItemApiClient";
+import {errorHandler} from "components/api/errorHandler";
+import {getGuideRequest} from "components/api/GuideApiClient";
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let errorMsg = ref(null);
 let search = ref(null);
+const showSearchBar = ref(false);
 
 const guides = ref([]);
-let selected = ref(null);
 
 let sort = reactive({
   counter: "asc",
   title: "asc",
-  age: "asc",
-  active: "age"
+  name: "asc",
+  active: "name"
 })
 
 function changeSortOrder(column) {
@@ -168,24 +206,15 @@ async function fetchGuides() {
     sortOrder: sort[sort.active],
     sortColumn: sort.active
   };
-  authApi
-    .get("/guides/")
-    .then((res) => {
-      guides.value = res.data.items;
-      pagination.total = res.data.total;
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
-}
 
+  getGuideRequest(params).then(function (response) {
+        guides.value = response.data.items;
+        pagination.total = response.data.total;
+        isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
+}
 
 onBeforeMount(() => {
   isLoading.value = true;

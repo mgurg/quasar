@@ -69,7 +69,7 @@ export default {
 
 	// users
 	"Employee": `Pracownik`,
-	"Employees": `Pracowników`,
+	"Employees": `Pracownicy`,
 	"First name": `Imię`,
 	"Last name": `Nazwisko`,
 	"Phone": `Telefon`,
@@ -86,6 +86,14 @@ export default {
 	"New idea": `Nowy pomysł`,
 	"Delete:": `Usunąć:`,
 	"Deleted:": `Usunięte:`,
+
+	// issues
+	"Issues": `Problemy`,
+	"Issue": `Problem`,
+	"Issue name": `Nazwa problemu`,
+	"Issue description": `Opis problemu`,
+	"New issue": `Nowy problem`,
+
 
 	// items
 	"Items": `Przedmioty`,

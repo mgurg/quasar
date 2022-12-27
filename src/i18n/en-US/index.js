@@ -87,6 +87,14 @@ export default {
 	"Delete:": `Delete:`,
 	"Deleted:": `Deleted:`,
 
+	// issues
+	"Issues": `Issues`,
+	"Issue": `Issue`,
+	"Issue name": `Issue name`,
+	"Issue description": `Issue description`,
+	"New issue": `New issue`,
+
+
 	// items
 	"Items": `Items`,
 	"Item": `Item`,
