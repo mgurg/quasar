@@ -19,12 +19,13 @@
             <q-item class="q-px-none">
 
               <q-item-section>
-                <q-item-label class="text-h6">{{ $t("Issue") }}</q-item-label>
-                <!--
-<q-item-label caption>
-    Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!
-</q-item-label>
--->
+                <q-item-label class="text-h5 text-weight-medium">{{ $t("Issue") }}</q-item-label>
+
+                <q-item-label caption v-if="itemUuid===null">
+                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>
+                  Jeżeli chcesz zgłosić awarię dla istniejącej maszyny wybierz ją z <router-link to="/items">listy urządzeń</router-link> i naciśnij przycisk zgłoś.
+                </q-item-label>
+<!--                <q-btn flat no-caps>Idę do listy urządzeń</q-btn>-->
               </q-item-section>
             </q-item>
 
@@ -47,23 +48,26 @@
 
 
 <script setup>
-import {ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import IssueForm from 'src/components/forms/IssueForm.vue'
-import {useRouter} from "vue-router";
-import {createIssueRequest} from "components/api/IssueApiClient";
+import {useRoute, useRouter} from "vue-router";
+import {addIssueRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
+const route = useRoute()
 const router = useRouter();
 
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
-
+const itemUuid = ref(null);
 
 function createIssue(formData) {
+  formData['description'] = "some description"
+  formData['item_uuid'] = itemUuid.value
   isLoading.value = true;
-  createIssueRequest(formData).then(function (response) {
+  addIssueRequest(formData).then(function (response) {
     isLoading.value = false;
     router.push("/issues");
   }).catch((err) => {
@@ -80,5 +84,12 @@ function addButtonPressed(issueForm) {
 function cancelButtonPressed() {
   router.push("/issues");
 }
+
+onBeforeMount(() => {
+  if ((route.query.item !== undefined) && (route.query.item !== null) && (route.query.item !== "")) {
+    console.log("Query: " + route.query.item);
+    itemUuid.value = route.query.item
+  }
+});
 </script>
 

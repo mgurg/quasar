@@ -6,7 +6,7 @@
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedPhotos = !expandedPhotos">
             {{ $t("Photos") }}
-            <q-badge v-if="photoFiles.length>0" floating align="top">{{ photoFiles.length }}</q-badge>
+            <q-badge v-if="photoFiles.length>0" align="top" floating>{{ photoFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
           <q-btn
@@ -35,8 +35,6 @@
             <div class="q-mt-md">
               <photo-viewer :pictures-list="photoFiles"/>
             </div>
-
-
           </q-card-section>
           <q-separator/>
         </div>

@@ -311,7 +311,6 @@ onBeforeMount(() => {
     console.log("Query: " + route.query.item);
     itemUuid.value = route.query.item
   }
-
 });
 </script>
 

@@ -213,8 +213,8 @@ const submit = handleSubmit(values => {
     "color": issueColor.value,
     "name": issueName.value,
     "description": "issueDescription.value",
-    "body_json": jsonTxt,
-    "body_html": htmlTxt,
+    "text_json": jsonTxt,
+    "text_html": htmlTxt,
     "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
   }
 

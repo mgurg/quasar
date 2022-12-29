@@ -19,7 +19,7 @@ export const errorHandler = (error) => {
     return error.request;
   } else {
     // Something happened in setting up the request and triggered an Error
-    console.log("General Error".error);
-    return "General Error".error;
+    console.log("General Error: " + error);
+    return "General Error";
   }
 };

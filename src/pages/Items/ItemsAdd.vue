@@ -50,7 +50,7 @@
 import ItemForm from 'src/components/forms/ItemForm.vue'
 import {useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
-import {createItemRequest} from "components/api/ItemApiClient";
+import {addItemRequest} from "components/api/ItemApiClient";
 import {ref} from "vue";
 
 const router = useRouter();
@@ -61,7 +61,7 @@ let isError = ref(false);
 
 function createItem(formData) {
   isLoading.value = true;
-  createItemRequest(formData).then(function (response) {
+  addItemRequest(formData).then(function (response) {
     isLoading.value = false;
     router.push("/items");
   }).catch((err) => {

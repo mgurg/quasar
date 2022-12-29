@@ -106,7 +106,7 @@ import {useQuasar} from "quasar";
 import {useUserStore} from "stores/user";
 import {useI18n} from "vue-i18n";
 
-import {deleteItemRequest, getItemUuidRequest} from 'src/components/api/ItemApiClient.js'
+import {deleteItemRequest, getOneItemRequest} from 'src/components/api/ItemApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
@@ -148,7 +148,7 @@ let expandedTimeline = ref(false)
 function getItemDetails(uuid) {
   isLoading.value = true;
 
-  getItemUuidRequest(uuid).then(function (response) {
+  getOneItemRequest(uuid).then(function (response) {
     console.log(response.data);
     itemDetails.value = response.data;
 

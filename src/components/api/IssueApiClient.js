@@ -8,22 +8,25 @@ export function getUserIssuesRequest(uuid) {
   return authApi.get("/issues/user/" + uuid);
 }
 
-export function getIssuesRequest(params) {
+export function getManyIssuesRequest(params) {
   return authApi.get("/issues/", {params: params});
 }
 
-export function getIssueRequest(uuid) {
+export function getOneIssueRequest(uuid) {
   return authApi.get("/issues/" + uuid);
 }
 
-export function updateIssueRequest(uuid, data) {
+export function editIssueRequest(uuid, data) {
   return authApi.patch("/issues/" + uuid, data);
 }
 
-export function createIssueRequest(data) {
+export function addIssueRequest(data) {
   return authApi.post("/issues/", data);
 }
 
+export function changeIssueStatusRequest(uuid, data) {
+  return authApi.post("/issues/status/" + uuid, data);
+}
 
 export function deleteIssueRequest(uuid) {
   return authApi.delete("/issues/" + uuid);

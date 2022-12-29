@@ -4,15 +4,11 @@
 
 import {api, authApi} from "boot/axios";
 
-export function getItemsRequest() {
-  return authApi.get("/items/");
-}
-
-export function getItemRequest(params) {
+export function getManyItemsRequest(params) {
   return authApi.get("/items/", {params: params});
 }
 
-export function getItemUuidRequest(uuid) {
+export function getOneItemRequest(uuid) {
   return authApi.get("/items/" + uuid);
 }
 
@@ -25,14 +21,9 @@ export function getAnonymousItemUuidRequest(uuid, token, tenant_id) {
   });
 }
 
-export function createItemRequest(data) {
+export function addItemRequest(data) {
   return authApi.post("/items/", data);
 }
-
-export function updateItemRequest(uuid, data) {
-  return authApi.patch("/items/" + uuid, data);
-}
-
 
 export function editItemRequest(uuid, data) {
   return authApi.patch("/items/" + uuid, data);

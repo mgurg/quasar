@@ -84,7 +84,7 @@
           <q-item to="/guides" exact clickable v-ripple>
             <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
             <q-item-section avatar>
-              <q-icon size="md" name="library_books" />
+              <q-icon size="md" name="construction" />
             </q-item-section>
 
             <q-item-section>{{ $t("Guides") }}</q-item-section>

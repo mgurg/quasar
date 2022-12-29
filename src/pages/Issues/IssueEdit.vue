@@ -51,7 +51,7 @@ import {useUserStore} from "stores/user";
 import {useRoute, useRouter} from "vue-router";
 import IssueForm from 'src/components/forms/IssueForm.vue'
 import {errorHandler} from "components/api/errorHandler";
-import {getIssueRequest, updateIssueRequest} from "components/api/IssueApiClient";
+import {getOneIssueRequest, editIssueRequest} from "components/api/IssueApiClient";
 import {deleteFileRequest} from "components/api/FilesApiClient";
 
 
@@ -98,7 +98,7 @@ function updateIssue(uuid, formData) {
   isRemoving.value = false;
 
   isLoading.value = true;
-  updateIssueRequest(uuid, formData).then(function (response) {
+  editIssueRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
     if (isRemoving.value == false) {
       router.push("/issues");
@@ -146,7 +146,7 @@ function cancelButtonPressed() {
 
 function getIssueDetails(uuid) {
   isLoading.value = true;
-  getIssueRequest(uuid).then(function (response) {
+  getOneIssueRequest(uuid).then(function (response) {
     issueDetails.value = response.data
     dbImagesUuidList.value = response.data.files_issue.map(a => a.uuid)
 

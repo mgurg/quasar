@@ -117,7 +117,7 @@
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
 
-import {getItemRequest} from 'src/components/api/ItemApiClient'
+import {getManyItemsRequest} from 'src/components/api/ItemApiClient'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
 let sort = reactive({
@@ -172,7 +172,7 @@ function fetchItems() {
     sortColumn: sort.active
   };
 
-  getItemRequest(params).then(function (response) {
+  getManyItemsRequest(params).then(function (response) {
     items.value = response.data.items
     pagination.total = response.data.total
     isLoading.value = false;

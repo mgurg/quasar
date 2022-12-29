@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -116,16 +116,16 @@
                 <q-toggle
                   v-model="withPhoto"
                   checked-icon="check"
-                  unchecked-icon="clear"
                   label="Załączniki"
                   toggle-indeterminate
+                  unchecked-icon="clear"
                 />
                 <q-toggle
                   v-model="withUser"
                   checked-icon="check"
-                  unchecked-icon="clear"
                   label="Przypisany"
                   toggle-indeterminate
+                  unchecked-icon="clear"
                 />
               </div>
 
@@ -135,7 +135,7 @@
         </q-card>
       </q-slide-transition>
 
-      <q-card v-if="pagination.total > 0 || search!==null" class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card v-if="pagination.total > 0 || search!==null" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
 
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
@@ -196,7 +196,7 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import IssueItem from "components/listRow/IssueListRow.vue";
-import {getIssuesRequest} from "components/api/IssueApiClient";
+import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
 let isLoading = ref(false);
@@ -276,10 +276,11 @@ async function fetchIssues() {
     sortColumn: sort.active
   };
 
-  getIssuesRequest(params).then(function (response) {
+  getManyIssuesRequest(params).then(function (response) {
     issues.value = response.data.items;
     pagination.total = response.data.total
     isLoading.value = false;
+    console.log(response.data.items)
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;

@@ -53,7 +53,7 @@
 import ItemForm from 'src/components/forms/ItemForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
-import {getItemUuidRequest, updateItemRequest} from "components/api/ItemApiClient";
+import {getOneItemRequest, editItemRequest} from "components/api/ItemApiClient";
 import {onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
 import {deleteFileRequest} from "components/api/FilesApiClient";
@@ -100,7 +100,7 @@ function updateItem(uuid, formData) {
   isRemoving.value = false;
 
   isLoading.value = true;
-  updateItemRequest(uuid, formData).then(function (response) {
+  editItemRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
     if (isRemoving.value == false) {
       router.push("/items");
@@ -144,7 +144,7 @@ function cancelButtonPressed() {
 
 function getItemDetails(uuid) {
   isLoading.value = true;
-  getItemUuidRequest(uuid).then(function (response) {
+  getOneItemRequest(uuid).then(function (response) {
     itemDetails.value = response.data
     console.log(response.data)
     dbImagesUuidList.value = response.data.files_item.map(a => a.uuid)

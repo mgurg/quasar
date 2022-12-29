@@ -119,7 +119,7 @@ import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import GuideListRow from "components/listRow/GuideListRow.vue";
-import {getItemRequest} from "components/api/ItemApiClient";
+import {getManyItemsRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {getGuideRequest} from "components/api/GuideApiClient";
 

@@ -1,38 +1,16 @@
 <template>
-  <div class="cursor-pointer" @click="viewIdea(idea.uuid)">
-    <q-item
-      :class="{ 'bg-blue-grey-6': (idea.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (idea.uuid == selected && !$q.dark.isActive) }">
-      <q-item-section avatar cursor-pointer ripple @click="viewIdea(idea.uuid)">
-        <q-avatar rounded :color="counter > 0? 'green': 'red'" text-color="white">
-          {{ counter }}
-        </q-avatar
-        >
+  <div class="cursor-pointer" @click="viewIssue(issue.uuid)">
+    <q-item>
+      <q-item-section avatar cursor-pointer ripple @click="viewIssue(issue.uuid)">
+        <q-avatar rounded color="red" text-color="white" icon="article"/>
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1" class="text-body1">{{ idea.title }}</q-item-label>
-        <q-item-label caption lines="2">{{ idea.description }}</q-item-label>
-        <!-- <q-item-label lines="1">
-          <q-chip square size="sm" color="blue-12" text-color="white">#111</q-chip>
-        </q-item-label> -->
+        <q-item-label lines="1" class="text-body1">{{ issue.name }}</q-item-label>
+        <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
       </q-item-section>
-
-      <q-item-section side v-if="idea.uuid == selected">
-        <div class="text-grey-8 q-gutter-xs">
-          <!-- <q-btn size="12px" flat dense round icon="edit" @click="editIdea(idea.uuid)" /> -->
-          <q-btn
-            size="12px"
-            flat
-            dense
-            round
-            icon="delete"
-            @click="deleteIdea(idea.uuid)"
-          />
-          <q-btn size="12px" flat dense round icon="info" @click="viewIdea(idea.uuid)"/>
-        </div>
-      </q-item-section>
-      <q-item-section side v-else>
-        <q-item-label caption>{{ timeAgo(idea.created_at) }}</q-item-label>
+      <q-item-section side>
+        <q-item-label caption>{{ timeAgo(issue.created_at) }}</q-item-label>
         <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>
     </q-item>
@@ -55,30 +33,24 @@ const $q = useQuasar();
 const router = useRouter();
 
 const props = defineProps({
-  idea: {
+  issue: {
     type: Object,
     default() {
       return {
-        uuid: null,
-        title: "Tile",
-        description: "Desc",
-        upvotes: 0,
-        downvotes: 0,
-        created_at: "2022-03-09T11:02:38.822164+00:00",
+        uuid:null,
+        name: null,
+        text: null,
+        text_json: null,
+        status:null,
+        priority:null,
+        color:null,
+        created_at: null
       };
     },
   },
-  selected: {
-    type: String,
-  },
 });
 
-const counter = computed(() => (props.idea.upvotes - props.idea.downvotes))
-
-const emit = defineEmits(["selectedItem", "forceRefresh"]);
-const handleSelect = (uuid) => {
-  emit("selectedItem", uuid);
-};
+// const counter = computed(() => (props.issue.upvotes - props.issue.downvotes))
 
 const units = ["year", "month", "week", "day", "hour", "minute", "second"];
 
@@ -96,7 +68,7 @@ const timeAgo = (date) => {
   return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
 };
 
-function deleteIdea(uuid) {
+function deleteIssue(uuid) {
   $q.dialog({
     title: "Confirm",
     message: "Really delete?",
@@ -104,9 +76,8 @@ function deleteIdea(uuid) {
     persistent: true,
   }).onOk(() => {
     authApi
-      .delete("/ideas/" + uuid)
+      .delete("/issues/" + uuid)
       .then((res) => {
-        emit("forceRefresh")
       })
       .catch((err) => {
         if (err.response) {
@@ -117,16 +88,16 @@ function deleteIdea(uuid) {
           console.log("General Error");
         }
       });
-    $q.notify("Idea deleted");
+    $q.notify("Issue deleted");
     // fetchTasks()
   });
 }
 
-function editIdea(uuid) {
-  router.push("/ideas/edit/" + uuid);
+function editIssue(uuid) {
+  router.push("/issues/edit/" + uuid);
 }
 
-function viewIdea(uuid) {
-  router.push("/ideas/" + uuid);
+function viewIssue(uuid) {
+  router.push("/issues/" + uuid);
 }
 </script>
