@@ -111,11 +111,11 @@ const props = defineProps({
     default() {
       return {
         uuid: null,
-        title: '',
+        name: null,
         description: '',
         color: 'red',
         user: null,
-        body_json: null,
+        text_json: null,
         files_issue: null
 
       }
@@ -170,8 +170,8 @@ watch(result, (newValue, oldValue) => {
 const tipTapText = ref(null)
 
 
-if (props.issue.body_json !== null) {
-  tipTapText.value = props.issue.body_json;
+if (props.issue.text_json !== null) {
+  tipTapText.value = props.issue.text_json;
 }
 
 // --------------- Form --------------
@@ -200,7 +200,7 @@ const {handleSubmit, errors} = useForm({
   validationSchema
 })
 
-const {value: issueName} = useField('issueName', undefined, {initialValue: props.issue.title})
+const {value: issueName} = useField('issueName', undefined, {initialValue: props.issue.name})
 const {value: issueDescription} = useField('issueDescription', undefined, {initialValue: props.issue.description})
 const {value: issueColor} = useField('issueColor', undefined, {initialValue: props.issue.color})
 const {value: email} = useField('email')

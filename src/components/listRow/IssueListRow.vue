@@ -1,66 +1,65 @@
 <template>
-<!--  <div class="cursor-pointer">-->
-    <q-item clickable v-ripple class="q-pa-xs"  @click="viewIssue(issue.uuid)">
-      <q-item-section class="q-pr-xs" avatar  @click="viewIssue(issue.uuid)">
-        <q-avatar rounded color="red" text-color="white" icon="article"/>
-      </q-item-section>
+  <!--  <div class="cursor-pointer">-->
+  <q-item v-ripple :class="$q.screen.lt.sm ? 'q-pa-xs':''" clickable @click="viewIssue(issue.uuid)">
+    <q-item-section :class="$q.screen.lt.sm ? 'q-pr-xs':''" avatar @click="viewIssue(issue.uuid)">
+      <!--        <q-avatar rounded :icon="getIcon(issue.status)"/>-->
+      <q-icon :name="getIcon(issue.status)" color="warning" size="lg"/>
+    </q-item-section>
 
-      <q-item-section>
-        <q-item-label lines="1" class="text-body1">
-          {{ issue.name }}
+    <q-item-section>
+      <q-item-label class="text-body1" lines="1">
+        {{ issue.name }}
 
-          <q-chip
-            v-if="$q.screen.gt.xs ===true"
-            clickable
-            class="q-ma-xs"
-            color="teal"
-            text-color="white"
-            :label="issue.item.name"
-            size="md"
-            @click="viewItem(issue.item.uuid)"
-          />
-          <q-chip
-            v-if="$q.screen.gt.xs ===true && issue.users_issue.lenght > 0"
-            icon="person"
-            class="q-ma-xs"
-            size="md"
-          />
-        </q-item-label>
-        <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
-        <q-item-label caption v-if="$q.screen.lt.sm ===true">
-          <q-chip
-            v-if="issue.users_issue.lenght > 0"
-            icon="person"
-            class="q-ma-xs"
-            size="sm"
-          />
-          <q-chip
-            clickable
-            class="q-ma-xs"
-            color="teal"
-            text-color="white"
-            :label="issue.item.name"
-            size="sm"
-            @click="viewItem(issue.item.uuid)"
-          />
-          {{ timeAgo(issue.created_at) }}
+        <q-chip
+          v-if="$q.screen.gt.xs ===true"
+          :label="issue.item.name"
+          class="q-ma-xs"
+          clickable
+          color="teal"
+          size="md"
+          text-color="white"
+          @click="viewItem(issue.item.uuid)"
+        />
+        <q-chip
+          v-if="$q.screen.gt.xs ===true && issue.users_issue.length > 0"
+          class="q-ma-xs"
+          icon="person"
+          size="md"
+        />
+      </q-item-label>
+      <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
+      <q-item-label v-if="$q.screen.lt.sm ===true" caption>
+        <q-chip
+          v-if="issue.users_issue.length > 0"
+          class="q-ma-xs"
+          icon="person"
+          size="sm"
+        />
+        <q-chip
+          :label="issue.item.name"
+          class="q-ma-xs"
+          clickable
+          color="teal"
+          size="sm"
+          text-color="white"
+          @click="viewItem(issue.item.uuid)"
+        />
+        {{ timeAgo(issue.created_at) }}
 
 
+      </q-item-label>
+    </q-item-section>
+    <q-item-section v-if="$q.screen.gt.xs ===true" side>
+      <q-item-label caption>{{ timeAgo(issue.created_at) }}</q-item-label>
+      <!-- <q-icon name="priority_high" color="red-12" /> -->
+    </q-item-section>
+  </q-item>
 
-        </q-item-label>
-      </q-item-section>
-      <q-item-section side v-if="$q.screen.gt.xs ===true">
-        <q-item-label caption>{{ timeAgo(issue.created_at) }}</q-item-label>
-        <!-- <q-icon name="priority_high" color="red-12" /> -->
-      </q-item-section>
-    </q-item>
-
-    <q-separator/>
-<!--  </div>-->
+  <q-separator/>
+  <!--  </div>-->
 </template>
 
 <script setup>
-import {computed} from "vue";
 import {useQuasar} from "quasar";
 import {useRouter} from "vue-router";
 import {authApi} from "boot/axios";
@@ -77,13 +76,13 @@ const props = defineProps({
     type: Object,
     default() {
       return {
-        uuid:null,
+        uuid: null,
         name: null,
         text: null,
         text_json: null,
-        status:null,
-        priority:null,
-        color:null,
+        status: null,
+        priority: null,
+        color: null,
         created_at: null
       };
     },
@@ -143,5 +142,30 @@ function viewIssue(uuid) {
 
 function viewItem(uuid) {
   router.push("/items/" + uuid);
+}
+
+function getIcon(status) {
+  switch (status) {
+    case 'new':
+      return 'auto_awesome'
+      break;
+    case 'accepted':
+      return 'playlist_add_check_circle'
+      break;
+    case 'rejected':
+      return 'playlist_add_check_circle'
+      break;
+    case 'in_progress':
+      return 'build_circle'
+      break;
+    case 'paused':
+      return 'pause_circle'
+      break;
+    case 'resolved':
+      return 'check_circle'
+      break;
+    default:
+      return 'offline_bolt'
+  }
 }
 </script>

@@ -166,7 +166,7 @@
           </q-item>
 
           <div v-for="(issue, index) in issues" v-if="issues != null" v-bind:key="index">
-            <issue-item v-if="!isLoading" :issue="issue" @forceRefresh="fetchIssues"></issue-item>
+            <issue-list-row v-if="!isLoading" :issue="issue" @forceRefresh="fetchIssues"></issue-list-row>
           </div>
           <task-index-skeleton v-else/>
 
@@ -196,7 +196,7 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import IssueItem from "components/listRow/IssueListRow.vue";
+import IssueListRow from "components/listRow/IssueListRow.vue";
 import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
@@ -219,10 +219,21 @@ function changeSortOrder(column) {
   fetchIssues()
 }
 
+const pagination = reactive({page: 1, size: 10, total: 1})
+
+const pagesNo = computed(() => {
+  // console.log(Math.ceil(pagination.total/pagination.size))
+  return Math.ceil(pagination.total / pagination.size)
+})
+
+watch(() => pagination.page, (oldPage, newPage) => {
+  console.log(oldPage, newPage);
+  fetchIssues();
+})
+
 let hasPhotos = ref(null);
 let hasStatus = ref(null);
 
-const pagination = reactive({page: 1, size: 10, total: 1})
 
 function setAttachmentFilter(condition) {
   hasPhotos.value = condition;
@@ -237,16 +248,6 @@ function setStatusFilter(condition) {
 function goToPage(value) {
   console.log(value)
 }
-
-const pagesNo = computed(() => {
-  // console.log(Math.ceil(pagination.total/pagination.size))
-  return Math.ceil(pagination.total / pagination.size)
-})
-
-watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
-  fetchIssues();
-})
 
 
 // const myTasks = computed(() => {

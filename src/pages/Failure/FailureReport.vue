@@ -8,7 +8,9 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5 text-weight-medium" v-if="itemDetails!= null">{{ $t("Issue") }}: {{itemDetails.name}}</q-item-label>
+                <q-item-label class="text-h5 text-weight-medium" v-if="itemDetails!= null">{{ $t("Issue") }}:
+                  {{ itemDetails.name }}
+                </q-item-label>
                 <q-item-label caption>
                   Poniżej jest lista znanych problemów, czynności serwisowych.
                   Sprawdź czy nie znajdziesz tam rozwiązania swojego problemu.
@@ -35,7 +37,9 @@
 
         </q-card-section>
         <q-card-actions>
-          <q-btn color="primary" icon="bug_report" no-caps outline @click="reportProblem()">&nbsp; Zgłaszam nowy problem</q-btn>
+          <q-btn color="primary" icon="bug_report" no-caps outline @click="reportProblem()">&nbsp; Zgłaszam nowy
+            problem
+          </q-btn>
         </q-card-actions>
       </q-card>
 

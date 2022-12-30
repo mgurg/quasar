@@ -28,107 +28,21 @@
                 </q-timeline-entry>
 
                 <q-timeline-entry
-                  side="left"
-                  subtitle="February 22, 1986"
-                  title="Event Title"
+                  v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
+                  :side="index%2 ===0? 'left':'right'"
+                  :subtitle="formatDate(event.created_at)"
+                  :title="event.action"
                 >
                   <div>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
+                    et dolore magna aliqua.
                   </div>
                 </q-timeline-entry>
 
-                <q-timeline-entry
-                  icon="delete"
-                  side="right"
-                  subtitle="February 21, 1986"
-                  title="Event Title"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </div>
-                </q-timeline-entry>
 
                 <q-timeline-entry heading>November, 2017</q-timeline-entry>
 
-                <q-timeline-entry
-                  side="left"
-                  subtitle="February 22, 1986"
-                  title="Event Title"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </div>
-                </q-timeline-entry>
 
-                <q-timeline-entry
-                  side="right"
-                  subtitle="February 22, 1986"
-                  title="Event Title"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </div>
-                </q-timeline-entry>
-
-                <q-timeline-entry
-                  color="orange"
-                  icon="done_all"
-                  side="left"
-                  subtitle="February 22, 1986"
-                  title="Event Title"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </div>
-                </q-timeline-entry>
-
-                <q-timeline-entry
-                  side="right"
-                  subtitle="February 22, 1986"
-                  title="Event Title"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </div>
-                </q-timeline-entry>
-
-                <q-timeline-entry
-                  side="left"
-                  subtitle="February 22, 1986"
-                  title="Event Title"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-                    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                    sunt in culpa qui officia deserunt mollit anim id est laborum.
-                  </div>
-                </q-timeline-entry>
               </q-timeline>
             </div>
           </q-card-section>
@@ -139,8 +53,11 @@
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import {useQuasar} from "quasar";
+import {errorHandler} from "components/api/errorHandler";
+import {getTimelineRequest} from "components/api/ItemApiClient";
+import {DateTime} from "luxon";
 
 const $q = useQuasar();
 
@@ -151,10 +68,36 @@ const props = defineProps({
   },
 })
 
+let isLoading = ref(false);
+let timelineData = ref(null);
+
 const expandedTimeline = ref(props.expandedTimeline)
 
 const layout = computed(() => {
   return $q.screen.lt.sm ? 'dense' : ($q.screen.lt.md ? 'comfortable' : 'loose')
+});
+
+function getTimeline() {
+  isLoading.value = true;
+  getTimelineRequest('cfc9b1eb-7f9d-4c4b-ae1d-fc97e940aa58').then(function (response) {
+    timelineData.value = response.data
+    console.log(response.data)
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
+function formatDate(date) {
+  let dateTime = DateTime.fromISO(date);
+  return dateTime.toFormat('yyyy-MM-dd HH:mm')
+}
+
+onBeforeMount(() => {
+  isLoading.value = true;
+  // console.log(route.params.uuid)
+  getTimeline();
 });
 
 </script>

@@ -1,18 +1,18 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-    <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
-      <template v-slot:separator>
-        <q-icon
-          color="grey"
-          name="chevron_right"
-          size="1.5em"
-        />
-      </template>
-      <q-breadcrumbs-el icon="home" to="/home" />
-      <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users" />
-      <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
-    </q-breadcrumbs>
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+        <template v-slot:separator>
+          <q-icon
+            color="grey"
+            name="chevron_right"
+            size="1.5em"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/home"/>
+        <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users"/>
+        <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
+      </q-breadcrumbs>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>

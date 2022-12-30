@@ -21,11 +21,14 @@
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Issue") }}</q-item-label>
 
-                <q-item-label caption v-if="itemUuid===null">
-                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>
-                  Jeżeli chcesz zgłosić awarię dla istniejącej maszyny wybierz ją z <router-link to="/items">listy urządzeń</router-link> i naciśnij przycisk zgłoś.
+                <q-item-label v-if="itemUuid===null" caption>
+                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
+                  Jeżeli chcesz zgłosić awarię dla istniejącej maszyny wybierz ją z
+                  <q-btn type="span" size="md" dense flat icon="apps" no-caps to="/items">listy urządzeń</q-btn>
+                  i naciśnij przycisk zgłoś.
+
                 </q-item-label>
-<!--                <q-btn flat no-caps>Idę do listy urządzeń</q-btn>-->
+                <!--                <q-btn flat no-caps>Idę do listy urządzeń</q-btn>-->
               </q-item-section>
             </q-item>
 

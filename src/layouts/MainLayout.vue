@@ -81,14 +81,14 @@
           </q-item>
 
           <!--Guides Index-->
-          <q-item to="/guides" exact clickable v-ripple>
-            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
-            <q-item-section avatar>
-              <q-icon size="md" name="construction" />
-            </q-item-section>
+<!--          <q-item to="/guides" exact clickable v-ripple>-->
+<!--            &lt;!&ndash; v-if="hasPermission('SETTINGS_VIEW')" &ndash;&gt;-->
+<!--            <q-item-section avatar>-->
+<!--              <q-icon size="md" name="construction" />-->
+<!--            </q-item-section>-->
 
-            <q-item-section>{{ $t("Guides") }}</q-item-section>
-          </q-item>
+<!--            <q-item-section>{{ $t("Guides") }}</q-item-section>-->
+<!--          </q-item>-->
 
           <!--Users Index-->
           <q-item to="/users" exact clickable v-ripple>
@@ -103,18 +103,18 @@
           </q-item>
 
           <!--Ideas Index-->
-          <q-item to="/ideas" exact clickable v-ripple>
-            <q-item-section avatar>
-              <div class="relative-position">
-                <q-icon size="md" name="tips_and_updates">
-                </q-icon>
-                <q-badge color="orange" floating>1</q-badge>
-              </div>
+<!--          <q-item to="/ideas" exact clickable v-ripple>-->
+<!--            <q-item-section avatar>-->
+<!--              <div class="relative-position">-->
+<!--                <q-icon size="md" name="tips_and_updates">-->
+<!--                </q-icon>-->
+<!--                <q-badge color="orange" floating>1</q-badge>-->
+<!--              </div>-->
 
-            </q-item-section>
+<!--            </q-item-section>-->
 
-            <q-item-section>{{ $t("Ideas") }}</q-item-section>
-          </q-item>
+<!--            <q-item-section>{{ $t("Ideas") }}</q-item-section>-->
+<!--          </q-item>-->
 
           <!--Settings Index-->
           <q-item to="/settings" exact clickable v-ripple>

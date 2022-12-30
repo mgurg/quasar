@@ -12,6 +12,10 @@ export function getOneItemRequest(uuid) {
   return authApi.get("/items/" + uuid);
 }
 
+export function getTimelineRequest(uuid) {
+  return authApi.get("/items/timeline/" + uuid);
+}
+
 export function getAnonymousItemUuidRequest(uuid, token, tenant_id) {
   return api.get("/items/" + uuid, {
     headers: {

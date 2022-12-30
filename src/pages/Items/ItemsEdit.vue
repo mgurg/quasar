@@ -53,7 +53,7 @@
 import ItemForm from 'src/components/forms/ItemForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
-import {getOneItemRequest, editItemRequest} from "components/api/ItemApiClient";
+import {editItemRequest, getOneItemRequest} from "components/api/ItemApiClient";
 import {onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
 import {deleteFileRequest} from "components/api/FilesApiClient";

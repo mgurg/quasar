@@ -115,11 +115,9 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
-import {authApi} from "boot/axios";
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
 import GuideListRow from "components/listRow/GuideListRow.vue";
-import {getManyItemsRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {getGuideRequest} from "components/api/GuideApiClient";
 
@@ -208,9 +206,9 @@ async function fetchGuides() {
   };
 
   getGuideRequest(params).then(function (response) {
-        guides.value = response.data.items;
-        pagination.total = response.data.total;
-        isLoading.value = false;
+    guides.value = response.data.items;
+    pagination.total = response.data.total;
+    isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
   });

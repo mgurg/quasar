@@ -19,18 +19,18 @@
             <q-item-section></q-item-section>
             <q-item-section side>
               <div class="col-12 text-h6 q-mt-none">
-<!--                <q-btn-->
-<!--                  :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
-<!--                  class="float-right q-mr-sm" color="primary" flat-->
-<!--                  icon="edit" no-caps-->
-<!--                  outline @click="editGuide(guideDetails.uuid)"-->
-<!--                />-->
-<!--                <q-btn-->
-<!--                  :label="$q.screen.gt.xs ? $t('Delete') : ''"-->
-<!--                  class="float-right q-mr-sm" color="red" flat-->
-<!--                  icon="delete"-->
-<!--                  no-caps @click="deleteGuide(guideDetails.uuid)"-->
-<!--                />-->
+                <!--                <q-btn-->
+                <!--                  :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
+                <!--                  class="float-right q-mr-sm" color="primary" flat-->
+                <!--                  icon="edit" no-caps-->
+                <!--                  outline @click="editGuide(guideDetails.uuid)"-->
+                <!--                />-->
+                <!--                <q-btn-->
+                <!--                  :label="$q.screen.gt.xs ? $t('Delete') : ''"-->
+                <!--                  class="float-right q-mr-sm" color="red" flat-->
+                <!--                  icon="delete"-->
+                <!--                  no-caps @click="deleteGuide(guideDetails.uuid)"-->
+                <!--                />-->
                 <q-btn
                   :label="$q.screen.gt.xs ?  $t('Edit') : ''"
                   class="float-right "

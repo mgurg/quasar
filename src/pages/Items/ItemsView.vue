@@ -86,7 +86,9 @@
         <q-separator/>
 
         <q-card-actions align="right">
-          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps @click="reportFailure(itemDetails.uuid)">Zgłoś awarie</q-btn>
+          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps
+                 @click="reportFailure(itemDetails.uuid)">Zgłoś awarie
+          </q-btn>
           <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
           <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>
         </q-card-actions>
@@ -199,7 +201,7 @@ function deleteItem(uuid, itemName) {
   });
 }
 
-function addToFavourite(){
+function addToFavourite() {
   console.log('<3')
 }
 
