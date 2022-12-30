@@ -23,6 +23,7 @@
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn
+                    v-if="issues.length !== 0"
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"

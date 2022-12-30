@@ -38,10 +38,15 @@
         <q-card-section v-if="issueDetails && !isLoading" class="q-pt-none">
           <q-list>
             <q-item class="q-px-none">
+              <q-card-section avatar class="q-pa-sm">
+<!--                <q-avatar :icon="getIcon('1')" size="lg"/>-->
+                <q-icon color="grey" size="lg" :name="getIcon(issueDetails.status)" />
+              </q-card-section>
+
               <q-item-section>
                 <q-item-label class="text-h5">{{ issueDetails.name }}</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>
+                <!--                <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>-->
               </q-item-section>
             </q-item>
           </q-list>
@@ -63,6 +68,7 @@
         <q-card-actions align="right">
           <q-btn
             :label="$q.screen.gt.xs ? 'Przypisz użytkownika' : ''"
+            :disable="issueStatus === 'resolved_issue'"
             class="q-px-xs"
             color="primary"
             flat
@@ -93,7 +99,8 @@
             @click="setIssueStatus('reject_issue')"
           />
           <q-btn
-            v-if="issueStatus !== null && issueStatus === 'accept_issue'"
+            v-if="issueStatus !== null || issueStatus === 'accept_issue' || issueStatus === 'pause_issue'"
+            :disable="issueStatus === 'in_progress_issue'||  issueStatus === 'resolved_issue'"
             :label="$q.screen.gt.xs ? 'Rozpocznij' : ''"
             class="q-px-xs"
             color="primary"
@@ -104,35 +111,35 @@
           />
           <q-btn
             v-if="issueStatus !== null"
+            :disable="issueStatus === 'accept_issue'|| issueStatus === 'pause_issue' ||  issueStatus === 'resolved_issue'"
             :label="$q.screen.gt.xs ? 'Wstrzymaj' : ''"
             class="q-px-xs"
             color="primary"
             flat
             icon="pause"
             no-caps
-            :disable="issueStatus === 'accept_issue'"
             @click="setIssueStatus('pause_issue')"
           />
           <q-btn
             v-if="issueStatus !== null"
+            :disable="issueStatus === 'accept_issue'||  issueStatus === 'resolved_issue'"
             :label="$q.screen.gt.xs ? 'Zakończ' : ''"
             class="q-px-xs"
             color="primary"
             flat
             icon="stop"
             no-caps
-            :disable="issueStatus === 'accept_issue'"
             @click="setIssueStatus('resolved_issue')"
           />
           <q-btn
             v-if="issueStatus !== null"
+            :disable="issueStatus === 'accept_issue'"
             :label="$q.screen.gt.xs ? 'Restart' : ''"
             class="q-px-xs"
             color="primary"
             flat
             icon="restart_alt"
             no-caps
-            :disable="issueStatus === 'accept_issue'"
             @click="setIssueStatus('resolved_issue')"
           />
         </q-card-actions>
@@ -220,7 +227,7 @@ function getIssueDetails(uuid) {
 function setIssueStatus(status) {
 
   changeIssueStatusRequest(issueUuid.value, {status: status}).then(function (response) {
-
+    getIssueDetails(issueUuid.value)
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -246,7 +253,7 @@ function deleteIssue(uuid, issueName) {
         type: 'warning',
         message: successfulDeleteMessage.value + " " + issueName,
       });
-      router.push("/users/edit/" + uuid);
+      router.push("/issues/");
       isLoading.value = false;
     }).catch((err) => {
       const errorMessage = errorHandler(err);
@@ -327,6 +334,32 @@ function unassignUser(uuid, isArray = false) {
   // });
 }
 
+function getIcon(status){
+  switch (status) {
+    case null:
+      return 'playlist_add_check_circle'
+      break;
+    case 'accept_issue':
+      return 'playlist_add_check_circle'
+      break;
+    case 'reject_issue':
+      return 'playlist_add_check_circle'
+      break;
+    case 'in_progress_issue':
+      return 'build_circle'
+      break;
+    case 'pause_issue':
+      return 'pause_circle'
+      break;
+    case 'resolved_issue':
+      return 'check_circle'
+      break;
+    default:
+      return 'playlist_add_check_circle'
+  }
+
+  return 'playlist_add_check_circle'
+}
 onBeforeMount(() => {
   isLoading.value = true;
   issueUuid.value = route.params.uuid

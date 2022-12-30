@@ -1,22 +1,62 @@
 <template>
-  <div class="cursor-pointer" @click="viewIssue(issue.uuid)">
-    <q-item>
-      <q-item-section avatar cursor-pointer ripple @click="viewIssue(issue.uuid)">
+<!--  <div class="cursor-pointer">-->
+    <q-item clickable v-ripple class="q-pa-xs"  @click="viewIssue(issue.uuid)">
+      <q-item-section class="q-pr-xs" avatar  @click="viewIssue(issue.uuid)">
         <q-avatar rounded color="red" text-color="white" icon="article"/>
       </q-item-section>
 
       <q-item-section>
-        <q-item-label lines="1" class="text-body1">{{ issue.name }}</q-item-label>
+        <q-item-label lines="1" class="text-body1">
+          {{ issue.name }}
+
+          <q-chip
+            v-if="$q.screen.gt.xs ===true"
+            clickable
+            class="q-ma-xs"
+            color="teal"
+            text-color="white"
+            :label="issue.item.name"
+            size="md"
+            @click="viewItem(issue.item.uuid)"
+          />
+          <q-chip
+            v-if="$q.screen.gt.xs ===true && issue.users_issue.lenght > 0"
+            icon="person"
+            class="q-ma-xs"
+            size="md"
+          />
+        </q-item-label>
         <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
+        <q-item-label caption v-if="$q.screen.lt.sm ===true">
+          <q-chip
+            v-if="issue.users_issue.lenght > 0"
+            icon="person"
+            class="q-ma-xs"
+            size="sm"
+          />
+          <q-chip
+            clickable
+            class="q-ma-xs"
+            color="teal"
+            text-color="white"
+            :label="issue.item.name"
+            size="sm"
+            @click="viewItem(issue.item.uuid)"
+          />
+          {{ timeAgo(issue.created_at) }}
+
+
+
+        </q-item-label>
       </q-item-section>
-      <q-item-section side>
+      <q-item-section side v-if="$q.screen.gt.xs ===true">
         <q-item-label caption>{{ timeAgo(issue.created_at) }}</q-item-label>
         <!-- <q-icon name="priority_high" color="red-12" /> -->
       </q-item-section>
     </q-item>
 
     <q-separator/>
-  </div>
+<!--  </div>-->
 </template>
 
 <script setup>
@@ -49,7 +89,7 @@ const props = defineProps({
     },
   },
 });
-
+const emit = defineEmits(["forceRefresh"])
 // const counter = computed(() => (props.issue.upvotes - props.issue.downvotes))
 
 const units = ["year", "month", "week", "day", "hour", "minute", "second"];
@@ -99,5 +139,9 @@ function editIssue(uuid) {
 
 function viewIssue(uuid) {
   router.push("/issues/" + uuid);
+}
+
+function viewItem(uuid) {
+  router.push("/items/" + uuid);
 }
 </script>

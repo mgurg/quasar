@@ -8,18 +8,12 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5 text-weight-medium">{{ $t("Guides") }}</q-item-label>
-                 <q-item-label caption>
-                   Poniżej jest lista znanych problemów, czynności serwisowych.
-                   Sprawdź czy nie znajdziesz tam rozwiązania swojego problemu.
-                 </q-item-label>
+                <q-item-label class="text-h5 text-weight-medium" v-if="itemDetails!= null">{{ $t("Issue") }}: {{itemDetails.name}}</q-item-label>
+                <q-item-label caption>
+                  Poniżej jest lista znanych problemów, czynności serwisowych.
+                  Sprawdź czy nie znajdziesz tam rozwiązania swojego problemu.
+                </q-item-label>
               </q-item-section>
-<!--              <q-item-section side>-->
-<!--                <div class="col-12 text-h6 q-mt-none">-->
-<!--                  <q-btn :label="$q.screen.gt.xs ? $t('New guide') : ''" class="float-right q-mr-xs no-shadow" color="primary" icon="add" no-caps-->
-<!--                         outline to="/guides/add"/>-->
-<!--                </div>-->
-<!--              </q-item-section>-->
             </q-item>
 
           </q-list>
@@ -27,21 +21,21 @@
       </q-card>
 
 
-        <q-card bordered class="my-card no-shadow q-mt-sm">
-          <div v-for="(guide, index) in itemDetails.item_guides" v-if="itemDetails!= null" v-bind:key="index">
-            <guide-item v-if="!isLoading" :guide="guide"></guide-item>
-            <!-- {{guide.name}} <br>
-            <q-btn flat @click="goToSolution(guide.uuid)" no-caps>zobacz rozwiązanie</q-btn> -->
-          </div>
-        </q-card>
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <div v-for="(guide, index) in itemDetails.item_guides" v-if="itemDetails!= null" v-bind:key="index">
+          <guide-item v-if="!isLoading" :guide="guide"></guide-item>
+          <!-- {{guide.name}} <br>
+          <q-btn flat @click="goToSolution(guide.uuid)" no-caps>zobacz rozwiązanie</q-btn> -->
+        </div>
+      </q-card>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
-        Mój problem jest inny, chcę zgłosić nowy problem.
+          Mój problem jest inny, chcę zgłosić nowy problem.
 
         </q-card-section>
         <q-card-actions>
-          <q-btn flat no-caps @click="reportProblem()">Zgłaszam nowy problem</q-btn>
+          <q-btn color="primary" icon="bug_report" no-caps outline @click="reportProblem()">&nbsp; Zgłaszam nowy problem</q-btn>
         </q-card-actions>
       </q-card>
 

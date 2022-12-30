@@ -64,7 +64,6 @@ let isError = ref(false);
 const itemUuid = ref(null);
 
 function createIssue(formData) {
-  formData['description'] = "some description"
   formData['item_uuid'] = itemUuid.value
   isLoading.value = true;
   addIssueRequest(formData).then(function (response) {

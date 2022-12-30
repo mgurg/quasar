@@ -48,6 +48,12 @@
                   </q-list>
                 </q-btn-dropdown>
                 <q-btn
+                  :label="$q.screen.gt.xs ? 'Ulubiony' : ''"
+                  class="float-right q-mr-sm" color="accent" flat
+                  icon="favorite_border" no-caps
+                  outline @click="addToFavourite(itemDetails.uuid)"
+                />
+                <q-btn
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary" flat
                   icon="edit" no-caps
@@ -80,7 +86,7 @@
         <q-separator/>
 
         <q-card-actions align="right">
-          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie</q-btn>
+          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps @click="reportFailure(itemDetails.uuid)">Zgłoś awarie</q-btn>
           <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
           <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>
         </q-card-actions>
@@ -191,6 +197,14 @@ function deleteItem(uuid, itemName) {
       isError.value = true;
     });
   });
+}
+
+function addToFavourite(){
+  console.log('<3')
+}
+
+function reportFailure(uuid) {
+  router.push("/failure/" + uuid);
 }
 
 onBeforeMount(() => {
