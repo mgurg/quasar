@@ -63,8 +63,9 @@ export default {
 
 	// dashboard
 	"New": `New`,
-	"Voted": `Voted`,
-	"Accepted": `Accepted`,
+	"Ongoing": `Ongoing`,
+	"Paused": `Paused`,
+	"Done": `Done`,
 	"Rejected": `Rejected`,
 
 	// users
@@ -94,13 +95,23 @@ export default {
 	"Issue description": `Issue description`,
 	"New issue": `New issue`,
 
-
 	// items
 	"Items": `Items`,
 	"Item": `Item`,
 	"Item title": `Item title`,
 	"Item description": `Item description`,
 	"New item": `New item`,
+
+	// timeline
+	"Issue added": `Issue added`,
+	"Issue accepted": `Issue accepted`,
+	"New person assigned to issue": `New person assigned to issue`,
+	"Person removed from issue": `Person removed from issue`,
+	"Issue started": `Issue started`,
+	"Issue paused": `Issue paused`,
+	"Issue resumed": `Issue resumed`,
+	"Issue resolved": `Issue resolved`,
+
 
 	// guides
 	"Guides": `Guides`,

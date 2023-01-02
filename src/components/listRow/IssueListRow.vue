@@ -23,7 +23,7 @@
         <q-chip
           v-if="$q.screen.gt.xs ===true && issue.users_issue.length > 0"
           class="q-ma-xs"
-          icon="person"
+          icon="how_to_reg"
           size="md"
         />
       </q-item-label>

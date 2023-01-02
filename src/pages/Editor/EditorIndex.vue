@@ -21,8 +21,6 @@ let htmlTxt = null;
 function logText(json, html) {
   jsonTxt = json
   htmlTxt = html
-
-
 }
 
 function saveText() {

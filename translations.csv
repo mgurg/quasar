@@ -60,8 +60,9 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 ,,,,
 #dashboard,,,,
 """New""",New,Nouveau,Neu,Nowy
-"""Voted""",Voted,Voté,Gewählt,Głosował
-"""Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+"""Ongoing""",Ongoing,En cours,Laufend,W trakcie
+"""Paused""",Paused,Interrompu,Blättern,Zatrzymany
+"""Done""",Done,Fait,Erledigt,Gotowy
 """Rejected""",Rejected,Rejeté,Hat abgelehnt,Odrzucony
 ,,,,
 #users,,,,
@@ -91,13 +92,23 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Issue description""",Issue description,Description du problème,Fehlerbeschreibung,Opis problemu
 """New issue""",New issue,Nouveau problème,Neues Problem,Nowy problem
 ,,,,
-,,,,
 #items,,,,
 """Items""",Items,Articles,Artikel,Przedmioty
 """Item""",Item,Idée,Artikel,Przedmiot
 """Item title""",Item title,Titre d'idée,Artikeltitel,Nazwa przedmiotu
 """Item description""",Item description,Description de l'idée,Artikelbeschreibung,Opis przedmiotu
 """New item""",New item,Nouvelle idée,Neuer Gegenstand,Nowy element
+,,,,
+#timeline,,,,
+"""Issue added""",Issue added,Idée,Problem hinzugefügt,Dodano problem
+"""Issue accepted""",Issue accepted,Idée,Ausgabe akzeptiert,Problem zaakceptowany
+"""New person assigned to issue""",New person assigned to issue,Idée,"Neue Person, die zur Ausgabe zugewiesen ist",Nowa osoba przydzielona do problemu
+"""Person removed from issue""",Person removed from issue,Idée,Person von der Ausgabe entfernt,Osoba usunięta z problemu
+"""Issue started""",Issue started,Idée,Das Problem begann,Praca rozpoczęta
+"""Issue paused""",Issue paused,Idée,Ausgabe machte eine Pause,Praca wstrzymana
+"""Issue resumed""",Issue resumed,Idée,Problem wieder aufgenommen,Praca wznowiona
+"""Issue resolved""",Issue resolved,Idée,Problem gelöst,Problem rozwiązany
+,,,,
 ,,,,
 #guides,,,,
 """Guides""",Guides,Guides,Führer,Przewodniki

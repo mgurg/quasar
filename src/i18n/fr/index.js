@@ -63,8 +63,9 @@ export default {
 
 	// dashboard
 	"New": `Nouveau`,
-	"Voted": `Voté`,
-	"Accepted": `Accepté`,
+	"Ongoing": `En cours`,
+	"Paused": `Interrompu`,
+	"Done": `Fait`,
 	"Rejected": `Rejeté`,
 
 	// users
@@ -94,13 +95,23 @@ export default {
 	"Issue description": `Description du problème`,
 	"New issue": `Nouveau problème`,
 
-
 	// items
 	"Items": `Articles`,
 	"Item": `Idée`,
 	"Item title": `Titre d'idée`,
 	"Item description": `Description de l'idée`,
 	"New item": `Nouvelle idée`,
+
+	// timeline
+	"Issue added": `Idée`,
+	"Issue accepted": `Idée`,
+	"New person assigned to issue": `Idée`,
+	"Person removed from issue": `Idée`,
+	"Issue started": `Idée`,
+	"Issue paused": `Idée`,
+	"Issue resumed": `Idée`,
+	"Issue resolved": `Idée`,
+
 
 	// guides
 	"Guides": `Guides`,

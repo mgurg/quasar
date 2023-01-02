@@ -27,20 +27,23 @@
                   <!--                  ({{ $q.screen.lt.sm ? 'Dense' : ($q.screen.lt.md ? 'Comfortable' : 'Loose') }} layout)-->
                 </q-timeline-entry>
 
-                <q-timeline-entry
-                  v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
-                  :side="index%2 ===0? 'left':'right'"
-                  :subtitle="formatDate(event.created_at)"
-                  :title="event.action"
-                >
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua.
-                  </div>
-                </q-timeline-entry>
 
 
-                <q-timeline-entry heading>November, 2017</q-timeline-entry>
+                <div v-for="(timelineData, index) in timelineOrderedData" v-if="timelineOrderedData !== null" v-bind:key="index">
+                  <q-timeline-entry heading>{{index}}</q-timeline-entry>
+                  <q-timeline-entry
+                    v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
+                    :side="index%2 ===0? 'left':'right'"
+                    :subtitle="formatDate(event.created_at)"
+                    :title="$t(event.description)"
+                  >
+                    <div>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                      et dolore magna aliqua.
+                    </div>
+                  </q-timeline-entry>
+                </div>
+
 
 
               </q-timeline>
@@ -70,6 +73,7 @@ const props = defineProps({
 
 let isLoading = ref(false);
 let timelineData = ref(null);
+let timelineOrderedData = ref(null);
 
 const expandedTimeline = ref(props.expandedTimeline)
 
@@ -82,6 +86,29 @@ function getTimeline() {
   getTimelineRequest('cfc9b1eb-7f9d-4c4b-ae1d-fc97e940aa58').then(function (response) {
     timelineData.value = response.data
     console.log(response.data)
+
+    let timelineDates = [];
+
+    for (const element of timelineData.value) {
+      let key = element.created_at.slice(0, 7);
+      timelineDates.push(key)
+    }
+
+    let uniqueDates = [...new Set(timelineDates)];
+
+    let finalData = {};
+    for (const eventDate of uniqueDates) {
+      console.log(eventDate)
+
+      let events = timelineData.value.filter(event => String(event.created_at).startsWith(eventDate))
+
+      finalData[eventDate] = events
+      /* console.log(events) */
+    }
+    timelineOrderedData.value = finalData
+    console.log(finalData)
+
+
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);

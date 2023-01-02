@@ -63,8 +63,9 @@ export default {
 
 	// dashboard
 	"New": `Nowy`,
-	"Voted": `Głosował`,
-	"Accepted": `Przyjęty`,
+	"Ongoing": `W trakcie`,
+	"Paused": `Zatrzymany`,
+	"Done": `Gotowy`,
 	"Rejected": `Odrzucony`,
 
 	// users
@@ -94,13 +95,23 @@ export default {
 	"Issue description": `Opis problemu`,
 	"New issue": `Nowy problem`,
 
-
 	// items
 	"Items": `Przedmioty`,
 	"Item": `Przedmiot`,
 	"Item title": `Nazwa przedmiotu`,
 	"Item description": `Opis przedmiotu`,
 	"New item": `Nowy element`,
+
+	// timeline
+	"Issue added": `Dodano problem`,
+	"Issue accepted": `Problem zaakceptowany`,
+	"New person assigned to issue": `Nowa osoba przydzielona do problemu`,
+	"Person removed from issue": `Osoba usunięta z problemu`,
+	"Issue started": `Praca rozpoczęta`,
+	"Issue paused": `Praca wstrzymana`,
+	"Issue resumed": `Praca wznowiona`,
+	"Issue resolved": `Problem rozwiązany`,
+
 
 	// guides
 	"Guides": `Przewodniki`,

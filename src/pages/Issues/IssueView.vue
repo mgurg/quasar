@@ -40,7 +40,7 @@
             <q-item class="q-px-none">
               <q-card-section avatar class="q-pa-sm">
                 <!--                <q-avatar :icon="getIcon('1')" size="lg"/>-->
-                <q-icon color="grey" size="lg" :name="getIcon(issueDetails.status)"/>
+                <q-icon :name="getIcon(issueDetails.status)" color="grey" size="lg"/>
               </q-card-section>
 
               <q-item-section>
@@ -51,11 +51,15 @@
             </q-item>
           </q-list>
           <div class="q-gutter-xs">
+            <!--            {{usersList}}-->
+            <span v-if="usersList.length == 0 && issueStatus=='new'" class="text-grey">Zaakceptuj lub odrzuć zgłoszenie</span>
+            <span v-if="usersList.length == 0 && issueStatus=='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
             <q-chip
               v-for="(user, index) in usersList" v-if="usersList!= null" v-bind:key="index"
               color="primary"
               icon="person"
-              removable
+              :removable="issueStatus!=='resolved'"
+              :disable="issueStatus==='resolved'"
               text-color="white"
               @remove="unassignUser(user.uuid)"
             >
@@ -67,8 +71,29 @@
 
         <q-card-actions align="right">
           <q-btn
-            :label="$q.screen.gt.xs ? 'Przypisz użytkownika' : ''"
+            v-if="issueStatus === 'new'"
+            :label="$q.screen.gt.xs ? 'Akceptuj' : ''"
+            class="q-px-xs"
+            color="primary"
+            flat
+            icon="check_circle"
+            no-caps
+            @click="setIssueStatus('accept_issue')"
+          />
+          <q-btn
+            v-if="issueStatus === 'new'"
+            :label="$q.screen.gt.xs ? 'Odrzuć' : ''"
+            class="q-px-xs"
+            color="primary"
+            flat
+            icon="cancel"
+            no-caps
+            @click="setCommentDialog('reject_issue')"
+          />
+          <q-btn
+            v-if="issueStatus!=='new'"
             :disable="issueStatus === 'resolved'"
+            :label="$q.screen.gt.xs ? 'Przypisz użytkownika' : ''"
             class="q-px-xs"
             color="primary"
             flat
@@ -76,30 +101,8 @@
             no-caps
             @click="showUserDialog = true"
           />
-          <!--          <q-btn :label="$q.screen.gt.xs ? 'Przypisz do Grupy' : ''" class="q-px-xs" color="primary" flat icon="group_add"-->
-          <!--                 no-caps/>-->
           <q-btn
-            v-if="issueStatus === null"
-            :label="$q.screen.gt.xs ? 'Akceptuj' : ''"
-            class="q-px-xs"
-            color="primary"
-            flat
-            icon="check_circle"
-            no-caps
-            @click="setIssueStatus('accepted')"
-          />
-          <q-btn
-            v-if="issueStatus === null"
-            :label="$q.screen.gt.xs ? 'Odrzuć' : ''"
-            class="q-px-xs"
-            color="primary"
-            flat
-            icon="cancel"
-            no-caps
-            @click="setIssueStatus('rejected')"
-          />
-          <q-btn
-            v-if="issueStatus !== null || issueStatus === 'accepted' || issueStatus === 'paused'"
+            v-if="(issueStatus!=='new' || issueStatus === 'accepted') && issueStatus!=='paused'"
             :disable="issueStatus === 'in_progress'||  issueStatus === 'resolved'"
             :label="$q.screen.gt.xs ? 'Rozpocznij' : ''"
             class="q-px-xs"
@@ -107,10 +110,21 @@
             flat
             icon="play_arrow"
             no-caps
-            @click="setIssueStatus('in_progress')"
+            @click="setIssueStatus('in_progress_issue')"
           />
           <q-btn
-            v-if="issueStatus !== null"
+            v-if="issueStatus==='paused'"
+            :disable="issueStatus === 'in_progress'||  issueStatus === 'resolved'"
+            :label="$q.screen.gt.xs ? 'Wznów' : ''"
+            class="q-px-xs"
+            color="primary"
+            flat
+            icon="play_arrow"
+            no-caps
+            @click="setIssueStatus('resume_issue')"
+          />
+          <q-btn
+            v-if="issueStatus!=='new'"
             :disable="issueStatus === 'accepted'|| issueStatus === 'paused' ||  issueStatus === 'resolved'"
             :label="$q.screen.gt.xs ? 'Wstrzymaj' : ''"
             class="q-px-xs"
@@ -118,10 +132,10 @@
             flat
             icon="pause"
             no-caps
-            @click="setIssueStatus('paused')"
+            @click="setCommentDialog('pause_issue')"
           />
           <q-btn
-            v-if="issueStatus !== null"
+            v-if="issueStatus!=='new'"
             :disable="issueStatus === 'accepted'||  issueStatus === 'resolved'"
             :label="$q.screen.gt.xs ? 'Zakończ' : ''"
             class="q-px-xs"
@@ -129,19 +143,19 @@
             flat
             icon="stop"
             no-caps
-            @click="setIssueStatus('resolved')"
+            @click="setCommentDialog('resolve_issue')"
           />
-          <q-btn
-            v-if="issueStatus !== null"
-            :disable="issueStatus === 'accepted'"
-            :label="$q.screen.gt.xs ? 'Restart' : ''"
-            class="q-px-xs"
-            color="primary"
-            flat
-            icon="restart_alt"
-            no-caps
-            @click="setIssueStatus('resolved')"
-          />
+          <!--          <q-btn-->
+          <!--            v-if="issueStatus !== null"-->
+          <!--            :disable="issueStatus === 'accepted'"-->
+          <!--            :label="$q.screen.gt.xs ? 'Restart' : ''"-->
+          <!--            class="q-px-xs"-->
+          <!--            color="primary"-->
+          <!--            flat-->
+          <!--            icon="restart_alt"-->
+          <!--            no-caps-->
+          <!--            @click="setIssueStatus('resolved')"-->
+          <!--          />-->
         </q-card-actions>
       </q-card>
       <description-card v-if="issueDetails!==null" :expanded-description="true" :text="issueDetails.text_json"/>
@@ -151,29 +165,29 @@
         <user-assign-dialog @assign-user-btn-click="updateUsers"/>
       </q-dialog>
 
+      <q-dialog v-model="showCommentDialog" :position=" $q.platform.is.mobile ? 'top': 'standard'">
+        <comment-dialog :status="newStatus" @addCommentBtnClick="setIssueCommentStatus"/>
+      </q-dialog>
+
+
     </q-page>
   </div>
 </template>
 
 <script setup>
-import {computed, onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, ref, unref} from "vue";
 import {useQuasar} from "quasar";
 import {useUserStore} from 'stores/user';
 import {useRoute, useRouter} from "vue-router";
 
 import {useI18n} from "vue-i18n";
-import {
-  changeIssueStatusRequest,
-  deleteIssueRequest,
-  editIssueRequest,
-  getOneIssueRequest
-} from "components/api/IssueApiClient";
+import {changeIssueStatusRequest, deleteIssueRequest, editIssueRequest, getOneIssueRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 import UserAssignDialog from "components/dialog/UserAssignDialog.vue";
-
+import CommentDialog from "components/dialog/CommentDialog.vue";
 
 const $q = useQuasar();
 const UserStore = useUserStore();
@@ -201,6 +215,8 @@ let usersList = ref(null);
 let issueUuid = ref(null);
 let issueStatus = ref(null);
 const showUserDialog = ref(false);
+const showCommentDialog = ref(false);
+const newStatus = ref(null);
 
 function convertTime(datetime, timeZone = "America/Los_Angeles") {
   return new Date(datetime).toLocaleString("en-US", {timeZone});
@@ -223,10 +239,35 @@ function getIssueDetails(uuid) {
   });
 }
 
+function setCommentDialog(status) {
+  newStatus.value = status
+  showCommentDialog.value = true
+}
 
-function setIssueStatus(status) {
+function setIssueCommentStatus(status, comment) {
+  console.log('Status: ' + status);
+  console.log('Comment: ' + unref(comment));
+  setIssueStatus(status, null, unref(comment))
+}
 
-  changeIssueStatusRequest(issueUuid.value, {status: status}).then(function (response) {
+
+function setIssueStatus(status, description = null, value = null) {
+
+  if (usersList.value.length === 0) {
+    if (issueStatus.value !=='new' || status !=='change_assigned_person'){
+      $q.notify({
+        message: 'No user assigned to Issue',
+        type: 'warning',
+        icon: 'announcement'
+      })
+      return;
+    }
+
+  }
+
+  let data = {"status": status, "description": description, "value": value}
+
+  changeIssueStatusRequest(issueUuid.value, data).then(function (response) {
     getIssueDetails(issueUuid.value)
     isLoading.value = false;
   }).catch((err) => {
@@ -321,17 +362,22 @@ function unassignUser(uuid, isArray = false) {
     console.log(errorMessage)
     isError.value = true;
   });
-  // $q.dialog({
-  //   title: "Confirm",
-  //   message: "Really Delete?",
-  //   cancel: true,
-  //   persistent: true,
-  // }).onOk(() => {
-  //   isLoading = true;
-  //
-  //
-  //
-  // });
+
+
+  if (removedItems.length > 0) {
+    removedItems.forEach(element => {
+      console.log("Removed: " + element)
+      setIssueStatus('change_assigned_person', 'removed', element)
+    });
+  }
+
+  if (newItems.length > 0) {
+    newItems.forEach(element => {
+      console.log("Added: " + element)
+      setIssueStatus('change_assigned_person', 'added', element)
+    });
+  }
+
 }
 
 function getIcon(status) {
