@@ -102,7 +102,7 @@
                   :item-uuid="itemDetails.uuid" :public-access="false"/>
       <qr-card v-if="qrCode!==null" :expanded-qr="false" :qr-code="qrCode"/>
       <comments-card :expanded-comments="false"/>
-      <timeline-card :expanded-timeline="false"/>
+      <timeline-card v-if="itemDetails!==null" :expanded-timeline="false" :item-uuid="itemDetails.uuid"/>
     </q-page>
   </div>
 </template>

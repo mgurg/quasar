@@ -13,7 +13,7 @@ export function getOneItemRequest(uuid) {
 }
 
 export function getTimelineRequest(uuid) {
-  return authApi.get("/items/timeline/" + uuid);
+  return authApi.get("/items/timeline/" + uuid, {params: {'action':'issueAdd'}});
 }
 
 export function getAnonymousItemUuidRequest(uuid, token, tenant_id) {
