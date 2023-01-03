@@ -94,20 +94,21 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 ,,,,
 #items,,,,
 """Items""",Items,Articles,Artikel,Przedmioty
-"""Item""",Item,Idée,Artikel,Przedmiot
-"""Item title""",Item title,Titre d'idée,Artikeltitel,Nazwa przedmiotu
-"""Item description""",Item description,Description de l'idée,Artikelbeschreibung,Opis przedmiotu
-"""New item""",New item,Nouvelle idée,Neuer Gegenstand,Nowy element
+"""Item""",Item,Article,Artikel,Przedmiot
+"""Item title""",Item title,Titre de l'article,Artikeltitel,Nazwa przedmiotu
+"""Item description""",Item description,Description de l'article,Artikelbeschreibung,Opis przedmiotu
+"""New item""",New item,Nouvel article,Neuer Gegenstand,Nowy element
 ,,,,
 #timeline,,,,
-"""Issue added""",Issue added,Idée,Problem hinzugefügt,Dodano problem
-"""Issue accepted""",Issue accepted,Idée,Ausgabe akzeptiert,Problem zaakceptowany
-"""New person assigned to issue""",New person assigned to issue,Idée,"Neue Person, die zur Ausgabe zugewiesen ist",Nowa osoba przydzielona do problemu
-"""Person removed from issue""",Person removed from issue,Idée,Person von der Ausgabe entfernt,Osoba usunięta z problemu
-"""Issue started""",Issue started,Idée,Das Problem begann,Praca rozpoczęta
-"""Issue paused""",Issue paused,Idée,Ausgabe machte eine Pause,Praca wstrzymana
-"""Issue resumed""",Issue resumed,Idée,Problem wieder aufgenommen,Praca wznowiona
-"""Issue resolved""",Issue resolved,Idée,Problem gelöst,Problem rozwiązany
+"""Issue added""",Issue added,Problème ajouté,Problem hinzugefügt,Dodano problem
+"""Issue accepted""",Issue accepted,Problème accepté,Ausgabe akzeptiert,Problem zaakceptowany
+"""Issue rejected""",Issue rejected,Problème rejeté,Problem abgelehnt,Problem został odrzucony
+"""New person assigned to issue""",New person assigned to issue,Nouvelle personne affectée à l'émission,"Neue Person, die zur Ausgabe zugewiesen ist",Nowa osoba przydzielona do problemu
+"""Person removed from issue""",Person removed from issue,Personne supprimée du problème,Person von der Ausgabe entfernt,Osoba usunięta z problemu
+"""Issue started""",Issue started,Le problème a commencé,Das Problem begann,Praca rozpoczęta
+"""Issue paused""",Issue paused,Émission en pause,Ausgabe machte eine Pause,Praca wstrzymana
+"""Issue resumed""",Issue resumed,Le problème repris,Problem wieder aufgenommen,Praca wznowiona
+"""Issue resolved""",Issue resolved,Problème résolu,Problem gelöst,Problem rozwiązany
 ,,,,
 ,,,,
 #guides,,,,

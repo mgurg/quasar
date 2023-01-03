@@ -3,7 +3,7 @@
   <q-item v-ripple :class="$q.screen.lt.sm ? 'q-pa-xs':''" clickable @click="viewIssue(issue.uuid)">
     <q-item-section :class="$q.screen.lt.sm ? 'q-pr-xs':''" avatar @click="viewIssue(issue.uuid)">
       <!--        <q-avatar rounded :icon="getIcon(issue.status)"/>-->
-      <q-icon :name="getIcon(issue.status)" color="warning" size="lg"/>
+      <q-icon :name="getIcon(issue.status)" color="grey" size="lg"/>
     </q-item-section>
 
     <q-item-section>
@@ -153,7 +153,7 @@ function getIcon(status) {
       return 'playlist_add_check_circle'
       break;
     case 'rejected':
-      return 'playlist_add_check_circle'
+      return 'delete_forever'
       break;
     case 'in_progress':
       return 'build_circle'

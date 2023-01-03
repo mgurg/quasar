@@ -182,7 +182,7 @@
         <q-space class="q-pa-sm"/>
       </q-card>
       <div v-if="pagination.total === 0" class="text-h5 text-center q-pa-lg">
-        Brak pomysłów 🤔? <br/>Niech Twój będzie pierwszy!
+        Brak problemów 🥳 ! <br/><br/> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
         <div class="col-12 text-h6 q-mt-none">
           <q-btn :label="$t('New issue')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/issues/add"/>
         </div>

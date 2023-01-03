@@ -97,20 +97,21 @@ export default {
 
 	// items
 	"Items": `Articles`,
-	"Item": `Idée`,
-	"Item title": `Titre d'idée`,
-	"Item description": `Description de l'idée`,
-	"New item": `Nouvelle idée`,
+	"Item": `Article`,
+	"Item title": `Titre de l'article`,
+	"Item description": `Description de l'article`,
+	"New item": `Nouvel article`,
 
 	// timeline
-	"Issue added": `Idée`,
-	"Issue accepted": `Idée`,
-	"New person assigned to issue": `Idée`,
-	"Person removed from issue": `Idée`,
-	"Issue started": `Idée`,
-	"Issue paused": `Idée`,
-	"Issue resumed": `Idée`,
-	"Issue resolved": `Idée`,
+	"Issue added": `Problème ajouté`,
+	"Issue accepted": `Problème accepté`,
+	"Issue rejected": `Problème rejeté`,
+	"New person assigned to issue": `Nouvelle personne affectée à l'émission`,
+	"Person removed from issue": `Personne supprimée du problème`,
+	"Issue started": `Le problème a commencé`,
+	"Issue paused": `Émission en pause`,
+	"Issue resumed": `Le problème repris`,
+	"Issue resolved": `Problème résolu`,
 
 
 	// guides

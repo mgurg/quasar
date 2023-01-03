@@ -105,6 +105,7 @@ export default {
 	// timeline
 	"Issue added": `Issue added`,
 	"Issue accepted": `Issue accepted`,
+	"Issue rejected": `Issue rejected`,
 	"New person assigned to issue": `New person assigned to issue`,
 	"Person removed from issue": `Person removed from issue`,
 	"Issue started": `Issue started`,

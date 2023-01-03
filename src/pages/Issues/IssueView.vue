@@ -29,7 +29,7 @@
                        outline @click="editIssue(issueDetails.uuid)"/>
                 <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat
                        icon="delete"
-                       no-caps @click="deleteIssue(issueDetails.uuid, issueDetails.title)"/>
+                       no-caps @click="deleteIssue(issueDetails.uuid, issueDetails.name)"/>
               </div>
             </q-item-section>
           </q-item>
@@ -69,7 +69,7 @@
         </q-card-section>
         <q-separator/>
 
-        <q-card-actions align="right">
+        <q-card-actions align="right" v-if="issueStatus !== 'rejected'">
           <q-btn
             v-if="issueStatus === 'new'"
             :label="$q.screen.gt.xs ? 'Akceptuj' : ''"
@@ -78,7 +78,7 @@
             flat
             icon="check_circle"
             no-caps
-            @click="setIssueStatus('accept_issue')"
+            @click="setIssueStatus('issue_accept')"
           />
           <q-btn
             v-if="issueStatus === 'new'"
@@ -88,7 +88,7 @@
             flat
             icon="cancel"
             no-caps
-            @click="setCommentDialog('reject_issue')"
+            @click="setCommentDialog('issue_reject')"
           />
           <q-btn
             v-if="issueStatus!=='new'"
@@ -110,7 +110,7 @@
             flat
             icon="play_arrow"
             no-caps
-            @click="setIssueStatus('in_progress_issue')"
+            @click="setIssueStatus('issue_start_progress')"
           />
           <q-btn
             v-if="issueStatus==='paused'"
@@ -121,7 +121,7 @@
             flat
             icon="play_arrow"
             no-caps
-            @click="setIssueStatus('resume_issue')"
+            @click="setIssueStatus('issue_resume')"
           />
           <q-btn
             v-if="issueStatus!=='new'"
@@ -132,7 +132,7 @@
             flat
             icon="pause"
             no-caps
-            @click="setCommentDialog('pause_issue')"
+            @click="setCommentDialog('issue_pause')"
           />
           <q-btn
             v-if="issueStatus!=='new'"
@@ -143,7 +143,7 @@
             flat
             icon="stop"
             no-caps
-            @click="setCommentDialog('resolve_issue')"
+            @click="setCommentDialog('issue_resolve')"
           />
           <!--          <q-btn-->
           <!--            v-if="issueStatus !== null"-->
@@ -157,9 +157,13 @@
           <!--            @click="setIssueStatus('resolved')"-->
           <!--          />-->
         </q-card-actions>
+        <q-card align="right" v-else >
+          <span class="q-pa-md">Zgłoszenie odrzucone</span>
+        </q-card>
       </q-card>
       <description-card v-if="issueDetails!==null" :expanded-description="true" :text="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
+      <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid" />
 
       <q-dialog v-model="showUserDialog" :position=" $q.platform.is.mobile ? 'top': 'standard'">
         <user-assign-dialog @assign-user-btn-click="updateUsers"/>
@@ -185,6 +189,7 @@ import {changeIssueStatusRequest, deleteIssueRequest, editIssueRequest, getOneIs
 import {errorHandler} from "components/api/errorHandler";
 
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
+import TimelineIssueCard from "components/viewer/cards/TimelineIssueCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 import UserAssignDialog from "components/dialog/UserAssignDialog.vue";
 import CommentDialog from "components/dialog/CommentDialog.vue";
@@ -247,14 +252,15 @@ function setCommentDialog(status) {
 function setIssueCommentStatus(status, comment) {
   console.log('Status: ' + status);
   console.log('Comment: ' + unref(comment));
-  setIssueStatus(status, null, unref(comment))
+  setIssueStatus(status, unref(comment), null,)
 }
 
 
-function setIssueStatus(status, description = null, value = null) {
+function setIssueStatus(action, description = null, value = null) {
 
   if (usersList.value.length === 0) {
-    if (issueStatus.value !=='new' || status !=='change_assigned_person'){
+    if (!['change_assigned_person', 'issue_reject','issue_accept'].includes(action)){
+      console.log(action)
       $q.notify({
         message: 'No user assigned to Issue',
         type: 'warning',
@@ -265,7 +271,68 @@ function setIssueStatus(status, description = null, value = null) {
 
   }
 
-  let data = {"status": status, "description": description, "value": value}
+  let eventName = null;
+  let eventDescription = null;
+  let eventValue = null;
+
+  switch (action) {
+    case 'issue_add':
+      eventName = "Issue added"
+      eventDescription = issueDetails.value.name
+      eventValue = issueDetails.value.text
+      break;
+    case 'issue_accept':
+      eventName = "Issue accepted"
+      // eventDescription = issueDetails.value.name
+      // eventValue = issueDetails.value.text
+      break;
+    case 'issue_reject':
+      eventName = "Issue rejected"
+      eventDescription = description
+      // eventValue = issueDetails.value.text
+      break;
+    case 'issue_change_assigned_person':
+      eventName = "Change of assigned person"
+      eventDescription = description
+      eventValue = value
+      break;
+    case 'issue_start_progress':
+      eventName = "Issue started"
+      // eventDescription = issueDetails.value.name
+      // eventValue = issueDetails.value.text
+      break;
+    case 'issue_pause':
+      eventName = "Issue paused"
+      eventDescription = description
+      // eventValue = issueDetails.value.text
+      break;
+    case 'issue_resume':
+      eventName = "Issue paused"
+      // eventDescription = description
+      // eventValue = issueDetails.value.text
+      break;
+    case 'issue_resolve':
+      eventName = "Issue resolved"
+      eventDescription = description
+      // eventValue = issueDetails.value.text
+      break;
+    default:
+      console.log(`Sorry, we are out of ${action}.`);
+  }
+
+
+  // issue_add | Issue added | issueDetails.name | None
+  // issue_accept | Issue accepted | user | None
+  // issue_reject | Issue rejected | reason | None
+  // change_assigned_person | Changed assigned person | added | user
+  // change_assigned_person | Changed assigned person | removed | user
+  // start_progress | Issue started | None | None
+  // issue_pause | Issue paused | reason | None
+  // issue_resume | Issue resumed | None | None
+  // issue_resolve | Issue resolved | reason | None
+
+
+  let data = {"status": action, "name": eventName, "description": eventDescription, "value": eventValue, 'uuid': issueUuid.value}
 
   changeIssueStatusRequest(issueUuid.value, data).then(function (response) {
     getIssueDetails(issueUuid.value)
@@ -389,7 +456,7 @@ function getIcon(status) {
       return 'playlist_add_check_circle'
       break;
     case 'rejected':
-      return 'playlist_add_check_circle'
+      return 'delete_forever'
       break;
     case 'in_progress':
       return 'build_circle'

@@ -34,12 +34,13 @@
                   <q-timeline-entry heading>{{index}}</q-timeline-entry>
                   <q-timeline-entry
                     v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
-                    side="left"
+                    :side="index%2 ===0? 'left':'right'"
                     :subtitle="formatDate(event.created_at)"
-                    :title="$t(event.description)"
+                    :title="$t(event.name)"
                   >
                     <div>
-                       <q-btn color="primary" icon-right="info" flat no-caps @click="goToItem()">Szczegóły &nbsp;</q-btn>
+                      <div class="text-body1">{{event.description}}</div>
+                      <div>{{event.value}}</div>
                       <div>&nbsp;</div>
 <!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
 <!--                      et dolore magna aliqua.-->
@@ -62,8 +63,9 @@
 import {computed, onBeforeMount, ref} from "vue";
 import {useQuasar} from "quasar";
 import {errorHandler} from "components/api/errorHandler";
-import {getTimelineRequest} from "components/api/ItemApiClient";
+import {getItemTimelineRequest} from "components/api/ItemApiClient";
 import {DateTime} from "luxon";
+import {getIssueTimelineRequest} from "components/api/IssueApiClient";
 
 const $q = useQuasar();
 
@@ -72,7 +74,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  itemUuid: {
+  issueUuid: {
     type: String,
     default: null,
   },
@@ -80,7 +82,7 @@ const props = defineProps({
 
 let isLoading = ref(false);
 
-const itemUuid = ref(props.itemUuid)
+const issueUuid = ref(props.issueUuid)
 
 
 let timelineData = ref(null);
@@ -94,7 +96,8 @@ const layout = computed(() => {
 
 function getTimeline() {
   isLoading.value = true;
-  getTimelineRequest(itemUuid.value).then(function (response) {
+  console.log("UUID " + issueUuid.value)
+  getIssueTimelineRequest(issueUuid.value).then(function (response) {
     timelineData.value = response.data
     console.log(response.data)
 

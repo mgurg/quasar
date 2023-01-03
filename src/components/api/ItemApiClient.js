@@ -12,8 +12,8 @@ export function getOneItemRequest(uuid) {
   return authApi.get("/items/" + uuid);
 }
 
-export function getTimelineRequest(uuid) {
-  return authApi.get("/items/timeline/" + uuid, {params: {'action':'issueAdd'}});
+export function getItemTimelineRequest(uuid) {
+  return authApi.get("/items/timeline/" + uuid, {params: {'action':'issue_add'}});
 }
 
 export function getAnonymousItemUuidRequest(uuid, token, tenant_id) {

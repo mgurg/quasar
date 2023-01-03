@@ -34,12 +34,15 @@
                   <q-timeline-entry heading>{{index}}</q-timeline-entry>
                   <q-timeline-entry
                     v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
-                    side="left"
+                    :side="index%2 ===0? 'left':'right'"
                     :subtitle="formatDate(event.created_at)"
-                    :title="$t(event.description)"
+                    :title="$t(event.name)"
                   >
                     <div>
-                       <q-btn color="primary" icon-right="info" flat no-caps @click="goToItem()">Szczegóły &nbsp;</q-btn>
+                      <div class="text-body1">{{event.description}}</div>
+                      <div>{{event.value}}</div>
+
+                       <q-btn color="primary" icon-right="info" flat no-caps @click="goToItem(event.thread_resource, event.thread_uuid)">Szczegóły &nbsp;</q-btn>
                       <div>&nbsp;</div>
 <!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
 <!--                      et dolore magna aliqua.-->
@@ -62,8 +65,9 @@
 import {computed, onBeforeMount, ref} from "vue";
 import {useQuasar} from "quasar";
 import {errorHandler} from "components/api/errorHandler";
-import {getTimelineRequest} from "components/api/ItemApiClient";
+import {getItemTimelineRequest} from "components/api/ItemApiClient";
 import {DateTime} from "luxon";
+import {useRouter} from "vue-router";
 
 const $q = useQuasar();
 
@@ -77,6 +81,8 @@ const props = defineProps({
     default: null,
   },
 })
+
+const router = useRouter();
 
 let isLoading = ref(false);
 
@@ -94,7 +100,7 @@ const layout = computed(() => {
 
 function getTimeline() {
   isLoading.value = true;
-  getTimelineRequest(itemUuid.value).then(function (response) {
+  getItemTimelineRequest(itemUuid.value).then(function (response) {
     timelineData.value = response.data
     console.log(response.data)
 
@@ -133,7 +139,7 @@ function formatDate(date) {
 }
 
 function goToItem(resource, uuid){
-  let url = resource +"/"+uuid;
+  let url = "/"+resource +"s/"+uuid;
   router.push(url)
 }
 
