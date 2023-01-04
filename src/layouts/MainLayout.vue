@@ -52,7 +52,7 @@
               <q-icon size="md" name="dashboard" />
             </q-item-section>
 
-            <q-item-section>Index</q-item-section>
+            <q-item-section>Podsumowanie</q-item-section>
           </q-item>
 
 

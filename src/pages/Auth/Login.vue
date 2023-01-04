@@ -6,7 +6,10 @@
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">AnyName</h1>
-          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>
+          <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
+          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
+            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
+          </p>
           <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
             🎯 Zbieraj szczere pomysły od pracowników <br>
             🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br>

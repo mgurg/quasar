@@ -76,19 +76,36 @@
         <q-list v-if="!isLoading && users != null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
+              <div class="q-pa-none">
+                <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                  <q-list>
+                    <q-item v-close-popup clickable @click="setSortingParams('first_name')">
+                      <q-item-section>
+                        <q-item-label>Imię</q-item-label>
+                      </q-item-section>
+                    </q-item>
 
+                    <q-item v-close-popup clickable @click="setSortingParams('last_name')">
+                      <q-item-section>
+                        <q-item-label>Nazwisko</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                      <q-item-section>
+                        <q-item-label>Wiek</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
             </q-item-section>
             <q-item-section>
-              <span>{{ $t("Name") }}
-                <q-btn :flat="sort.active == 'name' ? false : true"
-                       :icon="sort.name == 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                       :unelevated="sort.active == 'name' ? true : false" color="primary" padding="xs"
-                       size="sm" @click="changeSortOrder('name')"/>
+              <span>{{ $t(sortName) }}
+                <q-btn flat :icon="getSortIcon()"
+                       color="primary" padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
               </span>
-
-            </q-item-section>
-            <q-item-section side>
-
             </q-item-section>
           </q-item>
 
@@ -140,13 +157,41 @@ const showSearchBar = ref(false);
 
 // sort & paginate
 let sort = reactive({
-  name: "asc",
-  active: "name"
+  first_name: "asc",
+  last_name: "asc",
+  created_at: "asc",
+  active: "last_name"
 })
 
-function changeSortOrder(column) {
-  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
-  sort.active = column
+let sortName = ref("Name")
+function setSortingParams(name){
+  switch (name) {
+    case 'first_name':
+      sort.active = "first_name"
+      sortName.value = "Name"
+      break;
+    case 'last_name':
+      sort.active = "last_name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+    default:
+      console.log(`Sorry, we are out of ${name}.`);
+  }
+  fetchUsers();
+}
+
+function getSortIcon() {
+  let field = sort.active
+  return sort[field] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+function changeSortOrder() {
+  let field = sort.active
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
   fetchUsers()
 }
 
@@ -189,8 +234,8 @@ function fetchUsers() {
     search: search.value,
     page: pagination.page,
     size: pagination.size,
-    sortOrder: sort[sort.active],
-    sortColumn: sort.active
+    field: sort.active,
+    order: sort[sort.active],
   };
 
   getUsersRequest(params).then(function (response) {

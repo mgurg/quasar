@@ -46,7 +46,7 @@
               <q-item-section>
                 <q-item-label class="text-h5">{{ issueDetails.name }}</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <!--                <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>-->
+                <!--                <q-item-label caption>Krótki, publicznie dostępny opis</q-item-label>-->
               </q-item-section>
             </q-item>
           </q-list>
@@ -307,7 +307,7 @@ function setIssueStatus(action, description = null, value = null) {
       // eventValue = issueDetails.value.text
       break;
     case 'issue_resume':
-      eventName = "Issue paused"
+      eventName = "Issue resumed"
       // eventDescription = description
       // eventValue = issueDetails.value.text
       break;

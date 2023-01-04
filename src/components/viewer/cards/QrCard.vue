@@ -34,7 +34,7 @@
                   <span class="text-weight-bold">Wydruku i przyklej na urządzenie.</span></p>
                 <img v-if="$q.screen.gt.sm" src="~assets/qr-code-scan-mini.gif">
                 <p>Uruchom opcję robienia zdjęć w telefonie - jeżeli obraz znajdzie się kadrze zobaczysz
-                  rozszyfrowany tekst.
+                  rozszyfrowany odnośnik.
                   Jego <span class="text-weight-bold">kliknięcie otworzy kartę informacyjną</span> tego urządzenia
                 </p>
                 <!--                    <p>{{ qrCode }} {{qrCodeSize}}</p>-->

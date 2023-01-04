@@ -138,30 +138,44 @@
 
       <q-card v-if="pagination.total > 0 || search!==null" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
-
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
-            <span>&nbsp;
-              <q-btn :flat="sort.active!=='counter'" :icon="sort.counter === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active === 'counter'" color="primary" padding="xs"
-                     size="sm"
-                     @click="changeSortOrder('counter')"/>
-            </span>
+              <div class="q-pa-none">
+                <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                  <q-list>
+                    <q-item v-close-popup clickable @click="setSortingParams('status')">
+                      <q-item-section>
+                        <q-item-label>Status</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item v-close-popup clickable @click="setSortingParams('name')">
+                      <q-item-section>
+                        <q-item-label>Nazwa</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item v-close-popup clickable @click="setSortingParams('priority')">
+                      <q-item-section>
+                        <q-item-label>Priorytet</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                      <q-item-section>
+                        <q-item-label>Wiek</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
             </q-item-section>
             <q-item-section>
-            <span>{{ $t("Name") }}
-              <q-btn :flat="sort.active!=='title'" :icon="sort.title === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active === 'title'" color="primary" padding="xs"
-                     size="sm" @click="changeSortOrder('title')"/>
-            </span>
-            </q-item-section>
-            <q-item-section side>
-            <span>{{ $t("Age") }}
-              <q-btn :flat="sort.active!=='age'" :icon="sort.age === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active === 'age'"
-                     color="primary" padding="xs" size="sm"
-                     @click="changeSortOrder('age')"/>
-            </span>
+              <span>{{ $t(sortName) }}
+                <q-btn flat :icon="getSortIcon()"
+                       color="primary" padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
+              </span>
             </q-item-section>
           </q-item>
 
@@ -211,12 +225,49 @@ const withUser = ref(null)
 const issues = ref([]);
 let selected = ref(null);
 
-let sort = reactive({counter: "asc", title: "asc", name: "asc", active: "name"})
+let sort = reactive({status: "asc", title: "asc", created_at : "asc" , name: "asc", active: "created_at"})
+let sortName = ref("Age")
+function setSortingParams(name){
+  switch (name) {
+    case 'name':
+      sort.active = "name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+    case 'status':
+      sort.active = "status"
+      sortName.value = "Status"
+      break;
+    case 'priority':
+      sort.active = "priority"
+      sortName.value = "Priority"
+      break;
 
-function changeSortOrder(column) {
-  sort[column] === "asc" ? sort[column] = 'desc' : sort[column] = "asc"
-  sort.active = column
-  fetchIssues()
+    default:
+      console.log(`Sorry, we are out of ${name}.`);
+  }
+  fetchIssues();
+}
+
+function changeSortOrder() {
+  let field = sort.active
+
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  fetchIssues();
+}
+
+function getSortIcon(){
+  let column = sortName.value.toLowerCase();
+  switch (column) {
+    case 'age':
+      column= 'created_at'
+      break;
+  }
+
+  return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
 }
 
 const pagination = reactive({page: 1, size: 10, total: 1})
@@ -274,8 +325,8 @@ async function fetchIssues() {
     status: hasStatus.value,
     page: pagination.page,
     size: pagination.size,
-    sortOrder: sort[sort.active],
-    sortColumn: sort.active
+    field: sort.active,
+    order: sort[sort.active]
   };
 
   getManyIssuesRequest(params).then(function (response) {

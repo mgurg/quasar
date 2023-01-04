@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -26,16 +26,16 @@
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"
+                    flat
                     icon="search"
                     no-caps
-                    flat
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
                     :label="$q.screen.gt.xs ? $t('New item') : ''"
                     class="float-right q-mr-xs"
-                    color="primary" icon="add"
-                    no-caps flat
+                    color="primary" flat
+                    icon="add" no-caps
                     to="/items/add"
                   />
                 </div>
@@ -70,23 +70,29 @@
         <q-list v-if="!isLoading && items != null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
-
+              <div class="q-pa-none">
+                <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                  <q-list>
+                    <q-item v-close-popup clickable @click="setSortingParams('name')">
+                      <q-item-section>
+                        <q-item-label>Nazwa</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                      <q-item-section>
+                        <q-item-label>Wiek</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
             </q-item-section>
             <q-item-section>
-      <span>{{ $t("Name") }}
-        <q-btn
-          :flat="sort.active!=='name'"
-          :icon="sort.name === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-          :unelevated="sort.active === 'name'"
-          color="primary"
-          padding="xs"
-          size="sm"
-          @click="changeSortOrder('name')"/>
-      </span>
-
-            </q-item-section>
-            <q-item-section side>
-
+              <span>{{ $t(sortName) }}
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
+              </span>
             </q-item-section>
           </q-item>
 
@@ -122,13 +128,37 @@ import {errorHandler} from 'src/components/api/errorHandler.js'
 
 let sort = reactive({
   name: "asc",
+  created_at: "asc",
   active: "name"
 })
 
-function changeSortOrder(column) {
-  sort[column] === "asc" ? sort[column] = 'desc' : sort[column] = "asc"
-  sort.active = column
-  fetchItems()
+let sortName = ref("Name")
+
+function setSortingParams(name) {
+  switch (name) {
+    case 'name':
+      sort.active = "name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+    default:
+      console.log(`Sorry, we are out of ${name}.`);
+  }
+  fetchItems();
+}
+
+function getSortIcon() {
+  let field = sort.active
+  return sort[field] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+function changeSortOrder() {
+  let field = sort.active
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  fetchItems();
 }
 
 const pagination = reactive({
@@ -168,8 +198,8 @@ function fetchItems() {
     search: search.value,
     page: pagination.page,
     size: pagination.size,
-    sortOrder: sort[sort.active],
-    sortColumn: sort.active
+    field: sort.active,
+    order: sort[sort.active],
   };
 
   getManyItemsRequest(params).then(function (response) {

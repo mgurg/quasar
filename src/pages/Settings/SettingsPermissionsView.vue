@@ -58,7 +58,7 @@
               <q-item-section>
                 <q-item-label class="text-h5" v-if="permissionDetails">{{ permissionDetails.role_name }}</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <q-item-label caption>Krótki publicznie dostępny opis</q-item-label>
+                <q-item-label caption>Krótki, publicznie dostępny opis</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>

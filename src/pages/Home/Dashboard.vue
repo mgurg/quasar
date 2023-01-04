@@ -9,8 +9,43 @@
         Ten projekt nie jest jeszcze wydany! Możesz stracić wszystkie swoje dane. Publiczna beta już wkrótce.
       </q-banner>
 
+      <q-list>
+        <q-item class="q-px-none">
+          <q-item-section>
+
+          </q-item-section>
+          <q-item-section side>
+            <div class="col-12 text-h6 q-mt-none">
+              <q-btn
+                :label="$q.screen.gt.xs ? $t('Search') : ''"
+                size="md"
+                class="float-right"
+                color="primary"
+                flat
+                icon="search"
+                no-caps
+                dense
+              />
+              <q-btn
+                :label="$q.screen.gt.xs ? $t('New issue') : ''"
+                size="md"
+                class="float-right"
+                color="primary"
+                flat
+                icon="add"
+                no-caps
+                to="/issues/add"
+                dense
+              />
+            </div>
+          </q-item-section>
+        </q-item>
+
+      </q-list>
+
+
       <!-- <card-dashboard></card-dashboard> -->
-      <q-card class="bg-transparent no-shadow no-border q-py-md">
+      <q-card class="bg-transparent no-shadow no-border q-pb-md">
         <q-card-section class="q-pa-none">
           <div class="row q-col-gutter-sm ">
             <div class="col-md-3 col-sm-6 col-xs-6">
@@ -24,7 +59,7 @@
                   <q-item-section class=" q-pa-md q-ml-none  text-white">
                     <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.new }}
                     </q-item-label>
-                    <q-item-label>{{$t('New')}}</q-item-label>
+                    <q-item-label>{{ $t('New') }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </router-link>
@@ -40,7 +75,7 @@
                   <q-item-section class=" q-pa-md q-ml-none  text-white">
                     <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.in_progress }}
                     </q-item-label>
-                    <q-item-label>{{$t('Ongoing')}}</q-item-label>
+                    <q-item-label>{{ $t('Ongoing') }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </router-link>
@@ -56,7 +91,7 @@
                   <q-item-section class=" q-pa-md q-ml-none  text-white">
                     <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.paused }}
                     </q-item-label>
-                    <q-item-label>{{$t('Paused')}}</q-item-label>
+                    <q-item-label>{{ $t('Paused') }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </router-link>
@@ -72,7 +107,7 @@
                   <q-item-section class=" q-pa-md q-ml-none  text-white">
                     <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.resolved }}
                     </q-item-label>
-                    <q-item-label>{{$t('Done')}}</q-item-label>
+                    <q-item-label>{{ $t('Done') }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </router-link>
@@ -81,71 +116,140 @@
         </q-card-section>
       </q-card>
 
-      <q-btn unelevated color="info" class="full-width" icon="bug_report" :label="$t('New issue')" to="/issues/add" />
+      <q-btn :label="$t('New issue')" class="full-width" color="info" icon="bug_report" to="/issues/add" unelevated/>
 
+      <!-- MY ISSUES -->
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <div class="row q-col-gutter-xs">
-            <div class="text-h6 text-weight-regular cursor-pointer">
+            <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedUserIssues = !expandedUserIssues">
               Twoje zadania
+              <!--              <q-badge floating align="top">{{ documentFiles.length }}</q-badge>-->
             </div>
+            <q-space></q-space>
+            <q-btn
+              :icon="expandedUserIssues ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              color="grey"
+              dense
+              flat
+              round
+              @click="expandedUserIssues = !expandedUserIssues"
+            />
           </div>
+
         </q-card-section>
+        <q-separator v-if="expandedUserIssues"/>
+        <q-slide-transition>
+          <div v-show="expandedUserIssues">
+            <q-card-section>
+              <p v-if="userIssues === null || userIssues.length == 0" class="q-pt-xs text-body2">
+                Nie masz żadnych nieprzypisanych zadań. Przejdź do
+                <q-btn dense flat icon="bug_report" no-caps to="/issues">listy zgłoszeń</q-btn>
+                i wybierz dla siebie jedno z <span class="text-weight-bold">{{ status.new }} zadań</span> które nie są do
+                nikogo przypisane.
 
-        <q-card-section>
-          <p class="q-pt-xs text-body2" v-if="userIssues === null || userIssues.length == 0">
-            Nie masz żadnych nieprzypisanych zadań. Przejdź do
-            <q-btn to="/issues" flat icon="bug_report" dense no-caps>listy zgłoszeń</q-btn>
-            i wybierz dla siebie jedno z <span class="text-weight-bold">{{ status.new }} zadań</span> które nie są do
-            nikogo przypisane.
+              </p>
 
-          </p>
+              <q-list v-if="userIssues !== null && userIssues.length > 0">
+                <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders">
+                  <q-item-section avatar>
+                    <div class="q-pa-none">
+                      <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                        <q-list>
+                          <q-item v-close-popup clickable @click="setSortingParams('status')">
+                            <q-item-section>
+                              <q-item-label>Status</q-item-label>
+                            </q-item-section>
+                          </q-item>
 
-          <q-list v-if="userIssues !== null && userIssues.length > 0">
-            <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders">
-              <q-item-section avatar>
-            <span>&nbsp;
-              <q-btn :flat="sort.active!=='counter'" :icon="sort.counter === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active === 'counter'" color="primary" padding="xs"
-                     size="sm"
-                     @click="changeSortOrder('counter')"/>
-            </span>
-              </q-item-section>
-              <q-item-section>
-            <span>{{ $t("Name") }}
-              <q-btn :flat="sort.active!=='title'" :icon="sort.title === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active === 'title'" color="primary" padding="xs"
-                     size="sm" @click="changeSortOrder('title')"/>
-            </span>
-              </q-item-section>
-              <q-item-section side>
-            <span>{{ $t("Age") }}
-              <q-btn :flat="sort.active!=='age'" :icon="sort.age === 'asc' ? 'arrow_upward' : 'arrow_downward'"
-                     :unelevated="sort.active === 'age'"
-                     color="primary" padding="xs" size="sm"
-                     @click="changeSortOrder('age')"/>
-            </span>
-              </q-item-section>
-            </q-item>
-            <div v-for="(issue, index) in userIssues" v-if="userIssues !== null" v-bind:key="index">
-              <issue-list-row :issue="issue"/>
-            </div>
-          </q-list>
-        </q-card-section>
+                          <q-item v-close-popup clickable @click="setSortingParams('name')">
+                            <q-item-section>
+                              <q-item-label>Nazwa</q-item-label>
+                            </q-item-section>
+                          </q-item>
+
+                          <q-item v-close-popup clickable @click="setSortingParams('priority')">
+                            <q-item-section>
+                              <q-item-label>Priorytet</q-item-label>
+                            </q-item-section>
+                          </q-item>
+
+                          <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                            <q-item-section>
+                              <q-item-label>Wiek</q-item-label>
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-btn-dropdown>
+                    </div>
+                  </q-item-section>
+                  <q-item-section>
+              <span>{{ $t(sortName) }}
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
+              </span>
+                  </q-item-section>
+                </q-item>
+
+                <div v-for="(issue, index) in userIssues" v-if="userIssues !== null" v-bind:key="index">
+                  <issue-list-row :issue="issue"/>
+                </div>
+              </q-list>
+            </q-card-section>
+          </div>
+        </q-slide-transition>
       </q-card>
 
-
+      <!-- MY ITEMS -->
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
-          <p class="q-pt-xs text-body1">
-            Zbieraj
-            prawdziwe i <b>szczere sugestie</b> od każdego.
-            Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii
-            online.
-          </p>
+          <div class="row q-col-gutter-xs">
+            <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedUserItems = !expandedUserItems">
+              Moje urządzenia
+              <!--              <q-badge floating align="top">{{ documentFiles.length }}</q-badge>-->
+            </div>
+            <q-space></q-space>
+            <q-btn
+              :icon="expandedUserItems ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              color="grey"
+              dense
+              flat
+              round
+              @click="expandedUserItems = !expandedUserItems"
+            />
+          </div>
 
         </q-card-section>
+        <q-separator/>
+        <q-slide-transition>
+          <div v-show="expandedUserItems">
+            <q-card-section>
+              <p class="q-pt-xs text-body2">
+                Nie masz jeszcze żadnych przypisanych urządzeń. Przejdź do
+                <q-btn color="primary" dense flat icon="apps" no-caps to="/items">listy maszyn</q-btn>
+                kliknij nazwę i dodaj do ulubionych klikając ikonę serca
+                <q-icon color="accent" name="favorite_border" size="sm"/>
+
+              </p>
+
+            </q-card-section>
+          </div>
+        </q-slide-transition>
       </q-card>
+
+
+      <!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
+      <!--        <q-card-section>-->
+      <!--          <p class="q-pt-xs text-body1">-->
+      <!--            Zbieraj-->
+      <!--            prawdziwe i <b>szczere sugestie</b> od każdego.-->
+      <!--            Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii-->
+      <!--            online.-->
+      <!--          </p>-->
+
+      <!--        </q-card-section>-->
+      <!--      </q-card>-->
     </q-page>
   </div>
 </template>
@@ -162,12 +266,49 @@ const UserStore = useUserStore();
 const userUuid = UserStore.getCurrentUserId
 const userIssues = ref(null)
 
-let sort = reactive({counter: "asc", title: "asc", name: "asc", active: "name"})
+let sort = reactive({status: "asc", title: "asc", created_at : "asc" , name: "asc", active: "created_at"})
+let sortName = ref("Age")
+function setSortingParams(name){
+  switch (name) {
+    case 'name':
+      sort.active = "name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+    case 'status':
+      sort.active = "status"
+      sortName.value = "Status"
+      break;
+    case 'priority':
+      sort.active = "priority"
+      sortName.value = "Priority"
+      break;
 
-function changeSortOrder(column) {
-  sort[column] === "asc" ? sort[column] = 'desc' : sort[column] = "asc"
-  sort.active = column
-  getUserIssues()
+    default:
+      console.log(`Sorry, we are out of ${name}.`);
+  }
+  getUserIssues();
+}
+
+function changeSortOrder() {
+  let field = sort.active
+
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  getUserIssues();
+}
+
+function getSortIcon(){
+  let column = sortName.value.toLowerCase();
+  switch (column) {
+    case 'age':
+      column= 'created_at'
+      break;
+  }
+
+  return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
 }
 
 const pagination = reactive({page: 1, size: 10, total: 1})
@@ -211,6 +352,9 @@ function getStatistics() {
     isError.value = true;
   });
 }
+
+const expandedUserItems = ref(true)
+const expandedUserIssues = ref(true)
 
 function getUserIssues() {
   isLoading.value = true;
