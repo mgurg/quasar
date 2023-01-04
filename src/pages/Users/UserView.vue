@@ -5,7 +5,7 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
                   $t("Return")
                 }}
               </q-btn>
@@ -14,7 +14,25 @@
             <q-item-section side>
               <div class="col-12 text-h6 q-mt-none">
                 <q-btn-dropdown class="float-right q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
-                  <q-list bordered>
+                  <q-list bordered padding>
+                    <q-item>
+                      <q-item-section>
+
+                        <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
+                        <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte</q-item-label>
+                      </q-item-section>
+
+                    </q-item>
+
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Zadania</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-toggle v-model="expandedIssues"/>
+                      </q-item-section>
+                    </q-item>
+
                   </q-list>
                 </q-btn-dropdown>
                 <q-btn
@@ -25,7 +43,8 @@
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
-                  class="float-right q-mr-sm" color="red" flat
+                  class="float-right q-mr-sm"
+                  color="red" disable flat
                   icon="delete"
                   no-caps @click="deleteUser(userDetails.uuid)"
                 />
@@ -60,10 +79,10 @@
           <!--            <q-list>-->
           <!--            </q-list>-->
           <!--          </q-btn-dropdown>-->
-          <q-btn color="primary" icon="mail" no-caps type="a" :href="`mailto:${userDetails.email}`" flat>
+          <q-btn :href="`mailto:${userDetails.email}`" color="primary" flat icon="mail" no-caps type="a">
             &nbsp;{{ userDetails.email }}
           </q-btn>
-          <q-btn color="primary" icon="phone" no-caps type="a" :href="`tel:${userDetails.phone}`" flat>
+          <q-btn :href="`tel:${userDetails.phone}`" color="primary" flat icon="phone" no-caps type="a">
             &nbsp;{{ userDetails.phone }}
           </q-btn>
 
@@ -101,48 +120,95 @@
       <!--      </q-card>-->
 
 
-      <q-card v-if="userDetails && !isLoading" bordered class="my-card no-shadow q-my-sm">
+      <q-card v-if="userIssues && !isLoading" bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
           <div class="row q-col-gutter-xs">
-            <div class="text-h5">{{ $t('Ideas') }}</div>
+            <div class="text-h5">{{ $t('Issues') }}</div>
             <q-space></q-space>
             <q-btn
-              :icon="expandedIdeas ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+              :icon="expandedIssues ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
               color="grey"
               dense
               flat
               round
-              @click="expandedIdeas = !expandedIdeas"
+              @click="expandedIssues = !expandedIssues"
             />
           </div>
         </q-card-section>
 
         <q-slide-transition>
-          <div v-show="expandedIdeas">
+          <div v-show="expandedIssues">
             <q-separator/>
             <q-card-section>
-              <div v-for="(idea, index) in ideas" v-if="ideas != null" v-bind:key="index">
-                <idea-item v-if="!isLoading && ideas!=null " :idea="idea"></idea-item>
-              </div>
-              <task-index-skeleton v-else/>
+              <p v-if="userIssues === null || userIssues.length == 0" class="q-pt-xs text-body2">
+                Użytkownik nie ma przypisanych zadań
+              </p>
+
+              <q-list v-if="userIssues !== null && userIssues.length > 0">
+                <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders">
+                  <q-item-section avatar>
+                    <div class="q-pa-none">
+                      <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                        <q-list>
+                          <q-item v-close-popup clickable @click="setSortingParams('status')">
+                            <q-item-section>
+                              <q-item-label>Status</q-item-label>
+                            </q-item-section>
+                          </q-item>
+
+                          <q-item v-close-popup clickable @click="setSortingParams('name')">
+                            <q-item-section>
+                              <q-item-label>Nazwa</q-item-label>
+                            </q-item-section>
+                          </q-item>
+
+                          <q-item v-close-popup clickable @click="setSortingParams('priority')">
+                            <q-item-section>
+                              <q-item-label>Priorytet</q-item-label>
+                            </q-item-section>
+                          </q-item>
+
+                          <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                            <q-item-section>
+                              <q-item-label>Wiek</q-item-label>
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-btn-dropdown>
+                    </div>
+                  </q-item-section>
+                  <q-item-section>
+                    <span>{{ $t(sortName) }}
+                    <q-btn :icon="getSortIcon()" color="primary"
+                           flat padding="xs"
+                           size="sm" @click="changeSortOrder()"/>
+                    </span>
+                  </q-item-section>
+                </q-item>
+
+                <div v-for="(issue, index) in userIssues" v-if="userIssues != null" v-bind:key="index">
+                  <issue-list-row v-if="!isLoading" :issue="issue"></issue-list-row>
+                </div>
+
+              </q-list>
             </q-card-section>
           </div>
         </q-slide-transition>
-
       </q-card>
+
+
     </q-page>
   </div>
 </template>
 
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 
 import {useQuasar} from 'quasar'
 import {useRoute, useRouter} from "vue-router";
-
-import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
-import IdeaItem from "components/listRow/IdeaListRow.vue";
+import IssueListRow from "components/listRow/IssueListRow.vue";
 import {getUserIdeasRequest} from "components/api/IdeaApiClient";
+import {getUserIssuesRequest} from "components/api/IssueApiClient";
 import {activateUserRequest, deleteUserRequest, getUserRequest} from 'src/components/api/UserApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
@@ -154,16 +220,75 @@ const currentUserUuid = UserStore.getCurrentUserId
 
 let expandedDetails = ref(true)
 let expandedIdeas = ref(true)
+let expandedIssues = ref(true)
 
 let isLoading = ref(false);
-
 
 const route = useRoute();
 // let userUuid = ref(route.params.uuid)
 let userDetails = ref(null);
 let ideas = ref(null);
+let userIssues = ref(null);
 
 const initials = ref("")
+
+let sort = reactive({status: "asc", title: "asc", created_at: "asc", name: "asc", active: "created_at"})
+let sortName = ref("Age")
+
+function setSortingParams(name) {
+  switch (name) {
+    case 'name':
+      sort.active = "name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+    case 'status':
+      sort.active = "status"
+      sortName.value = "Status"
+      break;
+    case 'priority':
+      sort.active = "priority"
+      sortName.value = "Priority"
+      break;
+
+    default:
+      console.log(`Sorry, we are out of ${name}.`);
+  }
+  getUserIssues();
+}
+
+function changeSortOrder() {
+  let field = sort.active
+
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  getUserIssues();
+}
+
+function getSortIcon() {
+  let column = sortName.value.toLowerCase();
+  switch (column) {
+    case 'age':
+      column = 'created_at'
+      break;
+  }
+
+  return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+const pagination = reactive({page: 1, size: 10, total: 1})
+
+const pagesNo = computed(() => {
+  // console.log(Math.ceil(pagination.total/pagination.size))
+  return Math.ceil(pagination.total / pagination.size)
+})
+
+watch(() => pagination.page, (oldPage, newPage) => {
+  console.log(oldPage, newPage);
+  getUserIssues();
+})
 
 function getUserDetails(uuid) {
   isLoading.value = true;
@@ -205,6 +330,23 @@ function getUserIdeas(uuid) {
   });
 }
 
+
+function getUserIssues(uuid) {
+  // userUuid.value
+  isLoading.value = true;
+  getUserIssuesRequest(uuid).then(function (response) {
+    userIssues.value = response.data.items
+
+    if (response.data.items.length == 0) {
+      expandedIssues.value = false;
+    }
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
 function editUser(uuid) {
   router.push("/users/edit/" + uuid);
 }
@@ -228,7 +370,7 @@ onBeforeMount(() => {
   isLoading.value = true;
   getUserDetails(route.params.uuid);
   getUserIdeas(route.params.uuid);
-
+  getUserIssues(route.params.uuid);
 });
 
 

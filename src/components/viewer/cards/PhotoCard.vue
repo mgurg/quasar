@@ -9,13 +9,13 @@
             <q-badge v-if="photoFiles.length>0" align="top" floating>{{ photoFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
-          <q-btn
-            :label="$t('Edit')"
-            class="q-mr-lg"
-            color="primary"
-            flat
-            no-caps
-          />
+<!--          <q-btn-->
+<!--            :label="$t('Edit')"-->
+<!--            class="q-mr-lg"-->
+<!--            color="primary"-->
+<!--            flat-->
+<!--            no-caps-->
+<!--          />-->
           <q-btn
             :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"

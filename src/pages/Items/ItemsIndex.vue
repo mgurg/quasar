@@ -12,6 +12,7 @@
         <q-breadcrumbs-el icon="home" to="/"/>
         <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>
       </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <q-list>

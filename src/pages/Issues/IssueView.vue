@@ -27,9 +27,15 @@
                 <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary"
                        icon="edit" no-caps
                        outline @click="editIssue(issueDetails.uuid)"/>
-                <q-btn :label="$q.screen.gt.xs ? $t('Delete') : ''" class="float-right q-mr-sm" color="red" flat
-                       icon="delete"
-                       no-caps @click="deleteIssue(issueDetails.uuid, issueDetails.name)"/>
+                <q-btn
+                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
+                  disable
+                  class="float-right q-mr-sm"
+                  color="red"
+                  flat
+                  icon="delete"
+                  no-caps
+                  @click="deleteIssue(issueDetails.uuid, issueDetails.name)"/>
               </div>
             </q-item-section>
           </q-item>

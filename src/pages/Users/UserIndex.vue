@@ -195,7 +195,7 @@ function changeSortOrder() {
   fetchUsers()
 }
 
-const pagination = reactive({page: 1, size: 5, total: 1});
+const pagination = reactive({page: 1, size: 10, total: 1});
 
 function goToPage(value) {
   console.log(value)

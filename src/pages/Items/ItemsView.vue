@@ -14,8 +14,15 @@
             <q-item-section side>
               <div class="col-12 text-h6 q-mt-none">
                 <q-btn-dropdown class="float-right q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
-                  <q-list bordered>
-                    <q-item-label header>Notifications</q-item-label>
+                  <q-list bordered padding>
+                    <q-item>
+                      <q-item-section>
+
+                        <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
+                        <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte</q-item-label>
+                      </q-item-section>
+
+                    </q-item>
 
                     <q-item v-ripple tag="label">
                       <q-item-section>
@@ -29,7 +36,6 @@
                     <q-item v-ripple tag="label">
                       <q-item-section>
                         <q-item-label>Zdjęcia</q-item-label>
-                        <q-item-label caption>Allow notification</q-item-label>
                       </q-item-section>
                       <q-item-section side top>
                         <q-toggle v-model="expandedPhotos"/>
@@ -39,10 +45,41 @@
                     <q-item v-ripple tag="label">
                       <q-item-section>
                         <q-item-label>Dokumenty</q-item-label>
-                        <q-item-label caption>Allow notification when uploading images</q-item-label>
                       </q-item-section>
                       <q-item-section side top>
                         <q-toggle v-model="expandedDocs"/>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Przewodniki</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-toggle v-model="expandedGuide"/>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Kod QR</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-toggle v-model="expandedQR"/>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Komentarze</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-toggle v-model="expandedComments"/>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-ripple tag="label">
+                      <q-item-section>
+                        <q-item-label>Oś czasu</q-item-label>
+                      </q-item-section>
+                      <q-item-section side top>
+                        <q-toggle v-model="expandedTimeline"/>
                       </q-item-section>
                     </q-item>
                   </q-list>
@@ -61,9 +98,12 @@
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
-                  class="float-right q-mr-sm" color="red" flat
+                  disable
+                  class="float-right q-mr-sm" color="red"
+                  flat
                   icon="delete"
-                  no-caps @click="deleteItem(itemDetails.uuid, itemDetails.name)"
+                  no-caps
+                  @click="deleteItem(itemDetails.uuid, itemDetails.name)"
                 />
 
               </div>

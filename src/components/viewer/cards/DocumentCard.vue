@@ -9,13 +9,13 @@
             <q-badge floating align="top">{{ documentFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
-          <q-btn
-            :label="$t('Edit')"
-            class="q-mr-lg"
-            color="primary"
-            flat
-            no-caps
-          />
+<!--          <q-btn-->
+<!--            :label="$t('Edit')"-->
+<!--            class="q-mr-lg"-->
+<!--            color="primary"-->
+<!--            flat-->
+<!--            no-caps-->
+<!--          />-->
           <q-btn
             :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"

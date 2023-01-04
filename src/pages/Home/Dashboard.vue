@@ -6,37 +6,75 @@
         <template v-slot:avatar>
           <q-icon color="warning" name="warning"/>
         </template>
-        Ten projekt nie jest jeszcze wydany! Możesz stracić wszystkie swoje dane. Publiczna beta już wkrótce.
+        Ten projekt nie jest jeszcze wydany, możesz stracić wszystkie dane! Publiczna beta już wkrótce.
+        <br>
+        Pomysły/sugestie? <a class="text-weight-bold text-black"
+                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do mnie!</a>
       </q-banner>
 
       <q-list>
         <q-item class="q-px-none">
+          <q-item-section avatar>
+            <q-btn
+              class="float-right"
+              color="red-12"
+              dense
+              flat
+              icon="bug_report"
+              label="Zgłoś nową awarię"
+              size="md"
+              to="/issues/add"
+            />
+          </q-item-section>
           <q-item-section>
 
           </q-item-section>
           <q-item-section side>
             <div class="col-12 text-h6 q-mt-none">
-              <q-btn
-                :label="$q.screen.gt.xs ? $t('Search') : ''"
-                size="md"
-                class="float-right"
-                color="primary"
-                flat
-                icon="search"
-                no-caps
-                dense
-              />
-              <q-btn
-                :label="$q.screen.gt.xs ? $t('New issue') : ''"
-                size="md"
-                class="float-right"
-                color="primary"
-                flat
-                icon="add"
-                no-caps
-                to="/issues/add"
-                dense
-              />
+
+              <q-btn-dropdown class="float-right q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
+                <q-list bordered padding>
+                  <q-item>
+                    <q-item-section>
+
+                      <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
+                      <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte</q-item-label>
+                    </q-item-section>
+
+                  </q-item>
+
+                  <q-item v-ripple tag="label">
+                    <q-item-section>
+                      <q-item-label>Moje zadania</q-item-label>
+                      <q-item-label caption>Zadania przypisane do Ciebie</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-toggle v-model="expandedUserIssues"/>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item v-ripple tag="label">
+                    <q-item-section>
+                      <q-item-label>Moje urządzenia</q-item-label>
+                      <q-item-label caption>Lista zapisanych przez Ciebie urządzeń</q-item-label>
+                    </q-item-section>
+                    <q-item-section side top>
+                      <q-toggle v-model="expandedUserItems"/>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+
+              <!--              <q-btn-->
+              <!--                :label="$q.screen.gt.xs ? $t('Search') : ''"-->
+              <!--                size="md"-->
+              <!--                class="float-right"-->
+              <!--                color="primary"-->
+              <!--                flat-->
+              <!--                icon="search"-->
+              <!--                no-caps-->
+              <!--              />-->
+              <span v-if="$q.screen.gt.xs" class="text-body1 text-weight-medium q-pr-lg">{{ currentDate() }}</span>
             </div>
           </q-item-section>
         </q-item>
@@ -116,17 +154,24 @@
         </q-card-section>
       </q-card>
 
-      <q-btn :label="$t('New issue')" class="full-width" color="info" icon="bug_report" to="/issues/add" unelevated/>
 
       <!-- MY ISSUES -->
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <div class="row q-col-gutter-xs">
             <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedUserIssues = !expandedUserIssues">
-              Twoje zadania
+              Moje zadania
               <!--              <q-badge floating align="top">{{ documentFiles.length }}</q-badge>-->
             </div>
             <q-space></q-space>
+            <q-btn
+              class="q-mr-lg"
+              color="primary"
+              flat
+              label="Wszystkie"
+              no-caps
+              to="/issues/"
+            />
             <q-btn
               :icon="expandedUserIssues ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
               color="grey"
@@ -184,11 +229,11 @@
                     </div>
                   </q-item-section>
                   <q-item-section>
-              <span>{{ $t(sortName) }}
-                <q-btn :icon="getSortIcon()" color="primary"
-                       flat padding="xs"
-                       size="sm" @click="changeSortOrder()"/>
-              </span>
+                    <span>{{ $t(sortName) }}
+                    <q-btn :icon="getSortIcon()" color="primary"
+                           flat padding="xs"
+                           size="sm" @click="changeSortOrder()"/>
+                    </span>
                   </q-item-section>
                 </q-item>
 
@@ -210,6 +255,14 @@
               <!--              <q-badge floating align="top">{{ documentFiles.length }}</q-badge>-->
             </div>
             <q-space></q-space>
+            <q-btn
+              class="q-mr-lg"
+              color="primary"
+              flat
+              label="Wszystkie"
+              no-caps
+              to="/items/"
+            />
             <q-btn
               :icon="expandedUserItems ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
               color="grey"
@@ -259,6 +312,8 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {getIssuesStatsRequest, getUserIssuesRequest} from "components/api/IssueApiClient";
 import {useUserStore} from "stores/user";
+import {DateTime} from 'luxon';
+
 import IssueListRow from "components/listRow/IssueListRow.vue";
 
 
@@ -266,9 +321,17 @@ const UserStore = useUserStore();
 const userUuid = UserStore.getCurrentUserId
 const userIssues = ref(null)
 
-let sort = reactive({status: "asc", title: "asc", created_at : "asc" , name: "asc", active: "created_at"})
+
+function currentDate() {
+  const now = DateTime.now();
+
+  return now.setLocale('pl').toFormat('cccc, dd LLL yyyy')
+}
+
+let sort = reactive({status: "asc", title: "asc", created_at: "asc", name: "asc", active: "created_at"})
 let sortName = ref("Age")
-function setSortingParams(name){
+
+function setSortingParams(name) {
   switch (name) {
     case 'name':
       sort.active = "name"
@@ -300,11 +363,11 @@ function changeSortOrder() {
   getUserIssues();
 }
 
-function getSortIcon(){
+function getSortIcon() {
   let column = sortName.value.toLowerCase();
   switch (column) {
     case 'age':
-      column= 'created_at'
+      column = 'created_at'
       break;
   }
 
