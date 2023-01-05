@@ -10,25 +10,28 @@
       <q-item-label class="text-body1" lines="1">
         {{ issue.name }}
 
-        <q-chip
-          v-if="$q.screen.gt.xs ===true"
-          :label="issue.item.name"
-          class="q-ma-xs"
-          clickable
-          color="teal"
-          size="md"
-          text-color="white"
-          @click="viewItem(issue.item.uuid)"
-        />
-        <q-chip
-          v-if="$q.screen.gt.xs ===true && issue.users_issue.length > 0"
-          class="q-ma-xs"
-          icon="how_to_reg"
-          size="md"
-        />
+        <div v-if="issue.item !==null">
+          <q-chip
+            v-if="$q.screen.gt.xs ===true"
+            :label="issue.item.name"
+            class="q-ma-xs"
+            clickable
+            color="teal"
+            size="md"
+            text-color="white"
+            @click="viewItem(issue.item.uuid)"
+          />
+          <q-chip
+            v-if="$q.screen.gt.xs ===true && issue.users_issue.length > 0"
+            class="q-ma-xs"
+            icon="how_to_reg"
+            size="md"
+          />
+        </div>
       </q-item-label>
       <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
       <q-item-label v-if="$q.screen.lt.sm ===true" caption>
+        <div v-if="issue.item !==null">
         <q-chip
           v-if="issue.users_issue.length > 0"
           class="q-ma-xs"
@@ -44,6 +47,7 @@
           text-color="white"
           @click="viewItem(issue.item.uuid)"
         />
+        </div>
         {{ timeAgo(issue.created_at) }}
 
 
@@ -80,9 +84,11 @@ const props = defineProps({
         name: null,
         text: null,
         text_json: null,
+        item: null,
         status: null,
         priority: null,
         color: null,
+        user_issue:null,
         created_at: null
       };
     },

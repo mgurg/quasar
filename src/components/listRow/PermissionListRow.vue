@@ -15,10 +15,9 @@
       <q-item-section>
         <q-item-label lines="1" class="text-body1">{{ permission.role_title }}</q-item-label>
         <!-- <q-item-label caption lines="2">{{ permission.uuid }}</q-item-label> -->
-        <q-item-label lines="1"> {{ permission.role_description }}
+        <q-item-label lines="1" caption> {{ permission.role_description }}
           <q-chip square size="sm" color="blue-12" icon="star" text-color="white"
                   v-if="permission.is_custom == false"></q-chip>
-
         </q-item-label>
       </q-item-section>
 

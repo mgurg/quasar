@@ -30,9 +30,9 @@
   <div v-if="editor && props.readonly == false"
        :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}"
   >
-    <q-btn dense flat icon="person_add" round @click="showUserDialog = true"/>
-    <q-btn dense flat icon="group_add" round @click="showGroupDialog = true"/>
-    <q-btn dense flat icon="mic" round @click="insertText('\u03C0')"/>
+<!--    <q-btn dense flat icon="person_add" round @click="showUserDialog = true"/>-->
+<!--    <q-btn dense flat icon="group_add" round @click="showGroupDialog = true"/>-->
+<!--    <q-btn dense flat icon="mic" round @click="insertText('\u03C0')"/>-->
     <q-space></q-space>
     <svg class="character-count__graph" height="20" viewBox="0 0 20 20" width="20">
       <circle cx="10" cy="10" fill="#e9ecef" r="10"/>

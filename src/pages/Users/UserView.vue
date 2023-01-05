@@ -37,14 +37,19 @@
                 </q-btn-dropdown>
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
-                  class="float-right q-mr-sm" color="primary" flat
-                  icon="edit" no-caps
+                  class="float-right q-mr-sm" color="primary"
+                  disable
+                  flat
+                  icon="edit"
+                  no-caps
                   outline @click="editUser(userDetails.uuid)"
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm"
-                  color="red" disable flat
+                  color="red"
+                  disable
+                  flat
                   icon="delete"
                   no-caps @click="deleteUser(userDetails.uuid)"
                 />
@@ -150,6 +155,11 @@
                     <div class="q-pa-none">
                       <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
                         <q-list>
+                          <q-item>
+                            <q-item-section>
+                              <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                            </q-item-section>
+                          </q-item>
                           <q-item v-close-popup clickable @click="setSortingParams('status')">
                             <q-item-section>
                               <q-item-label>Status</q-item-label>

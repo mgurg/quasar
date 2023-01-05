@@ -1,17 +1,20 @@
 <template>
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+        <template v-slot:separator>
+          <q-icon
+            color="grey"
+            name="chevron_right"
+            size="1.5em"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/home"/>
+        <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users"/>
+        <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
+      </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
-        <q-card-section class="row q-pa-sm">
-          <q-breadcrumbs>
-            <q-breadcrumbs-el icon="home" to="/"/>
-            <q-breadcrumbs-el :label="$t('Employee')" icon="people" to="/users"/>
-            <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
-          </q-breadcrumbs>
-
-        </q-card-section>
-
-        <q-separator/>
         <q-card-section>
           <q-list>
             <q-item class="q-px-none">
@@ -29,7 +32,7 @@
       </q-card>
 
       <div>&nbsp;</div>
-      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+      <q-card bordered class="my-card no-shadow q-my-sm q-mx-none q-pa-none">
         <q-card-section>
           <user-form v-if="userDetails != null"
                      :key="userDetails.uuid"

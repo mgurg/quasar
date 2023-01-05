@@ -19,8 +19,7 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Settings") }}</q-item-label>
-                <q-item-label caption>Zbieraj prawdziwe i szczere sugestie od każdego. Rozpocznij błyskawicznie
-                  zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.
+                <q-item-label caption>Prace w trakcie :)
                 </q-item-label>
               </q-item-section>
             </q-item>

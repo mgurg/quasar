@@ -12,6 +12,7 @@
         <q-breadcrumbs-el icon="home" to="/"/>
         <q-breadcrumbs-el :label="$t('Issues')" icon="bug_report" to="/issues"/>
       </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <q-list>
@@ -143,6 +144,12 @@
               <div class="q-pa-none">
                 <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
                   <q-list>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
                     <q-item v-close-popup clickable @click="setSortingParams('status')">
                       <q-item-section>
                         <q-item-label>Status</q-item-label>
@@ -185,9 +192,6 @@
           <task-index-skeleton v-else/>
 
         </q-list>
-        <!-- Skeleton -->
-
-
         <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
         </div>

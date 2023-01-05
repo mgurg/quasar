@@ -13,7 +13,7 @@ export function createUserRequest(data) {
 }
 
 export function updateUserRequest(uuid, data) {
-  return authApi.post("/users/" + uuid, data);
+  return authApi.patch("/users/" + uuid, data);
 }
 
 export function activateUserRequest(uuid) {

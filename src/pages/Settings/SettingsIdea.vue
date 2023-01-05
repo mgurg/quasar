@@ -1,21 +1,19 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="q-pa-md q-gutter-sm">
-        <q-breadcrumbs>
-          <q-breadcrumbs-el icon="home" to="/"/>
-          <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
-          <q-breadcrumbs-el :label="$t('Ideas')" icon="info"/>
-        </q-breadcrumbs>
-      </div>
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
+        <q-breadcrumbs-el :label="$t('Ideas')" icon="info"/>
+      </q-breadcrumbs>
 
-      <!-- <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Settings") }}</p></div>
-        <div class="col-6"></div>
-      </div> -->
-
-
-      <div class="q-pa-mt">&nbsp;</div>
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
           <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
@@ -93,7 +91,7 @@ import {authApi} from "boot/axios";
 import {useQuasar} from 'quasar'
 
 const $q = useQuasar()
-let ActionUrl = ref("https://beta.remontmaszyn.pl/new/8tl+234");
+let ActionUrl = ref("https://beta.remontmaszyn.pl/");
 // -----------------------------
 
 

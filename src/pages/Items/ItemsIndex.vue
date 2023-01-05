@@ -74,6 +74,11 @@
               <div class="q-pa-none">
                 <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
                   <q-list>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                      </q-item-section>
+                    </q-item>
                     <q-item v-close-popup clickable @click="setSortingParams('name')">
                       <q-item-section>
                         <q-item-label>Nazwa</q-item-label>

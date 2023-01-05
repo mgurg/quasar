@@ -44,35 +44,54 @@
       </q-card>
 
       <q-card v-if="pagination.total > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
-        <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
-          <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class="rounded-borders">
+        <q-list v-if="permissions !== null" class="q-mt-none q-pt-none" padding>
+          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
+              <div class="q-pa-none">
+                <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                  <q-list>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-close-popup clickable @click="setSortingParams('first_name')">
+                      <q-item-section>
+                        <q-item-label>Liczbie osób</q-item-label>
+                      </q-item-section>
+                    </q-item>
 
+                    <q-item v-close-popup clickable @click="setSortingParams('last_name')">
+                      <q-item-section>
+                        <q-item-label>Nazwie</q-item-label>
+                      </q-item-section>
+                    </q-item>
+
+                    <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                      <q-item-section>
+                        <q-item-label>Uprawnienia własne/systemowe</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
             </q-item-section>
             <q-item-section>
-          <span>{{ $t("Name") }}
-            <q-btn
-              :flat="sort.active=='name'? false:true"
-              :icon="sort.name=='asc'? 'arrow_upward':'arrow_downward'"
-              :unelevated="sort.active=='name'? true:false"
-              color="primary"
-              padding="xs"
-              size="sm"
-              @click="changeSortOrder('name')"/>
-          </span>
-
-            </q-item-section>
-            <q-item-section side>
-
+              <span>{{ $t(sortName) }}
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
+              </span>
             </q-item-section>
           </q-item>
+
           <div v-for="(permission, index) in permissions" v-if="permissions != null" v-bind:key="index">
             <permission-list-row :permission="permission" @refreshList="fetchPermissions"/>
           </div>
 
         </q-list>
         <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
-          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links/>
         </div>
 
       </q-card>
@@ -93,25 +112,36 @@ let isLoading = ref(false);
 let selected = ref(null);
 let search = ref(null);
 
-let sort = reactive({
-  name: "asc",
-  active: "name"
-})
+let sort = reactive({name: "asc", is_custom: "asc", active: "name"})
+let sortName = ref("Name")
 
-function selectPermission(uuid) {
-  if (selected.value == null) {
-    selected.value = uuid;
-  } else if (selected.value !== uuid) {
-    selected.value = uuid;
-  } else {
-    selected.value = null;
+function setSortingParams(name) {
+  switch (name) {
+    case 'first_name':
+      sort.active = "first_name"
+      sortName.value = "Name"
+      break;
+    case 'last_name':
+      sort.active = "last_name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
   }
+  fetchPermissions();
 }
 
-function changeSortOrder(column) {
-  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
-  sort.active = column
-  fetchPermissions()
+function getSortIcon() {
+  let field = sort.active
+  return sort[field] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+function changeSortOrder() {
+  let field = sort.active
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  fetchPermissions();
 }
 
 const pagination = reactive({
@@ -157,10 +187,6 @@ function fetchPermissions() {
         console.log("General Error");
       }
     });
-}
-
-function goToPage(value) {
-  console.log(value)
 }
 
 

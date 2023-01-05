@@ -9,7 +9,7 @@
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
-        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>
+<!--        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>-->
         <q-btn flat round @click="$q.dark.toggle()" :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'" />
         <q-btn flat round dense icon="language" class="q-mr-xs">
           <q-menu>
@@ -117,14 +117,14 @@
 <!--          </q-item>-->
 
           <!--Settings Index-->
-<!--          <q-item to="/settings" exact clickable v-ripple>-->
-<!--            &lt;!&ndash; v-if="hasPermission('SETTINGS_VIEW')" &ndash;&gt;-->
-<!--            <q-item-section avatar>-->
-<!--              <q-icon size="md" name="settings" />-->
-<!--            </q-item-section>-->
+          <q-item to="/settings" exact clickable v-ripple>
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon size="md" name="settings" />
+            </q-item-section>
 
-<!--            <q-item-section>{{ $t("Settings") }}</q-item-section>-->
-<!--          </q-item>-->
+            <q-item-section>{{ $t("Settings") }}</q-item-section>
+          </q-item>
 
 
 

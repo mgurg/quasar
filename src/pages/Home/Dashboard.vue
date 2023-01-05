@@ -9,7 +9,7 @@
         Ten projekt nie jest jeszcze wydany, możesz stracić wszystkie dane! Publiczna beta już wkrótce.
         <br>
         Pomysły/sugestie? <a class="text-weight-bold text-black"
-                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do mnie!</a>
+                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do mnie ➡️</a>
       </q-banner>
 
       <q-list>
@@ -201,6 +201,11 @@
                     <div class="q-pa-none">
                       <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
                         <q-list>
+                          <q-item>
+                            <q-item-section>
+                              <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                            </q-item-section>
+                          </q-item>
                           <q-item v-close-popup clickable @click="setSortingParams('status')">
                             <q-item-section>
                               <q-item-label>Status</q-item-label>

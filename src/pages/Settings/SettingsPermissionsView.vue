@@ -1,12 +1,20 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <!--          <q-breadcrumbs>-->
-      <!--            <q-breadcrumbs-el icon="home" to="/"/>-->
-      <!--            <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>-->
-      <!--            <q-breadcrumbs-el :label="$t('Permissions')" icon="info" to="/settings/permissions"/>-->
-      <!--            <q-breadcrumbs-el :label="$t('View')"/>-->
-      <!--          </q-breadcrumbs>-->
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
+        <q-breadcrumbs-el :label="$t('Permissions')" icon="ballot" to="/settings/permissions"/>
+        <q-breadcrumbs-el :label="$t('View')"/>
+      </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-list>
           <q-item class="q-px-sm">
@@ -18,7 +26,7 @@
             </q-item-section>
             <q-item-section></q-item-section>
             <q-item-section side>
-              <div class="col-12 text-h6 q-mt-none">
+              <div class="col-12 text-h6 q-mt-none" v-if="permissionDetails">
                 <!--                <q-btn-->
                 <!--                  :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
                 <!--                  class="float-right q-mr-sm" color="primary" flat-->
@@ -34,7 +42,9 @@
                 <q-btn
                   :label="$q.screen.gt.xs ?  $t('Edit') : ''"
                   class="float-right "
-                  color="primary" icon="edit"
+                  color="primary"
+                  icon="edit"
+                  :disable="permissionDetails.is_custom==false"
                   no-caps
                   flat
                   @click="toggleEdit()"/>
@@ -43,6 +53,7 @@
                   class="float-right q-mr-sm"
                   color="red"
                   icon="delete"
+                  :disable="permissionDetails.is_custom==false"
                   no-caps
                   flat
                   @click="deleteGroup(permissionDetails.uuid)"
@@ -55,18 +66,18 @@
         <q-card-section class="q-pt-none">
           <q-list>
             <q-item class="q-px-none">
-              <q-item-section>
-                <q-item-label class="text-h5" v-if="permissionDetails">{{ permissionDetails.role_name }}</q-item-label>
+              <q-item-section v-if="permissionDetails">
+                <q-item-label class="text-h5" >{{ permissionDetails.role_name }}</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <q-item-label caption>Krótki, publicznie dostępny opis</q-item-label>
+                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
       </q-card>
 
-      <div>&nbsp;</div>
-      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+
+      <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
           <permission-form
             v-if="!isLoading && isFetched"

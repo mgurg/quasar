@@ -1,14 +1,22 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+        <template v-slot:separator>
+          <q-icon
+            size="1.5em"
+            name="chevron_right"
+            color="grey"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
+        <q-breadcrumbs-el :label="$t('Groups')" icon="ballot" to="/settings/groups"/>
+        <q-breadcrumbs-el :label="$t('View')"/>
+      </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
-        <q-card-section class="row q-pa-md">
-          <q-breadcrumbs>
-            <q-breadcrumbs-el icon="home" to="/"/>
-            <q-breadcrumbs-el :label="$t('Settings')" to="/settings"/>
-            <q-breadcrumbs-el :label="$t('Groups')" to="/settings/groups"/>
-            <q-breadcrumbs-el :label="$t('View')"/>
-          </q-breadcrumbs>
+        <q-card-section>
           <div class="col-12 text-h6 q-mt-xs">
             <span class="text-h6" v-if="roleDetails">{{ roleDetails.name }}</span>
             <span>
@@ -33,8 +41,8 @@
         </q-card-section>
       </q-card>
 
-      <div>&nbsp;</div>
-      <q-card class="my-card no-shadow q-ma-none q-pa-none">
+
+      <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
           <group-form v-if="!isLoading && isFetched" :group="roleDetails || undefined" :groupUuid="groupUuid"
                       :canEdit="canEdit"

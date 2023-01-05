@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -27,16 +27,16 @@
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"
+                    flat
                     icon="search"
                     no-caps
-                    flat
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
                     :label="$q.screen.gt.xs ? $t('New employee') : ''"
                     class="float-right  q-mr-xs"
                     color="primary"
-                    icon="add" no-caps flat
+                    flat icon="add" no-caps
                     to="/users/add"
                   />
                   <!--                  <q-btn :label="$q.screen.gt.xs ? 'Importuj' : ''" class="float-right q-mr-xs" color="primary"-->
@@ -73,12 +73,17 @@
       </q-slide-transition>
 
       <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
-        <q-list v-if="!isLoading && users != null" class="q-mt-none q-pt-none" padding>
+        <q-list v-if="users != null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
               <div class="q-pa-none">
                 <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
                   <q-list>
+                    <q-item>
+                      <q-item-section>
+                        <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                      </q-item-section>
+                    </q-item>
                     <q-item v-close-popup clickable @click="setSortingParams('first_name')">
                       <q-item-section>
                         <q-item-label>Imię</q-item-label>
@@ -102,14 +107,14 @@
             </q-item-section>
             <q-item-section>
               <span>{{ $t(sortName) }}
-                <q-btn flat :icon="getSortIcon()"
-                       color="primary" padding="xs"
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
                        size="sm" @click="changeSortOrder()"/>
               </span>
             </q-item-section>
           </q-item>
 
-          <div v-for="(user, index) in users" v-if="users != null" v-bind:key="index">
+          <div v-for="(user, index) in users" v-if="users !== null" v-bind:key="index">
             <user-list-row :user="user"/>
           </div>
           <task-index-skeleton v-else/>
@@ -117,9 +122,8 @@
 
         </q-list>
 
-
-        <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
-          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
+        <div v-if="pagination.total > 10" class="q-pa-md flex flex-center">
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links/>
         </div>
       </q-card>
 
@@ -156,15 +160,10 @@ const showSearchBar = ref(false);
 
 
 // sort & paginate
-let sort = reactive({
-  first_name: "asc",
-  last_name: "asc",
-  created_at: "asc",
-  active: "last_name"
-})
-
+let sort = reactive({first_name: "asc", last_name: "asc", created_at: "asc", active: "last_name"})
 let sortName = ref("Name")
-function setSortingParams(name){
+
+function setSortingParams(name) {
   switch (name) {
     case 'first_name':
       sort.active = "first_name"
@@ -178,8 +177,6 @@ function setSortingParams(name){
       sort.active = "created_at"
       sortName.value = "Age"
       break;
-    default:
-      console.log(`Sorry, we are out of ${name}.`);
   }
   fetchUsers();
 }
@@ -192,23 +189,17 @@ function getSortIcon() {
 function changeSortOrder() {
   let field = sort.active
   sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
-  fetchUsers()
+  fetchUsers();
 }
 
+// PAGINATE
 const pagination = reactive({page: 1, size: 10, total: 1});
-
-function goToPage(value) {
-  console.log(value)
-}
-
 const pagesNo = computed(() => {
   return Math.ceil(pagination.total / pagination.size)
 })
-
 watch(() => pagination.page, (oldPage, newPage) => {
   fetchUsers();
 })
-// sort & paginate
 
 
 // const myTasks = computed(() => {
