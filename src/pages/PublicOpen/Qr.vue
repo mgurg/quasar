@@ -3,8 +3,10 @@
     <q-page-container>
       <div class="row justify-center">
         <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+
           <div v-if="isError===false && validToProgress < 0.9">
-            <q-linear-progress rounded :value="validToProgress" size="20px" stripe/>
+
+            <q-linear-progress :value="validToProgress" rounded size="20px" stripe/>
 
 
             <q-card bordered class="my-card no-shadow q-mt-sm">
@@ -59,24 +61,13 @@
               </q-card-section>
 
               <q-slide-transition>
-                <div v-show="expandedFailureReport">
-                  AAAA
+                <div v-show="expandedFailureReport" :class="$q.screen.gt.xs ? 'q-px-md':'q-px-xs'" class="q-py-md">
+
+                  <issue-public-form @issueFormBtnClick="addButtonPressed"/>
+
                 </div>
               </q-slide-transition>
             </q-card>
-
-            <!--            <div class="q-pa-md">-->
-            <!--              <div v-if="redirectTo!=null">-->
-            <!--                {{ isAuthenticated }} <br>-->
-            <!--                {{ qrId }} <br>-->
-            <!--                {{ anonymousToken }} <br>-->
-            <!--                {{ tenantId }} <br>-->
-            <!--                {{ validTo }} <br>-->
-            <!--                {{ redirectTo }}<br>-->
-
-            <!--              </div>-->
-            <!--            </div>-->
-
           </div>
 
           <div v-if="isError===false && validToProgress > 0.9"
@@ -145,6 +136,8 @@ import {getAnonymousItemUuidRequest} from "components/api/ItemApiClient";
 import {DateTime} from "luxon";
 
 import GuideCard from "components/viewer/cards/GuideCard.vue";
+import IssuePublicForm from "components/forms/IssuePublicForm.vue";
+import {addAnonymousIssueRequest} from "components/api/IssueApiClient";
 
 const route = useRoute();
 const router = useRouter();
@@ -196,20 +189,16 @@ function countDown() {
     validToProgress.value = 1 - (remainingTime / 15)
   }
   setTimeout(countDown, 5000);
-
-
 }
+
+countDown();
 
 function resolveQrCode(qrCode) {
   isLoading.value = true;
 
   resolveQRtoURL(qrCode).then(function (response) {
-    const lastIndex = response.data.url.lastIndexOf('/');
-    if (lastIndex !== -1) {
-      itemUuid.value = response.data.url.slice(lastIndex + 1)
-      console.log(response.data.url.slice(lastIndex + 1));
-    }
-
+    itemUuid.value = response.data.resource_uuid;
+    redirectTo.value = response.data.url;
     anonymousToken.value = response.data.anonymous_token
     tenantId.value = atob(anonymousToken.value).split(".")[0]
     validTo.value = atob(anonymousToken.value).split(".")[1]
@@ -219,7 +208,6 @@ function resolveQrCode(qrCode) {
     sessionStorage.setItem("anonymousTenantId", tenantId.value);
     sessionStorage.setItem("anonymousTokenValidTo", validTo.value);
 
-    redirectTo.value = response.data.url;
     isAuthenticated.value = UserStore.isAuthenticated;
     console.log('isAuth? ')
     if (UserStore.isAuthenticated === true) {
@@ -261,11 +249,24 @@ function getItemDetails(uuid) {
   });
 }
 
+function addButtonPressed(issueForm) {
+  console.log(issueForm)
+  issueForm["item"] = itemUuid.value
+  isLoading.value = true;
+  addAnonymousIssueRequest(issueForm, anonymousToken.value, tenantId.value).then(function (response) {
+    console.log(response.data);
+    isLoading.value = false;
+    router.push("/new_submission")
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    console.log(err);
+  });
+}
+
 onBeforeMount(() => {
-  countDown();
   isLoading.value = true;
   verifyToken();
-  if (route.params.qr != null) {
+  if (route.params.qr !== null) {
     qrId.value = route.params.qr
     resolveQrCode(qrId.value);
   }

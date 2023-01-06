@@ -8,7 +8,10 @@
           <q-card bordered class="my-card no-shadow q-mt-sm">
             <q-card-section class="row q-pa-sm">
               <q-space></q-space>
-              <a class="cursor-pointer" @click="router.back()">← back</a>
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
+                  $t("Return")
+                }}
+              </q-btn>
             </q-card-section>
 
             <q-separator/>

@@ -11,52 +11,47 @@
     />
 
     <div class="row q-mt-sm">
-      <div class="q-gutter-xs">
+    <div class="q-gutter-xs">
       <span class="text">
         Priorytet:
       </span>
-        <q-chip v-model:selected="priority.low"
-                :color="priority.low==true? 'primary':''"
-                :disable="priority.medium == true|| priority.high==true"
-                :text-color="priority.low==true? 'white':''"
-                icon="info"
-                label="Niski"
-        />
-        <q-chip v-model:selected="priority.medium"
-                :color="priority.medium==true? 'orange':''"
-                :disable="priority.low == true|| priority.high==true"
-                :text-color="priority.medium==true? 'white':''"
-                icon="error_outline"
-                label="Średni"
-        />
-        <q-chip v-model:selected="priority.high"
-                :color="priority.high==true? 'red':''"
-                :disable="priority.low == true|| priority.medium==true"
-                :text-color="priority.high==true? 'white':''"
-                icon="priority_high"
-                label="Wysoki"
-        />
+      <q-chip v-model:selected="priority.low"
+              :disable="priority.medium == true|| priority.high==true"
+              :color="priority.low==true? 'primary':''"
+              :text-color="priority.low==true? 'white':''"
+              icon="info"
+              label="Niski"
+      />
+      <q-chip v-model:selected="priority.medium"
+              :disable="priority.low == true|| priority.high==true"
+              :color="priority.medium==true? 'orange':''"
+              :text-color="priority.medium==true? 'white':''"
+              icon="error_outline"
+              label="Średni"
+      />
+      <q-chip v-model:selected="priority.high"
+              :disable="priority.low == true|| priority.medium==true"
+              :color="priority.high==true? 'red':''"
+              :text-color="priority.high==true? 'white':''"
+              icon="priority_high"
+              label="Wysoki"
+      />
 
-        <!--      <span>-->
-        <!--        <q-radio keep-color v-model="issueColor" checked-icon="info" unchecked-icon="info" size="lg"  val="teal" color="info" />-->
-        <!--      </span>-->
-        <!--      <span>-->
-        <!--        <q-radio keep-color v-model="issueColor" checked-icon="error" unchecked-icon="error" size="lg"  val="orange" color="orange" />-->
-        <!--      </span>-->
-        <!--      <span>-->
-        <!--        <q-radio keep-color v-model="issueColor"  checked-icon="new_releases" unchecked-icon="new_releases" size="lg"  val="red" color="red-12" />-->
-        <!--      </span>-->
-      </div>
+<!--      <span>-->
+<!--        <q-radio keep-color v-model="issueColor" checked-icon="info" unchecked-icon="info" size="lg"  val="teal" color="info" />-->
+<!--      </span>-->
+<!--      <span>-->
+<!--        <q-radio keep-color v-model="issueColor" checked-icon="error" unchecked-icon="error" size="lg"  val="orange" color="orange" />-->
+<!--      </span>-->
+<!--      <span>-->
+<!--        <q-radio keep-color v-model="issueColor"  checked-icon="new_releases" unchecked-icon="new_releases" size="lg"  val="red" color="red-12" />-->
+<!--      </span>-->
     </div>
+  </div>
 
     <div class="tiptap">
-      <tip-tap :body-content="tipTapText" @editor-content="logText"/>
+      <tip-tap-public :body-content="tipTapText" @editor-content="logText"/>
     </div>
-
-    <div>
-      <photo-uploader :file-list="props.issue.files_issue" @uploaded-photos="listOfUploadedImages"/>
-    </div>
-    <!-- QFILE -->
 
 
     <!-- MODE -->
@@ -109,7 +104,7 @@ import * as yup from 'yup';
 
 
 import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
-import TipTap from 'src/components/editor/TipTap.vue'
+import TipTapPublic from "components/editor/TipTapPublic.vue";
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 
 const {isListening, isSupported, stop, result, raw, start, error} = useSpeechRecognition({
@@ -235,9 +230,9 @@ const priority = reactive({
   high: false
 })
 
-
 const submit = handleSubmit(values => {
   // isLoading.value = true;
+
   let priorityLevel = null
   Object.keys(priority).forEach(key => {
     // if key matches selected section, set to true
@@ -264,10 +259,10 @@ const submit = handleSubmit(values => {
     "priority": priorityLevel,
     "text_json": jsonTxt,
     "text_html": htmlTxt,
-    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
+    "files": []
   }
 
-  console.log(data)
+  // console.log(data)
   emit('issueFormBtnClick', data)
 
 })

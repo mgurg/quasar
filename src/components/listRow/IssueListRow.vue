@@ -3,7 +3,7 @@
   <q-item v-ripple :class="$q.screen.lt.sm ? 'q-pa-xs':''" clickable @click="viewIssue(issue.uuid)">
     <q-item-section :class="$q.screen.lt.sm ? 'q-pr-xs':''" avatar @click="viewIssue(issue.uuid)">
       <!--        <q-avatar rounded :icon="getIcon(issue.status)"/>-->
-      <q-icon :name="getIcon(issue.status)" color="grey" size="lg"/>
+      <q-icon :name="getIcon(issue.status)" :color="getIconColor(issue.priority)" size="lg"/>
     </q-item-section>
 
     <q-item-section>
@@ -172,6 +172,22 @@ function getIcon(status) {
       break;
     default:
       return 'offline_bolt'
+  }
+}
+
+function getIconColor(priority) {
+  switch (priority) {
+    case '30':
+      return 'red'
+      break;
+    case '20':
+      return 'orange'
+      break;
+    case '10':
+      return 'primary'
+      break;
+    default:
+      return 'grey'
   }
 }
 </script>

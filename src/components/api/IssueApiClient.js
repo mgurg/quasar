@@ -1,4 +1,4 @@
-import {authApi} from "boot/axios";
+import {api, authApi} from "boot/axios";
 
 export function getIssuesStatsRequest() {
   return authApi.get("/issues/stats");
@@ -26,6 +26,16 @@ export function editIssueRequest(uuid, data) {
 
 export function addIssueRequest(data) {
   return authApi.post("/issues/", data);
+}
+
+
+export function addAnonymousIssueRequest(data, token, tenant_id) {
+  return api.post("/issues/", data, {
+    headers: {
+      Authorization: "Bearer " + token,
+      tenant: tenant_id,
+    },
+  });
 }
 
 export function changeIssueStatusRequest(uuid, data) {

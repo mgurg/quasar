@@ -29,7 +29,6 @@
                        outline @click="editIssue(issueDetails.uuid)"/>
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
-                  disable
                   class="float-right q-mr-sm"
                   color="red"
                   flat
@@ -46,7 +45,7 @@
             <q-item class="q-px-none">
               <q-card-section avatar class="q-pa-sm">
                 <!--                <q-avatar :icon="getIcon('1')" size="lg"/>-->
-                <q-icon :name="getIcon(issueDetails.status)" color="grey" size="lg"/>
+                <q-icon :name="getIcon(issueDetails.status)" :color="getIconColor(issueDetails.priority)" size="lg"/>
               </q-card-section>
 
               <q-item-section>
@@ -477,7 +476,21 @@ function getIcon(status) {
       return 'offline_bolt'
   }
 }
-
+function getIconColor(priority) {
+  switch (priority) {
+    case '30':
+      return 'red'
+      break;
+    case '20':
+      return 'orange'
+      break;
+    case '10':
+      return 'primary'
+      break;
+    default:
+      return 'grey'
+  }
+}
 onBeforeMount(() => {
   isLoading.value = true;
   issueUuid.value = route.params.uuid

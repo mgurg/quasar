@@ -19,6 +19,14 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Issues") }}</q-item-label>
+                <span class="grey text-grey  q-pt-sm">
+                  <q-icon size="xs" name="auto_awesome" />nowy
+                  <q-icon size="xs" name="playlist_add_check_circle" />zaakceptowany
+                  <q-icon size="xs" name="delete_forever" />odrzucony
+                  <q-icon size="xs" name="build_circle" />w trakcie
+                  <q-icon size="xs" name="pause_circle" />pauza
+                  <q-icon size="xs" name="check_circle" />zakończony
+                </span>
                 <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
               <q-item-section side>

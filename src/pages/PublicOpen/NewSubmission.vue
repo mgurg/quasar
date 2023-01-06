@@ -11,7 +11,7 @@
             Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
           </p>
           <p class="text-h6" v-if="$q.screen.gt.sm">
-            Zbieraj szczere pomysły od pracowników, wdrażaj je i wyrażaj uznanie tam, gdzie jest ono należne. Proste.
+            Proste.
           </p>
         </div>
         <!-- </div> -->
