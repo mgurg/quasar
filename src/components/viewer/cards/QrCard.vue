@@ -96,14 +96,17 @@ const qrCodeSize = ref(300)
 
 
 function generateQRUrl(qrCodeId) {
+
   return process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
 }
 
 function GenerateQR(qrCodeId, ecc, size = 300) {
   // http://beta.remontmaszyn.pl/qr/mxw+234
 
+  qrCodeId= qrCodeId.replace("+","%2B")
   let url = process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
-  console.log(url)
+  // console.log(qrCodeId)
+  // console.log("QR: " + url)
 
   return "https://chart.googleapis.com/chart?chs=" + size + "x" + size + "&cht=qr&chl=" + url + "&choe=UTF-8&chld=" + ecc
 }

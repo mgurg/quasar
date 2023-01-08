@@ -193,6 +193,9 @@ export const useUserStore = defineStore("user", {
       localStorage.removeItem("uuid");
       localStorage.removeItem("permissions");
 
+      localStorage.clear();
+      sessionStorage.clear();
+
       this.token = null;
       this.tenant = null;
       this.tokenValidTo= null;

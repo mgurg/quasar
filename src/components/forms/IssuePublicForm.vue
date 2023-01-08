@@ -13,7 +13,7 @@
     <div class="row q-mt-sm">
     <div class="q-gutter-xs">
       <span class="text">
-        Priorytet:
+        Priorytet
       </span>
       <q-chip v-model:selected="priority.low"
               :disable="priority.medium == true|| priority.high==true"
@@ -233,7 +233,7 @@ const priority = reactive({
 const submit = handleSubmit(values => {
   // isLoading.value = true;
 
-  let priorityLevel = null
+  let priorityLevel = 0
   Object.keys(priority).forEach(key => {
     // if key matches selected section, set to true
     if (priority[key] == true) {
@@ -243,6 +243,7 @@ const submit = handleSubmit(values => {
           break;
         case 'medium':
           priorityLevel = 20;
+          break;
         case 'high':
           priorityLevel = 30;
           break;
