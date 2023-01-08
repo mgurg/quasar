@@ -3,11 +3,11 @@
 
 export default {
 	// common
-	"Add": `Addieren`,
+	"Add": `Hinzufügen`,
 	"Edit": `Bearbeiten`,
 	"Delete": `Löschen`,
 	"View": `Sicht`,
-	"Cancel": `Stornieren`,
+	"Cancel": `Absagen`,
 	"Save": `Speichern`,
 	"Back": `Der Rücken`,
 	"Return": `Zurückkehren`,
@@ -18,7 +18,7 @@ export default {
 	"Status": `Status`,
 	"Yes": `Ja`,
 	"No": `Nein`,
-	"All": `Alles`,
+	"All": `Alle`,
 	"Pending": `Ausstehend`,
 	"Details": `Einzelheiten`,
 	"Photos": `Fotos`,
@@ -28,6 +28,14 @@ export default {
 	"Timeline": `Zeitleiste`,
 	"Name": `Name`,
 	"Description": `Beschreibung`,
+	"New": `Neu`,
+	"Active": `Aktiv`,
+	"Inactive": `Inaktiv`,
+	"Accepted": `Akzeptiert`,
+	"Rejected": `Abgelehnt`,
+	"In progress": `In Bearbeitung`,
+	"Paused": `Blättern`,
+	"Resolved": `Aufgelöst`,
 
 	// login
 	"Login": `Anmeldung`,
@@ -40,10 +48,10 @@ export default {
 	"I need help": `Ich brauche Hilfe`,
 	"Reset password": `Passwort zurücksetzen`,
 	"I accept the terms and conditions": `Ich akzeptiere die allgemeinen Geschäftsbedingungen`,
-	"Congratulations": `Herzliche Glückwünsche`,
+	"Congratulations": `Glückwünsche`,
 	"Almost done! Remember to confirm your email!": `Fast fertig! Denken Sie daran, Ihre E -Mail zu bestätigen!`,
 	"First Name": `Vorname`,
-	"Last Name": `Nachname`,
+	"Last Name": `Familienname, Nachname`,
 	"NIP": `NIP`,
 	"Company name": `Name der Firma`,
 	"Street": `Straße`,
@@ -65,14 +73,14 @@ export default {
 	"New": `Neu`,
 	"Ongoing": `Laufend`,
 	"Paused": `Blättern`,
-	"Done": `Erledigt`,
-	"Rejected": `Hat abgelehnt`,
+	"Done": `Getan`,
+	"Rejected": `Abgelehnt`,
 
 	// users
 	"Employee": `Mitarbeiter`,
 	"Employees": `Angestellte`,
 	"First name": `Vorname`,
-	"Last name": `Nachname`,
+	"Last name": `Familienname, Nachname`,
 	"Phone": `Telefon`,
 	"Age": `Das Alter`,
 	"New employee": `Neuer Angestellter`,
@@ -89,8 +97,8 @@ export default {
 	"Deleted:": `Gelöscht:`,
 
 	// issues
-	"Issues": `Probleme`,
-	"Issue": `Problem`,
+	"Issues": `Ausgaben`,
+	"Issue": `Ausgabe`,
 	"Issue name": `Ausgabename`,
 	"Issue description": `Fehlerbeschreibung`,
 	"New issue": `Neues Problem`,
@@ -116,7 +124,7 @@ export default {
 
 	// guides
 	"Guides": `Führer`,
-	"Guide": `Handbuch`,
+	"Guide": `Führung`,
 	"New guide": `Neuer Leitfaden`,
 	"Guide name": `Leitfadenname`,
 	"Add new": `Neue hinzufügen`,
@@ -142,7 +150,7 @@ export default {
 
 	// permissions
 	"Permissions": `Berechtigungen`,
-	"Permission": `Genehmigung`,
+	"Permission": `Erlaubnis`,
 	"New permission": `Neue Erlaubnis`,
 	"Role": `Rolle`,
 

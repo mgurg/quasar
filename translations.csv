@@ -1,30 +1,38 @@
 Key,"English, en-US","French, fr","German, de","Polish, pl"
 #common,,,,
-"""Add""",Add,Ajouter,Addieren,Dodaj
+"""Add""",Add,Ajouter,Hinzufügen,Dodaj
 """Edit""",Edit,Éditer,Bearbeiten,Edytuj
-"""Delete""",Delete,Effacer,Löschen,Usuń
-"""View""",View,Vue,Sicht,Podgląd
-"""Cancel""",Cancel,Annuler,Stornieren,Anuluj
+"""Delete""",Delete,Supprimer,Löschen,Usuń
+"""View""",View,Voir,Sicht,Podgląd
+"""Cancel""",Cancel,Annuler,Absagen,Anuluj
 """Save""",Save,Sauver,Speichern,Zapisz
-"""Back""",Back,Arrière,Der Rücken,Wróć
-"""Return""",Return,Retour,Zurückkehren,Powrót
-"""Search""",Search,Chercher,Suche,Szukaj
+"""Back""",Back,Dos,Der Rücken,Wróć
+"""Return""",Return,Revenir,Zurückkehren,Powrót
+"""Search""",Search,Rechercher,Suche,Szukaj
 """Type your search text""",Type your search text,Tapez votre texte de recherche,Geben Sie Ihren Suchtext ein,Wpisz swój tekst wyszukiwania
 """Filters""",Filters,Filtres,Filter,Filtry
 """Attachments""",Attachments,Attachements,Anhänge,Załączniki
 """Status""",Status,Statut,Status,Status
 """Yes""",Yes,Oui,Ja,Tak
 """No""",No,Non,Nein,Nie
-"""All""",All,Tout,Alles,Wszystko
-"""Pending""",Pending,En attente,Ausstehend,W oczekiwaniu
-"""Details""",Details,Détails,Einzelheiten,Detale
+"""All""",All,Tous,Alle,Wszystko
+"""Pending""",Pending,En attente,Ausstehend,Aż do
+"""Details""",Details,Des détails,Einzelheiten,Detale
 """Photos""",Photos,Photos,Fotos,Zdjęcia
 """Documents""",Documents,Documents,Unterlagen,Dokumenty
 """QR Code""",QR Code,QR Code,QR-Code,Kod QR
 """Comments""",Comments,commentaires,Bemerkungen,Uwagi
 """Timeline""",Timeline,Chronologie,Zeitleiste,Oś czasu
-"""Name""",Name,Nom,Name,Nazwa
-"""Description""",Description,Description,Beschreibung,Opis
+"""Name""",Name,Nom,Name,Imię
+"""Description""",Description,La description,Beschreibung,Opis
+"""New""",New,Nouveau,Neu,Nowy
+"""Active""",Active,Actif,Aktiv,Aktywny
+"""Inactive""",Inactive,Inactif,Inaktiv,Nieaktywny
+"""Accepted""",Accepted,Accepté,Akzeptiert,Przyjęty
+"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
+"""In progress""",In progress,En cours,In Bearbeitung,W trakcie
+"""Paused""",Paused,Interrompu,Blättern,Zatrzymany
+"""Resolved""",Resolved,Résolu,Aufgelöst,Rozwiązany
 ,,,,
 #login,,,,
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
@@ -33,21 +41,21 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Error: Check username & password""",Error: Check username & password,Erreur: vérifiez le nom d'utilisateur et le mot de passe,Fehler: Benutzername und Passwort überprüfen,Błąd: Sprawdź nazwę użytkownika i hasło
 """Password confirmation""",Password confirmation,Confirmation mot de passe,Passwort Bestätigung,Potwierdzenie hasła
 """Remember me for 30 days""",Remember me for 30 days,Souviens-toi de moi pendant 30 jours,Erinnere dich für 30 Tage an mich,Pamiętaj o mnie przez 30 dni
-"""Register""",Register,Enregistrer,Registrieren,Zarejstruj się
+"""Register""",Register,S'inscrire,Registrieren,Zarejstruj się
 """I need help""",I need help,j'ai besoin d'aide,Ich brauche Hilfe,Potrzebuję pomocy
 """Reset password""",Reset password,Réinitialiser le mot de passe,Passwort zurücksetzen,Zresetuj hasło
 """I accept the terms and conditions""",I accept the terms and conditions,J'accepte les termes et conditions,Ich akzeptiere die allgemeinen Geschäftsbedingungen,Akceptuję zasady i warunki
-"""Congratulations""",Congratulations,Toutes nos félicitations,Herzliche Glückwünsche,Gratulacje
+"""Congratulations""",Congratulations,Toutes nos félicitations,Glückwünsche,Gratulacje
 """Almost done! Remember to confirm your email!""",Almost done! Remember to confirm your email!,Presque fini! N'oubliez pas de confirmer votre e-mail!,"Fast fertig! Denken Sie daran, Ihre E -Mail zu bestätigen!","Prawie skończone! Pamiętaj, aby potwierdzić swój e -mail!"
 """First Name""",First Name,Prénom,Vorname,Imię
-"""Last Name""",Last Name,Nom de famille,Nachname,Nazwisko
+"""Last Name""",Last Name,Nom de famille,"Familienname, Nachname",Nazwisko
 """NIP""",NIP,NIP,NIP,NIP
-"""Company name""",Company name,Nom de l'entreprise,Name der Firma,Nazwa firmy
+"""Company name""",Company name,Nom de la compagnie,Name der Firma,Nazwa firmy
 """Street""",Street,Rue,Straße,Ulica
 """Postcode""",Postcode,Code postal,Postleitzahl,Kod pocztowy
 """City""",City,Ville,Stadt,Miasto
 """Last step""",Last step,Dernière étape,Letzter Schritt,Ostatni krok
-"""Say something about yourself."" ",Say something about yourself. ,Dites quelque chose à propos de vous.,Sage etwas über dich selbst.,Powiedz coś o sobie.
+"""Say something about yourself."" ",Say something about yourself. ,Dis quelque chose à propos de toi.,Sage etwas über dich selbst.,Powiedz coś o sobie.
 """Lets start""",Lets start,Commençons,Lasst uns beginnen,Zaczynajmy
 ,,,,
 #files,,,,
@@ -62,15 +70,15 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """New""",New,Nouveau,Neu,Nowy
 """Ongoing""",Ongoing,En cours,Laufend,W trakcie
 """Paused""",Paused,Interrompu,Blättern,Zatrzymany
-"""Done""",Done,Fait,Erledigt,Gotowy
-"""Rejected""",Rejected,Rejeté,Hat abgelehnt,Odrzucony
+"""Done""",Done,Fait,Getan,Gotowy
+"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
 ,,,,
 #users,,,,
 """Employee""",Employee,Employé,Mitarbeiter,Pracownik
 """Employees""",Employees,Employés,Angestellte,Pracownicy
 """First name""",First name,Prénom,Vorname,Imię
-"""Last name""",Last name,Nom de famille,Nachname,Nazwisko
-"""Phone""",Phone,Téléphone,Telefon,Telefon
+"""Last name""",Last name,Nom de famille,"Familienname, Nachname",Nazwisko
+"""Phone""",Phone,Téléphone fixe,Telefon,Telefon
 """Age""",Age,Âge,Das Alter,Wiek
 """New employee""",New employee,Nouvel employé,Neuer Angestellter,Nowy pracownik
 ,,,,
@@ -82,12 +90,12 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Your submission landed in our system""",Your submission landed in our system,Votre soumission a atterri dans notre système,Ihre Einreichung landete in unserem System,Twoje zgłoszenie wylądowało w naszym systemie
 """Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
 """New idea""",New idea,Nouvelle idée,Neue Idee,Nowy pomysł
-"""Delete:""",Delete:,Effacer:,Löschen:,Usunąć:
+"""Delete:""",Delete:,Supprimer:,Löschen:,Usunąć:
 """Deleted:""",Deleted:,Supprimé:,Gelöscht:,Usunięte:
 ,,,,
 #issues,,,,
-"""Issues""",Issues,Problèmes,Probleme,Problemy
-"""Issue""",Issue,Publier,Problem,Problem
+"""Issues""",Issues,Problèmes,Ausgaben,Problemy
+"""Issue""",Issue,Publier,Ausgabe,Problem
 """Issue name""",Issue name,Nom d'émission,Ausgabename,Nazwa problemu
 """Issue description""",Issue description,Description du problème,Fehlerbeschreibung,Opis problemu
 """New issue""",New issue,Nouveau problème,Neues Problem,Nowy problem
@@ -113,7 +121,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 ,,,,
 #guides,,,,
 """Guides""",Guides,Guides,Führer,Przewodniki
-"""Guide""",Guide,Guide,Handbuch,Przewodnik
+"""Guide""",Guide,Guider,Führung,Przewodnik
 """New guide""",New guide,Nouveau guide,Neuer Leitfaden,Nowy przewodnik
 """Guide name""",Guide name,Nom de guide,Leitfadenname,Nazwa przewodnika
 """Add new""",Add new,Ajouter un nouveau,Neue hinzufügen,Dodaj nowe
@@ -129,7 +137,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Task description""",Task description,Description de la tâche,Aufgabenbeschreibung,Opis zadania
 ,,,,
 #settings,,,,
-"""Settings""",Settings,Réglages,Einstellungen,Ustawienia
+"""Settings""",Settings,Paramètres,Einstellungen,Ustawienia
 """QR code""",QR code,QR Code,QR-Code,Kod QR
 """Submission type""",Submission type,Type de soumission,Einreichungstyp,Typ zgłoszenia
 """Anonymous""",Anonymous,Anonyme,Anonym,Anonimowy
@@ -139,7 +147,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 ,,,,
 #permissions,,,,
 """Permissions""",Permissions,Autorisation,Berechtigungen,Uprawnienia
-"""Permission""",Permission,Autorisation,Genehmigung,Pozwolenie
+"""Permission""",Permission,Autorisation,Erlaubnis,Pozwolenie
 """New permission""",New permission,Nouvelle autorisation,Neue Erlaubnis,Nowe pozwolenie
 """Role""",Role,Rôle,Rolle,Rola
 ,,,,

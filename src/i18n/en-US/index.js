@@ -28,6 +28,14 @@ export default {
 	"Timeline": `Timeline`,
 	"Name": `Name`,
 	"Description": `Description`,
+	"New": `New`,
+	"Active": `Active`,
+	"Inactive": `Inactive`,
+	"Accepted": `Accepted`,
+	"Rejected": `Rejected`,
+	"In progress": `In progress`,
+	"Paused": `Paused`,
+	"Resolved": `Resolved`,
 
 	// login
 	"Login": `Login`,

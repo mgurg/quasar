@@ -19,13 +19,13 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Issues") }}</q-item-label>
-                <span class="grey text-grey  q-pt-sm">
-                  <q-icon size="xs" name="auto_awesome" />nowy
-                  <q-icon size="xs" name="playlist_add_check_circle" />zaakceptowany
-                  <q-icon size="xs" name="delete_forever" />odrzucony
-                  <q-icon size="xs" name="build_circle" />w trakcie
-                  <q-icon size="xs" name="pause_circle" />pauza
-                  <q-icon size="xs" name="check_circle" />zakończony
+                <span class="grey text-grey full-width q-pt-sm">
+                  <q-icon name="auto_awesome" size="xs"/>nowy
+                  <q-icon name="playlist_add_check_circle" size="xs"/>zaakceptowany
+                  <q-icon name="delete_forever" size="xs"/>odrzucony
+                  <q-icon name="build_circle" size="xs"/>w trakcie
+                  <q-icon name="pause_circle" size="xs"/>pauza
+                  <q-icon name="check_circle" size="xs"/>zakończony
                 </span>
                 <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
@@ -59,9 +59,9 @@
       </q-card>
 
       <q-slide-transition>
-        <q-card v-show="showSearchBar===true" class="no-border no-shadow bg-transparent">
-          <div class="row sm-gutter">
-            <div class="q-pa-xs col-xs-12 col-sm-6">
+        <div v-show="showSearchBar===true">
+          <q-card class="no-border no-shadow bg-transparent">
+            <q-card-section>
               <q-input
                 v-model="search"
                 :label="$t('Type your search text')"
@@ -75,74 +75,119 @@
                 </template>
 
               </q-input>
-            </div>
-            <div class="q-pa-xs col-xs-12 col-sm-6">
-              <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline>
-                <div class="q-pa-xs" style="max-width: 350px">
-                  <q-list>
-                    <q-item v-close-popup clickable>
-                      <q-item-section>
-                        <q-item-label
-                          :class="hasStatus === 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
-                          @click="setStatusFilter('rejected')">
-                          {{ $t("Rejected") }}
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
+            </q-card-section>
+            <q-card-section class="q-pt-none">
+              <div class="row sm-gutter">
+                <!-- STATUS -->
+                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline>
+                  <div class="q-pa-xs" style="max-width: 350px">
+                    <q-list>
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label
+                            :class="hasStatus === 'active' ? 'text-weight-bold' : 'text-weight-regular'"
+                            @click="setStatusFilter('active')">
+                            {{ $t("Active") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label
+                            :class="hasStatus === 'inactive' ? 'text-weight-bold' : 'text-weight-regular'"
+                            @click="setStatusFilter('inactive')">
+                            {{ $t("Inactive") }}
+                          </q-item-label>
+                        </q-item-section>
+                      </q-item>
 
-                    <q-item v-close-popup clickable>
-                      <q-item-section>
-                        <q-item-label
-                          :class="hasStatus === 'accepted' ? 'text-weight-bold' : 'text-weight-regular'"
-                          @click="setStatusFilter('accepted')">
-                          {{
-                            $t("Accepted")
-                          }}
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
+                      <q-separator/>
 
-                    <q-item v-close-popup clickable>
-                      <q-item-section>
-                        <q-item-label :class="hasStatus === 'todo' ? 'text-weight-bold' : 'text-weight-regular'"
-                                      @click="setStatusFilter('todo')">
-                          Todo
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
-                    <q-item v-close-popup clickable>
-                      <q-item-section>
-                        <q-item-label :class="hasStatus == null ? 'text-weight-bold' : 'text-weight-regular'"
-                                      @click="setStatusFilter(null)">
-                          {{ $t("All") }}
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label
+                            :class="hasStatus === 'new' ? 'text-weight-bold' : 'text-weight-regular'"
+                            @click="setStatusFilter('new')">
+                            {{ $t("New") }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-icon color="grey" name="auto_awesome" />
+                        </q-item-section>
+                      </q-item>
 
-                </div>
-              </q-btn-dropdown>
-              <div class="q-gutter-sm">
-                <q-toggle
-                  v-model="withPhoto"
-                  checked-icon="check"
-                  label="Załączniki"
-                  toggle-indeterminate
-                  unchecked-icon="clear"
-                />
-                <q-toggle
-                  v-model="withUser"
-                  checked-icon="check"
-                  label="Przypisany"
-                  toggle-indeterminate
-                  unchecked-icon="clear"
-                />
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label
+                            :class="hasStatus === 'accepted' ? 'text-weight-bold' : 'text-weight-regular'"
+                            @click="setStatusFilter('accepted')">
+                            {{ $t("Accepted") }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-icon color="grey" name="playlist_add_check_circle" />
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label :class="hasStatus === 'in_progress' ? 'text-weight-bold' : 'text-weight-regular'"
+                                        @click="setStatusFilter('in_progress')">
+                            {{ $t("In progress") }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-icon color="grey" name="build_circle" />
+                        </q-item-section>
+                      </q-item>
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label :class="hasStatus == 'paused' ? 'text-weight-bold' : 'text-weight-regular'"
+                                        @click="setStatusFilter('paused')">
+                            {{ $t("Paused") }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-icon color="grey" name="pause_circle" />
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label :class="hasStatus == 'resolved' ? 'text-weight-bold' : 'text-weight-regular'"
+                                        @click="setStatusFilter('resolved')">
+                            {{ $t("Resolved") }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-icon color="grey" name="check_circle" />
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item v-close-popup clickable>
+                        <q-item-section>
+                          <q-item-label :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
+                                        @click="setStatusFilter('rejected')">
+                            {{ $t("Rejected") }}
+                          </q-item-label>
+                        </q-item-section>
+                        <q-item-section avatar>
+                          <q-icon color="grey" name="delete_forever" />
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+
+                  </div>
+                </q-btn-dropdown>
+                <!-- PRIORITY -->
+                <q-btn class="q-ma-xs" color="primary" icon="cancel" outline>Wyczyść</q-btn>
               </div>
 
 
-            </div>
-          </div>
-        </q-card>
+            </q-card-section>
+          </q-card>
+        </div>
+
       </q-slide-transition>
 
       <q-card v-if="pagination.total > 0 || search!==null" bordered class="my-card no-shadow q-mt-sm q-pt-none">
@@ -187,8 +232,8 @@
             </q-item-section>
             <q-item-section>
               <span>{{ $t(sortName) }}
-                <q-btn flat :icon="getSortIcon()"
-                       color="primary" padding="xs"
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
                        size="sm" @click="changeSortOrder()"/>
               </span>
             </q-item-section>
@@ -237,9 +282,10 @@ const withUser = ref(null)
 const issues = ref([]);
 let selected = ref(null);
 
-let sort = reactive({status: "asc", title: "asc", created_at : "asc" , name: "asc", active: "created_at"})
+let sort = reactive({status: "asc", title: "asc", created_at: "asc", name: "asc", active: "created_at"})
 let sortName = ref("Age")
-function setSortingParams(name){
+
+function setSortingParams(name) {
   switch (name) {
     case 'name':
       sort.active = "name"
@@ -271,11 +317,11 @@ function changeSortOrder() {
   fetchIssues();
 }
 
-function getSortIcon(){
+function getSortIcon() {
   let column = sortName.value.toLowerCase();
   switch (column) {
     case 'age':
-      column= 'created_at'
+      column = 'created_at'
       break;
   }
 
@@ -295,7 +341,7 @@ watch(() => pagination.page, (oldPage, newPage) => {
 })
 
 let hasPhotos = ref(null);
-let hasStatus = ref(null);
+let hasStatus = ref('active');
 
 
 function setAttachmentFilter(condition) {
@@ -305,7 +351,7 @@ function setAttachmentFilter(condition) {
 
 function setStatusFilter(condition) {
   hasStatus.value = condition;
-  fetchIssues()
+  fetchIssues();
 }
 
 function goToPage(value) {
