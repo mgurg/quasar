@@ -19,14 +19,6 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Issues") }}</q-item-label>
-                <span class="grey text-grey full-width q-pt-sm">
-                  <q-icon name="auto_awesome" size="xs"/>nowy
-                  <q-icon name="playlist_add_check_circle" size="xs"/>zaakceptowany
-                  <q-icon name="delete_forever" size="xs"/>odrzucony
-                  <q-icon name="build_circle" size="xs"/>w trakcie
-                  <q-icon name="pause_circle" size="xs"/>pauza
-                  <q-icon name="check_circle" size="xs"/>zakończony
-                </span>
                 <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
               </q-item-section>
               <q-item-section side>
@@ -55,6 +47,17 @@
             </q-item>
 
           </q-list>
+          <span class="grey text-grey full-width q-pt-sm">
+                  <q-icon name="auto_awesome" size="xs"/>&nbsp;nowy
+                  <q-icon name="playlist_add_check_circle" size="xs"/>&nbsp;zaakceptowany
+<!--                  <q-icon name="delete_forever" size="xs"/> odrzucony-->
+                  <q-icon name="build_circle" size="xs"/>&nbsp;w trakcie
+                  <q-icon name="pause_circle" size="xs"/>&nbsp;pauza
+<!--                  <q-icon name="check_circle" size="xs"/> zakończony-->
+                  <q-icon name="stop" color="primary" size="xs"/>
+                  <q-icon name="stop" color="orange" size="xs"/>
+            <q-icon name="stop" color="red" size="xs"/>&nbsp;priorytet
+                </span>
         </q-card-section>
       </q-card>
 
@@ -190,7 +193,7 @@
 
       </q-slide-transition>
 
-      <q-card v-if="pagination.total > 0 || search!==null" bordered class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
             <q-item-section avatar>
@@ -252,7 +255,7 @@
 
         <q-space class="q-pa-sm"/>
       </q-card>
-      <div v-if="pagination.total === 0" class="text-h5 text-center q-pa-lg">
+      <div v-if="pagination.total === 0 && hasStatus==='active'" class="text-h5 text-center q-pa-lg">
         Brak problemów 🥳 ! <br/><br/> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
         <div class="col-12 text-h6 q-mt-none">
           <q-btn :label="$t('New issue')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/issues/add"/>
@@ -282,7 +285,7 @@ const withUser = ref(null)
 const issues = ref([]);
 let selected = ref(null);
 
-let sort = reactive({status: "asc", title: "asc", created_at: "asc", name: "asc", active: "created_at"})
+let sort = reactive({status: "asc", title: "asc", created_at: "desc", name: "asc", active: "created_at"})
 let sortName = ref("Age")
 
 function setSortingParams(name) {

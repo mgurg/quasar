@@ -135,7 +135,7 @@
       </q-card>
 
 
-      <description-card v-if="itemDetails!==null" :expanded-description="true" :text="itemDetails.text_json"/>
+      <description-card v-if="itemDetails!==null" :expanded-description="true" :textJson="itemDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
       <document-card v-if="documentFiles!==null" :document-files="documentFiles" :expanded-docs="false"/>
       <guide-card v-if="guidesList!==null && itemDetails !==null" :expanded-guide="false" :guides="guidesList"

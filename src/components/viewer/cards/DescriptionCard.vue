@@ -18,13 +18,16 @@
     <q-slide-transition>
       <div v-show="expandedDescription">
         <q-card-section>
-          <div
+          <div v-if="descriptionRawText!==''"
             :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
             class="rounded-borders">
             <tip-tap
               :body-content="descriptionContent"
               :readonly="true"
             />
+          </div>
+          <div v-else>
+            Brak opisu
           </div>
         </q-card-section>
       </div>
@@ -38,11 +41,15 @@ import TipTap from 'src/components/editor/TipTap.vue'
 
 
 const props = defineProps({
-  text: {
+  textJson: {
     type: Object,
     default() {
       return null
     }
+  },
+  text: {
+    type: String,
+    default: "",
   },
   itemUuid: {
     type: String,
@@ -59,6 +66,7 @@ const props = defineProps({
 })
 
 const expandedDescription = ref(props.expandedDescription)
-const descriptionContent = ref(props.text)
+const descriptionContent = ref(props.textJson)
+const descriptionRawText = ref(props.text)
 const publicAccess = ref(props.publicAccess)
 </script>

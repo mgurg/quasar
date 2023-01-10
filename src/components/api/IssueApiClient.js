@@ -4,10 +4,6 @@ export function getIssuesStatsRequest() {
   return authApi.get("/issues/stats");
 }
 
-export function getUserIssuesRequest(uuid) {
-  return authApi.get("/issues/user/" + uuid);
-}
-
 export function getIssueTimelineRequest(uuid) {
   return authApi.get("/issues/timeline/" + uuid);
 }

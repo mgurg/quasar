@@ -218,7 +218,7 @@ import {useQuasar} from 'quasar'
 import {useRoute, useRouter} from "vue-router";
 import IssueListRow from "components/listRow/IssueListRow.vue";
 import {getUserIdeasRequest} from "components/api/IdeaApiClient";
-import {getUserIssuesRequest} from "components/api/IssueApiClient";
+
 import {activateUserRequest, deleteUserRequest, getUserRequest} from 'src/components/api/UserApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
@@ -344,7 +344,12 @@ function getUserIdeas(uuid) {
 function getUserIssues(uuid) {
   // userUuid.value
   isLoading.value = true;
-  getUserIssuesRequest(uuid).then(function (response) {
+  let params ={
+    user_uuid: uuid,
+    page: pagination.page,
+    size: pagination.size,
+  }
+  getManyIssuesRequest(params).then(function (response) {
     userIssues.value = response.data.items
 
     if (response.data.items.length == 0) {

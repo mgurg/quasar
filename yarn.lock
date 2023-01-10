@@ -1695,10 +1695,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@quasar/extras@npm:^1.15.8":
-  version: 1.15.8
-  resolution: "@quasar/extras@npm:1.15.8"
-  checksum: 655bc336d9f0dbc0d8e6a45756ff85b2d10b261eaee0a8ccebe7200e272af98ebd14eda44fb7b0bac57192824c70bfa3818c01dfb20144f78737412217666272
+"@quasar/extras@npm:^1.15.9":
+  version: 1.15.9
+  resolution: "@quasar/extras@npm:1.15.9"
+  checksum: d81031896e169f3e4c0e01677040dfcf68d194266b8cce34cfefd5183cd9bef0df94f955b8fc563a30f9a6a7d2ab9a6b2c5a11faed87a6a3d35eb7543d2a3aff
   languageName: node
   linkType: hard
 
@@ -1734,96 +1734,96 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/browser@npm:7.28.1, @sentry/browser@npm:^7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/browser@npm:7.28.1"
+"@sentry/browser@npm:7.29.0, @sentry/browser@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/browser@npm:7.29.0"
   dependencies:
-    "@sentry/core": 7.28.1
-    "@sentry/replay": 7.28.1
-    "@sentry/types": 7.28.1
-    "@sentry/utils": 7.28.1
+    "@sentry/core": 7.29.0
+    "@sentry/replay": 7.29.0
+    "@sentry/types": 7.29.0
+    "@sentry/utils": 7.29.0
     tslib: ^1.9.3
-  checksum: 6cbafc58a08a47db078a56b41544cb483f3898a980db37449cf81553776ac2e1716d9006a9bdc08027ce1666a88eddf20e54ee65870cfcb16f22f61905af000a
+  checksum: 136b9d03a9ff38e72f4d8fd335f23469341d0095d1f075a36d85ef2cd6bd0763635a7e1cbc7abe14508291e88cffe549eda6016c858564b55c1d4e81ef67882f
   languageName: node
   linkType: hard
 
-"@sentry/core@npm:7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/core@npm:7.28.1"
+"@sentry/core@npm:7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/core@npm:7.29.0"
   dependencies:
-    "@sentry/types": 7.28.1
-    "@sentry/utils": 7.28.1
+    "@sentry/types": 7.29.0
+    "@sentry/utils": 7.29.0
     tslib: ^1.9.3
-  checksum: 8c9e89f8a4efe84a925b5e626828dd90a714b7c017503b04d7bf754fd7e402f0ed6449250d3c03a40493b6fc2323f804f172c6b792fe2003531afdc578f1587a
+  checksum: d9330ed3528f2328b524cb237e400368dcb6c36b8afb791d28141e98ab5c0b56dc306a65cfc7164108cb5616346dabe793a39a140257f723906dc25a03b7ebcd
   languageName: node
   linkType: hard
 
-"@sentry/integrations@npm:^7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/integrations@npm:7.28.1"
+"@sentry/integrations@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/integrations@npm:7.29.0"
   dependencies:
-    "@sentry/types": 7.28.1
-    "@sentry/utils": 7.28.1
+    "@sentry/types": 7.29.0
+    "@sentry/utils": 7.29.0
     localforage: ^1.8.1
     tslib: ^1.9.3
-  checksum: 7647e559981ac3554ec881861dd9f12ed947a5c4ef2493c6f975bc2821bc91bcc447e332d3c6c6cd7f92d488f0559d5425542f4d0fcf2932fae0c4d1e3fb6e9e
+  checksum: fec2b9b7902b9b097b5453ae4c797e4efa18ac05a3b539c58d037085e12846f443ebe2e8d916a273ee4df71a29891265db5723b7fd4b5e8287fe5864cb9b2e43
   languageName: node
   linkType: hard
 
-"@sentry/replay@npm:7.28.1, @sentry/replay@npm:^7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/replay@npm:7.28.1"
+"@sentry/replay@npm:7.29.0, @sentry/replay@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/replay@npm:7.29.0"
   dependencies:
-    "@sentry/core": 7.28.1
-    "@sentry/types": 7.28.1
-    "@sentry/utils": 7.28.1
+    "@sentry/core": 7.29.0
+    "@sentry/types": 7.29.0
+    "@sentry/utils": 7.29.0
   peerDependencies:
     "@sentry/browser": ">=7.24.0"
-  checksum: e47d40d5e6044b78aba3d0612dcf03240bb0d507106bb9e111c1beae60a1c972112c6ff442393cc2c47aed77079f645bd4614069315c4f44a1bb7514bb09b0dc
+  checksum: 539e18c128bb7966c9d4ea91ebd9cde6d42f42f96fa648d7ead5bff699e643f3792f57a344376586fab26f659f5e1431176faf0e12e6ea53508fd48ba928dd12
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/tracing@npm:7.28.1"
+"@sentry/tracing@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/tracing@npm:7.29.0"
   dependencies:
-    "@sentry/core": 7.28.1
-    "@sentry/types": 7.28.1
-    "@sentry/utils": 7.28.1
+    "@sentry/core": 7.29.0
+    "@sentry/types": 7.29.0
+    "@sentry/utils": 7.29.0
     tslib: ^1.9.3
-  checksum: 74a0a7d64dc7aaa6cd85ad171cf44f299e7823634263594c1a7d7826ff4153442ae00b7099b5b36ec1b3d3a31b119c92ac190c9a59345007d4e0cd33a4e5a3c1
+  checksum: 7ad9040664a8c65693aba2bdd9cecc8334ce25a296c01727d38649c7141106b78c92142626ce8e44983b4272e0f411010a3df99843a1af6d4f89e4f67ce6f57e
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/types@npm:7.28.1"
-  checksum: 57dcd5737e29990b15c1d723c47b125d325ead0766e2729c3bd0f499f6e034a9ff81b9474546ea6ecd2216b4956dbdcf342ecc13ef5a202468fd732ffb687cbf
+"@sentry/types@npm:7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/types@npm:7.29.0"
+  checksum: 53815b66662a193cfd7024b9fb2477afb8178a771aa59f3bef10578cc940a9d7207722f9f04e2ca65a8e118cef012ac42f4936aa921aacdfc00a914bec88b009
   languageName: node
   linkType: hard
 
-"@sentry/utils@npm:7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/utils@npm:7.28.1"
+"@sentry/utils@npm:7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/utils@npm:7.29.0"
   dependencies:
-    "@sentry/types": 7.28.1
+    "@sentry/types": 7.29.0
     tslib: ^1.9.3
-  checksum: 83a6b66b879a827f5656db02cdd23362f3158746a8da42c1683d8d5d0e5ff8ba8e74058ff8d3dea8924a9f307b74c3e021e26167b9296707f7afe08971c7f4ae
+  checksum: 9914a2129692a5713453437d75b957a18ad5a4ef8085776e5499208ad329dea8da27ee2e2b74fdc089a3831b4e2929f8e6c0f3bc75528f41023d85de5077f462
   languageName: node
   linkType: hard
 
-"@sentry/vue@npm:^7.28.1":
-  version: 7.28.1
-  resolution: "@sentry/vue@npm:7.28.1"
+"@sentry/vue@npm:^7.29.0":
+  version: 7.29.0
+  resolution: "@sentry/vue@npm:7.29.0"
   dependencies:
-    "@sentry/browser": 7.28.1
-    "@sentry/core": 7.28.1
-    "@sentry/types": 7.28.1
-    "@sentry/utils": 7.28.1
+    "@sentry/browser": 7.29.0
+    "@sentry/core": 7.29.0
+    "@sentry/types": 7.29.0
+    "@sentry/utils": 7.29.0
     tslib: ^1.9.3
   peerDependencies:
     vue: 2.x || 3.x
-  checksum: 801e92e735cc4eab23cb4f1221489b1c3efcfec19cc8801203a5a0af5633481417bf2c95787426d60798dbbab73b649cf75bf1e5dcf31b8043765b6fa4ba6617
+  checksum: 43075adb90bae368ef8c40168ed63be60d1913d8dfd2b256ee429981f51303ebecef93f95eccdb50b753d2c7593fe8705ae1f178bc3b396989308190daeb49c3
   languageName: node
   linkType: hard
 
@@ -3051,14 +3051,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "axios@npm:1.2.1"
+"axios@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "axios@npm:1.2.2"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: c4dc4e119064c9aed09a3de309bedb797a139a6fb372223aafe3e0c10a7d4a14e4d3e9c9d309467fadb9d2b490b891ee3df96ef5b55716bb971910466ff9f0c5
+  checksum: 6e357491b38426c5720f7328ecbafca3c643b03952c052d787570672ce7a9365717c2d64db4ce97cfbee3f830fa405101e360e14d0857ef7f96a9f4d814c4e03
   languageName: node
   linkType: hard
 
@@ -3772,10 +3772,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.26.1":
-  version: 3.26.1
-  resolution: "core-js@npm:3.26.1"
-  checksum: 0a01149f51ff1e9f41d1ea49cc4c9222047949ea597189ede7c4cf8cde3b097766b9c7615acc77c86fe65b4002f20b638a133dfba7b41dba830d707aeeed45ad
+"core-js@npm:^3.27.1":
+  version: 3.27.1
+  resolution: "core-js@npm:3.27.1"
+  checksum: d50b5f88aea4302512ad9446c18e90f4d35dea1e6d8d3f87337690677061565ff11a670f1e0c87de57aa6074375fbb25ed5784076c040d3c4de8b4bce7d2ebeb
   languageName: node
   linkType: hard
 
@@ -5979,10 +5979,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "luxon@npm:3.1.1"
-  checksum: 388fb35d3c51a19d8b305a3338e7e74634b08562e7d2f9ed5c05a7f4bc9ee1c1ab6a2546b6d9c4c104516b24043757d65f5f3fe3d78b206fbf55a9586ab62230
+"luxon@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "luxon@npm:3.2.1"
+  checksum: 3fa3def2c5f5d3032b4c46220c4da8aeb467ac979888fc9d2557adcd22195f93516b4ad5909a75862bec8dc6ddc0953b0f38e6d2f4a8ab8450ddc531a83cf20d
   languageName: node
   linkType: hard
 
@@ -7417,10 +7417,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"quasar@npm:^2.11.2":
-  version: 2.11.2
-  resolution: "quasar@npm:2.11.2"
-  checksum: d4c6c430a5a6b6eda5d29cdaa8494ff4260fcfce8c2374bc47b583130c137a7c366dbddf4b7d5ee7f98d4f61461a63ebc1419f488be678e4e9cbbc6724de7670
+"quasar@npm:^2.11.4":
+  version: 2.11.4
+  resolution: "quasar@npm:2.11.4"
+  checksum: bacb09ad96c071a780eb4d3f55754ef958a05616f91abe8c588894e29115fe39efc91c01872ce28836ca13eb48ee7c7fb09950bc904ba5ef6c7a51e8f36de225
   languageName: node
   linkType: hard
 
@@ -7431,13 +7431,13 @@ __metadata:
     "@api.video/player-sdk": ^1.2.22
     "@api.video/video-uploader": ^1.1.0
     "@quasar/app-webpack": ^3.6.2
-    "@quasar/extras": ^1.15.8
+    "@quasar/extras": ^1.15.9
     "@quasar/quasar-app-extension-qcalendar": ^4.0.0-beta.14
-    "@sentry/browser": ^7.28.1
-    "@sentry/integrations": ^7.28.1
-    "@sentry/replay": ^7.28.1
-    "@sentry/tracing": ^7.28.1
-    "@sentry/vue": ^7.28.1
+    "@sentry/browser": ^7.29.0
+    "@sentry/integrations": ^7.29.0
+    "@sentry/replay": ^7.29.0
+    "@sentry/tracing": ^7.29.0
+    "@sentry/vue": ^7.29.0
     "@tiptap/core": ^2.0.0-beta.203
     "@tiptap/extension-character-count": ^2.0.0-beta.203
     "@tiptap/extension-document": ^2.0.0-beta.204
@@ -7449,24 +7449,24 @@ __metadata:
     "@tiptap/suggestion": ^2.0.0-beta.203
     "@tiptap/vue-3": ^2.0.0-beta.203
     "@vue-leaflet/vue-leaflet": ^0.7.0
-    axios: ^1.2.1
+    axios: ^1.2.2
     compressorjs: ^1.1.1
-    core-js: ^3.26.1
+    core-js: ^3.27.1
     dotenv: ^16.0.3
     echarts: ^5.4.1
     emoji-mart-vue-fast: ^12.0.1
     install: ^0.13.0
     leaflet: ^1.9.3
-    luxon: ^3.1.1
+    luxon: ^3.2.1
     pinia: ^2.0.28
-    quasar: ^2.11.2
+    quasar: ^2.11.4
     stream-consumers: ^1.0.2
     tippy.js: ^6.3.7
     v-viewer: ^3.0.11
     validate-polish: ^2.0.40
     vee-validate: ^4.7.3
     vue: ^3.2.45
-    vue-echarts: ^6.3.3
+    vue-echarts: ^6.5.0
     vue-i18n: ^9.2.2
     vue-router: ^4.1.6
     yup: 0.32.11
@@ -8836,20 +8836,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-echarts@npm:^6.3.3":
-  version: 6.3.3
-  resolution: "vue-echarts@npm:6.3.3"
+"vue-echarts@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "vue-echarts@npm:6.5.0"
   dependencies:
     resize-detector: ^0.3.0
     vue-demi: ^0.13.2
   peerDependencies:
     "@vue/composition-api": ^1.0.5
-    echarts: ^5.1.2
+    echarts: ^5.4.1
     vue: ^2.6.12 || ^3.1.1
   peerDependenciesMeta:
     "@vue/composition-api":
       optional: true
-  checksum: 3faa2e5f8575e234f5f9224e2d8d7a1684798f369f0716f2a0708bc3dc75bf4ef67ea2d9b835e119e16f640874237eb4bf1b47627047772616bb4f2b4922a3dc
+  checksum: 69f39bb3afa8658c743cc5a1a2e5a01e5ad9b2c4d65af6dee39de955f0f62bc72728d0388a8d1b2677325afed88ab3607b731e9a089c3e73490843df7fa11bea
   languageName: node
   linkType: hard
 

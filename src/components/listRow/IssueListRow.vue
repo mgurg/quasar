@@ -2,15 +2,21 @@
   <!--  <div class="cursor-pointer">-->
   <q-item v-ripple :class="$q.screen.lt.sm ? 'q-pa-xs':''" clickable @click="viewIssue(issue.uuid)">
     <q-item-section :class="$q.screen.lt.sm ? 'q-pr-xs':''" avatar @click="viewIssue(issue.uuid)">
-      <!--        <q-avatar rounded :icon="getIcon(issue.status)"/>-->
-      <q-icon :name="getIcon(issue.status)" :color="getIconColor(issue.priority)" size="lg"/>
+      <q-avatar rounded :icon="getIcon(issue.status)" text-color="blue-grey-6" color="blue-grey-1" >
+        <q-badge v-if="issue.priority ==30" floating color="red"></q-badge>
+        <q-badge v-if="issue.priority ==20" floating color="orange"></q-badge>
+        <q-badge v-if="issue.priority ==10" floating color="primary"></q-badge>
+      </q-avatar>
+<!--      <q-icon :name="getIcon(issue.status)" :color="getIconColor(issue.priority)" size="lg">-->
+<!--        -->
+<!--      </q-icon>-->
     </q-item-section>
 
     <q-item-section>
       <q-item-label class="text-body1" lines="1">
         {{ issue.name }}
 
-        <div v-if="issue.item !==null">
+        <span v-if="issue.item !==null">
           <q-chip
             v-if="$q.screen.gt.xs ===true"
             :label="issue.item.name"
@@ -27,11 +33,11 @@
             icon="how_to_reg"
             size="md"
           />
-        </div>
+        </span>
       </q-item-label>
       <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
       <q-item-label v-if="$q.screen.lt.sm ===true" caption>
-        <div v-if="issue.item !==null">
+        <span v-if="issue.item !==null">
         <q-chip
           v-if="issue.users_issue.length > 0"
           class="q-ma-xs"
@@ -47,10 +53,9 @@
           text-color="white"
           @click="viewItem(issue.item.uuid)"
         />
-        </div>
-        {{ timeAgo(issue.created_at) }}
-
-
+          {{ timeAgo(issue.created_at) }}
+        </span>
+        
       </q-item-label>
     </q-item-section>
     <q-item-section v-if="$q.screen.gt.xs ===true" side>
@@ -175,19 +180,4 @@ function getIcon(status) {
   }
 }
 
-function getIconColor(priority) {
-  switch (priority) {
-    case '30':
-      return 'red'
-      break;
-    case '20':
-      return 'orange'
-      break;
-    case '10':
-      return 'primary'
-      break;
-    default:
-      return 'grey'
-  }
-}
 </script>

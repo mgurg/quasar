@@ -6,7 +6,7 @@
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedGuide = !expandedGuide">
             {{ $t("Guides") }}
-            <q-badge floating align="top">{{ guides.length }}</q-badge>
+            <q-badge floating align="top"  v-if="guides!= null" >{{ guides.length }}</q-badge>
           </div>
           <q-space></q-space>
           <q-btn
@@ -29,26 +29,38 @@
         <div v-show="expandedGuide">
           <q-card-section>
             <q-list>
-
-              <!--              <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
-              <!--                <q-item-section avatar>-->
-              <!--                  <span>&nbsp;</span>-->
-              <!--                </q-item-section>-->
-              <!--                <q-item-section>-->
-              <!--                    <span>-->
-              <!--                      {{ $t("Name") }}-->
-              <!--                      <q-btn-->
-              <!--                        :flat="sort.active!=='title'"-->
-              <!--                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"-->
-              <!--                        :unelevated="sort.active==='title'"-->
-              <!--                        color="primary"-->
-              <!--                        padding="xs"-->
-              <!--                        size="sm"-->
-              <!--                        @click="changeSortOrder('title')"/>-->
-              <!--                    </span>-->
-              <!--                </q-item-section>-->
-
-              <!--              </q-item>-->
+              <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders">
+                <q-item-section avatar>
+                  <div class="q-pa-none">
+                    <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                      <q-list>
+                        <q-item>
+                          <q-item-section>
+                            <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup clickable @click="setSortingParams('name')">
+                          <q-item-section>
+                            <q-item-label>Nazwa</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                          <q-item-section>
+                            <q-item-label>Wiek</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-btn-dropdown>
+                  </div>
+                </q-item-section>
+                <q-item-section>
+              <span>{{ $t(sortName) }}
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
+              </span>
+                </q-item-section>
+              </q-item>
 
               <div v-for="(guide, index) in guides" v-if="guides!= null" v-bind:key="index">
                 <guide-item :guide="guide" :public-access="publicAccess"></guide-item>
@@ -65,9 +77,11 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import GuideItem from "components/listRow/GuideListRow.vue";
 import {useRouter} from "vue-router";
+import {getGuideRequest} from "components/api/GuideApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const router = useRouter();
 
@@ -98,12 +112,90 @@ const props = defineProps({
 
 const expandedGuide = ref(props.expandedGuide)
 const itemUuid = ref(props.itemUuid)
-const guides = ref(props.guides)
+const guides = ref(null)
 const publicAccess = ref(props.publicAccess)
 
+
+const isLoading = ref(false)
+const isError = ref(false)
+
+
+let sort = reactive({status: "asc", title: "asc", created_at: "desc", name: "asc", active: "created_at"})
+let sortName = ref("Age")
+
+function setSortingParams(name) {
+  switch (name) {
+    case 'name':
+      sort.active = "name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+
+    default:
+      console.log(`Sorry, we are out of ${name}.`);
+  }
+  getItemGuides();
+}
+
+function changeSortOrder() {
+  let field = sort.active
+
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  getItemGuides();
+}
+
+function getSortIcon() {
+  let column = sortName.value.toLowerCase();
+  switch (column) {
+    case 'age':
+      column = 'created_at'
+      break;
+  }
+
+  return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+const pagination = reactive({page: 1, size: 10, total: 1})
+
+const pagesNo = computed(() => {
+  // console.log(Math.ceil(pagination.total/pagination.size))
+  return Math.ceil(pagination.total / pagination.size)
+})
+
+watch(() => pagination.page, (oldPage, newPage) => {
+  console.log(oldPage, newPage);
+  getItemGuides();
+})
+
+
+function getItemGuides(){
+  isLoading.value = true;
+  let params = {
+    item_uuid: itemUuid.value,
+    page: pagination.page,
+    size: pagination.size,
+    // sortOrder: sort[sort.active],
+    // sortColumn: sort.active
+  };
+
+  getGuideRequest(params).then(function (response) {
+    guides.value = response.data.items;
+    pagination.total = response.data.total;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
+}
 
 function addGuide(itemUuid) {
   router.push({path: '/guides/add/', query: {item: itemUuid}})
 }
+
+onBeforeMount(() => {
+  getItemGuides()
+});
 
 </script>

@@ -40,12 +40,12 @@ export default defineComponent({
       return this.icon_position === "left"
         ? [
           {
-            title: "Ustawienia zgłoszeń: kody QR, tryb zgłoszenia",
-            icon: "person",
-            value: "Pomysły",
+            title: "Ustawienia powiadomień o awariach (sms, email)",
+            icon: "notifications",
+            value: "Powiadomienia",
             color1: "#5064b5",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifications"
           },
           {
             title: "Kto ma jaki dostęp do funkcji w aplikacji",
@@ -69,7 +69,7 @@ export default defineComponent({
           //     value: "1020",
           //     color1: "#a270b1",
           //     color2: "#9f52b1",
-          //     link: "/settings/ideas"
+          //     link: "/settings/notifictions"
           // }
         ]
         : [
@@ -79,7 +79,7 @@ export default defineComponent({
             value: "$ 20k",
             color1: "#546bfa",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           },
           {
             title: "Weekly Sales",
@@ -87,7 +87,7 @@ export default defineComponent({
             value: "20",
             color1: "#3a9688",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           },
           {
             title: "New Customers",
@@ -95,7 +95,7 @@ export default defineComponent({
             value: "321",
             color1: "#7cb342",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           },
           {
             title: "Active Users",
@@ -103,7 +103,7 @@ export default defineComponent({
             value: "82",
             color1: "#f88c2b",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           }
         ];
     }

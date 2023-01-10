@@ -44,8 +44,11 @@
           <q-list>
             <q-item class="q-px-none">
               <q-card-section avatar class="q-pa-sm">
-                <!--                <q-avatar :icon="getIcon('1')" size="lg"/>-->
-                <q-icon :name="getIcon(issueDetails.status)" :color="getIconColor(issueDetails.priority)" size="lg"/>
+                <q-avatar :icon="getIcon(issueDetails.status)" color="blue-grey-1" rounded text-color="blue-grey-6">
+                  <q-badge v-if="issueDetails.priority ==30" color="red" floating></q-badge>
+                  <q-badge v-if="issueDetails.priority ==20" color="orange" floating></q-badge>
+                  <q-badge v-if="issueDetails.priority ==10" color="primary" floating></q-badge>
+                </q-avatar>
               </q-card-section>
 
               <q-item-section>
@@ -61,10 +64,10 @@
             <span v-if="usersList.length == 0 && issueStatus=='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
             <q-chip
               v-for="(user, index) in usersList" v-if="usersList!= null" v-bind:key="index"
+              :disable="issueStatus==='resolved'"
+              :removable="issueStatus!=='resolved'"
               color="primary"
               icon="person"
-              :removable="issueStatus!=='resolved'"
-              :disable="issueStatus==='resolved'"
               text-color="white"
               @remove="unassignUser(user.uuid)"
             >
@@ -74,7 +77,7 @@
         </q-card-section>
         <q-separator/>
 
-        <q-card-actions align="right" v-if="issueStatus !== 'rejected'">
+        <q-card-actions v-if="issueStatus !== 'rejected'" align="right">
           <q-btn
             v-if="issueStatus === 'new'"
             :label="$q.screen.gt.xs ? 'Akceptuj' : ''"
@@ -162,13 +165,13 @@
           <!--            @click="setIssueStatus('resolved')"-->
           <!--          />-->
         </q-card-actions>
-        <q-card align="right" v-else >
+        <q-card v-else align="right">
           <span class="q-pa-md">Zgłoszenie odrzucone</span>
         </q-card>
       </q-card>
-      <description-card v-if="issueDetails!==null" :expanded-description="true" :text="issueDetails.text_json"/>
+      <description-card v-if="issueDetails!==null" :expanded-description="true" :textJson="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
-      <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid" />
+      <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid"/>
 
       <q-dialog v-model="showUserDialog" :position=" $q.platform.is.mobile ? 'top': 'standard'">
         <user-assign-dialog @assign-user-btn-click="updateUsers"/>
@@ -264,7 +267,7 @@ function setIssueCommentStatus(status, comment) {
 function setIssueStatus(action, description = null, value = null) {
 
   if (usersList.value.length === 0) {
-    if (!['change_assigned_person', 'issue_reject','issue_accept'].includes(action)){
+    if (!['change_assigned_person', 'issue_reject', 'issue_accept'].includes(action)) {
       console.log(action)
       $q.notify({
         message: 'No user assigned to Issue',
@@ -476,21 +479,7 @@ function getIcon(status) {
       return 'offline_bolt'
   }
 }
-function getIconColor(priority) {
-  switch (priority) {
-    case '30':
-      return 'red'
-      break;
-    case '20':
-      return 'orange'
-      break;
-    case '10':
-      return 'primary'
-      break;
-    default:
-      return 'grey'
-  }
-}
+
 onBeforeMount(() => {
   isLoading.value = true;
   issueUuid.value = route.params.uuid

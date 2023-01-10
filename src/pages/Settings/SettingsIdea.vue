@@ -19,15 +19,42 @@
           <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
                   @submit.prevent>
 
-            <p class="text-h6"> {{ $t("QR code") }} </p>
-            <q-input outlined v-model="ActionUrl" readonly>
-              <template v-slot:after>
-                <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()"/>
-                <q-btn round dense flat icon="qr_code_2" @click="toggleQr()"/>
-              </template>
-            </q-input>
+            <p class="text-h5"> Powiadomienia </p>
 
-            <img v-if="showQR" :src="ActionUrlQr" alt="QR code"/>
+            <p class="text-h6"> SMS </p>
+            <p>Informuj mnie o:</p>
+            <ul>
+              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>
+              <ul>
+                <li>brak priorytetu (usterka, maszyna działa)</li>
+                <li>niskim</li>
+                <li>średnim</li>
+                <li>wysokim (poważna awaria, zatrzymanie)</li>
+              </ul>
+              <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>
+            </ul>
+
+            <p class="text-h6"> Email </p>
+            <p>Informuj mnie o:</p>
+            <ul>
+              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>
+              <ul>
+                <li>brak priorytetu (usterka, maszyna działa)</li>
+                <li>niskim</li>
+                <li>średnim</li>
+                <li>wysokim (poważna awaria, zatrzymanie)</li>
+              </ul>
+              <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>
+            </ul>
+
+<!--            <q-input outlined v-model="ActionUrl" readonly>-->
+<!--              <template v-slot:after>-->
+<!--                <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()"/>-->
+<!--                <q-btn round dense flat icon="qr_code_2" @click="toggleQr()"/>-->
+<!--              </template>-->
+<!--            </q-input>-->
+
+<!--            <img v-if="showQR" :src="ActionUrlQr" alt="QR code"/>-->
 
             <p class="text-h6">{{ $t("Submission type") }}</p>
             <q-list>
@@ -98,60 +125,60 @@ let ActionUrl = ref("https://beta.remontmaszyn.pl/");
 onBeforeMount(() => {
 
   //   isLoading.value = true;
-  getBoardId()
-  load()
+  // getBoardId()
+  // load()
 });
 
-function load() {
-  isLoading.value = true;
+// function load() {
+//   isLoading.value = true;
+//
+//   var arr = ["idea_registration_mode", "issue_registration_email"]
+//   var params = new URLSearchParams();
+//   arr.forEach(element => {
+//     params.append("setting_names", element);
+//   });
+//
+//   authApi
+//     .get("/settings/", {params: params})
+//     .then((res) => {
+//
+//       registrationMode.value = res.data.idea_registration_mode
+//       registrationMode.value = res.data.idea_registration_mode
+//       isLoading.value = false;
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//
+//     });
+// }
 
-  var arr = ["idea_registration_mode", "issue_registration_email"]
-  var params = new URLSearchParams();
-  arr.forEach(element => {
-    params.append("setting_names", element);
-  });
-
-  authApi
-    .get("/settings/", {params: params})
-    .then((res) => {
-
-      registrationMode.value = res.data.idea_registration_mode
-      registrationMode.value = res.data.idea_registration_mode
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
-
-function getBoardId() {
-  isLoading.value = true;
-
-  authApi
-    .get("/settings/board/")
-    .then((res) => {
-
-      ActionUrl.value = 'https://beta.remontmaszyn.pl/new/' + res.data + '+234'
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
+// function getBoardId() {
+//   isLoading.value = true;
+//
+//   authApi
+//     .get("/settings/board/")
+//     .then((res) => {
+//
+//       ActionUrl.value = 'https://beta.remontmaszyn.pl/new/' + res.data + '+234'
+//       isLoading.value = false;
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//
+//     });
+// }
 
 function save() {
   console.log('save')

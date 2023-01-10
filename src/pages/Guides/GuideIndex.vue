@@ -193,7 +193,7 @@ watch(() => pagination.page, (oldPage, newPage) => {
 //   }
 // });
 
-async function fetchGuides() {
+function fetchGuides() {
   isLoading.value = true;
   let params = {
     search: search.value,

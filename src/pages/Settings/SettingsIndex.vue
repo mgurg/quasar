@@ -40,7 +40,7 @@
       <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
                 <div class="q-pa-none q-card__section q-card__section--vert">
                     <div class="row q-col-gutter-sm">
-                      <router-link to="/settings/ideas" class="col-md-4 col-sm-6 col-xs-12" >
+                      <router-link to="/settings/notifictions" class="col-md-4 col-sm-6 col-xs-12" >
                         <div >
                             <q-item class="bg-pink-6 q-pa-md q-ml-xs">
                                 <q-item-section avatar>

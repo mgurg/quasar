@@ -79,7 +79,7 @@ export default defineComponent({
             value: "$ 20k",
             color1: "#546bfa",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           },
           {
             title: "Weekly Sales",
@@ -87,7 +87,7 @@ export default defineComponent({
             value: "20",
             color1: "#3a9688",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           },
           {
             title: "New Customers",
@@ -95,7 +95,7 @@ export default defineComponent({
             value: "321",
             color1: "#7cb342",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           },
           {
             title: "Active Users",
@@ -103,7 +103,7 @@ export default defineComponent({
             value: "82",
             color1: "#f88c2b",
             color2: "#3e51b5",
-            link: "/settings/ideas"
+            link: "/settings/notifictions"
           }
         ];
     }

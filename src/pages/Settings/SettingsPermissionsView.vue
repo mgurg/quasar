@@ -82,11 +82,11 @@
           <permission-form
             v-if="!isLoading && isFetched"
             :role="permissionDetails || undefined"
-            :groupUuid="permisionUuid"
+            :groupUuid="permissionUuid"
             :canEdit="canEdit"
             @groupFormBtnClick="signUpButtonPressed"
             @cancelBtnClick="cancelButtonPressed"
-            :key="permisionUuid"
+            :key="permissionUuid"
           />
           <group-edit-skeleton v-else/>
         </q-card-section>
@@ -105,7 +105,7 @@ import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
 
 const router = useRouter();
 const route = useRoute();
-let permisionUuid = ref(route.params.uuid)
+let permissionUuid = ref(route.params.uuid)
 let canEdit = ref(route.params.mode == 'edit')
 
 let isLoading = ref(false);

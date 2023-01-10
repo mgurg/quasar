@@ -66,6 +66,7 @@ function fetchUsers() {
   }
   let params = {
     search: search.value,
+    size: 5,
   };
 
   getUsersRequest(params).then(function (response) {
