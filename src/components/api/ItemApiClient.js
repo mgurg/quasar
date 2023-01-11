@@ -16,6 +16,10 @@ export function getItemTimelineRequest(uuid) {
   return authApi.get("/items/timeline/" + uuid, {params: {'action':'issue_add'}});
 }
 
+export function setItemFavouriteRequest(data) {
+  return authApi.post("/items/favourites" , data);
+}
+
 export function getAnonymousItemUuidRequest(uuid, token, tenant_id) {
   return api.get("/items/" + uuid, {
     headers: {

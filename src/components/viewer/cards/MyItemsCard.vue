@@ -89,6 +89,7 @@ import {errorHandler} from "components/api/errorHandler";
 
 import IssueListRow from "components/listRow/IssueListRow.vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
+import {getManyItemsRequest} from "components/api/ItemApiClient";
 
 const props = defineProps({
   expandedMyItems: {
@@ -167,7 +168,7 @@ function getUserItems() {
     page: pagination.page,
     size: pagination.size,
   }
-  getManyIssuesRequest(params).then(function (response) {
+  getManyItemsRequest(params).then(function (response) {
     userIssues.value = response.data.items
     isLoading.value = false;
   }).catch((err) => {
@@ -177,7 +178,7 @@ function getUserItems() {
 }
 
 onBeforeMount(() => {
-  // getUserItems()
+  getUserItems()
 });
 
 </script>

@@ -85,9 +85,11 @@
                   </q-list>
                 </q-btn-dropdown>
                 <q-btn
+                  v-if="itemDetails"
                   :label="$q.screen.gt.xs ? 'Ulubiony' : ''"
                   class="float-right q-mr-sm" color="accent" flat
-                  icon="favorite_border" no-caps
+                  :icon="favouritesList.includes(currentUserUuid) ? 'favorite':'favorite_border'"
+                  no-caps
                   outline @click="addToFavourite(itemDetails.uuid)"
                 />
                 <q-btn
@@ -118,6 +120,7 @@
                 <q-item-label class="text-h5">{{ itemDetails.name }}</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
                 <q-item-label caption>Krótki, publicznie dostępny opis</q-item-label>
+
               </q-item-section>
             </q-item>
           </q-list>
@@ -154,7 +157,7 @@ import {useQuasar} from "quasar";
 import {useUserStore} from "stores/user";
 import {useI18n} from "vue-i18n";
 
-import {deleteItemRequest, getOneItemRequest} from 'src/components/api/ItemApiClient.js'
+import {addItemRequest, deleteItemRequest, getOneItemRequest, setItemFavouriteRequest} from 'src/components/api/ItemApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
@@ -168,9 +171,13 @@ import TimelineCard from "components/viewer/cards/TimelineCard.vue";
 let itemDetails = ref(null);
 let photoFiles = ref(null);
 let documentFiles = ref(null);
-let guidesList = ref(null)
+let guidesList = ref(null);
+let favouritesList = ref(null);
 let qrCode = ref(null);
 const guides = ref([]);
+
+
+
 let isLoading = ref(false);
 let isError = ref(false);
 
@@ -183,6 +190,7 @@ const {t} = useI18n({useScope: "global"});
 const confirmDeleteMessage = computed(() => t("Delete:"));
 const successfulDeleteMessage = computed(() => t("Deleted:"));
 
+const currentUserUuid = UserStore.getCurrentUserId
 
 let expandedDescription = ref(true)
 let expandedPhotos = ref(false)
@@ -204,6 +212,7 @@ function getItemDetails(uuid) {
     documentFiles.value = response.data.files_item.filter((item) => !item.mimetype.match('image.*'));
     guidesList.value = response.data.item_guides;
     qrCode.value = response.data.qr_code;
+    favouritesList.value = response.data.users_item.map(a => a.uuid)
 
     isLoading.value = false;
   }).catch((err) => {
@@ -243,6 +252,23 @@ function deleteItem(uuid, itemName) {
 
 function addToFavourite() {
   console.log('<3')
+
+  let data = {
+    item_uuid: route.params.uuid,
+    user_uuid: currentUserUuid,
+    action: "add"
+  }
+  isLoading.value = true;
+  setItemFavouriteRequest(data).then(function (response) {
+    getItemDetails(route.params.uuid);
+    isLoading.value = false;
+
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+
+
 }
 
 function reportFailure(uuid) {
