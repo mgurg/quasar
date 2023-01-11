@@ -89,6 +89,7 @@
                   :label="$q.screen.gt.xs ? 'Ulubiony' : ''"
                   class="float-right q-mr-sm" color="accent" flat
                   :icon="favouritesList.includes(currentUserUuid) ? 'favorite':'favorite_border'"
+                  :disable="favouritesList.includes(currentUserUuid) ? true:false"
                   no-caps
                   outline @click="addToFavourite(itemDetails.uuid)"
                 />
