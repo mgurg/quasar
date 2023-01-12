@@ -18,20 +18,22 @@
     <q-slide-transition>
       <div v-show="expandedDescription">
         <q-card-section>
-          <div v-if="descriptionRawText!==''"
+          <div 
             :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
             class="rounded-borders">
+            
             <tip-tap
               :body-content="descriptionContent"
               :readonly="true"
             />
           </div>
-          <div v-else>
-            Brak opisu
-          </div>
+          <!-- <div v-else>
+            Brak opisu {{ descriptionRawText }}
+          </div> -->
         </q-card-section>
       </div>
     </q-slide-transition>
+
   </q-card>
 </template>
 
@@ -49,7 +51,7 @@ const props = defineProps({
   },
   text: {
     type: String,
-    default: "",
+    default: '',
   },
   itemUuid: {
     type: String,

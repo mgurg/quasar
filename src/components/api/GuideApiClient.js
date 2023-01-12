@@ -12,6 +12,15 @@ export function getGuideRequest(params) {
   return authApi.get("/guides/", {params: params});
 }
 
+export function getAnonymousItemGuidesRequest(params, token, tenant_id) {
+  return api.get("/guides/",{params: params}, {
+    headers: {
+      Authorization: "Bearer " + token,
+      tenant: tenant_id,
+    },
+  });
+}
+
 export function addGuideRequest(data) {
   return authApi.post("/guides/", data);
 }

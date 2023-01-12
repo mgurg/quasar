@@ -45,6 +45,7 @@
                         :guides="guides"
                         :item-uuid="null"
                         :public-access="true"
+                        :anonymous-token="anonymousToken"
             />
 
             <q-card bordered class="my-card no-shadow q-my-sm">

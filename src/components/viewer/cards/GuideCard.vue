@@ -104,11 +104,18 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  anonymousToken: {
+    type: String,
+    default: null,
+  },
   expandedGuide: {
     type: Boolean,
     default: false,
   },
 })
+
+const anonymousToken = ref(props.anonymousToken)
+
 
 const expandedGuide = ref(props.expandedGuide)
 const itemUuid = ref(props.itemUuid)
@@ -190,12 +197,41 @@ function getItemGuides(){
   });
 }
 
+function getPublicItemGuides(){
+
+  tenantId.value = atob(anonymousToken.value).split(".")[0]
+  validTo.value = atob(anonymousToken.value).split(".")[1]
+
+
+  isLoading.value = true;
+  let params = {
+    item_uuid: itemUuid.value,
+    page: pagination.page,
+    size: pagination.size,
+    // sortOrder: sort[sort.active],
+    // sortColumn: sort.active
+  };
+
+  getAnonymousItemGuidesRequest(params, token, tenant_id).then(function (response) {
+    guides.value = response.data.items;
+    pagination.total = response.data.total;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
+}
+
 function addGuide(itemUuid) {
   router.push({path: '/guides/add/', query: {item: itemUuid}})
 }
 
 onBeforeMount(() => {
-  getItemGuides()
+  if (publicAccess.value == false ){
+    getItemGuides();
+  } else{
+    getPublicItemGuides();
+  }
+  
 });
 
 </script>
