@@ -36,7 +36,7 @@
     "install": "^0.13.0",
     "leaflet": "^1.9.3",
     "luxon": "^3.2.1",
-    "pinia": "^2.0.28",
+    "pinia": "^2.0.29",
     "quasar": "^2.11.5",
     "stream-consumers": "^1.0.2",
     "tippy.js": "^6.3.7",

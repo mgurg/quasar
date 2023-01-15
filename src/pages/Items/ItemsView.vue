@@ -89,7 +89,6 @@
                   :label="$q.screen.gt.xs ? 'Ulubiony' : ''"
                   class="float-right q-mr-sm" color="accent" flat
                   :icon="favouritesList.includes(currentUserUuid) ? 'favorite':'favorite_border'"
-                  :disable="favouritesList.includes(currentUserUuid) ? true:false"
                   no-caps
                   outline @click="addToFavourite(itemDetails.uuid)"
                 />
@@ -252,12 +251,9 @@ function deleteItem(uuid, itemName) {
 }
 
 function addToFavourite() {
-  console.log('<3')
-
   let data = {
     item_uuid: route.params.uuid,
     user_uuid: currentUserUuid,
-    action: "add"
   }
   isLoading.value = true;
   setItemFavouriteRequest(data).then(function (response) {

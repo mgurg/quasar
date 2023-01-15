@@ -32,8 +32,13 @@
           <q-item v-ripple clickable>
             <q-item-section>
               <q-item-label>{{ user.first_name }} {{ user.last_name }}</q-item-label>
-              <q-item-label caption>Dodaj</q-item-label>
+              <!-- <q-item-label caption>Dodaj</q-item-label> -->
             </q-item-section>
+        <q-item-section top side>
+          <div class="text-grey-8 q-gutter-xs">
+            <q-btn @click="insertUser(user.first_name, user.last_name, user.uuid)" class="gt-xs" size="12px" flat dense round icon="person_add" />
+          </div>
+        </q-item-section>
           </q-item>
         </div>
       </q-list>

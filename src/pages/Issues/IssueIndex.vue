@@ -82,7 +82,7 @@
             <q-card-section class="q-pt-none">
               <div class="row sm-gutter">
                 <!-- STATUS -->
-                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline>
+                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline no-caps >
                   <div class="q-pa-xs" style="max-width: 350px">
                     <q-list>
                       <q-item v-close-popup clickable>
@@ -182,6 +182,21 @@
 
                   </div>
                 </q-btn-dropdown>
+                <!-- DATE -->
+                <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">
+                  <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="proxyDate" range>
+                      <div class="row items-center justify-end q-gutter-sm">
+                        <q-btn flat>8h</q-btn>
+                        <q-btn flat>Dziś</q-btn>
+                        <q-btn flat>Wczoraj</q-btn>
+                        <q-btn flat>Tydzień</q-btn>
+                        <q-btn label="Cancel" color="primary" flat v-close-popup />
+                        <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+              </q-btn>
                 <!-- PRIORITY -->
                 <q-btn class="q-ma-xs" color="primary" icon="cancel" outline>Wyczyść</q-btn>
               </div>
@@ -281,6 +296,9 @@ let search = ref(null);
 const showSearchBar = ref(false);
 const withPhoto = ref(null)
 const withUser = ref(null)
+
+const date = ref('2019/03/01')
+const proxyDate = ref('2019/03/01')
 
 const issues = ref([]);
 let selected = ref(null);
