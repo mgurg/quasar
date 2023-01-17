@@ -14,6 +14,16 @@
         <q-breadcrumbs-el :label="$t('Ideas')" icon="info"/>
       </q-breadcrumbs>
 
+      <q-banner class="text-brown-10 bg-yellow-14 q-mt-md" inline-actions rounded>
+        <template v-slot:avatar>
+          <q-icon color="warning" name="warning"/>
+        </template>
+        Powiadomienia nie są jeszcze włączone, prace w trakcie.
+        <br>
+        Pomysły/sugestie? <a class="text-weight-bold text-black"
+                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do mnie ➡️</a>
+      </q-banner>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-list>
           <q-item class="q-px-sm">

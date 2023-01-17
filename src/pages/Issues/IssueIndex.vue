@@ -300,6 +300,10 @@ const withUser = ref(null)
 const date = ref('2019/03/01')
 const proxyDate = ref('2019/03/01')
 
+function updateProxy () {
+  proxyDate.value = date.value
+}
+
 const issues = ref([]);
 let selected = ref(null);
 

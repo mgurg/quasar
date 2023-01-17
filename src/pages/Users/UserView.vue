@@ -222,6 +222,7 @@ import {getUserIdeasRequest} from "components/api/IdeaApiClient";
 import {activateUserRequest, deleteUserRequest, getUserRequest} from 'src/components/api/UserApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
+import {getManyIssuesRequest} from "components/api/IssueApiClient";
 
 const $q = useQuasar()
 const router = useRouter();
