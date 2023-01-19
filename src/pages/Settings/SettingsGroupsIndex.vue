@@ -110,6 +110,9 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import {authApi} from "boot/axios";
 import {useQuasar} from 'quasar'
 import GroupItem from 'components/listRow/GroupListRow.vue'
+import {getUsersRequest} from "components/api/UserApiClient";
+import {errorHandler} from "components/api/errorHandler";
+import {getUsersGroupsRequest} from "components/api/UserGroupsApiClient";
 
 const $q = useQuasar()
 
@@ -174,27 +177,17 @@ function fetchGroups() {
     search: search.value,
     page: pagination.page,
     size: pagination.size,
-    sortOrder: sort[sort.active],
-    sortColumn: sort.active
+    field: sort.active,
+    order: sort[sort.active],
   };
-
-  console.log(params)
-  authApi
-    .get("/groups/", {params: params})
-    .then((res) => {
-      groups.value = res.data.items
-      pagination.total = res.data.total
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
+  getUsersGroupsRequest(params).then(function (response) {
+        groups.value = response.data.items
+        pagination.total = response.data.total
+        isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 }
 
 onBeforeMount(() => {

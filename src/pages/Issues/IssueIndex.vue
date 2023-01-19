@@ -184,22 +184,23 @@
                   </div>
                 </q-btn-dropdown>
                 <!-- DATE -->
-                <!-- <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">
-                  <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="proxyDate" range>
+                <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">
+                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                    <q-date v-model="proxyDate" range today-btn>
                       <div class="row items-center justify-end q-gutter-sm">
-                        <q-btn flat>8h</q-btn>
-                        <q-btn flat>Dziś</q-btn>
-                        <q-btn flat>Wczoraj</q-btn>
-                        <q-btn flat>Tydzień</q-btn>
-                        <q-btn label="Cancel" color="primary" flat v-close-popup />
-                        <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                        <q-btn color="primary" no-caps flat @click="setDateRange(0)" v-close-popup>Dziś</q-btn>
+                        <q-btn color="primary" no-caps flat @click="setDateRange(1)" v-close-popup>Wczoraj</q-btn>
+                        <q-btn color="primary" no-caps flat @click="setDateRange(7)" v-close-popup>Tydzień</q-btn>
+<!--                        <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+<!--                        <q-btn label="OK" color="primary" flat v-close-popup />-->
                       </div>
                     </q-date>
                   </q-popup-proxy>
-              </q-btn> -->
+              </q-btn>
                 <!-- PRIORITY -->
                 <q-btn class="q-ma-xs" color="primary" icon="cancel" @click="clearFilterSearch" outline>Wyczyść</q-btn>
+
+                {{proxyDate}}
               </div>
 
 
@@ -208,7 +209,8 @@
         </div>
 
       </q-slide-transition>
-
+      <q-chip icon="tune">{{hasStatus}}</q-chip>
+      <q-chip icon="date_range">tydzień</q-chip>
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
@@ -290,6 +292,7 @@ import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue"
 import IssueListRow from "components/listRow/IssueListRow.vue";
 import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {DateTime} from "luxon";
 
 const route = useRoute();
 const router = useRouter();
@@ -303,8 +306,27 @@ const showSearchBar = ref(false);
 const withPhoto = ref(null)
 const withUser = ref(null)
 
-const date = ref('2019/03/01')
-const proxyDate = ref('2019/03/01')
+const date = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"))
+
+const  today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+const  weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: 7}).toFormat("yyyy/LL/dd");
+const proxyDate = ref({ "from": weekAgo, "to": today })
+
+function setDateRange(days){
+  const  today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+  const  weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: days}).toFormat("yyyy/LL/dd");
+  proxyDate.value = ref({ "from": weekAgo, "to": today })
+}
+
+watch(() => proxyDate.value, (newValue, oldValue) => {
+  if (typeof newValue === 'object'){
+    console.log("isRange")
+  } else{
+    console.log("isSingleDate")
+  }
+
+});
+
 
 function updateProxy () {
   proxyDate.value = date.value
@@ -439,17 +461,15 @@ async function fetchIssues() {
 
 onBeforeMount(() => {
   isLoading.value = true;
-  console.log("FILTER")
-  // 
 
   if (["new", "in_progress" ,"paused" ,"resolved"].includes(route.query.filter)){
     hasStatus.value = route.query.filter;
     showSearchBar.value = true;
   }
 
-  console.log(route.query.filter)
+
   fetchIssues();
 
-  
+
 });
 </script>

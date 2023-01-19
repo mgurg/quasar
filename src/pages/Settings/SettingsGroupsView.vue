@@ -61,6 +61,8 @@ import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
 import GroupForm from 'src/components/forms/GroupForm.vue'
 import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
+import {deleteUsersGroupRequest, getUsersGroupRequest, getUsersGroupsRequest} from "components/api/UserGroupsApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const $q = useQuasar();
 const router = useRouter();
@@ -103,24 +105,16 @@ function getGroupDetails(uuid) {
     return;
   }
 
-  authApi
-    .get("/groups/" + uuid)
-    .then((res) => {
+  getUsersGroupRequest(uuid).then(function (response) {
+        groupUsersList.value = response.data.users.map(value => value.uuid)
+        roleDetails.value = response.data;
+        isLoading.value = false;
+        isFetched.value = true;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
 
-      groupUsersList.value = res.data.users.map(value => value.uuid)
-      roleDetails.value = res.data;
-      isLoading.value = false;
-      isFetched.value = true;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
 }
 
 onBeforeMount(() => {
@@ -139,20 +133,13 @@ function deleteGroup(uuid) {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    authApi
-      .delete("/groups/" + uuid)
-      .then((res) => {
-        router.push("/settings/groups");
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.log(err.response);
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("General Error");
-        }
-      });
+    deleteUsersGroupRequest(uuid).then(function (response) {
+      router.push("/settings/groups");
+    }).catch((err) => {
+      const errorMessage = errorHandler(err);
+      isError.value = true;
+    });
+
     $q.notify("Group deleted");
     // fetchTasks()
   });
