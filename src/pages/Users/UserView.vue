@@ -373,7 +373,7 @@ function deleteUser(uuid) {
       isLoading.value = true;
       deleteUserRequest(uuid).then(function (response) {
         $q.notify("User deleted");
-        router.push("/users/edit/" + uuid);
+        router.push("/users/");
         isLoading.value = false;
       }).catch((err) => {
         const errorMessage = errorHandler(err);

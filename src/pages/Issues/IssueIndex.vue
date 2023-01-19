@@ -28,7 +28,8 @@
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"
-                    flat
+                    :flat="!showSearchBar"
+                    :unelevated="showSearchBar"
                     icon="search"
                     no-caps
                     @click="showSearchBar = !showSearchBar"
@@ -183,7 +184,7 @@
                   </div>
                 </q-btn-dropdown>
                 <!-- DATE -->
-                <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">
+                <!-- <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">
                   <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
                     <q-date v-model="proxyDate" range>
                       <div class="row items-center justify-end q-gutter-sm">
@@ -196,9 +197,9 @@
                       </div>
                     </q-date>
                   </q-popup-proxy>
-              </q-btn>
+              </q-btn> -->
                 <!-- PRIORITY -->
-                <q-btn class="q-ma-xs" color="primary" icon="cancel" outline>Wyczyść</q-btn>
+                <q-btn class="q-ma-xs" color="primary" icon="cancel" @click="clearFilterSearch" outline>Wyczyść</q-btn>
               </div>
 
 
@@ -282,6 +283,7 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
 
 
 import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue";
@@ -289,10 +291,14 @@ import IssueListRow from "components/listRow/IssueListRow.vue";
 import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
+const route = useRoute();
+const router = useRouter();
+
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 let search = ref(null);
+
 const showSearchBar = ref(false);
 const withPhoto = ref(null)
 const withUser = ref(null)
@@ -379,6 +385,13 @@ function setStatusFilter(condition) {
   fetchIssues();
 }
 
+function clearFilterSearch(){
+  hasStatus.value = 'active';
+  search.value = null;
+  router.replace({'query.filter': null})
+  fetchIssues();
+}
+
 function goToPage(value) {
   console.log(value)
 }
@@ -426,6 +439,17 @@ async function fetchIssues() {
 
 onBeforeMount(() => {
   isLoading.value = true;
+  console.log("FILTER")
+  // 
+
+  if (["new", "in_progress" ,"paused" ,"resolved"].includes(route.query.filter)){
+    hasStatus.value = route.query.filter;
+    showSearchBar.value = true;
+  }
+
+  console.log(route.query.filter)
   fetchIssues();
+
+  
 });
 </script>

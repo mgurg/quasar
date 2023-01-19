@@ -86,8 +86,8 @@
       <q-card class="bg-transparent no-shadow no-border q-pb-md">
         <q-card-section class="q-pa-none">
           <div class="row q-col-gutter-sm ">
-            <div class="col-md-3 col-sm-6 col-xs-6">
-              <router-link to="/issues">
+            <div class="col-md-3 col-sm-6 col-xs-6">              
+                <div class="cursor-pointer" @click="goToIssues('new')">
                 <q-item class="q-pa-none rounded-borders" style="background-color: #e91e63">
                   <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
                                   side
@@ -100,10 +100,10 @@
                     <q-item-label>{{ $t('New') }}</q-item-label>
                   </q-item-section>
                 </q-item>
-              </router-link>
+              </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
-              <router-link to="/issues">
+              <div class="cursor-pointer" @click="goToIssues('in_progress')">
                 <q-item class="q-pa-none rounded-borders" style="background-color: #ffb300">
                   <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
                                   side
@@ -116,10 +116,10 @@
                     <q-item-label>{{ $t('Ongoing') }}</q-item-label>
                   </q-item-section>
                 </q-item>
-              </router-link>
+              </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
-              <router-link to="/issues">
+              <div class="cursor-pointer" @click="goToIssues('paused')">
                 <q-item class="q-pa-none rounded-borders" style="background-color: #009688">
                   <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
                                   side
@@ -132,10 +132,10 @@
                     <q-item-label>{{ $t('Paused') }}</q-item-label>
                   </q-item-section>
                 </q-item>
-              </router-link>
+              </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
-              <router-link to="/issues">
+              <div class="cursor-pointer" @click="goToIssues('resolved')">
                 <q-item class="q-pa-none rounded-borders" style="background-color: #455a64">
                   <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
                                   side
@@ -148,7 +148,7 @@
                     <q-item-label>{{ $t('Done') }}</q-item-label>
                   </q-item-section>
                 </q-item>
-              </router-link>
+              </div>
             </div>
           </div>
         </q-card-section>
@@ -166,6 +166,7 @@
 
 <script setup>
 import {onBeforeMount, reactive, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {getIssuesStatsRequest} from "components/api/IssueApiClient";
 import {useUserStore} from "stores/user";
@@ -177,6 +178,7 @@ import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
 const UserStore = useUserStore();
 const userUuid = UserStore.getCurrentUserId
 const userIssues = ref(null)
+const router = useRouter();
 
 
 function currentDate() {
@@ -219,6 +221,9 @@ function getStatistics() {
 const expandedUserItems = ref(true)
 const expandedUserIssues = ref(true)
 
+function goToIssues(status){
+  router.push({path: "/issues", query: {filter: status}})
+}
 
 onBeforeMount(() => {
   isLoading.value = true;
