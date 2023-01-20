@@ -51,10 +51,10 @@
           <span class="grey text-grey full-width q-pt-sm">
                   <q-icon name="auto_awesome" size="xs"/>&nbsp;nowy
                   <q-icon name="playlist_add_check_circle" size="xs"/>&nbsp;zaakceptowany
-<!--                  <q-icon name="delete_forever" size="xs"/> odrzucony-->
+            <!--                  <q-icon name="delete_forever" size="xs"/> odrzucony-->
                   <q-icon name="build_circle" size="xs"/>&nbsp;w trakcie
                   <q-icon name="pause_circle" size="xs"/>&nbsp;pauza
-<!--                  <q-icon name="check_circle" size="xs"/> zakończony-->
+            <!--                  <q-icon name="check_circle" size="xs"/> zakończony-->
                   <q-icon name="stop" color="primary" size="xs"/>
                   <q-icon name="stop" color="orange" size="xs"/>
             <q-icon name="stop" color="red" size="xs"/>&nbsp;priorytet
@@ -83,7 +83,7 @@
             <q-card-section class="q-pt-none">
               <div class="row sm-gutter">
                 <!-- STATUS -->
-                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline no-caps >
+                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline no-caps>
                   <div class="q-pa-xs" style="max-width: 350px">
                     <q-list>
                       <q-item v-close-popup clickable>
@@ -116,7 +116,7 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
-                          <q-icon color="grey" name="auto_awesome" />
+                          <q-icon color="grey" name="auto_awesome"/>
                         </q-item-section>
                       </q-item>
 
@@ -129,7 +129,7 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
-                          <q-icon color="grey" name="playlist_add_check_circle" />
+                          <q-icon color="grey" name="playlist_add_check_circle"/>
                         </q-item-section>
                       </q-item>
 
@@ -141,7 +141,7 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
-                          <q-icon color="grey" name="build_circle" />
+                          <q-icon color="grey" name="build_circle"/>
                         </q-item-section>
                       </q-item>
                       <q-item v-close-popup clickable>
@@ -152,7 +152,7 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
-                          <q-icon color="grey" name="pause_circle" />
+                          <q-icon color="grey" name="pause_circle"/>
                         </q-item-section>
                       </q-item>
 
@@ -164,7 +164,7 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
-                          <q-icon color="grey" name="check_circle" />
+                          <q-icon color="grey" name="check_circle"/>
                         </q-item-section>
                       </q-item>
 
@@ -176,7 +176,7 @@
                           </q-item-label>
                         </q-item-section>
                         <q-item-section avatar>
-                          <q-icon color="grey" name="delete_forever" />
+                          <q-icon color="grey" name="delete_forever"/>
                         </q-item-section>
                       </q-item>
                     </q-list>
@@ -191,16 +191,16 @@
                         <q-btn color="primary" no-caps flat @click="setDateRange(0)" v-close-popup>Dziś</q-btn>
                         <q-btn color="primary" no-caps flat @click="setDateRange(1)" v-close-popup>Wczoraj</q-btn>
                         <q-btn color="primary" no-caps flat @click="setDateRange(7)" v-close-popup>Tydzień</q-btn>
-<!--                        <q-btn label="Cancel" color="primary" flat v-close-popup />-->
-<!--                        <q-btn label="OK" color="primary" flat v-close-popup />-->
+                        <!--                        <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                        <!--                        <q-btn label="OK" color="primary" flat v-close-popup />-->
                       </div>
                     </q-date>
                   </q-popup-proxy>
-              </q-btn>
+                </q-btn>
                 <!-- PRIORITY -->
                 <q-btn class="q-ma-xs" color="primary" icon="cancel" @click="clearFilterSearch" outline>Wyczyść</q-btn>
 
-                {{proxyDate}}
+                {{ proxyDate }}
               </div>
 
 
@@ -210,8 +210,8 @@
 
       </q-slide-transition>
       <div class="q-pa-xs">
-        <q-chip icon="tune" clickable @click="showSearchBar = !showSearchBar" >{{ $t(getStatusName()) }}</q-chip>
-        <q-chip icon="date_range"  clickable @click="showSearchBar = !showSearchBar" >miesiąc</q-chip>
+        <q-chip icon="tune" clickable @click="showSearchBar = !showSearchBar">{{ $t(getStatusName()) }}</q-chip>
+        <q-chip icon="date_range" clickable @click="showSearchBar = !showSearchBar">miesiąc</q-chip>
       </div>
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
@@ -310,27 +310,27 @@ const withUser = ref(null)
 
 const date = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"))
 
-const  today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
-const  weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: 7}).toFormat("yyyy/LL/dd");
-const proxyDate = ref({ "from": weekAgo, "to": today })
+const today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+const weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: 7}).toFormat("yyyy/LL/dd");
+const proxyDate = ref({"from": weekAgo, "to": today})
 
-function setDateRange(days){
-  const  today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
-  const  weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: days}).toFormat("yyyy/LL/dd");
-  proxyDate.value = ref({ "from": weekAgo, "to": today })
+function setDateRange(days) {
+  const today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+  const weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: days}).toFormat("yyyy/LL/dd");
+  proxyDate.value = ref({"from": weekAgo, "to": today})
 }
 
 watch(() => proxyDate.value, (newValue, oldValue) => {
-  if (typeof newValue === 'object'){
+  if (typeof newValue === 'object') {
     console.log("isRange")
-  } else{
+  } else {
     console.log("isSingleDate")
   }
 
 });
 
 
-function updateProxy () {
+function updateProxy() {
   proxyDate.value = date.value
 }
 
@@ -383,40 +383,39 @@ function getSortIcon() {
   return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
 }
 
-function getStatusName(){
+function getStatusName() {
 
   switch (hasStatus.value) {
     case 'active':
-      return  "Active"
+      return "Active"
       break;
     case 'inactive':
-      return  "Inactive"
+      return "Inactive"
       break;
     case 'new':
-      return  "New"
+      return "New"
       break;
     case 'accepted':
-      return  "Accepted"
+      return "Accepted"
       break;
     case 'rejected':
-      return  "Rejected"
+      return "Rejected"
       break;
     case 'assigned':
-      return  "New"
+      return "New"
       break;
     case 'in_progress':
-      return  "In progress"
+      return "In progress"
       break;
     case 'paused':
-      return  "Paused"
+      return "Paused"
       break;
     case 'resolved':
-      return  "Resolved"
+      return "Resolved"
       break;
     default:
-      return  "New"
+      return "New"
   }
-
 
 
   // "New"
@@ -456,7 +455,7 @@ function setStatusFilter(condition) {
   fetchIssues();
 }
 
-function clearFilterSearch(){
+function clearFilterSearch() {
   hasStatus.value = 'active';
   search.value = null;
   router.replace({'query.filter': null})
@@ -511,7 +510,7 @@ async function fetchIssues() {
 onBeforeMount(() => {
   isLoading.value = true;
 
-  if (["new", "in_progress" ,"paused" ,"resolved"].includes(route.query.filter)){
+  if (["new", "in_progress", "paused", "resolved"].includes(route.query.filter)) {
     hasStatus.value = route.query.filter;
     showSearchBar.value = true;
   }
