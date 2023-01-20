@@ -209,8 +209,10 @@
         </div>
 
       </q-slide-transition>
-      <q-chip icon="tune">{{hasStatus}}</q-chip>
-      <q-chip icon="date_range">tydzień</q-chip>
+      <div class="q-pa-xs">
+        <q-chip icon="tune" clickable @click="showSearchBar = !showSearchBar" >{{ $t(getStatusName()) }}</q-chip>
+        <q-chip icon="date_range"  clickable @click="showSearchBar = !showSearchBar" >miesiąc</q-chip>
+      </div>
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
@@ -379,6 +381,53 @@ function getSortIcon() {
   }
 
   return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+function getStatusName(){
+
+  switch (hasStatus.value) {
+    case 'active':
+      return  "Active"
+      break;
+    case 'inactive':
+      return  "Inactive"
+      break;
+    case 'new':
+      return  "New"
+      break;
+    case 'accepted':
+      return  "Accepted"
+      break;
+    case 'rejected':
+      return  "Rejected"
+      break;
+    case 'assigned':
+      return  "New"
+      break;
+    case 'in_progress':
+      return  "In progress"
+      break;
+    case 'paused':
+      return  "Paused"
+      break;
+    case 'resolved':
+      return  "Resolved"
+      break;
+    default:
+      return  "New"
+  }
+
+
+
+  // "New"
+  //   "Active"
+  //   "Inactive"
+  //   "Accepted"
+  //   "Rejected"
+  //   "In progress"
+  //   "Paused"
+  //
+  // return  "New"
 }
 
 const pagination = reactive({page: 1, size: 10, total: 1})

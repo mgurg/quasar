@@ -172,7 +172,7 @@ function insertGroupMention(jsonMention) {
 .ProseMirror {
   > * + * {
     margin-top: 0.75em;
-    color: #1f2937 !important;
+    //color: #1f2937 !important;
   }
 
   h1 {

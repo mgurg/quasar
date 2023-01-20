@@ -169,7 +169,7 @@ function changeSortOrder() {
 
 const pagination = reactive({
   page: 1,
-  size: 5,
+  size: 10,
   total: 1
 })
 
