@@ -184,23 +184,23 @@
                   </div>
                 </q-btn-dropdown>
                 <!-- DATE -->
-                <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">
-                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                    <q-date v-model="proxyDate" range today-btn>
-                      <div class="row items-center justify-end q-gutter-sm">
-                        <q-btn color="primary" no-caps flat @click="setDateRange(0)" v-close-popup>Dziś</q-btn>
-                        <q-btn color="primary" no-caps flat @click="setDateRange(1)" v-close-popup>Wczoraj</q-btn>
-                        <q-btn color="primary" no-caps flat @click="setDateRange(7)" v-close-popup>Tydzień</q-btn>
-                        <!--                        <q-btn label="Cancel" color="primary" flat v-close-popup />-->
-                        <!--                        <q-btn label="OK" color="primary" flat v-close-popup />-->
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
-                </q-btn>
+<!--                <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">-->
+<!--                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">-->
+<!--                    <q-date v-model="proxyDate" range today-btn>-->
+<!--                      <div class="row items-center justify-end q-gutter-sm">-->
+<!--                        <q-btn color="primary" no-caps flat @click="setDateRange(0)" v-close-popup>Dziś</q-btn>-->
+<!--                        <q-btn color="primary" no-caps flat @click="setDateRange(1)" v-close-popup>Wczoraj</q-btn>-->
+<!--                        <q-btn color="primary" no-caps flat @click="setDateRange(7)" v-close-popup>Tydzień</q-btn>-->
+<!--                        &lt;!&ndash;                        <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
+<!--                        &lt;!&ndash;                        <q-btn label="OK" color="primary" flat v-close-popup />&ndash;&gt;-->
+<!--                      </div>-->
+<!--                    </q-date>-->
+<!--                  </q-popup-proxy>-->
+<!--                </q-btn>-->
                 <!-- PRIORITY -->
                 <q-btn class="q-ma-xs" color="primary" icon="cancel" @click="clearFilterSearch" outline>Wyczyść</q-btn>
 
-                {{ proxyDate }}
+                <!-- {{ proxyDate }} -->
               </div>
 
 
@@ -209,10 +209,12 @@
         </div>
 
       </q-slide-transition>
+
       <div class="q-pa-xs">
-        <q-chip icon="tune" clickable @click="showSearchBar = !showSearchBar">{{ $t(getStatusName()) }}</q-chip>
+        <q-chip :icon="getIcon()" clickable @click="showSearchBar = !showSearchBar">{{ $t(getStatusName()) }}</q-chip>
         <q-chip icon="date_range" clickable @click="showSearchBar = !showSearchBar">miesiąc</q-chip>
       </div>
+
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
@@ -429,6 +431,32 @@ function getStatusName() {
   // return  "New"
 }
 
+
+function getIcon() {
+  switch (hasStatus.value) {
+    case 'new':
+      return 'auto_awesome'
+      break;
+    case 'accepted':
+      return 'playlist_add_check_circle'
+      break;
+    case 'rejected':
+      return 'delete_forever'
+      break;
+    case 'in_progress':
+      return 'build_circle'
+      break;
+    case 'paused':
+      return 'pause_circle'
+      break;
+    case 'resolved':
+      return 'check_circle'
+      break;
+    default:
+      return 'offline_bolt'
+  }
+}
+
 const pagination = reactive({page: 1, size: 10, total: 1})
 
 const pagesNo = computed(() => {
@@ -452,6 +480,7 @@ function setAttachmentFilter(condition) {
 
 function setStatusFilter(condition) {
   hasStatus.value = condition;
+  router.replace({'query.filter': null})
   fetchIssues();
 }
 
@@ -512,7 +541,7 @@ onBeforeMount(() => {
 
   if (["new", "in_progress", "paused", "resolved"].includes(route.query.filter)) {
     hasStatus.value = route.query.filter;
-    showSearchBar.value = true;
+    // showSearchBar.value = true;
   }
 
 
