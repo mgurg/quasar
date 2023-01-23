@@ -36,6 +36,11 @@ export default {
 	"In progress": `En cours`,
 	"Paused": `Interrompu`,
 	"Resolved": `Résolu`,
+	"Yesterday": `Hier`,
+	"Today": `Aujourd'hui`,
+	"Week": `La semaine`,
+	"Month": `Mois`,
+	"Custom": `Personnalisé`,
 
 	// login
 	"Login": `Connexion`,

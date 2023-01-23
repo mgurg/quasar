@@ -33,6 +33,11 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """In progress""",In progress,En cours,In Bearbeitung,W trakcie
 """Paused""",Paused,Interrompu,Blättern,Zatrzymany
 """Resolved""",Resolved,Résolu,Aufgelöst,Rozwiązany
+"""Yesterday""",Yesterday,Hier,Gestern,Wczoraj
+"""Today""",Today,Aujourd'hui,Heute,Dziś
+"""Week""",Week,La semaine,Woche,Tydzień
+"""Month""",Month,Mois,Monat,Miesiąc
+"""Custom""",Custom,Personnalisé,Benutzerdefiniert,Własna
 ,,,,
 #login,,,,
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie

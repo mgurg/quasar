@@ -50,10 +50,12 @@
 <script setup>
 import {ref} from "vue";
 import UserForm from 'src/components/forms/UserForm.vue'
+import {useQuasar} from 'quasar'
 import {useRouter} from "vue-router";
 import {createUserRequest,} from 'src/components/api/UserApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
+const $q = useQuasar()
 const router = useRouter();
 
 let isLoading = ref(false);
@@ -68,6 +70,11 @@ function createUser(data) {
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
+    $q.notify({
+      type: 'warning',
+      message: errorMessage.data.detail,
+    });
+    // console.log(errorMessage.data.detail)
     isError.value = true;
   });
 }

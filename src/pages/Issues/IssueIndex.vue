@@ -25,11 +25,11 @@
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn
                     v-if="issues.length !== 0"
+                    :flat="!showSearchBar"
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
+                    :unelevated="showSearchBar"
                     class="float-right"
                     color="primary"
-                    :flat="!showSearchBar"
-                    :unelevated="showSearchBar"
                     icon="search"
                     no-caps
                     @click="showSearchBar = !showSearchBar"
@@ -55,9 +55,9 @@
                   <q-icon name="build_circle" size="xs"/>&nbsp;w trakcie
                   <q-icon name="pause_circle" size="xs"/>&nbsp;pauza
             <!--                  <q-icon name="check_circle" size="xs"/> zakończony-->
-                  <q-icon name="stop" color="primary" size="xs"/>
-                  <q-icon name="stop" color="orange" size="xs"/>
-            <q-icon name="stop" color="red" size="xs"/>&nbsp;priorytet
+                  <q-icon color="primary" name="stop" size="xs"/>
+                  <q-icon color="orange" name="stop" size="xs"/>
+            <q-icon color="red" name="stop" size="xs"/>&nbsp;priorytet
                 </span>
         </q-card-section>
       </q-card>
@@ -83,7 +83,7 @@
             <q-card-section class="q-pt-none">
               <div class="row sm-gutter">
                 <!-- STATUS -->
-                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" outline no-caps>
+                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" no-caps outline>
                   <div class="q-pa-xs" style="max-width: 350px">
                     <q-list>
                       <q-item v-close-popup clickable>
@@ -184,23 +184,25 @@
                   </div>
                 </q-btn-dropdown>
                 <!-- DATE -->
-<!--                <q-btn outline icon="event" color="primary" label="Data" class="q-ma-xs">-->
-<!--                  <q-popup-proxy cover transition-show="scale" transition-hide="scale">-->
-<!--                    <q-date v-model="proxyDate" range today-btn>-->
-<!--                      <div class="row items-center justify-end q-gutter-sm">-->
-<!--                        <q-btn color="primary" no-caps flat @click="setDateRange(0)" v-close-popup>Dziś</q-btn>-->
-<!--                        <q-btn color="primary" no-caps flat @click="setDateRange(1)" v-close-popup>Wczoraj</q-btn>-->
-<!--                        <q-btn color="primary" no-caps flat @click="setDateRange(7)" v-close-popup>Tydzień</q-btn>-->
-<!--                        &lt;!&ndash;                        <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        <q-btn label="OK" color="primary" flat v-close-popup />&ndash;&gt;-->
-<!--                      </div>-->
-<!--                    </q-date>-->
-<!--                  </q-popup-proxy>-->
-<!--                </q-btn>-->
+                <q-btn class="q-ma-xs" color="primary" icon="event" label="Data" outline>
+                  <q-popup-proxy cover transition-hide="scale" transition-show="scale">
+                    <q-date v-model="proxyDate" range today-btn>
+                      <div class="row items-center justify-end q-gutter-sm">
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">Dziś</q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Yesterday',1,1)">Wczoraj</q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',7,0)">Tydzień</q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('All',null, null)">Wszystko</q-btn>
+                        <q-separator/>
+                        <!--                                                <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                        <q-btn v-close-popup color="primary" flat label="OK" @click="saveDate"/>
+                      </div>
+                    </q-date>
+                  </q-popup-proxy>
+                </q-btn>
                 <!-- PRIORITY -->
-                <q-btn class="q-ma-xs" color="primary" icon="cancel" @click="clearFilterSearch" outline>Wyczyść</q-btn>
+                <q-btn class="q-ma-xs" color="primary" icon="cancel" outline @click="clearFilterSearch">Wyczyść</q-btn>
 
-                <!-- {{ proxyDate }} -->
+<!--                {{ proxyDate }}-->
               </div>
 
 
@@ -212,7 +214,7 @@
 
       <div class="q-pa-xs">
         <q-chip :icon="getIcon()" clickable @click="showSearchBar = !showSearchBar">{{ $t(getStatusName()) }}</q-chip>
-        <q-chip icon="date_range" clickable @click="showSearchBar = !showSearchBar">miesiąc</q-chip>
+        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">{{ $t(getDateRangeName()) }}</q-chip>
       </div>
 
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
@@ -312,29 +314,55 @@ const withUser = ref(null)
 
 const date = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"))
 
-const today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
-const weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: 7}).toFormat("yyyy/LL/dd");
-const proxyDate = ref({"from": weekAgo, "to": today})
+const hasDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').minus({days: 31}).toFormat("yyyy/LL/dd"));
+const hasDateTo = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"));
+const proxyDate = ref({"from": hasDateFrom.value, "to": hasDateTo.value})
+const dateRangeName = ref("Month");
+function getDateRangeName(){
+  return dateRangeName.value
+}
 
-function setDateRange(days) {
-  const today = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
-  const weekAgo = DateTime.now().setZone('Europe/Warsaw').minus({days: days}).toFormat("yyyy/LL/dd");
-  proxyDate.value = ref({"from": weekAgo, "to": today})
+function setDateRange(name ,daysFrom = null, daysTo = null) {
+  dateRangeName.value = name;
+  if (daysFrom == null && daysTo == null) {
+    hasDateFrom.value = null;
+    hasDateTo.value = null;
+    fetchIssues();
+    return;
+  }
+
+  const toDate = DateTime.now().setZone('Europe/Warsaw').minus({days: daysTo}).toFormat("yyyy/LL/dd");
+  const fromDate = DateTime.now().setZone('Europe/Warsaw').minus({days: daysFrom}).toFormat("yyyy/LL/dd");
+  hasDateFrom.value = fromDate
+  hasDateTo.value = toDate
+  proxyDate.value = {"from": fromDate, "to": toDate}
+
+  console.log({"from": fromDate, "to": toDate});
+}
+
+function saveDate() {
+  console.log(proxyDate.value);
 }
 
 watch(() => proxyDate.value, (newValue, oldValue) => {
+
   if (typeof newValue === 'object') {
     console.log("isRange")
+    // dateRangeName.value = "Custom";
+    console.log(proxyDate.value);
+    fetchIssues();
   } else {
+    // dateRangeName.value = "Custom";
     console.log("isSingleDate")
+    fetchIssues();
   }
 
 });
 
 
-function updateProxy() {
-  proxyDate.value = date.value
-}
+// function updateProxy() {
+//   proxyDate.value = date.value
+// }
 
 const issues = ref([]);
 let selected = ref(null);
@@ -523,6 +551,14 @@ async function fetchIssues() {
     field: sort.active,
     order: sort[sort.active]
   };
+
+  if (hasDateFrom.value !== null) {
+    params['dateFrom'] = DateTime.fromFormat(hasDateFrom.value, "yyyy/LL/dd").toFormat('yyyy-LL-dd 00:00:00');
+
+  }
+  if (hasDateTo.value !== null) {
+    params['dateTo'] = DateTime.fromFormat(hasDateTo.value, "yyyy/LL/dd").toFormat('yyyy-LL-dd 23:59:00');
+  }
 
   getManyIssuesRequest(params).then(function (response) {
     issues.value = response.data.items;

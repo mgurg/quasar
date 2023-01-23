@@ -36,6 +36,11 @@ export default {
 	"In progress": `In Bearbeitung`,
 	"Paused": `Blättern`,
 	"Resolved": `Aufgelöst`,
+	"Yesterday": `Gestern`,
+	"Today": `Heute`,
+	"Week": `Woche`,
+	"Month": `Monat`,
+	"Custom": `Benutzerdefiniert`,
 
 	// login
 	"Login": `Anmeldung`,
