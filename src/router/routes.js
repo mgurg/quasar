@@ -131,6 +131,7 @@ const routes = [
       { path: "/items/add", component: () => import("pages/Items/ItemsAdd.vue") },
       { path: "/items/:uuid", component: () => import("pages/Items/ItemsView.vue") },
       { path: "/items/edit/:uuid", component: () => import("pages/Items/ItemsEdit.vue") },
+      { path: "/items/summary/", component: () => import("pages/Items/ItemsReports.vue") },
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
       { path: "/settings/notifications", component: () => import("pages/Settings/SettingsNotifications.vue") },

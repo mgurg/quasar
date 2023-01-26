@@ -86,7 +86,7 @@
       <q-card class="bg-transparent no-shadow no-border q-pb-md">
         <q-card-section class="q-pa-none">
           <div class="row q-col-gutter-sm ">
-            <div class="col-md-3 col-sm-6 col-xs-6">              
+            <div class="col-md-3 col-sm-6 col-xs-6">
                 <div class="cursor-pointer" @click="goToIssues('new')">
                 <q-item class="q-pa-none rounded-borders" style="background-color: #e91e63">
                   <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
@@ -154,12 +154,15 @@
         </q-card-section>
       </q-card>
 
+
       <!-- MY ISSUES -->
       <my-tasks-card v-if="userUuid!=null" :expanded-my-tasks="expandedUserIssues" :user-uuid="userUuid"/>
 
       <!-- MY ITEMS -->
       <my-items-card v-if="userUuid!=null" :expanded-my-items="expandedUserItems" :user-uuid="userUuid" />
 
+      <!-- INTRO-->
+      <my-intro-card :expanded-my-intro="true" />
     </q-page>
   </div>
 </template>
@@ -171,6 +174,7 @@ import {errorHandler} from 'src/components/api/errorHandler.js'
 import {getIssuesStatsRequest} from "components/api/IssueApiClient";
 import {useUserStore} from "stores/user";
 import {DateTime} from 'luxon';
+import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
 import MyTasksCard from "components/viewer/cards/MyTasksCard.vue";
 import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
 
