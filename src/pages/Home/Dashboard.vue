@@ -162,7 +162,7 @@
       <my-items-card v-if="userUuid!=null" :expanded-my-items="expandedUserItems" :user-uuid="userUuid" />
 
       <!-- INTRO-->
-      <my-intro-card :expanded-my-intro="true" />
+      <my-intro-card :expanded-my-intro="true"  v-if="showIntroCard" />
     </q-page>
   </div>
 </template>
@@ -171,6 +171,8 @@
 import {onBeforeMount, reactive, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from 'src/components/api/errorHandler.js'
+import {getIssuesCounterRequest} from "components/api/StatisticsApiClient";
+import {getUserSettingRequest} from 'components/api/SettingsApiClient'
 import {getIssuesStatsRequest} from "components/api/IssueApiClient";
 import {useUserStore} from "stores/user";
 import {DateTime} from 'luxon';
@@ -222,8 +224,25 @@ function getStatistics() {
   });
 }
 
+function getSettings(){
+  isLoading.value = true;
+  getUserSettingRequest("dashboard_show_intro").then(function (response) {
+    console.log(response.data.dashboard_show_intro)
+    showIntroCard.value = response.data.dashboard_show_intro
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+
+    if (err.response != 200) {
+      console.log("ERROR")
+    }
+    isError.value = true;
+  });
+}
+
 const expandedUserItems = ref(true)
 const expandedUserIssues = ref(true)
+const showIntroCard = ref(false)
 
 function goToIssues(status){
   router.push({path: "/issues", query: {filter: status}})
@@ -231,6 +250,7 @@ function goToIssues(status){
 
 onBeforeMount(() => {
   isLoading.value = true;
+  getSettings()
   getStatistics()
 
 });
