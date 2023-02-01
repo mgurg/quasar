@@ -63,14 +63,14 @@ export default defineComponent({
             color2: "#ea4b64",
             link: "/settings/groups"
           },
-          // {
-          //     title: "Website Visits",
-          //     icon: "bar_chart",
-          //     value: "1020",
-          //     color1: "#a270b1",
-          //     color2: "#9f52b1",
-          //     link: "/settings/notifictions"
-          // }
+          {
+              title: "Kategorie awarii, np: mechaniczna elektryczna ",
+              icon: "label",
+              value: "Tagi",
+              color1: "#a270b1",
+              color2: "#9f52b1",
+              link: "/settings/tags"
+          }
         ]
         : [
           {
