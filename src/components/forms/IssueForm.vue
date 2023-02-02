@@ -1,6 +1,13 @@
 <template>
+
   <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
           @submit.prevent>
+    <div class="row">
+      <span><span class="text-h6">Przedmiot: </span>
+        <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
+      </span>
+
+    </div>
 
     <q-input
       v-model="issueName"
@@ -11,7 +18,7 @@
     />
 
     <div class="row q-mt-sm">
-      <div class="q-gutter-xs">
+      <div class="q-gutter-none">
       <span class="text">
         Priorytet
       </span>
@@ -36,16 +43,6 @@
                 icon="priority_high"
                 label="Wysoki"
         />
-
-        <!--      <span>-->
-        <!--        <q-radio keep-color v-model="issueColor" checked-icon="info" unchecked-icon="info" size="lg"  val="teal" color="info" />-->
-        <!--      </span>-->
-        <!--      <span>-->
-        <!--        <q-radio keep-color v-model="issueColor" checked-icon="error" unchecked-icon="error" size="lg"  val="orange" color="orange" />-->
-        <!--      </span>-->
-        <!--      <span>-->
-        <!--        <q-radio keep-color v-model="issueColor"  checked-icon="new_releases" unchecked-icon="new_releases" size="lg"  val="red" color="red-12" />-->
-        <!--      </span>-->
       </div>
     </div>
 
@@ -53,6 +50,26 @@
       <tip-tap :body-content="tipTapText" @editor-content="logText"/>
     </div>
 
+    <div>
+      <span>Kategoria: </span>
+      <span v-for="(tag, index) in selectedTags" v-if="selectedTags != null" v-bind:key="index" class="q-gutter-sm">
+            <q-chip color="primary" removable @remove="unAssignTag(tag.uuid)" text-color="white">
+              {{ tag.name }}
+            </q-chip>
+          </span>
+      <q-btn flat icon="add">
+        <q-menu auto-close>
+          <div class="q-pa-sm" style="max-width: 320px">
+            <span v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index"
+                  class="q-gutter-sm">
+            <q-chip color="primary" text-color="white" clickable @click="assignTag(tag.name, tag.uuid)">
+              {{ tag.name }}
+            </q-chip>
+          </span>
+          </div>
+        </q-menu>
+      </q-btn>
+    </div>
     <div>
       <photo-uploader :file-list="props.issue.files_issue" @uploaded-photos="listOfUploadedImages"/>
     </div>
@@ -102,7 +119,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, watch} from "vue";
+import {onBeforeMount, reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
@@ -111,6 +128,8 @@ import * as yup from 'yup';
 import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
 import TipTap from 'src/components/editor/TipTap.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import {getTagsRequest} from "components/api/TagsApiClient";
+import {errorHandler} from "components/api/errorHandler";
 
 const {isListening, isSupported, stop, result, raw, start, error} = useSpeechRecognition({
   lang: 'pl-PL',
@@ -169,6 +188,8 @@ let attachments = ref(props.issue.files_issue);
 
 // IMG
 const files = ref(null)
+const availableTags = ref(null)
+const selectedTags = ref([])
 
 let jsonTxt = null;
 let htmlTxt = null;
@@ -265,7 +286,8 @@ const submit = handleSubmit(values => {
     "priority": priorityLevel,
     "text_json": jsonTxt,
     "text_html": htmlTxt,
-    "files": uploadedPhotos.value.map(a => a.uuid) //attachments.value.map(a => a.uuid)
+    "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
+    "availableTags": selectedTags.value.map(a => a.uuid),
   }
 
   console.log(data)
@@ -286,6 +308,38 @@ function listOfUploadedImages(images) {
   uploadedPhotos.value = images;
 }
 
+// TAGS
+function fetchTags() {
+  isLoading.value = true;
+  getTagsRequest().then(function (response) {
+    availableTags.value = response.data;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
+function assignTag(name, uuid) {
+  console.log(name, uuid)
+  let index = selectedTags.value.findIndex(x => x.uuid==uuid);
+  if (index === -1) {
+    selectedTags.value.push({"name": name, "uuid":uuid})
+  }else {
+    console.log("Tag already exists")
+  }
+
+}
+
+function unAssignTag(uuid) {
+  console.log(name, uuid)
+  // selectedTags.value.filter()
+  selectedTags.value = selectedTags.value.filter(item => item.uuid !== uuid)
+}
+
+onBeforeMount(() => {
+  fetchTags();
+});
 
 </script>
 

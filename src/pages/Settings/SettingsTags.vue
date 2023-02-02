@@ -18,7 +18,7 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
                   $t("Return")
                 }}
               </q-btn>
@@ -31,7 +31,7 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5" >Powiadomienia </q-item-label>
+                <q-item-label class="text-h5">Powiadomienia</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
                 <!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
               </q-item-section>
@@ -42,26 +42,25 @@
 
       <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
-        Tagi
+          Tagi
 
-<!--          <div class="row sm-gutter">-->
-<!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
-<!--              <q-input outlined v-model="newTag" label="Nazwa"/>-->
-<!--            </div>-->
-<!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
-<!--              <q-btn>AAAA</q-btn>-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--          <div class="row sm-gutter">-->
+          <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
+          <!--              <q-input outlined v-model="newTag" label="Nazwa"/>-->
+          <!--            </div>-->
+          <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
+          <!--              <q-btn>AAAA</q-btn>-->
+          <!--            </div>-->
+          <!--          </div>-->
 
-          <q-input outlined bottom-slots v-model="newTag" label="Label" counter maxlength="12" >
+          <q-input v-model="newTag" bottom-slots counter label="Label" maxlength="12" outlined>
             <template v-slot:append>
-              <q-btn round dense flat icon="add"  @click="addTag(newTag)" />
+              <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
             </template>
             <template v-slot:after>
-              <q-btn round dense flat icon="add" @click="addTag(newTag)"  />
+              <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
             </template>
           </q-input>
-
 
 
         </q-card-section>
@@ -71,12 +70,12 @@
             <div>
               <q-item v-ripple clickable>
                 <q-item-section>
-                  <q-item-label>{{ tag.name }} </q-item-label>
+                  <q-item-label>{{ tag.name }}</q-item-label>
                   <!-- <q-item-label caption>Dodaj</q-item-label> -->
                 </q-item-section>
-                <q-item-section top side>
+                <q-item-section side top>
                   <div class="text-grey-8 q-gutter-xs">
-                    <q-btn class="gt-xs" size="12px" flat round icon="delete" @click="deleteTag(tag.uuid)" />
+                    <q-btn class="gt-xs" flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)"/>
                   </div>
                 </q-item-section>
               </q-item>
@@ -90,7 +89,7 @@
 
           <span v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index" class="q-gutter-sm">
 
-            <q-chip color="primary" icon="person" removable text-color="white" >
+            <q-chip color="primary" icon="person" removable text-color="white">
               {{ tag.name }}
             </q-chip>
           </span>
@@ -113,6 +112,7 @@ let isError = ref(false);
 
 const tags = ref(null);
 const newTag = ref(null);
+
 function fetchTags() {
   isLoading.value = true;
   getTagsRequest().then(function (response) {
@@ -128,7 +128,7 @@ function addTag(name) {
   isLoading.value = true;
 
   let data = {
-    "name" : name
+    "name": name
   }
   addTagRequest(data).then(function (response) {
     fetchTags();
