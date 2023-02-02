@@ -1,8 +1,8 @@
 import {api, authApi} from "boot/axios";
 
-export function getIssuesStatsRequest() {
-  return authApi.get("/issues/stats");
-}
+// export function getIssuesStatsRequest() {
+//   return authApi.get("/issues/stats");
+// }
 
 export function getIssueTimelineRequest(uuid) {
   return authApi.get("/issues/timeline/" + uuid);

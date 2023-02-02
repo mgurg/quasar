@@ -38,7 +38,8 @@
 
       <q-card bordered class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section :class="$q.screen.gt.xs ? 'q-px-md':'q-px-xs'">
-          <issue-form
+          <issue-form v-if="showForm === true"
+            :item-name="itemName"
             @cancelBtnClick="cancelButtonPressed"
             @issueFormBtnClick="addButtonPressed"
           />
@@ -56,15 +57,17 @@ import IssueForm from 'src/components/forms/IssueForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {addIssueRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {getOneItemRequest} from "components/api/ItemApiClient";
 
 const route = useRoute()
 const router = useRouter();
 
-
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
+let showForm = ref(false);
 const itemUuid = ref(null);
+const itemName = ref(null);
 
 function createIssue(formData) {
   formData['item_uuid'] = itemUuid.value
@@ -78,6 +81,21 @@ function createIssue(formData) {
   });
 }
 
+function getItemDetails(uuid) {
+  isLoading.value = true;
+
+  getOneItemRequest(uuid).then(function (response) {
+    console.log(response.data.name);
+    itemName.value = response.data.name
+    showForm.value = true;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    console.log(errorMessage);
+  });
+
+}
+
 function addButtonPressed(issueForm) {
   createIssue(issueForm)
 }
@@ -88,10 +106,14 @@ function cancelButtonPressed() {
 }
 
 onBeforeMount(() => {
+  isLoading.value=true
   if ((route.query.item !== undefined) && (route.query.item !== null) && (route.query.item !== "")) {
-    console.log("Query: " + route.query.item);
     itemUuid.value = route.query.item
+    getItemDetails(route.query.item);
+  } else {
+    showForm.value = true;
   }
+  isLoading.value=false
 });
 </script>
 

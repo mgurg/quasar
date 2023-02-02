@@ -58,6 +58,15 @@
               </q-item-section>
             </q-item>
           </q-list>
+
+          <div class="q-pb-sm">
+          <span v-for="(tag, index) in tagList" v-if="tagList != null" v-bind:key="index" class="q-gutter-sm">
+            <q-chip color="primary" text-color="white">
+              {{ tag.name }}
+            </q-chip>
+          </span>
+          </div>
+
           <div class="q-gutter-xs">
             <!--            {{usersList}}-->
             <span v-if="usersList.length == 0 && issueStatus=='new'" class="text-grey">Zaakceptuj lub odrzuć zgłoszenie</span>
@@ -225,6 +234,7 @@ function hasPermission(permission) {
 let issueDetails = ref(null);
 let photoFiles = ref(null);
 let usersList = ref(null);
+let tagList = ref(null);
 let issueUuid = ref(null);
 let issueStatus = ref(null);
 const showUserDialog = ref(false);
@@ -242,6 +252,7 @@ function getIssueDetails(uuid) {
     issueDetails.value = response.data;
     photoFiles.value = response.data.files_issue.filter((item) => item.mimetype.match('image.*'));
     usersList.value = response.data.users_issue;
+    tagList.value = response.data.tags_issue;
     issueStatus.value = response.data.status;
     console.log(response.data)
     isLoading.value = false;

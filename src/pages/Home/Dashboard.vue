@@ -173,7 +173,7 @@ import {useRoute, useRouter} from "vue-router";
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {getIssuesCounterRequest} from "components/api/StatisticsApiClient";
 import {getUserSettingRequest} from 'components/api/SettingsApiClient'
-import {getIssuesStatsRequest} from "components/api/IssueApiClient";
+
 import {useUserStore} from "stores/user";
 import {DateTime} from 'luxon';
 import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
@@ -209,7 +209,7 @@ const isError = ref(false)
 
 function getStatistics() {
   isLoading.value = true;
-  getIssuesStatsRequest().then(function (response) {
+  getIssuesCounterRequest().then(function (response) {
     status.new = response.data.new
     status.accepted = response.data.accepted
     status.rejected = response.data.rejected

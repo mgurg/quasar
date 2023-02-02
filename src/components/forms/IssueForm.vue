@@ -3,8 +3,11 @@
   <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
           @submit.prevent>
     <div class="row">
-      <span><span class="text-h6">Przedmiot: </span>
+      <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
         <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
+      </span>
+      <span v-else>
+        <span class="text-h6">Przedmiot: {{itemName}}</span>
       </span>
 
     </div>
@@ -162,6 +165,10 @@ const props = defineProps({
     type: String,
     default: 'Save',
   },
+  itemName: {
+    type: String,
+    default: null,
+  },
   token: {
     type: String,
     default: null,
@@ -201,9 +208,7 @@ function logText(json, html) {
 
 //voice recognition
 watch(result, (newValue, oldValue) => {
-
   issueDescription.value = issueDescription.value + ' ' + newValue
-
 })
 
 const tipTapText = ref(null)
@@ -211,6 +216,12 @@ const tipTapText = ref(null)
 
 if (props.issue.text_json !== null) {
   tipTapText.value = props.issue.text_json;
+}
+
+const itemName = ref(null)
+
+if (props.itemName !== null) {
+  itemName.value = props.itemName;
 }
 
 // --------------- Form --------------
@@ -287,7 +298,7 @@ const submit = handleSubmit(values => {
     "text_json": jsonTxt,
     "text_html": htmlTxt,
     "files": uploadedPhotos.value.map(a => a.uuid), //attachments.value.map(a => a.uuid)
-    "availableTags": selectedTags.value.map(a => a.uuid),
+    "tags": selectedTags.value.map(a => a.uuid),
   }
 
   console.log(data)
