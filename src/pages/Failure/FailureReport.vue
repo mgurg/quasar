@@ -68,9 +68,17 @@ function getDetails(uuid) {
   isLoading.value = true;
 
   getOneItemRequest(uuid).then(function (response) {
-    console.log(response.data);
+    console.log(response.data.item_guides.length);
+
+
     itemDetails.value = response.data;
     // json.value = res.data.body_json;
+
+    if (response.data.item_guides.length === 0 ) // no Guides, so go to report form
+    {
+      isLoading.value = false;
+      router.push({path: '/issues/add/', query: {item: itemUuid.value}})
+    }
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);

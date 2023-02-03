@@ -83,115 +83,128 @@
             <q-card-section class="q-pt-none">
               <div class="row sm-gutter">
                 <!-- STATUS -->
-                <q-btn-dropdown :label="$t('Status')" class="float-right" color="primary" icon="filter_list" no-caps outline>
-                  <div class="q-pa-xs" style="max-width: 350px">
-                    <q-list>
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label
-                            :class="hasStatus === 'active' ? 'text-weight-bold' : 'text-weight-regular'"
-                            @click="setStatusFilter('active')">
-                            {{ $t("Active") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label
-                            :class="hasStatus === 'inactive' ? 'text-weight-bold' : 'text-weight-regular'"
-                            @click="setStatusFilter('inactive')">
-                            {{ $t("Inactive") }}
-                          </q-item-label>
-                        </q-item-section>
-                      </q-item>
 
-                      <q-separator/>
+                <q-btn :label="$t('Status')" class="float-right q-ma-xs" color="primary" icon="filter_list" no-caps
+                       outline>
+                  <q-menu>
+                    <div class="q-pa-xs" style="max-width: 350px">
+                      <q-list>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label
+                              :class="hasStatus === 'active' ? 'text-weight-bold' : 'text-weight-regular'"
+                              @click="setStatusFilter('active')">
+                              {{ $t("Active") }}
+                            </q-item-label>
+                          </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label
+                              :class="hasStatus === 'inactive' ? 'text-weight-bold' : 'text-weight-regular'"
+                              @click="setStatusFilter('inactive')">
+                              {{ $t("Inactive") }}
+                            </q-item-label>
+                          </q-item-section>
+                        </q-item>
 
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label
-                            :class="hasStatus === 'new' ? 'text-weight-bold' : 'text-weight-regular'"
-                            @click="setStatusFilter('new')">
-                            {{ $t("New") }}
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-icon color="grey" name="auto_awesome"/>
-                        </q-item-section>
-                      </q-item>
+                        <q-separator/>
 
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label
-                            :class="hasStatus === 'accepted' ? 'text-weight-bold' : 'text-weight-regular'"
-                            @click="setStatusFilter('accepted')">
-                            {{ $t("Accepted") }}
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-icon color="grey" name="playlist_add_check_circle"/>
-                        </q-item-section>
-                      </q-item>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label
+                              :class="hasStatus === 'new' ? 'text-weight-bold' : 'text-weight-regular'"
+                              @click="setStatusFilter('new')">
+                              {{ $t("New") }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-icon color="grey" name="auto_awesome"/>
+                          </q-item-section>
+                        </q-item>
 
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label :class="hasStatus === 'in_progress' ? 'text-weight-bold' : 'text-weight-regular'"
-                                        @click="setStatusFilter('in_progress')">
-                            {{ $t("In progress") }}
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-icon color="grey" name="build_circle"/>
-                        </q-item-section>
-                      </q-item>
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label :class="hasStatus == 'paused' ? 'text-weight-bold' : 'text-weight-regular'"
-                                        @click="setStatusFilter('paused')">
-                            {{ $t("Paused") }}
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-icon color="grey" name="pause_circle"/>
-                        </q-item-section>
-                      </q-item>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label
+                              :class="hasStatus === 'accepted' ? 'text-weight-bold' : 'text-weight-regular'"
+                              @click="setStatusFilter('accepted')">
+                              {{ $t("Accepted") }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-icon color="grey" name="playlist_add_check_circle"/>
+                          </q-item-section>
+                        </q-item>
 
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label :class="hasStatus == 'resolved' ? 'text-weight-bold' : 'text-weight-regular'"
-                                        @click="setStatusFilter('resolved')">
-                            {{ $t("Resolved") }}
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-icon color="grey" name="check_circle"/>
-                        </q-item-section>
-                      </q-item>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label
+                              :class="hasStatus === 'in_progress' ? 'text-weight-bold' : 'text-weight-regular'"
+                              @click="setStatusFilter('in_progress')">
+                              {{ $t("In progress") }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-icon color="grey" name="build_circle"/>
+                          </q-item-section>
+                        </q-item>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label :class="hasStatus == 'paused' ? 'text-weight-bold' : 'text-weight-regular'"
+                                          @click="setStatusFilter('paused')">
+                              {{ $t("Paused") }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-icon color="grey" name="pause_circle"/>
+                          </q-item-section>
+                        </q-item>
 
-                      <q-item v-close-popup clickable>
-                        <q-item-section>
-                          <q-item-label :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
-                                        @click="setStatusFilter('rejected')">
-                            {{ $t("Rejected") }}
-                          </q-item-label>
-                        </q-item-section>
-                        <q-item-section avatar>
-                          <q-icon color="grey" name="delete_forever"/>
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label :class="hasStatus == 'resolved' ? 'text-weight-bold' : 'text-weight-regular'"
+                                          @click="setStatusFilter('resolved')">
+                              {{ $t("Resolved") }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-icon color="grey" name="check_circle"/>
+                          </q-item-section>
+                        </q-item>
 
-                  </div>
-                </q-btn-dropdown>
+                        <q-item v-close-popup clickable>
+                          <q-item-section>
+                            <q-item-label :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
+                                          @click="setStatusFilter('rejected')">
+                              {{ $t("Rejected") }}
+                            </q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-icon color="grey" name="delete_forever"/>
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+
+                    </div>
+                  </q-menu>
+                </q-btn>
                 <!-- DATE -->
-                <q-btn class="q-ma-xs" color="primary" icon="event" label="Data" outline>
+                <q-btn class="q-ma-xs" color="primary" icon="event" label="Data" no-caps outline>
                   <q-popup-proxy cover transition-hide="scale" transition-show="scale">
                     <q-date v-model="proxyDate" range today-btn>
                       <div class="row items-center justify-end q-gutter-sm">
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">Dziś</q-btn>
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Yesterday',1,1)">Wczoraj</q-btn>
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',7,0)">Tydzień</q-btn>
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('All',null, null)">Wszystko</q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">
+                          Dziś
+                        </q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Yesterday',1,1)">
+                          Wczoraj
+                        </q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',7,0)">
+                          Tydzień
+                        </q-btn>
+                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('All',null, null)">
+                          Wszystko
+                        </q-btn>
                         <q-separator/>
                         <!--                                                <q-btn label="Cancel" color="primary" flat v-close-popup />-->
                         <q-btn v-close-popup color="primary" flat label="OK" @click="saveDate"/>
@@ -200,26 +213,36 @@
                   </q-popup-proxy>
                 </q-btn>
                 <!-- PRIORITY -->
-                <q-btn class="q-ma-xs" color="primary" icon="cancel" outline @click="clearFilterSearch">Wyczyść</q-btn>
-
-<!--                {{ proxyDate }}-->
+                <q-btn class="q-ma-xs" color="primary" icon="label" label="Tag" no-caps outline>
+                  <q-menu>
+                    <div class="q-pa-xs" style="max-width: 350px">
+                    <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">
+                      <q-checkbox v-model="selectedTags" :val="tag.uuid">{{ tag.name }}</q-checkbox>
+                    </div>
+                    </div>
+                  </q-menu>
+                </q-btn>
+                <q-btn class="q-ma-xs" color="primary" icon="cancel" no-caps outline @click="clearFilterSearch">
+                  Wyczyść
+                </q-btn>
               </div>
-
-
             </q-card-section>
           </q-card>
         </div>
 
       </q-slide-transition>
-
       <div class="q-pa-xs">
         <q-chip :icon="getIcon()" clickable @click="showSearchBar = !showSearchBar">{{ $t(getStatusName()) }}</q-chip>
-        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">{{ $t(getDateRangeName()) }}</q-chip>
+        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">{{
+            $t(getDateRangeName())
+          }}
+        </q-chip>
       </div>
 
-      <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered class="my-card no-shadow q-mt-sm q-pt-none">
+      <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered
+              class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
-          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
+          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="q-pa-xs">
             <q-item-section avatar>
               <div class="q-pa-none">
                 <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
@@ -299,6 +322,7 @@ import IssueListRow from "components/listRow/IssueListRow.vue";
 import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {DateTime} from "luxon";
+import {getTagsRequest} from "components/api/TagsApiClient";
 
 const route = useRoute();
 const router = useRouter();
@@ -306,6 +330,9 @@ const router = useRouter();
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
+
+const availableTags = ref(null)
+const selectedTags = ref(["4f3fa5c2-648d-4c3e-80e3-014969e87d5f"])
 let search = ref(null);
 
 const showSearchBar = ref(false);
@@ -318,11 +345,12 @@ const hasDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').minus({days: 31}
 const hasDateTo = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"));
 const proxyDate = ref({"from": hasDateFrom.value, "to": hasDateTo.value})
 const dateRangeName = ref("Month");
-function getDateRangeName(){
+
+function getDateRangeName() {
   return dateRangeName.value
 }
 
-function setDateRange(name ,daysFrom = null, daysTo = null) {
+function setDateRange(name, daysFrom = null, daysTo = null) {
   dateRangeName.value = name;
   if (daysFrom == null && daysTo == null) {
     hasDateFrom.value = null;
@@ -571,6 +599,16 @@ async function fetchIssues() {
   });
 }
 
+function fetchTags() {
+  isLoading.value = true;
+  getTagsRequest().then(function (response) {
+    availableTags.value = response.data;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
 
 onBeforeMount(() => {
   isLoading.value = true;
@@ -580,8 +618,8 @@ onBeforeMount(() => {
     // showSearchBar.value = true;
   }
 
-
   fetchIssues();
+  fetchTags();
 
 
 });

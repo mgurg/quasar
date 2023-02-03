@@ -29,7 +29,7 @@
         <div v-show="expandedGuide">
           <q-card-section>
             <q-list>
-              <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders">
+              <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders q-pa-qs">
                 <q-item-section avatar>
                   <div class="q-pa-none">
                     <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
@@ -231,7 +231,7 @@ onBeforeMount(() => {
   } else{
     getPublicItemGuides();
   }
-  
+
 });
 
 </script>

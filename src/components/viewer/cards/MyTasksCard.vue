@@ -40,7 +40,7 @@
           </p>
 
           <q-list v-if="userIssues !== null && userIssues.length > 0">
-            <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders">
+            <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders q-pa-xs">
               <q-item-section avatar>
                 <div class="q-pa-none">
                   <q-btn-dropdown color="primary" dropdown-icon="sort" flat>

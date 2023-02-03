@@ -134,7 +134,7 @@
 
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
 
-          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
+          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="q-pa-xs">
             <q-item-section avatar>
             <span>&nbsp;
               <q-btn :flat="sort.active!=='counter'" :icon="sort.counter === 'asc' ? 'arrow_upward' : 'arrow_downward'"

@@ -156,8 +156,8 @@ const props = defineProps({
         color: 'red',
         user: null,
         text_json: null,
-        files_issue: null
-
+        files_issue: null,
+        tags_issue: null
       }
     }
   },
@@ -216,6 +216,10 @@ const tipTapText = ref(null)
 
 if (props.issue.text_json !== null) {
   tipTapText.value = props.issue.text_json;
+}
+
+if (props.issue.tags_issue !== null) {
+  selectedTags.value = props.issue.tags_issue;
 }
 
 const itemName = ref(null)

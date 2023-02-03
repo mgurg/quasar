@@ -45,7 +45,7 @@
 
       <q-card v-if="groups.length > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none" >
         <q-list v-if="groups !== null" class="q-mt-none q-pt-none" padding>
-          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'">
+          <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="q-pa-xs">
             <q-item-section avatar>
               <div class="q-pa-none">
                 <q-btn-dropdown color="primary" dropdown-icon="sort" flat>

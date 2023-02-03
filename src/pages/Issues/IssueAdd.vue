@@ -23,10 +23,6 @@
 
                 <q-item-label v-if="itemUuid===null" caption>
                   Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
-                  Jeżeli chcesz zgłosić awarię dla istniejącej maszyny wybierz ją z
-                  <q-btn color="primary" type="span" size="md" dense flat icon="apps" no-caps to="/items">listy urządzeń</q-btn>
-                  i naciśnij przycisk zgłoś.
-
                 </q-item-label>
                 <!--                <q-btn flat no-caps>Idę do listy urządzeń</q-btn>-->
               </q-item-section>
