@@ -39,6 +39,22 @@ export default defineComponent({
     items: function () {
       return this.icon_position === "left"
         ? [
+        {
+            title: "Informacje o koncie (użytkownicy, pliki, wysłane powiadomienia)",
+            icon: "account_circle",
+            value: "Konto",
+            color1: "#546bfa",
+            color2: "#3e51b5",
+            link: "/settings/account"
+          },
+          {
+              title: "Kategorie awarii, np: mechaniczna elektryczna ",
+              icon: "label",
+              value: "Tagi",
+              color1: "#a270b1",
+              color2: "#9f52b1",
+              link: "/settings/tags"
+          },
           {
             title: "Ustawienia powiadomień o awariach (sms, email)",
             icon: "notifications",
@@ -63,23 +79,17 @@ export default defineComponent({
             color2: "#ea4b64",
             link: "/settings/groups"
           },
-          {
-              title: "Kategorie awarii, np: mechaniczna elektryczna ",
-              icon: "label",
-              value: "Tagi",
-              color1: "#a270b1",
-              color2: "#9f52b1",
-              link: "/settings/tags"
-          }
+
+
         ]
         : [
           {
-            title: "Monthly Income",
-            icon: "fas fa-dollar-sign",
-            value: "$ 20k",
+            title: "Informacje o koncie (użytkownicy, pliki)",
+            icon: "label",
+            value: "Konto",
             color1: "#546bfa",
             color2: "#3e51b5",
-            link: "/settings/notifictions"
+            link: "/settings/account"
           },
           {
             title: "Weekly Sales",

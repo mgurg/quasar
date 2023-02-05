@@ -19,7 +19,7 @@
             <q-item class="q-px-none">
 
               <q-item-section>
-                <q-item-label class="text-h5 text-weight-medium">{{ $t("Issue") }}</q-item-label>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t("New issue") }}</q-item-label>
 
                 <q-item-label v-if="itemUuid===null" caption>
                   Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.

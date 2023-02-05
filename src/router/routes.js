@@ -134,6 +134,7 @@ const routes = [
       { path: "/items/summary/", component: () => import("pages/Items/ItemsReports.vue") },
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
+      { path: "/settings/account", component: () => import("pages/Settings/SettingsAccount.vue") },
       { path: "/settings/notifications", component: () => import("pages/Settings/SettingsNotifications.vue") },
       { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissionsIndex.vue") },
       { path: "/settings/permissions/add", component: () => import("pages/Settings/SettingsPermissionsView.vue") },

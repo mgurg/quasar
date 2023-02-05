@@ -31,7 +31,7 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5">Powiadomienia</q-item-label>
+                <q-item-label class="text-h5">Konto</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
                 <!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
               </q-item-section>
@@ -42,44 +42,13 @@
 
       <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
-          Tagi
-
-          <!--          <div class="row sm-gutter">-->
-          <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
-          <!--              <q-input outlined v-model="newTag" label="Nazwa"/>-->
-          <!--            </div>-->
-          <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
-          <!--              <q-btn>AAAA</q-btn>-->
-          <!--            </div>-->
-          <!--          </div>-->
-
-          <q-input v-model="newTag" bottom-slots counter label="Label" maxlength="12" outlined>
-            <template v-slot:append>
-              <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
-            </template>
-            <template v-slot:after>
-              <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
-            </template>
-          </q-input>
-
-
-        </q-card-section>
+          <div class="text-h5">Firma:</div>
+          Piekarnia - Cukiernia Bończyk</q-card-section>
+          
+          <div class="text-h5">Użytkownicy:</div>
+          <div class="text-h5">Wykorzystane miejsce na dysku:</div>
+          <div class="text-h5">Wysłane powiadomienia</div>
         <q-card-section>
-
-          <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
-            <div>
-              <q-item >
-                <q-item-section>
-                  <q-item-label>{{ tag.name }}</q-item-label>
-                  <!-- <q-item-label caption>Dodaj</q-item-label> -->
-                </q-item-section>
-                <q-item-section side>
-                    <q-btn flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)"/>
-                </q-item-section>
-              </q-item>
-              <q-separator/>
-            </div>
-          </q-list>
 
         </q-card-section>
       </q-card>
