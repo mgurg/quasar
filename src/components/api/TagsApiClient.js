@@ -11,5 +11,5 @@ export function addTagRequest(data) {
 }
 
 export function deleteTagRequest(uuid) {
-  return authApi.delete("/users/" + uuid);
+  return authApi.delete("/tags/" + uuid);
 }

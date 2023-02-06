@@ -53,16 +53,26 @@
           <!--            </div>-->
           <!--          </div>-->
 
-          <q-input v-model="newTag" bottom-slots counter label="Label" maxlength="12" outlined>
+          <!-- <q-input v-model="newTag" bottom-slots counter label="Label" maxlength="12" outlined>
             <template v-slot:append>
               <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
             </template>
             <template v-slot:after>
               <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
             </template>
-          </q-input>
+          </q-input> -->
 
+          <div class="row">
+            <q-input v-model="newTag" label="Label" class="q-mr-xs" outlined></q-input>
+            <q-btn dense flat icon="add" label="Dodaj" class="q-mr-xs" @click="addTag(newTag)"/>
+            <q-space />
+          </div>
 
+          <q-chip icon="event" style="background-color: aquamarine;">Add to calendar</q-chip>
+          <div>
+          Tagi mogą być tylko dodawane ich usunięcie jest możliwe jedynie jeżeli nie są używane w żadnym zadaniu
+          Tag tóry jest używany oże zostać ukryty, nipojawia się wtedy w liście podpowiedzi.
+        </div>
         </q-card-section>
         <q-card-section>
 

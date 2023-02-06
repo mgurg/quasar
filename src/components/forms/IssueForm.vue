@@ -69,6 +69,8 @@
               {{ tag.name }}
             </q-chip>
           </span>
+          <div v-if="availableTags.length == 0">Brak oznaczeń, <router-link to="/settings/tags">dodaj własne</router-link> <br>
+            (np.: mechaniczne / elektryczne) </div>
           </div>
         </q-menu>
       </q-btn>
