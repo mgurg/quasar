@@ -40,18 +40,41 @@
         </q-card-section>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section>
-          <div class="text-h5">Firma:</div>
-          Piekarnia - Cukiernia Bończyk</q-card-section>
-          
-          <div class="text-h5">Użytkownicy:</div>
-          <div class="text-h5">Wykorzystane miejsce na dysku:</div>
-          <div class="text-h5">Wysłane powiadomienia</div>
-        <q-card-section>
 
-        </q-card-section>
-      </q-card>
+      <div class="row q-col-gutter-sm">
+      <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+        <q-card bordered class="my-card no-shadow q-mt-sm fit">
+          <q-card-section v-if="companyInfo!== null">
+            <div class="text-h5">Firma:</div>
+
+            <div>{{companyInfo.name}}</div>
+            <div>{{companyInfo.street}}</div>
+            <div>{{companyInfo.city}}</div>
+            <q-separator/>
+            <div>{{companyInfo.nip}}</div>
+
+          </q-card-section>
+        </q-card >
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+        <q-card bordered class="my-card no-shadow q-mt-sm fit">
+          <q-card-section>
+            <div class="text-h5">Użytkownicy:</div>
+
+
+          </q-card-section>
+        </q-card>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+        <q-card bordered class="my-card no-shadow q-mt-sm fit">
+          <q-card-section>
+
+          <div class="text-h5">Wykorzystane miejsce:</div>
+
+          </q-card-section>
+        </q-card>
+        </div>
+        </div>
     </q-page>
   </div>
 
@@ -60,18 +83,22 @@
 <script setup>
 import {onBeforeMount, ref} from "vue";
 import {errorHandler} from "components/api/errorHandler";
-import {addTagRequest, deleteTagRequest, getTagsRequest} from "components/api/TagsApiClient";
+import {getCompanyInfoRequest} from "components/api/AuthApiClient";
+import {getUserCountRequest} from "components/api/UserApiClient";
+import {getUsedSpaceRequest} from "components/api/FilesApiClient";
 
 let isLoading = ref(false);
 let isError = ref(false);
 
 const tags = ref(null);
-const newTag = ref(null);
+const companyInfo = ref(null);
+const userCount = ref(null);
+const usedSpace = ref(null);
 
-function fetchTags() {
+function fetchCompanyInfo() {
   isLoading.value = true;
-  getTagsRequest().then(function (response) {
-    tags.value = response.data;
+  getCompanyInfoRequest().then(function (response) {
+    companyInfo.value = response.data;
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -79,14 +106,11 @@ function fetchTags() {
   });
 }
 
-function addTag(name) {
-  isLoading.value = true;
 
-  let data = {
-    "name": name
-  }
-  addTagRequest(data).then(function (response) {
-    fetchTags();
+function fetchUserCountInfo() {
+  isLoading.value = true;
+  getUserCountRequest().then(function (response) {
+    userCount.value = response.data;
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -94,10 +118,10 @@ function addTag(name) {
   });
 }
 
-function deleteTag(uuid) {
+function fetchUsedSpaceInfo() {
   isLoading.value = true;
-  deleteTagRequest(uuid).then(function (response) {
-    fetchTags();
+  getUsedSpaceRequest().then(function (response) {
+    usedSpace.value = response.data;
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -106,7 +130,9 @@ function deleteTag(uuid) {
 }
 
 onBeforeMount(() => {
-  fetchTags()
+  fetchCompanyInfo()
+  fetchUserCountInfo()
+  fetchUsedSpaceInfo()
 });
 
 

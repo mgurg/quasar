@@ -8,6 +8,10 @@ export function getUserRequest(uuid) {
   return authApi.get("/users/" + uuid);
 }
 
+export function getUserCountRequest() {
+  return authApi.get("/users/count");
+}
+
 export function createUserRequest(data) {
   return authApi.post("/users/", data);
 }

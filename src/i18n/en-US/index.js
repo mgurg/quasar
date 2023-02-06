@@ -126,7 +126,6 @@ export default {
 	"Issue resumed": `Issue resumed`,
 	"Issue resolved": `Issue resolved`,
 
-
 	// guides
 	"Guides": `Guides`,
 	"Guide": `Guide`,
@@ -158,6 +157,10 @@ export default {
 	"Permission": `Permission`,
 	"New permission": `New permission`,
 	"Role": `Role`,
+
+	// roles
+	"Admin": `Admin`,
+	"Main admin": `Main admin`,
 
 	// groups
 	"Groups": `Groups`,

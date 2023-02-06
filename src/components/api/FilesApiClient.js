@@ -1,4 +1,4 @@
-import {api} from "boot/axios";
+import {api, authApi} from "boot/axios";
 
 
 export function deleteFileRequest(uuid, token, tenant_id) {
@@ -8,4 +8,9 @@ export function deleteFileRequest(uuid, token, tenant_id) {
       tenant: tenant_id,
     },
   });
+}
+
+
+export function getUsedSpaceRequest() {
+  return authApi.get("/files/used_space");
 }

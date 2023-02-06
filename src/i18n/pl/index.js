@@ -17,7 +17,7 @@ export default {
 	"Attachments": `Załączniki`,
 	"Status": `Status`,
 	"Yes": `Tak`,
-	"No": `Nie`,
+	"No": `NIE`,
 	"All": `Wszystko`,
 	"Pending": `Aż do`,
 	"Details": `Detale`,
@@ -26,7 +26,7 @@ export default {
 	"QR Code": `Kod QR`,
 	"Comments": `Uwagi`,
 	"Timeline": `Oś czasu`,
-	"Name": `Imię`,
+	"Name": `Nazwa`,
 	"Description": `Opis`,
 	"New": `Nowy`,
 	"Active": `Aktywny`,
@@ -37,7 +37,7 @@ export default {
 	"Paused": `Zatrzymany`,
 	"Resolved": `Rozwiązany`,
 	"Yesterday": `Wczoraj`,
-	"Today": `Dziś`,
+	"Today": `Dzisiaj`,
 	"Week": `Tydzień`,
 	"Month": `Miesiąc`,
 	"Custom": `Własna`,
@@ -78,7 +78,7 @@ export default {
 	"New": `Nowy`,
 	"Ongoing": `W trakcie`,
 	"Paused": `Zatrzymany`,
-	"Done": `Gotowy`,
+	"Done": `Zrobione`,
 	"Rejected": `Odrzucony`,
 
 	// users
@@ -126,7 +126,6 @@ export default {
 	"Issue resumed": `Praca wznowiona`,
 	"Issue resolved": `Problem rozwiązany`,
 
-
 	// guides
 	"Guides": `Przewodniki`,
 	"Guide": `Przewodnik`,
@@ -158,6 +157,10 @@ export default {
 	"Permission": `Pozwolenie`,
 	"New permission": `Nowe pozwolenie`,
 	"Role": `Rola`,
+
+	// roles
+	"Admin": `Admin`,
+	"Main admin": `Główny administrator`,
 
 	// groups
 	"Groups": `Grupy`,

@@ -7,24 +7,24 @@ export default {
 	"Edit": `Bearbeiten`,
 	"Delete": `Löschen`,
 	"View": `Sicht`,
-	"Cancel": `Absagen`,
+	"Cancel": `Stornieren`,
 	"Save": `Speichern`,
-	"Back": `Der Rücken`,
+	"Back": `Zurück`,
 	"Return": `Zurückkehren`,
-	"Search": `Suche`,
+	"Search": `Suchen`,
 	"Type your search text": `Geben Sie Ihren Suchtext ein`,
 	"Filters": `Filter`,
 	"Attachments": `Anhänge`,
 	"Status": `Status`,
 	"Yes": `Ja`,
-	"No": `Nein`,
+	"No": `NEIN`,
 	"All": `Alle`,
 	"Pending": `Ausstehend`,
 	"Details": `Einzelheiten`,
 	"Photos": `Fotos`,
 	"Documents": `Unterlagen`,
 	"QR Code": `QR-Code`,
-	"Comments": `Bemerkungen`,
+	"Comments": `Kommentare`,
 	"Timeline": `Zeitleiste`,
 	"Name": `Name`,
 	"Description": `Beschreibung`,
@@ -33,14 +33,14 @@ export default {
 	"Inactive": `Inaktiv`,
 	"Accepted": `Akzeptiert`,
 	"Rejected": `Abgelehnt`,
-	"In progress": `In Bearbeitung`,
+	"In progress": `Im Gange`,
 	"Paused": `Blättern`,
-	"Resolved": `Aufgelöst`,
+	"Resolved": `Beschlossen`,
 	"Yesterday": `Gestern`,
 	"Today": `Heute`,
 	"Week": `Woche`,
 	"Month": `Monat`,
-	"Custom": `Benutzerdefiniert`,
+	"Custom": `Brauch`,
 
 	// login
 	"Login": `Anmeldung`,
@@ -53,7 +53,7 @@ export default {
 	"I need help": `Ich brauche Hilfe`,
 	"Reset password": `Passwort zurücksetzen`,
 	"I accept the terms and conditions": `Ich akzeptiere die allgemeinen Geschäftsbedingungen`,
-	"Congratulations": `Glückwünsche`,
+	"Congratulations": `Glückwunsch`,
 	"Almost done! Remember to confirm your email!": `Fast fertig! Denken Sie daran, Ihre E -Mail zu bestätigen!`,
 	"First Name": `Vorname`,
 	"Last Name": `Familienname, Nachname`,
@@ -78,16 +78,16 @@ export default {
 	"New": `Neu`,
 	"Ongoing": `Laufend`,
 	"Paused": `Blättern`,
-	"Done": `Getan`,
+	"Done": `Erledigt`,
 	"Rejected": `Abgelehnt`,
 
 	// users
 	"Employee": `Mitarbeiter`,
-	"Employees": `Angestellte`,
+	"Employees": `Mitarbeiter`,
 	"First name": `Vorname`,
 	"Last name": `Familienname, Nachname`,
 	"Phone": `Telefon`,
-	"Age": `Das Alter`,
+	"Age": `Alter`,
 	"New employee": `Neuer Angestellter`,
 
 	// ideas
@@ -102,7 +102,7 @@ export default {
 	"Deleted:": `Gelöscht:`,
 
 	// issues
-	"Issues": `Ausgaben`,
+	"Issues": `Themen`,
 	"Issue": `Ausgabe`,
 	"Issue name": `Ausgabename`,
 	"Issue description": `Fehlerbeschreibung`,
@@ -125,7 +125,6 @@ export default {
 	"Issue paused": `Ausgabe machte eine Pause`,
 	"Issue resumed": `Problem wieder aufgenommen`,
 	"Issue resolved": `Problem gelöst`,
-
 
 	// guides
 	"Guides": `Führer`,
@@ -158,6 +157,10 @@ export default {
 	"Permission": `Erlaubnis`,
 	"New permission": `Neue Erlaubnis`,
 	"Role": `Rolle`,
+
+	// roles
+	"Admin": `Administrator`,
+	"Main admin": `Hauptadmin`,
 
 	// groups
 	"Groups": `Gruppen`,

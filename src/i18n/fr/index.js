@@ -4,14 +4,14 @@
 export default {
 	// common
 	"Add": `Ajouter`,
-	"Edit": `Éditer`,
+	"Edit": `Modifier`,
 	"Delete": `Supprimer`,
 	"View": `Voir`,
 	"Cancel": `Annuler`,
-	"Save": `Sauver`,
+	"Save": `Sauvegarder`,
 	"Back": `Dos`,
-	"Return": `Revenir`,
-	"Search": `Rechercher`,
+	"Return": `Retour`,
+	"Search": `Recherche`,
 	"Type your search text": `Tapez votre texte de recherche`,
 	"Filters": `Filtres`,
 	"Attachments": `Attachements`,
@@ -20,14 +20,14 @@ export default {
 	"No": `Non`,
 	"All": `Tous`,
 	"Pending": `En attente`,
-	"Details": `Des détails`,
+	"Details": `Détails`,
 	"Photos": `Photos`,
 	"Documents": `Documents`,
 	"QR Code": `QR Code`,
 	"Comments": `commentaires`,
-	"Timeline": `Chronologie`,
+	"Timeline": `Calendrier`,
 	"Name": `Nom`,
-	"Description": `La description`,
+	"Description": `Description`,
 	"New": `Nouveau`,
 	"Active": `Actif`,
 	"Inactive": `Inactif`,
@@ -38,9 +38,9 @@ export default {
 	"Resolved": `Résolu`,
 	"Yesterday": `Hier`,
 	"Today": `Aujourd'hui`,
-	"Week": `La semaine`,
+	"Week": `Semaine`,
 	"Month": `Mois`,
-	"Custom": `Personnalisé`,
+	"Custom": `Coutume`,
 
 	// login
 	"Login": `Connexion`,
@@ -49,7 +49,7 @@ export default {
 	"Error: Check username & password": `Erreur: vérifiez le nom d'utilisateur et le mot de passe`,
 	"Password confirmation": `Confirmation mot de passe`,
 	"Remember me for 30 days": `Souviens-toi de moi pendant 30 jours`,
-	"Register": `S'inscrire`,
+	"Register": `Enregistrer`,
 	"I need help": `j'ai besoin d'aide`,
 	"Reset password": `Réinitialiser le mot de passe`,
 	"I accept the terms and conditions": `J'accepte les termes et conditions`,
@@ -58,7 +58,7 @@ export default {
 	"First Name": `Prénom`,
 	"Last Name": `Nom de famille`,
 	"NIP": `NIP`,
-	"Company name": `Nom de la compagnie`,
+	"Company name": `Nom de l'entreprise`,
 	"Street": `Rue`,
 	"Postcode": `Code postal`,
 	"City": `Ville`,
@@ -86,7 +86,7 @@ export default {
 	"Employees": `Employés`,
 	"First name": `Prénom`,
 	"Last name": `Nom de famille`,
-	"Phone": `Téléphone fixe`,
+	"Phone": `Téléphone`,
 	"Age": `Âge`,
 	"New employee": `Nouvel employé`,
 
@@ -102,8 +102,8 @@ export default {
 	"Deleted:": `Supprimé:`,
 
 	// issues
-	"Issues": `Problèmes`,
-	"Issue": `Publier`,
+	"Issues": `Questions`,
+	"Issue": `Problème`,
 	"Issue name": `Nom d'émission`,
 	"Issue description": `Description du problème`,
 	"New issue": `Nouveau problème`,
@@ -126,10 +126,9 @@ export default {
 	"Issue resumed": `Le problème repris`,
 	"Issue resolved": `Problème résolu`,
 
-
 	// guides
 	"Guides": `Guides`,
-	"Guide": `Guider`,
+	"Guide": `Guide`,
 	"New guide": `Nouveau guide`,
 	"Guide name": `Nom de guide`,
 	"Add new": `Ajouter un nouveau`,
@@ -158,6 +157,10 @@ export default {
 	"Permission": `Autorisation`,
 	"New permission": `Nouvelle autorisation`,
 	"Role": `Rôle`,
+
+	// roles
+	"Admin": `Administrer`,
+	"Main admin": `Administrateur principal`,
 
 	// groups
 	"Groups": `Groupes`,
