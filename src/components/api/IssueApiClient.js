@@ -9,7 +9,10 @@ export function getIssueTimelineRequest(uuid) {
 }
 
 export function getManyIssuesRequest(params) {
-  return authApi.get("/issues/", {params: params});
+  return authApi.get("/issues/", {params: params,
+    paramsSerializer: {
+      indexes: null // by default: false
+    }});
 }
 
 export function getOneIssueRequest(uuid) {

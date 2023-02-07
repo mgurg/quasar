@@ -206,7 +206,7 @@
                           Wszystko
                         </q-btn>
                         <q-separator/>
-                        <!--                                                <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                        <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
                         <q-btn v-close-popup color="primary" flat label="OK" @click="saveDate"/>
                       </div>
                     </q-date>
@@ -216,9 +216,11 @@
                 <q-btn class="q-ma-xs" color="primary" icon="label" label="Tag" no-caps outline>
                   <q-menu>
                     <div class="q-pa-xs" style="max-width: 350px">
-                    <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">
-                      <q-checkbox v-model="selectedTags" :val="tag.uuid">{{ tag.name }}</q-checkbox>
-                    </div>
+                      <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">
+                        <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="fetchIssues">
+                          {{ tag.name }}
+                        </q-checkbox>
+                      </div>
                     </div>
                   </q-menu>
                 </q-btn>
@@ -332,7 +334,7 @@ let isSuccess = ref(false);
 let isError = ref(false);
 
 const availableTags = ref(null)
-const selectedTags = ref(["4f3fa5c2-648d-4c3e-80e3-014969e87d5f"])
+const selectedTags = ref(["0ce68947-1da1-4e6f-ac40-28ccb3d0e92b"])
 let search = ref(null);
 
 const showSearchBar = ref(false);
@@ -420,6 +422,7 @@ function setSortingParams(name) {
     default:
       console.log(`Sorry, we are out of ${name}.`);
   }
+
   fetchIssues();
 }
 
@@ -526,7 +529,7 @@ watch(() => pagination.page, (oldPage, newPage) => {
 })
 
 let hasPhotos = ref(null);
-let hasStatus = ref('active');
+let hasStatus = ref(localStorage.getItem('issue-adv-filter-status') ?? 'active');
 
 
 function setAttachmentFilter(condition) {
@@ -535,12 +538,19 @@ function setAttachmentFilter(condition) {
 }
 
 function setStatusFilter(condition) {
+
+  localStorage.setItem('issue-adv-filter-status', condition);
+
   hasStatus.value = condition;
   router.replace({'query.filter': null})
   fetchIssues();
 }
 
 function clearFilterSearch() {
+  localStorage.removeItem('issue-adv-filter-status')
+  hasDateFrom.value = DateTime.now().setZone('Europe/Warsaw').minus({days: 31}).toFormat("yyyy/LL/dd");
+  hasDateTo.value = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+  dateRangeName.value = "Month";
   hasStatus.value = 'active';
   search.value = null;
   router.replace({'query.filter': null})
@@ -576,6 +586,7 @@ async function fetchIssues() {
     status: hasStatus.value,
     page: pagination.page,
     size: pagination.size,
+    tag: selectedTags.value,
     field: sort.active,
     order: sort[sort.active]
   };
@@ -617,7 +628,7 @@ onBeforeMount(() => {
     hasStatus.value = route.query.filter;
     // showSearchBar.value = true;
   }
-
+  localStorage.setItem('issue-adv-filter', JSON.stringify({"status": 'active', "tags": []}))
   fetchIssues();
   fetchTags();
 

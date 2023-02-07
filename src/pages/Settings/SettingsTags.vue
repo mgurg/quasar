@@ -31,7 +31,7 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5">Powiadomienia</q-item-label>
+                <q-item-label class="text-h5">Tagi</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
                 <!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
               </q-item-section>
@@ -42,8 +42,6 @@
 
       <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
-          Tagi
-
           <!--          <div class="row sm-gutter">-->
           <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
           <!--              <q-input outlined v-model="newTag" label="Nazwa"/>-->
@@ -68,14 +66,15 @@
             <q-space />
           </div>
 
-          <q-chip icon="event" style="background-color: aquamarine;">Add to calendar</q-chip>
-          <div>
-          Tagi mogą być tylko dodawane ich usunięcie jest możliwe jedynie jeżeli nie są używane w żadnym zadaniu
-          Tag tóry jest używany oże zostać ukryty, nipojawia się wtedy w liście podpowiedzi.
+          <!-- <q-chip icon="event" style="background-color: aquamarine;">Add to calendar</q-chip> -->
+          <div class="q-py-md">
+          Tagi mogą być tylko dodawane. Ich usunięcie jest możliwe jedynie jeżeli nie są używane w żadnym zadaniu.
+          Tag który jest używany może zostać ukryty, nie pojawia się wtedy w liście podpowiedzi.
         </div>
         </q-card-section>
-        <q-card-section>
 
+
+        <q-card-section>
           <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
             <div>
               <q-item >
