@@ -212,20 +212,57 @@
                     </q-date>
                   </q-popup-proxy>
                 </q-btn>
-                <!-- PRIORITY -->
+                <!-- TAG -->
                 <q-btn class="q-ma-xs" color="primary" icon="label" label="Tag" no-caps outline>
                   <q-menu>
-                    <div class="q-pa-xs" style="max-width: 350px">
-                      <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">
-                        <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="fetchIssues">
-                          {{ tag.name }}
-                        </q-checkbox>
-                      </div>
+<!--                    <q-list dense bordered padding class="rounded-borders" v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
+<!--                      <q-item>-->
+<!--                        <q-item-section>-->
+<!--                          <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
+<!--                            {{ tag.name }}-->
+<!--                          </q-checkbox>-->
+<!--                        </q-item-section>-->
+<!--                      </q-item>-->
+
+<!--                    </q-list>-->
+
+                    <div class="q-pa-md" style="max-width: 350px">
+                      <q-list>
+                        <q-item>
+                          <q-item-section>
+                          <q-item-label>Pokaż ukryte</q-item-label>
+                          </q-item-section>
+                          <q-item-section avatar>
+                            <q-toggle v-model="withHiddenTags"  @input="fetchTags" />
+                          </q-item-section>
+
+
+<!--                          <q-item-section>-->
+<!--                            <q-toggle v-model="withHiddenTags" label="Pokaż ukryte" @ />-->
+<!--                          </q-item-section>-->
+                        </q-item>
+                        <q-separator/>
+                        <q-item>
+                          <q-item-section>
+                            <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">
+                              <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">
+                                {{ tag.name }}
+                              </q-checkbox>
+                            </div>
+                          </q-item-section>
+                        </q-item>
+
+                      </q-list>
+<!--                      <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
+<!--                        <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
+<!--                          {{ tag.name }}-->
+<!--                        </q-checkbox>-->
+<!--                      </div>-->
                     </div>
                   </q-menu>
                 </q-btn>
                 <q-btn class="q-ma-xs" color="primary" icon="cancel" no-caps outline @click="clearFilterSearch">
-                  Wyczyść
+                  Reset
                 </q-btn>
               </div>
             </q-card-section>
@@ -239,6 +276,7 @@
             $t(getDateRangeName())
           }}
         </q-chip>
+        <q-chip icon="label" clickable @click="showSearchBar = !showSearchBar" v-if="selectedTags !== null && selectedTags.length > 0">Tag</q-chip>
       </div>
 
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered
@@ -334,7 +372,9 @@ let isSuccess = ref(false);
 let isError = ref(false);
 
 const availableTags = ref(null)
-const selectedTags = ref(["0ce68947-1da1-4e6f-ac40-28ccb3d0e92b"])
+const selectedTags = ref(JSON.parse(localStorage.getItem("issue-adv-filter-tags")) || [])
+const withHiddenTags = ref(false);
+
 let search = ref(null);
 
 const showSearchBar = ref(false);
@@ -368,6 +408,11 @@ function setDateRange(name, daysFrom = null, daysTo = null) {
   proxyDate.value = {"from": fromDate, "to": toDate}
 
   console.log({"from": fromDate, "to": toDate});
+}
+
+function setTag(){
+  localStorage.setItem('issue-adv-filter-tags', JSON.stringify(selectedTags.value));
+  fetchIssues();
 }
 
 function saveDate() {
@@ -548,10 +593,12 @@ function setStatusFilter(condition) {
 
 function clearFilterSearch() {
   localStorage.removeItem('issue-adv-filter-status')
+  localStorage.removeItem('issue-adv-filter-tags')
   hasDateFrom.value = DateTime.now().setZone('Europe/Warsaw').minus({days: 31}).toFormat("yyyy/LL/dd");
   hasDateTo.value = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
   dateRangeName.value = "Month";
   hasStatus.value = 'active';
+  selectedTags.value = [];
   search.value = null;
   router.replace({'query.filter': null})
   fetchIssues();
@@ -612,6 +659,9 @@ async function fetchIssues() {
 
 function fetchTags() {
   isLoading.value = true;
+  let params = {
+    is_hidden: withHiddenTags.value
+  }
   getTagsRequest().then(function (response) {
     availableTags.value = response.data;
     isLoading.value = false;
@@ -628,7 +678,7 @@ onBeforeMount(() => {
     hasStatus.value = route.query.filter;
     // showSearchBar.value = true;
   }
-  localStorage.setItem('issue-adv-filter', JSON.stringify({"status": 'active', "tags": []}))
+
   fetchIssues();
   fetchTags();
 

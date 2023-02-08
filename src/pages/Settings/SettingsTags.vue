@@ -78,6 +78,10 @@
           <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
             <div>
               <q-item >
+                <q-item-section avatar>
+                  <q-avatar :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)">
+                  </q-avatar>
+                </q-item-section>
                 <q-item-section>
                   <q-item-label>{{ tag.name }}</q-item-label>
                   <!-- <q-item-label caption>Dodaj</q-item-label> -->
@@ -100,7 +104,10 @@
 <script setup>
 import {onBeforeMount, ref} from "vue";
 import {errorHandler} from "components/api/errorHandler";
-import {addTagRequest, deleteTagRequest, getTagsRequest} from "components/api/TagsApiClient";
+import {addTagRequest, deleteTagRequest, editTagRequest, getTagsRequest} from "components/api/TagsApiClient";
+import {useQuasar} from "quasar";
+
+const $q = useQuasar()
 
 let isLoading = ref(false);
 let isError = ref(false);
@@ -110,7 +117,12 @@ const newTag = ref(null);
 
 function fetchTags() {
   isLoading.value = true;
-  getTagsRequest().then(function (response) {
+
+  let params = {
+    is_hidden: false
+  }
+
+  getTagsRequest(params).then(function (response) {
     tags.value = response.data;
     isLoading.value = false;
   }).catch((err) => {
@@ -141,9 +153,42 @@ function deleteTag(uuid) {
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
+
+    if (err.response.data.detail === "Tag in use"){
+      $q.dialog({
+        title: "Confirm",
+        message: "Really delete?",
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        // HIDE
+        $q.notify("Task deleted");
+        // fetchTasks()
+      });
+
+      return;
+    }
+
     isError.value = true;
   });
 }
+
+function switchTagVisibility(uuid, visibility){
+  let data = {
+    "is_hidden" : !(visibility == true)
+  }
+
+  editTagRequest(uuid, data).then(function (response) {
+    fetchTags();
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+
+
+}
+
 
 onBeforeMount(() => {
   fetchTags()

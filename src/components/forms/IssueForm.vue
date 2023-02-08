@@ -328,6 +328,9 @@ function listOfUploadedImages(images) {
 // TAGS
 function fetchTags() {
   isLoading.value = true;
+  let params = {
+    is_hidden: true
+  }
   getTagsRequest().then(function (response) {
     availableTags.value = response.data;
     isLoading.value = false;

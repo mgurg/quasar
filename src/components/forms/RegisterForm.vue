@@ -191,6 +191,10 @@ import {accountLimit} from 'src/composables/api/accountLimit.js'
 
 const {availableAccounts, ratio} = accountLimit()
 
+import { pl } from 'yup-locales';
+import { setLocale } from 'yup';
+setLocale(pl);
+
 
 let isPwd = ref(true);
 let isLoading = ref(false);
@@ -211,8 +215,8 @@ const validationSchema = object({
       return validatePolish.nip(value)
     }
   ),
-  firstName: string().required(),
-  lastName: string().required(),
+  firstName: string().required().label("First name"),
+  lastName: string().required().label("Last name"),
   acceptTOS: bool().required().oneOf([true], "!"),
 });
 

@@ -68,7 +68,7 @@
           </div>
 
           <div class="q-gutter-xs">
-            <!--            {{usersList}}-->
+            <!-- {{usersList}}-->
             <span v-if="usersList.length == 0 && issueStatus=='new'" class="text-grey">Zaakceptuj lub odrzuć zgłoszenie</span>
             <span v-if="usersList.length == 0 && issueStatus=='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
             <q-chip
