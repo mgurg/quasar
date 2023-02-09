@@ -215,31 +215,31 @@
                 <!-- TAG -->
                 <q-btn class="q-ma-xs" color="primary" icon="label" label="Tag" no-caps outline>
                   <q-menu>
-<!--                    <q-list dense bordered padding class="rounded-borders" v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
-<!--                      <q-item>-->
-<!--                        <q-item-section>-->
-<!--                          <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
-<!--                            {{ tag.name }}-->
-<!--                          </q-checkbox>-->
-<!--                        </q-item-section>-->
-<!--                      </q-item>-->
+                    <!--                    <q-list dense bordered padding class="rounded-borders" v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
+                    <!--                      <q-item>-->
+                    <!--                        <q-item-section>-->
+                    <!--                          <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
+                    <!--                            {{ tag.name }}-->
+                    <!--                          </q-checkbox>-->
+                    <!--                        </q-item-section>-->
+                    <!--                      </q-item>-->
 
-<!--                    </q-list>-->
+                    <!--                    </q-list>-->
 
                     <div class="q-pa-md" style="max-width: 350px">
                       <q-list>
                         <q-item>
                           <q-item-section>
-                          <q-item-label>Pokaż ukryte</q-item-label>
+                            <q-item-label>Pokaż ukryte</q-item-label>
                           </q-item-section>
                           <q-item-section avatar>
-                            <q-toggle v-model="withHiddenTags"  @input="fetchTags" />
+                            <q-toggle v-model="withHiddenTags" @update:model-value="updateTagList"/>
                           </q-item-section>
 
 
-<!--                          <q-item-section>-->
-<!--                            <q-toggle v-model="withHiddenTags" label="Pokaż ukryte" @ />-->
-<!--                          </q-item-section>-->
+                          <!--                          <q-item-section>-->
+                          <!--                            <q-toggle v-model="withHiddenTags" label="Pokaż ukryte" @ />-->
+                          <!--                          </q-item-section>-->
                         </q-item>
                         <q-separator/>
                         <q-item>
@@ -253,11 +253,11 @@
                         </q-item>
 
                       </q-list>
-<!--                      <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
-<!--                        <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
-<!--                          {{ tag.name }}-->
-<!--                        </q-checkbox>-->
-<!--                      </div>-->
+                      <!--                      <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
+                      <!--                        <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
+                      <!--                          {{ tag.name }}-->
+                      <!--                        </q-checkbox>-->
+                      <!--                      </div>-->
                     </div>
                   </q-menu>
                 </q-btn>
@@ -276,7 +276,9 @@
             $t(getDateRangeName())
           }}
         </q-chip>
-        <q-chip icon="label" clickable @click="showSearchBar = !showSearchBar" v-if="selectedTags !== null && selectedTags.length > 0">Tag</q-chip>
+        <q-chip v-if="selectedTags !== null && selectedTags.length > 0" clickable icon="label"
+                @click="showSearchBar = !showSearchBar">Tag
+        </q-chip>
       </div>
 
       <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered
@@ -373,7 +375,7 @@ let isError = ref(false);
 
 const availableTags = ref(null)
 const selectedTags = ref(JSON.parse(localStorage.getItem("issue-adv-filter-tags")) || [])
-const withHiddenTags = ref(false);
+const withHiddenTags = ref(localStorage.getItem("issue-adv-filter-tags-hidden") === 'true' || false);
 
 let search = ref(null);
 
@@ -410,7 +412,7 @@ function setDateRange(name, daysFrom = null, daysTo = null) {
   console.log({"from": fromDate, "to": toDate});
 }
 
-function setTag(){
+function setTag() {
   localStorage.setItem('issue-adv-filter-tags', JSON.stringify(selectedTags.value));
   fetchIssues();
 }
@@ -660,15 +662,22 @@ async function fetchIssues() {
 function fetchTags() {
   isLoading.value = true;
   let params = {
-    is_hidden: withHiddenTags.value
+    is_hidden: !withHiddenTags.value
   }
-  getTagsRequest().then(function (response) {
+  getTagsRequest(params).then(function (response) {
     availableTags.value = response.data;
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
+}
+
+function updateTagList() {
+  selectedTags.value = [];
+  localStorage.removeItem('issue-adv-filter-tags')
+  localStorage.setItem("issue-adv-filter-tags-hidden", withHiddenTags.value)
+  fetchTags()
 }
 
 onBeforeMount(() => {

@@ -40,7 +40,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-my-sm">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-card-section>
           <!--          <div class="row sm-gutter">-->
           <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
@@ -61,8 +61,13 @@
           </q-input> -->
 
           <div class="row">
-            <q-input v-model="newTag" label="Label" class="q-mr-xs" outlined></q-input>
-            <q-btn dense flat icon="add" label="Dodaj" class="q-mr-xs" @click="addTag(newTag)"/>
+            <q-input v-model="newTag" label="Nazwa" class="q-mr-xs" outlined></q-input>
+            <q-btn flat icon="colorize" :style="{ 'background-color':mainColor }"  class="q-mr-xs">
+              <q-menu>
+                <q-color hide-underline dark v-model="mainColor" default-view="palette" no-header-tabs no-footer />
+              </q-menu>
+            </q-btn>
+            <q-btn no-caps flat icon="add" label="Dodaj" class="q-mr-xs" @click="addTag(newTag)"/>
             <q-space />
           </div>
 
@@ -75,6 +80,47 @@
 
 
         <q-card-section>
+          <q-list v-if="tags != null" class="q-mt-none q-pt-none" padding>
+            <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="q-pa-xs rounded-borders">
+              <q-item-section avatar>
+                <div class="q-pa-none">
+                  <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
+                    <q-list>
+                      <q-item>
+                        <q-item-section>
+                          <q-item-label caption>Sortuj wyniki po:</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                      <q-item v-close-popup clickable @click="setSortingParams('first_name')">
+                        <q-item-section>
+                          <q-item-label>Imię</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item v-close-popup clickable @click="setSortingParams('last_name')">
+                        <q-item-section>
+                          <q-item-label>Nazwisko</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item v-close-popup clickable @click="setSortingParams('created_at')">
+                        <q-item-section>
+                          <q-item-label>Wiek</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-btn-dropdown>
+                </div>
+              </q-item-section>
+              <q-item-section>
+              <span>{{ $t(sortName) }}
+                <q-btn :icon="getSortIcon()" color="primary"
+                       flat padding="xs"
+                       size="sm" @click="changeSortOrder()"/>
+              </span>
+              </q-item-section>
+            </q-item>
+
           <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
             <div>
               <q-item >
@@ -94,6 +140,7 @@
             </div>
           </q-list>
 
+          </q-list>
         </q-card-section>
       </q-card>
     </q-page>
@@ -102,7 +149,7 @@
 </template>
 
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import {errorHandler} from "components/api/errorHandler";
 import {addTagRequest, deleteTagRequest, editTagRequest, getTagsRequest} from "components/api/TagsApiClient";
 import {useQuasar} from "quasar";
@@ -114,6 +161,40 @@ let isError = ref(false);
 
 const tags = ref(null);
 const newTag = ref(null);
+const mainColor = ref('#1976D2');
+
+// sort & paginate
+let sort = reactive({first_name: "asc", last_name: "asc", created_at: "asc", active: "last_name"})
+let sortName = ref("Name")
+function setSortingParams(name) {
+  switch (name) {
+    case 'first_name':
+      sort.active = "first_name"
+      sortName.value = "Name"
+      break;
+    case 'last_name':
+      sort.active = "last_name"
+      sortName.value = "Name"
+      break;
+    case 'created_at':
+      sort.active = "created_at"
+      sortName.value = "Age"
+      break;
+  }
+  fetchTags();
+}
+
+function getSortIcon() {
+  let field = sort.active
+  return sort[field] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+}
+
+function changeSortOrder() {
+  let field = sort.active
+  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  fetchTags();
+}
+
 
 function fetchTags() {
   isLoading.value = true;
