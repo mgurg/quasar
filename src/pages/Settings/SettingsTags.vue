@@ -124,16 +124,29 @@
           <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
             <div>
               <q-item >
-                <q-item-section avatar>
-                  <q-avatar :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)">
-                  </q-avatar>
-                </q-item-section>
+<!--                <q-item-section avatar>-->
+<!--                  <q-avatar :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)">-->
+<!--                  </q-avatar>-->
+<!--                </q-item-section>-->
                 <q-item-section>
-                  <q-item-label>{{ tag.name }}</q-item-label>
+<!--                  <q-item-label>{{ tag.name }}</q-item-label>-->
+                  <div>
+                    <q-chip  :style="{ 'background-color':tag.color }">{{ tag.name }}</q-chip>
+                  </div>
+
                   <!-- <q-item-label caption>Dodaj</q-item-label> -->
                 </q-item-section>
-                <q-item-section side>
-                    <q-btn flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)"/>
+                <q-item-section side >
+                  <div class="text-grey-8 q-gutter-xs">
+
+                    <q-btn size="12px" flat dense round :icon="tag.is_hidden != true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)" />
+                    <q-btn size="12px" flat dense round icon="colorize">
+                      <q-menu>
+                        <q-color hide-underline dark v-model="mainColor" default-view="palette" no-header-tabs no-footer />
+                      </q-menu>
+                    </q-btn>
+                    <q-btn  icon="delete" flat dense round size="12px" @click="deleteTag(tag.uuid)"/>
+                    </div>
                 </q-item-section>
               </q-item>
               <q-separator/>
@@ -238,13 +251,10 @@ function deleteTag(uuid) {
     if (err.response.data.detail === "Tag in use"){
       $q.dialog({
         title: "Confirm",
-        message: "Really delete?",
-        cancel: true,
+        message: "Tag jest używany w istniejących zgłoszeniach, brak możliwości usunięcia",
         persistent: true,
       }).onOk(() => {
-        // HIDE
-        $q.notify("Task deleted");
-        // fetchTasks()
+
       });
 
       return;
@@ -266,8 +276,6 @@ function switchTagVisibility(uuid, visibility){
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
-
-
 }
 
 
