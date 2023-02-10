@@ -64,6 +64,14 @@ export default defineComponent({
             link: "/settings/notifications"
           },
           {
+            title: "Ustawienia Importu i Eksportu danych do pliku CSV",
+            icon: "import_export",
+            value: "Import/Export",
+            color1: "#5064b5",
+            color2: "#3e51b5",
+            link: "/settings/import-export"
+          },
+          {
             title: "Kto ma jaki dostęp do funkcji w aplikacji",
             icon: "ballot",
             value: "Uprawnienia",

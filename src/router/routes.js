@@ -134,12 +134,14 @@ const routes = [
       { path: "/items/summary/", component: () => import("pages/Items/ItemsReports.vue") },
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
+      { path: "/settings/tags", component: () => import("pages/Settings/SettingsTags.vue") },
+      { path: "/settings/import-export", component: () => import("pages/Settings/SettingsExportImport.vue") },
       { path: "/settings/account", component: () => import("pages/Settings/SettingsAccount.vue") },
       { path: "/settings/notifications", component: () => import("pages/Settings/SettingsNotifications.vue") },
       { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissionsIndex.vue") },
       { path: "/settings/permissions/add", component: () => import("pages/Settings/SettingsPermissionsView.vue") },
       { path: "/settings/permissions/:mode/:uuid", component: () => import("pages/Settings/SettingsPermissionsView.vue") },
-      { path: "/settings/tags", component: () => import("pages/Settings/SettingsTags.vue") },
+
       { path: "/settings/groups", component: () => import("pages/Settings/SettingsGroupsIndex.vue") },
       { path: "/settings/groups/add", name:"SettingsGroupsView", component: () => import("pages/Settings/SettingsGroupsView.vue") },
       { path: "/settings/groups/:mode/:uuid", component: () => import("pages/Settings/SettingsGroupsView.vue") },

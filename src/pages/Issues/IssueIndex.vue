@@ -215,17 +215,6 @@
                 <!-- TAG -->
                 <q-btn class="q-ma-xs" color="primary" icon="label" label="Tag" no-caps outline>
                   <q-menu>
-                    <!--                    <q-list dense bordered padding class="rounded-borders" v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
-                    <!--                      <q-item>-->
-                    <!--                        <q-item-section>-->
-                    <!--                          <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
-                    <!--                            {{ tag.name }}-->
-                    <!--                          </q-checkbox>-->
-                    <!--                        </q-item-section>-->
-                    <!--                      </q-item>-->
-
-                    <!--                    </q-list>-->
-
                     <div class="q-pa-md" style="max-width: 350px">
                       <q-list>
                         <q-item>
@@ -235,29 +224,18 @@
                           <q-item-section avatar>
                             <q-toggle v-model="withHiddenTags" @update:model-value="updateTagList"/>
                           </q-item-section>
-
-
-                          <!--                          <q-item-section>-->
-                          <!--                            <q-toggle v-model="withHiddenTags" label="Pokaż ukryte" @ />-->
-                          <!--                          </q-item-section>-->
                         </q-item>
                         <q-separator/>
                         <q-item>
                           <q-item-section>
                             <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">
                               <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">
-                                {{ tag.name }}
+                                <q-chip :style="{ 'background-color':tag.color }">{{ tag.name }}</q-chip>
                               </q-checkbox>
                             </div>
                           </q-item-section>
                         </q-item>
-
                       </q-list>
-                      <!--                      <div v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index">-->
-                      <!--                        <q-checkbox v-model="selectedTags" :val="tag.uuid" @click="setTag">-->
-                      <!--                          {{ tag.name }}-->
-                      <!--                        </q-checkbox>-->
-                      <!--                      </div>-->
                     </div>
                   </q-menu>
                 </q-btn>

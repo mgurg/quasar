@@ -65,7 +65,7 @@
           <div class="q-pa-sm" style="max-width: 320px">
             <span v-for="(tag, index) in availableTags" v-if="availableTags != null" v-bind:key="index"
                   class="q-gutter-sm">
-            <q-chip color="primary" text-color="white" clickable @click="assignTag(tag.name, tag.uuid)">
+            <q-chip :style="{ 'background-color':tag.color }" clickable @click="assignTag(tag.name, tag.uuid)">
               {{ tag.name }}
             </q-chip>
           </span>
@@ -331,7 +331,7 @@ function fetchTags() {
   let params = {
     is_hidden: true
   }
-  getTagsRequest().then(function (response) {
+  getTagsRequest(params).then(function (response) {
     availableTags.value = response.data;
     isLoading.value = false;
   }).catch((err) => {

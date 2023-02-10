@@ -124,14 +124,10 @@
           <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
             <div>
               <q-item >
-<!--                <q-item-section avatar>-->
-<!--                  <q-avatar :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)">-->
-<!--                  </q-avatar>-->
-<!--                </q-item-section>-->
                 <q-item-section>
-<!--                  <q-item-label>{{ tag.name }}</q-item-label>-->
+
                   <div>
-                    <q-chip  :style="{ 'background-color':tag.color }">{{ tag.name }}</q-chip>
+                    <q-chip :style="{ 'background-color':tag.color }">{{ tag.name }}</q-chip>
                   </div>
 
                   <!-- <q-item-label caption>Dodaj</q-item-label> -->
@@ -139,10 +135,41 @@
                 <q-item-section side >
                   <div class="text-grey-8 q-gutter-xs">
 
-                    <q-btn size="12px" flat dense round :icon="tag.is_hidden != true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)" />
+                    <q-btn size="12px" flat dense round :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)" />
                     <q-btn size="12px" flat dense round icon="colorize">
                       <q-menu>
-                        <q-color hide-underline dark v-model="mainColor" default-view="palette" no-header-tabs no-footer />
+                        <q-card class="my-card" style="min-width: 300px">
+                          <q-card-section>
+                            <div class="text-h6">Zmień kolor</div>
+                          </q-card-section>
+
+                          <q-card-section>
+                            <q-color hide-underline dark v-model="newColor" default-view="palette" no-header-tabs no-footer />
+                          </q-card-section>
+
+                          <q-separator dark />
+
+                          <q-card-actions>
+                              <q-space/>
+                              <q-btn
+                                :label="$t('Cancel')"
+                                color="red-12"
+                                flat
+                                icon="cancel"
+                                v-close-popup
+                              />
+                              <q-btn
+                                :label="$t('Save')"
+                                color="primary"
+                                icon="done"
+                                @click="changeTagColor(tag.uuid)"
+                                v-close-popup
+                              />
+
+
+                          </q-card-actions>
+                        </q-card>
+
                       </q-menu>
                     </q-btn>
                     <q-btn  icon="delete" flat dense round size="12px" @click="deleteTag(tag.uuid)"/>
@@ -175,6 +202,7 @@ let isError = ref(false);
 const tags = ref(null);
 const newTag = ref(null);
 const mainColor = ref('#1976D2');
+const newColor = ref(null);
 
 // sort & paginate
 let sort = reactive({first_name: "asc", last_name: "asc", created_at: "asc", active: "last_name"})
@@ -276,6 +304,23 @@ function switchTagVisibility(uuid, visibility){
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
+}
+
+function changeTagColor(uuid){
+  if (newColor.value !== null){
+    let data = {
+      "color" : newColor.value
+    }
+
+    editTagRequest(uuid, data).then(function (response) {
+      fetchTags();
+      isLoading.value = false;
+    }).catch((err) => {
+      const errorMessage = errorHandler(err);
+      isError.value = true;
+    });
+  }
+
 }
 
 
