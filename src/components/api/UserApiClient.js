@@ -12,6 +12,10 @@ export function getUserCountRequest() {
   return authApi.get("/users/count");
 }
 
+export function getUserCsvRequest() {
+  return authApi.get("/users/export", { responseType: 'stream' });
+}
+
 export function createUserRequest(data) {
   return authApi.post("/users/", data);
 }
