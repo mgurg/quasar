@@ -79,27 +79,27 @@
 
 
             <q-item v-ripple clickable to="/issues">
-              <q-item-section avatar v-if="itemsData.issues_active.me > 0 && itemsData.issues_inactive.me ==   0">
-                <q-icon color="primary" name="home_repair_service"/>
+              <q-item-section avatar v-if="itemsData.issues_active.me > 0 && itemsData.issues_inactive.me == 0">
+                <q-checkbox  v-model="itemAdded" disable />
               </q-item-section>
               <q-item-section side v-else>
-              <q-checkbox  v-model="itemAdded" disable />
+                <q-icon color="primary" name="home_repair_service"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Twoje zgłoszenie oczekuje na reakcję</q-item-label>
-                <q-item-label caption>Przypisz do niego użytkownika i rozpocznij naprawę</q-item-label>
+                <q-item-label caption>Przypisz do niego użytkownika i rozpocznij naprawę {{itemsData.issues_active.me }} {{itemsData.issues_inactive.me}}</q-item-label>
               </q-item-section>
             </q-item>
 
             <q-item v-ripple clickable>
               <q-item-section avatar v-if="itemsData.issues_inactive.me > 0 && itemsData.favourites == 0">
-                <q-icon color="primary" name="favorite"/>
+                <q-checkbox  v-model="itemAdded" disable />
               </q-item-section>
               <q-item-section side v-else>
-              <q-checkbox  v-model="itemAdded" disable />
+                <q-icon color="primary" name="favorite"/>
               </q-item-section>
               <q-item-section>
-                <q-item-label>Szybko poszło!</q-item-label>
+                <q-item-label>Będzie więcej pracy z tą maszyną?</q-item-label>
                 <q-item-label caption>Dodaj maszynę do ulubionych jeżeli pracujesz z nią regularnie lub przewidujesz kolejne problemy w
                   najbliższym czasie.
                 </q-item-label>
@@ -180,7 +180,7 @@ function hide(){
     "value": "false",
     "type": "bool"
 }
-  
+
   setUserSettingsRequest(data).then(function (response) {
     isLoading.value = false;
   }).catch((err) => {

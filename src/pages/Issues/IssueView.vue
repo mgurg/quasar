@@ -73,8 +73,8 @@
             <span v-if="usersList.length == 0 && issueStatus=='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
             <q-chip
               v-for="(user, index) in usersList" v-if="usersList!= null" v-bind:key="index"
-              :disable="issueStatus==='resolved'"
-              :removable="issueStatus!=='resolved'"
+              :disable="issueStatus==='done'"
+              :removable="issueStatus!=='done'"
               color="primary"
               icon="person"
               text-color="white"
@@ -109,7 +109,7 @@
           />
           <q-btn
             v-if="issueStatus!=='new'"
-            :disable="issueStatus === 'resolved'"
+            :disable="issueStatus === 'done'"
             :label="$q.screen.gt.xs ? 'Przypisz użytkownika' : ''"
             class="q-px-xs"
             color="primary"
@@ -120,7 +120,7 @@
           />
           <q-btn
             v-if="(issueStatus!=='new' || issueStatus === 'accepted') && issueStatus!=='paused'"
-            :disable="issueStatus === 'in_progress'||  issueStatus === 'resolved'"
+            :disable="issueStatus === 'in_progress'||  issueStatus === 'done'"
             :label="$q.screen.gt.xs ? 'Rozpocznij' : ''"
             class="q-px-xs"
             color="primary"
@@ -131,7 +131,7 @@
           />
           <q-btn
             v-if="issueStatus==='paused'"
-            :disable="issueStatus === 'in_progress'||  issueStatus === 'resolved'"
+            :disable="issueStatus === 'in_progress'||  issueStatus === 'done'"
             :label="$q.screen.gt.xs ? 'Wznów' : ''"
             class="q-px-xs"
             color="primary"
@@ -142,7 +142,7 @@
           />
           <q-btn
             v-if="issueStatus!=='new'"
-            :disable="issueStatus === 'accepted'|| issueStatus === 'paused' ||  issueStatus === 'resolved'"
+            :disable="issueStatus === 'accepted'|| issueStatus === 'paused' ||  issueStatus === 'done'"
             :label="$q.screen.gt.xs ? 'Wstrzymaj' : ''"
             class="q-px-xs"
             color="primary"
@@ -153,14 +153,14 @@
           />
           <q-btn
             v-if="issueStatus!=='new'"
-            :disable="issueStatus === 'accepted'||  issueStatus === 'resolved'"
+            :disable="issueStatus === 'accepted'||  issueStatus === 'done'"
             :label="$q.screen.gt.xs ? 'Zakończ' : ''"
             class="q-px-xs"
             color="primary"
             flat
             icon="stop"
             no-caps
-            @click="setCommentDialog('issue_resolve')"
+            @click="setCommentDialog('issue_done')"
           />
           <!--          <q-btn-->
           <!--            v-if="issueStatus !== null"-->
@@ -171,13 +171,15 @@
           <!--            flat-->
           <!--            icon="restart_alt"-->
           <!--            no-caps-->
-          <!--            @click="setIssueStatus('resolved')"-->
+          <!--            @click="setIssueStatus('done')"-->
           <!--          />-->
         </q-card-actions>
         <q-card v-else align="right">
           <span class="q-pa-md">Zgłoszenie odrzucone</span>
         </q-card>
       </q-card>
+
+      <issue-summary-card v-if="issueDetails!==null && issueDetails.status=='done'" :issue-uuid="issueDetails.uuid"/>
       <description-card v-if="issueDetails!==null" :expanded-description="true" :textJson="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
       <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid"/>
@@ -205,6 +207,7 @@ import {useI18n} from "vue-i18n";
 import {changeIssueStatusRequest, deleteIssueRequest, editIssueRequest, getOneIssueRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
+import IssueSummaryCard from "components/viewer/cards/IssueSummaryCard.vue";
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
 import TimelineIssueCard from "components/viewer/cards/TimelineIssueCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
@@ -330,8 +333,8 @@ function setIssueStatus(action, description = null, value = null) {
       // eventDescription = description
       // eventValue = issueDetails.value.text
       break;
-    case 'issue_resolve':
-      eventName = "Issue resolved"
+    case 'issue_done':
+      eventName = "Issue done"
       eventDescription = description
       // eventValue = issueDetails.value.text
       break;
@@ -348,7 +351,7 @@ function setIssueStatus(action, description = null, value = null) {
   // start_progress | Issue started | None | None
   // issue_pause | Issue paused | reason | None
   // issue_resume | Issue resumed | None | None
-  // issue_resolve | Issue resolved | reason | None
+  // issue_resolve | Issue done | reason | None
 
 
   let data = {"status": action, "name": eventName, "description": eventDescription, "value": eventValue, 'uuid': issueUuid.value}
@@ -483,7 +486,7 @@ function getIcon(status) {
     case 'paused':
       return 'pause_circle'
       break;
-    case 'resolved':
+    case 'done':
       return 'check_circle'
       break;
     default:

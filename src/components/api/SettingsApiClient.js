@@ -18,3 +18,7 @@ export function getUserSettingRequest(settting) {
 export function setUserSettingsRequest(data) {
   return authApi.post("/settings/", data);
 }
+
+export function setUserLangSettingsRequest(data) {
+  return authApi.post("/settings/user_lang/", data);
+}

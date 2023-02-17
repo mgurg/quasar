@@ -8,6 +8,10 @@ export function getIssueTimelineRequest(uuid) {
   return authApi.get("/issues/timeline/" + uuid);
 }
 
+export function getIssueSummaryRequest(uuid) {
+  return authApi.get("/issues/summary/" + uuid);
+}
+
 export function getManyIssuesRequest(params) {
   return authApi.get("/issues/", {params: params,
     paramsSerializer: {

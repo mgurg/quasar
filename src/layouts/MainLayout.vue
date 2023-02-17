@@ -215,6 +215,7 @@ import { useRouter } from "vue-router";
 import { authApi } from "boot/axios";
 import {getVerifyTokenRequest} from "components/api/AuthApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {setUserLangSettingsRequest, setUserSettingsRequest} from "components/api/SettingsApiClient";
 
 const $q = useQuasar();
 
@@ -256,7 +257,19 @@ function getLocale() {
 
 function setLocale(lang) {
   locale.value = lang;
+
+  isLoading.value = true;
+
+  setUserLangSettingsRequest({"code": lang  }).then(function (response) {
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+
 }
+
+
 const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {

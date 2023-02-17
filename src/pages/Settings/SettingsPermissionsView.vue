@@ -80,7 +80,7 @@
       <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
           <permission-form
-            v-if="!isLoading && isFetched"
+            v-if="!isLoading || isFetched"
             :role="permissionDetails || undefined"
             :groupUuid="permissionUuid"
             :canEdit="canEdit"
