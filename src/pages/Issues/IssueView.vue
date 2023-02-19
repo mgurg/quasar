@@ -26,7 +26,9 @@
               <div class="col-12 text-h6 q-mt-none">
                 <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary"
                        icon="edit" no-caps
-                       outline @click="editIssue(issueDetails.uuid)"/>
+                       outline @click="editIssue(issueDetails.uuid)"
+                       :disable="!hasPermission('ISSUE_DELETE')"
+                />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm"
@@ -34,7 +36,9 @@
                   flat
                   icon="delete"
                   no-caps
-                  @click="deleteIssue(issueDetails.uuid, issueDetails.name)"/>
+                  @click="deleteIssue(issueDetails.uuid, issueDetails.name)"
+                  :disable="!hasPermission('ISSUE_DELETE')"
+                />
               </div>
             </q-item-section>
           </q-item>
@@ -281,7 +285,7 @@ function setIssueCommentStatus(status, comment) {
 function setIssueStatus(action, description = null, value = null) {
 
   if (usersList.value.length === 0) {
-    if (!['change_assigned_person', 'issue_reject', 'issue_accept'].includes(action)) {
+    if (!['issue_add_person', 'issue_reject', 'issue_accept'].includes(action)) {
       console.log(action)
       $q.notify({
         message: 'No user assigned to Issue',
@@ -296,6 +300,7 @@ function setIssueStatus(action, description = null, value = null) {
   let eventName = null;
   let eventDescription = null;
   let eventValue = null;
+  let internal_value = null;
 
   switch (action) {
     case 'issue_add':
@@ -313,10 +318,15 @@ function setIssueStatus(action, description = null, value = null) {
       eventDescription = description
       // eventValue = issueDetails.value.text
       break;
-    case 'issue_change_assigned_person':
-      eventName = "Change of assigned person"
+    case 'issue_add_person':
+      eventName = "Assign new person"
       eventDescription = description
-      eventValue = value
+      internal_value = value
+      break;
+    case 'issue_remove_person':
+      eventName = "Remove assigned person"
+      eventDescription = description
+      internal_value = value
       break;
     case 'issue_start_progress':
       eventName = "Issue started"
@@ -354,7 +364,7 @@ function setIssueStatus(action, description = null, value = null) {
   // issue_resolve | Issue done | reason | None
 
 
-  let data = {"status": action, "name": eventName, "description": eventDescription, "value": eventValue, 'uuid': issueUuid.value}
+  let data = {"status": action, "name": eventName, "description": eventDescription, "value": eventValue, 'uuid': issueUuid.value, internal_value : internal_value}
 
   changeIssueStatusRequest(issueUuid.value, data).then(function (response) {
     getIssueDetails(issueUuid.value)
@@ -456,14 +466,14 @@ function unassignUser(uuid, isArray = false) {
   if (removedItems.length > 0) {
     removedItems.forEach(element => {
       console.log("Removed: " + element)
-      setIssueStatus('change_assigned_person', 'removed', element)
+      setIssueStatus('issue_remove_person', 'removed', element)
     });
   }
 
   if (newItems.length > 0) {
     newItems.forEach(element => {
       console.log("Added: " + element)
-      setIssueStatus('change_assigned_person', 'added', element)
+      setIssueStatus('issue_add_person', 'added', element)
     });
   }
 

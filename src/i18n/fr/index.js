@@ -125,6 +125,13 @@ export default {
 	"Issue paused": `Émission en pause`,
 	"Issue resumed": `Le problème repris`,
 	"Issue resolved": `Problème résolu`,
+	issue_add: `Problème ajouté`,
+	issue_accept: `Problème accepté`,
+	issue_add_person: `Nouvelle personne affectée à l'émission`,
+	issue_remove_person: `Personne supprimée du problème`,
+	issue_start_progress: `Le problème a commencé`,
+	issue_done: `Délivrer`,
+
 
 	// guides
 	"Guides": `Guides`,

@@ -125,6 +125,13 @@ export default {
 	"Issue paused": `Praca wstrzymana`,
 	"Issue resumed": `Praca wznowiona`,
 	"Issue resolved": `Problem rozwiązany`,
+	issue_add: `Dodano problem`,
+	issue_accept: `Problem zaakceptowany`,
+	issue_add_person: `Nowa osoba przydzielona do problemu`,
+	issue_remove_person: `Osoba usunięta z problemu`,
+	issue_start_progress: `Praca rozpoczęta`,
+	issue_done: `Wykonany problem`,
+
 
 	// guides
 	"Guides": `Przewodniki`,

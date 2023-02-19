@@ -139,7 +139,7 @@ const routes = [
       { path: "/settings/account", component: () => import("pages/Settings/SettingsAccount.vue") },
       { path: "/settings/notifications", component: () => import("pages/Settings/SettingsNotifications.vue") },
       { path: "/settings/permissions", component: () => import("pages/Settings/SettingsPermissionsIndex.vue") },
-      { path: "/settings/permissions/add", component: () => import("pages/Settings/SettingsPermissionsView.vue") },
+      { path: "/settings/permissions/:mode", component: () => import("pages/Settings/SettingsPermissionsView.vue") },
       { path: "/settings/permissions/:mode/:uuid", component: () => import("pages/Settings/SettingsPermissionsView.vue") },
 
       { path: "/settings/groups", component: () => import("pages/Settings/SettingsGroupsIndex.vue") },

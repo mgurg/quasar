@@ -38,6 +38,7 @@
                     color="primary" flat
                     icon="add" no-caps
                     to="/items/add"
+                    :disable="!hasPermission('ITEMS_ADD')"
                   />
                 </div>
               </q-item-section>
@@ -131,6 +132,15 @@ import ItemListRow from "components/listRow/ItemListRow.vue";
 
 import {getManyItemsRequest} from 'src/components/api/ItemApiClient'
 import {errorHandler} from 'src/components/api/errorHandler.js'
+import {useUserStore} from "stores/user";
+
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
+
 
 let sort = reactive({
   name: "asc",

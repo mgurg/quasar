@@ -55,7 +55,7 @@
         />
           {{ timeAgo(issue.created_at) }}
         </span>
-        
+
       </q-item-label>
     </q-item-section>
     <q-item-section v-if="$q.screen.gt.xs ===true" side>
@@ -172,7 +172,7 @@ function getIcon(status) {
     case 'paused':
       return 'pause_circle'
       break;
-    case 'resolved':
+    case 'done':
       return 'check_circle'
       break;
     default:

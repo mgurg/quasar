@@ -79,7 +79,7 @@
 
 
             <q-item v-ripple clickable to="/issues">
-              <q-item-section avatar v-if="itemsData.issues_active.me > 0 && itemsData.issues_inactive.me == 0">
+              <q-item-section avatar v-if="itemsData.issues_active.me > 0 && itemsData.issues_inactive.me < 1 ">
                 <q-checkbox  v-model="itemAdded" disable />
               </q-item-section>
               <q-item-section side v-else>
@@ -92,11 +92,14 @@
             </q-item>
 
             <q-item v-ripple clickable>
-              <q-item-section avatar v-if="itemsData.issues_inactive.me > 0 && itemsData.favourites == 0">
-                <q-checkbox  v-model="itemAdded" disable />
-              </q-item-section>
-              <q-item-section side v-else>
+              <q-item-section avatar v-if="itemsData.issues_inactive.me == 0 && itemsData.favourites == 0 ">
                 <q-icon color="primary" name="favorite"/>
+              </q-item-section>
+              <q-item-section avatar v-if="itemsData.issues_inactive.me > 0 && itemsData.favourites < 1">
+                <q-icon color="primary" name="favorite"/>
+              </q-item-section>
+              <q-item-section side v-if="itemsData.issues_inactive.me > 0 && itemsData.favourites > 0">
+                <q-checkbox  v-model="itemAdded" disable />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Będzie więcej pracy z tą maszyną?</q-item-label>

@@ -36,22 +36,32 @@
                   </q-list>
                 </q-btn-dropdown>
                 <q-btn
+                  v-if="currentUserUuid !== userUuid"
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary"
-                  disable
                   flat
                   icon="edit"
                   no-caps
-                  outline @click="editUser(userDetails.uuid)"
+                  @click="editUser(userDetails.uuid)"
+                  :disable="!hasPermission('USER_EDIT')"
+                />
+                <q-btn
+                  v-if="currentUserUuid === userUuid"
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
+                  class="float-right q-mr-sm" color="primary"
+                  icon="edit"
+                  no-caps
+                  flat @click="editUser(userDetails.uuid)"
+                  :disable="!hasPermission('USER_EDIT_SELF')"
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm"
                   color="red"
-                  disable
                   flat
                   icon="delete"
                   no-caps @click="deleteUser(userDetails.uuid)"
+                  :disable="!hasPermission('USER_DELETE')"
                 />
 
               </div>
@@ -227,6 +237,12 @@ import {getManyIssuesRequest} from "components/api/IssueApiClient";
 const $q = useQuasar()
 const router = useRouter();
 const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
+
 const currentUserUuid = UserStore.getCurrentUserId
 
 let expandedDetails = ref(true)
@@ -236,7 +252,7 @@ let expandedIssues = ref(true)
 let isLoading = ref(false);
 
 const route = useRoute();
-// let userUuid = ref(route.params.uuid)
+let userUuid = ref(route.params.uuid)
 let userDetails = ref(null);
 let ideas = ref(null);
 let userIssues = ref(null);

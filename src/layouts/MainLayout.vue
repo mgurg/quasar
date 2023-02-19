@@ -91,7 +91,7 @@
 <!--          </q-item>-->
 
           <!--Users Index-->
-          <q-item to="/users" exact clickable v-ripple>
+          <q-item to="/users" exact clickable v-ripple >
             <q-item-section avatar>
               <div class="relative-position">
                 <q-icon size="md" name="people"></q-icon>

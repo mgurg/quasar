@@ -125,6 +125,13 @@ export default {
 	"Issue paused": `Ausgabe machte eine Pause`,
 	"Issue resumed": `Problem wieder aufgenommen`,
 	"Issue resolved": `Problem gelöst`,
+	issue_add: `Problem hinzugefügt`,
+	issue_accept: `Ausgabe akzeptiert`,
+	issue_add_person: `Neue Person, die zur Ausgabe zugewiesen ist`,
+	issue_remove_person: `Person von der Ausgabe entfernt`,
+	issue_start_progress: `Das Problem begann`,
+	issue_done: `Ausgabe gemacht`,
+
 
 	// guides
 	"Guides": `Führer`,

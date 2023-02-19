@@ -42,6 +42,7 @@
                     icon="add"
                     no-caps
                     to="/issues/add"
+                    :disable="!hasPermission('ISSUE_ADD')"
                   />
                 </div>
               </q-item-section>
@@ -162,8 +163,8 @@
 
                         <q-item v-close-popup clickable>
                           <q-item-section>
-                            <q-item-label :class="hasStatus == 'resolved' ? 'text-weight-bold' : 'text-weight-regular'"
-                                          @click="setStatusFilter('resolved')">
+                            <q-item-label :class="hasStatus == 'done' ? 'text-weight-bold' : 'text-weight-regular'"
+                                          @click="setStatusFilter('done')">
                               {{ $t("Resolved") }}
                             </q-item-label>
                           </q-item-section>
@@ -343,9 +344,16 @@ import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {DateTime} from "luxon";
 import {getTagsRequest} from "components/api/TagsApiClient";
+import {useUserStore} from "stores/user";
 
 const route = useRoute();
 const router = useRouter();
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
@@ -496,7 +504,7 @@ function getStatusName() {
     case 'paused':
       return "Paused"
       break;
-    case 'resolved':
+    case 'done':
       return "Resolved"
       break;
     default:
@@ -533,7 +541,7 @@ function getIcon() {
     case 'paused':
       return 'pause_circle'
       break;
-    case 'resolved':
+    case 'done':
       return 'check_circle'
       break;
     default:
@@ -661,7 +669,7 @@ function updateTagList() {
 onBeforeMount(() => {
   isLoading.value = true;
 
-  if (["new", "in_progress", "paused", "resolved"].includes(route.query.filter)) {
+  if (["new", "in_progress", "paused", "done"].includes(route.query.filter)) {
     hasStatus.value = route.query.filter;
     // showSearchBar.value = true;
   }

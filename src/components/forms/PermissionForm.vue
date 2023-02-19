@@ -4,36 +4,42 @@
 
   </div>
   <q-form
-    autocorrect="off"
     autocapitalize="off"
     autocomplete="off"
-    spellcheck="false"
+    autocorrect="off"
     class="q-gutter-md"
+    spellcheck="false"
     @submit.prevent
   >
     <q-input
-      outlined
       v-model="roleName"
       :disable="isLoading"
-      :readonly="!allowEdit"
       :error="!!errors.roleName"
       :error-message="errors.roleName"
       :label="$t('Name')"
+      :readonly="!allowEdit"
+      outlined
     />
     <q-input
-      outlined
       v-model="roleDescription"
       :disable="isLoading"
-      :readonly="!allowEdit"
       :error="!!errors.roleDescription"
       :error-message="errors.roleDescription"
       :label="$t('Description')"
+      :readonly="!allowEdit"
+      outlined
     />
+
     <q-list>
-      <div v-for="(permission, index) in allPermissions" v-bind:key="index">
-        <q-item tag="label" v-ripple>
+      <!-- USERS-->
+      <q-item-section>
+        <q-item-label>Użytkownicy</q-item-label>
+        <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+      </q-item-section>
+      <div v-for="(permission, index) in usersPermissions" v-bind:key="index" v-if="usersPermissions !== null">
+        <q-item v-ripple tag="label">
           <q-item-section avatar top>
-            <q-checkbox v-model="groupUsers" :val="permission.uuid" :disable="!allowEdit" color="cyan"/>
+            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>{{ permission.title }}</q-item-label>
@@ -43,6 +49,59 @@
           </q-item-section>
         </q-item>
       </div>
+
+      <!-- ISSUES -->
+      <q-item-section>
+        <q-item-label>Zgłoszenia</q-item-label>
+        <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+      </q-item-section>
+      <div v-for="(permission, index) in issuesPermissions" v-bind:key="index" v-if="issuesPermissions !== null">
+        <q-item v-ripple tag="label">
+          <q-item-section avatar top>
+            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ permission.title }}</q-item-label>
+            <q-item-label caption>
+              {{ permission.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+
+
+      <!-- ITEMS -->
+      <q-item-section>
+        <q-item-label>Przedmioty</q-item-label>
+        <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+      </q-item-section>
+      <div v-for="(permission, index) in itemsPermissions" v-bind:key="index" v-if="itemsPermissions !== null">
+        <q-item v-ripple tag="label">
+          <q-item-section avatar top>
+            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ permission.title }}</q-item-label>
+            <q-item-label caption>
+              {{ permission.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+
+<!--      <div v-for="(permission, index) in allPermissions" v-bind:key="index">-->
+<!--        <q-item v-ripple tag="label">-->
+<!--          <q-item-section avatar top>-->
+<!--            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <q-item-label>{{ permission.title }}</q-item-label>-->
+<!--            <q-item-label caption>-->
+<!--              {{ permission.description }}-->
+<!--            </q-item-label>-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
+<!--      </div>-->
     </q-list>
     <div class="row">
       <q-space/>
@@ -54,7 +113,7 @@
         icon="cancel"
         type="submit"
         @click="cancelButtonHandle"
-       />
+      />
       <q-btn
         v-if="allowEdit"
         :label="$t('Save')"
@@ -111,9 +170,15 @@ const router = useRouter();
 let isLoading = ref(false);
 
 let roleDetails = ref(null);
-let groupUsers = ref([])
+let selectedPermissions = ref([])
 
 let allPermissions = ref(null);
+
+let usersPermissions = ref(null);
+let issuesPermissions = ref(null);
+let itemsPermissions = ref(null);
+
+
 let allowEdit = ref(props.canEdit)
 
 function enableEditMode() {
@@ -133,8 +198,12 @@ function getAllPermissions() {
 
       allPermissions.value = res.data;
 
+      usersPermissions.value = res.data.filter(obj => obj.group === 'users')
+      issuesPermissions.value = res.data.filter(obj => obj.group === 'issues')
+      itemsPermissions.value = res.data.filter(obj => obj.group === 'items')
+
       if (props.role.permission != null && props.role.permission != 'undefined') {
-        groupUsers.value = props.role.permission.map(value => value.uuid);
+        selectedPermissions.value = props.role.permission.map(value => value.uuid);
       }
 
       isLoading.value = false;
@@ -212,9 +281,9 @@ const submit = handleSubmit(values => {
 
 
   let data = {
-    "name": roleName.value,
+    "title": roleName.value,
     "description": roleDescription.value,
-    "users": JSON.parse(JSON.stringify(groupUsers.value))
+    "permissions": JSON.parse(JSON.stringify(selectedPermissions.value))
   }
 
 

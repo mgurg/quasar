@@ -125,6 +125,13 @@ export default {
 	"Issue paused": `Issue paused`,
 	"Issue resumed": `Issue resumed`,
 	"Issue resolved": `Issue resolved`,
+	issue_add: `Issue added`,
+	issue_accept: `Issue accepted`,
+	issue_add_person: `New person assigned to issue`,
+	issue_remove_person: `Person removed from issue`,
+	issue_start_progress: `Issue started`,
+	issue_done: `Issue done`,
+
 
 	// guides
 	"Guides": `Guides`,

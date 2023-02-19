@@ -36,13 +36,14 @@
                     v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
                     :side="index%2 ===0? 'left':'right'"
                     :subtitle="formatDate(event.created_at)"
-                    :title="$t(event.name)"
+                    :title="$t(event.action)"
                   >
+<!--                    :title="$t(event.action)"-->
                     <div>
-                      <div class="text-body1">{{event.description}}</div>
-                      <div>{{event.value}}</div>
-                      <br>
-                      <div class="text-caption">[autor: {{event.author_name}}]</div>
+<!--                      <div class="text-body1">{{event.description}}</div>-->
+<!--                      <div>{{event.value}}</div>-->
+<!--                      <br>-->
+                      <div class="text-caption">{{event.author_name}}</div>
 <!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
 <!--                      et dolore magna aliqua.-->
                     </div>

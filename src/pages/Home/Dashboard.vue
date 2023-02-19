@@ -135,7 +135,7 @@
               </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
-              <div class="cursor-pointer" @click="goToIssues('resolved')">
+              <div class="cursor-pointer" @click="goToIssues('done')">
                 <q-item class="q-pa-none rounded-borders" style="background-color: #455a64">
                   <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
                                   side
@@ -143,7 +143,7 @@
                     <q-icon color="white" name="stop" size="24px"></q-icon>
                   </q-item-section>
                   <q-item-section class=" q-pa-md q-ml-none  text-white">
-                    <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.resolved }}
+                    <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.done }}
                     </q-item-label>
                     <q-item-label>{{ $t('Done') }}</q-item-label>
                   </q-item-section>
@@ -201,7 +201,7 @@ const status = reactive({
   "assigned": 0,
   "in_progress": 0,
   "paused": 0,
-  "resolved": 0
+  "done": 0
 });
 
 const isLoading = ref(false)
@@ -216,7 +216,7 @@ function getStatistics() {
     status.assigned = response.data.assigned
     status.in_progress = response.data.in_progress
     status.paused = response.data.paused
-    status.resolved = response.data.resolved
+    status.done = response.data.done
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);

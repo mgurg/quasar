@@ -106,7 +106,7 @@ import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
 const router = useRouter();
 const route = useRoute();
 let permissionUuid = ref(route.params.uuid)
-let canEdit = ref(route.params.mode == 'edit')
+let canEdit = ref(route.params.mode == 'edit' || route.params.mode == 'add' )
 
 let isLoading = ref(false);
 let isFetched = ref(false);
