@@ -35,6 +35,7 @@
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
+                    v-if="hasPermission('ISSUE_ADD')"
                     :label="$q.screen.gt.xs ? $t('New issue') : ''"
                     class="float-right"
                     color="primary"
@@ -42,7 +43,7 @@
                     icon="add"
                     no-caps
                     to="/issues/add"
-                    :disable="!hasPermission('ISSUE_ADD')"
+
                   />
                 </div>
               </q-item-section>

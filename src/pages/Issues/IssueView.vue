@@ -24,12 +24,15 @@
             <q-item-section></q-item-section>
             <q-item-section side>
               <div class="col-12 text-h6 q-mt-none">
-                <q-btn :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary"
+                <q-btn
+                  v-if="hasPermission('ISSUE_EDIT')"
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary"
                        icon="edit" no-caps
                        outline @click="editIssue(issueDetails.uuid)"
-                       :disable="!hasPermission('ISSUE_DELETE')"
+
                 />
                 <q-btn
+                  v-if="hasPermission('ISSUE_DELETE')"
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm"
                   color="red"
@@ -37,7 +40,6 @@
                   icon="delete"
                   no-caps
                   @click="deleteIssue(issueDetails.uuid, issueDetails.name)"
-                  :disable="!hasPermission('ISSUE_DELETE')"
                 />
               </div>
             </q-item-section>

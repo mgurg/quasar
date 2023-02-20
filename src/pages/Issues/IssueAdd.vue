@@ -48,12 +48,20 @@
 
 
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import IssueForm from 'src/components/forms/IssueForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {addIssueRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {getOneItemRequest} from "components/api/ItemApiClient";
+import {useUserStore} from "stores/user";
+
+const UserStore = useUserStore();
+
+const permissions = computed(() => UserStore.getPermissions);
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
 const route = useRoute()
 const router = useRouter();
@@ -93,6 +101,10 @@ function getItemDetails(uuid) {
 }
 
 function addButtonPressed(issueForm) {
+  if (!hasPermission("ISSUE_ADD")){
+    return;
+  }
+
   createIssue(issueForm)
 }
 

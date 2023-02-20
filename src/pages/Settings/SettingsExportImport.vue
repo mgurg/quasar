@@ -87,10 +87,13 @@
             <q-separator></q-separator>
           </q-card-section>
           <q-card-section>
+
+            <div v-if="hasPermission('USER_EXPORT')">
             <q-btn  icon="file_download" flat color="primary" @click="usersExportToCsv">Pracownicy</q-btn>
             <div class="q-py-md">Eksport listy pracowników zawierający pola: Imię, Nazwisko, Email, Telefon</div>
 
             <q-separator/>
+            </div>
             <q-btn class="q-mt-lg" icon="file_download" flat color="primary" @click="itemsExportToCsv">Przedmioty</q-btn>
             <div class="q-py-md">Eksport listy Przedmiotów zawierający pola: Nazwa, Symbol, Opis, Kod QR</div>
 
@@ -109,11 +112,19 @@
 
 <script setup>
 
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {getUserCsvRequest} from "components/api/UserApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {exportFile} from "quasar";
+import {useUserStore} from "stores/user";
 
+const UserStore = useUserStore();
+
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
 const isLoading = ref(false)
 const isError = ref(false)

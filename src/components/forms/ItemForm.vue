@@ -17,6 +17,15 @@
       outlined
     />
 
+    <q-input
+      v-model="itemSymbol"
+      :disable="isLoading"
+      :error="!!errors.itemSymbol"
+      :error-message="errors.itemSymbol"
+      label="Symbol"
+      outlined
+    />
+
     <div class="tiptap">
       <tip-tap-basic :body-content="tipTapText" @editor-content="logText"/>
     </div>
@@ -141,6 +150,7 @@ function listOfUploadedFiles(files) {
 const {handleReset} = useForm();
 const validationSchema = yup.object({
   itemName: yup.string(),//.required(),
+  itemSymbol: yup.string(),//.required(),
 })
 
 const {handleSubmit, errors} = useForm({
@@ -148,6 +158,7 @@ const {handleSubmit, errors} = useForm({
 })
 
 const {value: itemName} = useField('itemName', undefined, {initialValue: props.item.name})
+const {value: itemSymbol} = useField('itemSymbol', undefined, {initialValue: props.item.symbol})
 
 function cancelButtonHandle() {
   emit('cancelBtnClick')
@@ -158,6 +169,7 @@ const submit = handleSubmit(values => {
 
   let data = {
     "name": itemName.value,
+    "symbol" : itemSymbol.value,
     "summary": "Some public summary",
     "text_html": htmlTxt,
     "text_json": jsonTxt,

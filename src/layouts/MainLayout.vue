@@ -57,7 +57,7 @@
 
 
           <!--Issues Index-->
-          <q-item to="/issues" exact clickable v-ripple>
+          <q-item to="/issues" exact clickable v-ripple v-if="hasPermission('ISSUE_VIEW')">
             <q-item-section avatar>
               <div class="relative-position">
                 <q-icon size="md" name="bug_report">
@@ -71,8 +71,7 @@
           </q-item>
 
           <!--Items Index-->
-          <q-item to="/items" exact clickable v-ripple>
-            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+          <q-item to="/items" exact clickable v-ripple v-if="hasPermission('ITEM_VIEW')">
             <q-item-section avatar>
               <q-icon size="md" name="apps" />
             </q-item-section>
@@ -91,7 +90,7 @@
 <!--          </q-item>-->
 
           <!--Users Index-->
-          <q-item to="/users" exact clickable v-ripple >
+          <q-item to="/users" exact clickable v-ripple  v-if="hasPermission('USER_VIEW')">
             <q-item-section avatar>
               <div class="relative-position">
                 <q-icon size="md" name="people"></q-icon>

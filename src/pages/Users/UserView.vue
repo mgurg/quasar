@@ -36,23 +36,22 @@
                   </q-list>
                 </q-btn-dropdown>
                 <q-btn
-                  v-if="currentUserUuid !== userUuid"
+                  v-if="currentUserUuid !== userUuid && hasPermission('USER_EDIT')"
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary"
                   flat
                   icon="edit"
                   no-caps
                   @click="editUser(userDetails.uuid)"
-                  :disable="!hasPermission('USER_EDIT')"
+
                 />
                 <q-btn
-                  v-if="currentUserUuid === userUuid"
+                  v-if="currentUserUuid === userUuid && hasPermission('USER_EDIT_SELF')"
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary"
                   icon="edit"
                   no-caps
                   flat @click="editUser(userDetails.uuid)"
-                  :disable="!hasPermission('USER_EDIT_SELF')"
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
@@ -61,7 +60,7 @@
                   flat
                   icon="delete"
                   no-caps @click="deleteUser(userDetails.uuid)"
-                  :disable="!hasPermission('USER_DELETE')"
+                  v-if="hasPermission('USER_DELETE')"
                 />
 
               </div>

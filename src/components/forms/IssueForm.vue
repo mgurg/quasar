@@ -2,7 +2,7 @@
 
   <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
           @submit.prevent>
-    <div class="row">
+    <div class="row" v-if="hasPermission('ITEM_VIEW')">
       <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
         <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
       </span>
@@ -124,7 +124,7 @@
 </template>
 
 <script setup>
-import {onBeforeMount, reactive, ref, watch} from "vue";
+import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
@@ -135,6 +135,14 @@ import TipTap from 'src/components/editor/TipTap.vue'
 import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
 import {getTagsRequest} from "components/api/TagsApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {useUserStore} from "stores/user";
+
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
 
 const {isListening, isSupported, stop, result, raw, start, error} = useSpeechRecognition({
   lang: 'pl-PL',

@@ -38,7 +38,7 @@
                     color="primary"
                     flat icon="add" no-caps
                     to="/users/add"
-                    :disable="!hasPermission('USER_ADD')"
+                    v-if="hasPermission('USER_ADD')"
                   />
                   <!--                  <q-btn :label="$q.screen.gt.xs ? 'Importuj' : ''" class="float-right q-mr-xs" color="primary"-->
                   <!--                         icon="backup" no-caps flat-->

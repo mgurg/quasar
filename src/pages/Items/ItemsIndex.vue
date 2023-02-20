@@ -33,12 +33,13 @@
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
+                    v-if="hasPermission('ITEM_ADD')"
                     :label="$q.screen.gt.xs ? $t('New item') : ''"
                     class="float-right q-mr-xs"
                     color="primary" flat
                     icon="add" no-caps
                     to="/items/add"
-                    :disable="!hasPermission('ITEMS_ADD')"
+
                   />
                 </div>
               </q-item-section>
@@ -113,7 +114,7 @@
         </div>
       </q-card>
 
-      <div v-if="pagination.total == 0" class="text-h5 text-center q-pa-lg">
+      <div v-if="pagination.total == 0 && hasPermission('ITEM_ADD')" class="text-h5 text-center q-pa-lg">
         Brak przedmiotów 🤔? <br/>Dodaj pierwsze urządzenie!
         <div class="col-12 text-h6 q-mt-none">
           <q-btn :label="$t('New item')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/items/add"/>

@@ -48,7 +48,7 @@
 
 
 <script setup>
-import {onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
 import {useRoute, useRouter} from "vue-router";
 import IssueForm from 'src/components/forms/IssueForm.vue'
@@ -60,6 +60,14 @@ import {deleteFileRequest} from "components/api/FilesApiClient";
 const route = useRoute();
 const router = useRouter();
 const UserStore = useUserStore();
+
+const permissions = computed(() => UserStore.getPermissions);
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
+
+
+
 let issueUuid = ref(route.params.uuid);
 let issueDetails = ref(null);
 let dbImagesUuidList = ref(null);
@@ -72,6 +80,8 @@ let isError = ref(false);
 let isRemoving = ref(false);
 
 function updateIssue(uuid, formData) {
+
+
 
   const arr1 = dbImagesUuidList.value;
   const arr2 = formData.files;
@@ -137,6 +147,10 @@ function deleteUnusedIssueImages(uuid) {
 
 
 function editButtonPressed(formData) {
+
+  if (!hasPermission("ISSUE_EDIT")){
+    return;
+  }
   updateIssue(issueUuid.value, formData);
 }
 
