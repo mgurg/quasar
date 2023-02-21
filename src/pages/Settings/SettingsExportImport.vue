@@ -117,7 +117,9 @@ import {getUserCsvRequest} from "components/api/UserApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {exportFile} from "quasar";
 import {useUserStore} from "stores/user";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const UserStore = useUserStore();
 
 const permissions = computed(() => UserStore.getPermissions);

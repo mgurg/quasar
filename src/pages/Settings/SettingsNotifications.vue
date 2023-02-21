@@ -175,6 +175,9 @@
 import {onBeforeMount, ref} from "vue";
 import {getNotificationSettingsRequest, setNotificationSettingsRequest} from "components/api/SettingsApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const smsNotificationsLevel = ref('none');
 const emailNotificationsLevel = ref('none');

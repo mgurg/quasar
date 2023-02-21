@@ -1,7 +1,7 @@
 <template>
   <q-card class="bg-transparent no-shadow no-border">
-    <q-card-section class="q-pa-none">
-      <div class="row q-col-gutter-sm ">
+    <q-card-section class="q-pa-none" >
+      <div class="row q-col-gutter-sm">
         <div v-for="(item, index) in items" :key="index" class="col-md-4 col-sm-6 col-xs-12">
           <router-link :to="item.link">
             <q-item :style="`background-color: ${item.color1}`" class="q-pa-none rounded-borders">

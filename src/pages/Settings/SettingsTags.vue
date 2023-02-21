@@ -61,21 +61,31 @@
           </q-input> -->
 
           <div class="row">
-            <q-input v-model="newTag" label="Nazwa" class="q-mr-xs" outlined></q-input>
-            <q-btn flat icon="colorize" :style="{ 'background-color':mainColor }"  class="q-mr-xs">
-              <q-menu>
-                <q-color hide-underline dark v-model="mainColor" default-view="palette" no-header-tabs no-footer />
-              </q-menu>
-            </q-btn>
-            <q-btn no-caps flat icon="add" label="Dodaj" class="q-mr-xs" @click="addTag(newTag)"/>
-            <q-space />
+            <q-input dense v-model="newTag" class="q-mr-xs" label="Nazwa" outlined>
+              <template v-slot:append>
+                <q-icon name="square" :style="{ 'color':mainColor }" />
+              </template>
+
+            </q-input>
+            <q-btn-dropdown dense color="primary" flat no-caps label="Dodaj" split dropdown-icon="palette"  @click="addTag(newTag)">
+              <q-list style="min-width: 300px">
+                <q-color v-model="mainColor" dark default-view="palette" hide-underline no-footer no-header-tabs/>
+              </q-list>
+            </q-btn-dropdown>
+<!--            <q-btn :style="{ 'background-color':mainColor }" class="q-mr-xs" flat icon="colorize">-->
+<!--              <q-menu>-->
+<!--                <q-color v-model="mainColor" dark default-view="palette" hide-underline no-footer no-header-tabs/>-->
+<!--              </q-menu>-->
+<!--            </q-btn>-->
+<!--            <q-btn class="q-mr-xs" flat icon="add" label="Dodaj" no-caps @click="addTag(newTag)"/>-->
+            <q-space/>
           </div>
 
           <!-- <q-chip icon="event" style="background-color: aquamarine;">Add to calendar</q-chip> -->
           <div class="q-py-md">
-          Tagi mogą być tylko dodawane. Ich usunięcie jest możliwe jedynie jeżeli nie są używane w żadnym zadaniu.
-          Tag który jest używany może zostać ukryty, nie pojawia się wtedy w liście podpowiedzi.
-        </div>
+            Tagi mogą być tylko dodawane. Ich usunięcie jest możliwe jedynie jeżeli nie są używane w żadnym zadaniu.
+            Tag który jest używany może zostać ukryty, nie pojawia się wtedy w liście podpowiedzi.
+          </div>
         </q-card-section>
 
 
@@ -121,64 +131,66 @@
               </q-item-section>
             </q-item>
 
-          <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
-            <div>
-              <q-item >
-                <q-item-section>
+            <q-list v-for="(tag, index) in tags" v-if="tags != null" v-bind:key="index">
+              <div>
+                <q-item>
+                  <q-item-section>
 
-                  <div>
-                    <q-chip :style="{ 'background-color':tag.color }">{{ tag.name }}</q-chip>
-                  </div>
+                    <div>
+                      <q-chip :style="{ 'background-color':tag.color }">{{ tag.name }}</q-chip>
+                    </div>
 
-                  <!-- <q-item-label caption>Dodaj</q-item-label> -->
-                </q-item-section>
-                <q-item-section side >
-                  <div class="text-grey-8 q-gutter-xs">
+                    <!-- <q-item-label caption>Dodaj</q-item-label> -->
+                  </q-item-section>
+                  <q-item-section side>
+                    <div class="text-grey-8 q-gutter-xs">
 
-                    <q-btn size="12px" flat dense round :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" @click="switchTagVisibility(tag.uuid, tag.is_hidden)" />
-                    <q-btn size="12px" flat dense round icon="colorize">
-                      <q-menu>
-                        <q-card class="my-card" style="min-width: 300px">
-                          <q-card-section>
-                            <div class="text-h6">Zmień kolor</div>
-                          </q-card-section>
+                      <q-btn :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" dense flat round size="12px"
+                             @click="switchTagVisibility(tag.uuid, tag.is_hidden)"/>
+                      <q-btn dense flat icon="palette" round size="12px">
+                        <q-menu>
+                          <q-card class="my-card" style="min-width: 300px">
+                            <q-card-section>
+                              <div class="text-h6">Zmień kolor</div>
+                            </q-card-section>
 
-                          <q-card-section>
-                            <q-color hide-underline dark v-model="newColor" default-view="palette" no-header-tabs no-footer />
-                          </q-card-section>
+                            <q-card-section>
+                              <q-color v-model="newColor" dark default-view="palette" hide-underline no-footer
+                                       no-header-tabs/>
+                            </q-card-section>
 
-                          <q-separator dark />
+                            <q-separator dark/>
 
-                          <q-card-actions>
+                            <q-card-actions>
                               <q-space/>
                               <q-btn
+                                v-close-popup
                                 :label="$t('Cancel')"
                                 color="red-12"
                                 flat
                                 icon="cancel"
-                                v-close-popup
                               />
                               <q-btn
+                                v-close-popup
                                 :label="$t('Save')"
                                 color="primary"
                                 icon="done"
                                 @click="changeTagColor(tag.uuid)"
-                                v-close-popup
                               />
 
 
-                          </q-card-actions>
-                        </q-card>
+                            </q-card-actions>
+                          </q-card>
 
-                      </q-menu>
-                    </q-btn>
-                    <q-btn  icon="delete" flat dense round size="12px" @click="deleteTag(tag.uuid)"/>
+                        </q-menu>
+                      </q-btn>
+                      <q-btn dense flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)"/>
                     </div>
-                </q-item-section>
-              </q-item>
-              <q-separator/>
-            </div>
-          </q-list>
+                  </q-item-section>
+                </q-item>
+                <q-separator/>
+              </div>
+            </q-list>
 
           </q-list>
         </q-card-section>
@@ -193,8 +205,10 @@ import {onBeforeMount, reactive, ref} from "vue";
 import {errorHandler} from "components/api/errorHandler";
 import {addTagRequest, deleteTagRequest, editTagRequest, getTagsRequest} from "components/api/TagsApiClient";
 import {useQuasar} from "quasar";
+import {useRouter} from "vue-router";
 
 const $q = useQuasar()
+const router = useRouter();
 
 let isLoading = ref(false);
 let isError = ref(false);
@@ -207,6 +221,7 @@ const newColor = ref(null);
 // sort & paginate
 let sort = reactive({first_name: "asc", last_name: "asc", created_at: "asc", active: "last_name"})
 let sortName = ref("Name")
+
 function setSortingParams(name) {
   switch (name) {
     case 'first_name':
@@ -257,7 +272,8 @@ function addTag(name) {
   isLoading.value = true;
 
   let data = {
-    "name": name
+    "name": name,
+    "color": mainColor.value
   }
   addTagRequest(data).then(function (response) {
     fetchTags();
@@ -276,7 +292,7 @@ function deleteTag(uuid) {
   }).catch((err) => {
     const errorMessage = errorHandler(err);
 
-    if (err.response.data.detail === "Tag in use"){
+    if (err.response.data.detail === "Tag in use") {
       $q.dialog({
         title: "Confirm",
         message: "Tag jest używany w istniejących zgłoszeniach, brak możliwości usunięcia",
@@ -292,9 +308,9 @@ function deleteTag(uuid) {
   });
 }
 
-function switchTagVisibility(uuid, visibility){
+function switchTagVisibility(uuid, visibility) {
   let data = {
-    "is_hidden" : !(visibility == true)
+    "is_hidden": !(visibility == true)
   }
 
   editTagRequest(uuid, data).then(function (response) {
@@ -306,10 +322,10 @@ function switchTagVisibility(uuid, visibility){
   });
 }
 
-function changeTagColor(uuid){
-  if (newColor.value !== null){
+function changeTagColor(uuid) {
+  if (newColor.value !== null) {
     let data = {
-      "color" : newColor.value
+      "color": newColor.value
     }
 
     editTagRequest(uuid, data).then(function (response) {

@@ -1,14 +1,20 @@
 <template>
   <div>
-    <q-card :class="$q.dark.isActive?'bg-dark':''">
+    <q-card :class="$q.dark.isActive?'bg-dark':''" class="no-shadow">
       <q-card-section class="text-h6">
         Bar Chart
-        <q-btn icon="download" class="float-right"  flat dense>
+        <q-btn class="float-right" dense flat icon="download">
           <q-tooltip>Download PNG</q-tooltip>
         </q-btn>
       </q-card-section>
       <q-card-section>
-        <v-chart class="chart" :option="option" autoresize />
+        <v-chart
+          ref="barRef"
+          :option="option"
+          :style="{height: `300px !important`, width: `100%`}"
+          autoresize
+          theme="light"
+        />
       </q-card-section>
     </q-card>
   </div>
@@ -16,20 +22,18 @@
 
 
 <script setup>
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { PieChart } from 'echarts/charts';
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-} from 'echarts/components';
-import VChart, { THEME_KEY } from 'vue-echarts';
-import { ref, provide } from 'vue';
+import {use} from 'echarts/core';
+import {GridComponent, LegendComponent, TitleComponent, TooltipComponent} from 'echarts/components';
+import {CanvasRenderer} from 'echarts/renderers';
+import {BarChart, PieChart} from 'echarts/charts';
+import VChart, {THEME_KEY} from 'vue-echarts';
+import {provide, ref} from 'vue';
 
 use([
   CanvasRenderer,
   PieChart,
+  BarChart,
+  GridComponent,
   TitleComponent,
   TooltipComponent,
   LegendComponent,
@@ -42,38 +46,18 @@ const option = ref({
     text: 'Traffic Sources',
     left: 'center',
   },
-  tooltip: {
-    trigger: 'item',
-    formatter: '{a} <br/>{b} : {c} ({d}%)',
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
-  legend: {
-    orient: 'vertical',
-    left: 'left',
-    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+  yAxis: {
+    type: 'value'
   },
-  series: [
-    {
-      name: 'Traffic Sources',
-      type: 'pie',
-      radius: '55%',
-      center: ['50%', '60%'],
-      data: [
-        { value: 335, name: 'Direct' },
-        { value: 310, name: 'Email' },
-        { value: 234, name: 'Ad Networks' },
-        { value: 135, name: 'Video Ads' },
-        { value: 1548, name: 'Search Engines' },
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)',
-        },
-      },
-    },
-  ],
-});
+  series: [{
+    data: [120, 200, 150, 80, 70, 110, 130],
+    type: 'bar'
+  }]
+})
 </script>
 
 <style scoped>

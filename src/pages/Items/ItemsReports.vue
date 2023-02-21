@@ -14,14 +14,168 @@
         <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
-        <q-card-section>
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-list>
+          <q-item class="q-px-sm">
+            <q-item-section avatar>
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
+                  $t("Return")
+                }}
+              </q-btn>
+            </q-item-section>
+            <q-item-section></q-item-section>
+            <q-item-section side>
 
-          Statystyki
+            </q-item-section>
+          </q-item>
+        </q-list>
 
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h5">Raport</q-item-label>
+                <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
+                <q-item-label caption>Krótki, publicznie dostępny opis</q-item-label>
+
+              </q-item-section>
+            </q-item>
+          </q-list>
         </q-card-section>
+
+        <q-separator/>
+
+        <q-card-actions align="right">
+          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie
+          </q-btn>
+          <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
+          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <!-- liczba usterek -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Liczba usterek</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
         <q-card-section>
-          <bar-chart></bar-chart>
+          liczba usterek
+        </q-card-section>
+      </q-card>
+
+      <!-- liczba usterek z podziałem na dni -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Liczba usterek z podziałem na dni</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          <bar-chart/>
+        </q-card-section>
+      </q-card>
+
+      <!-- usterki z podziałem na status -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Usterki z podziałem na status</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          liczba usterek
+        </q-card-section>
+      </q-card>
+
+      <!-- czas napraw -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Czas napraw</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          liczba usterek
+        </q-card-section>
+      </q-card>
+
+      <!-- czas najdłuższej awarii -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Czas najdłuższej awarii</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          liczba usterek
+        </q-card-section>
+      </q-card>
+
+      <!-- średni czas potrzebny na podjęcie zgłoszenia -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Średni czas potrzebny na podjęcie zgłoszenia</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          liczba usterek
+        </q-card-section>
+      </q-card>
+
+      <!-- użytkownicy biorący udział w naprawach -->
+      <q-card bordered class="my-card no-shadow q-my-sm">
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">Użytkownicy biorący udział w naprawach</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          liczba usterek
         </q-card-section>
       </q-card>
 
@@ -33,11 +187,59 @@
 // import {defineComponent} from 'vue'
 // import LineChart from "components/LineChart.vue";
 import BarChart from "components/charts/BarChart.vue";
+import {onBeforeMount, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/ItemApiClient";
+import {errorHandler} from "components/api/errorHandler";
 // import PieChart from "components/PieChart.vue";
 // import ScatterChart from "components/ScatterChart.vue";
 // import DottedBarChart from "components/DottedBarChart.vue";
 // import GuageChart from "components/GuageChart.vue";
 // import Boxplot from "components/BoxChart.vue";
 // import AreaChart from "components/AreaChart.vue";
+
+const route = useRoute();
+const router = useRouter();
+
+const options = ref({
+  xAxis: {
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {},
+  series: [
+    {
+      type: 'bar',
+      data: [23, 24, 18, 25, 27, 28, 25]
+    }
+  ]
+})
+
+const itemUuid = ref(null);
+let isLoading = ref(false);
+let isError = ref(false);
+
+
+function getItemStatistics(uuid) {
+  isLoading.value = true;
+  getItemStatisticsRequest(uuid).then(function (response) {
+
+    console.log(response.data)
+
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
+onBeforeMount(() => {
+  if (route.params.uuid !== null){
+    console.log("Report for: " + route.params.uuid)
+    getItemStatistics(route.params.uuid)
+  }
+
+
+});
+
 
 </script>

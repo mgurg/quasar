@@ -86,6 +86,9 @@ import {errorHandler} from "components/api/errorHandler";
 import {getCompanyInfoRequest} from "components/api/AuthApiClient";
 import {getUserCountRequest} from "components/api/UserApiClient";
 import {getUsedSpaceRequest} from "components/api/FilesApiClient";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 let isLoading = ref(false);
 let isError = ref(false);

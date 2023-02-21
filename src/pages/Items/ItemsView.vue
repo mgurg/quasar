@@ -133,7 +133,7 @@
                  @click="reportFailure(itemDetails.uuid)">Zgłoś awarie
           </q-btn>
           <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
-          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>
+          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps @click="itemReport(itemDetails.uuid)">Raporty</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -225,6 +225,10 @@ function getItemDetails(uuid) {
 
 function editItem(uuid) {
   router.push("/items/edit/" + uuid);
+}
+
+function itemReport(uuid) {
+  router.push("/items/summary/" + uuid);
 }
 
 function deleteItem(uuid, itemName) {
