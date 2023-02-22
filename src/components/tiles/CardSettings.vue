@@ -3,8 +3,7 @@
     <q-card-section class="q-pa-none" >
       <div class="row q-col-gutter-sm">
         <div v-for="(item, index) in items" :key="index" class="col-md-4 col-sm-6 col-xs-12">
-          <router-link :to="item.link">
-            <q-item :style="`background-color: ${item.color1}`" class="q-pa-none rounded-borders">
+            <q-item clickable :to="item.link"  :style="`background-color: ${item.color1}`" class="q-pa-none rounded-borders fit">
               <q-item-section v-if="icon_position === 'left'" side :style="`background-color: ${item.color2}`"
                               class=" q-pa-lg q-mr-none text-white rounded-borders">
                 <q-icon :name="item.icon" color="white" size="24px"></q-icon>
@@ -17,7 +16,6 @@
                 <q-icon :name="item.icon" color="white" size="44px"></q-icon>
               </q-item-section>
             </q-item>
-          </router-link>
         </div>
       </div>
     </q-card-section>
