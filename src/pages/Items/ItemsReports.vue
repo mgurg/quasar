@@ -53,6 +53,55 @@
         </q-card-actions>
       </q-card>
 
+<!--      QUICK SUMMARY -->
+      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">
+              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                              side
+                              style="background-color: #d81b60">
+                <q-icon color="white" name="functions" size="24px"></q-icon>
+              </q-item-section>
+              <q-item-section class=" q-pa-md q-ml-none  text-white">
+                <q-item-label class="text-white text-h5 text-weight-bolder"> {{summaryTimes.quantity}}
+                </q-item-label>
+                <q-item-label>Liczba wszystkich awarii</q-item-label>
+              </q-item-section>
+            </q-item>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">
+              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                              side
+                              style="background-color: #ffa000">
+                <q-icon color="white" name="alarm_on" size="24px"></q-icon>
+              </q-item-section>
+              <q-item-section class=" q-pa-md q-ml-none  text-white">
+                <q-item-label class="text-white text-h5 text-weight-bolder"> {{summaryTimes.maxTime}} <span class="text-caption">min.</span>
+                </q-item-label>
+                <q-item-label>Średni czas naprawy</q-item-label>
+              </q-item-section>
+            </q-item>
+
+
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">
+              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                              side
+                              style="background-color: #00897b">
+                <q-icon color="white" name="alarm_on" size="24px"></q-icon>
+              </q-item-section>
+              <q-item-section class=" q-pa-md q-ml-none  text-white">
+                <q-item-label class="text-white text-h5 text-weight-bolder">{{summaryTimes.avgTime}} <span class="text-caption">min.</span>
+                </q-item-label>
+                <q-item-label>Maks. czas naprawy </q-item-label>
+              </q-item-section>
+            </q-item>
+
+        </div>
+      </div>
+
       <!-- liczba usterek -->
       <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section class="q-pt-none">
@@ -184,40 +233,25 @@
 </template>
 
 <script setup>
-// import {defineComponent} from 'vue'
-// import LineChart from "components/LineChart.vue";
 import BarChart from "components/charts/BarChart.vue";
 import {onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
-// import PieChart from "components/PieChart.vue";
-// import ScatterChart from "components/ScatterChart.vue";
-// import DottedBarChart from "components/DottedBarChart.vue";
-// import GuageChart from "components/GuageChart.vue";
-// import Boxplot from "components/BoxChart.vue";
-// import AreaChart from "components/AreaChart.vue";
+
 
 const route = useRoute();
 const router = useRouter();
-
-const options = ref({
-  xAxis: {
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  },
-  yAxis: {},
-  series: [
-    {
-      type: 'bar',
-      data: [23, 24, 18, 25, 27, 28, 25]
-    }
-  ]
-})
 
 const itemUuid = ref(null);
 let isLoading = ref(false);
 let isError = ref(false);
 
+const summaryTimes = ref({"maxTime" : 12, "avgTime": 6, "quantity" : 2 });
+const issuesPerDay = ref(null);
+const issuesPerHour = ref(null);
+const issuesAvgRepairTime = ref(null);
+const issuesMaxRepairTime = ref(null);
 
 function getItemStatistics(uuid) {
   isLoading.value = true;
