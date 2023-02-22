@@ -63,8 +63,8 @@
                 <q-icon color="white" name="functions" size="24px"></q-icon>
               </q-item-section>
               <q-item-section class=" q-pa-md q-ml-none  text-white">
-                <q-item-label class="text-white text-h5 text-weight-bolder"> {{summaryTimes.quantity}}
-                </q-item-label>
+                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="issuesCounter">{{ issuesCounter}}</q-item-label>
+                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
                 <q-item-label>Liczba wszystkich awarii</q-item-label>
               </q-item-section>
             </q-item>
@@ -77,8 +77,9 @@
                 <q-icon color="white" name="alarm_on" size="24px"></q-icon>
               </q-item-section>
               <q-item-section class=" q-pa-md q-ml-none  text-white">
-                <q-item-label class="text-white text-h5 text-weight-bolder"> {{summaryTimes.maxTime}} <span class="text-caption">min.</span>
+                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.max"> {{summaryTimes.max}} <span class="text-caption">min.</span>
                 </q-item-label>
+                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
                 <q-item-label>Średni czas naprawy</q-item-label>
               </q-item-section>
             </q-item>
@@ -93,32 +94,15 @@
                 <q-icon color="white" name="alarm_on" size="24px"></q-icon>
               </q-item-section>
               <q-item-section class=" q-pa-md q-ml-none  text-white">
-                <q-item-label class="text-white text-h5 text-weight-bolder">{{summaryTimes.avgTime}} <span class="text-caption">min.</span>
+                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.avg">{{summaryTimes.avg}} <span class="text-caption">min.</span>
                 </q-item-label>
+                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
                 <q-item-label>Maks. czas naprawy </q-item-label>
               </q-item-section>
             </q-item>
 
         </div>
       </div>
-
-      <!-- liczba usterek -->
-      <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
-          <q-list>
-            <q-item class="q-px-none">
-              <q-item-section>
-                <q-item-label class="text-h6">Liczba usterek</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-
-        <q-separator/>
-        <q-card-section>
-          liczba usterek
-        </q-card-section>
-      </q-card>
 
       <!-- liczba usterek z podziałem na dni -->
       <q-card bordered class="my-card no-shadow q-my-sm">
@@ -134,7 +118,7 @@
 
         <q-separator/>
         <q-card-section>
-          <bar-chart/>
+          <heat-map-chart />
         </q-card-section>
       </q-card>
 
@@ -152,7 +136,8 @@
 
         <q-separator/>
         <q-card-section>
-          liczba usterek
+
+          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour"/>
         </q-card-section>
       </q-card>
 
@@ -234,6 +219,7 @@
 
 <script setup>
 import BarChart from "components/charts/BarChart.vue";
+import HeatMapChart from "components/charts/HeatMapChart.vue";
 import {onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/ItemApiClient";
@@ -247,7 +233,8 @@ const itemUuid = ref(null);
 let isLoading = ref(false);
 let isError = ref(false);
 
-const summaryTimes = ref({"maxTime" : 12, "avgTime": 6, "quantity" : 2 });
+const issuesCounter = ref(null);
+const summaryTimes = ref({max: null, avg: null});
 const issuesPerDay = ref(null);
 const issuesPerHour = ref(null);
 const issuesAvgRepairTime = ref(null);
@@ -257,6 +244,10 @@ function getItemStatistics(uuid) {
   isLoading.value = true;
   getItemStatisticsRequest(uuid).then(function (response) {
 
+    issuesCounter.value = response.data.issuesCount
+    summaryTimes.value = response.data.repairTime
+    issuesPerDay.value = response.data.issuesPerDay
+    issuesPerHour.value = response.data.issuesPerHour
     console.log(response.data)
 
     isLoading.value = false;

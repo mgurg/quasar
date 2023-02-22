@@ -25,13 +25,12 @@
 import {use} from 'echarts/core';
 import {GridComponent, LegendComponent, TitleComponent, TooltipComponent} from 'echarts/components';
 import {CanvasRenderer} from 'echarts/renderers';
-import {BarChart, PieChart} from 'echarts/charts';
+import {BarChart} from 'echarts/charts';
 import VChart, {THEME_KEY} from 'vue-echarts';
 import {provide, ref} from 'vue';
 
 use([
   CanvasRenderer,
-  PieChart,
   BarChart,
   GridComponent,
   TitleComponent,
@@ -41,6 +40,27 @@ use([
 
 provide(THEME_KEY, 'dark');
 
+const props = defineProps({
+  data: Object,
+});
+
+const parseData = (rawObject, type) => {
+  if (type == 'xAxis') {
+
+
+    return Object.keys(rawObject)
+  }
+  if (type == 'yAxis') {
+    return Object.values(rawObject)
+  }
+}
+
+const result = parseData(props.data, 'xAxis');
+
+console.log('xAxis: ' + result)
+
+const xAxis = ['2023-02-20']
+const yAxis = [1]
 const option = ref({
   title: {
     text: 'Traffic Sources',
@@ -48,13 +68,13 @@ const option = ref({
   },
   xAxis: {
     type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    data: parseData(props.data, 'xAxis')
   },
   yAxis: {
     type: 'value'
   },
   series: [{
-    data: [120, 200, 150, 80, 70, 110, 130],
+    data: parseData(props.data, 'yAxis'),
     type: 'bar'
   }]
 })
