@@ -11,7 +11,7 @@
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
         <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>
-        <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
+        <q-breadcrumbs-el :label="$t('Edit')" icon="insights"/>
       </q-breadcrumbs>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
@@ -36,7 +36,7 @@
               <q-item-section>
                 <q-item-label class="text-h5">Raport</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <q-item-label caption>Krótki, publicznie dostępny opis</q-item-label>
+                <q-item-label caption>Podsumowanie awarii w okresie ostatnich 3 miesięcy</q-item-label>
 
               </q-item-section>
             </q-item>
@@ -45,12 +45,12 @@
 
         <q-separator/>
 
-        <q-card-actions align="right">
-          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie
-          </q-btn>
-          <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
-          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>
-        </q-card-actions>
+<!--        <q-card-actions align="right">-->
+<!--          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie-->
+<!--          </q-btn>-->
+<!--          &lt;!&ndash;          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>&ndash;&gt;-->
+<!--          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>-->
+<!--        </q-card-actions>-->
       </q-card>
 
 <!--      QUICK SUMMARY -->
@@ -118,7 +118,27 @@
 
         <q-separator/>
         <q-card-section>
-          <heat-map-chart />
+          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" />
+          <div v-else> Brak danych 😟</div>
+        </q-card-section>
+      </q-card>
+
+      <!-- liczba usterek z podziałem na godziny -->
+      <q-card bordered class="my-card no-shadow q-my-sm" >
+        <q-card-section class="q-pt-none">
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h6">liczba usterek z podziałem na godziny</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+
+        <q-separator/>
+        <q-card-section>
+          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour"/>
+          <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
 
@@ -138,6 +158,7 @@
         <q-card-section>
 
           <bar-chart  v-if="issuesPerHour" :data="issuesPerHour"/>
+          <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
 

@@ -36,6 +36,8 @@ import {CanvasRenderer} from 'echarts/renderers';
 import VChart, {THEME_KEY} from 'vue-echarts';
 import {provide, ref} from 'vue';
 
+import {DateTime} from "luxon";
+
 // https://echarts.apache.org/examples/en/editor.html?c=calendar-heatmap&random=kypnz0qfsr
 
 use([
@@ -54,6 +56,20 @@ provide(THEME_KEY, 'dark');
 const props = defineProps({
   data: Object,
 });
+console.log("propsy")
+console.log(props.data)
+
+let arrayOfEntries = Object.entries(props.data).map(([key, value]) => [key, value]);
+let keys = Object.keys(props.data);
+const datesArray = keys.map((element) => new Date(element));
+
+const maxDate = new DateTime(Math.max(...datesArray)); // Math.min
+
+let endPeriod = DateTime.fromISO(maxDate).endOf('month').toFormat('yyyy-MM-dd')
+let startPeriod = DateTime.fromISO(maxDate).startOf('month').minus({month: 2}).toFormat('yyyy-MM-dd')
+
+console.log(startPeriod)
+console.log(endPeriod)
 
 const option = ref({
   title: {
@@ -64,7 +80,7 @@ const option = ref({
   tooltip: {},
   visualMap: {
     min: 0,
-    max: 10000,
+    max: 10,
     type: 'piecewise',
     orient: 'horizontal',
     left: 'center',
@@ -75,7 +91,7 @@ const option = ref({
     left: 25,
     right: 5,
     cellSize: ['auto', 20],
-    range: ['2016-01-01', '2016-03-23'],
+    range: [startPeriod, endPeriod],
     itemStyle: {
       borderWidth: 0.8
     },
@@ -84,7 +100,7 @@ const option = ref({
   series: {
     type: 'heatmap',
     coordinateSystem: 'calendar',
-    data: [["2016-01-01", 2187], ["2016-01-02", 3505],]
+    data: arrayOfEntries
   }
 })
 </script>
