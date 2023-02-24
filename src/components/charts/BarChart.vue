@@ -1,12 +1,11 @@
 <template>
   <div>
     <q-card :class="$q.dark.isActive?'bg-dark':''" class="no-shadow">
-      <q-card-section class="text-h6">
-        Bar Chart
-        <q-btn class="float-right" dense flat icon="download">
-          <q-tooltip>Download PNG</q-tooltip>
-        </q-btn>
-      </q-card-section>
+<!--      <q-card-section class="text-h6">-->
+<!--        <q-btn class="float-right" dense flat icon="download">-->
+<!--          <q-tooltip>Download PNG</q-tooltip>-->
+<!--        </q-btn>-->
+<!--      </q-card-section>-->
       <q-card-section>
         <v-chart
           ref="barRef"

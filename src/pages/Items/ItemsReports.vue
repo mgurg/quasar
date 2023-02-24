@@ -118,7 +118,7 @@
 
         <q-separator/>
         <q-card-section>
-          <heat-map-chart v-if="issuesPerDay" :chart-data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni" />
+          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni" />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>

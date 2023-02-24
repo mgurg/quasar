@@ -33,8 +33,8 @@
     <q-list>
       <!-- USERS-->
       <q-item-section>
-        <q-item-label>Użytkownicy</q-item-label>
-        <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Użytkownicy</q-item-label>
+        <q-item-label caption class="q-pb-sm">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
       </q-item-section>
       <div v-for="(permission, index) in usersPermissions" v-bind:key="index" v-if="usersPermissions !== null">
         <q-item v-ripple tag="label">
@@ -42,9 +42,9 @@
             <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ permission.title }}</q-item-label>
+            <q-item-label> {{$t(permission.title)}} </q-item-label>
             <q-item-label caption>
-              {{ permission.description }}
+              {{$t(permission.description)}}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -52,8 +52,8 @@
 
       <!-- ISSUES -->
       <q-item-section>
-        <q-item-label>Zgłoszenia</q-item-label>
-        <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Zgłoszenia</q-item-label>
+        <q-item-label caption class="q-pb-sm">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
       </q-item-section>
       <div v-for="(permission, index) in issuesPermissions" v-bind:key="index" v-if="issuesPermissions !== null">
         <q-item v-ripple tag="label">
@@ -61,9 +61,9 @@
             <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ permission.title }}</q-item-label>
+            <q-item-label> {{$t(permission.title)}} </q-item-label>
             <q-item-label caption>
-              {{ permission.description }}
+              {{$t(permission.description)}}
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -72,8 +72,8 @@
 
       <!-- ITEMS -->
       <q-item-section>
-        <q-item-label>Przedmioty</q-item-label>
-        <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Przedmioty</q-item-label>
+        <q-item-label caption class="q-pb-xs">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
       </q-item-section>
       <div v-for="(permission, index) in itemsPermissions" v-bind:key="index" v-if="itemsPermissions !== null">
         <q-item v-ripple tag="label">

@@ -54,10 +54,7 @@ use([
 provide(THEME_KEY, 'dark');
 
 const props = defineProps({
-  chartData: {
-    type: Object,
-    required: true
-  },
+  data:Object,
   chartTitle: {
     type: String,
     required: true
@@ -65,10 +62,13 @@ const props = defineProps({
 
 });
 console.log("propsy")
-console.log(props.chartData)
+console.log(props.data)
 
-let arrayOfEntries = Object.entries(props.chartData).map(([key, value]) => [key, value]);
-let keys = Object.keys(props.chartData);
+let arrayOfEntries = Object.entries(props.data).map(([key, value]) => [key, value]);
+
+console.log(arrayOfEntries)
+
+let keys = Object.keys(props.data);
 const datesArray = keys.map((element) => new Date(element));
 
 const maxDate = new DateTime(Math.max(...datesArray)); // Math.min
@@ -108,7 +108,7 @@ const option = ref({
   series: {
     type: 'heatmap',
     coordinateSystem: 'calendar',
-    chartData: arrayOfEntries
+    data: arrayOfEntries
   }
 })
 </script>
