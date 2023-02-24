@@ -157,8 +157,8 @@
         <q-separator/>
         <q-card-section>
 
-<!--          <bar-chart  v-if="issuesPerHour" :chart-data="issuesPerHour" chart-title="Liczba usterek z podziałem na dni" />-->
-<!--          <div v-else> Brak danych 😟</div>-->
+          <bar-chart  v-if="issuesStatus" :data="issuesStatus" chart-title="Usterki z podziałem na status" />
+          <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
 
@@ -258,6 +258,7 @@ const issuesCounter = ref(null);
 const summaryTimes = ref({max: null, avg: null});
 const issuesPerDay = ref(null);
 const issuesPerHour = ref(null);
+const issuesStatus = ref(null);
 const issuesAvgRepairTime = ref(null);
 const issuesMaxRepairTime = ref(null);
 
@@ -269,6 +270,7 @@ function getItemStatistics(uuid) {
     summaryTimes.value = response.data.repairTime
     issuesPerDay.value = response.data.issuesPerDay
     issuesPerHour.value = response.data.issuesPerHour
+    issuesStatus.value = response.data.issuesStatus
     console.log(response.data)
 
     isLoading.value = false;

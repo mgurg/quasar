@@ -50,8 +50,6 @@ const props = defineProps({
 
 const parseData = (rawObject, type) => {
   if (type == 'xAxis') {
-
-
     return Object.keys(rawObject)
   }
   if (type == 'yAxis') {
