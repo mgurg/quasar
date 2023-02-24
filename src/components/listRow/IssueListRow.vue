@@ -20,12 +20,14 @@
           <q-chip
             v-if="$q.screen.gt.xs ===true"
             :label="issue.item.name"
-            class="q-ma-xs"
+            style="z-index:1000"
+            class="q-ma-xs truncate-chip-labels"
             clickable
-            color="teal"
+            color="grey"
             size="md"
             text-color="white"
             @click="viewItem(issue.item.uuid)"
+
           />
           <q-chip
             v-if="$q.screen.gt.xs ===true && issue.users_issue.length > 0"
@@ -37,7 +39,7 @@
       </q-item-label>
       <q-item-label caption lines="2">{{ issue.text }}</q-item-label>
       <q-item-label v-if="$q.screen.lt.sm ===true" caption>
-        <span v-if="issue.item !==null">
+        <span v-if="issue.item !==null" class="truncate-chip-labels">
         <q-chip
           v-if="issue.users_issue.length > 0"
           class="q-ma-xs"
@@ -46,9 +48,10 @@
         />
         <q-chip
           :label="issue.item.name"
+          style="max-width: 150px; z-index:1000"
           class="q-ma-xs"
           clickable
-          color="teal"
+          color="grey"
           size="sm"
           text-color="white"
           @click="viewItem(issue.item.uuid)"
@@ -181,3 +184,6 @@ function getIcon(status) {
 }
 
 </script>
+
+<style>
+</style>

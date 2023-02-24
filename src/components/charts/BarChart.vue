@@ -42,6 +42,10 @@ provide(THEME_KEY, 'dark');
 
 const props = defineProps({
   data: Object,
+  chartTitle: {
+    type: String,
+    required: true
+  },
 });
 
 const parseData = (rawObject, type) => {
@@ -63,7 +67,7 @@ const xAxis = ['2023-02-20']
 const yAxis = [1]
 const option = ref({
   title: {
-    text: 'Traffic Sources',
+    text: props.chartTitle,
     left: 'center',
   },
   xAxis: {

@@ -1,113 +1,226 @@
 <template>
-    <div class="row justify-center">
-      <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-        <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
-          <template v-slot:separator>
-            <q-icon
-              color="grey"
-              name="chevron_right"
-              size="1.5em"
-            />
-          </template>
-          <q-breadcrumbs-el icon="home" to="/"/>
-          <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
-          <q-breadcrumbs-el :label="$t('Ideas')" icon="info"/>
-        </q-breadcrumbs>
+  <div class="row justify-center">
+    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+        <template v-slot:separator>
+          <q-icon
+            color="grey"
+            name="chevron_right"
+            size="1.5em"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="settings" to="/settings"/>
+        <q-breadcrumbs-el :label="$t('Ideas')" icon="info"/>
+      </q-breadcrumbs>
 
-        <q-card bordered class="my-card no-shadow q-mt-sm">
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-list>
+          <q-item class="q-px-sm">
+            <q-item-section avatar>
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
+                  $t("Return")
+                }}
+              </q-btn>
+            </q-item-section>
+            <q-item-section></q-item-section>
+          </q-item>
+        </q-list>
+
+        <q-card-section class="q-pt-none">
           <q-list>
-            <q-item class="q-px-sm">
-              <q-item-section avatar>
-                <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
-                    $t("Return")
-                  }}
-                </q-btn>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h5">Import/Export</q-item-label>
+                <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
+                <!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
               </q-item-section>
-              <q-item-section></q-item-section>
             </q-item>
           </q-list>
+        </q-card-section>
+      </q-card>
 
-          <q-card-section class="q-pt-none">
-            <q-list>
-              <q-item class="q-px-none">
-                <q-item-section>
-                  <q-item-label class="text-h5">Import/Export</q-item-label>
-                  <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                  <!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
-        </q-card>
+      <!--        <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">-->
+      <!--          <q-card-section>-->
+      <!--            <div class="text-h5">Import</div>-->
+      <!--            <q-separator></q-separator>-->
+      <!--            <p>Obecnie możliwy jest wyłącznie import użytkowników. Jest to możliwe dla pliku CSV o formacie:</p>-->
+      <!--            <p>Imię, Nazwisko, Email, Hasło, Telefon, Rola</p>-->
+      <!--            <div>-->
+      <!--              <table style="border-color:black;border-style:solid;border-width:1px;">-->
+      <!--                <thead>-->
+      <!--                <tr >-->
+      <!--                  <th>Imię</th>-->
+      <!--                  <th>Nazwisko</th>-->
+      <!--                  <th>Email</th>-->
+      <!--                  <th>Hasło</th>-->
+      <!--                  <th>Telefon</th>-->
+      <!--                  <th>Rola</th>-->
+      <!--                </tr>-->
+      <!--                </thead>-->
+      <!--                <tbody style="border-color:black;border-style:solid;border-width:1px;">-->
+      <!--                <tr>-->
+      <!--                  <td>Obowiązkowe</td>-->
+      <!--                  <td>Obowiązkowe</td>-->
+      <!--                  <td>Obowiązkowe</td>-->
+      <!--                  <td></td>-->
+      <!--                  <td></td>-->
+      <!--                  <td></td>-->
+      <!--                </tr>-->
+      <!--                </tbody>-->
+      <!--              </table>-->
+      <!--            </div>-->
+      <!--            <div class="text-h6">Użytkownicy</div>-->
 
-<!--        <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">-->
-<!--          <q-card-section>-->
-<!--            <div class="text-h5">Import</div>-->
-<!--            <q-separator></q-separator>-->
-<!--            <p>Obecnie możliwy jest wyłącznie import użytkowników. Jest to możliwe dla pliku CSV o formacie:</p>-->
-<!--            <p>Imię, Nazwisko, Email, Hasło, Telefon, Rola</p>-->
-<!--            <div>-->
-<!--              <table style="border-color:black;border-style:solid;border-width:1px;">-->
-<!--                <thead>-->
-<!--                <tr >-->
-<!--                  <th>Imię</th>-->
-<!--                  <th>Nazwisko</th>-->
-<!--                  <th>Email</th>-->
-<!--                  <th>Hasło</th>-->
-<!--                  <th>Telefon</th>-->
-<!--                  <th>Rola</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody style="border-color:black;border-style:solid;border-width:1px;">-->
-<!--                <tr>-->
-<!--                  <td>Obowiązkowe</td>-->
-<!--                  <td>Obowiązkowe</td>-->
-<!--                  <td>Obowiązkowe</td>-->
-<!--                  <td></td>-->
-<!--                  <td></td>-->
-<!--                  <td></td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--            <div class="text-h6">Użytkownicy</div>-->
+      <!--            <q-file outlined v-model="model">-->
+      <!--              <template v-slot:prepend>-->
+      <!--                <q-icon name="attach_file" />-->
+      <!--              </template>-->
+      <!--            </q-file>-->
 
-<!--            <q-file outlined v-model="model">-->
-<!--              <template v-slot:prepend>-->
-<!--                <q-icon name="attach_file" />-->
-<!--              </template>-->
-<!--            </q-file>-->
+      <!--          </q-card-section>-->
+      <!--        </q-card>-->
 
-<!--          </q-card-section>-->
-<!--        </q-card>-->
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
+        <q-card-section>
+          <div class="text-h5">Export</div>
+          <p class="q-pt-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lorem neque, varius eu interdum ac,
+            pellentesque auctor felis. Mauris in nunc ut velit ornare pharetra. Vestibulum lacinia justo eu nibh
+            convallis, eget eleifend enim finibus. Aliquam eget iaculis libero. Aliquam lectus ligula, aliquet ac risus
+            quis, porta rhoncus tortor. Nullam semper metus in metus vehicula mollis. Aliquam a egestas nulla. Donec
+            eget enim et enim laoreet auctor. </p>
+        </q-card-section>
+      </q-card>
 
-        <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
-          <q-card-section>
-            <div class="text-h5">Export</div>
-            <q-separator></q-separator>
-          </q-card-section>
-          <q-card-section>
+      <div class="row q-col-gutter-sm q-pb-md q-mt-sm" >
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" v-if="hasPermission('USER_EXPORT')">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
+            <q-item-section
+              v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
+              clickable
+              side
+              style="background-color: #93b7be"
+              @click="usersExportToCsv"
+            >
+              <q-icon color="blue-grey-10" name="file_download" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-blue-grey-10 text-h5 text-weight-bolder">Eksport użytkowników</q-item-label>
 
-            <div v-if="hasPermission('USER_EXPORT')">
-            <q-btn  icon="file_download" flat color="primary" @click="usersExportToCsv">Pracownicy</q-btn>
-            <div class="q-py-md">Eksport listy pracowników zawierający pola: Imię, Nazwisko, Email, Telefon</div>
+              <q-item-label class="text-blue-grey-10">Imie, nazwisko, mail, telefon</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
+            <q-item-section
+              v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
+              clickable
+              side
+              style="background-color: #93b7be"
+              @click="itemsExportToCsv"
+            >
+              <q-icon color="blue-grey-10" name="file_download" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-blue-grey-10 text-h5 text-weight-bolder">Eksport urządzeń</q-item-label>
+              <q-item-label class="text-blue-grey-10"> Nazwa, Symbol, Opis, Kod QR</q-item-label>
+            </q-item-section>
+          </q-item>
 
-            <q-separator/>
-            </div>
-            <q-btn class="q-mt-lg" icon="file_download" flat color="primary" @click="itemsExportToCsv">Przedmioty</q-btn>
-            <div class="q-py-md">Eksport listy Przedmiotów zawierający pola: Nazwa, Symbol, Opis, Kod QR</div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
+            <q-item-section
+              v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
+              clickable
+              side
+              style="background-color: #93b7be"
+              @click="issuesExportToCsv"
+            >
+              <q-icon color="blue-grey-10" name="file_download" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-blue-grey-10 text-h5 text-weight-bolder">Eksport zgłoszeń</q-item-label>
 
-            <q-separator/>
+              <q-item-label class="text-blue-grey-10">Imię, nazwisko, mail, telefon</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+      </div>
 
-            <q-btn class="q-mt-lg" icon="file_download" flat color="primary" @click="issuesExportToCsv">Zgłoszenia</q-btn>
-            <div class="q-py-md">Eksport listy Przedmiotów zawierający pola: Nazwa, Symbol, Opis, Kod QR</div>
 
-          </q-card-section>
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
+        <q-card-section>
+          <div class="text-h5">Import</div>
+          <p class="q-pt-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lorem neque, varius eu interdum ac,
+            pellentesque auctor felis. Mauris in nunc ut velit ornare pharetra. Vestibulum lacinia justo eu nibh
+            convallis, eget eleifend enim finibus. Aliquam eget iaculis libero. Aliquam lectus ligula, aliquet ac risus
+            quis, porta rhoncus tortor. Nullam semper metus in metus vehicula mollis. Aliquam a egestas nulla. Donec
+            eget enim et enim laoreet auctor. </p>
+        </q-card-section>
+      </q-card>
 
-        </q-card>
 
-      </q-page>
-    </div>
+      <div class="row q-col-gutter-sm q-pb-md q-mt-sm" >
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" v-if="hasPermission('USER_EXPORT')">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
+            <q-item-section
+              v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
+              clickable
+              side
+              style="background-color: #93b7be"
+              @click="usersExportToCsv"
+            >
+              <q-icon color="blue-grey-10" name="file_upload" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-blue-grey-10 text-h5 text-weight-bolder">Import użytkowników</q-item-label>
+
+              <q-item-label class="text-blue-grey-10"><a href="">Pobierz szablon pliku CSV</a></q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
+            <q-item-section
+              v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
+              clickable
+              side
+              style="background-color: #93b7be"
+              @click="itemsExportToCsv"
+            >
+              <q-icon color="blue-grey-10" name="file_upload" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-blue-grey-10 text-h5 text-weight-bolder">Import urządzeń</q-item-label>
+              <q-item-label class="text-blue-grey-10"><a href="">Pobierz szablon pliku CSV</a></q-item-label>
+            </q-item-section>
+          </q-item>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
+            <q-item-section
+              v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
+              clickable
+              side
+              style="background-color: #93b7be"
+              @click="issuesExportToCsv"
+            >
+              <q-icon color="blue-grey-10" name="file_upload" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-blue-grey-10 text-h5 text-weight-bolder">Import zgłoszeń</q-item-label>
+
+              <q-item-label class="text-blue-grey-10"><a href="">Pobierz szablon pliku CSV</a></q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+      </div>
+
+    </q-page>
+  </div>
 </template>
 
 <script setup>
@@ -130,10 +243,11 @@ function hasPermission(permission) {
 
 const isLoading = ref(false)
 const isError = ref(false)
+
 function usersExportToCsv() {
   isLoading.value = true;
   getUserCsvRequest().then(function (response) {
-    const status = exportFile(`users_${new Date().toJSON().slice(0,10)}.csv`, response.data)
+    const status = exportFile(`users_${new Date().toJSON().slice(0, 10)}.csv`, response.data)
     console.log(response.headers)
     isLoading.value = false;
   }).catch((err) => {
@@ -146,7 +260,7 @@ function usersExportToCsv() {
 function itemsExportToCsv() {
   isLoading.value = true;
   getUserCsvRequest().then(function (response) {
-    const status = exportFile(`items_${new Date().toJSON().slice(0,10)}.csv`, response.data)
+    const status = exportFile(`items_${new Date().toJSON().slice(0, 10)}.csv`, response.data)
     console.log(response.headers)
     isLoading.value = false;
   }).catch((err) => {
@@ -158,7 +272,7 @@ function itemsExportToCsv() {
 function issuesExportToCsv() {
   isLoading.value = true;
   getUserCsvRequest().then(function (response) {
-    const status = exportFile(`issues_${new Date().toJSON().slice(0,10)}.csv`, response.data)
+    const status = exportFile(`issues_${new Date().toJSON().slice(0, 10)}.csv`, response.data)
     console.log(response.headers)
     isLoading.value = false;
   }).catch((err) => {
@@ -168,5 +282,5 @@ function issuesExportToCsv() {
 }
 
 
-const model= ref(null)
+const model = ref(null)
 </script>

@@ -118,7 +118,7 @@
 
         <q-separator/>
         <q-card-section>
-          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" />
+          <heat-map-chart v-if="issuesPerDay" :chart-data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni" />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -137,7 +137,7 @@
 
         <q-separator/>
         <q-card-section>
-          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour"/>
+          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour" chart-title="Liczba usterek z podziałem na godziny" />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -157,8 +157,8 @@
         <q-separator/>
         <q-card-section>
 
-          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour"/>
-          <div v-else> Brak danych 😟</div>
+<!--          <bar-chart  v-if="issuesPerHour" :chart-data="issuesPerHour" chart-title="Liczba usterek z podziałem na dni" />-->
+<!--          <div v-else> Brak danych 😟</div>-->
         </q-card-section>
       </q-card>
 

@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -28,87 +28,70 @@
         </q-card-section>
       </q-card>
 
-      <!-- <div class="row justify-around q-mt-sm">
-        <div class="col-6">
-          <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">{{ $t("Settings") }}</p></div>
-        <div class="col-6"></div>
-      </div> -->
-
-      <card-settings></card-settings>
-      <!--      <p class="q-pt-md text-body1" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego.-->
-      <!--                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>-->
-      <!-- <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
-                <div class="q-pa-none q-card__section q-card__section--vert">
-                    <div class="row q-col-gutter-sm">
-                      <router-link to="/settings/notifictions" class="col-md-4 col-sm-6 col-xs-12" >
-                        <div >
-                            <q-item class="bg-pink-6 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="lightbulb" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4">{{ $t("Ideas") }}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold"></q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                      </router-link>
-                      <router-link to="/settings/permissions" class="col-md-4 col-sm-6 col-xs-12">
-                        <div >
-                            <q-item class="bg-amber-7 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="ballot" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4">{{ $t("Permissions") }}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold"></q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                      </router-link>
-                      <router-link to="/settings/groups" class="col-md-4 col-sm-6 col-xs-12">
-                        <div >
-                            <q-item class="bg-teal-6 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="groups" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4">{{ $t("Groups") }}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold"></q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                      </router-link>
-                        <q-space/>
-                          <div class="col-md-4 col-sm-6 col-xs-12">
-                            <q-item class="bg-blue-grey-8 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="delete_forever" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> 2</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Rejected</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                        <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego.
-                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
-                    </div>
-                </div>
-            </div> -->
+      <card-settings :items="leftArray" />
 
     </q-page>
   </div>
 </template>
 
 <script setup>
-import {onBeforeMount} from "vue";
-import {useQuasar} from 'quasar'
+import {onBeforeMount, ref} from "vue";
 import CardSettings from 'src/components/tiles/CardSettings.vue'
 
-const $q = useQuasar()
+
 
 // -----------------------------
+
+let leftArray = ref([
+  {
+    title: "Informacje o koncie (użytkownicy, pliki, wysłane powiadomienia)",
+    icon: "account_circle",
+    value: "Konto",
+    color1: "#546bfa",
+    color2: "#3e51b5",
+    link: "/settings/account"
+  },
+  {
+    title: "Kategorie awarii, np: mechaniczna elektryczna ",
+    icon: "label",
+    value: "Tagi",
+    color1: "#a270b1",
+    color2: "#9f52b1",
+    link: "/settings/tags"
+  },
+  {
+    title: "Ustawienia powiadomień o awariach (sms, email)",
+    icon: "notifications",
+    value: "Powiadomienia",
+    color1: "#5064b5",
+    color2: "#3e51b5",
+    link: "/settings/notifications"
+  },
+  {
+    title: "Ustawienia Importu i Eksportu danych do pliku CSV",
+    icon: "import_export",
+    value: "Import/Export",
+    color1: "#5064b5",
+    color2: "#3e51b5",
+    link: "/settings/import-export"
+  },
+  {
+    title: "Kto ma jaki dostęp do funkcji w aplikacji",
+    icon: "ballot",
+    value: "Uprawnienia",
+    color1: "#f37169",
+    color2: "#f34636",
+    link: "/settings/permissions"
+  },
+  // {
+  //   title: "Zdefiniowane grupy ludzi, np: serwis, biuro",
+  //   icon: "groups",
+  //   value: "Grupy użytkowników",
+  //   color1: "#ea6a7f",
+  //   color2: "#ea4b64",
+  //   link: "/settings/groups"
+  // },
+])
 
 
 onBeforeMount(() => {

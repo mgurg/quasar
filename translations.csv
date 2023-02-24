@@ -162,6 +162,57 @@ issue_done,Issue done,Délivrer,Ausgabe gemacht,Wykonany problem
 """New permission""",New permission,Nouvelle autorisation,Neue Erlaubnis,Nowe pozwolenie
 """Role""",Role,Rôle,Rolle,Rola
 ,,,,
+#permissions_list,,,,
+"""Show users list""",Show users list,Afficher la liste des utilisateurs,Benutzerliste anzeigen,Pokaż listę użytkowników
+"""User can view list of other users""",User can view list of other users,L'utilisateur peut afficher la liste des autres utilisateurs,Benutzer kann die Liste anderer Benutzer anzeigen,Użytkownik może wyświetlić listę innych użytkowników
+"""Adding users""",Adding users,Ajout d'utilisateurs,Benutzer hinzufügen,Dodawanie użytkowników
+"""User can create new user accounts""",User can create new user accounts,L'utilisateur peut créer de nouveaux comptes d'utilisateurs,Benutzer können neue Benutzerkonten erstellen,Użytkownik może tworzyć nowe konta użytkowników
+"""Users editing""",Users editing,Édition des utilisateurs,Benutzer bearbeiten,Edycja użytkowników
+"""User can edit other users accounts""",User can edit other users accounts,L'utilisateur peut modifier d'autres comptes d'utilisateurs,Benutzer können andere Benutzerkonten bearbeiten,Użytkownik może edytować konta innych użytkowników
+"""Account editing""",Account editing,Édition de compte,Kontobearbeitung,Edycja konta
+"""Allow to edit my user account""",Allow to edit my user account,Autoriser la modification de mon compte utilisateur,"Erlauben Sie, mein Benutzerkonto zu bearbeiten",Pozwól edytować moje konto użytkownika
+"""Removing users""",Removing users,Suppression des utilisateurs,Benutzer entfernen,Usuwanie użytkowników
+"""User can delete others users accounts""",User can delete others users accounts,L'utilisateur peut supprimer d'autres comptes d'utilisateurs,Der Benutzer kann andere Benutzerkonten löschen,Użytkownik może usunąć kont innych użytkowników
+"""Importing users""",Importing users,Importation d'utilisateurs,Benutzer importieren,Importowanie użytkowników
+"""User can import  users data from CSV file""",User can import  users data from CSV file,L'utilisateur peut importer les données des utilisateurs à partir du fichier CSV,Benutzer können Benutzerdaten aus der CSV -Datei importieren,Użytkownik może importować dane użytkowników z pliku CSV
+"""Exporting users""",Exporting users,Exportation des utilisateurs,Benutzer exportieren,Eksportowanie użytkowników
+"""User can export users data to CSV""",User can export users data to CSV,L'utilisateur peut exporter les données des utilisateurs vers CSV,Benutzer können Benutzerdaten in CSV exportieren,Użytkownik może eksportować dane użytkowników do CSV
+"""Show issues list""",Show issues list,Afficher la liste des problèmes,Issue List anzeigen,Pokaż listę problemów
+"""User can view list of issues""",User can view list of issues,L'utilisateur peut afficher la liste des problèmes,Benutzer kann die Liste der Probleme anzeigen,Użytkownik może wyświetlić listę problemów
+"""Adding issues""",Adding issues,Ajout de problèmes,Probleme hinzufügen,Dodawanie problemów
+"""User can create new issues""",User can create new issues,L'utilisateur peut créer de nouveaux problèmes,Der Benutzer kann neue Probleme erstellen,Użytkownik może tworzyć nowe problemy
+"""Issue editing""",Issue editing,Édition de problèmes,Ausgabebearbeitung,Edycja wydania
+"""User can edit issue""",User can edit issue,L'utilisateur peut modifier le problème,Benutzer kann das Problem bearbeiten,Użytkownik może edytować problem
+"""Removing issues""",Removing issues,Suppression des problèmes,Probleme entfernen,Usuwanie problemów
+"""User can delete existing issues""",User can delete existing issues,L'utilisateur peut supprimer les problèmes existants,Der Benutzer kann vorhandene Probleme löschen,Użytkownik może usunąć istniejące problemy
+"""Exclude issues""",Exclude issues,Exclure les problèmes,Probleme ausschließen,Wykluczyć problemy
+"""Exclude selected issues from statistics""",Exclude selected issues from statistics,Exclure les problèmes sélectionnés des statistiques,Ausgewählte Probleme aus der Statistik ausschließen,Wykluczyć wybrane problemy ze statystyk
+"""Assign user to issue""",Assign user to issue,Affecter l'utilisateur à émettre,Benutzer zuweisen zu einer Ausgabe zuweisen,Przypisz użytkownika do wydania
+"""Allow user to assign others users""",Allow user to assign others users,Permettre à l'utilisateur d'attribuer d'autres utilisateurs,"Erlauben Sie dem Benutzer, anderen Benutzern zuweisen",Pozwól użytkownikowi przypisać innym użytkownikom
+"""Manage work""",Manage work,Gérer le travail,Arbeit verwalten,Zarządzaj pracą
+"""Allow to Start, Pause and Finish  work""","Allow to Start, Pause and Finish  work","Permettre de commencer, de faire une pause et de terminer le travail","Starten, innehalten und die Arbeit beenden","Pozwól, aby rozpocząć, zatrzymać i zakończyć pracę"
+"""Show issue history""",Show issue history,Montrer l'histoire de la question,Ausgabehistorie zeigen,Pokaż historię wydania
+"""Show issue history graph""",Show issue history graph,Afficher le graphique de l'historique des problèmes,Issue History Diagramm anzeigen,Pokaż wykres historii wydania
+"""Show replaced parts""",Show replaced parts,Montrer les pièces remplacées,Show Teile ersetzt,Pokaż wymienione części
+"""Allow to show, add, remove list of replaced parts""","Allow to show, add, remove list of replaced parts","Laisser afficher, ajouter, supprimer la liste des pièces remplacées","Zeigen Sie die Liste der ersetzten Teile hinzufügen, hinzufügen, hinzufügen, entfernen","Pozwól, aby pokazać, dodać, usuń listę wymienionych części"
+"""Show items list""",Show items list,Afficher la liste des éléments,Elemente Liste anzeigen,Pokaż listę przedmiotów
+"""User can view list of items""",User can view list of items,L'utilisateur peut afficher la liste des éléments,Benutzer kann die Liste der Elemente anzeigen,Użytkownik może wyświetlić listę elementów
+"""Adding items""",Adding items,Ajout d'articles,Hinzufügen von Elementen,Dodawanie elementów
+"""User can create new items""",User can create new items,L'utilisateur peut créer de nouveaux éléments,Benutzer können neue Elemente erstellen,Użytkownik może tworzyć nowe elementy
+"""Item editing""",Item editing,Édition d'articles,Artikelbearbeitung,Edycja przedmiotów
+"""User can edit item""",User can edit item,L'utilisateur peut modifier l'élément,Benutzer kann Element bearbeiten,Użytkownik może edytować element
+"""Hide items""",Hide items,Masquer les éléments,Gegenstände verbergen,Ukryj przedmioty
+"""User can hide existing item""",User can hide existing item,L'utilisateur peut masquer l'élément existant,Der Benutzer kann vorhandenes Element ausblenden,Użytkownik może ukryć istniejący element
+"""Removing items""",Removing items,Retirer les articles,Gegenstände entfernen,Usuwanie elementów
+"""User can delete existing item""",User can delete existing item,L'utilisateur peut supprimer l'élément existant,Der Benutzer kann vorhandenes Element löschen,Użytkownik może usunąć istniejący element
+"""Show QR code""",Show QR code,Afficher le code QR,QR -Code anzeigen,Pokaż kod QR
+"""Show QR code assigned to item""",Show QR code assigned to item,Afficher le code QR attribué à l'élément,"QR -Code anzeigen, der dem Element zugewiesen ist",Pokaż kod QR przypisany do elementu
+"""Show item history""",Show item history,Afficher l'historique des articles,Artikelhistorie anzeigen,Pokaż historię przedmiotów
+"""Show item history graph""",Show item history graph,Afficher le graphique de l'historique des éléments,Element History Diagramm anzeigen,Pokaż wykres historii pozycji
+,,,,
+,,,,
+,,,,
+,,,,
 #roles,,,,
 """Admin""",Admin,Administrer,Administrator,Admin
 """Main admin""",Main admin,Administrateur principal,Hauptadmin,Główny administrator
