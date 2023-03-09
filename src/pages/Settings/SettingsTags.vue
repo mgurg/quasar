@@ -42,42 +42,26 @@
 
       <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-card-section>
-          <!--          <div class="row sm-gutter">-->
-          <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
-          <!--              <q-input outlined v-model="newTag" label="Nazwa"/>-->
-          <!--            </div>-->
-          <!--            <div class="q-pa-xs col-xs-12 col-sm-6">-->
-          <!--              <q-btn>AAAA</q-btn>-->
-          <!--            </div>-->
-          <!--          </div>-->
-
-          <!-- <q-input v-model="newTag" bottom-slots counter label="Label" maxlength="12" outlined>
-            <template v-slot:append>
-              <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
-            </template>
-            <template v-slot:after>
-              <q-btn dense flat icon="add" round @click="addTag(newTag)"/>
-            </template>
-          </q-input> -->
-
           <div class="row">
-            <q-input dense v-model="newTag" class="q-mr-xs" label="Nazwa" outlined>
+            <q-input v-model="newTag" class="q-mr-xs" dense label="Nazwa" outlined :disable="!hasPermission('TAG_ADD')">
               <template v-slot:append>
-                <q-icon name="square" :style="{ 'color':mainColor }" />
+                <q-icon :style="{ 'color':mainColor }" name="square"/>
               </template>
 
             </q-input>
-            <q-btn-dropdown dense color="primary" flat no-caps label="Dodaj" split dropdown-icon="palette"  @click="addTag(newTag)">
+            <q-btn-dropdown color="primary" dense dropdown-icon="palette" flat label="Dodaj" no-caps split
+                            :disable="!hasPermission('TAG_ADD')"
+                            @click="addTag(newTag)">
               <q-list style="min-width: 300px">
                 <q-color v-model="mainColor" dark default-view="palette" hide-underline no-footer no-header-tabs/>
               </q-list>
             </q-btn-dropdown>
-<!--            <q-btn :style="{ 'background-color':mainColor }" class="q-mr-xs" flat icon="colorize">-->
-<!--              <q-menu>-->
-<!--                <q-color v-model="mainColor" dark default-view="palette" hide-underline no-footer no-header-tabs/>-->
-<!--              </q-menu>-->
-<!--            </q-btn>-->
-<!--            <q-btn class="q-mr-xs" flat icon="add" label="Dodaj" no-caps @click="addTag(newTag)"/>-->
+            <!--            <q-btn :style="{ 'background-color':mainColor }" class="q-mr-xs" flat icon="colorize">-->
+            <!--              <q-menu>-->
+            <!--                <q-color v-model="mainColor" dark default-view="palette" hide-underline no-footer no-header-tabs/>-->
+            <!--              </q-menu>-->
+            <!--            </q-btn>-->
+            <!--            <q-btn class="q-mr-xs" flat icon="add" label="Dodaj" no-caps @click="addTag(newTag)"/>-->
             <q-space/>
           </div>
 
@@ -146,8 +130,9 @@
                     <div class="text-grey-8 q-gutter-xs">
 
                       <q-btn :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" dense flat round size="12px"
+                             :disable="!hasPermission('TAG_HIDE')"
                              @click="switchTagVisibility(tag.uuid, tag.is_hidden)"/>
-                      <q-btn dense flat icon="palette" round size="12px">
+                      <q-btn dense flat icon="palette" round size="12px" :disable="!hasPermission('TAG_EDIT')">
                         <q-menu>
                           <q-card class="my-card" style="min-width: 300px">
                             <q-card-section>
@@ -184,7 +169,7 @@
 
                         </q-menu>
                       </q-btn>
-                      <q-btn dense flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)"/>
+                      <q-btn dense flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)" :disable="!hasPermission('TAG_DELETE')" />
                     </div>
                   </q-item-section>
                 </q-item>
@@ -201,11 +186,20 @@
 </template>
 
 <script setup>
-import {onBeforeMount, reactive, ref} from "vue";
+import {computed, onBeforeMount, reactive, ref} from "vue";
 import {errorHandler} from "components/api/errorHandler";
 import {addTagRequest, deleteTagRequest, editTagRequest, getTagsRequest} from "components/api/TagsApiClient";
 import {useQuasar} from "quasar";
 import {useRouter} from "vue-router";
+import {useUserStore} from 'stores/user'
+
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return Boolean(permissions.value.includes(permission));
+}
+
 
 const $q = useQuasar()
 const router = useRouter();

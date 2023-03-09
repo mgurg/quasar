@@ -325,9 +325,16 @@
         <q-space class="q-pa-sm"/>
       </q-card>
       <div v-if="pagination.total === 0 && hasStatus==='active'" class="text-h5 text-center q-pa-lg">
-        Brak problemów 🥳 ! <br/><br/> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
+        <p>Brak problemów 🥳 !</p><p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇</p>
         <div class="col-12 text-h6 q-mt-none">
-          <q-btn :label="$t('New issue')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/issues/add"/>
+          <q-btn
+            :label="$t('New issue')"
+            class="q-py-md q-my-md" color="primary"
+            icon="add"
+            no-caps
+            to="/issues/add"
+            v-if="hasPermission('ISSUE_ADD')"
+          />
         </div>
       </div>
     </q-page>

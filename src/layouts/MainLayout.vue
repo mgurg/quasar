@@ -283,15 +283,20 @@ function notify() {
   })
 }
 
+const permissions = computed(() => UserStore.getPermissions);
+function hasPermission(permission) {
+  if (permissions.value === null){
+    return false;
+  }
+
+  return Boolean(permissions.value.includes(permission));
+}
 function logout() {
   UserStore.logoutUser()
   router.push("/login");
 }
 
-const permissions = computed(() => UserStore.getPermissions);
-function hasPermission(permission) {
-  return Boolean(permissions.value.includes(permission));
-}
+
 
 
 

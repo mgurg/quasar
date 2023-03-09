@@ -39,48 +39,6 @@
           </q-list>
         </q-card-section>
       </q-card>
-
-      <!--        <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">-->
-      <!--          <q-card-section>-->
-      <!--            <div class="text-h5">Import</div>-->
-      <!--            <q-separator></q-separator>-->
-      <!--            <p>Obecnie możliwy jest wyłącznie import użytkowników. Jest to możliwe dla pliku CSV o formacie:</p>-->
-      <!--            <p>Imię, Nazwisko, Email, Hasło, Telefon, Rola</p>-->
-      <!--            <div>-->
-      <!--              <table style="border-color:black;border-style:solid;border-width:1px;">-->
-      <!--                <thead>-->
-      <!--                <tr >-->
-      <!--                  <th>Imię</th>-->
-      <!--                  <th>Nazwisko</th>-->
-      <!--                  <th>Email</th>-->
-      <!--                  <th>Hasło</th>-->
-      <!--                  <th>Telefon</th>-->
-      <!--                  <th>Rola</th>-->
-      <!--                </tr>-->
-      <!--                </thead>-->
-      <!--                <tbody style="border-color:black;border-style:solid;border-width:1px;">-->
-      <!--                <tr>-->
-      <!--                  <td>Obowiązkowe</td>-->
-      <!--                  <td>Obowiązkowe</td>-->
-      <!--                  <td>Obowiązkowe</td>-->
-      <!--                  <td></td>-->
-      <!--                  <td></td>-->
-      <!--                  <td></td>-->
-      <!--                </tr>-->
-      <!--                </tbody>-->
-      <!--              </table>-->
-      <!--            </div>-->
-      <!--            <div class="text-h6">Użytkownicy</div>-->
-
-      <!--            <q-file outlined v-model="model">-->
-      <!--              <template v-slot:prepend>-->
-      <!--                <q-icon name="attach_file" />-->
-      <!--              </template>-->
-      <!--            </q-file>-->
-
-      <!--          </q-card-section>-->
-      <!--        </q-card>-->
-
       <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-card-section>
           <div class="text-h5">Export</div>
@@ -111,7 +69,7 @@
             </q-item-section>
           </q-item>
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" v-if="hasPermission('ITEM_EXPORT')">
           <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
             <q-item-section
               v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
@@ -129,7 +87,7 @@
           </q-item>
 
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12"  v-if="hasPermission('ISSUE_EXPORT')">
           <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
             <q-item-section
               v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
@@ -163,7 +121,7 @@
 
 
       <div class="row q-col-gutter-sm q-pb-md q-mt-sm" >
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" v-if="hasPermission('USER_EXPORT')">
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12" v-if="hasPermission('USER_IMPORT')">
           <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
             <q-item-section
               v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
@@ -181,7 +139,7 @@
             </q-item-section>
           </q-item>
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12"  v-if="hasPermission('ITEM_IMPORT')">
           <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
             <q-item-section
               v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"
@@ -199,7 +157,7 @@
           </q-item>
 
         </div>
-        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12"  v-if="hasPermission('ISSUE_IMPORT')">
           <q-item class="q-pa-none rounded-borders fit" style="background-color: #FFFFFF">
             <q-item-section
               v-ripple class=" q-pa-lg q-mr-none text-white rounded-borders cursor-pointer"

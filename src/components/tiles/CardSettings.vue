@@ -3,9 +3,14 @@
     <q-card-section class="q-pa-none">
       <div class="row q-col-gutter-sm">
         <div v-for="(item, index) in items" :key="index" class="col-md-4 col-sm-6 col-xs-12">
-          <q-item :style="`background-color: ${item.color1}`" :to="item.link" class="q-pa-none rounded-borders fit"
-                  clickable>
-            <q-item-section v-if="icon_position === 'left'" :style="`background-color: ${item.color2}`"
+          <q-item
+            :style="[hasPermission(item.permission) ? `background-color: ${item.color1}` : `background-color: #999999`]"
+            :to="hasPermission(item.permission)? item.link : null"
+            class="q-pa-none rounded-borders fit"
+            :clickable = "hasPermission(item.permission) ? true: false"
+          >
+            <q-item-section v-if="icon_position === 'left'"
+                            :style="[hasPermission(item.permission) ? `background-color: ${item.color2}` : `background-color: #5a5a5a`]"
                             class=" q-pa-lg q-mr-none text-white rounded-borders"
                             side>
               <q-icon :name="item.icon" color="white" size="24px"></q-icon>
@@ -25,11 +30,22 @@
 </template>
 
 <script setup>
+import {computed} from "vue";
+import {useUserStore} from 'stores/user'
 
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  if (permission === null){
+    return true;
+  }
+  return Boolean(permissions.value.includes(permission));
+}
 
 
 const props = defineProps({
-  iconPosition:{
+  iconPosition: {
     type: String,
     default: "left",
   },

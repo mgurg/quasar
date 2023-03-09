@@ -92,7 +92,7 @@
         </q-card-section>
         <q-separator/>
 
-        <q-card-actions v-if="issueStatus !== 'rejected'" align="right">
+        <q-card-actions v-if="issueStatus !== 'rejected' && !hasPermission('ISSUE_MANAGE')" align="right">
           <q-btn
             v-if="issueStatus === 'new'"
             :label="$q.screen.gt.xs ? 'Akceptuj' : ''"
@@ -180,7 +180,7 @@
           <!--            @click="setIssueStatus('done')"-->
           <!--          />-->
         </q-card-actions>
-        <q-card v-else align="right">
+        <q-card v-if="issueStatus == 'rejected'" align="right">
           <span class="q-pa-md">Zgłoszenie odrzucone</span>
         </q-card>
       </q-card>

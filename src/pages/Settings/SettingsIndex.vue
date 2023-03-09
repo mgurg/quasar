@@ -49,7 +49,8 @@ let leftArray = ref([
     value: "Konto",
     color1: "#546bfa",
     color2: "#3e51b5",
-    link: "/settings/account"
+    link: "/settings/account",
+    permission: "SETTINGS_ACCOUNT"
   },
   {
     title: "Kategorie awarii, np: mechaniczna elektryczna ",
@@ -57,7 +58,8 @@ let leftArray = ref([
     value: "Tagi",
     color1: "#a270b1",
     color2: "#9f52b1",
-    link: "/settings/tags"
+    link: "/settings/tags",
+    permission: "SETTINGS_TAGS"
   },
   {
     title: "Ustawienia powiadomień o awariach (sms, email)",
@@ -65,7 +67,8 @@ let leftArray = ref([
     value: "Powiadomienia",
     color1: "#5064b5",
     color2: "#3e51b5",
-    link: "/settings/notifications"
+    link: "/settings/notifications",
+    permission: null
   },
   {
     title: "Ustawienia Importu i Eksportu danych do pliku CSV",
@@ -73,7 +76,8 @@ let leftArray = ref([
     value: "Import/Export",
     color1: "#5064b5",
     color2: "#3e51b5",
-    link: "/settings/import-export"
+    link: "/settings/import-export",
+    permission: null
   },
   {
     title: "Kto ma jaki dostęp do funkcji w aplikacji",
@@ -81,7 +85,8 @@ let leftArray = ref([
     value: "Uprawnienia",
     color1: "#f37169",
     color2: "#f34636",
-    link: "/settings/permissions"
+    link: "/settings/permissions",
+    permission: "SETTINGS_PERMISSION"
   },
   // {
   //   title: "Zdefiniowane grupy ludzi, np: serwis, biuro",

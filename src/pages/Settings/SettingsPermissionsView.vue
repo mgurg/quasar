@@ -56,7 +56,7 @@
                   :disable="permissionDetails.is_custom==false"
                   no-caps
                   flat
-                  @click="deleteGroup(permissionDetails.uuid)"
+                  @click="deletePermission()"
                 />
               </div>
             </q-item-section>
@@ -101,7 +101,12 @@ import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
 import PermissionForm from 'src/components/forms/PermissionForm.vue'
 import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
+import {deleteUserRequest} from "components/api/UserApiClient";
+import {errorHandler} from "components/api/errorHandler";
+import {deletePermissionRequest} from "components/api/PermissionApiClient";
+import {useQuasar} from "quasar";
 
+const $q = useQuasar();
 
 const router = useRouter();
 const route = useRoute();
@@ -177,5 +182,30 @@ function toggleEdit() {
   canEdit.value = !canEdit.value
 }
 
+function deletePermission(){
+  let uuid = route.params.uuid
+  console.log(uuid);
+
+    $q.dialog({title: "Confirm", message: "Really delete?", cancel: true, persistent: true,})
+      .onOk(() => {
+        isLoading.value = true;
+        deletePermissionRequest(uuid).then(function (response) {
+          $q.notify("Permission deleted");
+          router.push("/users/");
+          isLoading.value = false;
+        }).catch((err) => {
+          const errorMessage = errorHandler(err);
+          console.log(errorMessage.status)
+          if (errorMessage.status === 400) {
+            // deleteUserToken();
+            // history.push(Routes.Login);
+            $q.notify("Permission in use");
+          }
+
+          // isError.value = true;
+        });
+      });
+
+}
 
 </script>
