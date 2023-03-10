@@ -274,6 +274,11 @@ function addTag(name) {
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
+    if (errorMessage.status === 400) {
+      // deleteUserToken();
+      // history.push(Routes.Login);
+      $q.notify("Tag already exists");
+    }
     isError.value = true;
   });
 }

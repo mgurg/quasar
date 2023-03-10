@@ -40,6 +40,8 @@
 <script setup>
 
 import {ref} from "vue";
+import {DateTime, Duration} from 'luxon'
+import humanizeDuration from 'humanize-duration'
 import {getIssueSummaryRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
@@ -70,7 +72,16 @@ const byKey = (arr, key, value) => {
 };
 
 const summaryTimes = (arr) => {
+
+  // DateTime.fromSeconds(timestamp).toRelative()
+
+  // const humanObject = arr.reduce((obj, item) => (obj[item.action] = DateTime.fromSeconds(item.duration).toRelative(), obj), {});
+
+
   const object = arr.reduce((obj, item) => (obj[item.action] = item.duration, obj), {});
+
+
+  console.log(humanizeDuration(12000));
   return object;
 }
 

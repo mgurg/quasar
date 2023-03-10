@@ -92,7 +92,7 @@
         </q-card-section>
         <q-separator/>
 
-        <q-card-actions v-if="issueStatus !== 'rejected' && !hasPermission('ISSUE_MANAGE')" align="right">
+        <q-card-actions v-if="issueStatus !== 'rejected' && hasPermission('ISSUE_MANAGE')" align="right">
           <q-btn
             v-if="issueStatus === 'new'"
             :label="$q.screen.gt.xs ? 'Akceptuj' : ''"

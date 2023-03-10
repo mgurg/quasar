@@ -52,28 +52,25 @@ function firstRun(activationId) {
   console.log("ID: ", activationId)
 
   authFirstRunRequest(activationId).then(function (response) {
-
-
-    localStorage.setItem("firstName", response.data.first_name);
-    localStorage.setItem("lastName", response.data.last_name);
-    localStorage.setItem("lang", response.data.lang);
-    localStorage.setItem("tz", response.data.tz);
-    localStorage.setItem("uuid", response.data.uuid);
-    localStorage.setItem("tenant", response.data.tenanat_id);
-    localStorage.setItem("token", response.data.token);
-
-    UserStore.fillStore(
-      response.data.token,
-      response.data.tenanat_id,
-      response.data.first_name,
-      response.data.last_name,
-      response.data.uuid,
-      response.data.tz,
-      response.data.lang
-    )
+    // localStorage.setItem("firstName", response.data.first_name);
+    // localStorage.setItem("lastName", response.data.last_name);
+    // localStorage.setItem("lang", response.data.lang);
+    // localStorage.setItem("tz", response.data.tz);
+    // localStorage.setItem("uuid", response.data.uuid);
+    // localStorage.setItem("tenant", response.data.tenanat_id);
+    // localStorage.setItem("token", response.data.token);
+    //
+    // UserStore.fillStore(
+    //   response.data.token,
+    //   response.data.tenanat_id,
+    //   response.data.first_name,
+    //   response.data.last_name,
+    //   response.data.uuid,
+    //   response.data.tz,
+    //   response.data.lang
+    // )
     isLoading.value = false;
     router.push("/login");
-    isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
