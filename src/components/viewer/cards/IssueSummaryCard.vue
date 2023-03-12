@@ -19,14 +19,46 @@
       <div v-show="expandedSummary">
         <q-card-section v-if="summaryReport">
           <div class="text-h6"> Czasy:</div>
-          <div>Czas całkowity : {{ summaryTimes(summaryReport).issueTotalTime }} sekund</div>
-          <div>Czas reakcji : {{ summaryTimes(summaryReport).issueResponseTime }} sekund</div>
-          <div>Czas naprawy : {{ summaryTimes(summaryReport).issueRepairTime }} sekund</div>
+          <!--          <div>Całkowity: {{ summaryTimes(summaryReport).issueTotalTime }}</div>-->
+          <!--          <div>Od zgłoszenia do akceptacji: {{ summaryTimes(summaryReport).issueResponseTime }}</div>-->
+          <!--          <div>Od akceptacji do rozpoczęcia pracy: {{ summaryTimes(summaryReport).acceptToStartTime }}</div>-->
+          <!--          <div>Naprawy: {{ summaryTimes(summaryReport).issueRepairTime }}</div>-->
+          <!--          <div>Łącznej aktywności użytkowników: {{ summaryTimes(summaryReport).issueUserActivity }}</div>-->
+
+          <div class="row q-py-sm">
+            <div class="col">Całkowity:</div>
+            <div class="col">{{ summaryTimes(summaryReport).issueTotalTime }}</div>
+          </div>
+          <q-separator/>
+          <div class="row q-py-sm">
+            <div class="col">Od zgłoszenia do akceptacji:</div>
+            <div class="col">{{ summaryTimes(summaryReport).issueResponseTime }}</div>
+          </div>
+          <q-separator/>
+          <div class="row q-py-sm">
+            <div class="col">Od akceptacji do rozpoczęcia pracy:</div>
+            <div class="col">{{ summaryTimes(summaryReport).acceptToStartTime }}</div>
+          </div>
+          <q-separator/>
+          <div class="row q-py-sm">
+            <div class="col">Naprawy:</div>
+            <div class="col">{{ summaryTimes(summaryReport).issueRepairTime }}</div>
+          </div>
+          <q-separator/>
+          <div class="row q-py-sm">
+            <div class="col">Łącznej aktywności użytkowników:</div>
+            <div class="col">{{ summaryTimes(summaryReport).issueUserActivity }}</div>
+          </div>
+          <q-separator/>
 
           <div>&nbsp;</div>
-          <div class="text-h6"> Użytkownicy:</div>
+          <div class="text-h6">Aktywność użytkowników:</div>
           <div v-for="(user, index) in summaryUsers" v-if="summaryUsers != null" v-bind:key="index">
-            <div>{{ user.name }} : {{ user.duration }} sekund</div>
+            <div class="row q-py-sm">
+              <div class="col">{{ user.name }}</div>
+              <div class="col">{{ humanizeSeconds(user.duration) }}</div>
+            </div>
+            <q-separator/>
           </div>
 
 
@@ -40,7 +72,6 @@
 <script setup>
 
 import {ref} from "vue";
-import {DateTime, Duration} from 'luxon'
 import humanizeDuration from 'humanize-duration'
 import {getIssueSummaryRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
@@ -71,20 +102,36 @@ const byKey = (arr, key, value) => {
   return result;
 };
 
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+  language: "shortEn",
+  languages: {
+    shortEn: {
+      y: () => "y",
+      mo: () => "mo",
+      w: () => "w",
+      d: () => "d",
+      h: () => "h",
+      m: () => "m",
+      s: () => "s",
+      ms: () => "ms",
+    },
+  },
+});
+
 const summaryTimes = (arr) => {
 
-  // DateTime.fromSeconds(timestamp).toRelative()
 
-  // const humanObject = arr.reduce((obj, item) => (obj[item.action] = DateTime.fromSeconds(item.duration).toRelative(), obj), {});
+  const object = arr.reduce((obj, item) => (obj[item.action] = humanizeSeconds(item.duration), obj), {});
 
+  console.log(object)
 
-  const object = arr.reduce((obj, item) => (obj[item.action] = item.duration, obj), {});
-
-
-  console.log(humanizeDuration(12000));
   return object;
 }
 
+
+function humanizeSeconds(milliseconds) {
+  return shortEnglishHumanizer(milliseconds * 1000)
+}
 
 const isLoading = ref(false)
 const isError = ref(false)
