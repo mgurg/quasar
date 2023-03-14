@@ -115,17 +115,33 @@
             </q-item-section>
           </q-item>
 
-          <div v-for="(user, index) in users" v-if="users !== null" v-bind:key="index">
+          <div v-for="(user, index) in verifiedUsers" v-if="users !== null" v-bind:key="index">
             <user-list-row :user="user"/>
           </div>
           <task-index-skeleton v-else/>
-
-
         </q-list>
+
+
 
         <div v-if="pagination.total > 10" class="q-pa-md flex flex-center">
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links/>
         </div>
+      </q-card>
+
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="newUsers!==null">
+        <div class="q-pa-md">
+          <p class="text-h5">Użytkownicy oczekujący na weryfikację</p>
+          <p>Masz uprawnienia pozwalające na zatwierdzanie nowych użytkowników. </p>
+        </div>
+
+        <q-list v-if="users != null" class="q-mt-none q-pt-none" padding>
+
+          <q-separator/>
+
+          <div v-for="(user, index) in newUsers" v-if="users !== null && newUsers!==null" v-bind:key="index">
+            <user-unverified-list-row :user="user"/>
+          </div>
+        </q-list>
       </q-card>
 
     </q-page>
@@ -140,6 +156,7 @@ import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
 
 import UserListRow from 'components/listRow/UserListRow.vue'
+import UserUnverifiedListRow from 'components/listRow/UserUnverifiedListRow.vue'
 import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
 
 const UserStore = useUserStore();
@@ -203,21 +220,21 @@ watch(() => pagination.page, (oldPage, newPage) => {
 })
 
 
-// const myTasks = computed(() => {
-//   if (users.value != null && isLoading.value == false) {
-//     return users.value.filter(user => (user.assignee != null && user.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
-//   } else {
-//     return null;
-//   }
-// });
+const verifiedUsers = computed(() => {
+  if (users.value != null && isLoading.value === false) {
+    return users.value.filter(user => (user.is_verified == true))
+  } else {
+    return null;
+  }
+});
 
-// const otherTasks = computed(() => {
-//   if (users.value != null  && isLoading.value == false) {
-//     return users.value.filter(user => (user.assignee == null || user.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
-//   } else {
-//     return users.value;
-//   }
-// });
+const newUsers = computed(() => {
+  if (users.value != null  && isLoading.value == false) {
+    return users.value.filter(user => (user.is_verified == false))
+  } else {
+    return users.value;
+  }
+});
 
 
 function fetchUsers() {

@@ -113,6 +113,7 @@ const routes = [
       { path: "/users/add", component: () => import("pages/Users/UserAdd.vue") },
       { path: "/users/:uuid", component: () => import("pages/Users/UserView.vue") },
       { path: "/users/edit/:uuid", component: () => import("pages/Users/UserEdit.vue") },
+      { path: "/users/verify/:uuid", component: () => import("pages/Users/UserAccept.vue") },
 
       { path: "/ideas", component: () => import("pages/Ideas/IdeaIndex.vue") },
       { path: "/ideas/add", component: () => import("pages/Ideas/IdeaAdd.vue") },

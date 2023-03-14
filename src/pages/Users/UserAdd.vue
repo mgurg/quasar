@@ -35,11 +35,11 @@
       <div>&nbsp;</div>
       <q-card bordered class="my-card no-shadow q-my-sm q-mx-none q-pa-none">
         <q-card-section>
-          <user-form
+          <user-form-add
             button-text="Add"
             @cancelBtnClick="cancelButtonPressed"
             @userFormBtnClick="addUserButtonPressed"
-          ></user-form>
+          ></user-form-add>
         </q-card-section>
       </q-card>
     </q-page>
@@ -49,7 +49,7 @@
 
 <script setup>
 import {ref} from "vue";
-import UserForm from 'src/components/forms/UserForm.vue'
+import UserFormAdd from 'components/forms/UserFormAdd.vue'
 import {useQuasar} from 'quasar'
 import {useRouter} from "vue-router";
 import {createUserRequest,} from 'src/components/api/UserApiClient.js'
