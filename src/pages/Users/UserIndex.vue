@@ -128,7 +128,7 @@
         </div>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="newUsers!==null">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="1===2 && newUsers!==null">
         <div class="q-pa-md">
           <p class="text-h5">Użytkownicy oczekujący na weryfikację</p>
           <p>Masz uprawnienia pozwalające na zatwierdzanie nowych użytkowników. </p>

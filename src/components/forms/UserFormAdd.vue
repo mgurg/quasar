@@ -39,6 +39,28 @@
         </div>
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-input
+            v-model="userPassword"
+            :disable="isLoading"
+            :error="!!errors.userPassword"
+            :error-message="errors.userPassword"
+            :label="$t('Password')"
+            :type="isPwd ? 'password' : 'text'"
+            autocomplete="new-password"
+            outlined
+          >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+        </div>
+      </div>
+      <div class="row sm-gutter">
+        <div class="q-pa-xs col-xs-12 col-sm-6">
+          <q-input
             v-model="userPhone"
             :disable="isLoading"
             :error="!!errors.userPhone"
@@ -47,8 +69,6 @@
             outlined
           />
         </div>
-      </div>
-      <div class="row sm-gutter">
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-select
             v-model="userRole"
@@ -61,12 +81,6 @@
             label="Rola"
             map-options
             outlined
-          />
-        </div>
-        <div class="q-pa-xs col-xs-12 col-sm-6">
-          <q-checkbox
-            v-model="userAccept"
-            label="Zezwól na logowanie i korzystanie z aplikacji"
           />
         </div>
       </div>
@@ -153,7 +167,7 @@ const {resetForm} = useForm();
 const validationAddSchema = yup.object({
   userFirstName: yup.string().required(),
   userLastName: yup.string().required(),
-  userAccept: yup.string().required(),
+  userPassword: yup.string().required(),
   userEmail: yup.string().email().required(),
   userPhone: yup.string().nullable(true),
   userRole: yup.string().required().nullable(true),
@@ -162,7 +176,7 @@ const validationAddSchema = yup.object({
 const validationEditSchema = yup.object({
   userFirstName: yup.string().required(),
   userLastName: yup.string().required(),
-  userAccept: yup.string().nullable(),
+  userPassword: yup.string().nullable(),
   userEmail: yup.string().email().required(),
   userPhone: yup.string().nullable(true),
   userRole: yup.string().required().nullable(true),
@@ -174,7 +188,7 @@ const {handleSubmit, errors} = useForm({
 
 const {value: userFirstName} = useField('userFirstName', undefined, {initialValue: props.user.first_name})
 const {value: userLastName} = useField('userLastName', undefined, {initialValue: props.user.last_name})
-const {value: userAccept} = useField('userAccept', undefined, {initialValue: false})
+const {value: userPassword} = useField('userPassword', undefined, {initialValue: ''})
 const {value: userEmail} = useField('userEmail', undefined, {initialValue: props.user.email})
 const {value: userPhone} = useField('userPhone', undefined, {initialValue: props.user.phone})
 const {value: userRole} = useField('userRole', undefined, {initialValue: props.user.role_FK.uuid})
@@ -187,8 +201,13 @@ const submit = handleSubmit(values => {
     "email": userEmail.value,
     "phone": userPhone.value,
 
-    "is_verified": userAccept.value,
+    "is_verified": true,
     "user_role_uuid": userRole.value,
+  }
+
+  if (userPassword.value !== null && userPassword.value !== "") {
+    data["password"] = userPassword.value
+    data["password_confirmation"] = userPassword.value
   }
 
   emit('userFormBtnClick', data)

@@ -2,7 +2,7 @@
   <!-- <div class="cursor-pointer" @click="viewItem(item.uuid)"> -->
   <q-item>
     <q-item-section avatar cursor-pointer ripple>
-      <q-avatar rounded color="cyan-14" text-color="white" icon="article" class="cursor-pointer"
+      <q-avatar rounded color="cyan-14" text-color="white" icon="hardware" class="cursor-pointer"
                 @click="viewItem(item.uuid)"/>
     </q-item-section>
 

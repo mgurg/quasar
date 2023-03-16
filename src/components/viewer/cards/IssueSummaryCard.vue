@@ -129,8 +129,8 @@ const summaryTimes = (arr) => {
 }
 
 
-function humanizeSeconds(milliseconds) {
-  return shortEnglishHumanizer(milliseconds * 1000)
+function humanizeSeconds(seconds) {
+  return shortEnglishHumanizer(seconds * 1000)
 }
 
 const isLoading = ref(false)

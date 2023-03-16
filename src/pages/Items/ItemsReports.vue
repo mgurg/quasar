@@ -175,46 +175,30 @@
         </q-card-section>
 
         <q-separator/>
-        <q-card-section>
-          liczba usterek
+        <q-card-section v-if="issuesRepairTime">
+          <div class="row q-py-sm">
+            <div class="col">Naprawy (Średni):</div>
+            <div class="col"> {{ humanizeSeconds(issuesRepairTime.avg) }}</div>
+          </div>
+<!--          <q-separator/>-->
+          <div class="row q-py-sm">
+            <div class="col">Naprawy (Maksymalny):</div>
+            <div class="col">{{ humanizeSeconds(issuesRepairTime.max) }}</div>
+          </div>
+          <q-separator/>
+          <div class="row q-py-sm">
+            <div class="col">Obsługi całej awarii (Średni):</div>
+            <div class="col"> {{ humanizeSeconds(issuesTotalTime.avg) }}</div>
+          </div>
+          <!--          <q-separator/>-->
+          <div class="row q-py-sm">
+            <div class="col">Obsługi całej awarii (Maksymalny):</div>
+            <div class="col">{{ humanizeSeconds(issuesTotalTime.max) }}</div>
+          </div>
+
         </q-card-section>
       </q-card>
 
-      <!-- czas najdłuższej awarii -->
-      <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
-          <q-list>
-            <q-item class="q-px-none">
-              <q-item-section>
-                <q-item-label class="text-h6">Czas najdłuższej awarii</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-
-        <q-separator/>
-        <q-card-section>
-          liczba usterek
-        </q-card-section>
-      </q-card>
-
-      <!-- średni czas potrzebny na podjęcie zgłoszenia -->
-      <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
-          <q-list>
-            <q-item class="q-px-none">
-              <q-item-section>
-                <q-item-label class="text-h6">Średni czas potrzebny na podjęcie zgłoszenia</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
-
-        <q-separator/>
-        <q-card-section>
-          liczba usterek
-        </q-card-section>
-      </q-card>
 
       <!-- użytkownicy biorący udział w naprawach -->
       <q-card bordered class="my-card no-shadow q-my-sm">
@@ -245,6 +229,7 @@ import {onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import humanizeDuration from "humanize-duration";
 
 
 const route = useRoute();
@@ -259,8 +244,8 @@ const summaryTimes = ref({max: null, avg: null});
 const issuesPerDay = ref(null);
 const issuesPerHour = ref(null);
 const issuesStatus = ref(null);
-const issuesAvgRepairTime = ref(null);
-const issuesMaxRepairTime = ref(null);
+const issuesRepairTime = ref(null);
+const issuesTotalTime = ref(null);
 
 function getItemStatistics(uuid) {
   isLoading.value = true;
@@ -271,6 +256,8 @@ function getItemStatistics(uuid) {
     issuesPerDay.value = response.data.issuesPerDay
     issuesPerHour.value = response.data.issuesPerHour
     issuesStatus.value = response.data.issuesStatus
+    issuesRepairTime.value = response.data.repairTime
+    issuesTotalTime.value = response.data.totalTime
     console.log(response.data)
 
     isLoading.value = false;
@@ -278,6 +265,26 @@ function getItemStatistics(uuid) {
     const errorMessage = errorHandler(err);
     isError.value = true;
   });
+}
+
+const shortEnglishHumanizer = humanizeDuration.humanizer({
+  language: "shortEn",
+  languages: {
+    shortEn: {
+      y: () => "y",
+      mo: () => "mo",
+      w: () => "w",
+      d: () => "d",
+      h: () => "h",
+      m: () => "m",
+      s: () => "s",
+      ms: () => "ms",
+    },
+  },
+});
+
+function humanizeSeconds(seconds) {
+  return shortEnglishHumanizer(seconds * 1000)
 }
 
 onBeforeMount(() => {

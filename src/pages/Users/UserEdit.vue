@@ -77,6 +77,11 @@ function updateUser(uuid, data) {
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
+    $q.notify({
+      type: 'warning',
+      message: errorMessage.data.detail,
+    });
+    // console.log(errorMessage.data.detail)
     isError.value = true;
   });
 }

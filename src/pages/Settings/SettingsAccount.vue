@@ -41,40 +41,94 @@
       </q-card>
 
 
-      <div class="row q-col-gutter-sm">
-      <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-        <q-card bordered class="my-card no-shadow q-mt-sm fit">
-          <q-card-section v-if="companyInfo!== null">
-            <div class="text-h5">Firma:</div>
+      <div class="row q-col-gutter-sm q-py-md">
+        <div class="col-md-4 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #e91e63">
 
-            <div>{{companyInfo.name}}</div>
-            <div>{{companyInfo.street}}</div>
-            <div>{{companyInfo.city}}</div>
-            <q-separator/>
-            <div>{{companyInfo.nip}}</div>
+            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #d81b60">
+              <q-icon color="white" name="factory" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section v-if="companyInfo" class="q-pa-md q-ml-none  text-white">
+              <!--              <q-item-label>{{ $t('New') }}</q-item-label>-->
+              <!--              <q-item-label>{{ $t('New') }}</q-item-label>-->
 
-          </q-card-section>
-        </q-card >
+
+              <q-item-label class="text-weight-bold">{{ companyInfo.name }}</q-item-label>
+              <q-item-label>{{ companyInfo.street }}</q-item-label>
+              <q-item-label>{{ companyInfo.city }}</q-item-label>
+              <q-item-label>NIP: {{ companyInfo.nip }}</q-item-label>
+
+
+            </q-item-section>
+          </q-item>
         </div>
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-        <q-card bordered class="my-card no-shadow q-mt-sm fit">
-          <q-card-section>
-            <div class="text-h5">Użytkownicy:</div>
-
-
-          </q-card-section>
-        </q-card>
+        <div class="col-md-4 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #ffb300">
+            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #ffa000">
+              <q-icon color="white" name="people" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ userCount }}
+              </q-item-label>
+              <q-item-label>Użytkownicy</q-item-label>
+            </q-item-section>
+          </q-item>
         </div>
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-        <q-card bordered class="my-card no-shadow q-mt-sm fit">
-          <q-card-section>
-
-          <div class="text-h5">Wykorzystane miejsce:</div>
-
-          </q-card-section>
-        </q-card>
+        <div class="col-md-4 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" style="background-color: #009688">
+            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #00897b">
+              <q-icon color="white" name="storage" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ usedSpace }}
+              </q-item-label>
+              <q-item-label>Used space</q-item-label>
+            </q-item-section>
+          </q-item>
         </div>
-        </div>
+      </div>
+
+<!--      <div class="row q-col-gutter-sm">-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
+<!--            <q-card-section v-if="companyInfo!== null">-->
+<!--              <div class="text-h5">Firma:</div>-->
+
+<!--              <div>{{ companyInfo.name }}</div>-->
+<!--              <div>{{ companyInfo.street }}</div>-->
+<!--              <div>{{ companyInfo.city }}</div>-->
+<!--              <q-separator/>-->
+<!--              <div>{{ companyInfo.nip }}</div>-->
+
+<!--            </q-card-section>-->
+<!--          </q-card>-->
+<!--        </div>-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
+<!--            <q-card-section>-->
+<!--              <div class="text-h5">Użytkownicy:</div>-->
+<!--              <div class="text-h5">{{ userCount }}</div>-->
+
+
+<!--            </q-card-section>-->
+<!--          </q-card>-->
+<!--        </div>-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
+<!--            <q-card-section>-->
+
+<!--              <div class="text-h5">Wykorzystane miejsce:</div>-->
+<!--              <div class="text-h5">{{ usedSpace }}</div>-->
+<!--            </q-card-section>-->
+<!--          </q-card>-->
+<!--        </div>-->
+<!--      </div>-->
     </q-page>
   </div>
 
