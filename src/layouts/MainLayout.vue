@@ -55,6 +55,15 @@
             <q-item-section>Podsumowanie</q-item-section>
           </q-item>
 
+          <!--Reports Index-->
+          <q-item to="/reports" exact clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon size="md" name="insights" />
+            </q-item-section>
+
+            <q-item-section>Raporty</q-item-section>
+          </q-item>
+
 
           <!--Issues Index-->
           <q-item to="/issues" exact clickable v-ripple v-if="hasPermission('ISSUE_VIEW')">

@@ -89,6 +89,45 @@
         </q-item>
       </div>
 
+
+      <!-- TAGS -->
+      <q-item-section>
+        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Tagi</q-item-label>
+        <q-item-label caption class="q-pb-xs">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+      </q-item-section>
+      <div v-for="(permission, index) in tagsPermissions" v-bind:key="index" v-if="tagsPermissions !== null">
+        <q-item v-ripple tag="label">
+          <q-item-section avatar top>
+            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ permission.title }}</q-item-label>
+            <q-item-label caption>
+              {{ permission.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+
+      <!-- SECTIONS -->
+      <q-item-section>
+        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Ustawienia</q-item-label>
+        <q-item-label caption class="q-pb-xs">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+      </q-item-section>
+      <div v-for="(permission, index) in sectionsPermissions" v-bind:key="index" v-if="sectionsPermissions !== null">
+        <q-item v-ripple tag="label">
+          <q-item-section avatar top>
+            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ permission.title }}</q-item-label>
+            <q-item-label caption>
+              {{ permission.description }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </div>
+
 <!--      <div v-for="(permission, index) in allPermissions" v-bind:key="index">-->
 <!--        <q-item v-ripple tag="label">-->
 <!--          <q-item-section avatar top>-->
@@ -177,6 +216,8 @@ let allPermissions = ref(null);
 let usersPermissions = ref(null);
 let issuesPermissions = ref(null);
 let itemsPermissions = ref(null);
+let tagsPermissions = ref(null);
+let sectionsPermissions = ref(null);
 
 
 let allowEdit = ref(props.canEdit)
@@ -201,6 +242,8 @@ function getAllPermissions() {
       usersPermissions.value = res.data.filter(obj => obj.group === 'users')
       issuesPermissions.value = res.data.filter(obj => obj.group === 'issues')
       itemsPermissions.value = res.data.filter(obj => obj.group === 'items')
+      tagsPermissions.value = res.data.filter(obj => obj.group === 'tags')
+      sectionsPermissions.value = res.data.filter(obj => obj.group === 'settings')
 
       if (props.role.permission != null && props.role.permission != 'undefined') {
         selectedPermissions.value = props.role.permission.map(value => value.uuid);

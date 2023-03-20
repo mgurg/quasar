@@ -189,6 +189,8 @@ import {errorHandler} from "components/api/errorHandler";
 import {exportFile} from "quasar";
 import {useUserStore} from "stores/user";
 import {useRouter} from "vue-router";
+import {getItemCsvRequest} from "components/api/ItemApiClient";
+import {getIssueCsvRequest} from "components/api/IssueApiClient";
 
 const router = useRouter();
 const UserStore = useUserStore();
@@ -217,7 +219,7 @@ function usersExportToCsv() {
 
 function itemsExportToCsv() {
   isLoading.value = true;
-  getUserCsvRequest().then(function (response) {
+  getItemCsvRequest().then(function (response) {
     const status = exportFile(`items_${new Date().toJSON().slice(0, 10)}.csv`, response.data)
     console.log(response.headers)
     isLoading.value = false;
@@ -229,7 +231,7 @@ function itemsExportToCsv() {
 
 function issuesExportToCsv() {
   isLoading.value = true;
-  getUserCsvRequest().then(function (response) {
+  getIssueCsvRequest().then(function (response) {
     const status = exportFile(`issues_${new Date().toJSON().slice(0, 10)}.csv`, response.data)
     console.log(response.headers)
     isLoading.value = false;

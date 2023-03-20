@@ -103,6 +103,8 @@ const routes = [
     children: [
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
 
+      { path: "/reports", component: () => import("pages/Reports/ReportsIndex.vue") },
+
       { path: "/issues", component: () => import("pages/Issues/IssueIndex.vue") },
       { path: "/issues/add", component: () => import("pages/Issues/IssueAdd.vue") },
       { path: "/issues/:uuid", component: () => import("pages/Issues/IssueView.vue") },

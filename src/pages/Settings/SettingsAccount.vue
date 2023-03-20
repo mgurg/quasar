@@ -86,7 +86,7 @@
               <q-icon color="white" name="storage" size="24px"></q-icon>
             </q-item-section>
             <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder">{{ usedSpace }}
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ formatBytes(usedSpace) }}
               </q-item-label>
               <q-item-label>Used space</q-item-label>
             </q-item-section>
@@ -151,6 +151,19 @@ const tags = ref(null);
 const companyInfo = ref(null);
 const userCount = ref(null);
 const usedSpace = ref(null);
+
+
+const formatBytes = (bytes, decimals = 2) => {
+  if (bytes === 0) return "0 Bajtów";
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ["Bajtów", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+};
 
 function fetchCompanyInfo() {
   isLoading.value = true;

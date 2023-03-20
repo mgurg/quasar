@@ -12,6 +12,9 @@ export function getOneItemRequest(uuid) {
   return authApi.get("/items/" + uuid);
 }
 
+export function getItemCsvRequest() {
+  return authApi.get("/items/export", { responseType: 'stream' });
+}
 export function getItemTimelineRequest(uuid) {
   return authApi.get("/items/timeline/" + uuid, {params: {'action':'issue_add'}});
 }
@@ -20,6 +23,9 @@ export function getItemStatisticsRequest(uuid) {
   return authApi.get("/items/statistics/" + uuid);
 }
 
+export function getAllItemStatisticsRequest() {
+  return authApi.get("/items/statistics/all");
+}
 
 export function setItemFavouriteRequest(data) {
   return authApi.post("/items/favourites" , data);

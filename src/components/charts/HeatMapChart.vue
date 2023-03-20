@@ -80,11 +80,11 @@ console.log(startPeriod)
 console.log(endPeriod)
 
 const option = ref({
-  title: {
-    top: 30,
-    left: 'center',
-    text: props.chartTitle
-  },
+  // title: {
+  //   top: 30,
+  //   left: 'center',
+  //   text: props.chartTitle
+  // },
   tooltip: {},
   visualMap: {
     min: 0,
@@ -92,10 +92,10 @@ const option = ref({
     type: 'piecewise',
     orient: 'horizontal',
     left: 'center',
-    top: 65
+    top: 0
   },
   calendar: {
-    top: 120,
+    top: 60,
     left: 25,
     right: 5,
     cellSize: ['auto', 20],
@@ -103,7 +103,13 @@ const option = ref({
     itemStyle: {
       borderWidth: 0.8
     },
-    yearLabel: {show: false}
+    yearLabel: {show: false},
+    monthLabel: {
+      nameMap: ['STY', 'LUT', 'MAR', 'KWI', 'MAJ', 'CZE', 'LIP', 'SIE', 'WRZ', 'PAZ' , 'LIS', 'GRU'],
+    },
+    dayLabel: {
+      nameMap: ['pn', 'wt', 'śr', 'cz', 'pt', 'sb', 'nd'],
+    }
   },
   series: {
     type: 'heatmap',

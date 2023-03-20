@@ -12,6 +12,10 @@ export function getIssueSummaryRequest(uuid) {
   return authApi.get("/issues/summary/" + uuid);
 }
 
+export function getIssueCsvRequest() {
+  return authApi.get("/issues/export", { responseType: 'stream' });
+}
+
 export function getManyIssuesRequest(params) {
   return authApi.get("/issues/", {params: params,
     paramsSerializer: {

@@ -32,7 +32,7 @@
           <q-item-section side>
             <div class="col-12 text-h6 q-mt-none">
 
-              <q-btn-dropdown class="float-right q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
+              <q-btn-dropdown class="float-left q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
                 <q-list bordered padding>
                   <q-item>
                     <q-item-section>
@@ -74,7 +74,7 @@
               <!--                icon="search"-->
               <!--                no-caps-->
               <!--              />-->
-              <span v-if="$q.screen.gt.xs" class="text-body1 text-weight-medium q-pr-lg">{{ currentDate() }}</span>
+              <span v-if="$q.screen.gt.xs" class="text-body1 text-weight-medium q-pr-lg">{{ currentDate() }}, Dzisiaj:</span>
             </div>
           </q-item-section>
         </q-item>
@@ -87,7 +87,7 @@
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <q-item clickable @click="goToIssues('new')" class="q-pa-none rounded-borders fit" style="background-color: #e91e63">
 
-                  <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                  <q-item-section class="q-pa-md q-mr-none text-white rounded-borders"
                                   side
                                   style="background-color: #d81b60">
                     <q-icon color="white" name="auto_awesome" size="24px"></q-icon>
@@ -101,7 +101,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <q-item clickable @click="goToIssues('in_progress')" class="q-pa-none rounded-borders fit" style="background-color: #ffb300">
-                  <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                  <q-item-section class=" q-pa-md q-mr-none text-white rounded-borders"
                                   side
                                   style="background-color: #ffa000">
                     <q-icon color="white" name="build" size="24px"></q-icon>
@@ -115,12 +115,12 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <q-item clickable  @click="goToIssues('paused')" class="q-pa-none rounded-borders fit" style="background-color: #009688">
-                  <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                  <q-item-section class="q-pa-md q-mr-none text-white rounded-borders"
                                   side
                                   style="background-color: #00897b">
                     <q-icon color="white" name="pause" size="24px"></q-icon>
                   </q-item-section>
-                  <q-item-section class=" q-pa-md q-ml-none  text-white">
+                  <q-item-section class="q-pa-md q-ml-none  text-white">
                     <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.paused }}
                     </q-item-label>
                     <q-item-label>{{ $t('Paused') }}</q-item-label>
@@ -129,7 +129,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-6">
                 <q-item clickable @click="goToIssues('done')" class="q-pa-none rounded-borders fit" style="background-color: #455a64">
-                  <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
+                  <q-item-section class=" q-pa-md q-mr-none text-white rounded-borders"
                                   side
                                   style="background-color: #37474f">
                     <q-icon color="white" name="stop" size="24px"></q-icon>

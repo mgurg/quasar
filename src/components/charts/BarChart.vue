@@ -60,13 +60,13 @@ const result = parseData(props.data, 'xAxis');
 
 console.log('xAxis: ' + result)
 
-const xAxis = ['2023-02-20']
-const yAxis = [1]
+// const xAxis = ['2023-02-20']
+// const yAxis = [1]
 const option = ref({
-  title: {
-    text: props.chartTitle,
-    left: 'center',
-  },
+  // title: {
+  //   text: props.chartTitle,
+  //   left: 'center',
+  // },
   xAxis: {
     type: 'category',
     data: parseData(props.data, 'xAxis')
