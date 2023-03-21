@@ -23,8 +23,8 @@ export function getItemStatisticsRequest(uuid) {
   return authApi.get("/items/statistics/" + uuid);
 }
 
-export function getAllItemStatisticsRequest() {
-  return authApi.get("/items/statistics/all");
+export function getAllItemStatisticsRequest(dateFrom, dateTo) {
+  return authApi.get("/items/statistics/all", {params: {'date_from':dateFrom,"date_to":dateTo}});
 }
 
 export function setItemFavouriteRequest(data) {

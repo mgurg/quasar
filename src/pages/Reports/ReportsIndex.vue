@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
@@ -53,6 +53,62 @@
         <!--        </q-card-actions>-->
       </q-card>
 
+      <!--  DATE FILTER -->
+      <q-slide-transition>
+        <div v-show="showSearchBar===true">
+          <q-card class="no-border no-shadow bg-transparent">
+            <!--            <q-card-section>-->
+            <!--              <q-input :label="$t('Type your search text')"/>-->
+
+
+            <!--            </q-card-section>-->
+            <q-card-section class="q-pt-none">
+              <div class="row ">
+                <q-input v-model="dateFrom" :rules="['date']" class="float-right q-ma-xs q-pa-none" mask="date"
+                         outlined>
+                  <template v-slot:append>
+                    <q-icon class="cursor-pointer" name="event">
+                      <q-popup-proxy ref="dateProxyFrom" cover transition-hide="scale" transition-show="scale">
+                        <q-date v-model="dateFrom" @update:model-value="dateProxyFrom.hide()">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup color="primary" flat label="Close"/>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+
+                <q-input v-model="dateTo" :rules="['date']" class="float-right q-ma-xs q-pa-none" mask="date" outlined>
+                  <template v-slot:append>
+                    <q-icon class="cursor-pointer" name="event">
+                      <q-popup-proxy ref="dateProxyTo" cover transition-hide="scale" transition-show="scale">
+                        <q-date v-model="dateTo" @update:model-value="dateProxyTo.hide()">
+                          <div class="row items-center justify-end">
+                            <q-btn v-close-popup color="primary" flat label="Close"/>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-icon>
+                  </template>
+                </q-input>
+
+                <q-btn class="q-ma-xs" color="primary" icon="cancel" no-caps outline>Reset</q-btn>
+
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+
+      </q-slide-transition>
+      <div class="q-pa-xs">
+        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">Miesiąc</q-chip>
+
+      </div>
+
+      <!--      DATE FILTER-->
+
+
       <!--      QUICK SUMMARY -->
       <div class="row q-col-gutter-sm q-pb-md q-mt-sm">
         <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
@@ -63,8 +119,9 @@
               <q-icon color="white" name="functions" size="24px"></q-icon>
             </q-item-section>
             <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder" v-if="issuesCounter">{{ issuesCounter}}</q-item-label>
-              <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
+              <q-item-label v-if="issuesCounter" class="text-white text-h5 text-weight-bolder">{{ issuesCounter }}
+              </q-item-label>
+              <q-item-label v-else class="text-white text-h5 text-weight-bolder">---</q-item-label>
               <q-item-label>Liczba wszystkich awarii</q-item-label>
             </q-item-section>
           </q-item>
@@ -77,9 +134,10 @@
               <q-icon color="white" name="alarm_on" size="24px"></q-icon>
             </q-item-section>
             <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.max"> {{summaryTimes.max}} <span class="text-caption">min.</span>
+              <q-item-label v-if="summaryTimes.max" class="text-white text-h5 text-weight-bolder">
+                {{ summaryTimes.max }} <span class="text-caption">min.</span>
               </q-item-label>
-              <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
+              <q-item-label v-else class="text-white text-h5 text-weight-bolder">---</q-item-label>
               <q-item-label>Średni czas naprawy</q-item-label>
             </q-item-section>
           </q-item>
@@ -94,15 +152,17 @@
               <q-icon color="white" name="alarm_on" size="24px"></q-icon>
             </q-item-section>
             <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.avg">{{summaryTimes.avg}} <span class="text-caption">min.</span>
+              <q-item-label v-if="summaryTimes.avg" class="text-white text-h5 text-weight-bolder">
+                {{ summaryTimes.avg }} <span class="text-caption">min.</span>
               </q-item-label>
-              <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
-              <q-item-label>Maks. czas naprawy </q-item-label>
+              <q-item-label v-else class="text-white text-h5 text-weight-bolder">---</q-item-label>
+              <q-item-label>Maks. czas naprawy</q-item-label>
             </q-item-section>
           </q-item>
 
         </div>
       </div>
+
 
       <!-- liczba usterek z podziałem na dni -->
       <q-card bordered class="my-card no-shadow q-my-sm">
@@ -118,13 +178,13 @@
 
         <q-separator/>
         <q-card-section>
-          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni" />
+          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni"/>
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
 
       <!-- liczba usterek z podziałem na godziny -->
-      <q-card bordered class="my-card no-shadow q-my-sm" >
+      <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section class="q-pt-none">
           <q-list>
             <q-item class="q-px-none">
@@ -137,7 +197,7 @@
 
         <q-separator/>
         <q-card-section class="q-pa-none q-ma-none">
-          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour" chart-title="Liczba usterek z podziałem na godziny" />
+          <bar-chart v-if="issuesPerHour" :data="issuesPerHour" chart-title="Liczba usterek z podziałem na godziny"/>
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -157,7 +217,7 @@
         <q-separator/>
         <q-card-section class="q-pa-none q-ma-none">
 
-          <bar-chart  v-if="issuesStatus" :data="issuesStatus" chart-title="Usterki z podziałem na status" />
+          <bar-chart v-if="issuesStatus" :data="issuesStatus" chart-title="Usterki z podziałem na status"/>
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -225,15 +285,11 @@
 <script setup>
 import BarChart from "components/charts/BarChart.vue";
 import HeatMapChart from "components/charts/HeatMapChart.vue";
-import {onBeforeMount, ref} from "vue";
+import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {
-  getAllItemStatisticsRequest,
-  getItemStatisticsRequest,
-  getItemTimelineRequest
-} from "components/api/ItemApiClient";
+import {getAllItemStatisticsRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
-import humanizeDuration from "humanize-duration";
+import {DateTime} from "luxon";
 
 
 const route = useRoute();
@@ -251,10 +307,41 @@ const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
 
+const dateFrom = ref('2019/02/01');
+const dateTo = ref('2019/02/01');
+const dateProxyFrom = ref(null);
+const dateProxyTo = ref(null);
+
+
+watch(dateFrom, (value) => {
+  console.log(value)
+  getItemStatistics()
+})
+
+watch(dateTo, (value) => {
+  console.log(value)
+  getItemStatistics()
+})
+
+const convertDate = (date, mode) => {
+  if (mode === 'start'){
+    return DateTime.fromFormat(date, "yyyy/MM/dd").startOf('day').toISO()
+  }
+  if (mode === 'end'){
+    return DateTime.fromFormat(date, "yyyy/MM/dd").endOf('day').toISO()
+  }
+}
+
+const showSearchBar = ref(false);
+
 
 function getItemStatistics() {
   isLoading.value = true;
-  getAllItemStatisticsRequest().then(function (response) {
+
+  let dtFrom = convertDate(dateFrom.value, 'start')
+  let dtTo = convertDate(dateTo.value, 'end')
+
+  getAllItemStatisticsRequest(dtFrom, dtTo).then(function (response) {
 
     // issuesCounter.value = response.data.issuesCount
     // summaryTimes.value = response.data.repairTime
