@@ -84,8 +84,59 @@
             </q-card-section>
             <q-card-section class="q-pt-none">
               <div class="row sm-gutter">
-                <!-- STATUS -->
 
+                <!-- DATE INPUT -->
+                <q-input
+                  dense
+                  outlined
+
+                  class="float-right q-ma-xs q-pa-none"
+                  label="01-02-2023 ~ 03-03-2021"
+                  disable
+                  autogrow
+                >
+                  <template v-slot:after>
+                    <q-btn outline dense flat icon="event" color="primary">
+
+                      <q-popup-proxy cover ref="qDateProxy" transition-hide="scale" transition-show="scale">
+                        <q-date v-model="dateRange" mask="DD-MM-YYYY" range :multiple=false today-btn no-unset>
+                          <div class="row items-center justify-end q-gutter-sm">
+                            <q-separator/>
+                            <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                            <q-btn v-close-popup color="primary" flat label="OK"/>
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+
+                    </q-btn>
+                  </template>
+                </q-input>
+
+                <!-- DATE -->
+<!--                <q-btn class="q-ma-xs" color="primary" icon="event" label="Data" no-caps outline>-->
+<!--                  <q-popup-proxy cover transition-hide="scale" transition-show="scale">-->
+<!--                    <q-date v-model="proxyDate" range today-btn>-->
+<!--                      <div class="row items-center justify-end q-gutter-sm">-->
+<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">-->
+<!--                          Dziś-->
+<!--                        </q-btn>-->
+<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Yesterday',1,1)">-->
+<!--                          Wczoraj-->
+<!--                        </q-btn>-->
+<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',7,0)">-->
+<!--                          Tydzień-->
+<!--                        </q-btn>-->
+<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('All',null, null)">-->
+<!--                          Wszystko-->
+<!--                        </q-btn>-->
+<!--                        <q-separator/>-->
+<!--                        &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
+<!--                        <q-btn v-close-popup color="primary" flat label="OK" @click="saveDate"/>-->
+<!--                      </div>-->
+<!--                    </q-date>-->
+<!--                  </q-popup-proxy>-->
+<!--                </q-btn>-->
+                <!-- STATUS -->
                 <q-btn :label="$t('Status')" class="float-right q-ma-xs" color="primary" icon="filter_list" no-caps
                        outline>
                   <q-menu>
@@ -189,30 +240,6 @@
 
                     </div>
                   </q-menu>
-                </q-btn>
-                <!-- DATE -->
-                <q-btn class="q-ma-xs" color="primary" icon="event" label="Data" no-caps outline>
-                  <q-popup-proxy cover transition-hide="scale" transition-show="scale">
-                    <q-date v-model="proxyDate" range today-btn>
-                      <div class="row items-center justify-end q-gutter-sm">
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">
-                          Dziś
-                        </q-btn>
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Yesterday',1,1)">
-                          Wczoraj
-                        </q-btn>
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',7,0)">
-                          Tydzień
-                        </q-btn>
-                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('All',null, null)">
-                          Wszystko
-                        </q-btn>
-                        <q-separator/>
-                        <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
-                        <q-btn v-close-popup color="primary" flat label="OK" @click="saveDate"/>
-                      </div>
-                    </q-date>
-                  </q-popup-proxy>
                 </q-btn>
                 <!-- TAG -->
                 <q-btn class="q-ma-xs" color="primary" icon="label" label="Tag" no-caps outline>

@@ -54,55 +54,52 @@
       </q-card>
 
       <!--  DATE FILTER -->
+      <!--      https://github.com/quasarframework/quasar/issues/8037-->
       <q-slide-transition>
         <div v-show="showSearchBar===true">
           <q-card class="no-border no-shadow bg-transparent">
-            <!--            <q-card-section>-->
-            <!--              <q-input :label="$t('Type your search text')"/>-->
-
-
-            <!--            </q-card-section>-->
             <q-card-section class="q-pt-none">
               <div class="row ">
-                <q-input v-model="dateFrom" :rules="['date']" class="float-right q-ma-xs q-pa-none" mask="date"
-                         outlined>
-                  <template v-slot:append>
-                    <q-icon class="cursor-pointer" name="event">
-                      <q-popup-proxy ref="dateProxyFrom" cover transition-hide="scale" transition-show="scale">
-                        <q-date v-model="dateFrom" @update:model-value="dateProxyFrom.hide()">
-                          <div class="row items-center justify-end">
-                            <q-btn v-close-popup color="primary" flat label="Close"/>
+
+
+                <q-input
+                  dense
+                  outlined
+
+                  class="float-right q-ma-xs q-pa-none"
+                  :label="dateRangeDisplay"
+                  disable
+                  autogrow
+                >
+                  <template v-slot:after>
+                    <q-btn round dense flat icon="event">
+
+                      <q-popup-proxy cover ref="qDateProxy" transition-hide="scale" transition-show="scale">
+                        <q-date v-model="dateRange" mask="DD-MM-YYYY" range :multiple=false today-btn no-unset>
+                          <div class="row items-center justify-end q-gutter-sm">
+                            <q-separator/>
+                            <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                            <q-btn v-close-popup color="primary" flat label="OK"/>
                           </div>
                         </q-date>
                       </q-popup-proxy>
-                    </q-icon>
+
+                    </q-btn>
                   </template>
                 </q-input>
-
-                <q-input v-model="dateTo" :rules="['date']" class="float-right q-ma-xs q-pa-none" mask="date" outlined>
-                  <template v-slot:append>
-                    <q-icon class="cursor-pointer" name="event">
-                      <q-popup-proxy ref="dateProxyTo" cover transition-hide="scale" transition-show="scale">
-                        <q-date v-model="dateTo" @update:model-value="dateProxyTo.hide()">
-                          <div class="row items-center justify-end">
-                            <q-btn v-close-popup color="primary" flat label="Close"/>
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-                    </q-icon>
-                  </template>
-                </q-input>
-
-                <q-btn class="q-ma-xs" color="primary" icon="cancel" no-caps outline>Reset</q-btn>
 
               </div>
             </q-card-section>
+
           </q-card>
         </div>
 
       </q-slide-transition>
       <div class="q-pa-xs">
-        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">Miesiąc</q-chip>
+        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">{{
+            duration
+          }}
+        </q-chip>
 
       </div>
 
@@ -285,11 +282,11 @@
 <script setup>
 import BarChart from "components/charts/BarChart.vue";
 import HeatMapChart from "components/charts/HeatMapChart.vue";
-import {ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getAllItemStatisticsRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
-import {DateTime} from "luxon";
+import {DateTime, Duration, Interval} from "luxon";
 
 
 const route = useRoute();
@@ -307,39 +304,108 @@ const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
 
-const dateFrom = ref('2019/02/01');
-const dateTo = ref('2019/02/01');
-const dateProxyFrom = ref(null);
-const dateProxyTo = ref(null);
+const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
+const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
 
+const dateTimeFrom = computed(() => {
+  return DateTime.fromFormat(dateRange.value.from, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+});
 
-watch(dateFrom, (value) => {
-  console.log(value)
-  getItemStatistics()
-})
-
-watch(dateTo, (value) => {
-  console.log(value)
-  getItemStatistics()
-})
-
-const convertDate = (date, mode) => {
-  if (mode === 'start'){
-    return DateTime.fromFormat(date, "yyyy/MM/dd").startOf('day').toISO()
+const dateTimeTo = computed(() => {
+  if (DateTime.now().toFormat("dd-MM-yyyy") == dateTo.value){
+    console.log(DateTime.now( {locale: "pl-PL"}))
+    return DateTime.now({locale: "pl-PL"})
   }
-  if (mode === 'end'){
-    return DateTime.fromFormat(date, "yyyy/MM/dd").endOf('day').toISO()
+  return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
+});
+
+// --- BTN DATE PICKER -
+
+const dateRange = ref({from: dateFrom, to: dateTo});
+const dateRangeDisplay = computed(() => {
+  return dateRange.value.from + " ~ " + dateRange.value.to;
+});
+
+watch(() => dateRange.value, (newValue, oldValue) => {
+  if (typeof newValue === 'object') {
+    getItemStatistics();
+    console.log("isRange")
+  } else {
+    // dateRangeName.value = "Custom";
+    console.log("isSingleDate");
+    dateRange.value = {"from": newValue, "to": newValue}
   }
+});
+
+const duration = computed(() => {
+  let startDate = dateTimeFrom.value.endOf('day') // DateTime.fromFormat(dateFrom.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+  let endDate = dateTimeTo.value.endOf('day')  //DateTime.fromFormat(dateTo.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+  const durationHelper = Interval.fromDateTimes(startDate, endDate).toDuration(['months', 'days'], {conversionAccuracy: "casual"})
+
+  console.log(durationHelper)
+
+  if (durationHelper.values.months === 0) {
+    console.log("days")
+    return Interval.fromDateTimes(startDate, endDate).toDuration(['days']).toHuman({listStyle: 'narrow'})
+  }
+  if (durationHelper.values.months !== 0 && durationHelper.values.days == 0) {
+    console.log("months")
+    return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({listStyle: 'narrow'})
+  }
+
+  console.log("else")
+  return durationHelper.toHuman({listStyle: 'narrow'});
+});
+
+const durationFromSeconds = (seconds) => {
+
+  let duration = Duration.fromMillis(63 * 60 * 1000, {locale: "pl-PL"})
+
+  let durationHelper = duration.shiftTo("hours", "minutes")
+  if (durationHelper.values.hours === 0) {
+    return duration.shiftTo("minutes").toHuman({listStyle: 'narrow'})
+  }
+  // if (durationHelper.values.months !== 0 && durationHelper.values.days === 0){
+  //   return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({ listStyle: 'narrow' })
+  // }
+
+  return duration.shiftTo("hours", "minutes").toHuman()
+
 }
+
+
+// watch(dateFrom, (value) => {
+//   console.log(value)
+//   getItemStatistics()
+// })
+//
+// watch(dateTo, (value) => {
+//   console.log(value)
+//
+// })
+
+// const convertDate = (date, mode) => {
+//   if (mode === 'start') {
+//     return DateTime.fromFormat(date, "yyyy/MM/dd").startOf('day').toISO()
+//   }
+//   if (mode === 'end') {
+//     return DateTime.fromFormat(date, "yyyy/MM/dd").endOf('day').toISO()
+//   }
+// }
 
 const showSearchBar = ref(false);
 
 
+function resetFilters() {
+  dateFrom.value = DateTime.now().minus({month: 1}).toFormat("yyyy/MM/dd");
+  dateTo.value = DateTime.now().toFormat("yyyy/MM/dd");
+}
+
 function getItemStatistics() {
   isLoading.value = true;
 
-  let dtFrom = convertDate(dateFrom.value, 'start')
-  let dtTo = convertDate(dateTo.value, 'end')
+  let dtFrom = dateTimeFrom.value.toISO()
+  let dtTo = dateTimeTo.value.toISO()
 
   getAllItemStatisticsRequest(dtFrom, dtTo).then(function (response) {
 
