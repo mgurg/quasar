@@ -300,7 +300,7 @@ const submit = handleSubmit(values => {
           break;
       }
 
-      console.log(priorityLevel);
+      // console.log(priorityLevel);
     }
   });
 
@@ -315,7 +315,7 @@ const submit = handleSubmit(values => {
     "tags": selectedTags.value.map(a => a.uuid),
   }
 
-  console.log(data)
+  // console.log(data)
   emit('issueFormBtnClick', data)
 
 })
@@ -349,7 +349,7 @@ function fetchTags() {
 }
 
 function assignTag(name, uuid) {
-  console.log(name, uuid)
+  // console.log(name, uuid)
   let index = selectedTags.value.findIndex(x => x.uuid==uuid);
   if (index === -1) {
     selectedTags.value.push({"name": name, "uuid":uuid})
@@ -360,7 +360,7 @@ function assignTag(name, uuid) {
 }
 
 function unAssignTag(uuid) {
-  console.log(name, uuid)
+  // console.log(name, uuid)
   // selectedTags.value.filter()
   selectedTags.value = selectedTags.value.filter(item => item.uuid !== uuid)
 }

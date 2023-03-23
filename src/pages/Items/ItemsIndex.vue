@@ -39,7 +39,13 @@
                     color="primary" flat
                     icon="add" no-caps
                     to="/items/add"
-
+                  />
+                  <q-btn
+                    :label="$q.screen.gt.xs ? $t('Reports') : ''"
+                    class="float-right q-mr-xs"
+                    color="primary" flat
+                    icon="insights" no-caps
+                    to="/items/summary"
                   />
                 </div>
               </q-item-section>
@@ -184,9 +190,9 @@ const pagination = reactive({
   total: 1
 })
 
-function goToPage(value) {
-  console.log(value)
-}
+// function goToPage(value) {
+//   console.log(value)
+// }
 
 const pagesNo = computed(() => {
   // console.log(Math.ceil(pagination.total/pagination.size))
@@ -194,7 +200,7 @@ const pagesNo = computed(() => {
 })
 
 watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
+  // console.log(oldPage, newPage);
   fetchItems();
 })
 

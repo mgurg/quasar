@@ -61,12 +61,12 @@ const props = defineProps({
   },
 
 });
-console.log("propsy")
-console.log(props.data)
+// console.log("propsy")
+// console.log(props.data)
 
 let arrayOfEntries = Object.entries(props.data).map(([key, value]) => [key, value]);
 
-console.log(arrayOfEntries)
+// console.log(arrayOfEntries)
 
 let keys = Object.keys(props.data);
 const datesArray = keys.map((element) => new Date(element));

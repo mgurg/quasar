@@ -226,9 +226,9 @@ function setStatusFilter(condition) {
   fetchIdeas()
 }
 
-function goToPage(value) {
-  console.log(value)
-}
+// function goToPage(value) {
+//   console.log(value)
+// }
 
 const pagesNo = computed(() => {
   // console.log(Math.ceil(pagination.total/pagination.size))
@@ -236,7 +236,7 @@ const pagesNo = computed(() => {
 })
 
 watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
+  // console.log(oldPage, newPage);
   fetchIdeas();
 })
 

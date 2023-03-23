@@ -304,6 +304,10 @@ const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
 
+
+
+// --- BTN DATE PICKER -
+
 const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
 const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
 
@@ -318,8 +322,6 @@ const dateTimeTo = computed(() => {
   }
   return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
 });
-
-// --- BTN DATE PICKER -
 
 const dateRange = ref({from: dateFrom, to: dateTo});
 const dateRangeDisplay = computed(() => {

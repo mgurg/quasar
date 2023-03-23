@@ -41,6 +41,9 @@ export default {
 	"Week": `Woche`,
 	"Month": `Monat`,
 	"Custom": `Brauch`,
+	"Continue": `Weitermachen`,
+	"Next": `Nächste`,
+	"Reports": `Berichte`,
 
 	// login
 	"Login": `Anmeldung`,
@@ -68,18 +71,15 @@ export default {
 
 	// files
 	"Pick Video to upload": `Video zum Hochladen auswählen`,
-	"Pick Photo to upload": `Foto zum Hochladen auswählen`,
+	"Pick Photo to upload": `Foto auswählen, um hochzuladen`,
 	"Pick File to upload": `Datei zum Hochladen auswählen`,
 	"Delete Video": `Video löschen`,
 	"Delete Photo": `Foto löschen`,
 	"Delete File": `Datei löschen`,
 
 	// dashboard
-	"New": `Neu`,
 	"Ongoing": `Laufend`,
-	"Paused": `Blättern`,
 	"Done": `Erledigt`,
-	"Rejected": `Abgelehnt`,
 
 	// users
 	"Employee": `Mitarbeiter`,
@@ -104,7 +104,7 @@ export default {
 	// issues
 	"Issues": `Themen`,
 	"Issue": `Ausgabe`,
-	"Issue name": `Ausgabename`,
+	"Issue name": `Ausgabe Name`,
 	"Issue description": `Fehlerbeschreibung`,
 	"New issue": `Neues Problem`,
 
@@ -167,7 +167,7 @@ export default {
 
 	// permissions_list
 	"Show users list": `Benutzerliste anzeigen`,
-	"User can view list of other users": `Benutzer kann die Liste anderer Benutzer anzeigen`,
+	"User can view list of other users": `Der Benutzer kann die Liste anderer Benutzer anzeigen`,
 	"Adding users": `Benutzer hinzufügen`,
 	"User can create new user accounts": `Benutzer können neue Benutzerkonten erstellen`,
 	"Users editing": `Benutzer bearbeiten`,
@@ -179,10 +179,10 @@ export default {
 	"Importing users": `Benutzer importieren`,
 	"User can import  users data from CSV file": `Benutzer können Benutzerdaten aus der CSV -Datei importieren`,
 	"Exporting users": `Benutzer exportieren`,
-	"User can export users data to CSV": `Benutzer können Benutzerdaten in CSV exportieren`,
+	"User can export users data to CSV": `Der Benutzer kann Benutzerdaten in CSV exportieren`,
 	"Show issues list": `Issue List anzeigen`,
 	"User can view list of issues": `Benutzer kann die Liste der Probleme anzeigen`,
-	"Adding issues": `Probleme hinzufügen`,
+	"Adding issues": `Hinzufügen von Problemen`,
 	"User can create new issues": `Der Benutzer kann neue Probleme erstellen`,
 	"Issue editing": `Ausgabebearbeitung`,
 	"User can edit issue": `Benutzer kann das Problem bearbeiten`,
@@ -197,13 +197,13 @@ export default {
 	"Show issue history": `Ausgabehistorie zeigen`,
 	"Show issue history graph": `Issue History Diagramm anzeigen`,
 	"Show replaced parts": `Show Teile ersetzt`,
-	"Allow to show, add, remove list of replaced parts": `Zeigen Sie die Liste der ersetzten Teile hinzufügen, hinzufügen, hinzufügen, entfernen`,
+	"Allow to show, add, remove list of replaced parts": `Zeigen Sie die Liste der ersetzten Teile anzeigen, hinzufügen, hinzufügen, entfernen, entfernen`,
 	"Show items list": `Elemente Liste anzeigen`,
 	"User can view list of items": `Benutzer kann die Liste der Elemente anzeigen`,
 	"Adding items": `Hinzufügen von Elementen`,
-	"User can create new items": `Benutzer können neue Elemente erstellen`,
+	"User can create new items": `Der Benutzer kann neue Elemente erstellen`,
 	"Item editing": `Artikelbearbeitung`,
-	"User can edit item": `Benutzer kann Element bearbeiten`,
+	"User can edit item": `Benutzer kann das Element bearbeiten`,
 	"Hide items": `Gegenstände verbergen`,
 	"User can hide existing item": `Der Benutzer kann vorhandenes Element ausblenden`,
 	"Removing items": `Gegenstände entfernen`,

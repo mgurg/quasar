@@ -41,6 +41,9 @@ export default {
 	"Week": `Tydzień`,
 	"Month": `Miesiąc`,
 	"Custom": `Własna`,
+	"Continue": `Kontynuuj`,
+	"Next": `Następny`,
+	"Reports": `Raporty`,
 
 	// login
 	"Login": `Zaloguj sie`,
@@ -75,11 +78,8 @@ export default {
 	"Delete File": `Usunąć plik`,
 
 	// dashboard
-	"New": `Nowy`,
 	"Ongoing": `W trakcie`,
-	"Paused": `Zatrzymany`,
 	"Done": `Zrobione`,
-	"Rejected": `Odrzucony`,
 
 	// users
 	"Employee": `Pracownik`,

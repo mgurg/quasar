@@ -229,7 +229,7 @@ function enableEditMode() {
 
 watch(() => props.canEdit, (newValue, oldValue) => {
   allowEdit.value = newValue
-  console.log(newValue, oldValue)
+  // console.log(newValue, oldValue)
 });
 
 function getAllPermissions() {
@@ -264,7 +264,7 @@ function getAllPermissions() {
 
 function addNewPermission(data) {
   isLoading.value = true;
-  console.log('adding permissions');
+  // console.log('adding permissions');
   authApi
     .post("/permissions/", data)
     .then((res) => {

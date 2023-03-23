@@ -98,7 +98,7 @@ function insertUser(first_name, last_name, uuid) {
 }
 
 function clearUsers() {
-  console.log("clearing")
+  // console.log("clearing")
   search.value = null
   users.value = false
 }
@@ -112,8 +112,8 @@ function unassignUser(uuid) {
 }
 
 function emitUsers() {
-  console.log("emit:")
-  console.log(usersList.value)
+  // console.log("emit:")
+  // console.log(usersList.value)
   emit('assignUserBtnClick', usersList.value)
 }
 

@@ -41,6 +41,9 @@ export default {
 	"Week": `Semaine`,
 	"Month": `Mois`,
 	"Custom": `Coutume`,
+	"Continue": `Continuer`,
+	"Next": `Suivant`,
+	"Reports": `Rapports`,
 
 	// login
 	"Login": `Connexion`,
@@ -75,11 +78,8 @@ export default {
 	"Delete File": `Supprimer le fichier`,
 
 	// dashboard
-	"New": `Nouveau`,
 	"Ongoing": `En cours`,
-	"Paused": `Interrompu`,
 	"Done": `Fait`,
-	"Rejected": `Rejeté`,
 
 	// users
 	"Employee": `Employé`,
@@ -122,8 +122,8 @@ export default {
 	"New person assigned to issue": `Nouvelle personne affectée à l'émission`,
 	"Person removed from issue": `Personne supprimée du problème`,
 	"Issue started": `Le problème a commencé`,
-	"Issue paused": `Émission en pause`,
-	"Issue resumed": `Le problème repris`,
+	"Issue paused": `Émission interrompue`,
+	"Issue resumed": `Le problème a repris`,
 	"Issue resolved": `Problème résolu`,
 	issue_add: `Problème ajouté`,
 	issue_accept: `Problème accepté`,
@@ -155,7 +155,7 @@ export default {
 	"QR code": `QR Code`,
 	"Submission type": `Type de soumission`,
 	"Anonymous": `Anonyme`,
-	"Anonymous with required confirmation": `Anonyme de confirmation requise`,
+	"Anonymous with required confirmation": `Anonyme de la confirmation requise`,
 	"Only for logged users": `Uniquement pour les utilisateurs enregistrés`,
 	"You must have an account": `Vous devez avoir un compte`,
 
@@ -186,7 +186,7 @@ export default {
 	"User can create new issues": `L'utilisateur peut créer de nouveaux problèmes`,
 	"Issue editing": `Édition de problèmes`,
 	"User can edit issue": `L'utilisateur peut modifier le problème`,
-	"Removing issues": `Suppression des problèmes`,
+	"Removing issues": `Supprimer les problèmes`,
 	"User can delete existing issues": `L'utilisateur peut supprimer les problèmes existants`,
 	"Exclude issues": `Exclure les problèmes`,
 	"Exclude selected issues from statistics": `Exclure les problèmes sélectionnés des statistiques`,
@@ -196,7 +196,7 @@ export default {
 	"Allow to Start, Pause and Finish  work": `Permettre de commencer, de faire une pause et de terminer le travail`,
 	"Show issue history": `Montrer l'histoire de la question`,
 	"Show issue history graph": `Afficher le graphique de l'historique des problèmes`,
-	"Show replaced parts": `Montrer les pièces remplacées`,
+	"Show replaced parts": `Afficher les pièces remplacées`,
 	"Allow to show, add, remove list of replaced parts": `Laisser afficher, ajouter, supprimer la liste des pièces remplacées`,
 	"Show items list": `Afficher la liste des éléments`,
 	"User can view list of items": `L'utilisateur peut afficher la liste des éléments`,

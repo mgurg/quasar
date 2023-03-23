@@ -38,6 +38,9 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Week""",Week,Semaine,Woche,Tydzień
 """Month""",Month,Mois,Monat,Miesiąc
 """Custom""",Custom,Coutume,Brauch,Własna
+"""Continue""",Continue,Continuer,Weitermachen,Kontynuuj
+"""Next""",Next,Suivant,Nächste,Następny
+"""Reports""",Reports,Rapports,Berichte,Raporty
 ,,,,
 #login,,,,
 """Login""",Login,Connexion,Anmeldung,Zaloguj sie
@@ -65,18 +68,15 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 ,,,,
 #files,,,,
 """Pick Video to upload""",Pick Video to upload,Choisissez la vidéo à télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
-"""Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,Foto zum Hochladen auswählen,"Wybierz zdjęcie, aby przesłać"
+"""Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,"Foto auswählen, um hochzuladen","Wybierz zdjęcie, aby przesłać"
 """Pick File to upload""",Pick File to upload,Choisissez le fichier à télécharger,Datei zum Hochladen auswählen,"Wybierz plik, aby przesłać"
 """Delete Video""",Delete Video,Supprimer la vidéo,Video löschen,Usuń wideo
 """Delete Photo""",Delete Photo,Supprimer la photo,Foto löschen,Usuń zdjęcie
 """Delete File""",Delete File,Supprimer le fichier,Datei löschen,Usunąć plik
 ,,,,
 #dashboard,,,,
-"""New""",New,Nouveau,Neu,Nowy
 """Ongoing""",Ongoing,En cours,Laufend,W trakcie
-"""Paused""",Paused,Interrompu,Blättern,Zatrzymany
 """Done""",Done,Fait,Erledigt,Zrobione
-"""Rejected""",Rejected,Rejeté,Abgelehnt,Odrzucony
 ,,,,
 #users,,,,
 """Employee""",Employee,Employé,Mitarbeiter,Pracownik
@@ -101,7 +101,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 #issues,,,,
 """Issues""",Issues,Questions,Themen,Problemy
 """Issue""",Issue,Problème,Ausgabe,Problem
-"""Issue name""",Issue name,Nom d'émission,Ausgabename,Nazwa problemu
+"""Issue name""",Issue name,Nom d'émission,Ausgabe Name,Nazwa problemu
 """Issue description""",Issue description,Description du problème,Fehlerbeschreibung,Opis problemu
 """New issue""",New issue,Nouveau problème,Neues Problem,Nowy problem
 ,,,,
@@ -119,8 +119,8 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """New person assigned to issue""",New person assigned to issue,Nouvelle personne affectée à l'émission,"Neue Person, die zur Ausgabe zugewiesen ist",Nowa osoba przydzielona do problemu
 """Person removed from issue""",Person removed from issue,Personne supprimée du problème,Person von der Ausgabe entfernt,Osoba usunięta z problemu
 """Issue started""",Issue started,Le problème a commencé,Das Problem begann,Praca rozpoczęta
-"""Issue paused""",Issue paused,Émission en pause,Ausgabe machte eine Pause,Praca wstrzymana
-"""Issue resumed""",Issue resumed,Le problème repris,Problem wieder aufgenommen,Praca wznowiona
+"""Issue paused""",Issue paused,Émission interrompue,Ausgabe machte eine Pause,Praca wstrzymana
+"""Issue resumed""",Issue resumed,Le problème a repris,Problem wieder aufgenommen,Praca wznowiona
 """Issue resolved""",Issue resolved,Problème résolu,Problem gelöst,Problem rozwiązany
 issue_add,Issue added,Problème ajouté,Problem hinzugefügt,Dodano problem
 issue_accept,Issue accepted,Problème accepté,Ausgabe akzeptiert,Problem zaakceptowany
@@ -152,7 +152,7 @@ issue_done,Issue done,Délivrer,Ausgabe gemacht,Wykonany problem
 """QR code""",QR code,QR Code,QR-Code,Kod QR
 """Submission type""",Submission type,Type de soumission,Einreichungstyp,Typ zgłoszenia
 """Anonymous""",Anonymous,Anonyme,Anonym,Anonimowy
-"""Anonymous with required confirmation""",Anonymous with required confirmation,Anonyme de confirmation requise,Anonymous mit der erforderlichen Bestätigung,Anonimowy z wymaganym potwierdzeniem
+"""Anonymous with required confirmation""",Anonymous with required confirmation,Anonyme de la confirmation requise,Anonymous mit der erforderlichen Bestätigung,Anonimowy z wymaganym potwierdzeniem
 """Only for logged users""",Only for logged users,Uniquement pour les utilisateurs enregistrés,Nur für protokollierte Benutzer,Tylko dla zalogowanych użytkowników
 """You must have an account""",You must have an account,Vous devez avoir un compte,Sie müssen ein Konto haben,Musisz mieć konto
 ,,,,
@@ -164,7 +164,7 @@ issue_done,Issue done,Délivrer,Ausgabe gemacht,Wykonany problem
 ,,,,
 #permissions_list,,,,
 """Show users list""",Show users list,Afficher la liste des utilisateurs,Benutzerliste anzeigen,Pokaż listę użytkowników
-"""User can view list of other users""",User can view list of other users,L'utilisateur peut afficher la liste des autres utilisateurs,Benutzer kann die Liste anderer Benutzer anzeigen,Użytkownik może wyświetlić listę innych użytkowników
+"""User can view list of other users""",User can view list of other users,L'utilisateur peut afficher la liste des autres utilisateurs,Der Benutzer kann die Liste anderer Benutzer anzeigen,Użytkownik może wyświetlić listę innych użytkowników
 """Adding users""",Adding users,Ajout d'utilisateurs,Benutzer hinzufügen,Dodawanie użytkowników
 """User can create new user accounts""",User can create new user accounts,L'utilisateur peut créer de nouveaux comptes d'utilisateurs,Benutzer können neue Benutzerkonten erstellen,Użytkownik może tworzyć nowe konta użytkowników
 """Users editing""",Users editing,Édition des utilisateurs,Benutzer bearbeiten,Edycja użytkowników
@@ -176,14 +176,14 @@ issue_done,Issue done,Délivrer,Ausgabe gemacht,Wykonany problem
 """Importing users""",Importing users,Importation d'utilisateurs,Benutzer importieren,Importowanie użytkowników
 """User can import  users data from CSV file""",User can import  users data from CSV file,L'utilisateur peut importer les données des utilisateurs à partir du fichier CSV,Benutzer können Benutzerdaten aus der CSV -Datei importieren,Użytkownik może importować dane użytkowników z pliku CSV
 """Exporting users""",Exporting users,Exportation des utilisateurs,Benutzer exportieren,Eksportowanie użytkowników
-"""User can export users data to CSV""",User can export users data to CSV,L'utilisateur peut exporter les données des utilisateurs vers CSV,Benutzer können Benutzerdaten in CSV exportieren,Użytkownik może eksportować dane użytkowników do CSV
+"""User can export users data to CSV""",User can export users data to CSV,L'utilisateur peut exporter les données des utilisateurs vers CSV,Der Benutzer kann Benutzerdaten in CSV exportieren,Użytkownik może eksportować dane użytkowników do CSV
 """Show issues list""",Show issues list,Afficher la liste des problèmes,Issue List anzeigen,Pokaż listę problemów
 """User can view list of issues""",User can view list of issues,L'utilisateur peut afficher la liste des problèmes,Benutzer kann die Liste der Probleme anzeigen,Użytkownik może wyświetlić listę problemów
-"""Adding issues""",Adding issues,Ajout de problèmes,Probleme hinzufügen,Dodawanie problemów
+"""Adding issues""",Adding issues,Ajout de problèmes,Hinzufügen von Problemen,Dodawanie problemów
 """User can create new issues""",User can create new issues,L'utilisateur peut créer de nouveaux problèmes,Der Benutzer kann neue Probleme erstellen,Użytkownik może tworzyć nowe problemy
 """Issue editing""",Issue editing,Édition de problèmes,Ausgabebearbeitung,Edycja wydania
 """User can edit issue""",User can edit issue,L'utilisateur peut modifier le problème,Benutzer kann das Problem bearbeiten,Użytkownik może edytować problem
-"""Removing issues""",Removing issues,Suppression des problèmes,Probleme entfernen,Usuwanie problemów
+"""Removing issues""",Removing issues,Supprimer les problèmes,Probleme entfernen,Usuwanie problemów
 """User can delete existing issues""",User can delete existing issues,L'utilisateur peut supprimer les problèmes existants,Der Benutzer kann vorhandene Probleme löschen,Użytkownik może usunąć istniejące problemy
 """Exclude issues""",Exclude issues,Exclure les problèmes,Probleme ausschließen,Wykluczyć problemy
 """Exclude selected issues from statistics""",Exclude selected issues from statistics,Exclure les problèmes sélectionnés des statistiques,Ausgewählte Probleme aus der Statistik ausschließen,Wykluczyć wybrane problemy ze statystyk
@@ -193,14 +193,14 @@ issue_done,Issue done,Délivrer,Ausgabe gemacht,Wykonany problem
 """Allow to Start, Pause and Finish  work""","Allow to Start, Pause and Finish  work","Permettre de commencer, de faire une pause et de terminer le travail","Starten, innehalten und die Arbeit beenden","Pozwól, aby rozpocząć, zatrzymać i zakończyć pracę"
 """Show issue history""",Show issue history,Montrer l'histoire de la question,Ausgabehistorie zeigen,Pokaż historię wydania
 """Show issue history graph""",Show issue history graph,Afficher le graphique de l'historique des problèmes,Issue History Diagramm anzeigen,Pokaż wykres historii wydania
-"""Show replaced parts""",Show replaced parts,Montrer les pièces remplacées,Show Teile ersetzt,Pokaż wymienione części
-"""Allow to show, add, remove list of replaced parts""","Allow to show, add, remove list of replaced parts","Laisser afficher, ajouter, supprimer la liste des pièces remplacées","Zeigen Sie die Liste der ersetzten Teile hinzufügen, hinzufügen, hinzufügen, entfernen","Pozwól, aby pokazać, dodać, usuń listę wymienionych części"
+"""Show replaced parts""",Show replaced parts,Afficher les pièces remplacées,Show Teile ersetzt,Pokaż wymienione części
+"""Allow to show, add, remove list of replaced parts""","Allow to show, add, remove list of replaced parts","Laisser afficher, ajouter, supprimer la liste des pièces remplacées","Zeigen Sie die Liste der ersetzten Teile anzeigen, hinzufügen, hinzufügen, entfernen, entfernen","Pozwól, aby pokazać, dodać, usuń listę wymienionych części"
 """Show items list""",Show items list,Afficher la liste des éléments,Elemente Liste anzeigen,Pokaż listę przedmiotów
 """User can view list of items""",User can view list of items,L'utilisateur peut afficher la liste des éléments,Benutzer kann die Liste der Elemente anzeigen,Użytkownik może wyświetlić listę elementów
 """Adding items""",Adding items,Ajout d'articles,Hinzufügen von Elementen,Dodawanie elementów
-"""User can create new items""",User can create new items,L'utilisateur peut créer de nouveaux éléments,Benutzer können neue Elemente erstellen,Użytkownik może tworzyć nowe elementy
+"""User can create new items""",User can create new items,L'utilisateur peut créer de nouveaux éléments,Der Benutzer kann neue Elemente erstellen,Użytkownik może tworzyć nowe elementy
 """Item editing""",Item editing,Édition d'articles,Artikelbearbeitung,Edycja przedmiotów
-"""User can edit item""",User can edit item,L'utilisateur peut modifier l'élément,Benutzer kann Element bearbeiten,Użytkownik może edytować element
+"""User can edit item""",User can edit item,L'utilisateur peut modifier l'élément,Benutzer kann das Element bearbeiten,Użytkownik może edytować element
 """Hide items""",Hide items,Masquer les éléments,Gegenstände verbergen,Ukryj przedmioty
 """User can hide existing item""",User can hide existing item,L'utilisateur peut masquer l'élément existant,Der Benutzer kann vorhandenes Element ausblenden,Użytkownik może ukryć istniejący element
 """Removing items""",Removing items,Retirer les articles,Gegenstände entfernen,Usuwanie elementów

@@ -49,7 +49,7 @@ let isLoading = ref(false);
 
 function firstRun(activationId) {
   isLoading.value = true;
-  console.log("ID: ", activationId)
+  // console.log("ID: ", activationId)
 
   authFirstRunRequest(activationId).then(function (response) {
     // localStorage.setItem("firstName", response.data.first_name);

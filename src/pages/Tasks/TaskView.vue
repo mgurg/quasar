@@ -153,7 +153,7 @@ function getDetails(uuid) {
   authApi
     .get("/tasks/" + uuid)
     .then((res) => {
-      console.log(uuid);
+      // console.log(uuid);
 
       taskDetails.value = res.data;
       isLoading.value = false;

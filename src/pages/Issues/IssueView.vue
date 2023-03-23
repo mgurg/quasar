@@ -263,7 +263,7 @@ function getIssueDetails(uuid) {
     usersList.value = response.data.users_issue;
     tagList.value = response.data.tags_issue;
     issueStatus.value = response.data.status;
-    console.log(response.data)
+    // console.log(response.data)
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -278,8 +278,8 @@ function setCommentDialog(status) {
 }
 
 function setIssueCommentStatus(status, comment) {
-  console.log('Status: ' + status);
-  console.log('Comment: ' + unref(comment));
+  // console.log('Status: ' + status);
+  // console.log('Comment: ' + unref(comment));
   setIssueStatus(status, unref(comment), null,)
 }
 
@@ -288,7 +288,7 @@ function setIssueStatus(action, description = null, value = null) {
 
   if (usersList.value.length === 0) {
     if (!['issue_add_person', 'issue_reject', 'issue_accept'].includes(action)) {
-      console.log(action)
+      // console.log(action)
       $q.notify({
         message: 'No user assigned to Issue',
         type: 'warning',

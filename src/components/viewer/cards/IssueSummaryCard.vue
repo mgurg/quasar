@@ -123,7 +123,7 @@ const summaryTimes = (arr) => {
 
   const object = arr.reduce((obj, item) => (obj[item.action] = humanizeSeconds(item.duration), obj), {});
 
-  console.log(object)
+  // console.log(object)
 
   return object;
 }
@@ -138,10 +138,10 @@ const isError = ref(false)
 
 function getSummary() {
   isLoading.value = true;
-  console.log("UUID " + issueUuid.value)
+  // console.log("UUID " + issueUuid.value)
   getIssueSummaryRequest(issueUuid.value).then(function (response) {
 
-    console.log(response.data)
+    // console.log(response.data)
     summaryReport.value = response.data.events
     summaryUsers.value = response.data.users
 

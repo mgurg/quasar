@@ -57,7 +57,7 @@ function updateTask(body) {
     })
     .catch((err) => {
       if (err.response) {
-        console.log(err.response);
+        // console.log(err.response);
       } else if (err.request) {
         console.log(err.request);
       } else {
@@ -71,7 +71,7 @@ function getDetails(uuid) {
   authApi
     .get("/tasks/" + uuid)
     .then((res) => {
-      console.log(uuid);
+      // console.log(uuid);
 
       taskDetails.value = res.data
 
@@ -101,7 +101,7 @@ function getUsers() {
         value: opt.uuid,
       }));
 
-      console.log(usersList.value);
+      // console.log(usersList.value);
     })
     .catch((err) => {
       if (err.response) {

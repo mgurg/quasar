@@ -175,7 +175,7 @@ const editor = useEditor({
     editor.setEditable(!props.readonly);
     editor.commands.setContent(content.value);
     const isEmpty = editor.state.doc.textContent.length === 0
-    console.log(isEmpty)
+    // console.log(isEmpty)
   },
   onUpdate({editor}) {
     const html = editor.getHTML()

@@ -397,7 +397,7 @@ let initDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').plus({minutes: 15
 let initDateTo = ref(DateTime.now().setZone('Europe/Warsaw').plus({minutes: 60}).toFormat(dtFormat.value));
 
 // --------------- UPLOADER ---------------
-console.log("props file: ", props.tasks.file)
+// console.log("props file: ", props.tasks.file)
 let attachments = ref(props.tasks.file);
 let uploader = ref(""); // uploaderRef ?
 
@@ -415,8 +415,8 @@ function uploaded({files, xhr}) {
   // alert('uploaded')
   let response = JSON.parse(xhr.response)
   attachments.value.push(response);
-  console.log("attachments response", response)
-  console.log("attachments", attachments.value)
+  // console.log("attachments response", response)
+  // console.log("attachments", attachments.value)
   //   listFiles()
 }
 
@@ -437,7 +437,7 @@ function delete_file(uuid) {
     .then((res) => {
 
       attachments.value = attachments.value.filter(item => item.uuid !== uuid)
-      console.log("after delete: ", attachments.value);
+      // console.log("after delete: ", attachments.value);
       //   listFiles()
     })
     .catch((err) => {
@@ -549,8 +549,8 @@ const submit = handleSubmit(values => {
     data.at_Su = taskWeekDays.value.includes('Su')
   }
 
-  console.log('submit');
-  console.log(data)
+  // console.log('submit');
+  // console.log(data)
   // createTasks(data);
   emit('taskFormBtnClick', data)
 })

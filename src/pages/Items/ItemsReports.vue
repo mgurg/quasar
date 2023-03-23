@@ -258,7 +258,7 @@ function getItemStatistics(uuid) {
     issuesStatus.value = response.data.issuesStatus
     issuesRepairTime.value = response.data.repairTime
     issuesTotalTime.value = response.data.totalTime
-    console.log(response.data)
+    // console.log(response.data)
 
     isLoading.value = false;
   }).catch((err) => {
@@ -289,7 +289,7 @@ function humanizeSeconds(seconds) {
 
 onBeforeMount(() => {
   if (route.params.uuid !== null){
-    console.log("Report for: " + route.params.uuid)
+    // console.log("Report for: " + route.params.uuid)
     getItemStatistics(route.params.uuid)
   }
 

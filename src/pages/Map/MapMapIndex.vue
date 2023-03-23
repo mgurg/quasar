@@ -162,7 +162,7 @@ export default defineComponent({
         .query({name: "geolocation"})
         .then(function (result) {
           // Will return ['granted', 'prompt', 'denied']
-          console.log(result.state);
+          // console.log(result.state);
         });
       if (navigator.geolocation) {
         gettingLocation.value = true;

@@ -103,7 +103,7 @@ const routes = [
     children: [
       { path: "/home", component: () => import("pages/Home/Dashboard.vue") },
 
-      { path: "/reports", component: () => import("pages/Reports/ReportsIndex.vue") },
+
 
       { path: "/issues", component: () => import("pages/Issues/IssueIndex.vue") },
       { path: "/issues/add", component: () => import("pages/Issues/IssueAdd.vue") },
@@ -134,7 +134,9 @@ const routes = [
       { path: "/items/add", component: () => import("pages/Items/ItemsAdd.vue") },
       { path: "/items/:uuid", component: () => import("pages/Items/ItemsView.vue") },
       { path: "/items/edit/:uuid", component: () => import("pages/Items/ItemsEdit.vue") },
+      { path: "/items/summary", component: () => import("pages/Items/ItemsSummaryReport.vue") },
       { path: "/items/summary/:uuid", component: () => import("pages/Items/ItemsReports.vue") },
+
 
       { path: "/settings", component: () => import("pages/Settings/SettingsIndex.vue") },
       { path: "/settings/tags", component: () => import("pages/Settings/SettingsTags.vue") },

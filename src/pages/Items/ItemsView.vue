@@ -232,7 +232,7 @@ function itemReport(uuid) {
 }
 
 function deleteItem(uuid, itemName) {
-  console.log(itemName);
+  // console.log(itemName);
   $q.dialog({
     title: "Confirm",
     message: confirmDeleteMessage.value + " '" + itemName + "' ?",

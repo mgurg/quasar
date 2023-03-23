@@ -216,7 +216,7 @@ function getStatistics() {
 function getSettings(){
   isLoading.value = true;
   getUserSettingRequest("dashboard_show_intro").then(function (response) {
-    console.log(response.data.dashboard_show_intro)
+    // console.log(response.data.dashboard_show_intro)
     showIntroCard.value = response.data.dashboard_show_intro
     isLoading.value = false;
   }).catch((err) => {

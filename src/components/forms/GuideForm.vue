@@ -98,7 +98,7 @@ let htmlTxt = null;
 
 function logText(json, html) {
 
-  console.log(json)
+  // console.log(json)
   jsonTxt = json
   htmlTxt = html
 }
@@ -110,8 +110,8 @@ const uploadedVideoMetadata = ref(null)
 const uploadedPhotos = ref([]);
 
 function listOfUploadedImages(images) {
-  console.log("UPLOADED IMAGES:")
-  console.log(JSON.stringify(images))
+  // console.log("UPLOADED IMAGES:")
+  // console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
 }
 
@@ -137,7 +137,7 @@ function cancelButtonHandle() {
 }
 
 const submit = handleSubmit(values => {
-  console.log('Submitting')
+  // console.log('Submitting')
 
   let data = {
     "name": guideName.value,
@@ -148,7 +148,7 @@ const submit = handleSubmit(values => {
     "video_json": uploadedVideoMetadata.value
   }
 
-  console.log(data)
+  // console.log(data)
   emit('guideFormBtnClick', data)
 
 })
@@ -156,10 +156,10 @@ const submit = handleSubmit(values => {
 // VIDEO
 
 function keepVideoId(videoId, videoMetadata) {
-  console.log("UPLOADED VIDEO_ID: ");
-  console.log(videoId);
-  console.log("UPLOADED METADATA: ");
-  console.log(videoMetadata);
+  // console.log("UPLOADED VIDEO_ID: ");
+  // console.log(videoId);
+  // console.log("UPLOADED METADATA: ");
+  // console.log(videoMetadata);
   uploadedVideoId.value = videoId;
   uploadedVideoMetadata.value = videoMetadata;
 }

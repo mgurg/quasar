@@ -98,10 +98,10 @@ const layout = computed(() => {
 
 function getTimeline() {
   isLoading.value = true;
-  console.log("UUID " + issueUuid.value)
+  // console.log("UUID " + issueUuid.value)
   getIssueTimelineRequest(issueUuid.value).then(function (response) {
     timelineData.value = response.data
-    console.log(response.data)
+    // console.log(response.data)
 
     let timelineDates = [];
 
@@ -114,7 +114,7 @@ function getTimeline() {
 
     let finalData = {};
     for (const eventDate of uniqueDates) {
-      console.log(eventDate)
+      // console.log(eventDate)
 
       let events = timelineData.value.filter(event => String(event.created_at).startsWith(eventDate))
 
@@ -122,7 +122,7 @@ function getTimeline() {
       /* console.log(events) */
     }
     timelineOrderedData.value = finalData
-    console.log(finalData)
+    // console.log(finalData)
 
 
     isLoading.value = false;

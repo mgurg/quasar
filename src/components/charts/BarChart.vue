@@ -58,7 +58,7 @@ const parseData = (rawObject, type) => {
 
 const result = parseData(props.data, 'xAxis');
 
-console.log('xAxis: ' + result)
+// console.log('xAxis: ' + result)
 
 // const xAxis = ['2023-02-20']
 // const yAxis = [1]

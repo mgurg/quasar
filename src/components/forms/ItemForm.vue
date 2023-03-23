@@ -140,8 +140,8 @@ function listOfUploadedImages(images) {
 const uploadedFiles = ref([]);
 
 function listOfUploadedFiles(files) {
-  console.log("UPLOADED IMAGES:")
-  console.log(JSON.stringify(files))
+  // console.log("UPLOADED IMAGES:")
+  // console.log(JSON.stringify(files))
   uploadedFiles.value = files;
   uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
 }
@@ -165,7 +165,7 @@ function cancelButtonHandle() {
 }
 
 const submit = handleSubmit(values => {
-  console.log('Submitting')
+  // console.log('Submitting')
 
   let data = {
     "name": itemName.value,
@@ -176,7 +176,7 @@ const submit = handleSubmit(values => {
     "files": uploadedAll.value.map(a => a.uuid)
   }
 
-  console.log(data)
+  // console.log(data)
   emit('itemFormBtnClick', data)
 
 })

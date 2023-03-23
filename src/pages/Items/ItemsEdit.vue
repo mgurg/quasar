@@ -80,18 +80,16 @@ function updateItem(uuid, formData) {
   let withoutChanges = arr1.filter(x => arr2.includes(x));
   let newItems = arr2.filter(x => !arr1.includes(x));
 
-  console.log("Removed:")
-  console.log(removedItems);
+  // console.log("Removed:")
+  // console.log(removedItems);
 
-  console.log("Added:");
-  console.log(newItems);
+  // console.log("Added:");
+  // console.log(newItems);
 
-  console.log("To save:");
+  // console.log("To save:");
 
-  let fileList = [...withoutChanges, ...newItems];
-
-  formData.files = fileList;
-  console.log(formData);
+  formData.files = [...withoutChanges, ...newItems];
+  // console.log(formData);
 
   isRemoving.value = true;
   removedItems.forEach(function (item, index) {
@@ -115,7 +113,7 @@ function updateItem(uuid, formData) {
 
 function deleteUnusedIdeaImages(uuid) {
 
-  console.log("Deleting...: " + uuid);
+  // console.log("Deleting...: " + uuid);
 
   let token = UserStore.getToken;
   let tenant_id = UserStore.getTenant;
@@ -133,7 +131,7 @@ function deleteUnusedIdeaImages(uuid) {
 
 
 function editButtonPressed(itemForm) {
-  console.log(itemForm)
+  // console.log(itemForm)
   updateItem(itemUuid.value, itemForm)
 }
 
@@ -146,7 +144,7 @@ function getItemDetails(uuid) {
   isLoading.value = true;
   getOneItemRequest(uuid).then(function (response) {
     itemDetails.value = response.data
-    console.log(response.data)
+    // console.log(response.data)
     dbImagesUuidList.value = response.data.files_item.map(a => a.uuid)
 
 

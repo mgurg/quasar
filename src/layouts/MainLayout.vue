@@ -55,14 +55,14 @@
             <q-item-section>Podsumowanie</q-item-section>
           </q-item>
 
-          <!--Reports Index-->
-          <q-item to="/reports" exact clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon size="md" name="insights" />
-            </q-item-section>
+<!--          &lt;!&ndash;Reports Index&ndash;&gt;-->
+<!--          <q-item to="/reports" exact clickable v-ripple>-->
+<!--            <q-item-section avatar>-->
+<!--              <q-icon size="md" name="insights" />-->
+<!--            </q-item-section>-->
 
-            <q-item-section>Raporty</q-item-section>
-          </q-item>
+<!--            <q-item-section>Raporty</q-item-section>-->
+<!--          </q-item>-->
 
 
           <!--Issues Index-->

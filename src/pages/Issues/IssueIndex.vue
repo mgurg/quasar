@@ -85,22 +85,32 @@
             <q-card-section class="q-pt-none">
               <div class="row sm-gutter">
 
+
                 <!-- DATE INPUT -->
                 <q-input
-                  dense
-                  outlined
+                  :label="dateRangeDisplay"
+                  autogrow
 
                   class="float-right q-ma-xs q-pa-none"
-                  label="01-02-2023 ~ 03-03-2021"
+                  dense
                   disable
-                  autogrow
+                  outlined
                 >
                   <template v-slot:after>
-                    <q-btn outline dense flat icon="event" color="primary">
+                    <q-btn color="primary" dense flat icon="event" outline>
 
-                      <q-popup-proxy cover ref="qDateProxy" transition-hide="scale" transition-show="scale">
-                        <q-date v-model="dateRange" mask="DD-MM-YYYY" range :multiple=false today-btn no-unset>
+                      <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">
+                        <q-date v-model="dateRange" :multiple=false mask="DD-MM-YYYY" no-unset range today-btn>
                           <div class="row items-center justify-end q-gutter-sm">
+                            <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">
+                              Dziś
+                            </q-btn>
+                            <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',0,7)">
+                              Tydzień
+                            </q-btn>
+                            <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Month',0,30)">
+                              Miesiąc
+                            </q-btn>
                             <q-separator/>
                             <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
                             <q-btn v-close-popup color="primary" flat label="OK"/>
@@ -112,30 +122,6 @@
                   </template>
                 </q-input>
 
-                <!-- DATE -->
-<!--                <q-btn class="q-ma-xs" color="primary" icon="event" label="Data" no-caps outline>-->
-<!--                  <q-popup-proxy cover transition-hide="scale" transition-show="scale">-->
-<!--                    <q-date v-model="proxyDate" range today-btn>-->
-<!--                      <div class="row items-center justify-end q-gutter-sm">-->
-<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">-->
-<!--                          Dziś-->
-<!--                        </q-btn>-->
-<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Yesterday',1,1)">-->
-<!--                          Wczoraj-->
-<!--                        </q-btn>-->
-<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',7,0)">-->
-<!--                          Tydzień-->
-<!--                        </q-btn>-->
-<!--                        <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('All',null, null)">-->
-<!--                          Wszystko-->
-<!--                        </q-btn>-->
-<!--                        <q-separator/>-->
-<!--                        &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
-<!--                        <q-btn v-close-popup color="primary" flat label="OK" @click="saveDate"/>-->
-<!--                      </div>-->
-<!--                    </q-date>-->
-<!--                  </q-popup-proxy>-->
-<!--                </q-btn>-->
                 <!-- STATUS -->
                 <q-btn :label="$t('Status')" class="float-right q-ma-xs" color="primary" icon="filter_list" no-caps
                        outline>
@@ -227,7 +213,7 @@
 
                         <q-item v-close-popup clickable>
                           <q-item-section>
-                            <q-item-label :class="hasStatus == 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
+                            <q-item-label :class="hasStatus === 'rejected' ? 'text-weight-bold' : 'text-weight-regular'"
                                           @click="setStatusFilter('rejected')">
                               {{ $t("Rejected") }}
                             </q-item-label>
@@ -352,15 +338,17 @@
         <q-space class="q-pa-sm"/>
       </q-card>
       <div v-if="pagination.total === 0 && hasStatus==='active'" class="text-h5 text-center q-pa-lg">
-        <p>Brak problemów 🥳 !</p><p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇</p>
+        <p>Brak problemów 🥳 !</p>
+        <p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
+        </p>
         <div class="col-12 text-h6 q-mt-none">
           <q-btn
-            :label="$t('New issue')"
-            class="q-py-md q-my-md" color="primary"
+            v-if="hasPermission('ISSUE_ADD')"
+            :label="$t('New issue')" class="q-py-md q-my-md"
+            color="primary"
             icon="add"
             no-caps
             to="/issues/add"
-            v-if="hasPermission('ISSUE_ADD')"
           />
         </div>
       </div>
@@ -404,11 +392,42 @@ const showSearchBar = ref(false);
 const withPhoto = ref(null)
 const withUser = ref(null)
 
-const date = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"))
 
-const hasDateFrom = ref(DateTime.now().setZone('Europe/Warsaw').minus({days: 31}).toFormat("yyyy/LL/dd"));
-const hasDateTo = ref(DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd"));
-const proxyDate = ref({"from": hasDateFrom.value, "to": hasDateTo.value})
+// DATE
+
+const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
+const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
+
+const dateTimeFrom = computed(() => {
+  return DateTime.fromFormat(dateRange.value.from, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+});
+
+const dateTimeTo = computed(() => {
+  if (DateTime.now().toFormat("dd-MM-yyyy") === dateTo.value) {
+    // console.log(DateTime.now().setLocale("pl-PL"))
+    return DateTime.now().setLocale("pl-PL")
+  }
+  return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
+});
+
+const dateRange = ref({from: dateFrom, to: dateTo});
+const dateRangeDisplay = computed(() => {
+  return dateRange.value.from + " ~ " + dateRange.value.to;
+});
+
+watch(() => dateRange.value, (newValue, oldValue) => {
+  if (typeof newValue === 'object') {
+    dateRangeName.value='Custom'
+    fetchIssues();
+    // console.log("isRange")
+  } else {
+    // dateRangeName.value = "Custom";
+    // console.log("isSingleDate");
+    dateRange.value = {"from": newValue, "to": newValue}
+  }
+});
+
+// DATE
 const dateRangeName = ref("Month");
 
 function getDateRangeName() {
@@ -416,51 +435,26 @@ function getDateRangeName() {
 }
 
 function setDateRange(name, daysFrom = null, daysTo = null) {
+
+  dateRange.value.from = DateTime.now().minus({day: daysTo}).toFormat("dd-MM-yyyy")
+  // dateFrom.value = DateTime.now().minus({day: daysTo}).toFormat("dd-MM-yyyy")
+
+  // console.log(daysTo)
+  dateRange.value.to = DateTime.now().toFormat("dd-MM-yyyy")
+  // dateTo.value = DateTime.now().toFormat("dd-MM-yyyy")
+
+  // console.log(dateRange)
   dateRangeName.value = name;
-  if (daysFrom == null && daysTo == null) {
-    hasDateFrom.value = null;
-    hasDateTo.value = null;
-    fetchIssues();
-    return;
-  }
-
-  const toDate = DateTime.now().setZone('Europe/Warsaw').minus({days: daysTo}).toFormat("yyyy/LL/dd");
-  const fromDate = DateTime.now().setZone('Europe/Warsaw').minus({days: daysFrom}).toFormat("yyyy/LL/dd");
-  hasDateFrom.value = fromDate
-  hasDateTo.value = toDate
-  proxyDate.value = {"from": fromDate, "to": toDate}
-
-  console.log({"from": fromDate, "to": toDate});
+  // if (daysFrom == null && daysTo == null) {
+  //   hasDateFrom.value = null;
+  //   hasDateTo.value = null;
+  fetchIssues();
 }
 
 function setTag() {
   localStorage.setItem('issue-adv-filter-tags', JSON.stringify(selectedTags.value));
   fetchIssues();
 }
-
-function saveDate() {
-  console.log(proxyDate.value);
-}
-
-watch(() => proxyDate.value, (newValue, oldValue) => {
-
-  if (typeof newValue === 'object') {
-    console.log("isRange")
-    // dateRangeName.value = "Custom";
-    console.log(proxyDate.value);
-    fetchIssues();
-  } else {
-    // dateRangeName.value = "Custom";
-    console.log("isSingleDate")
-    fetchIssues();
-  }
-
-});
-
-
-// function updateProxy() {
-//   proxyDate.value = date.value
-// }
 
 const issues = ref([]);
 let selected = ref(null);
@@ -592,7 +586,7 @@ const pagesNo = computed(() => {
 })
 
 watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
+  // console.log(oldPage, newPage);
   fetchIssues();
 })
 
@@ -600,10 +594,10 @@ let hasPhotos = ref(null);
 let hasStatus = ref(localStorage.getItem('issue-adv-filter-status') ?? 'active');
 
 
-function setAttachmentFilter(condition) {
-  hasPhotos.value = condition;
-  fetchIssues()
-}
+// function setAttachmentFilter(condition) {
+//   hasPhotos.value = condition;
+//   fetchIssues()
+// }
 
 function setStatusFilter(condition) {
 
@@ -617,8 +611,11 @@ function setStatusFilter(condition) {
 function clearFilterSearch() {
   localStorage.removeItem('issue-adv-filter-status')
   localStorage.removeItem('issue-adv-filter-tags')
-  hasDateFrom.value = DateTime.now().setZone('Europe/Warsaw').minus({days: 31}).toFormat("yyyy/LL/dd");
-  hasDateTo.value = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+  // hasDateFrom.value = DateTime.now().setZone('Europe/Warsaw').minus({days: 31}).toFormat("yyyy/LL/dd");
+  // hasDateTo.value = DateTime.now().setZone('Europe/Warsaw').toFormat("yyyy/LL/dd");
+  dateRange.value.from = DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy")
+  dateRange.value.to = DateTime.now().toFormat("dd-MM-yyyy")
+
   dateRangeName.value = "Month";
   hasStatus.value = 'active';
   selectedTags.value = [];
@@ -628,7 +625,7 @@ function clearFilterSearch() {
 }
 
 function goToPage(value) {
-  console.log(value)
+  // console.log(value)
 }
 
 
@@ -661,19 +658,14 @@ async function fetchIssues() {
     order: sort[sort.active]
   };
 
-  if (hasDateFrom.value !== null) {
-    params['dateFrom'] = DateTime.fromFormat(hasDateFrom.value, "yyyy/LL/dd").toFormat('yyyy-LL-dd 00:00:00');
-
-  }
-  if (hasDateTo.value !== null) {
-    params['dateTo'] = DateTime.fromFormat(hasDateTo.value, "yyyy/LL/dd").toFormat('yyyy-LL-dd 23:59:00');
-  }
+  params['dateFrom'] = dateTimeFrom.value.toISO();
+  params['dateTo'] = dateTimeTo.value.toISO();
 
   getManyIssuesRequest(params).then(function (response) {
     issues.value = response.data.items;
     pagination.total = response.data.total
     isLoading.value = false;
-    console.log(response.data.items)
+    // console.log(response.data.items)
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;

@@ -232,8 +232,8 @@ function cancelButtonHandle() {
 const uploadedPhotos = ref([]);
 
 function listOfUploadedImages(images) {
-  console.log("UPLOADED IMAGES:")
-  console.log(JSON.stringify(images))
+  // console.log("UPLOADED IMAGES:")
+  // console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
 }
 

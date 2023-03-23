@@ -53,7 +53,7 @@ const props = defineProps({
 
 const files = ref(props.filesList)
 
-console.log(JSON.stringify(props.filesList))
+// console.log(JSON.stringify(props.filesList))
 
 const prettyBytes = (num, precision = 3, addSpace = true) => {
   const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];

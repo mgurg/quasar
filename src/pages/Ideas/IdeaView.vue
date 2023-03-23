@@ -121,7 +121,7 @@ function getIdeaDetails(uuid) {
   authApi
     .get("/ideas/" + uuid)
     .then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
 
       ideaDetails.value = res.data;
       json.value = res.data.body_json;
@@ -165,7 +165,7 @@ function getLastVote(state) {
   authApi
     .get("/ideas/vote_last/" + route.params.uuid)
     .then((res) => {
-      console.log("LastVote: ", res.data.vote);
+      // console.log("LastVote: ", res.data.vote);
       lastVote.value = res.data.vote;
     })
     .catch((err) => {
@@ -203,7 +203,7 @@ function editIdea(uuid) {
 }
 
 function deleteIdea(uuid, ideaName) {
-  console.log(ideaName);
+  // console.log(ideaName);
   $q.dialog({
     title: "Confirm",
     message: confirmDeleteMessage.value + " '" + ideaName + "' ?",

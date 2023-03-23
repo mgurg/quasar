@@ -78,18 +78,16 @@ function updateIdea(uuid, formData) {
   let withoutChanges = arr1.filter(x => arr2.includes(x));
   let newItems = arr2.filter(x => !arr1.includes(x));
 
-  console.log("Removed:")
-  console.log(removedItems);
+  // console.log("Removed:")
+  // console.log(removedItems);
 
-  console.log("Added:");
-  console.log(newItems);
+  // console.log("Added:");
+  // console.log(newItems);
 
-  console.log("To save:");
+  // console.log("To save:");
 
-  let fileList = [...withoutChanges, ...newItems];
-
-  formData.files = fileList;
-  console.log(formData);
+  formData.files = [...withoutChanges, ...newItems];
+  // console.log(formData);
 
   isRemoving.value = true;
   removedItems.forEach(function (item, index) {
@@ -112,7 +110,7 @@ function updateIdea(uuid, formData) {
 
 function deleteUnusedIdeaImages(uuid) {
 
-  console.log("Deleting...: " + uuid);
+  // console.log("Deleting...: " + uuid);
 
   let token = UserStore.getToken;
   let tenant_id = UserStore.getTenant;

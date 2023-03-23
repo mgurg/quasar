@@ -61,7 +61,7 @@ function fetchUsers() {
 function insertUser(first_name, last_name, uuid) {
   let fullName = first_name + " " + last_name;
   let jsonMention = {"type": "userMention", "attrs": {"id": uuid, "label": fullName}}
-  console.log(jsonMention);
+  // console.log(jsonMention);
 
   emit('insertUserBtnClick', jsonMention)
 }

@@ -133,7 +133,7 @@ let emojiIndex = new EmojiIndex(data);
 let emojiOutput = ref(props.group.symbol);
 const nativeEmojiSymbol = computed(() => (emojiIndex.findEmoji(emojiOutput.value).native))
 
-console.log(props.group);
+// console.log(props.group);
 
 const showEmojiPicker = ref(false);
 
@@ -160,7 +160,7 @@ function enableEditMode() {
 
 watch(() => props.canEdit, (newValue, oldValue) => {
   allowEdit.value = newValue
-  console.log(newValue, oldValue)
+  // console.log(newValue, oldValue)
 });
 
 function getAllUsers() {
