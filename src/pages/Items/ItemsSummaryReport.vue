@@ -34,9 +34,9 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5">Raport</q-item-label>
+                <q-item-label class="text-h5">Raport zbiorczy</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <q-item-label caption>Podsumowanie awarii w okresie ostatnich 3 miesięcy</q-item-label>
+                <!--                <q-item-label caption>Podsumowanie awarii w okresie ostatnich 3 miesięcy</q-item-label>-->
 
               </q-item-section>
             </q-item>
@@ -44,121 +44,99 @@
         </q-card-section>
 
         <q-separator/>
+        <q-card-actions align="right">
+          <q-input
+            :label="dateRangeDisplay"
+            autogrow
 
-        <!--        <q-card-actions align="right">-->
-        <!--          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie-->
-        <!--          </q-btn>-->
-        <!--          &lt;!&ndash;          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>&ndash;&gt;-->
-        <!--          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>-->
-        <!--        </q-card-actions>-->
+            class="float-right q-ma-xs q-pa-none"
+            dense
+            disable
+            outlined
+          >
+            <template v-slot:after>
+              <q-btn dense flat icon="event" round>
+
+                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">
+                  <q-date
+                    v-model="dateRange"
+                    navigation-min-year-month="2023/01"
+                    :multiple=false mask="DD-MM-YYYY"
+                    no-unset
+                    range
+                    today-btn
+                  >
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-separator/>
+                      <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                      <q-btn v-close-popup color="primary" flat label="OK"/>
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+
+              </q-btn>
+            </template>
+          </q-input>
+        </q-card-actions>
       </q-card>
 
-      <!--  DATE FILTER -->
       <!--      https://github.com/quasarframework/quasar/issues/8037-->
-      <q-slide-transition>
-        <div v-show="showSearchBar===true">
-          <q-card class="no-border no-shadow bg-transparent">
-            <q-card-section class="q-pt-none">
-              <div class="row ">
 
-
-                <q-input
-                  dense
-                  outlined
-
-                  class="float-right q-ma-xs q-pa-none"
-                  :label="dateRangeDisplay"
-                  disable
-                  autogrow
-                >
-                  <template v-slot:after>
-                    <q-btn round dense flat icon="event">
-
-                      <q-popup-proxy cover ref="qDateProxy" transition-hide="scale" transition-show="scale">
-                        <q-date v-model="dateRange" mask="DD-MM-YYYY" range :multiple=false today-btn no-unset>
-                          <div class="row items-center justify-end q-gutter-sm">
-                            <q-separator/>
-                            <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
-                            <q-btn v-close-popup color="primary" flat label="OK"/>
-                          </div>
-                        </q-date>
-                      </q-popup-proxy>
-
-                    </q-btn>
-                  </template>
-                </q-input>
-
-              </div>
-            </q-card-section>
-
-          </q-card>
-        </div>
-
-      </q-slide-transition>
-      <div class="q-pa-xs">
-        <q-chip clickable icon="date_range" @click="showSearchBar = !showSearchBar">{{
-            duration
-          }}
-        </q-chip>
-
-      </div>
-
-      <!--      DATE FILTER-->
 
 
       <!--      QUICK SUMMARY -->
-      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-          <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">
-            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #d81b60">
-              <q-icon color="white" name="functions" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label v-if="issuesCounter" class="text-white text-h5 text-weight-bolder">{{ issuesCounter }}
-              </q-item-label>
-              <q-item-label v-else class="text-white text-h5 text-weight-bolder">---</q-item-label>
-              <q-item-label>Liczba wszystkich awarii</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-          <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">
-            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #ffa000">
-              <q-icon color="white" name="alarm_on" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label v-if="summaryTimes.max" class="text-white text-h5 text-weight-bolder">
-                {{ summaryTimes.max }} <span class="text-caption">min.</span>
-              </q-item-label>
-              <q-item-label v-else class="text-white text-h5 text-weight-bolder">---</q-item-label>
-              <q-item-label>Średni czas naprawy</q-item-label>
-            </q-item-section>
-          </q-item>
+<!--      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--          <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">-->
+<!--            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+<!--                            side-->
+<!--                            style="background-color: #d81b60">-->
+<!--              <q-icon color="white" name="functions" size="24px"></q-icon>-->
+<!--            </q-item-section>-->
+<!--            <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+<!--              <q-item-label v-if="issuesCounter" class="text-white text-h5 text-weight-bolder">{{ issuesCounter }}-->
+<!--              </q-item-label>-->
+<!--              <q-item-label v-else class="text-white text-h5 text-weight-bolder">-&#45;&#45;</q-item-label>-->
+<!--              <q-item-label>Liczba wszystkich awarii</q-item-label>-->
+<!--            </q-item-section>-->
+<!--          </q-item>-->
+<!--        </div>-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--          <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">-->
+<!--            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+<!--                            side-->
+<!--                            style="background-color: #ffa000">-->
+<!--              <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
+<!--            </q-item-section>-->
+<!--            <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+<!--              <q-item-label v-if="summaryTimes.max" class="text-white text-h5 text-weight-bolder">-->
+<!--                {{ summaryTimes.max }} <span class="text-caption">min.</span>-->
+<!--              </q-item-label>-->
+<!--              <q-item-label v-else class="text-white text-h5 text-weight-bolder">-&#45;&#45;</q-item-label>-->
+<!--              <q-item-label>Średni czas naprawy</q-item-label>-->
+<!--            </q-item-section>-->
+<!--          </q-item>-->
 
 
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-          <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">
-            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #00897b">
-              <q-icon color="white" name="alarm_on" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label v-if="summaryTimes.avg" class="text-white text-h5 text-weight-bolder">
-                {{ summaryTimes.avg }} <span class="text-caption">min.</span>
-              </q-item-label>
-              <q-item-label v-else class="text-white text-h5 text-weight-bolder">---</q-item-label>
-              <q-item-label>Maks. czas naprawy</q-item-label>
-            </q-item-section>
-          </q-item>
+<!--        </div>-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--          <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">-->
+<!--            <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+<!--                            side-->
+<!--                            style="background-color: #00897b">-->
+<!--              <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
+<!--            </q-item-section>-->
+<!--            <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+<!--              <q-item-label v-if="summaryTimes.avg" class="text-white text-h5 text-weight-bolder">-->
+<!--                {{ summaryTimes.avg }} <span class="text-caption">min.</span>-->
+<!--              </q-item-label>-->
+<!--              <q-item-label v-else class="text-white text-h5 text-weight-bolder">-&#45;&#45;</q-item-label>-->
+<!--              <q-item-label>Maks. czas naprawy</q-item-label>-->
+<!--            </q-item-section>-->
+<!--          </q-item>-->
 
-        </div>
-      </div>
+<!--        </div>-->
+<!--      </div>-->
 
 
       <!-- liczba usterek z podziałem na dni -->
@@ -175,7 +153,13 @@
 
         <q-separator/>
         <q-card-section>
-          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni"/>
+          <heat-map-chart
+            :key="componentKey"
+            v-if="issuesPerDay"
+            :data="issuesPerDay"
+            date-from="2022-01-01"
+            date-to="2023-01-01"
+            chart-title="Liczba usterek z podziałem na dni"/>
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -193,8 +177,11 @@
         </q-card-section>
 
         <q-separator/>
-        <q-card-section class="q-pa-none q-ma-none">
-          <bar-chart v-if="issuesPerHour" :data="issuesPerHour" chart-title="Liczba usterek z podziałem na godziny"/>
+        <q-card-section>
+          <bar-chart
+            v-if="issuesPerHour"
+            :data="issuesPerHour"
+            chart-title="Liczba usterek z podziałem na godziny"/>
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -214,7 +201,11 @@
         <q-separator/>
         <q-card-section class="q-pa-none q-ma-none">
 
-          <bar-chart v-if="issuesStatus" :data="issuesStatus" chart-title="Usterki z podziałem na status"/>
+          <bar-chart
+            v-if="issuesStatus"
+            :data="issuesStatus"
+            chart-title="Usterki z podziałem na status"
+          />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -304,7 +295,11 @@ const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
 
+const componentKey = ref(0);
 
+const forceRerender = () => {
+  componentKey.value += 1;
+};
 
 // --- BTN DATE PICKER -
 
@@ -316,8 +311,8 @@ const dateTimeFrom = computed(() => {
 });
 
 const dateTimeTo = computed(() => {
-  if (DateTime.now().toFormat("dd-MM-yyyy") == dateTo.value){
-    console.log(DateTime.now( {locale: "pl-PL"}))
+  if (DateTime.now().toFormat("dd-MM-yyyy") == dateTo.value) {
+    console.log(DateTime.now({locale: "pl-PL"}))
     return DateTime.now({locale: "pl-PL"})
   }
   return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
@@ -416,11 +411,13 @@ function getItemStatistics() {
     issuesPerDay.value = response.data.issuesPerDay
     issuesPerHour.value = response.data.issuesPerHour
     issuesStatus.value = response.data.issuesStatus
+
     // issuesRepairTime.value = response.data.repairTime
     // issuesTotalTime.value = response.data.totalTime
     console.log(response.data)
 
     isLoading.value = false;
+    forceRerender();
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;

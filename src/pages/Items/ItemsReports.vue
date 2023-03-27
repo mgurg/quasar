@@ -4,9 +4,9 @@
       <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
@@ -44,65 +44,93 @@
         </q-card-section>
 
         <q-separator/>
+        <q-card-actions align="right">
+          <q-input
+            :label="dateRangeDisplay"
+            autogrow
 
-<!--        <q-card-actions align="right">-->
-<!--          <q-btn class="q-px-xs" color="primary" flat icon="bug_report" no-caps>Zgłoś awarie-->
-<!--          </q-btn>-->
-<!--          &lt;!&ndash;          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>&ndash;&gt;-->
-<!--          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps>Raporty</q-btn>-->
-<!--        </q-card-actions>-->
+            class="float-right q-ma-xs q-pa-none"
+            dense
+            disable
+            outlined
+          >
+            <template v-slot:after>
+              <q-btn dense flat icon="event" round>
+
+                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">
+                  <q-date
+                    v-model="dateRange"
+                    :multiple=false
+                    mask="DD-MM-YYYY"
+                    no-unset
+                    range
+                    today-btn
+                    navigation-min-year-month="2023/01"
+                  >
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-separator/>
+                      <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
+                      <q-btn v-close-popup color="primary" flat label="OK"/>
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+
+              </q-btn>
+            </template>
+          </q-input>
+        </q-card-actions>
       </q-card>
 
 <!--      QUICK SUMMARY -->
-      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">
-              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
-                              side
-                              style="background-color: #d81b60">
-                <q-icon color="white" name="functions" size="24px"></q-icon>
-              </q-item-section>
-              <q-item-section class=" q-pa-md q-ml-none  text-white">
-                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="issuesCounter">{{ issuesCounter}}</q-item-label>
-                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
-                <q-item-label>Liczba wszystkich awarii</q-item-label>
-              </q-item-section>
-            </q-item>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">
-              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
-                              side
-                              style="background-color: #ffa000">
-                <q-icon color="white" name="alarm_on" size="24px"></q-icon>
-              </q-item-section>
-              <q-item-section class=" q-pa-md q-ml-none  text-white">
-                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.max"> {{summaryTimes.max}} <span class="text-caption">min.</span>
-                </q-item-label>
-                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
-                <q-item-label>Średni czas naprawy</q-item-label>
-              </q-item-section>
-            </q-item>
+<!--      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">-->
+<!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+<!--                              side-->
+<!--                              style="background-color: #d81b60">-->
+<!--                <q-icon color="white" name="functions" size="24px"></q-icon>-->
+<!--              </q-item-section>-->
+<!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="issuesCounter">{{ issuesCounter}}</q-item-label>-->
+<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
+<!--                <q-item-label>Liczba wszystkich awarii</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
+<!--        </div>-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">-->
+<!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+<!--                              side-->
+<!--                              style="background-color: #ffa000">-->
+<!--                <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
+<!--              </q-item-section>-->
+<!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.max"> {{summaryTimes.max}} <span class="text-caption">min.</span>-->
+<!--                </q-item-label>-->
+<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
+<!--                <q-item-label>Średni czas naprawy</q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
 
 
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">
-              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"
-                              side
-                              style="background-color: #00897b">
-                <q-icon color="white" name="alarm_on" size="24px"></q-icon>
-              </q-item-section>
-              <q-item-section class=" q-pa-md q-ml-none  text-white">
-                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.avg">{{summaryTimes.avg}} <span class="text-caption">min.</span>
-                </q-item-label>
-                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>---</q-item-label>
-                <q-item-label>Maks. czas naprawy </q-item-label>
-              </q-item-section>
-            </q-item>
+<!--        </div>-->
+<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+<!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">-->
+<!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+<!--                              side-->
+<!--                              style="background-color: #00897b">-->
+<!--                <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
+<!--              </q-item-section>-->
+<!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.avg">{{summaryTimes.avg}} <span class="text-caption">min.</span>-->
+<!--                </q-item-label>-->
+<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
+<!--                <q-item-label>Maks. czas naprawy </q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
 
-        </div>
-      </div>
+<!--        </div>-->
+<!--      </div>-->
 
       <!-- liczba usterek z podziałem na dni -->
       <q-card bordered class="my-card no-shadow q-my-sm">
@@ -225,11 +253,12 @@
 <script setup>
 import BarChart from "components/charts/BarChart.vue";
 import HeatMapChart from "components/charts/HeatMapChart.vue";
-import {onBeforeMount, ref} from "vue";
+import {computed, onBeforeMount, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import humanizeDuration from "humanize-duration";
+import {DateTime, Duration, Interval} from "luxon";
 
 
 const route = useRoute();
@@ -246,6 +275,74 @@ const issuesPerHour = ref(null);
 const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
+
+const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
+const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
+
+const dateTimeFrom = computed(() => {
+  return DateTime.fromFormat(dateRange.value.from, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+});
+
+const dateTimeTo = computed(() => {
+  if (DateTime.now().toFormat("dd-MM-yyyy") == dateTo.value) {
+    console.log(DateTime.now({locale: "pl-PL"}))
+    return DateTime.now({locale: "pl-PL"})
+  }
+  return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
+});
+
+const dateRange = ref({from: dateFrom, to: dateTo});
+const dateRangeDisplay = computed(() => {
+  return dateRange.value.from + " ~ " + dateRange.value.to;
+});
+
+watch(() => dateRange.value, (newValue, oldValue) => {
+  if (typeof newValue === 'object') {
+    getItemStatistics();
+    console.log("isRange")
+  } else {
+    // dateRangeName.value = "Custom";
+    console.log("isSingleDate");
+    dateRange.value = {"from": newValue, "to": newValue}
+  }
+});
+
+const duration = computed(() => {
+  let startDate = dateTimeFrom.value.endOf('day') // DateTime.fromFormat(dateFrom.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+  let endDate = dateTimeTo.value.endOf('day')  //DateTime.fromFormat(dateTo.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+  const durationHelper = Interval.fromDateTimes(startDate, endDate).toDuration(['months', 'days'], {conversionAccuracy: "casual"})
+
+  console.log(durationHelper)
+
+  if (durationHelper.values.months === 0) {
+    console.log("days")
+    return Interval.fromDateTimes(startDate, endDate).toDuration(['days']).toHuman({listStyle: 'narrow'})
+  }
+  if (durationHelper.values.months !== 0 && durationHelper.values.days == 0) {
+    console.log("months")
+    return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({listStyle: 'narrow'})
+  }
+
+  console.log("else")
+  return durationHelper.toHuman({listStyle: 'narrow'});
+});
+
+const durationFromSeconds = (seconds) => {
+
+  let duration = Duration.fromMillis(63 * 60 * 1000, {locale: "pl-PL"})
+
+  let durationHelper = duration.shiftTo("hours", "minutes")
+  if (durationHelper.values.hours === 0) {
+    return duration.shiftTo("minutes").toHuman({listStyle: 'narrow'})
+  }
+  // if (durationHelper.values.months !== 0 && durationHelper.values.days === 0){
+  //   return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({ listStyle: 'narrow' })
+  // }
+
+  return duration.shiftTo("hours", "minutes").toHuman()
+
+}
+
 
 function getItemStatistics(uuid) {
   isLoading.value = true;

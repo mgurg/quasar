@@ -10,7 +10,7 @@
         <v-chart
           ref="barRef"
           :option="option"
-          :style="{height: `300px !important`, width: `100%`}"
+          :style="{height: `300px !important`, width: `100% !important`}"
           autoresize
           theme="light"
         />
@@ -44,9 +44,10 @@ const props = defineProps({
   chartTitle: {
     type: String,
     required: true
-  },
+  }
 });
 
+// console.log(props.data)
 const parseData = (rawObject, type) => {
   if (type == 'xAxis') {
     return Object.keys(rawObject)
@@ -58,15 +59,8 @@ const parseData = (rawObject, type) => {
 
 const result = parseData(props.data, 'xAxis');
 
-// console.log('xAxis: ' + result)
 
-// const xAxis = ['2023-02-20']
-// const yAxis = [1]
 const option = ref({
-  // title: {
-  //   text: props.chartTitle,
-  //   left: 'center',
-  // },
   xAxis: {
     type: 'category',
     data: parseData(props.data, 'xAxis')
@@ -76,11 +70,40 @@ const option = ref({
   },
   series: [{
     data: parseData(props.data, 'yAxis'),
-    type: 'bar'
-  }]
+    type: 'bar',
+  }],
+  legend: {
+    orient: 'vertical',
+    right: 10,
+    top: 'center'
+  },
 })
+
+
+// const option = ref({
+//   legend: {
+//     // Try 'horizontal'
+//     orient: 'vertical',
+//     right: 10,
+//     top: 'center'
+//   },
+//   dataset: {
+//     source: [
+//       ['product', '2015', '2016', '2017'],
+//       ['Matcha Latte', 43.3, 85.8, 93.7],
+//       ['Milk Tea', 83.1, 73.4, 55.1],
+//       ['Cheese Cocoa', 86.4, 65.2, 82.5],
+//       ['Walnut Brownie', 72.4, 53.9, 39.1]
+//     ]
+//   },
+//   xAxis: { type: 'category' },
+//   yAxis: {},
+//   series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+// })
+
 </script>
 
+<!-- https://apache.github.io/echarts-handbook/en/concepts/legend -->
 <style scoped>
 .chart {
   height: 100vh;

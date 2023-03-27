@@ -55,29 +55,35 @@ provide(THEME_KEY, 'dark');
 
 const props = defineProps({
   data:Object,
+  dateFrom :String,
+  dateTo :String,
   chartTitle: {
     type: String,
     required: true
   },
 
 });
-// console.log("propsy")
-// console.log(props.data)
+console.log("propsy")
+console.log(props.dateFrom)
 
-let arrayOfEntries = Object.entries(props.data).map(([key, value]) => [key, value]);
+let arrayOfEntries = ref(Object.entries(props.data).map(([key, value]) => [key, value]));
 
-// console.log(arrayOfEntries)
+console.log(arrayOfEntries.value)
 
-let keys = Object.keys(props.data);
-const datesArray = keys.map((element) => new Date(element));
+// let keys = Object.keys(props.data);
+// const datesArray = keys.map((element) => new Date(element));
 
-const maxDate = new DateTime(Math.max(...datesArray)); // Math.min
+// const maxDate = new DateTime(Math.max(...datesArray)); // Math.min
+// const minDate = new DateTime(Math.min(...datesArray));
+//
+// let endPeriod = DateTime.fromISO(maxDate).endOf('month').toFormat('yyyy-MM-dd')
+// let startPeriod = DateTime.fromISO(minDate).startOf('month').toFormat('yyyy-MM-dd') // .minus({month: 2})
 
-let endPeriod = DateTime.fromISO(maxDate).endOf('month').toFormat('yyyy-MM-dd')
-let startPeriod = DateTime.fromISO(maxDate).startOf('month').minus({month: 2}).toFormat('yyyy-MM-dd')
+const startPeriod = ref(props.dateFrom)
+const endPeriod = ref(props.dateTo)
 
-console.log(startPeriod)
-console.log(endPeriod)
+console.log("startPeriod: " + startPeriod.value)
+console.log("endPeriod: " + endPeriod.value)
 
 const option = ref({
   // title: {
@@ -99,7 +105,7 @@ const option = ref({
     left: 25,
     right: 5,
     cellSize: ['auto', 20],
-    range: [startPeriod, endPeriod],
+    range: [startPeriod.value, endPeriod.value],
     itemStyle: {
       borderWidth: 0.8
     },
@@ -108,13 +114,15 @@ const option = ref({
       nameMap: ['STY', 'LUT', 'MAR', 'KWI', 'MAJ', 'CZE', 'LIP', 'SIE', 'WRZ', 'PAZ' , 'LIS', 'GRU'],
     },
     dayLabel: {
-      nameMap: ['pn', 'wt', 'śr', 'cz', 'pt', 'sb', 'nd'],
+      firstDay: 1,
+      nameMap: ['nd', 'pn', 'wt', 'śr', 'cz', 'pt', 'sb'],
+      // nameMap: 'EN'
     }
   },
   series: {
     type: 'heatmap',
     coordinateSystem: 'calendar',
-    data: arrayOfEntries
+    data: arrayOfEntries.value
   }
 })
 </script>
