@@ -40,7 +40,7 @@
                   >
 <!--                    :title="$t(event.action)"-->
                     <div>
-<!--                      <div class="text-body1">{{event.description}}</div>-->
+                      <div class="text-body1">{{event.description}}</div>
 <!--                      <div>{{event.value}}</div>-->
 <!--                      <br>-->
                       <div class="text-caption">{{event.author_name}}</div>

@@ -127,11 +127,12 @@ export default {
 	"Issue resolved": `Problem rozwiązany`,
 	issue_add: `Dodano problem`,
 	issue_accept: `Problem zaakceptowany`,
-	issue_add_person: `Nowa osoba przydzielona do problemu`,
+	issue_add_person: `Przypisano nową osobę`,
 	issue_remove_person: `Osoba usunięta z problemu`,
 	issue_start_progress: `Praca rozpoczęta`,
-	issue_done: `Wykonany problem`,
-
+	issue_done: `Zgłoszenie zamknięte`,
+	issue_pause: `Zgłoszenie wstrzymane`,
+	issue_resume: `Praca wznowiona`,
 
 	// guides
 	"Guides": `Przewodniki`,

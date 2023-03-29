@@ -127,11 +127,12 @@ export default {
 	"Issue resolved": `Problem gelöst`,
 	issue_add: `Problem hinzugefügt`,
 	issue_accept: `Ausgabe akzeptiert`,
-	issue_add_person: `Neue Person, die zur Ausgabe zugewiesen ist`,
+	issue_add_person: `Neue Person zugewiesen`,
 	issue_remove_person: `Person von der Ausgabe entfernt`,
 	issue_start_progress: `Das Problem begann`,
 	issue_done: `Ausgabe gemacht`,
-
+	issue_pause: `Ausgabe machte eine Pause`,
+	issue_resume: `Ausgabe ressiert`,
 
 	// guides
 	"Guides": `Führer`,

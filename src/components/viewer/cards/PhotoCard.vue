@@ -34,6 +34,10 @@
           <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
             <div class="q-mt-md">
               <photo-viewer :pictures-list="photoFiles"/>
+              <div v-if="photoFiles.length === 0" >
+                <q-icon color="grey" size="lg" name="no_photography" />
+              </div>
+
             </div>
           </q-card-section>
           <q-separator/>

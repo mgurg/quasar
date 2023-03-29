@@ -67,7 +67,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Lets start""",Lets start,Commençons,Lasst uns beginnen,Zaczynajmy
 ,,,,
 #files,,,,
-"""Pick Video to upload""",Pick Video to upload,Choisissez la vidéo à télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
+"""Pick Video to upload""",Pick Video to upload,Choisissez la vidéo pour télécharger,Video zum Hochladen auswählen,"Wybierz wideo, aby przesłać"
 """Pick Photo to upload""",Pick Photo to upload,Choisissez la photo pour télécharger,"Foto auswählen, um hochzuladen","Wybierz zdjęcie, aby przesłać"
 """Pick File to upload""",Pick File to upload,Choisissez le fichier à télécharger,Datei zum Hochladen auswählen,"Wybierz plik, aby przesłać"
 """Delete Video""",Delete Video,Supprimer la vidéo,Video löschen,Usuń wideo
@@ -124,11 +124,12 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 """Issue resolved""",Issue resolved,Problème résolu,Problem gelöst,Problem rozwiązany
 issue_add,Issue added,Problème ajouté,Problem hinzugefügt,Dodano problem
 issue_accept,Issue accepted,Problème accepté,Ausgabe akzeptiert,Problem zaakceptowany
-issue_add_person,New person assigned to issue,Nouvelle personne affectée à l'émission,"Neue Person, die zur Ausgabe zugewiesen ist",Nowa osoba przydzielona do problemu
+issue_add_person,New person assigned,Nouvelle personne affectée,Neue Person zugewiesen,Przypisano nową osobę
 issue_remove_person,Person removed from issue,Personne supprimée du problème,Person von der Ausgabe entfernt,Osoba usunięta z problemu
 issue_start_progress,Issue started,Le problème a commencé,Das Problem begann,Praca rozpoczęta
-issue_done,Issue done,Délivrer,Ausgabe gemacht,Wykonany problem
-,,,,
+issue_done,Issue done,Délivrer,Ausgabe gemacht,Zgłoszenie zamknięte
+issue_pause,Issue paused,Émission interrompue,Ausgabe machte eine Pause,Zgłoszenie wstrzymane
+issue_resume,Issue resmed,Émission de resMed,Ausgabe ressiert,Praca wznowiona
 ,,,,
 #guides,,,,
 """Guides""",Guides,Guides,Führer,Przewodniki

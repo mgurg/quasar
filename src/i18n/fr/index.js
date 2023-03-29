@@ -70,7 +70,7 @@ export default {
 	"Lets start": `Commençons`,
 
 	// files
-	"Pick Video to upload": `Choisissez la vidéo à télécharger`,
+	"Pick Video to upload": `Choisissez la vidéo pour télécharger`,
 	"Pick Photo to upload": `Choisissez la photo pour télécharger`,
 	"Pick File to upload": `Choisissez le fichier à télécharger`,
 	"Delete Video": `Supprimer la vidéo`,
@@ -127,11 +127,12 @@ export default {
 	"Issue resolved": `Problème résolu`,
 	issue_add: `Problème ajouté`,
 	issue_accept: `Problème accepté`,
-	issue_add_person: `Nouvelle personne affectée à l'émission`,
+	issue_add_person: `Nouvelle personne affectée`,
 	issue_remove_person: `Personne supprimée du problème`,
 	issue_start_progress: `Le problème a commencé`,
 	issue_done: `Délivrer`,
-
+	issue_pause: `Émission interrompue`,
+	issue_resume: `Émission de resMed`,
 
 	// guides
 	"Guides": `Guides`,

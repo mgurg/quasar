@@ -49,7 +49,10 @@
                       <q-item-label caption>Zadania przypisane do Ciebie</q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                      <q-toggle v-model="expandedUserIssues"/>
+                      <q-toggle
+                        v-model="expandedUserIssues"
+                        @update:model-value="setSectionVisibility('visibility-home-tasks')"
+                      />
                     </q-item-section>
                   </q-item>
 
@@ -59,7 +62,10 @@
                       <q-item-label caption>Lista zapisanych przez Ciebie urządzeń</q-item-label>
                     </q-item-section>
                     <q-item-section side top>
-                      <q-toggle v-model="expandedUserItems"/>
+                      <q-toggle
+                        v-model="expandedUserItems"
+                        @update:model-value="setSectionVisibility('visibility-home-items')"
+                      />
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -145,10 +151,10 @@
 
 
       <!-- MY ISSUES -->
-      <my-tasks-card v-if="userUuid!=null" :expanded-my-tasks="expandedUserIssues" :user-uuid="userUuid"/>
+      <my-tasks-card v-if="userUuid!=null" :expanded-my-tasks="expandedUserIssues" :user-uuid="userUuid" :key="expandedUserIssues"/>
 
       <!-- MY ITEMS -->
-      <my-items-card v-if="userUuid!=null" :expanded-my-items="expandedUserItems" :user-uuid="userUuid" />
+      <my-items-card v-if="userUuid!=null" :expanded-my-items="expandedUserItems" :user-uuid="userUuid" :key="expandedUserItems"/>
 
       <!-- INTRO-->
       <my-intro-card :expanded-my-intro="true"  v-if="showIntroCard" />
@@ -229,9 +235,19 @@ function getSettings(){
   });
 }
 
-const expandedUserItems = ref(true)
-const expandedUserIssues = ref(true)
+const expandedUserItems = ref(JSON.parse(localStorage.getItem('visibility-home-items')) ??  true)
+const expandedUserIssues = ref(JSON.parse(localStorage.getItem('visibility-home-tasks')) ??  true)
 const showIntroCard = ref(false)
+
+function setSectionVisibility(condition) {
+  // if (localStorage.getItem(condition) === null){
+  //   localStorage.setItem(condition, JSON.stringify('true'))
+  // }
+  // else{
+  //   let currentValue = JSON.parse(localStorage.getItem(condition))
+  //   localStorage.setItem(condition, JSON.stringify(!currentValue))
+  // }
+}
 
 function goToIssues(status){
   router.push({path: "/issues", query: {filter: status}})

@@ -1,12 +1,12 @@
 <template>
   <!-- DOCS -->
-  <q-card bordered class="my-card no-shadow q-my-xs" v-if="documentFiles.length>0">
+  <q-card bordered class="my-card no-shadow q-my-xs">
     <div :style="expandedDocs ? 'border-left: 5px solid #f31060':''">
       <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">
             {{ $t("Documents") }}
-            <q-badge floating align="top">{{ documentFiles.length }}</q-badge>
+            <q-badge floating align="top" v-if="documentFiles.length>0">{{ documentFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
 <!--          <q-btn-->
@@ -31,30 +31,12 @@
       <q-slide-transition>
         <div v-show="expandedDocs">
           <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-
-            <!--            <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">-->
-            <!--              <q-item-section avatar>-->
-            <!--                <span>&nbsp;</span>-->
-            <!--              </q-item-section>-->
-            <!--              <q-item-section>-->
-            <!--                    <span>-->
-            <!--                      {{ $t("Name") }}-->
-            <!--                      <q-btn-->
-            <!--                        :flat="sort.active!=='title'"-->
-            <!--                        :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"-->
-            <!--                        :unelevated="sort.active==='title'"-->
-            <!--                        color="primary"-->
-            <!--                        padding="xs"-->
-            <!--                        size="sm"-->
-            <!--                        @click="changeSortOrder('title')"/>-->
-            <!--                    </span>-->
-            <!--              </q-item-section>-->
-
-            <!--            </q-item>-->
             <div>
-              <document-viewer :files-list="documentFiles"/>
+              <document-viewer v-if="documentFiles.length >0" :files-list="documentFiles"/>
             </div>
-
+            <div v-if="documentFiles.length === 0" >
+              <q-icon color="grey" size="lg" name="do_disturb_alt" />
+            </div>
 
           </q-card-section>
           <q-separator/>
