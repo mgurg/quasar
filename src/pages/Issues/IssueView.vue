@@ -180,8 +180,8 @@
           <!--            @click="setIssueStatus('done')"-->
           <!--          />-->
         </q-card-actions>
-        <q-card v-if="issueStatus == 'rejected'" align="right">
-          <span class="q-pa-md">Zgłoszenie odrzucone</span>
+        <q-card v-if="issueStatus == 'rejected'" align="right" class="q-pt-md q-px-md">
+          <p class="text-weight-bold text-red-5"><q-icon name="delete_forever" size="sm"/> Zgłoszenie odrzucone</p>
         </q-card>
       </q-card>
 

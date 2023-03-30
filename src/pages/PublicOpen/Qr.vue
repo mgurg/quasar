@@ -8,7 +8,6 @@
 
             <q-linear-progress :value="validToProgress" rounded size="20px" stripe/>
 
-
             <q-card bordered class="my-card no-shadow q-mt-sm">
               <q-card-section v-if="itemDetails && !isLoading">
                 <q-list>
@@ -41,11 +40,11 @@
             </q-card>
 
             <guide-card v-if="guides!==null && itemDetails !==null"
+                        :anonymous-token="anonymousToken"
                         :expanded-guide="false"
                         :guides="guides"
                         :item-uuid="null"
                         :public-access="true"
-                        :anonymous-token="anonymousToken"
             />
 
             <q-card bordered class="my-card no-shadow q-my-sm">
@@ -252,7 +251,7 @@ function getItemDetails(uuid) {
 
 function addButtonPressed(issueForm) {
   console.log(issueForm)
-  issueForm["item"] = itemUuid.value
+  issueForm["item_uuid"] = itemUuid.value
   isLoading.value = true;
   addAnonymousIssueRequest(issueForm, anonymousToken.value, tenantId.value).then(function (response) {
     console.log(response.data);
