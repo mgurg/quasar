@@ -29,7 +29,8 @@ import {
   LegendComponent,
   TitleComponent,
   TooltipComponent,
-  VisualMapComponent
+  VisualMapComponent,
+  DatasetComponent
 } from 'echarts/components';
 import {HeatmapChart} from 'echarts/charts';
 import {CanvasRenderer} from 'echarts/renderers';
@@ -48,7 +49,8 @@ use([
   LegendComponent,
   VisualMapComponent,
   CalendarComponent,
-  HeatmapChart
+  HeatmapChart,
+  DatasetComponent
 ]);
 
 provide(THEME_KEY, 'dark');

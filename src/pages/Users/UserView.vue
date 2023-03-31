@@ -137,7 +137,7 @@
       <q-card v-if="userIssues && !isLoading" bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
           <div class="row q-col-gutter-xs">
-            <div class="text-h5">{{ $t('Issues') }}</div>
+            <div class="text-h5">Przypisane zadania</div>
             <q-space></q-space>
             <q-btn
               :icon="expandedIssues ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
