@@ -71,31 +71,37 @@ const props = defineProps({
 
 });
 console.log("propsy")
-console.log(props.dateFrom)
+console.log(props.data)
 
 let arrayOfEntries = ref(Object.entries(props.data).map(([key, value]) => [key, value]));
 
-arrayOfEntries.value = [["2023-03-09", 5], ["2023-02-11", 1], ["2023-01-12", 1], ["2022-12-17", 1], ["2022-10-23", 1]];
+// arrayOfEntries.value = [["2023-03-09", 5], ["2023-02-11", 1], ["2023-01-12", 1], ["2022-12-17", 1], ["2022-10-23", 1]];
 
 const totalPages = ref(0);
 const currentPage = ref(0);
 
 const earliestDate = (issuesPerDay) => {
-  const dates = Object.keys(props.data); // pobranie tablicy kluczy (czyli dat) z obiektu
-  return new DateTime(Math.min(...dates.map(date => new Date(date)))).endOf('month').toFormat('yyyy-MM-dd');
+  const dates = Object.keys(issuesPerDay); // pobranie tablicy kluczy (czyli dat) z obiektu
+  let jsDate =  new Date(Math.min(...dates.map(date => new Date(date))));
+  return DateTime.fromJSDate(jsDate);
 }
 
 const latestDate = (issuesPerDay) => {
   const dates = Object.keys(props.data); // pobranie tablicy kluczy (czyli dat) z obiektu
-  return new DateTime(Math.max(...dates.map(date => new Date(date)))).endOf('month').toFormat('yyyy-MM-dd');
+  let jsDate =  new Date(Math.max(...dates.map(date => new Date(date))));
+  return DateTime.fromJSDate(jsDate);
 }
-
-
-const segments =  (issuesPerDay) => {
-
+//
+//
+const segments =  () => {
+  const diff = Interval.fromDateTimes(DateTime.fromISO(earliestDate(props.data).startOf('month')), DateTime.fromISO(latestDate(props.data).endOf('month')));
+  return Math.ceil(diff.length('months'));
 }
-console.log("E " + earliestDate(props.data));
-console.log("L " + earliestDate(props.data));
+//
+//
+console.log("E " + earliestDate(props.data).startOf('month').toFormat('yyyy-MM-dd'));
+console.log("L " + latestDate(props.data).endOf('month').toFormat('yyyy-MM-dd'));
+console.log(segments())
 
 // const filteredData = arrayOfEntries.value.filter(([date, count]) => {
 //   const d = new Date(date);

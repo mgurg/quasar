@@ -305,7 +305,7 @@ const forceRerender = () => {
 
 // --- BTN DATE PICKER -
 
-const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
+const dateFrom = ref(DateTime.now().minus({month: 12}).toFormat("dd-MM-yyyy"));
 const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
 
 const dateTimeFrom = computed(() => {
@@ -396,7 +396,7 @@ const showSearchBar = ref(false);
 
 
 function resetFilters() {
-  dateFrom.value = DateTime.now().minus({month: 1}).toFormat("yyyy/MM/dd");
+  dateFrom.value = DateTime.now().minus({month: 12}).toFormat("yyyy/MM/dd");
   dateTo.value = DateTime.now().toFormat("yyyy/MM/dd");
 }
 
