@@ -179,7 +179,7 @@
         <q-separator/>
         <q-card-section>
 
-          {{issuesPerHour}}
+
           <bar-chart
             v-if="issuesPerHour"
             :data="issuesPerHour"

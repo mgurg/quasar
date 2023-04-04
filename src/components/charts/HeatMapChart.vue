@@ -15,6 +15,11 @@
           autoresize
           theme="light"
         />
+        <div class="row" >
+          <q-btn flat icon="navigate_before"></q-btn>
+          <q-btn flat icon="navigate_next"></q-btn>
+        </div>
+
       </q-card-section>
     </q-card>
   </div>
@@ -30,14 +35,14 @@ import {
   TitleComponent,
   TooltipComponent,
   VisualMapComponent,
-  DatasetComponent
+  DatasetComponent,
 } from 'echarts/components';
 import {HeatmapChart} from 'echarts/charts';
 import {CanvasRenderer} from 'echarts/renderers';
 import VChart, {THEME_KEY} from 'vue-echarts';
 import {provide, ref} from 'vue';
+import {DateTime, Duration, Interval} from "luxon";
 
-import {DateTime} from "luxon";
 
 // https://echarts.apache.org/examples/en/editor.html?c=calendar-heatmap&random=kypnz0qfsr
 
@@ -50,7 +55,7 @@ use([
   VisualMapComponent,
   CalendarComponent,
   HeatmapChart,
-  DatasetComponent
+  DatasetComponent,
 ]);
 
 provide(THEME_KEY, 'dark');
@@ -70,7 +75,35 @@ console.log(props.dateFrom)
 
 let arrayOfEntries = ref(Object.entries(props.data).map(([key, value]) => [key, value]));
 
-console.log(arrayOfEntries.value)
+arrayOfEntries.value = [["2023-03-09", 5], ["2023-02-11", 1], ["2023-01-12", 1], ["2022-12-17", 1], ["2022-10-23", 1]];
+
+const totalPages = ref(0);
+const currentPage = ref(0);
+
+const earliestDate = (issuesPerDay) => {
+  const dates = Object.keys(props.data); // pobranie tablicy kluczy (czyli dat) z obiektu
+  return new DateTime(Math.min(...dates.map(date => new Date(date)))).endOf('month').toFormat('yyyy-MM-dd');
+}
+
+const latestDate = (issuesPerDay) => {
+  const dates = Object.keys(props.data); // pobranie tablicy kluczy (czyli dat) z obiektu
+  return new DateTime(Math.max(...dates.map(date => new Date(date)))).endOf('month').toFormat('yyyy-MM-dd');
+}
+
+
+const segments =  (issuesPerDay) => {
+
+}
+console.log("E " + earliestDate(props.data));
+console.log("L " + earliestDate(props.data));
+
+// const filteredData = arrayOfEntries.value.filter(([date, count]) => {
+//   const d = new Date(date);
+//   // return d.getFullYear() === 2023 && d.getMonth() === 2; // 2 oznacza marzec, ponieważ w JavaScript indeksy miesięcy zaczynają się od zera
+//   return d.getFullYear() === 2023 // 2 oznacza marzec, ponieważ w JavaScript indeksy miesięcy zaczynają się od zera
+// });
+// console.log(arrayOfEntries.value)
+// console.log(filteredData)
 
 // let keys = Object.keys(props.data);
 // const datesArray = keys.map((element) => new Date(element));
@@ -107,7 +140,7 @@ const option = ref({
     left: 25,
     right: 5,
     cellSize: ['auto', 20],
-    range: [startPeriod.value, endPeriod.value],
+    range: ["2022-10-01", "2023-01-01"],
     itemStyle: {
       borderWidth: 0.8
     },
@@ -124,7 +157,7 @@ const option = ref({
   series: {
     type: 'heatmap',
     coordinateSystem: 'calendar',
-    data: arrayOfEntries.value
+    data: arrayOfEntries
   }
 })
 </script>

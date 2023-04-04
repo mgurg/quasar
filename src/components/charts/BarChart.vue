@@ -48,31 +48,25 @@ const props = defineProps({
   }
 });
 
-// console.log(props.data)
-const parseData = (rawObject, type) => {
-  if (type == 'xAxis') {
-    return Object.keys(rawObject)
-  }
-  if (type == 'yAxis') {
-    return Object.values(rawObject)
-  }
+const sortedArray = (rawObject) => {
+  let arr = Object.entries(rawObject); // Convert object to array of key-value pairs
+  return arr.sort(([a], [b]) => parseInt(a) - parseInt(b)) // Sort the array by key & Output sorted array of key-value pairs
 }
 
-const result = parseData(props.data, 'xAxis');
+const result = sortedArray(props.data);
 
-let dataset = [
-  ["00", 0], ["01", 0], ["02", 0], ["03", 0], ["04", 0], ["05", 0], ["06", 0], ["07", 0], ["08", 0], ["09", 0],
-  ["10", 0], ["11", 0], ["12", 5], ["13", 0], ["14", 1], ["15", 0], ["16", 1], ["17", 1], ["18", 2], ["19", 0],
-  ["20", 0], ["21", 0], ["22", 0], ["23", 0]
-]
+// const obj = { "10": 0, "11": 0, "12": 5, "13": 0, "14": 1, "15": 0, "16": 1, "17": 1, "18": 2, "19": 0, "20": 0,
+// "21": 0, "22": 0, "23": 0, "00": 0, "01": 0, "02": 0, "03": 0, "04": 0, "05": 0, "06": 0, "07": 0, "08": 0, "09": 0 };
 
 
-// const obj = { "10": 0, "11": 0, "12": 5, "13": 0, "14": 1, "15": 0, "16": 1, "17": 1, "18": 2, "19": 0, "20": 0, "21": 0, "22": 0, "23": 0, "00": 0, "01": 0, "02": 0, "03": 0, "04": 0, "05": 0, "06": 0, "07": 0, "08": 0, "09": 0 };
-//
-// const arr = Object.entries(obj); // Convert object to array of key-value pairs
-// arr.sort(([a], [b]) => parseInt(a) - parseInt(b)); // Sort the array by key
-//
-// console.log(arr); // Output sorted array of key-value pairs
+// let dataset = [
+//   ["00", 0], ["01", 0], ["02", 0], ["03", 0], ["04", 0], ["05", 0], ["06", 0], ["07", 0], ["08", 0], ["09", 0],
+//   ["10", 0], ["11", 0], ["12", 5], ["13", 0], ["14", 1], ["15", 0], ["16", 1], ["17", 1], ["18", 2], ["19", 0],
+//   ["20", 0], ["21", 0], ["22", 0], ["23", 0]
+// ]
+
+// const arr = Object.entries(props.data);
+// let dataset_mg = ref(arr.sort(([a], [b]) => parseInt(a) - parseInt(b)));
 
 
 // const option = ref({
@@ -105,12 +99,13 @@ const option = ref(
       // from dimensions to axes.
       // Alternatively, we can declare `series.encode` to specify the mapping,
       // which will be introduced later.
-      dimensions: ['product', '2015', '2016', '2017'],
-      source: [
-        ["00", 0], ["01", 0], ["02", 0], ["03", 0], ["04", 0], ["05", 0], ["06", 0], ["07", 0], ["08", 0], ["09", 0],
-        ["10", 0], ["11", 0], ["12", 5], ["13", 0], ["14", 1], ["15", 0], ["16", 1], ["17", 1], ["18", 2], ["19", 0],
-        ["20", 0], ["21", 0], ["22", 0], ["23", 0]
-      ]
+      // dimensions: ['product', '2015'],
+      source: result
+      //   [
+      //   ["00", 0], ["01", 0], ["02", 0], ["03", 0], ["04", 0], ["05", 0], ["06", 0], ["07", 0], ["08", 0], ["09", 0],
+      //   ["10", 0], ["11", 0], ["12", 5], ["13", 0], ["14", 1], ["15", 0], ["16", 1], ["17", 1], ["18", 2], ["19", 0],
+      //   ["20", 0], ["21", 0], ["22", 0], ["23", 0]
+      // ]
     },
     xAxis: {type: 'category'},
     yAxis: {},
