@@ -35,6 +35,22 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5">Raport zbiorczy</q-item-label>
+<!--                <month-picker-new-->
+<!--                  color="primary"-->
+<!--                  locale="pl-PL"-->
+<!--                  :model="date"-->
+<!--                />-->
+<!--                {{date}}-->
+<!--                <month-picker-->
+<!--                  color="primary"-->
+<!--                  locale="pl-PL"-->
+<!--                  @input="date"-->
+<!--                />-->
+
+
+<!--                {{date}}-->
+
+
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
                 <!--                <q-item-label caption>Podsumowanie awarii w okresie ostatnich 3 miesięcy</q-item-label>-->
 
@@ -48,7 +64,6 @@
           <q-input
             :label="dateRangeDisplay"
             autogrow
-
             class="float-right q-ma-xs q-pa-none"
             dense
             disable
@@ -56,27 +71,98 @@
           >
             <template v-slot:after>
               <q-btn dense flat icon="event" round>
+                <q-popup-proxy ref="qDateProxy" style="max-width: 350px" >
+                  <div >
+                    <q-list separator>
+                      <q-item clickable v-ripple>
+                        <q-item-section>Ostatnie 7 dni</q-item-section>
+                      </q-item>
+                      <q-item clickable v-ripple>
+                        <q-item-section>
+                          <q-item-label>Ostatni miesiąc</q-item-label>
+                        </q-item-section>
+                      </q-item>
 
-                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">
-                  <q-date
-                    v-model="dateRange"
-                    navigation-min-year-month="2023/01"
-                    :multiple=false mask="DD-MM-YYYY"
-                    no-unset
-                    range
-                    today-btn
-                  >
-                    <div class="row items-center justify-end q-gutter-sm">
-                      <q-separator/>
-                      <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
-                      <q-btn v-close-popup color="primary" flat label="OK"/>
-                    </div>
-                  </q-date>
+                      <q-item clickable v-ripple>
+                        <q-item-section>
+                          <q-item-label>Bieżący miesiąc</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-ripple>
+                        <q-item-section>
+                          <q-item-label>Ostatnie 90 dni</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-ripple>
+                        <q-item-section>
+                          <q-item-label>Bieżacy rok</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item clickable v-ripple>
+                        <q-item-section>
+                          <q-item-label>Poprzedni rok</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                      <q-item clickable v-ripple>
+                        <q-item-section>
+                          <q-item-label>Wszystko</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                      <q-item>
+                        <q-item-section>
+                          <q-item-label>Własny</q-item-label>
+                          <div class="row">
+                            <month-picker-new
+                              :model="date"
+                              color="primary"
+                              locale="pl-PL"
+                            />
+                          </div>
+                        </q-item-section>
+                      </q-item>
+
+                    </q-list>
+                  </div>
                 </q-popup-proxy>
-
               </q-btn>
             </template>
           </q-input>
+
+<!--          <q-input-->
+<!--            :label="dateRangeDisplay"-->
+<!--            autogrow-->
+
+<!--            class="float-right q-ma-xs q-pa-none"-->
+<!--            dense-->
+<!--            disable-->
+<!--            outlined-->
+<!--          >-->
+<!--            <template v-slot:after>-->
+<!--              <q-btn dense flat icon="event" round>-->
+
+<!--                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">-->
+<!--                  <q-date-->
+<!--                    v-model="dateRange"-->
+<!--                    navigation-min-year-month="2023/01"-->
+<!--                    :multiple=false mask="DD-MM-YYYY"-->
+<!--                    no-unset-->
+<!--                    range-->
+<!--                    today-btn-->
+<!--                  >-->
+<!--                    <div class="row items-center justify-end q-gutter-sm">-->
+<!--                      <q-separator/>-->
+<!--                      &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
+<!--                      <q-btn v-close-popup color="primary" flat label="OK"/>-->
+<!--                    </div>-->
+<!--                  </q-date>-->
+<!--                </q-popup-proxy>-->
+
+<!--              </q-btn>-->
+<!--            </template>-->
+<!--          </q-input>-->
         </q-card-actions>
       </q-card>
 
@@ -275,12 +361,14 @@
 <script setup>
 import BarChart from "components/charts/BarChart.vue";
 import HeatMapChart from "components/charts/HeatMapChart.vue";
+import monthPicker from "components/custom/MonthPicker.vue";
 import {computed, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {getAllItemStatisticsRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {DateTime, Duration, Interval} from "luxon";
-
+import MonthPickerNew from "components/custom/MonthPickerNew.vue";
+import MonthPicker from "components/custom/MonthPicker.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -296,6 +384,8 @@ const issuesPerHour = ref(null);
 const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
+
+const date = ref(null);
 
 const componentKey = ref(0);
 
