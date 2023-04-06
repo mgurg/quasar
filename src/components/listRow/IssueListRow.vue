@@ -56,7 +56,7 @@
           text-color="white"
           @click="viewItem(issue.item.uuid)"
         />
-          {{ timeAgo(issue.created_at) }}
+<!--          {{ timeAgo(issue.created_at) }}-->
         </span>
         <!--  Anonymous  -->
         {{ timeAgo(issue.created_at) }}

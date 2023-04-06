@@ -10,7 +10,7 @@
 <!--      {{ timePeriod }} {{ timeUnit }}-->
 <!--    </div>-->
   </div>
-  <div class="q-pa-md" style="min-width: 300px;">
+  <div class="q-pa-md" style="min-width: 350px;">
 
     <div class="q-py-md">
       <div class="q-gutter-sm ">
@@ -296,7 +296,7 @@ function submit() {
 <style lang="scss" scoped>
 
 .monthpicker {
-  width: 300px;
+  width: 350px;
 }
 
 .monthpicker-current {
