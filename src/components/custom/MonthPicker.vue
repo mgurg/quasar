@@ -1,53 +1,177 @@
 <template>
-  <div class="monthpicker">
-    <div class="monthpicker-header">
-      <q-btn
-        dense
-        flat
-        icon="navigate_before"
-        round
-        @click="changeYear(false)"
-      />
-      {{ selectedMonth.getFullYear() }}
-      <q-btn
-        dense
-        flat
-        icon="navigate_next"
-        round
-        @click="changeYear(true)"
-      />
+  <div class="bg-primary">
+    <div class="q-pa-md text-white text-bold">
+      From: {{ periodFrom.toFormat('yyyy-MM-dd') }}
     </div>
-    <div class="monthpicker-months">
-      <q-btn
-        v-for="month in displayedMonths"
-        :key="month.getTime()"
-        :class="{ 'monthpicker-current': isCurrentMonth(month) }"
-        :color="isSelectedMonth(month) ? color : ''"
-        :disable="isDisabled(month)"
-        :flat="!isSelectedMonth(month)"
-        :label="month.toLocaleDateString(localeArray, {
+    <div class="q-px-md text-white text-bold">
+      To: {{ periodTo.toFormat('yyyy-MM-dd') }}
+    </div>
+<!--    <div class="q-py-md">-->
+<!--      {{ timePeriod }} {{ timeUnit }}-->
+<!--    </div>-->
+  </div>
+  <div class="q-pa-md" style="min-width: 300px;">
+
+    <div class="q-py-md">
+      <div class="q-gutter-sm ">
+        <input id="current" v-model="timePeriod" type="radio" value="current"/>&nbsp;&nbsp;
+        <label for="current">Obecny</label>
+        <input id="prev" v-model="timePeriod" type="radio" value="prev"/>&nbsp;&nbsp;
+        <label for="prev">Poprzedni</label>
+        <input id="own" v-model="timePeriod" type="radio" value="own"/>&nbsp;&nbsp;
+        <label for="own">Własny</label>
+      </div>
+    </div>
+  </div>
+  <div class="q-py-md">
+    <div v-if="timePeriod !=='own'" class="q-gutter-sm">
+      <input id="day" v-model="timeUnit" type="radio" value="D"/>&nbsp;&nbsp;
+      <label for="day">Dzień</label>
+      <input id="week" v-model="timeUnit" type="radio" value="W"/>&nbsp;&nbsp;
+      <label for="week">Tydzień</label>
+      <input id="month" v-model="timeUnit" type="radio" value="M"/>&nbsp;&nbsp;
+      <label for="month">Miesiąc</label>
+      <input id="year" v-model="timeUnit" type="radio" value="Y"/>&nbsp;&nbsp;
+      <label for="year">Rok</label>
+    </div>
+
+    <div v-if="timePeriod ==='own'" class="monthpicker">
+      <div class="monthpicker-header">
+        <q-btn
+          dense
+          flat
+          icon="navigate_before"
+          round
+          @click="changeYear(false)"
+        />
+        {{ selectedMonth.getFullYear() }}
+        <q-btn
+          dense
+          flat
+          icon="navigate_next"
+          round
+          @click="changeYear(true)"
+        />
+      </div>
+      <div class="monthpicker-months">
+        <q-btn
+          v-for="month in displayedMonths"
+          :key="month.getTime()"
+          :class="{ 'monthpicker-current': isCurrentMonth(month) }"
+          :color="isSelectedMonth(month) ? color : ''"
+          :disable="isDisabled(month)"
+          :flat="!isSelectedMonth(month)"
+          :label="month.toLocaleDateString(localeArray, {
                 month: 'short',
               })"
-        :text-color="isCurrentMonth(month) && !isSelectedMonth(month) ? color : ''"
-        no-caps
-        dense
-        no-outline
-        no-ripple
-        rounded
-        @click="selectMonth(month)"
+          :text-color="isCurrentMonth(month) && !isSelectedMonth(month) ? color : ''"
+          dense
+          no-caps
+          no-outline
+          no-ripple
+          rounded
+          @click="selectMonth(month)"
+        />
+      </div>
+
+    </div>
+    <q-separator/>
+    <div class="row q-pt-md">
+      <q-space/>
+      <q-btn
+        v-close-popup
+        :label="$t('Cancel')"
+        class="q-mr-lg"
+        color="red-12"
+        flat
+        icon="cancel"
+      />
+      <q-btn
+        v-close-popup
+        :label="$t('Save')"
+        class="q-mr-xs"
+        color="primary"
+        icon="done"
+        type="submit"
+        @click="submit"
       />
     </div>
-    <!--    <q-separator/>-->
-    <!--    <div class="row q-pt-sm">-->
-    <!--      <q-btn flat no-caps>rok</q-btn>-->
-    <!--    </div>-->
   </div>
 </template>
 
 <script setup>
 import {computed, ref} from 'vue'
+import {DateTime} from "luxon";
 
-const emit = defineEmits(['input'])
+const emit = defineEmits(['dateRange'])
+
+const timeUnit = ref('M');
+const timePeriod = ref('current');
+
+const selectedMonth = ref(new Date(2023, 4));
+
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1);
+}
+
+function getLastDayOfMonth(year, month) {
+  return new Date(year, month + 1, 0);
+}
+
+const periodFrom = computed(() => {
+  let luxDate = DateTime.now().setZone('UTC')
+
+  if (timeUnit.value === "Y") {
+    luxDate = luxDate.startOf('year')
+    if (timePeriod.value === "prev") {
+      luxDate = luxDate.minus({years: 1})
+    }
+  }
+  if (timeUnit.value === "M") {
+    luxDate = luxDate.startOf('month')
+    if (timePeriod.value === "prev") {
+      luxDate = luxDate.minus({months: 1})
+    }
+  }
+
+  if (timeUnit.value === "W") {
+    luxDate = luxDate.startOf('week')
+    if (timePeriod.value === "prev") {
+      luxDate = luxDate.minus({weeks: 1})
+    }
+  }
+  if (timeUnit.value === "D") {
+    luxDate = luxDate.startOf('day')
+    if (timePeriod.value === "prev") {
+      luxDate = luxDate.minus({days: 1})
+    }
+  }
+
+
+  return luxDate;
+})
+
+const periodTo = computed(() => {
+  let luxDate = DateTime.now().setZone('UTC')
+
+  if (timeUnit.value === "Y" && timePeriod.value === "prev") {
+    luxDate = DateTime.now().setZone('UTC').minus({years: 1}).endOf('year')
+  }
+
+  if (timeUnit.value === "M" && timePeriod.value === "prev") {
+    luxDate = DateTime.now().setZone('UTC').minus({months: 1}).endOf('month')
+  }
+
+  if (timeUnit.value === "W" && timePeriod.value === "prev") {
+    luxDate = DateTime.now().setZone('UTC').minus({weeks: 1}).endOf('week')
+  }
+
+  if (timeUnit.value === "D" && timePeriod.value === "prev") {
+    luxDate = DateTime.now().setZone('UTC').minus({days: 1}).endOf('day')
+  }
+
+  return luxDate;
+})
 
 // const path = computed(() => route.path)
 
@@ -63,14 +187,13 @@ const displayedMonths = computed(() => {
 
 const selectMonth = (month) => {
   console.log("emit " + month.getTime());
-  emit('input', month)
+
 
   selectedMonth.value = new Date(month)
 
 
 }
 
-const selectedMonth = ref(new Date(2023, 4));
 
 function cleanDate(date) {
   let d = date ? new Date(date) : new Date()
@@ -132,10 +255,10 @@ function minClean() {
 
 function isSelectedMonth(month) {
 
-  console.log("isSelectedMonth")
-  if (selectedMonth.value.getTime() === month.getTime()) {
-    console.log(selectedMonth.value.getTime() + "|" + month.getTime())
-  }
+  // console.log("isSelectedMonth")
+  // if (selectedMonth.value.getTime() === month.getTime()) {
+  // console.log(selectedMonth.value.getTime() + "|" + month.getTime())
+  // }
 
 
   return selectedMonth.value ? (selectedMonth.value.getTime() === month.getTime()) : false
@@ -164,12 +287,16 @@ function isDisabled(month) {
   return disabled
 }
 
+function submit() {
+  emit('dateRange', {from: periodFrom.value, to: periodTo.value})
+}
+
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 .monthpicker {
-  width: 250px;
+  width: 300px;
 }
 
 .monthpicker-current {
@@ -193,6 +320,25 @@ function isDisabled(month) {
   box-shadow: none;
   margin: 4px 0;
   width: 30%;
+}
+
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] + label {
+  color: #ccc;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked + label {
+  color: #333;
+  font-weight: bold;
 }
 
 </style>

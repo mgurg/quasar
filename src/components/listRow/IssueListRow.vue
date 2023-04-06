@@ -2,14 +2,14 @@
   <!--  <div class="cursor-pointer">-->
   <q-item v-ripple :class="$q.screen.lt.sm ? 'q-pa-xs':''" clickable @click="viewIssue(issue.uuid)">
     <q-item-section :class="$q.screen.lt.sm ? 'q-pr-xs':''" avatar @click="viewIssue(issue.uuid)">
-      <q-avatar rounded :icon="getIcon(issue.status)" text-color="blue-grey-6" color="blue-grey-1" >
-        <q-badge v-if="issue.priority ==30" floating color="red"></q-badge>
-        <q-badge v-if="issue.priority ==20" floating color="orange"></q-badge>
-        <q-badge v-if="issue.priority ==10" floating color="primary"></q-badge>
+      <q-avatar :icon="getIcon(issue.status)" color="blue-grey-1" rounded text-color="blue-grey-6">
+        <q-badge v-if="issue.priority ==30" color="red" floating></q-badge>
+        <q-badge v-if="issue.priority ==20" color="orange" floating></q-badge>
+        <q-badge v-if="issue.priority ==10" color="primary" floating></q-badge>
       </q-avatar>
-<!--      <q-icon :name="getIcon(issue.status)" :color="getIconColor(issue.priority)" size="lg">-->
-<!--        -->
-<!--      </q-icon>-->
+      <!--      <q-icon :name="getIcon(issue.status)" :color="getIconColor(issue.priority)" size="lg">-->
+      <!--        -->
+      <!--      </q-icon>-->
     </q-item-section>
 
     <q-item-section>
@@ -20,11 +20,11 @@
           <q-chip
             v-if="$q.screen.gt.xs ===true"
             :label="issue.item.name"
-            style="z-index:1000"
             class="q-ma-xs truncate-chip-labels"
             clickable
             color="grey"
             size="md"
+            style="z-index:1000"
             text-color="white"
             @click="viewItem(issue.item.uuid)"
 
@@ -48,21 +48,26 @@
         />
         <q-chip
           :label="issue.item.name"
-          style="max-width: 150px; z-index:1000"
           class="q-ma-xs"
           clickable
           color="grey"
           size="sm"
+          style="max-width: 150px; z-index:1000"
           text-color="white"
           @click="viewItem(issue.item.uuid)"
         />
           {{ timeAgo(issue.created_at) }}
         </span>
+        <!--  Anonymous  -->
+        {{ timeAgo(issue.created_at) }}
 
       </q-item-label>
     </q-item-section>
     <q-item-section v-if="$q.screen.gt.xs ===true" side>
       <q-item-label caption>{{ timeAgo(issue.created_at) }}</q-item-label>
+      <q-tooltip>
+        {{ formatTime(issue.created_at) }}
+      </q-tooltip>
       <!-- <q-icon name="priority_high" color="red-12" /> -->
     </q-item-section>
   </q-item>
@@ -96,7 +101,7 @@ const props = defineProps({
         status: null,
         priority: null,
         color: null,
-        user_issue:null,
+        user_issue: null,
         created_at: null
       };
     },
@@ -120,6 +125,10 @@ const timeAgo = (date) => {
   });
   return relativeFormatter.format(Math.trunc(diff.as(unit)), unit);
 };
+
+function formatTime(date) {
+  return DateTime.fromISO(date).toFormat('yyyy-MM-dd')
+}
 
 function deleteIssue(uuid) {
   $q.dialog({
