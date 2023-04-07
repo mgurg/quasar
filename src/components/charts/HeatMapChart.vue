@@ -17,19 +17,16 @@
           :key="currentPage"
         />
         <div class="row">
-          <q-btn flat icon="navigate_before" @click="prev" :disable="minDate().startOf('month') === earliestDate().startOf('month')"/>
-          <q-btn flat icon="navigate_next" @click="next" :disable="minDate().startOf('month') >  earliestDate().startOf('month')"/>
+          <q-btn flat icon="navigate_before" @click="prev" :disable="isPrev()"/>
+          <q-btn flat icon="navigate_next" @click="next" :disable="isNext()"/>
           <q-btn icon="event" :disable="true"></q-btn>
         </div>
 
-        DF: {{ earliestDate().toFormat("dd-MM-yyyy") }} <br/>
-        DF: {{ latestDate().toFormat("dd-MM-yyyy") }} <br/>
+        BTN: {{ minDate().toFormat("dd-MM-yyyy")}} DF: {{ earliestDate().toFormat("dd-MM-yyyy") }}  : {{ isPrev() }}  <br/>
+        BTN: {{ maxDate().toFormat("dd-MM-yyyy")}} DF: {{ latestDate().toFormat("dd-MM-yyyy") }}  : {{ isNext() }} <br/>
         {{ segments() }}<br/>
         <hr />
-        BTN: {{ minDate().toFormat("dd-MM-yyyy")}}<br/>
-        BTN: {{ maxDate().toFormat("dd-MM-yyyy")}}<br/>
-        {{ minDate().startOf("month") >  earliestDate().startOf("month") }} <br/>
-        {{ maxDate().startOf("month") >  earliestDate().startOf("month") }}
+
       </q-card-section>
     </q-card>
   </div>
@@ -101,6 +98,12 @@ const prev = () => {
   console.log("prev")
 }
 
+function isPrev(){
+  return minDate().startOf("month") <= earliestDate().startOf("month")
+}
+function isNext() {
+  return maxDate().startOf("month") >= latestDate().startOf("month")
+}
 const next = () => {
   currentPage.value = currentPage.value -1
   option.value.calendar.range = [minDate().toFormat("yyyy-MM-dd"), maxDate().toFormat("yyyy-MM-dd")]
