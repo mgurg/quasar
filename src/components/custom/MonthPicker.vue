@@ -1,20 +1,29 @@
 <template>
-  <div class="bg-primary" style="min-width: 300px;">
-    <div class="column q-pa-md">
-      <div class="col text-subtitle1 text-weight-medium text-light-blue-6">From:  <span class="text-light-blue-1">{{ periodFrom().toFormat('yyyy-MM-dd') }}</span> </div>
-      <div class="col text-subtitle1 text-weight-medium text-light-blue-6">To: {{ periodTo().toFormat('yyyy-MM-dd') }}</div>
+<!--  BASED ON: https://github.com/louisameline/quasar-monthpicker/blob/master/src/MonthPicker.vue -->
+  <div class="bg-primary" style="min-width: 300px; width: 300px">
+    <div class="q-pa-md example-row-equal-width">
+
+      <div class="row">
+        <div class="col text-subtitle1 text-weight-medium text-light-blue-6">
+          From:
+        </div>
+        <div class="col-9 text-subtitle1 text-weight-medium text-light-blue-1">
+          {{ periodFrom().toFormat('yyyy-MM-dd') }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-subtitle1 text-weight-medium text-light-blue-6">
+          To:
+        </div>
+        <div class="col-9 text-subtitle1 text-weight-medium text-light-blue-1">
+          {{ periodTo().toFormat('yyyy-MM-dd') }}
+        </div>
+      </div>
+
     </div>
-<!--    <div class="q-pa-md text-white text-bold">-->
-<!--      From: {{ periodFrom().toFormat('yyyy-MM-dd') }}-->
-<!--    </div>-->
-<!--    <div class="q-px-md text-white text-bold">-->
-<!--      To: {{ periodTo().toFormat('yyyy-MM-dd') }}-->
-<!--    </div>-->
-    <!--    <div class="q-py-md">-->
-    <!--      {{ timePeriod }} {{ timeUnit }}-->
-    <!--    </div>-->
   </div>
-  <div class="q-pa-md">
+  <div class="q-pa-sm">
     <div class="q-py-md">
       <div class="q-gutter-sm ">
         <input id="last" v-model="timePeriod" type="radio" value="last"/>&nbsp;
@@ -28,8 +37,8 @@
       </div>
     </div>
 
-    <div class="q-py-md">
-      <div v-if="timePeriod !=='own'" class="q-gutter-sm">
+    <div class="q-py-sm"  v-if="timePeriod !=='own'">
+      <div class="q-gutter-sm">
         <input id="day" v-model="timeUnit" type="radio" value="D"/>&nbsp;&nbsp;
         <label for="day">Dzień</label>
         <input id="week" v-model="timeUnit" type="radio" value="W"/>&nbsp;&nbsp;
@@ -111,7 +120,7 @@ import {DateTime} from "luxon";
 const emit = defineEmits(['dateRange'])
 
 const timeUnit = ref('M');
-const timePeriod = ref('current');
+const timePeriod = ref('last');
 
 const selectedMonth = ref(new Date(2023, 4));
 
@@ -291,7 +300,8 @@ function isDisabled(month) {
 }
 
 function submit() {
-  emit('dateRange', {from: periodFrom.value, to: periodTo.value})
+  console.log("Emit")
+  emit('dateRange', {from: periodFrom(), to: periodTo()})
 }
 
 </script>

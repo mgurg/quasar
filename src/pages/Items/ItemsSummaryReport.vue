@@ -69,13 +69,10 @@
               </div>
             </div>
 
-            <q-menu cover anchor="center middle" style="min-width: 350px;" class="q-ma-sm">
-              <div >
+            <q-menu cover anchor="center right">
                 <month-picker
                   @date-range="updateDateRange"
                 />
-
-              </div>
             </q-menu>
 
           </q-btn>
