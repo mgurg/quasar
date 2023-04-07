@@ -1,20 +1,25 @@
 <template>
-  <div class="bg-primary">
-    <div class="q-pa-md text-white text-bold">
-      From: {{ periodFrom.toFormat('yyyy-MM-dd') }}
+  <div class="bg-primary" style="min-width: 300px;">
+    <div class="column q-pa-md">
+      <div class="col text-subtitle1 text-weight-medium text-light-blue-6">From:  <span class="text-light-blue-1">{{ periodFrom().toFormat('yyyy-MM-dd') }}</span> </div>
+      <div class="col text-subtitle1 text-weight-medium text-light-blue-6">To: {{ periodTo().toFormat('yyyy-MM-dd') }}</div>
     </div>
-    <div class="q-px-md text-white text-bold">
-      To: {{ periodTo.toFormat('yyyy-MM-dd') }}
-    </div>
-<!--    <div class="q-py-md">-->
-<!--      {{ timePeriod }} {{ timeUnit }}-->
+<!--    <div class="q-pa-md text-white text-bold">-->
+<!--      From: {{ periodFrom().toFormat('yyyy-MM-dd') }}-->
 <!--    </div>-->
+<!--    <div class="q-px-md text-white text-bold">-->
+<!--      To: {{ periodTo().toFormat('yyyy-MM-dd') }}-->
+<!--    </div>-->
+    <!--    <div class="q-py-md">-->
+    <!--      {{ timePeriod }} {{ timeUnit }}-->
+    <!--    </div>-->
   </div>
-  <div class="q-pa-md" style="min-width: 350px;">
-
+  <div class="q-pa-md">
     <div class="q-py-md">
       <div class="q-gutter-sm ">
-        <input id="current" v-model="timePeriod" type="radio" value="current"/>&nbsp;&nbsp;
+        <input id="last" v-model="timePeriod" type="radio" value="last"/>&nbsp;
+        <label for="last">Ostatni</label>
+        <input id="current" v-model="timePeriod" type="radio" value="current"/>&nbsp;
         <label for="current">Obecny</label>
         <input id="prev" v-model="timePeriod" type="radio" value="prev"/>&nbsp;&nbsp;
         <label for="prev">Poprzedni</label>
@@ -22,19 +27,19 @@
         <label for="own">Własny</label>
       </div>
     </div>
-  </div>
-  <div class="q-py-md">
-    <div v-if="timePeriod !=='own'" class="q-gutter-sm">
-      <input id="day" v-model="timeUnit" type="radio" value="D"/>&nbsp;&nbsp;
-      <label for="day">Dzień</label>
-      <input id="week" v-model="timeUnit" type="radio" value="W"/>&nbsp;&nbsp;
-      <label for="week">Tydzień</label>
-      <input id="month" v-model="timeUnit" type="radio" value="M"/>&nbsp;&nbsp;
-      <label for="month">Miesiąc</label>
-      <input id="year" v-model="timeUnit" type="radio" value="Y"/>&nbsp;&nbsp;
-      <label for="year">Rok</label>
-    </div>
 
+    <div class="q-py-md">
+      <div v-if="timePeriod !=='own'" class="q-gutter-sm">
+        <input id="day" v-model="timeUnit" type="radio" value="D"/>&nbsp;&nbsp;
+        <label for="day">Dzień</label>
+        <input id="week" v-model="timeUnit" type="radio" value="W"/>&nbsp;&nbsp;
+        <label for="week">Tydzień</label>
+        <input id="month" v-model="timeUnit" type="radio" value="M"/>&nbsp;&nbsp;
+        <label for="month">Miesiąc</label>
+        <input id="year" v-model="timeUnit" type="radio" value="Y"/>&nbsp;&nbsp;
+        <label for="year">Rok</label>
+      </div>
+    </div>
     <div v-if="timePeriod ==='own'" class="monthpicker">
       <div class="monthpicker-header">
         <q-btn
@@ -110,48 +115,47 @@ const timePeriod = ref('current');
 
 const selectedMonth = ref(new Date(2023, 4));
 
-function getFirstDayOfMonth(year, month) {
-  return new Date(year, month, 1);
-}
-
-function getLastDayOfMonth(year, month) {
-  return new Date(year, month + 1, 0);
-}
-
-const periodFrom = computed(() => {
+const periodFrom = (date = null) => {
+  if (timePeriod.value === "own") {
+    return DateTime.fromJSDate(selectedMonth.value).setZone('UTC').plus({months: 1}).startOf('month')
+  }
   let luxDate = DateTime.now().setZone('UTC')
 
   if (timeUnit.value === "Y") {
     luxDate = luxDate.startOf('year')
-    if (timePeriod.value === "prev") {
+    if (timePeriod.value === "prev" || timePeriod.value === "last") {
       luxDate = luxDate.minus({years: 1})
     }
   }
   if (timeUnit.value === "M") {
     luxDate = luxDate.startOf('month')
-    if (timePeriod.value === "prev") {
+    if (timePeriod.value === "prev" || timePeriod.value === "last") {
       luxDate = luxDate.minus({months: 1})
     }
   }
 
   if (timeUnit.value === "W") {
     luxDate = luxDate.startOf('week')
-    if (timePeriod.value === "prev") {
+    if (timePeriod.value === "prev" || timePeriod.value === "last") {
       luxDate = luxDate.minus({weeks: 1})
     }
   }
   if (timeUnit.value === "D") {
     luxDate = luxDate.startOf('day')
-    if (timePeriod.value === "prev") {
+    if (timePeriod.value === "prev" || timePeriod.value === "last") {
       luxDate = luxDate.minus({days: 1})
     }
   }
 
 
   return luxDate;
-})
+}
 
-const periodTo = computed(() => {
+const periodTo = () => {
+  if (timePeriod.value === "own") {
+    return DateTime.fromJSDate(selectedMonth.value).setZone('UTC').plus({months: 1}).endOf('month')
+  }
+
   let luxDate = DateTime.now().setZone('UTC')
 
   if (timeUnit.value === "Y" && timePeriod.value === "prev") {
@@ -171,7 +175,7 @@ const periodTo = computed(() => {
   }
 
   return luxDate;
-})
+}
 
 // const path = computed(() => route.path)
 
@@ -179,21 +183,20 @@ const displayedMonths = computed(() => {
   let months = []
 
   for (let i = 0; i < 12; i++) {
-    months.push(new Date(2023, i))
+    months.push(new Date(selectedMonth.value.getFullYear(), i))
   }
 
   return months
 })
 
 const selectMonth = (month) => {
-  console.log("emit " + month.getTime());
+  let year = selectedMonth.value.getFullYear()
+  selectedMonth.value = new Date(year, month.getMonth())
 
-
-  selectedMonth.value = new Date(month)
-
-
+  periodFrom(1)
+  periodTo(1)
+  // console.log(selectedMonth.value.getTime() + "|" + month.getTime())
 }
-
 
 function cleanDate(date) {
   let d = date ? new Date(date) : new Date()
@@ -270,8 +273,8 @@ function currentMonth() {
 }
 
 function isCurrentMonth(month) {
-  return true;
-  // return currentMonth().getTime() === month.getTime()
+  // return true;
+  return currentMonth().getTime() === month.getTime()
 }
 
 function isDisabled(month) {
@@ -296,7 +299,7 @@ function submit() {
 <style lang="scss" scoped>
 
 .monthpicker {
-  width: 350px;
+  width: 250px;
 }
 
 .monthpicker-current {
