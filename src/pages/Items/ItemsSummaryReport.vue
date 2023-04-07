@@ -70,36 +70,10 @@
             </div>
 
             <q-menu cover anchor="center right">
-                <month-picker
-                  @date-range="updateDateRange"
-                />
+                <month-picker @date-range="updateDateRange" />
             </q-menu>
 
           </q-btn>
-
-
-<!--          <q-input-->
-<!--            :label="dateRangeDisplay"-->
-<!--            autogrow-->
-<!--            class="float-right q-ma-xs q-pa-none"-->
-<!--            dense-->
-<!--            disable-->
-<!--            outlined-->
-<!--          >-->
-<!--            <template v-slot:after>-->
-<!--              <q-btn dense flat icon="event" round>-->
-<!--                <q-menu>-->
-
-<!--                  <div>-->
-<!--                    <month-picker-->
-<!--                      @date-range="updateDateRange"-->
-<!--                    />-->
-
-<!--                  </div>-->
-<!--                </q-menu>-->
-<!--              </q-btn>-->
-<!--            </template>-->
-<!--          </q-input>-->
 
         </q-card-actions>
       </q-card>
@@ -330,7 +304,7 @@ const forceRerender = () => {
 
 // --- BTN DATE PICKER -
 
-const dateTimeFrom = ref(DateTime.now().setZone('UTC').startOf('month'))
+const dateTimeFrom = ref(DateTime.now().setZone('UTC').minus({months: 1}))
 const dateTimeTo = ref(DateTime.now().setZone('UTC'))
 
 

@@ -1,12 +1,12 @@
 <template>
   <div>
     <q-card :class="$q.dark.isActive?'bg-dark':''" class="no-shadow">
-<!--      <q-card-section class="text-h6">-->
-<!--        Heatmap Chart-->
-<!--        <q-btn class="float-right" dense flat icon="download">-->
-<!--          <q-tooltip>Download PNG</q-tooltip>-->
-<!--        </q-btn>-->
-<!--      </q-card-section>-->
+      <!--      <q-card-section class="text-h6">-->
+      <!--        Heatmap Chart-->
+      <!--        <q-btn class="float-right" dense flat icon="download">-->
+      <!--          <q-tooltip>Download PNG</q-tooltip>-->
+      <!--        </q-btn>-->
+      <!--      </q-card-section>-->
       <q-card-section>
         <v-chart
           ref="barRef"
@@ -14,12 +14,22 @@
           :style="{height: `300px !important`, width: `100%`}"
           autoresize
           theme="light"
+          :key="currentPage"
         />
-        <div class="row" >
-          <q-btn flat icon="navigate_before"></q-btn>
-          <q-btn flat icon="navigate_next"></q-btn>
+        <div class="row">
+          <q-btn flat icon="navigate_before" @click="prev" :disable="minDate().startOf('month') === earliestDate().startOf('month')"/>
+          <q-btn flat icon="navigate_next" @click="next" :disable="minDate().startOf('month') >  earliestDate().startOf('month')"/>
+          <q-btn icon="event" :disable="true"></q-btn>
         </div>
 
+        DF: {{ earliestDate().toFormat("dd-MM-yyyy") }} <br/>
+        DF: {{ latestDate().toFormat("dd-MM-yyyy") }} <br/>
+        {{ segments() }}<br/>
+        <hr />
+        BTN: {{ minDate().toFormat("dd-MM-yyyy")}}<br/>
+        BTN: {{ maxDate().toFormat("dd-MM-yyyy")}}<br/>
+        {{ minDate().startOf("month") >  earliestDate().startOf("month") }} <br/>
+        {{ maxDate().startOf("month") >  earliestDate().startOf("month") }}
       </q-card-section>
     </q-card>
   </div>
@@ -30,18 +40,18 @@
 import {use} from 'echarts/core';
 import {
   CalendarComponent,
+  DatasetComponent,
   GridComponent,
   LegendComponent,
   TitleComponent,
   TooltipComponent,
   VisualMapComponent,
-  DatasetComponent,
 } from 'echarts/components';
 import {HeatmapChart} from 'echarts/charts';
 import {CanvasRenderer} from 'echarts/renderers';
 import VChart, {THEME_KEY} from 'vue-echarts';
-import {provide, ref} from 'vue';
-import {DateTime, Duration, Interval} from "luxon";
+import {computed, provide, ref} from 'vue';
+import {DateTime, Interval} from "luxon";
 
 
 // https://echarts.apache.org/examples/en/editor.html?c=calendar-heatmap&random=kypnz0qfsr
@@ -60,10 +70,12 @@ use([
 
 provide(THEME_KEY, 'dark');
 
+let barRef = ref(null);
+
 const props = defineProps({
-  data:Object,
-  dateFrom :String,
-  dateTo :String,
+  data: Object,
+  dateFrom: String,
+  dateTo: String,
   chartTitle: {
     type: String,
     required: true
@@ -80,35 +92,60 @@ let arrayOfEntries = ref(Object.entries(props.data).map(([key, value]) => [key, 
 const totalPages = ref(0);
 const currentPage = ref(0);
 
-const earliestDate = (issuesPerDay) => {
-  const dates = Object.keys(issuesPerDay); // pobranie tablicy kluczy (czyli dat) z obiektu
-  let jsDate =  new Date(Math.min(...dates.map(date => new Date(date))));
+const prev = () => {
+  currentPage.value = currentPage.value +1
+
+  sss.value = "2023-01-01"
+
+  option.value.calendar.range = [minDate().toFormat("yyyy-MM-dd"), maxDate().toFormat("yyyy-MM-dd")]
+  console.log("prev")
+}
+
+const next = () => {
+  currentPage.value = currentPage.value -1
+  option.value.calendar.range = [minDate().toFormat("yyyy-MM-dd"), maxDate().toFormat("yyyy-MM-dd")]
+  console.log("next")
+}
+
+const earliestDate = () => {
+  const dates = Object.keys(props.data); // pobranie tablicy kluczy (czyli dat) z obiektu
+  let jsDate = new Date(Math.min(...dates.map(date => new Date(date))));
   return DateTime.fromJSDate(jsDate);
 }
 
-const latestDate = (issuesPerDay) => {
+const latestDate = () => {
   const dates = Object.keys(props.data); // pobranie tablicy kluczy (czyli dat) z obiektu
-  let jsDate =  new Date(Math.max(...dates.map(date => new Date(date))));
+  let jsDate = new Date(Math.max(...dates.map(date => new Date(date))));
   return DateTime.fromJSDate(jsDate);
 }
-//
-//
-const segments =  () => {
-  const diff = Interval.fromDateTimes(DateTime.fromISO(earliestDate(props.data).startOf('month')), DateTime.fromISO(latestDate(props.data).endOf('month')));
+
+const minDate= () =>{
+  let d = DateTime.fromISO(latestDate()).minus({months: currentPage.value + 2})
+  return d
+}
+
+const maxDate = () =>{
+  let d = DateTime.fromISO(latestDate()).minus({months: currentPage.value})
+  return d
+}
+
+const segments = () => {
+  const diff = Interval.fromDateTimes(DateTime.fromISO(earliestDate()), DateTime.fromISO(latestDate()));
   return Math.ceil(diff.length('months'));
 }
+
 //
 //
 console.log("E " + earliestDate(props.data).startOf('month').toFormat('yyyy-MM-dd'));
 console.log("L " + latestDate(props.data).endOf('month').toFormat('yyyy-MM-dd'));
 console.log(segments())
 
-// const filteredData = arrayOfEntries.value.filter(([date, count]) => {
-//   const d = new Date(date);
-//   // return d.getFullYear() === 2023 && d.getMonth() === 2; // 2 oznacza marzec, ponieważ w JavaScript indeksy miesięcy zaczynają się od zera
-//   return d.getFullYear() === 2023 // 2 oznacza marzec, ponieważ w JavaScript indeksy miesięcy zaczynają się od zera
-// });
-// console.log(arrayOfEntries.value)
+const filteredData = arrayOfEntries.value.filter(([date, count]) => {
+  const d = new Date(date);
+  return d.getFullYear() === 2023 && d.getMonth() === 2; // 2 oznacza marzec, ponieważ w JavaScript indeksy miesięcy zaczynają się od zera
+  // return d.getFullYear() === 2023 // 2 oznacza marzec, ponieważ w JavaScript indeksy miesięcy zaczynają się od zera
+});
+console.log(arrayOfEntries.value)
 // console.log(filteredData)
 
 // let keys = Object.keys(props.data);
@@ -122,6 +159,9 @@ console.log(segments())
 
 const startPeriod = ref(props.dateFrom)
 const endPeriod = ref(props.dateTo)
+
+
+const sss = ref("2023-02-01")
 
 console.log("startPeriod: " + startPeriod.value)
 console.log("endPeriod: " + endPeriod.value)
@@ -146,13 +186,14 @@ const option = ref({
     left: 25,
     right: 5,
     cellSize: ['auto', 20],
-    range: ["2022-10-01", "2023-01-01"],
+    range: [minDate().toFormat("yyyy-MM-dd"), maxDate().toFormat("yyyy-MM-dd")],
+    // range: [sss.value, "2023-04-01"],
     itemStyle: {
       borderWidth: 0.8
     },
     yearLabel: {show: false},
     monthLabel: {
-      nameMap: ['STY', 'LUT', 'MAR', 'KWI', 'MAJ', 'CZE', 'LIP', 'SIE', 'WRZ', 'PAZ' , 'LIS', 'GRU'],
+      nameMap: ['STY', 'LUT', 'MAR', 'KWI', 'MAJ', 'CZE', 'LIP', 'SIE', 'WRZ', 'PAZ', 'LIS', 'GRU'],
     },
     dayLabel: {
       firstDay: 1,
