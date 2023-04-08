@@ -309,7 +309,16 @@ const dateTimeTo = ref(DateTime.now().setZone('UTC'))
 
 
 const dateRangeDisplay = computed(() => {
-  return dateTimeFrom.value.toFormat("dd-MM-yyyy") + " ~ " + dateTimeTo.value.toFormat("dd-MM-yyyy")
+  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")){
+    return dateTimeTo.value.toFormat("dd.MM.yyyy");
+  }
+  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")){
+    return dateTimeFrom.value.toFormat("dd") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
+  }
+  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")){
+    return dateTimeFrom.value.toFormat("dd.MM") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
+  }
+  return dateTimeFrom.value.toFormat("dd.MM.yyyy") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
 });
 
 function updateDateRange(date) {
