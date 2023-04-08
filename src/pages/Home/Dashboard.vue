@@ -81,6 +81,9 @@
               <!--                no-caps-->
               <!--              />-->
               <span v-if="$q.screen.gt.xs" class="text-body1 text-weight-medium q-pr-lg">{{ currentDate() }}, Dzisiaj:</span>
+              <span v-else>
+                Dzisiaj:
+              </span>
             </div>
           </q-item-section>
         </q-item>
