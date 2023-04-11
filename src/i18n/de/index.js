@@ -132,7 +132,8 @@ export default {
 	issue_start_progress: `Das Problem begann`,
 	issue_done: `Ausgabe gemacht`,
 	issue_pause: `Ausgabe machte eine Pause`,
-	issue_resume: `Ausgabe ressiert`,
+	issue_resume: `Problem wieder aufgenommen`,
+	issue_reject: `Problem abgelehnt`,
 
 	// guides
 	"Guides": `Führer`,

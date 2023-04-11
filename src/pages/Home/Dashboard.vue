@@ -80,8 +80,8 @@
               <!--                icon="search"-->
               <!--                no-caps-->
               <!--              />-->
-              <span v-if="$q.screen.gt.xs" class="text-body1 text-weight-medium q-pr-lg">{{ currentDate() }}, Dzisiaj:</span>
-              <span v-else>
+              <span v-if="$q.screen.gt.xs" class="text-body2 text-weight-medium q-pr-lg">{{ currentDate() }}, Dzisiaj:</span>
+              <span class="text-body2 text-weight-medium q-pr-lg" v-else>
                 Dzisiaj:
               </span>
             </div>

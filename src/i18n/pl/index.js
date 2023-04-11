@@ -133,6 +133,7 @@ export default {
 	issue_done: `Zgłoszenie zamknięte`,
 	issue_pause: `Zgłoszenie wstrzymane`,
 	issue_resume: `Praca wznowiona`,
+	issue_reject: `Problem odrzucony`,
 
 	// guides
 	"Guides": `Przewodniki`,
@@ -207,7 +208,7 @@ export default {
 	"User can edit item": `Użytkownik może edytować element`,
 	"Hide items": `Ukryj przedmioty`,
 	"User can hide existing item": `Użytkownik może ukryć istniejący element`,
-	"Removing items": `Usuwanie elementów`,
+	"Removing items": `Usuwanie przedmiotów`,
 	"User can delete existing item": `Użytkownik może usunąć istniejący element`,
 	"Show QR code": `Pokaż kod QR`,
 	"Show QR code assigned to item": `Pokaż kod QR przypisany do elementu`,

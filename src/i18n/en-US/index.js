@@ -132,7 +132,8 @@ export default {
 	issue_start_progress: `Issue started`,
 	issue_done: `Issue done`,
 	issue_pause: `Issue paused`,
-	issue_resume: `Issue resmed`,
+	issue_resume: `Issue resumed`,
+	issue_reject: `Issue rejected`,
 
 	// guides
 	"Guides": `Guides`,

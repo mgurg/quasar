@@ -132,7 +132,8 @@ export default {
 	issue_start_progress: `Le problème a commencé`,
 	issue_done: `Délivrer`,
 	issue_pause: `Émission interrompue`,
-	issue_resume: `Émission de resMed`,
+	issue_resume: `Le problème a repris`,
+	issue_reject: `Problème rejeté`,
 
 	// guides
 	"Guides": `Guides`,

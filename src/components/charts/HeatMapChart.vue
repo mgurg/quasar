@@ -11,7 +11,7 @@
         <v-chart
           ref="barRef"
           :option="option"
-          :style="{height: `300px !important`, width: `100%`}"
+          :style="{height: `220px !important`, width: `100%`}"
           autoresize
           theme="light"
           :key="currentPage"
@@ -19,13 +19,12 @@
         <div class="row">
           <q-btn flat icon="navigate_before" @click="prev" :disable="isPrev()"/>
           <q-btn flat icon="navigate_next" @click="next" :disable="isNext()"/>
-          <q-btn icon="event" :disable="true"></q-btn>
         </div>
 
-        BTN: {{ minDate().toFormat("dd-MM-yyyy")}} DF: {{ earliestDate().toFormat("dd-MM-yyyy") }}  : {{ isPrev() }}  <br/>
-        BTN: {{ maxDate().toFormat("dd-MM-yyyy")}} DF: {{ latestDate().toFormat("dd-MM-yyyy") }}  : {{ isNext() }} <br/>
-        {{ segments() }}<br/>
-        <hr />
+<!--        BTN: {{ minDate().toFormat("dd-MM-yyyy")}} DF: {{ earliestDate().toFormat("dd-MM-yyyy") }}  : {{ isPrev() }}  <br/>-->
+<!--        BTN: {{ maxDate().toFormat("dd-MM-yyyy")}} DF: {{ latestDate().toFormat("dd-MM-yyyy") }}  : {{ isNext() }} <br/>-->
+<!--        {{ segments() }}<br/>-->
+<!--        <hr />-->
 
       </q-card-section>
     </q-card>

@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
         <template v-slot:separator>
           <q-icon
             color="grey"
@@ -138,7 +138,7 @@
 
       <!-- liczba usterek z podziałem na dni -->
       <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-py-none">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
@@ -163,11 +163,11 @@
 
       <!-- liczba usterek z podziałem na godziny -->
       <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-py-none">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h6">liczba usterek z podziałem na godziny</q-item-label>
+                <q-item-label class="text-h6">Liczba usterek z podziałem na godziny</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -187,7 +187,7 @@
 
       <!-- usterki z podziałem na status -->
       <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-py-none">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
@@ -211,7 +211,7 @@
 
       <!-- czas napraw -->
       <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-py-none">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>

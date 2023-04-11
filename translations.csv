@@ -129,7 +129,8 @@ issue_remove_person,Person removed from issue,Personne supprimée du problème,P
 issue_start_progress,Issue started,Le problème a commencé,Das Problem begann,Praca rozpoczęta
 issue_done,Issue done,Délivrer,Ausgabe gemacht,Zgłoszenie zamknięte
 issue_pause,Issue paused,Émission interrompue,Ausgabe machte eine Pause,Zgłoszenie wstrzymane
-issue_resume,Issue resmed,Émission de resMed,Ausgabe ressiert,Praca wznowiona
+issue_resume,Issue resumed,Le problème a repris,Problem wieder aufgenommen,Praca wznowiona
+issue_reject,Issue rejected,Problème rejeté,Problem abgelehnt,Problem odrzucony
 ,,,,
 #guides,,,,
 """Guides""",Guides,Guides,Führer,Przewodniki
@@ -204,7 +205,7 @@ issue_resume,Issue resmed,Émission de resMed,Ausgabe ressiert,Praca wznowiona
 """User can edit item""",User can edit item,L'utilisateur peut modifier l'élément,Benutzer kann das Element bearbeiten,Użytkownik może edytować element
 """Hide items""",Hide items,Masquer les éléments,Gegenstände verbergen,Ukryj przedmioty
 """User can hide existing item""",User can hide existing item,L'utilisateur peut masquer l'élément existant,Der Benutzer kann vorhandenes Element ausblenden,Użytkownik może ukryć istniejący element
-"""Removing items""",Removing items,Retirer les articles,Gegenstände entfernen,Usuwanie elementów
+"""Removing items""",Removing items,Retirer les articles,Gegenstände entfernen,Usuwanie przedmiotów
 """User can delete existing item""",User can delete existing item,L'utilisateur peut supprimer l'élément existant,Der Benutzer kann vorhandenes Element löschen,Użytkownik może usunąć istniejący element
 """Show QR code""",Show QR code,Afficher le code QR,QR -Code anzeigen,Pokaż kod QR
 """Show QR code assigned to item""",Show QR code assigned to item,Afficher le code QR attribué à l'élément,"QR -Code anzeigen, der dem Element zugewiesen ist",Pokaż kod QR przypisany do elementu
