@@ -45,39 +45,52 @@
 
         <q-separator/>
         <q-card-actions align="right">
-          <q-input
-            :label="dateRangeDisplay"
-            autogrow
+          <q-btn dense color="grey" flat>
+            <div class="row items-center no-wrap">
+              <q-icon color="grey-8" left name="event"/>
+              <div class="text-center">
+                {{ dateRangeDisplay }}
+              </div>
+            </div>
 
-            class="float-right q-ma-xs q-pa-none"
-            dense
-            disable
-            outlined
-          >
-            <template v-slot:after>
-              <q-btn dense flat icon="event" round>
+            <q-menu cover anchor="center right">
+              <month-picker @date-range="updateDateRange" />
+            </q-menu>
 
-                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">
-                  <q-date
-                    v-model="dateRange"
-                    :multiple=false
-                    mask="DD-MM-YYYY"
-                    no-unset
-                    range
-                    today-btn
-                    navigation-min-year-month="2023/01"
-                  >
-                    <div class="row items-center justify-end q-gutter-sm">
-                      <q-separator/>
-                      <!-- <q-btn label="Cancel" color="primary" flat v-close-popup />-->
-                      <q-btn v-close-popup color="primary" flat label="OK"/>
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
+          </q-btn>
+<!--          <q-input-->
+<!--            :label="dateRangeDisplay"-->
+<!--            autogrow-->
 
-              </q-btn>
-            </template>
-          </q-input>
+<!--            class="float-right q-ma-xs q-pa-none"-->
+<!--            dense-->
+<!--            disable-->
+<!--            outlined-->
+<!--          >-->
+<!--            <template v-slot:after>-->
+<!--              <q-btn dense flat icon="event" round>-->
+
+<!--                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">-->
+<!--                  <q-date-->
+<!--                    v-model="dateRange"-->
+<!--                    :multiple=false-->
+<!--                    mask="DD-MM-YYYY"-->
+<!--                    no-unset-->
+<!--                    range-->
+<!--                    today-btn-->
+<!--                    navigation-min-year-month="2023/01"-->
+<!--                  >-->
+<!--                    <div class="row items-center justify-end q-gutter-sm">-->
+<!--                      <q-separator/>-->
+<!--                      &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
+<!--                      <q-btn v-close-popup color="primary" flat label="OK"/>-->
+<!--                    </div>-->
+<!--                  </q-date>-->
+<!--                </q-popup-proxy>-->
+
+<!--              </q-btn>-->
+<!--            </template>-->
+<!--          </q-input>-->
         </q-card-actions>
       </q-card>
 
@@ -134,7 +147,7 @@
 
       <!-- liczba usterek z podziałem na dni -->
       <q-card bordered class="my-card no-shadow q-my-sm">
-        <q-card-section class="q-pt-none">
+        <q-card-section class="q-py-none">
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
@@ -146,7 +159,11 @@
 
         <q-separator/>
         <q-card-section>
-          <heat-map-chart v-if="issuesPerDay" :data="issuesPerDay" chart-title="Liczba usterek z podziałem na dni" />
+          <heat-map-chart
+            v-if="issuesPerDay"
+            :data="issuesPerDay"
+            chart-title="Liczba usterek z podziałem na dni"
+          />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -165,7 +182,11 @@
 
         <q-separator/>
         <q-card-section>
-          <bar-chart  v-if="issuesPerHour" :data="issuesPerHour" chart-title="Liczba usterek z podziałem na godziny" />
+          <bar-chart
+            v-if="issuesPerHour"
+            :data="issuesPerHour"
+            chart-title="Liczba usterek z podziałem na godziny"
+          />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -185,7 +206,11 @@
         <q-separator/>
         <q-card-section>
 
-          <bar-chart  v-if="issuesStatus" :data="issuesStatus" chart-title="Usterki z podziałem na status" />
+          <bar-chart
+            v-if="issuesStatus"
+            :data="issuesStatus"
+            chart-title="Usterki z podziałem na status"
+          />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>
@@ -259,6 +284,7 @@ import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/I
 import {errorHandler} from "components/api/errorHandler";
 import humanizeDuration from "humanize-duration";
 import {DateTime, Duration, Interval} from "luxon";
+import MonthPicker from "components/custom/MonthPicker.vue";
 
 
 const route = useRoute();
@@ -276,77 +302,117 @@ const issuesStatus = ref(null);
 const issuesRepairTime = ref(null);
 const issuesTotalTime = ref(null);
 
-const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
-const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
+const date = ref(null);
 
-const dateTimeFrom = computed(() => {
-  return DateTime.fromFormat(dateRange.value.from, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
-});
+const componentKey = ref(0);
 
-const dateTimeTo = computed(() => {
-  if (DateTime.now().toFormat("dd-MM-yyyy") == dateTo.value) {
-    console.log(DateTime.now({locale: "pl-PL"}))
-    return DateTime.now({locale: "pl-PL"})
-  }
-  return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
-});
+const forceRerender = () => {
+  componentKey.value += 1;
+};
 
-const dateRange = ref({from: dateFrom, to: dateTo});
+// --- BTN DATE PICKER -
+
+const dateTimeFrom = ref(DateTime.now().setZone('UTC').minus({months: 1}))
+const dateTimeTo = ref(DateTime.now().setZone('UTC'))
+
+
 const dateRangeDisplay = computed(() => {
-  return dateRange.value.from + " ~ " + dateRange.value.to;
+  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")){
+    return dateTimeTo.value.toFormat("dd.MM.yyyy");
+  }
+  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")){
+    return dateTimeFrom.value.toFormat("dd") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
+  }
+  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")){
+    return dateTimeFrom.value.toFormat("dd.MM") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
+  }
+  return dateTimeFrom.value.toFormat("dd.MM.yyyy") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
 });
 
-watch(() => dateRange.value, (newValue, oldValue) => {
-  if (typeof newValue === 'object') {
-    getItemStatistics();
-    console.log("isRange")
-  } else {
-    // dateRangeName.value = "Custom";
-    console.log("isSingleDate");
-    dateRange.value = {"from": newValue, "to": newValue}
-  }
-});
-
-const duration = computed(() => {
-  let startDate = dateTimeFrom.value.endOf('day') // DateTime.fromFormat(dateFrom.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
-  let endDate = dateTimeTo.value.endOf('day')  //DateTime.fromFormat(dateTo.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
-  const durationHelper = Interval.fromDateTimes(startDate, endDate).toDuration(['months', 'days'], {conversionAccuracy: "casual"})
-
-  console.log(durationHelper)
-
-  if (durationHelper.values.months === 0) {
-    console.log("days")
-    return Interval.fromDateTimes(startDate, endDate).toDuration(['days']).toHuman({listStyle: 'narrow'})
-  }
-  if (durationHelper.values.months !== 0 && durationHelper.values.days == 0) {
-    console.log("months")
-    return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({listStyle: 'narrow'})
-  }
-
-  console.log("else")
-  return durationHelper.toHuman({listStyle: 'narrow'});
-});
-
-const durationFromSeconds = (seconds) => {
-
-  let duration = Duration.fromMillis(63 * 60 * 1000, {locale: "pl-PL"})
-
-  let durationHelper = duration.shiftTo("hours", "minutes")
-  if (durationHelper.values.hours === 0) {
-    return duration.shiftTo("minutes").toHuman({listStyle: 'narrow'})
-  }
-  // if (durationHelper.values.months !== 0 && durationHelper.values.days === 0){
-  //   return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({ listStyle: 'narrow' })
-  // }
-
-  return duration.shiftTo("hours", "minutes").toHuman()
-
+function updateDateRange(date) {
+  dateTimeFrom.value = date.from
+  dateTimeTo.value = date.to
+  getItemStatistics()
+  // console.log(date.from)
+  // console.log(date.to)
 }
+
+// const dateFrom = ref(DateTime.now().minus({month: 1}).toFormat("dd-MM-yyyy"));
+// const dateTo = ref(DateTime.now().toFormat("dd-MM-yyyy"));
+//
+// const dateTimeFrom = computed(() => {
+//   return DateTime.fromFormat(dateRange.value.from, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+// });
+//
+// const dateTimeTo = computed(() => {
+//   if (DateTime.now().toFormat("dd-MM-yyyy") == dateTo.value) {
+//     console.log(DateTime.now({locale: "pl-PL"}))
+//     return DateTime.now({locale: "pl-PL"})
+//   }
+//   return DateTime.fromFormat(dateRange.value.to, "dd-MM-yyyy", {locale: "pl-PL"}).endOf('day')
+// });
+//
+// const dateRange = ref({from: dateFrom, to: dateTo});
+// const dateRangeDisplay = computed(() => {
+//   return dateRange.value.from + " ~ " + dateRange.value.to;
+// });
+//
+// watch(() => dateRange.value, (newValue, oldValue) => {
+//   if (typeof newValue === 'object') {
+//     getItemStatistics();
+//     console.log("isRange")
+//   } else {
+//     // dateRangeName.value = "Custom";
+//     console.log("isSingleDate");
+//     dateRange.value = {"from": newValue, "to": newValue}
+//   }
+// });
+//
+// const duration = computed(() => {
+//   let startDate = dateTimeFrom.value.endOf('day') // DateTime.fromFormat(dateFrom.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+//   let endDate = dateTimeTo.value.endOf('day')  //DateTime.fromFormat(dateTo.value, "dd-MM-yyyy", {locale: "pl-PL"}).startOf('day')
+//   const durationHelper = Interval.fromDateTimes(startDate, endDate).toDuration(['months', 'days'], {conversionAccuracy: "casual"})
+//
+//   console.log(durationHelper)
+//
+//   if (durationHelper.values.months === 0) {
+//     console.log("days")
+//     return Interval.fromDateTimes(startDate, endDate).toDuration(['days']).toHuman({listStyle: 'narrow'})
+//   }
+//   if (durationHelper.values.months !== 0 && durationHelper.values.days == 0) {
+//     console.log("months")
+//     return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({listStyle: 'narrow'})
+//   }
+//
+//   console.log("else")
+//   return durationHelper.toHuman({listStyle: 'narrow'});
+// });
+//
+// const durationFromSeconds = (seconds) => {
+//
+//   let duration = Duration.fromMillis(63 * 60 * 1000, {locale: "pl-PL"})
+//
+//   let durationHelper = duration.shiftTo("hours", "minutes")
+//   if (durationHelper.values.hours === 0) {
+//     return duration.shiftTo("minutes").toHuman({listStyle: 'narrow'})
+//   }
+//   // if (durationHelper.values.months !== 0 && durationHelper.values.days === 0){
+//   //   return Interval.fromDateTimes(startDate, endDate).toDuration(['months']).toHuman({ listStyle: 'narrow' })
+//   // }
+//
+//   return duration.shiftTo("hours", "minutes").toHuman()
+//
+// }
 
 
 function getItemStatistics(uuid) {
   isLoading.value = true;
-  getItemStatisticsRequest(uuid).then(function (response) {
+
+  let dtFrom = dateTimeFrom.value.toISO()
+  let dtTo = dateTimeTo.value.toISO()
+
+
+  getItemStatisticsRequest(uuid, dtFrom, dtTo).then(function (response) {
 
     issuesCounter.value = response.data.issuesCount
     summaryTimes.value = response.data.repairTime

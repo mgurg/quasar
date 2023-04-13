@@ -19,8 +19,8 @@ export function getItemTimelineRequest(uuid) {
   return authApi.get("/items/timeline/" + uuid, {params: {'action':'issue_add'}});
 }
 
-export function getItemStatisticsRequest(uuid) {
-  return authApi.get("/items/statistics/" + uuid);
+export function getItemStatisticsRequest(uuid, dateFrom, dateTo) {
+  return authApi.get("/items/statistics/" + uuid,{params: {'date_from':dateFrom,"date_to":dateTo}});
 }
 
 export function getAllItemStatisticsRequest(dateFrom, dateTo) {

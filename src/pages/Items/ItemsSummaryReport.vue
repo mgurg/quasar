@@ -156,7 +156,8 @@
             :data="issuesPerDay"
             chart-title="Liczba usterek z podziałem na dni"
             date-from="2022-01-01"
-            date-to="2023-01-01"/>
+            date-to="2023-01-01"
+          />
           <div v-else> Brak danych 😟</div>
         </q-card-section>
       </q-card>

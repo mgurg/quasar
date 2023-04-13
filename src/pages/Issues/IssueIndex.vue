@@ -348,21 +348,25 @@
 
         <q-space class="q-pa-sm"/>
       </q-card>
-      <div v-if="pagination.total === 0 && hasStatus==='active'" class="text-h5 text-center q-pa-lg">
-        <p>Brak problemów 🥳 !</p>
-        <p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
-        </p>
-        <div class="col-12 text-h6 q-mt-none">
-          <q-btn
-            v-if="hasPermission('ISSUE_ADD')"
-            :label="$t('New issue')" class="q-py-md q-my-md"
-            color="primary"
-            icon="add"
-            no-caps
-            to="/issues/add"
-          />
+
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total === 0 && hasStatus==='active'">
+        <div  class="text-body1 text-center q-pa-lg">
+          <p>Brak problemów!</p>
+          <p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
+          </p>
+          <div class="col-12 text-h6 q-mt-none">
+            <q-btn
+              v-if="hasPermission('ISSUE_ADD')"
+              :label="$t('New issue')" class="q-py-md q-my-md"
+              color="primary"
+              icon="add"
+              no-caps
+              to="/issues/add"
+            />
+          </div>
         </div>
-      </div>
+      </q-card>
+
     </q-page>
   </div>
 </template>
@@ -410,13 +414,13 @@ const dateTimeFrom = ref(DateTime.now().minus({month: 1}).setZone('UTC').startOf
 const dateTimeTo = ref(DateTime.now().setZone('UTC'))
 
 const dateRangeDisplay = computed(() => {
-  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")){
+  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")) {
     return dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
-  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")){
+  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")) {
     return dateTimeFrom.value.toFormat("dd") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
-  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")){
+  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")) {
     return dateTimeFrom.value.toFormat("dd.MM") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
   return dateTimeFrom.value.toFormat("dd.MM.yyyy") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
