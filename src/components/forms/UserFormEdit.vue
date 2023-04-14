@@ -57,6 +57,7 @@
             :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true"
             :option-label="opt => Object(opt) === opt && 'role_title' in opt ? opt.role_title : '----'" :option-value="opt => Object(opt) === opt && 'uuid' in opt ? opt.uuid : null"
             :options="role"
+            :disable="currentUserUuid == props.user.uuid"
             emit-value
             label="Rola"
             map-options
@@ -88,16 +89,11 @@
         <q-btn class="q-mr-lg" color="red-12" flat icon="cancel" type="submit" @click="cancelButtonHandle">
           {{ $t("Cancel") }}
         </q-btn>
-
         <q-btn color="primary" icon="done" type="submit" @click="submit">{{ $t(buttonText) }}</q-btn>
       </div>
     </q-form>
   </div>
 </template>
-
-
-// https://github.com/guoqunbo8899/vue3_cms/blob/2ecaf7fcae4d548de6582e49efb7998bbca79681/src/components/page-search/src/page-search.vue
-// https://www.youtube.com/watch?v=9whgkjxoCME
 
 
 <script setup>
@@ -106,6 +102,7 @@ import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
 import {getRolesRequest} from "components/api/PermissionApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {useUserStore} from "stores/user";
 
 const props = defineProps({
   user: {
@@ -116,7 +113,8 @@ const props = defineProps({
         last_name: '',
         email: '',
         phone: null,
-        role_FK: {uuid: null}
+        role_FK: {uuid: null},
+        uuid: null
       }
     }
   },
@@ -134,6 +132,10 @@ const isPwd = ref('password')
 
 let model = ref(null);
 
+console.log(props.user)
+
+const UserStore = useUserStore();
+const currentUserUuid = UserStore.getCurrentUserId
 
 function getRoles() {
   getRolesRequest().then(function (response) {
