@@ -35,7 +35,11 @@
             :error-message="errors.userEmail"
             :label="$t('E-mail')"
             outlined
-          />
+          >
+            <template v-slot:prepend>
+              <q-icon name="alternate_email"/>
+            </template>
+          </q-input>
         </div>
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-input
@@ -45,19 +49,24 @@
             :error-message="errors.userPhone"
             :label="$t('Phone')"
             outlined
-          />
+          >
+            <template v-slot:prepend>
+              <q-icon name="phone"/>
+            </template>
+          </q-input>
         </div>
       </div>
       <div class="row sm-gutter">
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-select
             v-model="userRole"
+            :disable="currentUserUuid == props.user.uuid"
             :error="!!errors.userRole"
             :error-message="errors.userRole"
             :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true"
-            :option-label="opt => Object(opt) === opt && 'role_title' in opt ? opt.role_title : '----'" :option-value="opt => Object(opt) === opt && 'uuid' in opt ? opt.uuid : null"
+            :option-label="opt => Object(opt) === opt && 'role_title' in opt ? opt.role_title : '----'"
+            :option-value="opt => Object(opt) === opt && 'uuid' in opt ? opt.uuid : null"
             :options="role"
-            :disable="currentUserUuid == props.user.uuid"
             emit-value
             label="Rola"
             map-options
@@ -157,7 +166,7 @@ const validationAddSchema = yup.object({
   userLastName: yup.string().required(),
   userAccept: yup.string().required(),
   userEmail: yup.string().email().required(),
-  userPhone: yup.string().nullable(true),
+  userPhone: yup.string().length(9).nullable(true),
   userRole: yup.string().required().nullable(true),
 })
 
@@ -166,7 +175,7 @@ const validationEditSchema = yup.object({
   userLastName: yup.string().required(),
   userAccept: yup.string().nullable(),
   userEmail: yup.string().email().required(),
-  userPhone: yup.string().nullable(true),
+  userPhone: yup.string().length(9).nullable(true),
   userRole: yup.string().required().nullable(true),
 })
 
@@ -178,7 +187,7 @@ const {value: userFirstName} = useField('userFirstName', undefined, {initialValu
 const {value: userLastName} = useField('userLastName', undefined, {initialValue: props.user.last_name})
 const {value: userAccept} = useField('userAccept', undefined, {initialValue: false})
 const {value: userEmail} = useField('userEmail', undefined, {initialValue: props.user.email})
-const {value: userPhone} = useField('userPhone', undefined, {initialValue: props.user.phone})
+const {value: userPhone} = useField('userPhone', undefined, {initialValue: props.user.phone.slice(3)})
 const {value: userRole} = useField('userRole', undefined, {initialValue: props.user.role_FK.uuid})
 
 const submit = handleSubmit(values => {
@@ -187,9 +196,14 @@ const submit = handleSubmit(values => {
     "first_name": userFirstName.value,
     "last_name": userLastName.value,
     "email": userEmail.value,
-    "phone": userPhone.value,
+    "phone" : "",
     // "is_verified": userAccept.value,
     "user_role_uuid": userRole.value,
+  }
+
+  if (userPhone.value !== "") {
+    console.log(userPhone.value)
+    data['phone'] = "+48" + userPhone.value; //E164
   }
 
   emit('userFormBtnClick', data)
