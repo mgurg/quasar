@@ -161,26 +161,26 @@ function getRoles() {
 
 const {resetForm} = useForm();
 
-const validationAddSchema = yup.object({
-  userFirstName: yup.string().required(),
-  userLastName: yup.string().required(),
-  userAccept: yup.string().required(),
-  userEmail: yup.string().email().required(),
-  userPhone: yup.string().length(9).nullable(true),
-  userRole: yup.string().required().nullable(true),
-})
+// const validationAddSchema = yup.object({
+//   userFirstName: yup.string().required(),
+//   userLastName: yup.string().required(),
+//   userAccept: yup.string().required(),
+//   userEmail: yup.string().email().required(),
+//   userPhone: yup.string().length(9).min(9).max(9).nullable(true),
+//   userRole: yup.string().required().nullable(true),
+// })
 
-const validationEditSchema = yup.object({
+const validationSchema = yup.object({
   userFirstName: yup.string().required(),
   userLastName: yup.string().required(),
   userAccept: yup.string().nullable(),
   userEmail: yup.string().email().required(),
-  userPhone: yup.string().length(9).nullable(true),
+  userPhone: yup.string().length(9).nullable(true).min(9).max(9),
   userRole: yup.string().required().nullable(true),
 })
 
 const {handleSubmit, errors} = useForm({
-  validationEditSchema
+  validationSchema
 })
 
 const {value: userFirstName} = useField('userFirstName', undefined, {initialValue: props.user.first_name})

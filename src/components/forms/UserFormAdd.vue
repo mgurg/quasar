@@ -35,7 +35,11 @@
             :error-message="errors.userEmail"
             :label="$t('E-mail')"
             outlined
-          />
+          >
+            <template v-slot:prepend>
+              <q-icon name="alternate_email"/>
+            </template>
+          </q-input>
         </div>
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-input
@@ -67,7 +71,11 @@
             :error-message="errors.userPhone"
             :label="$t('Phone')"
             outlined
-          />
+          >
+            <template v-slot:prepend>
+              <q-icon name="phone"/>
+            </template>
+          </q-input>
         </div>
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-select
@@ -164,26 +172,26 @@ function getRoles() {
 
 const {resetForm} = useForm();
 
-const validationAddSchema = yup.object({
+const validationSchema = yup.object({
   userFirstName: yup.string().required(),
   userLastName: yup.string().required(),
   userPassword: yup.string().required(),
   userEmail: yup.string().email().required(),
-  userPhone: yup.string().nullable(true),
+  userPhone: yup.string().length(9).min(9).max(9).nullable(true),
   userRole: yup.string().required().nullable(true),
 })
 
-const validationEditSchema = yup.object({
-  userFirstName: yup.string().required(),
-  userLastName: yup.string().required(),
-  userPassword: yup.string().nullable(),
-  userEmail: yup.string().email().required(),
-  userPhone: yup.string().nullable(true),
-  userRole: yup.string().required().nullable(true),
-})
+// const validationEditSchema = yup.object({
+//   userFirstName: yup.string().required(),
+//   userLastName: yup.string().required(),
+//   userPassword: yup.string().nullable(),
+//   userEmail: yup.string().email().required(),
+//   userPhone: yup.string().nullable(true),
+//   userRole: yup.string().required().nullable(true),
+// })
 
 const {handleSubmit, errors} = useForm({
-  validationEditSchema
+  validationSchema
 })
 
 const {value: userFirstName} = useField('userFirstName', undefined, {initialValue: props.user.first_name})
