@@ -146,9 +146,9 @@ module.exports = configure(function (ctx) {
       
 
       manifest: {
-        name: `Quasar App`,
-        short_name: `Quasar App`,
-        description: `A Quasar Project`,
+        name: `Malgori App`,
+        short_name: `Malgori`,
+        description: `A Malgori Project`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

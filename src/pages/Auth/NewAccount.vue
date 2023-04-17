@@ -5,7 +5,7 @@
     <div v-if="fade" class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
-          <h1 class="text-h3">AnyName</h1>
+          <h1 class="text-h3">Malgori</h1>
 <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
           <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
             Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
