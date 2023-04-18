@@ -1,7 +1,5 @@
 <template>
   <div class="row">
-    &nbsp;
-
   </div>
   <q-form
     autocapitalize="off"
@@ -30,118 +28,8 @@
       outlined
     />
 
-    <q-list>
-      <!-- USERS-->
-      <q-item-section>
-        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Użytkownicy</q-item-label>
-        <q-item-label caption class="q-pb-sm">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-      </q-item-section>
-      <div v-for="(permission, index) in usersPermissions" v-bind:key="index" v-if="usersPermissions !== null">
-        <q-item v-ripple tag="label">
-          <q-item-section avatar top>
-            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label> {{$t(permission.title)}} </q-item-label>
-            <q-item-label caption>
-              {{$t(permission.description)}}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
+    <permission-list :can-edit="allowEdit" :selected-items="selectedPermissions" @change-selection="updateSelection"/>
 
-      <!-- ISSUES -->
-      <q-item-section>
-        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Zgłoszenia</q-item-label>
-        <q-item-label caption class="q-pb-sm">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-      </q-item-section>
-      <div v-for="(permission, index) in issuesPermissions" v-bind:key="index" v-if="issuesPermissions !== null">
-        <q-item v-ripple tag="label">
-          <q-item-section avatar top>
-            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label> {{$t(permission.title)}} </q-item-label>
-            <q-item-label caption>
-              {{$t(permission.description)}}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
-
-
-      <!-- ITEMS -->
-      <q-item-section>
-        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Przedmioty</q-item-label>
-        <q-item-label caption class="q-pb-xs">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-      </q-item-section>
-      <div v-for="(permission, index) in itemsPermissions" v-bind:key="index" v-if="itemsPermissions !== null">
-        <q-item v-ripple tag="label">
-          <q-item-section avatar top>
-            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ permission.title }}</q-item-label>
-            <q-item-label caption>
-              {{ permission.description }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
-
-
-      <!-- TAGS -->
-      <q-item-section>
-        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Tagi</q-item-label>
-        <q-item-label caption class="q-pb-xs">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-      </q-item-section>
-      <div v-for="(permission, index) in tagsPermissions" v-bind:key="index" v-if="tagsPermissions !== null">
-        <q-item v-ripple tag="label">
-          <q-item-section avatar top>
-            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ permission.title }}</q-item-label>
-            <q-item-label caption>
-              {{ permission.description }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
-
-      <!-- SECTIONS -->
-      <q-item-section>
-        <q-item-label class="text-blue-grey-10 text-h5 q-pt-md">Ustawienia</q-item-label>
-        <q-item-label caption class="q-pb-xs">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
-      </q-item-section>
-      <div v-for="(permission, index) in sectionsPermissions" v-bind:key="index" v-if="sectionsPermissions !== null">
-        <q-item v-ripple tag="label">
-          <q-item-section avatar top>
-            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>{{ permission.title }}</q-item-label>
-            <q-item-label caption>
-              {{ permission.description }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </div>
-
-<!--      <div v-for="(permission, index) in allPermissions" v-bind:key="index">-->
-<!--        <q-item v-ripple tag="label">-->
-<!--          <q-item-section avatar top>-->
-<!--            <q-checkbox v-model="selectedPermissions" :disable="!allowEdit" :val="permission.uuid" color="cyan"/>-->
-<!--          </q-item-section>-->
-<!--          <q-item-section>-->
-<!--            <q-item-label>{{ permission.title }}</q-item-label>-->
-<!--            <q-item-label caption>-->
-<!--              {{ permission.description }}-->
-<!--            </q-item-label>-->
-<!--          </q-item-section>-->
-<!--        </q-item>-->
-<!--      </div>-->
-    </q-list>
     <div class="row">
       <q-space/>
       <q-btn
@@ -172,6 +60,8 @@
 import {onBeforeMount, ref, watch} from "vue";
 import {authApi} from "boot/axios";
 import {useRouter} from "vue-router";
+
+import PermissionList from "components/lists/PermissionList.vue";
 
 
 import {useField, useForm} from "vee-validate";
@@ -232,34 +122,17 @@ watch(() => props.canEdit, (newValue, oldValue) => {
   // console.log(newValue, oldValue)
 });
 
-function getAllPermissions() {
-  authApi
-    .get("/permissions/all")
-    .then((res) => {
+if (props.role.permission != null && props.role.permission != 'undefined') {
+  console.log(props.role.permission )
+  selectedPermissions.value = props.role.permission.map(value => value.uuid);
+}
 
-      // allPermissions.value = res.data;
 
-      usersPermissions.value = res.data.filter(obj => obj.group === 'users')
-      issuesPermissions.value = res.data.filter(obj => obj.group === 'issues')
-      itemsPermissions.value = res.data.filter(obj => obj.group === 'items')
-      tagsPermissions.value = res.data.filter(obj => obj.group === 'tags')
-      sectionsPermissions.value = res.data.filter(obj => obj.group === 'settings')
 
-      if (props.role.permission != null && props.role.permission != 'undefined') {
-        selectedPermissions.value = props.role.permission.map(value => value.uuid);
-      }
 
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-    });
+function updateSelection(data){
+  console.log(data)
+  selectedPermissions.value=data;
 }
 
 function addNewPermission(data) {
@@ -348,9 +221,5 @@ function cancelButtonHandle() {
 
 // --------------- Form --------------
 
-onBeforeMount(() => {
-  getAllPermissions();
-  // getRoles();
-});
 
 </script>
