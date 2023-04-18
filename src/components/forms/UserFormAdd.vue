@@ -158,7 +158,7 @@ let model = ref(null);
 
 
 function getRoles() {
-  getRolesRequest().then(function (response) {
+  getRolesRequest({'all':false}).then(function (response) {
     role.value = response.data.items;
     isLoading.value = false;
   }).catch((err) => {

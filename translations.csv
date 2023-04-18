@@ -90,7 +90,7 @@ Key,"English, en-US","French, fr","German, de","Polish, pl"
 #ideas,,,,
 """Ideas""",Ideas,Idées,Ideen,Pomysły
 """Idea""",Idea,Idée,Idee,Pomysł
-"""Idea title""",Idea title,Titre d'idée,Ideenentitel,Tytuł pomysłu
+"""Idea title""",Idea title,Titre d'idée,Ideentitel,Tytuł pomysłu
 """Idea description""",Idea description,Description de l'idée,Ideenbeschreibung,Opis pomysłu
 """Your submission landed in our system""",Your submission landed in our system,Votre soumission a atterri dans notre système,Ihre Einreichung landete in unserem System,Twoje zgłoszenie wylądowało w naszym systemie
 """Would you like to improve something more?""",Would you like to improve something more?,Souhaitez-vous améliorer quelque chose de plus?,Möchten Sie etwas mehr verbessern?,Czy chciałbyś poprawić coś więcej?
@@ -172,7 +172,7 @@ issue_reject,Issue rejected,Problème rejeté,Problem abgelehnt,Problem odrzucon
 """Users editing""",Users editing,Édition des utilisateurs,Benutzer bearbeiten,Edycja użytkowników
 """User can edit other users accounts""",User can edit other users accounts,L'utilisateur peut modifier d'autres comptes d'utilisateurs,Benutzer können andere Benutzerkonten bearbeiten,Użytkownik może edytować konta innych użytkowników
 """Account editing""",Account editing,Édition de compte,Kontobearbeitung,Edycja konta
-"""Allow to edit my user account""",Allow to edit my user account,Autoriser la modification de mon compte utilisateur,"Erlauben Sie, mein Benutzerkonto zu bearbeiten",Pozwól edytować moje konto użytkownika
+"""Allow to edit my user account""",Allow to edit my user account,Autoriser la modification de mon compte d'utilisateur,"Erlauben Sie, mein Benutzerkonto zu bearbeiten",Pozwól edytować moje konto użytkownika
 """Removing users""",Removing users,Suppression des utilisateurs,Benutzer entfernen,Usuwanie użytkowników
 """User can delete others users accounts""",User can delete others users accounts,L'utilisateur peut supprimer d'autres comptes d'utilisateurs,Der Benutzer kann andere Benutzerkonten löschen,Użytkownik może usunąć kont innych użytkowników
 """Importing users""",Importing users,Importation d'utilisateurs,Benutzer importieren,Importowanie użytkowników
@@ -188,7 +188,7 @@ issue_reject,Issue rejected,Problème rejeté,Problem abgelehnt,Problem odrzucon
 """Removing issues""",Removing issues,Supprimer les problèmes,Probleme entfernen,Usuwanie problemów
 """User can delete existing issues""",User can delete existing issues,L'utilisateur peut supprimer les problèmes existants,Der Benutzer kann vorhandene Probleme löschen,Użytkownik może usunąć istniejące problemy
 """Exclude issues""",Exclude issues,Exclure les problèmes,Probleme ausschließen,Wykluczyć problemy
-"""Exclude selected issues from statistics""",Exclude selected issues from statistics,Exclure les problèmes sélectionnés des statistiques,Ausgewählte Probleme aus der Statistik ausschließen,Wykluczyć wybrane problemy ze statystyk
+"""Exclude issues from statistics""",Exclude issues from statistics,Exclure les problèmes des statistiques,Probleme aus der Statistik ausschließen,Wykluczyć problemy ze statystyk
 """Assign user to issue""",Assign user to issue,Affecter l'utilisateur à émettre,Benutzer zuweisen zu einer Ausgabe zuweisen,Przypisz użytkownika do wydania
 """Allow user to assign others users""",Allow user to assign others users,Permettre à l'utilisateur d'attribuer d'autres utilisateurs,"Erlauben Sie dem Benutzer, anderen Benutzern zuweisen",Pozwól użytkownikowi przypisać innym użytkownikom
 """Manage work""",Manage work,Gérer le travail,Arbeit verwalten,Zarządzaj pracą
@@ -205,7 +205,7 @@ issue_reject,Issue rejected,Problème rejeté,Problem abgelehnt,Problem odrzucon
 """User can edit item""",User can edit item,L'utilisateur peut modifier l'élément,Benutzer kann das Element bearbeiten,Użytkownik może edytować element
 """Hide items""",Hide items,Masquer les éléments,Gegenstände verbergen,Ukryj przedmioty
 """User can hide existing item""",User can hide existing item,L'utilisateur peut masquer l'élément existant,Der Benutzer kann vorhandenes Element ausblenden,Użytkownik może ukryć istniejący element
-"""Removing items""",Removing items,Retirer les articles,Gegenstände entfernen,Usuwanie przedmiotów
+"""Removing items""",Removing items,Retirer les articles,Gegenstände entfernen,Usuwanie elementów
 """User can delete existing item""",User can delete existing item,L'utilisateur peut supprimer l'élément existant,Der Benutzer kann vorhandenes Element löschen,Użytkownik może usunąć istniejący element
 """Show QR code""",Show QR code,Afficher le code QR,QR -Code anzeigen,Pokaż kod QR
 """Show QR code assigned to item""",Show QR code assigned to item,Afficher le code QR attribué à l'élément,"QR -Code anzeigen, der dem Element zugewiesen ist",Pokaż kod QR przypisany do elementu

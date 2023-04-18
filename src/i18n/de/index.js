@@ -93,7 +93,7 @@ export default {
 	// ideas
 	"Ideas": `Ideen`,
 	"Idea": `Idee`,
-	"Idea title": `Ideenentitel`,
+	"Idea title": `Ideentitel`,
 	"Idea description": `Ideenbeschreibung`,
 	"Your submission landed in our system": `Ihre Einreichung landete in unserem System`,
 	"Would you like to improve something more?": `Möchten Sie etwas mehr verbessern?`,
@@ -191,7 +191,7 @@ export default {
 	"Removing issues": `Probleme entfernen`,
 	"User can delete existing issues": `Der Benutzer kann vorhandene Probleme löschen`,
 	"Exclude issues": `Probleme ausschließen`,
-	"Exclude selected issues from statistics": `Ausgewählte Probleme aus der Statistik ausschließen`,
+	"Exclude issues from statistics": `Probleme aus der Statistik ausschließen`,
 	"Assign user to issue": `Benutzer zuweisen zu einer Ausgabe zuweisen`,
 	"Allow user to assign others users": `Erlauben Sie dem Benutzer, anderen Benutzern zuweisen`,
 	"Manage work": `Arbeit verwalten`,

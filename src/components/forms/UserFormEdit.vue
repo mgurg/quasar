@@ -147,7 +147,7 @@ const UserStore = useUserStore();
 const currentUserUuid = UserStore.getCurrentUserId
 
 function getRoles() {
-  getRolesRequest().then(function (response) {
+  getRolesRequest({'all':false}).then(function (response) {
     role.value = response.data.items;
     isLoading.value = false;
   }).catch((err) => {
@@ -175,7 +175,7 @@ const validationSchema = yup.object({
   userLastName: yup.string().required(),
   userAccept: yup.string().nullable(),
   userEmail: yup.string().email().required(),
-  userPhone: yup.string().length(9).nullable(true).min(9).max(9),
+  userPhone: yup.string().nullable(true),
   userRole: yup.string().required().nullable(true),
 })
 
@@ -187,7 +187,7 @@ const {value: userFirstName} = useField('userFirstName', undefined, {initialValu
 const {value: userLastName} = useField('userLastName', undefined, {initialValue: props.user.last_name})
 const {value: userAccept} = useField('userAccept', undefined, {initialValue: false})
 const {value: userEmail} = useField('userEmail', undefined, {initialValue: props.user.email})
-const {value: userPhone} = useField('userPhone', undefined, {initialValue: props.user.phone.slice(3)})
+const {value: userPhone} = useField('userPhone', undefined, {initialValue: props.user.phone ? props.user.phone.slice(3): ""})
 const {value: userRole} = useField('userRole', undefined, {initialValue: props.user.role_FK.uuid})
 
 const submit = handleSubmit(values => {

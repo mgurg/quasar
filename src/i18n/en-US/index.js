@@ -191,7 +191,7 @@ export default {
 	"Removing issues": `Removing issues`,
 	"User can delete existing issues": `User can delete existing issues`,
 	"Exclude issues": `Exclude issues`,
-	"Exclude selected issues from statistics": `Exclude selected issues from statistics`,
+	"Exclude issues from statistics": `Exclude issues from statistics`,
 	"Assign user to issue": `Assign user to issue`,
 	"Allow user to assign others users": `Allow user to assign others users`,
 	"Manage work": `Manage work`,

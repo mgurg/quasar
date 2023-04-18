@@ -237,7 +237,7 @@ function getAllPermissions() {
     .get("/permissions/all")
     .then((res) => {
 
-      allPermissions.value = res.data;
+      // allPermissions.value = res.data;
 
       usersPermissions.value = res.data.filter(obj => obj.group === 'users')
       issuesPermissions.value = res.data.filter(obj => obj.group === 'issues')

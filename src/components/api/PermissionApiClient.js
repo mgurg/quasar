@@ -1,7 +1,7 @@
 import {authApi} from "boot/axios";
 
-export function getRolesRequest() {
-  return authApi.get("/permissions/");
+export function getRolesRequest(params) {
+  return authApi.get("/permissions/",{params: params});
 }
 
 

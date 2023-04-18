@@ -2,7 +2,7 @@
   "name": "quasar",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "productName": "Malgori App",
   "author": "MGU",
   "private": true,
   "scripts": {
