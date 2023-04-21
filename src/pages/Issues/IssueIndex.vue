@@ -26,8 +26,8 @@
                   <q-btn
                     v-if="issues.length !== 0"
                     :flat="!showSearchBar"
-                    :label="$q.screen.gt.xs ? $t('Search') : ''"
                     :unelevated="showSearchBar"
+                    :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"
                     icon="search"
@@ -351,7 +351,7 @@
 
       <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total === 0 && hasStatus==='active'">
         <div  class="text-body1 text-center q-pa-lg">
-          <p>Brak problemów!</p>
+          <p>Brak problemów 🎉</p>
           <p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
           </p>
           <div class="col-12 text-h6 q-mt-none">

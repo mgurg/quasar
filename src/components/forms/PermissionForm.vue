@@ -10,6 +10,7 @@
     @submit.prevent
   >
     <q-input
+      v-if="allowEdit"
       v-model="roleName"
       :disable="isLoading"
       :error="!!errors.roleName"
@@ -19,6 +20,7 @@
       outlined
     />
     <q-input
+      v-if="allowEdit"
       v-model="roleDescription"
       :disable="isLoading"
       :error="!!errors.roleDescription"

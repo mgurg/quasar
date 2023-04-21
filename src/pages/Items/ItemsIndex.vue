@@ -24,6 +24,8 @@
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn
+                    :flat="!showSearchBar"
+                    :unelevated="showSearchBar"
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"
@@ -120,13 +122,26 @@
         </div>
       </q-card>
 
-      <div v-if="pagination.total == 0 && hasPermission('ITEM_ADD')" class="text-h5 text-center q-pa-lg">
-        Brak przedmiotów 🤔? <br/>Dodaj pierwsze urządzenie!
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total == 0">
+      <div  class="text-body1 text-center q-pa-lg">
+        <p>Brak dodanych przedmiotów 🤔</p>
+        <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇
+          </p>
+
         <div class="col-12 text-h6 q-mt-none">
-          <q-btn :label="$t('New item')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/items/add"/>
+          <q-btn
+             v-if="hasPermission('ITEM_ADD')"
+            :label="$t('New item')"
+            class="q-py-md q-my-md"
+            color="primary"
+            icon="add"
+            no-caps
+            to="/items/add"
+          />
         </div>
 
       </div>
+        </q-card>
 
 
     </q-page>
