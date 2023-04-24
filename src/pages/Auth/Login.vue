@@ -22,9 +22,10 @@
 
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" style="min-width: 320px;">
 
-      <login-form v-if="path==='/login'" :key="path"></login-form>
-      <register-form v-if="path==='/register'" :key="path"></register-form>
-      <reset-password-form v-if="path==='/reset_password'" :key="path"></reset-password-form>
+      <login-form v-if="path==='/login'" :key="path" />
+      <register-form v-if="path==='/register'" :key="path" />
+      <reset-password-form v-if="path==='/reset_password'" :key="path" />
+      <set-password-form v-if="path.startsWith('/set_password')" :key="path"  :reset-token="activationId" />
 
 
       <div class="row divider q-pb-lg">
@@ -51,14 +52,15 @@
 </template>
 
 <script setup>
-import LoginForm from 'src/components/forms/LoginForm.vue';
-import RegisterForm from 'src/components/forms/RegisterForm.vue';
-import ResetPasswordForm from 'src/components/forms/ResetPasswordForm.vue'
+import LoginForm from 'components/forms/auth/LoginForm.vue';
+import RegisterForm from 'components/forms/auth/RegisterForm.vue';
+import ResetPasswordForm from 'components/forms/auth/ResetPasswordForm.vue'
 import {computed, onBeforeMount, ref, watch} from "vue";
 import {useRoute, useRouter} from 'vue-router'
 import {useUserStore} from 'stores/user'
 import {useI18n} from "vue-i18n";
 import {useQuasar} from "quasar";
+import SetPasswordForm from "components/forms/auth/SetPasswordForm.vue";
 
 const $q = useQuasar();
 const {locale} = useI18n({useScope: "global"});
@@ -68,6 +70,7 @@ const router = useRouter();
 const route = useRoute();
 const UserStore = useUserStore();
 
+const activationId = ref(route.params.id)
 const path = computed(() => route.path)
 
 let fade = ref(true);

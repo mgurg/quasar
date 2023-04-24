@@ -39,6 +39,14 @@ const routes = [
       requiresNoAuth: true,
     },
   },
+  {
+    path: "/set_password/:id",
+    name: "setPassword",
+    component: () => import("pages/Auth/Login.vue"),
+    meta: {
+      requiresNoAuth: true,
+    },
+  },
   // {
   //   path: "/map",
   //   name: "map",

@@ -65,7 +65,7 @@ function resetPassword(email) {
     .then((res) => {
 
       isLoading.value = false;
-      router.push("/tasks");
+      router.push("/login");
     })
     .catch((err) => {
       if (err.response) {
