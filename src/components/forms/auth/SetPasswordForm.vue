@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Reset password") }}</div>
-
+    <p>Podaj nowe hasło.</p>
     <q-form @submit="submit">
 <!--      <q-input-->
 <!--        :model-value="password"-->
@@ -57,7 +57,7 @@ import {useRouter} from "vue-router";
 const props = defineProps({
   resetToken: {
     type: String,
-    default: false,
+    default: null,
   },
 })
 
@@ -90,7 +90,7 @@ const submit = handleSubmit((values) => {
 
 function resetPassword(password) {
   isLoading.value = true;
-  api.post("/auth/reset-password/" + "1", {"password": password})
+  api.post("/auth/reset-password/" + resetToken.value, {"password": password})
     .then((res) => {
 
       isLoading.value = false;

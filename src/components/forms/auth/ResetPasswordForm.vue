@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Reset password") }}</div>
-
+    <p>Podaj mail na który przyjdzie wiadomość z linkiem do ustawienia nowego hasła.</p>
     <q-form @submit="submit">
       <q-input
         :model-value="email"
@@ -52,7 +52,7 @@ const {handleSubmit, errors} = useForm({
 const {value: email, handleChange} = useField("email");
 
 const submit = handleSubmit((values) => {
-  console.log("submit", values);
+  // console.log("submit", values);
 
   resetPassword(email.value);
 });
@@ -61,7 +61,7 @@ const submit = handleSubmit((values) => {
 
 function resetPassword(email) {
   isLoading.value = true;
-  api.get("/auth/remind-password/" + email)
+  api.get("/auth/reset-password/" + email)
     .then((res) => {
 
       isLoading.value = false;
