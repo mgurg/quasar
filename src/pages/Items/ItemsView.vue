@@ -115,13 +115,14 @@
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
+                  v-if="hasPermission('ISSUE_EDIT')"
                   class="float-right q-mr-sm" color="primary" flat
                   icon="edit" no-caps
                   outline @click="editItem(itemDetails.uuid)"
                 />
                 <q-btn
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
-                  disable
+                  v-if="hasPermission('ISSUE_DELETE')"
                   class="float-right q-mr-sm" color="red"
                   flat
                   icon="delete"
@@ -230,6 +231,16 @@ let isError = ref(false);
 
 const $q = useQuasar();
 const UserStore = useUserStore();
+
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  if (permission === null){
+    return true;
+  }
+  return Boolean(permissions.value.includes(permission));
+}
+
 const route = useRoute();
 const router = useRouter();
 
@@ -246,6 +257,8 @@ let expandedGuide = ref(JSON.parse(localStorage.getItem('visibility-item-guides'
 let expandedQR = ref(JSON.parse(localStorage.getItem('visibility-item-qr')) ??  true)
 let expandedComments = ref(JSON.parse(localStorage.getItem('visibility-item-comments')) ??  true)
 let expandedTimeline = ref(JSON.parse(localStorage.getItem('visibility-item-timeline')) ??  true)
+
+
 
 
 function getItemDetails(uuid) {

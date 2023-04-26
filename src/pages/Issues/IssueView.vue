@@ -26,14 +26,19 @@
               <div class="col-12 text-h6 q-mt-none">
                 <q-btn
                   v-if="hasPermission('ISSUE_EDIT')"
-                  :label="$q.screen.gt.xs ? $t('Edit') : ''" class="float-right q-mr-sm" color="primary"
-                       icon="edit" no-caps
-                       outline @click="editIssue(issueDetails.uuid)"
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
+                  :disable="issueStatus == 'done'"
+                  class="float-right q-mr-sm" color="primary"
+                  icon="edit"
+                  no-caps
+                  outline
+                  @click="editIssue(issueDetails.uuid)"
 
                 />
                 <q-btn
                   v-if="hasPermission('ISSUE_DELETE')"
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
+                  :disable="issueStatus == 'done'"
                   class="float-right q-mr-sm"
                   color="red"
                   flat
@@ -75,7 +80,8 @@
 
           <div class="q-gutter-xs">
             <!-- {{usersList}}-->
-            <span v-if="usersList.length == 0 && issueStatus=='new'" class="text-grey">Zaakceptuj lub odrzuć zgłoszenie</span>
+            <span v-if="usersList.length == 0 && issueStatus=='new'"
+                  class="text-grey">Zaakceptuj lub odrzuć zgłoszenie</span>
             <span v-if="usersList.length == 0 && issueStatus=='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
             <q-chip
               v-for="(user, index) in usersList" v-if="usersList!= null" v-bind:key="index"
@@ -181,7 +187,10 @@
           <!--          />-->
         </q-card-actions>
         <q-card v-if="issueStatus == 'rejected'" align="right" class="q-pt-md q-px-md">
-          <p class="text-weight-bold text-red-5"><q-icon name="delete_forever" size="sm"/> Zgłoszenie odrzucone</p>
+          <p class="text-weight-bold text-red-5">
+            <q-icon name="delete_forever" size="sm"/>
+            Zgłoszenie odrzucone
+          </p>
         </q-card>
       </q-card>
 
@@ -210,7 +219,12 @@ import {useUserStore} from 'stores/user';
 import {useRoute, useRouter} from "vue-router";
 
 import {useI18n} from "vue-i18n";
-import {changeIssueStatusRequest, deleteIssueRequest, editIssueRequest, getOneIssueRequest} from "components/api/IssueApiClient";
+import {
+  changeIssueStatusRequest,
+  deleteIssueRequest,
+  editIssueRequest,
+  getOneIssueRequest
+} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
 import IssueSummaryCard from "components/viewer/cards/IssueSummaryCard.vue";
@@ -366,7 +380,14 @@ function setIssueStatus(action, description = null, value = null) {
   // issue_resolve | Issue done | reason | None
 
 
-  let data = {"status": action, "name": eventName, "description": eventDescription, "value": eventValue, 'uuid': issueUuid.value, internal_value : internal_value}
+  let data = {
+    "status": action,
+    "name": eventName,
+    "description": eventDescription,
+    "value": eventValue,
+    'uuid': issueUuid.value,
+    internal_value: internal_value
+  }
 
   changeIssueStatusRequest(issueUuid.value, data).then(function (response) {
     getIssueDetails(issueUuid.value)

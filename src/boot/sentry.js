@@ -22,7 +22,7 @@ export default boot(({ app, router }) => {
       integrations: [
         new BrowserTracing({
           routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-          tracingOrigins: ["localhost", "remontmaszyn.pl", /^\//],
+          tracingOrigins: ["localhost", "app.malgori.pl", /^\//],
         }),
         new Replay({
           // Additional SDK configuration goes in here, for example:

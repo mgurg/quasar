@@ -118,7 +118,7 @@ import {authApi} from "boot/axios";
 import {useQuasar} from 'quasar'
 
 const $q = useQuasar()
-let ActionUrl = ref("https://beta.remontmaszyn.pl/");
+let ActionUrl = ref("https://app.malgori.pl/");
 // -----------------------------
 
 
@@ -165,7 +165,7 @@ onBeforeMount(() => {
 //     .get("/settings/board/")
 //     .then((res) => {
 //
-//       ActionUrl.value = 'https://beta.remontmaszyn.pl/new/' + res.data + '+234'
+//       ActionUrl.value = 'https://app.malgori.pl/new/' + res.data + '+234'
 //       isLoading.value = false;
 //     })
 //     .catch((err) => {

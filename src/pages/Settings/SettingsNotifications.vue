@@ -21,7 +21,8 @@
         Powiadomienia nie są jeszcze włączone, prace w trakcie.
         <br>
         Pomysły/sugestie? <a class="text-weight-bold text-black"
-                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do mnie ➡️</a>
+                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do
+        mnie ➡️</a>
       </q-banner>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
@@ -41,9 +42,9 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5" >Powiadomienia </q-item-label>
+                <q-item-label class="text-h5">Powiadomienia</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-<!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
+                <!--                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>-->
               </q-item-section>
             </q-item>
           </q-list>
@@ -60,56 +61,6 @@
             spellcheck="false"
             @submit.prevent
           >
-            <p class="text-h6"> SMS </p>
-            <p>Informuj mnie o:</p>
-            <q-list>
-              <q-item tag="label">
-                <q-item-section avatar>
-                  <q-radio v-model="smsNotificationsLevel" val="all"/>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Każdym problemie</q-item-label>
-                  <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>
-                </q-item-section>
-              </q-item>
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="smsNotificationsLevel" val="favourites_and_unassigned"/>-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Obserwowane maszyny oraz nieprzypisane</q-item-label>-->
-<!--                  <q-item-label caption>Maszyny oznaczone symbolem serca oraz zgłoszenie nieprzypisane do żadnego urządzenia</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="smsNotificationsLevel" val="favourites_only"/>-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Tylko obserwowane maszyny</q-item-label>-->
-<!--                  <q-item-label caption>Wszystkie maszyny, oznaczone symbolem serca</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-              <q-item tag="label">
-                <q-item-section avatar>
-                  <q-radio v-model="smsNotificationsLevel" val="assigned_to_me"/>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>
-                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item tag="label">
-                <q-item-section avatar>
-                  <q-radio v-model="smsNotificationsLevel" val="none"/>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Brak</q-item-label>
-                  <q-item-label caption>Nie powiadamiaj mnie o żadnym nowym zgłoszeniu</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-
             <p class="text-h6"> Email </p>
             <p>Informuj mnie o:</p>
             <q-list>
@@ -122,31 +73,32 @@
                   <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>
                 </q-item-section>
               </q-item>
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="emailNotificationsLevel" val="favourites_and_unassigned"/>-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Obserwowane maszyny oraz nieprzypisane</q-item-label>-->
-<!--                  <q-item-label caption>Maszyny oznaczone symbolem serca oraz zgłoszenie nieprzypisane do żadnego urządzenia</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="emailNotificationsLevel" val="favourites_only"/>-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Tylko obserwowane maszyny</q-item-label>-->
-<!--                  <q-item-label caption>Wszystkie maszyny, oznaczone symbolem serca</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
+              <!--              <q-item tag="label">-->
+              <!--                <q-item-section avatar>-->
+              <!--                  <q-radio v-model="emailNotificationsLevel" val="favourites_and_unassigned"/>-->
+              <!--                </q-item-section>-->
+              <!--                <q-item-section>-->
+              <!--                  <q-item-label>Obserwowane maszyny oraz nieprzypisane</q-item-label>-->
+              <!--                  <q-item-label caption>Maszyny oznaczone symbolem serca oraz zgłoszenie nieprzypisane do żadnego urządzenia</q-item-label>-->
+              <!--                </q-item-section>-->
+              <!--              </q-item>-->
+              <!--              <q-item tag="label">-->
+              <!--                <q-item-section avatar>-->
+              <!--                  <q-radio v-model="emailNotificationsLevel" val="favourites_only"/>-->
+              <!--                </q-item-section>-->
+              <!--                <q-item-section>-->
+              <!--                  <q-item-label>Tylko obserwowane maszyny</q-item-label>-->
+              <!--                  <q-item-label caption>Wszystkie maszyny, oznaczone symbolem serca</q-item-label>-->
+              <!--                </q-item-section>-->
+              <!--              </q-item>-->
               <q-item tag="label">
                 <q-item-section avatar>
                   <q-radio v-model="emailNotificationsLevel" val="assigned_to_me"/>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>
-                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.</q-item-label>
+                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.
+                  </q-item-label>
                 </q-item-section>
               </q-item>
               <q-item tag="label">
@@ -159,6 +111,41 @@
                 </q-item-section>
               </q-item>
             </q-list>
+
+            <p class="text-h6"> SMS </p>
+            <p>[Niedostępne] Informuj mnie o:</p>
+            <q-list>
+              <q-item tag="label">
+                <q-item-section avatar>
+                  <q-radio v-model="smsNotificationsLevel" val="all" disable />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Każdym problemie</q-item-label>
+                  <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item tag="label">
+                <q-item-section avatar>
+                  <q-radio v-model="smsNotificationsLevel" val="assigned_to_me" disable />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>
+                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item tag="label">
+                <q-item-section avatar>
+                  <q-radio v-model="smsNotificationsLevel" val="none" disable />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Brak</q-item-label>
+                  <q-item-label caption>Nie powiadamiaj mnie o żadnym nowym zgłoszeniu</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+
+
 
             <div class="row">
               <q-space/>

@@ -25,11 +25,7 @@
           <!--          <div>Naprawy: {{ summaryTimes(summaryReport).issueRepairTime }}</div>-->
           <!--          <div>Łącznej aktywności użytkowników: {{ summaryTimes(summaryReport).issueUserActivity }}</div>-->
 
-          <div class="row q-py-sm">
-            <div class="col">Całkowity:</div>
-            <div class="col">{{ summaryTimes(summaryReport).issueTotalTime }}</div>
-          </div>
-          <q-separator/>
+
           <div class="row q-py-sm">
             <div class="col">Od zgłoszenia do akceptacji:</div>
             <div class="col">{{ summaryTimes(summaryReport).issueResponseTime }}</div>
@@ -46,10 +42,20 @@
           </div>
           <q-separator/>
           <div class="row q-py-sm">
+            <div class="col">Przerw:</div>
+            <div class="col">{{ summaryTimes(summaryReport).issueRepairPauseTime }}</div>
+          </div>
+          <q-separator/>
+          <div class="row q-py-sm">
             <div class="col">Łącznej aktywności użytkowników:</div>
             <div class="col">{{ summaryTimes(summaryReport).issueUserActivity }}</div>
           </div>
-          <q-separator/>
+          <q-separator color="blue-grey-10" />
+          <div class="row q-py-sm">
+            <div class="col">Całkowity:</div>
+            <div class="col">{{ summaryTimes(summaryReport).issueTotalTime }}</div>
+          </div>
+
 
           <div>&nbsp;</div>
           <div class="text-h6">Aktywność użytkowników:</div>

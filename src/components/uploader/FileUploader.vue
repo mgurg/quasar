@@ -36,20 +36,28 @@
 
   <!-- FILES -->
 
-  <q-list v-for="(file, index) in attachments" v-if="attachments != null" v-bind:key="index" bordered separator>
+  <q-list v-for="(file, index) in attachments" v-if="attachments != null" v-bind:key="index" bordered class="rounded-borders" >
     <q-item>
       <q-item-section avatar>
-        <q-avatar color="green" rounded text-color="white">F</q-avatar>
+        <q-avatar color="green" rounded text-color="white" icon="attach_file" />
       </q-item-section>
       <q-item-section>
         <q-item-label>{{ file.file_name }}</q-item-label>
-        <q-item-label caption>Dodaj</q-item-label>
+<!--        <q-item-label caption>Dodaj</q-item-label>-->
       </q-item-section>
 
       <q-item-section side>
         <div class="text-grey-8 q-gutter-xs">
-          <q-btn v-ripple class="gt-xs" clickable dense flat icon="delete" round size="12px"
-                 @click="delete_file(file.uuid)"/>
+          <q-btn
+            v-ripple
+            class="gt-xs"
+            clickable
+            dense flat
+            icon="delete"
+            round
+            size="12px"
+            @click="delete_file(file.uuid)"
+          />
         </div>
       </q-item-section>
 

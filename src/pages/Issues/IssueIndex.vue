@@ -285,7 +285,7 @@
         </q-chip>
       </div>
 
-      <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'" bordered
+      <q-card v-if="pagination.total > 0 || search!==null || hasStatus!=='active'|| selectedTags.length>0" bordered
               class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="!isLoading" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="q-pa-xs">
@@ -349,10 +349,12 @@
         <q-space class="q-pa-sm"/>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total === 0 && hasStatus==='active'">
-        <div  class="text-body1 text-center q-pa-lg">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none"
+              v-if="pagination.total === 0 && hasStatus==='active' && selectedTags.length===0">
+        <div class="text-body1 text-center q-pa-lg">
           <p>Brak problemów 🎉</p>
-          <p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk 👇
+          <p v-if="hasPermission('ISSUE_ADD')"> Chyba że coś własne przestało działać? 🧐 <br/>Zgłoś, klikając przycisk
+            👇
           </p>
           <div class="col-12 text-h6 q-mt-none">
             <q-btn
