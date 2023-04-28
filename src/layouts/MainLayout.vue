@@ -312,9 +312,13 @@ function logout() {
 function verifyToken(){
   const token = UserStore.getToken
   isLoading.value = true;
+  const startTime = new Date().getTime();  // start the timer
   getVerifyTokenRequest(token).then(function (response) {
       // UserStore.fillStore()
       isLoading.value = false;
+    const endTime = new Date().getTime();  // stop the timer
+    const time = endTime - startTime;  // calculate the time it took to get the response
+    console.log(`getVerifyTokenRequest: ${time} ms`);
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     logout();
