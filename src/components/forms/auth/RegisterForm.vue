@@ -186,6 +186,8 @@ import {useUserStore} from "stores/user";
 import {validatePolish} from 'validate-polish';
 import {accountLimit} from 'src/composables/api/accountLimit.js'
 import {pl} from 'yup-locales';
+import Sentry from "boot/sentry";
+
 
 const {availableAccounts, ratio} = accountLimit()
 
@@ -276,6 +278,7 @@ const submit = handleSubmit((values) => {
         step.value++
       })
       .catch((err) => {
+        Sentry.captureMessage("auth/company_info error: " + companyTaxId.value);
         step.value = 2;
         if (err.response) {
           console.log(err.response);

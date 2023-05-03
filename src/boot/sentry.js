@@ -8,6 +8,8 @@ import { Replay } from '@sentry/replay';
 
 export default boot(({ app, router }) => {
 
+  // https://github.com/jlvvlj/heroes-platform-demo/blob/master/src/boot/errors.js
+
   if (process.env.VUE_MODE != "production") {
     console.log(`I'm on a development build`)
   }
