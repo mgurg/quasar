@@ -186,11 +186,13 @@ import {useUserStore} from "stores/user";
 import {validatePolish} from 'validate-polish';
 import {accountLimit} from 'src/composables/api/accountLimit.js'
 import {pl} from 'yup-locales';
-import Sentry from "boot/sentry";
+import {errorHandler} from "components/api/errorHandler";
+import {useQuasar} from "quasar";
 
 
 const {availableAccounts, ratio} = accountLimit()
 
+const $q = useQuasar()
 setLocale(pl);
 
 
@@ -278,15 +280,27 @@ const submit = handleSubmit((values) => {
         step.value++
       })
       .catch((err) => {
-        Sentry.captureMessage("auth/company_info error: " + companyTaxId.value);
-        step.value = 2;
-        if (err.response) {
-          console.log(err.response);
-        } else if (err.request) {
-          console.log(err.request);
-        } else {
-          console.log("General Error");
+        // Sentry.captureMessage("auth/company_info error: " + companyTaxId.value);
+        const errorMessage = errorHandler(err);
+        console.log(errorMessage.status)
+        if (errorMessage.status === 404) {
+          companyName.value = null
+          companyAddress.value = null
+          companyPostCode.value = null
+          companyCity.value = null
+          $q.notify("Nie znaleziono danych firmy, wprowadź ręcznie");
+          step.value++
+        } else{
+          step.value = 2;
         }
+
+        // if (err.response) {
+        //   console.log(err.response);
+        // } else if (err.request) {
+        //   console.log(err.request);
+        // } else {
+        //   console.log("General Error");
+        // }
 
       });
 
@@ -344,13 +358,22 @@ function registerAdmin(data) {
       router.push("/new_account");
     })
     .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
+      const errorMessage = errorHandler(err);
+      console.log(errorMessage.status)
+      if (errorMessage.status === 403) {
+        $q.notify("Tymczasowy email nie jest dozwolony");
+        step.value--
       }
+      if (errorMessage.status === 400) {
+        $q.notify(errorMessage.data.detail);
+      }
+      // if (err.response) {
+      //   console.log(err.response);
+      // } else if (err.request) {
+      //   console.log(err.request);
+      // } else {
+      //   console.log("General Error");
+      // }
     });
   isLoading.value = false;
 }
