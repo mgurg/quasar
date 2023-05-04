@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Reset password") }}</div>
-    <p>Podaj mail na który przyjdzie wiadomość z linkiem do ustawienia nowego hasła.</p>
+    <p>Podaj email na który założyłeś konto.</p>
+    <p>Jeżeli będzie poprawny to otrzmasz wiadomośc z linkiem do formularza, gdzie wprowadzisz nowe hasło.</p>
     <q-form @submit="submit">
       <q-input
         :model-value="email"
