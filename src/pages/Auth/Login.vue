@@ -2,7 +2,7 @@
   <!-- https://github.com/Joabsonlg/quasar-authentication -->
   <!-- https://github.com/patrickmonteiro/quasar-warren -->
   <div class="row justify-center" style="height: 100vh">
-    <div v-if="fade" class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7">
+    <div v-if="fade" class="col-sm-12 col-md-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">Malgori</h1>
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" style="min-width: 320px;">
+    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" style="width: 400px;">
 
       <login-form v-if="path==='/login'" :key="path" />
       <register-form v-if="path==='/register'" :key="path" />
