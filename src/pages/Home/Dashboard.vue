@@ -9,7 +9,7 @@
         Ten projekt nie jest jeszcze wydany, możesz stracić wszystkie dane! Publiczna beta już wkrótce.
         <br>
         Pomysły/sugestie? <a class="text-weight-bold text-black"
-                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do mnie ➡️</a>
+                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do mnie ➡️</a>
       </q-banner>
 
       <q-list>

@@ -21,7 +21,7 @@
         Powiadomienia nie są jeszcze włączone, prace w trakcie.
         <br>
         Pomysły/sugestie? <a class="text-weight-bold text-black"
-                             href="mailto:wiadomosc.michal@gmail.com?subject=Aplikacja do zgłaszania awarii">Napisz do
+                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do
         mnie ➡️</a>
       </q-banner>
 
