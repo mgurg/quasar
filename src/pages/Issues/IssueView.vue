@@ -197,6 +197,7 @@
       <issue-summary-card v-if="issueDetails!==null && issueDetails.status=='done'" :issue-uuid="issueDetails.uuid"/>
       <description-card v-if="issueDetails!==null" :expanded-description="true" :textJson="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
+      <part-card  v-if="issueStatus!=='new'"></part-card>
       <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid"/>
 
       <q-dialog v-model="showUserDialog" :position=" $q.platform.is.mobile ? 'top': 'standard'">
@@ -233,6 +234,7 @@ import TimelineIssueCard from "components/viewer/cards/TimelineIssueCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 import UserAssignDialog from "components/dialog/UserAssignDialog.vue";
 import CommentDialog from "components/dialog/CommentDialog.vue";
+import PartCard from "components/viewer/cards/PartCard.vue";
 
 const $q = useQuasar();
 const UserStore = useUserStore();
