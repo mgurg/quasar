@@ -14,7 +14,7 @@
             color="primary"
             flat
             no-caps
-            @click="addGuide(itemUuid)"
+            @click="showUserDialog=true"
           />
           <q-btn :icon="expandedSummary ? 'keyboard_arrow_up' : 'keyboard_arrow_down'" color="grey" dense flat round
                  @click="expandedSummary = !expandedSummary"/>
@@ -35,10 +35,86 @@
       </q-slide-transition>
     </div>
   </q-card>
+
+  <q-dialog v-model="showUserDialog" :position="$q.platform.is.mobile ? 'top': 'standard'">
+    <q-card :style="$q.platform.is.mobile ? 'width: 350px': 'width: 850px'">
+      <q-card-section>
+        <div class="text-h6">Wyszukaj użytkownika</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <div class="row sm-gutter">
+          <div class="q-pa-xs col-xs-12 col-sm-6">
+            <q-input
+              v-model="search"
+              label="nazwa"
+              clearable
+              debounce="300"
+              outlined
+            />
+          </div>
+          <div class="q-pa-xs col-xs-12 col-sm-6">
+            <q-input
+              v-model="search"
+              label="symbol"
+              clearable
+              debounce="300"
+              outlined
+            />
+          </div>
+
+        </div>
+        <div class="row sm-gutter">
+          <div class="q-pa-xs col-xs-6 col-sm-3">
+            <q-input
+              outlined
+              label="cena"
+            />
+          </div>
+          <div class="q-pa-xs col-xs-6 col-sm-3">
+            <q-input
+              outlined
+              label="ilość"
+            />
+          </div>
+          <div class="q-pa-xs col-xs-6 col-sm-3">
+<!--            <q-input-->
+<!--              outlined-->
+<!--              label="jednostka"-->
+<!--            />-->
+            <q-select
+              v-model="search"
+              :options="options"
+              label="jednostka"
+              outlined />
+          </div>
+          <div class="q-pa-xs col-xs-6 col-sm-3">
+            <q-input
+              outlined
+              label="wartość"
+            />
+          </div>
+        </div>
+<!--          <q-input-->
+<!--            v-model="search"-->
+<!--            label="opis"-->
+<!--            clearable-->
+<!--            debounce="300"-->
+<!--            outlined/>-->
+
+
+
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>
 import {ref} from "vue";
+
+const showUserDialog = ref(false);
+const search = ref(null);
+
+const options = ref(['szt', 'l',])
 
 const props = defineProps({
   qrCode: {

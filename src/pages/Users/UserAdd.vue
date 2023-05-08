@@ -49,7 +49,7 @@
 
 <script setup>
 import {ref} from "vue";
-import UserFormAdd from 'components/forms/UserFormAdd.vue'
+import UserFormAdd from 'components/forms/user/UserFormAdd.vue'
 import {useQuasar} from 'quasar'
 import {useRouter} from "vue-router";
 import {createUserRequest,} from 'src/components/api/UserApiClient.js'

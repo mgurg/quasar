@@ -100,40 +100,6 @@
                   </q-menu>
 
                 </q-btn>
-                <!--                <q-input-->
-                <!--                  :label="dateRangeDisplay"-->
-                <!--                  autogrow-->
-
-                <!--                  class="float-right q-ma-xs q-pa-none"-->
-                <!--                  dense-->
-                <!--                  disable-->
-                <!--                  outlined-->
-                <!--                >-->
-                <!--                  <template v-slot:after>-->
-                <!--                    <q-btn color="primary" dense flat icon="event" outline>-->
-
-                <!--                      <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">-->
-                <!--                        <q-date v-model="dateRange" :multiple=false mask="DD-MM-YYYY" no-unset range today-btn>-->
-                <!--                          <div class="row items-center justify-end q-gutter-sm">-->
-                <!--                            <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Today', 0,0)">-->
-                <!--                              Dziś-->
-                <!--                            </q-btn>-->
-                <!--                            <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Week',0,7)">-->
-                <!--                              Tydzień-->
-                <!--                            </q-btn>-->
-                <!--                            <q-btn v-close-popup color="primary" dense flat no-caps @click="setDateRange('Month',0,30)">-->
-                <!--                              Miesiąc-->
-                <!--                            </q-btn>-->
-                <!--                            <q-separator/>-->
-                <!--                            &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
-                <!--                            <q-btn v-close-popup color="primary" flat label="OK"/>-->
-                <!--                          </div>-->
-                <!--                        </q-date>-->
-                <!--                      </q-popup-proxy>-->
-
-                <!--                    </q-btn>-->
-                <!--                  </template>-->
-                <!--                </q-input>-->
 
                 <!-- STATUS -->
                 <q-btn :label="$t('Status')" class="float-right q-ma-xs" color="primary" icon="filter_list" no-caps

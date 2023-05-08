@@ -53,7 +53,7 @@
 import {useQuasar} from 'quasar'
 import {onBeforeMount, ref} from "vue";
 import UserEditSkeleton from 'components/skeletons/users/UserEditSkeleton.vue'
-import UserFormEdit from 'components/forms/UserFormEdit.vue'
+import UserFormEdit from 'components/forms/user/UserFormEdit.vue'
 import {useRoute, useRouter} from "vue-router";
 import {getUserRequest, getUsersRequest, updateUserRequest} from "components/api/UserApiClient";
 import {errorHandler} from "components/api/errorHandler";

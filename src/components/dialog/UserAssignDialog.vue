@@ -27,6 +27,7 @@
 
       </q-input>
 
+
       <q-list v-for="(user, index) in users" v-if="users != null" v-bind:key="index" bordered separator>
         <div @click="insertUser(user.first_name, user.last_name, user.uuid)">
           <q-item v-ripple clickable>
