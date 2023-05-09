@@ -5,7 +5,7 @@
       <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedSummary = !expandedSummary">
-            Części
+            Części 
           </div>
           <q-space></q-space>
           <q-btn

@@ -72,11 +72,11 @@
         </div>
         <div class="row q-pa-sm">
           <q-space/>
-          <q-btn v-close-popup class="q-mr-lg" color="red-12" flat icon="cancel" type="submit">
+          <q-btn  class="q-mr-lg" color="red-12" flat icon="cancel" type="submit">
             {{ $t("Cancel") }}
           </q-btn>
 
-          <q-btn color="primary" icon="done" type="submit" @click="submit">{{ $t("Save") }}</q-btn>
+          <q-btn color="primary" icon="done" type="submit" @click="submit" >{{ $t("Save") }}</q-btn>
         </div>
 
       </q-form>
@@ -116,7 +116,7 @@ const {value: partUnit} = useField("partUnit", {initialValue: "szt"});
 const {value: partQuantity} = useField("partQuantity", {initialValue: "1"});
 const {value: partValue} = useField("partValue", {initialValue: "1"});
 
-const submit = handleSubmit((values) => {
+const submit = handleSubmit(values => {
 
   console.log('submit');
 
