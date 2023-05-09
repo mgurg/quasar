@@ -131,8 +131,8 @@ const submit = handleSubmit((values) => {
   };
 
   console.log(data)
-  emit('userFormBtnClick', 1)
-
+  emit('userFormBtnClick')
+  console.log('data')
 
 });
 

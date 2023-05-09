@@ -37,7 +37,7 @@
   </q-card>
 
   <q-dialog v-model="showUserDialog" :position="$q.platform.is.mobile ? 'top': 'standard'">
-    <part-dialog @cancel-btn-click="closeDialog" />
+    <part-dialog @user-form-btn-click="closeDialog()" />
   </q-dialog>
 </template>
 
