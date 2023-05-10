@@ -19,10 +19,10 @@
           </div>
           <div class="q-pa-xs col-xs-12 col-sm-6">
             <q-input
-              v-model="partSymbol"
-              :error="!!errors.partSymbol"
-              :error-message="errors.partSymbol"
-              label="symbol"
+              v-model="partDescription"
+              :error="!!errors.partDescription"
+              :error-message="errors.partDescription"
+              label="opis"
               clearable
               debounce="300"
               outlined
@@ -36,6 +36,7 @@
               v-model="partPrice"
               :error="!!errors.partPrice"
               :error-message="errors.partPrice"
+              @update:model-value="recalculate()"
               outlined
               label="cena"
             />
@@ -45,6 +46,7 @@
               v-model="partQuantity"
               :error="!!errors.partQuantity"
               :error-message="errors.partQuantity"
+              @update:model-value="recalculate()"
               outlined
               label="ilość"
             />
@@ -98,11 +100,11 @@ const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 // -------------- VeeValidate --------------
 const validationSchema = object({
   partName: string().required().min(2),
-  partSymbol: string().required().min(2),
+  partDescription: string(),
   partPrice: string().required(),
+  partQuantity: string().required(),
   partUnit: string().required(),
   partValue: string().required(),
-  partQuantity: string().required(),
 });
 
 const {handleSubmit, errors} = useForm({
@@ -110,11 +112,26 @@ const {handleSubmit, errors} = useForm({
 });
 
 const {value: partName} = useField("partName");
-const {value: partSymbol} = useField("partSymbol");
+const {value: partDescription} = useField("partDescription");
 const {value: partPrice} = useField("partPrice");
-const {value: partUnit} = useField("partUnit", {initialValue: "szt"});
-const {value: partQuantity} = useField("partQuantity", {initialValue: "1"});
-const {value: partValue} = useField("partValue", {initialValue: "1"});
+const {value: partUnit} = useField("partUnit", undefined, {initialValue: "szt"});
+const {value: partQuantity} = useField("partQuantity",undefined,  {initialValue: 1} );
+const {value: partValue} = useField("partValue");
+
+
+function recalculate(){
+  if (partPrice.value !== null && partQuantity.value !== null && partPrice.value !== 0 && partQuantity.value !== 0 && isNumeric(partPrice.value) && isNumeric(partQuantity.value) ){
+    //
+    partValue.value = (partPrice.value * partQuantity.value).toString()
+    console.log('calculating...')
+    console.log(partPrice.value)
+    console.log(partUnit.value)
+  }
+}
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 const submit = handleSubmit(values => {
 
@@ -123,7 +140,7 @@ const submit = handleSubmit(values => {
   let data = {
     "issue_uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "name": partName.value,
-    "description": partSymbol.value,
+    "description": partDescription.value,
     "price": partPrice.value,
     "quantity": partQuantity.value,
     "unit": partUnit.value,
@@ -147,7 +164,7 @@ const submit = handleSubmit(values => {
 //     let data = {
 //       "issue_uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
 //       "name": partName.value,
-//       "description": partSymbol.value,
+//       "description": partDescription.value,
 //       "price": partPrice.value,
 //       "quantity": partQuantity.value,
 //       "unit": partUnit.value,
