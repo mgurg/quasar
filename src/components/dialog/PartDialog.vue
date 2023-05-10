@@ -36,6 +36,7 @@
               v-model="partPrice"
               :error="!!errors.partPrice"
               :error-message="errors.partPrice"
+              type="number"
               @update:model-value="recalculate()"
               outlined
               label="cena"
@@ -47,6 +48,7 @@
               :error="!!errors.partQuantity"
               :error-message="errors.partQuantity"
               @update:model-value="recalculate()"
+              type="number"
               outlined
               label="ilość"
             />
@@ -67,6 +69,7 @@
               v-model="partValue"
               :error="!!errors.partValue"
               :error-message="errors.partValue"
+              type="number"
               outlined
               label="wartość"
             />
@@ -74,7 +77,7 @@
         </div>
         <div class="row q-pa-sm">
           <q-space/>
-          <q-btn  class="q-mr-lg" color="red-12" flat icon="cancel" type="submit">
+          <q-btn v-close-popup class="q-mr-lg" color="red-12" flat icon="cancel">
             {{ $t("Cancel") }}
           </q-btn>
 
@@ -88,10 +91,21 @@
 </template>
 
 <script setup>
-
 import {ref} from "vue";
 import {useField, useForm} from "vee-validate";
 import {object, string} from "yup";
+import {addGuideRequest} from "components/api/GuideApiClient";
+import {errorHandler} from "components/api/errorHandler";
+import {createUsedPartsRequest} from "components/api/PartApiClient";
+
+const props = defineProps({
+  issueUuid: {
+    type: String,
+    default: null,
+  },
+})
+
+const issueUuid = ref(props.issueUuid)
 
 const options = ref(['szt', 'l',])
 const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
@@ -99,7 +113,7 @@ const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
-  partName: string().required().min(2),
+  partName: string().nullable().required(),
   partDescription: string(),
   partPrice: string().required(),
   partQuantity: string().required(),
@@ -120,25 +134,21 @@ const {value: partValue} = useField("partValue");
 
 
 function recalculate(){
-  if (partPrice.value !== null && partQuantity.value !== null && partPrice.value !== 0 && partQuantity.value !== 0 && isNumeric(partPrice.value) && isNumeric(partQuantity.value) ){
+  if (partPrice.value !== null && partQuantity.value !== null && partPrice.value !== 0 && partQuantity.value !== 0 ){
     //
     partValue.value = (partPrice.value * partQuantity.value).toString()
-    console.log('calculating...')
-    console.log(partPrice.value)
-    console.log(partUnit.value)
+    partValue.value = parseFloat(partValue.value).toFixed(2);
+
   }
 }
-
-function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
+const isLoading = ref(false);
 
 const submit = handleSubmit(values => {
 
   console.log('submit');
 
   let data = {
-    "issue_uuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "issue_uuid": issueUuid.value,
     "name": partName.value,
     "description": partDescription.value,
     "price": partPrice.value,
@@ -148,6 +158,13 @@ const submit = handleSubmit(values => {
   };
 
   console.log(data)
+  isLoading.value = true;
+  createUsedPartsRequest(data).then(function (response) {
+    console.log(response)
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+  });
   emit('userFormBtnClick')
   console.log('data')
 

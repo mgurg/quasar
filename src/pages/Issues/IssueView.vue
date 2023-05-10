@@ -197,7 +197,8 @@
       <issue-summary-card v-if="issueDetails!==null && issueDetails.status=='done'" :issue-uuid="issueDetails.uuid"/>
       <description-card v-if="issueDetails!==null" :expanded-description="true" :textJson="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
-      <part-card  v-if="issueStatus!=='new'"></part-card>
+
+      <part-card :issue-uuid="issueUuid"  v-if="issueStatus!=='new' && issueDetails"></part-card>
       <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid"/>
 
       <q-dialog v-model="showUserDialog" :position=" $q.platform.is.mobile ? 'top': 'standard'">
@@ -257,6 +258,7 @@ function hasPermission(permission) {
 }
 
 let issueDetails = ref(null);
+let issueItemUuid = ref(null);
 let photoFiles = ref(null);
 let usersList = ref(null);
 let tagList = ref(null);
@@ -279,6 +281,10 @@ function getIssueDetails(uuid) {
     usersList.value = response.data.users_issue;
     tagList.value = response.data.tags_issue;
     issueStatus.value = response.data.status;
+    if (response.data.item){
+      issueItemUuid.value = response.data.item.uuid;
+    }
+
     // console.log(response.data)
     isLoading.value = false;
   }).catch((err) => {

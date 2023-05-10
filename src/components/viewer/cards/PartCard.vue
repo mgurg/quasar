@@ -5,7 +5,7 @@
       <q-card-section>
         <div class="row q-col-gutter-xs">
           <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedSummary = !expandedSummary">
-            Części 
+            Części
           </div>
           <q-space></q-space>
           <q-btn
@@ -37,7 +37,7 @@
   </q-card>
 
   <q-dialog v-model="showUserDialog" :position="$q.platform.is.mobile ? 'top': 'standard'">
-    <part-dialog @user-form-btn-click="closeDialog()" />
+    <part-dialog :issue-uuid="issueUuid" @user-form-btn-click="closeDialog()" />
   </q-dialog>
 </template>
 
@@ -53,15 +53,9 @@ function closeDialog(a){
 }
 
 const props = defineProps({
-  qrCode: {
-    type: Object,
-    default() {
-      return {
-        ecc: null,
-        qr_code_full_id: null,
-        resource: null,
-      }
-    }
+  issueUuid: {
+    type: String,
+    default: null,
   },
   expandedSummary: {
     type: Boolean,
@@ -70,4 +64,5 @@ const props = defineProps({
 })
 
 const expandedSummary = ref(props.expandedSummary)
+const issueUuid = ref(props.issueUuid)
 </script>
