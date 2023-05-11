@@ -18,11 +18,9 @@
         <template v-slot:avatar>
           <q-icon color="warning" name="warning"/>
         </template>
-        Powiadomienia nie są jeszcze włączone, prace w trakcie.
-        <br>
-        Pomysły/sugestie? <a class="text-weight-bold text-black"
-                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do
-        mnie ➡️</a>
+        Dostępne wyłacznie powiadomienia <span class="text-weight-bold text-black">email</span>.
+        Pomysły/sugestie? <a class="text-weight-bold text-black" style="text-decoration: underline;"
+                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do mnie</a> 📧
       </q-banner>
 
       <q-card bordered class="my-card no-shadow q-mt-sm">

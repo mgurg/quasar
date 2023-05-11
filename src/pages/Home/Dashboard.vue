@@ -6,10 +6,9 @@
         <template v-slot:avatar>
           <q-icon color="warning" name="warning"/>
         </template>
-        Ten projekt nie jest jeszcze wydany, możesz stracić wszystkie dane! Publiczna beta już wkrótce.
-        <br>
-        Pomysły/sugestie? <a class="text-weight-bold text-black"
-                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do mnie ➡️</a>
+        Ten projekt nie jest oficjalnie wydany. Po zakończeniu testów dane zostaną usunięte!
+        Pomysły/sugestie? <a class="text-weight-bold text-black" style="text-decoration: underline;"
+                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do mnie</a> 📧
       </q-banner>
 
       <q-list>

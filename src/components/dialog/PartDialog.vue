@@ -81,7 +81,7 @@
             {{ $t("Cancel") }}
           </q-btn>
 
-          <q-btn color="primary" icon="done" type="submit" @click="submit" >{{ $t("Save") }}</q-btn>
+          <q-btn color="primary" icon="done" type="submit" @click="submit">{{ $t("Save") }}</q-btn>
         </div>
 
       </q-form>
@@ -94,7 +94,6 @@
 import {ref} from "vue";
 import {useField, useForm} from "vee-validate";
 import {object, string} from "yup";
-import {addGuideRequest} from "components/api/GuideApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {createUsedPartsRequest} from "components/api/PartApiClient";
 
@@ -103,12 +102,29 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  // partPropName: {
+  //   type: String,
+  //   default: null,
+  // },
+  // partData: {
+  //   type: Object,
+  //   default() {
+  //     return {
+  //       "name": null,
+  //       "description": null,
+  //       "price": null,
+  //       "quantity": null,
+  //       "unit": null,
+  //       "value": null
+  //     };
+  //   },
+  // },
 })
 
 const issueUuid = ref(props.issueUuid)
 
 const options = ref(['szt', 'l',])
-const emit = defineEmits(['userFormBtnClick', 'cancelBtnClick'])
+const emit = defineEmits(['partFormBtnClick', 'cancelBtnClick'])
 
 
 // -------------- VeeValidate --------------
@@ -129,18 +145,19 @@ const {value: partName} = useField("partName");
 const {value: partDescription} = useField("partDescription");
 const {value: partPrice} = useField("partPrice");
 const {value: partUnit} = useField("partUnit", undefined, {initialValue: "szt"});
-const {value: partQuantity} = useField("partQuantity",undefined,  {initialValue: 1} );
+const {value: partQuantity} = useField("partQuantity", undefined, {initialValue: 1});
 const {value: partValue} = useField("partValue");
 
 
-function recalculate(){
-  if (partPrice.value !== null && partQuantity.value !== null && partPrice.value !== 0 && partQuantity.value !== 0 ){
+function recalculate() {
+  if (partPrice.value !== null && partQuantity.value !== null && partPrice.value !== 0 && partQuantity.value !== 0) {
     //
     partValue.value = (partPrice.value * partQuantity.value).toString()
     partValue.value = parseFloat(partValue.value).toFixed(2);
 
   }
 }
+
 const isLoading = ref(false);
 
 const submit = handleSubmit(values => {
@@ -165,7 +182,7 @@ const submit = handleSubmit(values => {
   }).catch((err) => {
     const errorMessage = errorHandler(err);
   });
-  emit('userFormBtnClick')
+  emit('partFormBtnClick')
   console.log('data')
 
 });
