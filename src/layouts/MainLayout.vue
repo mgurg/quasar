@@ -2,39 +2,39 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn aria-label="Menu" dense flat icon="menu" round @click="toggleLeftDrawer"/>
 
         <q-toolbar-title>
           <!-- Quasar App -->
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
-<!--        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>-->
-        <q-btn flat round @click="$q.dark.toggle()" :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'" />
-        <q-btn flat round dense icon="language" class="q-mr-xs">
+        <!--        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>-->
+        <q-btn :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'" flat round @click="$q.dark.toggle()"/>
+        <q-btn class="q-mr-xs" dense flat icon="language" round>
           <q-menu>
             <q-list style="min-width: 100px">
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="setLocale('pl')">Polish (Polski)</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="setLocale('de')">German (Deutsch)</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="setLocale('en-US')">English (English)</q-item-section>
               </q-item>
-              <q-separator />
-              <q-item clickable v-close-popup>
+              <q-separator/>
+              <q-item v-close-popup clickable>
                 <q-item-section>Help &amp; Feedback</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
         </q-btn>
-        <q-btn @click="logout" flat round dense icon="logout" class="q-mr-xs" />
+        <q-btn class="q-mr-xs" dense flat icon="logout" round @click="logout"/>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
         <q-list padding>
           <!--Dashboard-->
@@ -47,31 +47,31 @@
         </q-item>-->
 
           <!--Home Index-->
-          <q-item to="/home" exact clickable v-ripple>
+          <q-item v-ripple clickable exact to="/home">
             <q-item-section avatar>
-              <q-icon size="md" name="dashboard" />
+              <q-icon name="dashboard" size="md"/>
             </q-item-section>
 
             <q-item-section>Podsumowanie</q-item-section>
           </q-item>
 
-<!--          &lt;!&ndash;Reports Index&ndash;&gt;-->
-<!--          <q-item to="/reports" exact clickable v-ripple>-->
-<!--            <q-item-section avatar>-->
-<!--              <q-icon size="md" name="insights" />-->
-<!--            </q-item-section>-->
+          <!--          &lt;!&ndash;Reports Index&ndash;&gt;-->
+          <!--          <q-item to="/reports" exact clickable v-ripple>-->
+          <!--            <q-item-section avatar>-->
+          <!--              <q-icon size="md" name="insights" />-->
+          <!--            </q-item-section>-->
 
-<!--            <q-item-section>Raporty</q-item-section>-->
-<!--          </q-item>-->
+          <!--            <q-item-section>Raporty</q-item-section>-->
+          <!--          </q-item>-->
 
 
           <!--Issues Index-->
-          <q-item to="/issues" exact clickable v-ripple v-if="hasPermission('ISSUE_VIEW')">
+          <q-item v-if="hasPermission('ISSUE_VIEW')" v-ripple clickable exact to="/issues">
             <q-item-section avatar>
               <div class="relative-position">
-                <q-icon size="md" name="bug_report">
+                <q-icon name="bug_report" size="md">
                 </q-icon>
-<!--                <q-badge color="orange" floating>1</q-badge>-->
+                <!--                <q-badge color="orange" floating>1</q-badge>-->
               </div>
 
             </q-item-section>
@@ -80,29 +80,29 @@
           </q-item>
 
           <!--Items Index-->
-          <q-item to="/items" exact clickable v-ripple v-if="hasPermission('ITEM_VIEW')">
+          <q-item v-if="hasPermission('ITEM_VIEW')" v-ripple clickable exact to="/items">
             <q-item-section avatar>
-              <q-icon size="md" name="apps" />
+              <q-icon name="apps" size="md"/>
             </q-item-section>
 
             <q-item-section>{{ $t("Items") }}</q-item-section>
           </q-item>
 
           <!--Guides Index-->
-<!--          <q-item to="/guides" exact clickable v-ripple>-->
-<!--            &lt;!&ndash; v-if="hasPermission('SETTINGS_VIEW')" &ndash;&gt;-->
-<!--            <q-item-section avatar>-->
-<!--              <q-icon size="md" name="construction" />-->
-<!--            </q-item-section>-->
+          <!--          <q-item to="/guides" exact clickable v-ripple>-->
+          <!--            &lt;!&ndash; v-if="hasPermission('SETTINGS_VIEW')" &ndash;&gt;-->
+          <!--            <q-item-section avatar>-->
+          <!--              <q-icon size="md" name="construction" />-->
+          <!--            </q-item-section>-->
 
-<!--            <q-item-section>{{ $t("Guides") }}</q-item-section>-->
-<!--          </q-item>-->
+          <!--            <q-item-section>{{ $t("Guides") }}</q-item-section>-->
+          <!--          </q-item>-->
 
           <!--Users Index-->
-          <q-item to="/users" exact clickable v-ripple  v-if="hasPermission('USER_VIEW')">
+          <q-item v-if="hasPermission('USER_VIEW')" v-ripple clickable exact to="/users">
             <q-item-section avatar>
               <div class="relative-position">
-                <q-icon size="md" name="people"></q-icon>
+                <q-icon name="people" size="md"></q-icon>
                 <!-- <q-badge color="orange" floating>2</q-badge> -->
               </div>
             </q-item-section>
@@ -111,29 +111,28 @@
           </q-item>
 
           <!--Ideas Index-->
-<!--          <q-item to="/ideas" exact clickable v-ripple>-->
-<!--            <q-item-section avatar>-->
-<!--              <div class="relative-position">-->
-<!--                <q-icon size="md" name="tips_and_updates">-->
-<!--                </q-icon>-->
-<!--                <q-badge color="orange" floating>1</q-badge>-->
-<!--              </div>-->
+          <!--          <q-item to="/ideas" exact clickable v-ripple>-->
+          <!--            <q-item-section avatar>-->
+          <!--              <div class="relative-position">-->
+          <!--                <q-icon size="md" name="tips_and_updates">-->
+          <!--                </q-icon>-->
+          <!--                <q-badge color="orange" floating>1</q-badge>-->
+          <!--              </div>-->
 
-<!--            </q-item-section>-->
+          <!--            </q-item-section>-->
 
-<!--            <q-item-section>{{ $t("Ideas") }}</q-item-section>-->
-<!--          </q-item>-->
+          <!--            <q-item-section>{{ $t("Ideas") }}</q-item-section>-->
+          <!--          </q-item>-->
 
           <!--Settings Index-->
-          <q-item to="/settings" exact clickable v-ripple>
+          <q-item v-ripple clickable exact to="/settings">
             <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
             <q-item-section avatar>
-              <q-icon size="md" name="settings" />
+              <q-icon name="settings" size="md"/>
             </q-item-section>
 
             <q-item-section>{{ $t("Settings") }}</q-item-section>
           </q-item>
-
 
 
           <!-- Tasks Index -->
@@ -199,11 +198,11 @@
 
       <router-view v-slot="{ Component }">
         <transition
+          :duration="400"
           appear
           enter-active-class="animated fadeIn"
-          leave-active-class="animated fadeOut"
-          :duration="400">
-          <component :is="Component" />
+          leave-active-class="animated fadeOut">
+          <component :is="Component"/>
         </transition>
       </router-view>
 
@@ -214,16 +213,14 @@
 
 <script setup>
 
-import { ref, computed, onBeforeMount } from "vue";
-import { useQuasar } from "quasar";
-import { watch } from "vue";
-import { useI18n } from "vue-i18n";
-import { useUserStore } from 'stores/user'
-import { useRouter } from "vue-router";
-import { authApi } from "boot/axios";
+import {computed, onBeforeMount, ref, watch} from "vue";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import {useUserStore} from 'stores/user'
+import {useRouter} from "vue-router";
 import {getVerifyTokenRequest} from "components/api/AuthApiClient";
 import {errorHandler} from "components/api/errorHandler";
-import {setUserLangSettingsRequest, setUserSettingsRequest} from "components/api/SettingsApiClient";
+import {setUserLangSettingsRequest} from "components/api/SettingsApiClient";
 
 const $q = useQuasar();
 
@@ -233,7 +230,7 @@ const UserStore = useUserStore();
 let isLoading = ref(false);
 let isError = ref(false);
 
-const { locale } = useI18n({ useScope: "global" });
+const {locale} = useI18n({useScope: "global"});
 const lang = ref(locale); // $q.lang.isoName
 
 const fullName = ref(UserStore.getFullName)
@@ -242,8 +239,8 @@ watch(lang, (val) => {
   // dynamic import, so loading on demand only
   import(
     /* webpackInclude: /(pl|de|en-US)\.js$/ */
-    "quasar/lang/" + val
-  ).then((lang) => {
+  "quasar/lang/" + val
+    ).then((lang) => {
     $q.lang.set(lang.default);
   });
 });
@@ -268,7 +265,7 @@ function setLocale(lang) {
 
   isLoading.value = true;
 
-  setUserLangSettingsRequest({"code": lang  }).then(function (response) {
+  setUserLangSettingsRequest({"code": lang}).then(function (response) {
     isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
@@ -293,29 +290,28 @@ function notify() {
 }
 
 const permissions = computed(() => UserStore.getPermissions);
+
 function hasPermission(permission) {
-  if (permissions.value === null){
+  if (permissions.value === null) {
     return false;
   }
 
   return Boolean(permissions.value.includes(permission));
 }
+
 function logout() {
   UserStore.logoutUser()
   router.push("/login");
 }
 
 
-
-
-
-function verifyToken(){
+function verifyToken() {
   const token = UserStore.getToken
   isLoading.value = true;
   const startTime = new Date().getTime();  // start the timer
   getVerifyTokenRequest(token).then(function (response) {
-      // UserStore.fillStore()
-      isLoading.value = false;
+    // UserStore.fillStore()
+    isLoading.value = false;
     const endTime = new Date().getTime();  // stop the timer
     const time = endTime - startTime;  // calculate the time it took to get the response
     console.log(`getVerifyTokenRequest: ${time} ms`);

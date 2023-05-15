@@ -463,28 +463,20 @@ function getStatusName() {
       break;
     case 'inactive':
       return "Inactive"
-      break;
     case 'new':
       return "New"
-      break;
     case 'accepted':
       return "Accepted"
-      break;
     case 'rejected':
       return "Rejected"
-      break;
     case 'assigned':
       return "New"
-      break;
     case 'in_progress':
       return "In progress"
-      break;
     case 'paused':
       return "Paused"
-      break;
     case 'done':
       return "Resolved"
-      break;
     default:
       return "New"
   }
@@ -506,22 +498,16 @@ function getIcon() {
   switch (hasStatus.value) {
     case 'new':
       return 'auto_awesome'
-      break;
     case 'accepted':
       return 'playlist_add_check_circle'
-      break;
     case 'rejected':
       return 'delete_forever'
-      break;
     case 'in_progress':
       return 'build_circle'
-      break;
     case 'paused':
       return 'pause_circle'
-      break;
     case 'done':
       return 'check_circle'
-      break;
     default:
       return 'offline_bolt'
   }

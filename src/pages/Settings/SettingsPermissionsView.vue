@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -19,14 +19,14 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
                   $t("Return")
                 }}
               </q-btn>
             </q-item-section>
             <q-item-section></q-item-section>
             <q-item-section side>
-              <div class="col-12 text-h6 q-mt-none" v-if="permissionDetails">
+              <div v-if="permissionDetails" class="col-12 text-h6 q-mt-none">
                 <!--                <q-btn-->
                 <!--                  :label="$q.screen.gt.xs ? $t('Edit') : ''"-->
                 <!--                  class="float-right q-mr-sm" color="primary" flat-->
@@ -40,22 +40,22 @@
                 <!--                  no-caps @click="deleteGuide(guideDetails.uuid)"-->
                 <!--                />-->
                 <q-btn
+                  :disable="permissionDetails.is_custom==false"
                   :label="$q.screen.gt.xs ?  $t('Edit') : ''"
                   class="float-right "
                   color="primary"
-                  icon="edit"
-                  :disable="permissionDetails.is_custom==false"
-                  no-caps
                   flat
+                  icon="edit"
+                  no-caps
                   @click="toggleEdit()"/>
                 <q-btn
+                  :disable="permissionDetails.is_custom==false"
                   :label="$q.screen.gt.xs ?  $t('Delete') : ''"
                   class="float-right q-mr-sm"
                   color="red"
-                  icon="delete"
-                  :disable="permissionDetails.is_custom==false"
-                  no-caps
                   flat
+                  icon="delete"
+                  no-caps
                   @click="deletePermission()"
                 />
               </div>
@@ -67,9 +67,9 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section v-if="permissionDetails">
-                <q-item-label class="text-h5" >{{ permissionDetails.role_name }}</q-item-label>
+                <q-item-label class="text-h5">{{ permissionDetails.role_name }}</q-item-label>
                 <!--                 <q-item-label caption>{{ itemDetails.summary }}</q-item-label>-->
-                <q-item-label caption>{{permissionDetails.role_description}}</q-item-label>
+                <q-item-label caption>{{ permissionDetails.role_description }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
@@ -81,12 +81,12 @@
         <q-card-section>
           <permission-form
             v-if="!isLoading || isFetched"
-            :role="permissionDetails || undefined"
-            :groupUuid="permissionUuid"
-            :canEdit="canEdit"
-            @groupFormBtnClick="signUpButtonPressed"
-            @cancelBtnClick="cancelButtonPressed"
             :key="permissionUuid"
+            :canEdit="canEdit"
+            :groupUuid="permissionUuid"
+            :role="permissionDetails || undefined"
+            @cancelBtnClick="cancelButtonPressed"
+            @groupFormBtnClick="signUpButtonPressed"
           />
           <group-edit-skeleton v-else/>
         </q-card-section>
@@ -101,7 +101,6 @@ import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
 import PermissionForm from 'src/components/forms/PermissionForm.vue'
 import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
-import {deleteUserRequest} from "components/api/UserApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {deletePermissionRequest} from "components/api/PermissionApiClient";
 import {useQuasar} from "quasar";
@@ -111,7 +110,7 @@ const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
 let permissionUuid = ref(route.params.uuid)
-let canEdit = ref(route.params.mode == 'edit' || route.params.mode == 'add' )
+let canEdit = ref(route.params.mode === 'edit' || route.params.mode === 'add')
 
 let isLoading = ref(false);
 let isFetched = ref(false);
@@ -182,29 +181,29 @@ function toggleEdit() {
   canEdit.value = !canEdit.value
 }
 
-function deletePermission(){
+function deletePermission() {
   let uuid = route.params.uuid
   console.log(uuid);
 
-    $q.dialog({title: "Confirm", message: "Really delete?", cancel: true, persistent: true,})
-      .onOk(() => {
-        isLoading.value = true;
-        deletePermissionRequest(uuid).then(function (response) {
-          $q.notify("Permission deleted");
-          router.push("/users/");
-          isLoading.value = false;
-        }).catch((err) => {
-          const errorMessage = errorHandler(err);
-          console.log(errorMessage.status)
-          if (errorMessage.status === 400) {
-            // deleteUserToken();
-            // history.push(Routes.Login);
-            $q.notify("Permission in use");
-          }
+  $q.dialog({title: "Confirm", message: "Really delete?", cancel: true, persistent: true,})
+    .onOk(() => {
+      isLoading.value = true;
+      deletePermissionRequest(uuid).then(function (response) {
+        $q.notify("Permission deleted");
+        router.push("/users/");
+        isLoading.value = false;
+      }).catch((err) => {
+        const errorMessage = errorHandler(err);
+        console.log(errorMessage.status)
+        if (errorMessage.status === 400) {
+          // deleteUserToken();
+          // history.push(Routes.Login);
+          $q.notify("Permission in use");
+        }
 
-          // isError.value = true;
-        });
+        // isError.value = true;
       });
+    });
 
 }
 

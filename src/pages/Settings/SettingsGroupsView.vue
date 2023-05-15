@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -18,22 +18,22 @@
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <div class="col-12 text-h6 q-mt-xs">
-            <span class="text-h6" v-if="roleDetails">{{ roleDetails.name }}</span>
+            <span v-if="roleDetails" class="text-h6">{{ roleDetails.name }}</span>
             <span>
             <q-btn
-              outline
-              color="primary"
-              no-caps icon="edit"
-              class="float-right "
               :label="$q.screen.gt.xs ?  $t('Edit') : ''"
+              class="float-right "
+              color="primary" icon="edit"
+              no-caps
+              outline
               @click="toggleEdit()"/>
             <q-btn
-              outline
+              :label="$q.screen.gt.xs ?  $t('Delete') : ''"
+              class="float-right q-mr-sm"
               color="red"
               icon="delete"
-              class="float-right q-mr-sm"
               no-caps
-              :label="$q.screen.gt.xs ?  $t('Delete') : ''"
+              outline
               @click="deleteGroup(roleDetails.uuid)"
             />
           </span>
@@ -44,9 +44,9 @@
 
       <q-card bordered class="my-card no-shadow q-my-sm">
         <q-card-section>
-          <group-form v-if="!isLoading && isFetched" :group="roleDetails || undefined" :groupUuid="groupUuid"
-                      :canEdit="canEdit"
-                      @groupFormBtnClick="signUpButtonPressed" @cancelBtnClick="cancelButtonPressed" :key="groupUuid"/>
+          <group-form v-if="!isLoading && isFetched" :key="groupUuid" :canEdit="canEdit"
+                      :group="roleDetails || undefined"
+                      :groupUuid="groupUuid" @cancelBtnClick="cancelButtonPressed" @groupFormBtnClick="signUpButtonPressed"/>
           <group-edit-skeleton v-if="isLoading"/>
         </q-card-section>
       </q-card>
@@ -58,10 +58,9 @@
 import {onBeforeMount, ref, watch} from "vue";
 import {useQuasar} from "quasar";
 import {useRoute, useRouter} from "vue-router";
-import {authApi} from "boot/axios";
 import GroupForm from 'src/components/forms/GroupForm.vue'
 import GroupEditSkeleton from 'components/skeletons/groups/GroupEditSkeleton'
-import {deleteUsersGroupRequest, getUsersGroupRequest, getUsersGroupsRequest} from "components/api/UserGroupsApiClient";
+import {deleteUsersGroupRequest, getUsersGroupRequest} from "components/api/UserGroupsApiClient";
 import {errorHandler} from "components/api/errorHandler";
 
 const $q = useQuasar();
@@ -106,10 +105,10 @@ function getGroupDetails(uuid) {
   }
 
   getUsersGroupRequest(uuid).then(function (response) {
-        groupUsersList.value = response.data.users.map(value => value.uuid)
-        roleDetails.value = response.data;
-        isLoading.value = false;
-        isFetched.value = true;
+    groupUsersList.value = response.data.users.map(value => value.uuid)
+    roleDetails.value = response.data;
+    isLoading.value = false;
+    isFetched.value = true;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;

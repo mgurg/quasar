@@ -1,4 +1,4 @@
-import {api, authApi} from "boot/axios";
+import {authApi} from "boot/axios";
 
 
 export function getIssueUsedPartsRequest(uuid) {

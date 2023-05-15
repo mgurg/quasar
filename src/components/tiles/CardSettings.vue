@@ -7,7 +7,7 @@
             :style="[hasPermission(item.permission) ? `background-color: ${item.color1}` : `background-color: #999999`]"
             :to="hasPermission(item.permission)? item.link : null"
             class="q-pa-none rounded-borders fit"
-            :clickable = "hasPermission(item.permission) ? true: false"
+            :clickable = "hasPermission(item.permission)"
           >
             <q-item-section v-if="icon_position === 'left'"
                             :style="[hasPermission(item.permission) ? `background-color: ${item.color2}` : `background-color: #5a5a5a`]"

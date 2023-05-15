@@ -250,11 +250,7 @@ const validationSchema = yup.object({
     "check-startdate",
     "Start Date should not be later than current date",
     function (value) {
-      if (value == "1") {
-        return false;
-      } else {
-        return true;
-      }
+      return value !== "1";
     }
   )
 })

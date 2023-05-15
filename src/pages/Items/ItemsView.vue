@@ -19,7 +19,8 @@
                       <q-item-section>
 
                         <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
-                        <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte</q-item-label>
+                        <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte
+                        </q-item-label>
                       </q-item-section>
 
                     </q-item>
@@ -81,48 +82,48 @@
                         />
                       </q-item-section>
                     </q-item>
-<!--                    <q-item v-ripple tag="label">-->
-<!--                      <q-item-section>-->
-<!--                        <q-item-label>Komentarze</q-item-label>-->
-<!--                      </q-item-section>-->
-<!--                      <q-item-section side top>-->
-<!--                        <q-toggle-->
-<!--                          v-model="expandedComments"-->
-<!--                          @update:model-value="setSectionVisibility('visibility-item-comments')"-->
-<!--                        />-->
-<!--                      </q-item-section>-->
-<!--                    </q-item>-->
-<!--                    <q-item v-ripple tag="label">-->
-<!--                      <q-item-section>-->
-<!--                        <q-item-label>Oś czasu</q-item-label>-->
-<!--                      </q-item-section>-->
-<!--                      <q-item-section side top>-->
-<!--                        <q-toggle-->
-<!--                          v-model="expandedTimeline"-->
-<!--                          @update:model-value="setSectionVisibility('visibility-item-timeline')"-->
-<!--                        />-->
-<!--                      </q-item-section>-->
-<!--                    </q-item>-->
+                    <!--                    <q-item v-ripple tag="label">-->
+                    <!--                      <q-item-section>-->
+                    <!--                        <q-item-label>Komentarze</q-item-label>-->
+                    <!--                      </q-item-section>-->
+                    <!--                      <q-item-section side top>-->
+                    <!--                        <q-toggle-->
+                    <!--                          v-model="expandedComments"-->
+                    <!--                          @update:model-value="setSectionVisibility('visibility-item-comments')"-->
+                    <!--                        />-->
+                    <!--                      </q-item-section>-->
+                    <!--                    </q-item>-->
+                    <!--                    <q-item v-ripple tag="label">-->
+                    <!--                      <q-item-section>-->
+                    <!--                        <q-item-label>Oś czasu</q-item-label>-->
+                    <!--                      </q-item-section>-->
+                    <!--                      <q-item-section side top>-->
+                    <!--                        <q-toggle-->
+                    <!--                          v-model="expandedTimeline"-->
+                    <!--                          @update:model-value="setSectionVisibility('visibility-item-timeline')"-->
+                    <!--                        />-->
+                    <!--                      </q-item-section>-->
+                    <!--                    </q-item>-->
                   </q-list>
                 </q-btn-dropdown>
                 <q-btn
                   v-if="itemDetails"
-                  :label="$q.screen.gt.xs ? 'Ulubiony' : ''"
-                  class="float-right q-mr-sm" color="accent" flat
                   :icon="favouritesList.includes(currentUserUuid) ? 'favorite':'favorite_border'"
+                  :label="$q.screen.gt.xs ? 'Ulubiony' : ''" class="float-right q-mr-sm" color="accent"
+                  flat
                   no-caps
                   outline @click="addToFavourite(itemDetails.uuid)"
                 />
                 <q-btn
-                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   v-if="hasPermission('ISSUE_EDIT')"
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary" flat
                   icon="edit" no-caps
                   outline @click="editItem(itemDetails.uuid)"
                 />
                 <q-btn
-                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   v-if="hasPermission('ISSUE_DELETE')"
+                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm" color="red"
                   flat
                   icon="delete"
@@ -155,45 +156,47 @@
                  @click="reportFailure(itemDetails.uuid)">Zgłoś awarie
           </q-btn>
           <!--          <q-btn color="primary" class="q-px-xs" flat icon="lightbulb_outline" no-caps>Usprawnienie</q-btn>-->
-          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps @click="itemReport(itemDetails.uuid)">Raporty</q-btn>
+          <q-btn class="q-px-xs" color="primary" flat icon="insights" no-caps @click="itemReport(itemDetails.uuid)">
+            Raporty
+          </q-btn>
         </q-card-actions>
       </q-card>
 
 
       <description-card v-if="itemDetails!==null"
-                        :textJson="itemDetails.text_json"
-                        :expanded-description="expandedDescription"
                         :key="'A'+ componentKey"
+                        :expanded-description="expandedDescription"
+                        :textJson="itemDetails.text_json"
       />
       <photo-card v-if="photoFiles!==null"
-                  :photo-files="photoFiles"
-                  :expanded-photos="expandedPhotos"
                   :key="'B'+ componentKey"
+                  :expanded-photos="expandedPhotos"
+                  :photo-files="photoFiles"
       />
       <document-card v-if="documentFiles!==null"
+                     :key="'C'+ componentKey"
                      :document-files="documentFiles"
                      :expanded-docs="expandedDocs"
-                     :key="'C'+ componentKey"
       />
       <guide-card v-if="guidesList!==null && itemDetails !==null"
+                  :key="'D'+ componentKey"
+                  :expanded-guide="expandedGuide"
                   :guides="guidesList"
                   :item-uuid="itemDetails.uuid"
                   :public-access="false"
-                  :expanded-guide="expandedGuide"
-                  :key="'D'+ componentKey"
       />
       <qr-card v-if="qrCode!==null"
-               :qr-code="qrCode"
-               :expanded-qr="expandedQR"
                :key="'E'+ componentKey"
+               :expanded-qr="expandedQR"
+               :qr-code="qrCode"
       />
-<!--      <comments-card :expanded-comments="false"/>-->
-<!--      <timeline-card v-if="itemDetails!==null"-->
-<!--                     :item-uuid="itemDetails.uuid"-->
-<!--                     :expanded-timeline="expandedTimeline"-->
-<!--                     :key="'F'+ componentKey"-->
+      <!--      <comments-card :expanded-comments="false"/>-->
+      <!--      <timeline-card v-if="itemDetails!==null"-->
+      <!--                     :item-uuid="itemDetails.uuid"-->
+      <!--                     :expanded-timeline="expandedTimeline"-->
+      <!--                     :key="'F'+ componentKey"-->
 
-<!--      />-->
+      <!--      />-->
     </q-page>
   </div>
 </template>
@@ -205,7 +208,7 @@ import {useQuasar} from "quasar";
 import {useUserStore} from "stores/user";
 import {useI18n} from "vue-i18n";
 
-import {addItemRequest, deleteItemRequest, getOneItemRequest, setItemFavouriteRequest} from 'src/components/api/ItemApiClient.js'
+import {deleteItemRequest, getOneItemRequest, setItemFavouriteRequest} from 'src/components/api/ItemApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
@@ -213,8 +216,6 @@ import PhotoCard from "components/viewer/cards/PhotoCard.vue";
 import DocumentCard from "components/viewer/cards/DocumentCard.vue";
 import GuideCard from "components/viewer/cards/GuideCard.vue";
 import QrCard from "components/viewer/cards/QrCard.vue";
-import CommentsCard from "components/viewer/cards/CommentsCard.vue";
-import TimelineCard from "components/viewer/cards/TimelineCard.vue";
 
 let itemDetails = ref(null);
 let photoFiles = ref(null);
@@ -223,7 +224,6 @@ let guidesList = ref(null);
 let favouritesList = ref(null);
 let qrCode = ref(null);
 const guides = ref([]);
-
 
 
 let isLoading = ref(false);
@@ -235,7 +235,7 @@ const UserStore = useUserStore();
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
-  if (permission === null){
+  if (permission === null) {
     return true;
   }
   return Boolean(permissions.value.includes(permission));
@@ -250,15 +250,13 @@ const successfulDeleteMessage = computed(() => t("Deleted:"));
 
 const currentUserUuid = UserStore.getCurrentUserId
 
-let expandedDescription = ref(JSON.parse(localStorage.getItem('visibility-item-description')) ??  true)
-let expandedPhotos = ref(JSON.parse(localStorage.getItem('visibility-item-photos')) ??  true)
-let expandedDocs = ref(JSON.parse(localStorage.getItem('visibility-item-docs')) ??  true)
-let expandedGuide = ref(JSON.parse(localStorage.getItem('visibility-item-guides')) ??  true)
-let expandedQR = ref(JSON.parse(localStorage.getItem('visibility-item-qr')) ??  true)
-let expandedComments = ref(JSON.parse(localStorage.getItem('visibility-item-comments')) ??  true)
-let expandedTimeline = ref(JSON.parse(localStorage.getItem('visibility-item-timeline')) ??  true)
-
-
+let expandedDescription = ref(JSON.parse(localStorage.getItem('visibility-item-description')) ?? true)
+let expandedPhotos = ref(JSON.parse(localStorage.getItem('visibility-item-photos')) ?? true)
+let expandedDocs = ref(JSON.parse(localStorage.getItem('visibility-item-docs')) ?? true)
+let expandedGuide = ref(JSON.parse(localStorage.getItem('visibility-item-guides')) ?? true)
+let expandedQR = ref(JSON.parse(localStorage.getItem('visibility-item-qr')) ?? true)
+let expandedComments = ref(JSON.parse(localStorage.getItem('visibility-item-comments')) ?? true)
+let expandedTimeline = ref(JSON.parse(localStorage.getItem('visibility-item-timeline')) ?? true)
 
 
 function getItemDetails(uuid) {
@@ -333,10 +331,9 @@ function addToFavourite() {
 
 function setSectionVisibility(condition) {
   console.log(condition)
-  if (localStorage.getItem(condition) === null){
+  if (localStorage.getItem(condition) === null) {
     localStorage.setItem(condition, JSON.stringify('true'))
-  }
-  else{
+  } else {
     let currentValue = JSON.parse(localStorage.getItem(condition))
     localStorage.setItem(condition, JSON.stringify(!currentValue))
   }

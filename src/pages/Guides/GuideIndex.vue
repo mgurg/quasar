@@ -64,23 +64,23 @@
           <q-item :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'" class=" rounded-borders">
             <q-item-section avatar>
             <span>&nbsp;
-              <q-btn :flat="sort.active=='counter'? false:true"
-                     :icon="sort.counter=='asc'? 'arrow_upward':'arrow_downward'"
-                     :unelevated="sort.active=='counter'? true:false" color="primary" padding="xs"
+              <q-btn :flat="sort.active!=='counter'"
+                     :icon="sort.counter==='asc'? 'arrow_upward':'arrow_downward'"
+                     :unelevated="sort.active==='counter'" color="primary" padding="xs"
                      size="sm" @click="changeSortOrder('counter')"/>
             </span>
             </q-item-section>
             <q-item-section>
             <span>{{ $t("Name") }}
-              <q-btn :flat="sort.active=='title'? false:true" :icon="sort.title=='asc'? 'arrow_upward':'arrow_downward'"
-                     :unelevated="sort.active=='title'? true:false" color="primary" padding="xs"
+              <q-btn :flat="sort.active!=='title'" :icon="sort.title==='asc'? 'arrow_upward':'arrow_downward'"
+                     :unelevated="sort.active==='title'" color="primary" padding="xs"
                      size="sm" @click="changeSortOrder('title')"/>
             </span>
             </q-item-section>
             <q-item-section side>
             <span>{{ $t("Age") }}
-              <q-btn :flat="sort.active=='age'? false:true" :icon="sort.age=='asc'? 'arrow_upward':'arrow_downward'"
-                     :unelevated="sort.active=='age'? true:false"
+              <q-btn :flat="sort.active!=='age'" :icon="sort.age==='asc'? 'arrow_upward':'arrow_downward'"
+                     :unelevated="sort.active==='age'"
                      color="primary" padding="xs" size="sm"
                      @click="changeSortOrder('age')"/>
             </span>

@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -43,7 +43,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card v-if="groups.length > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none" >
+      <q-card v-if="groups.length > 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-list v-if="groups !== null" class="q-mt-none q-pt-none" padding>
           <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="q-pa-xs">
             <q-item-section avatar>
@@ -85,15 +85,15 @@
             </q-item-section>
           </q-item>
 
-            <div v-for="(group, index) in groups" v-bind:key="index">
-              <group-item  @refreshList="fetchGroups" :group="group"
-                          v-if="!isLoading" />
-            </div>
-
-          </q-list>
-          <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
-            <q-pagination v-model="pagination.page" :max='pagesNo' direction-links />
+          <div v-for="(group, index) in groups" v-bind:key="index">
+            <group-item v-if="!isLoading" :group="group"
+                        @refreshList="fetchGroups"/>
           </div>
+
+        </q-list>
+        <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
+          <q-pagination v-model="pagination.page" :max='pagesNo' direction-links/>
+        </div>
 
       </q-card>
 
@@ -107,10 +107,8 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
-import {authApi} from "boot/axios";
 import {useQuasar} from 'quasar'
 import GroupItem from 'components/listRow/GroupListRow.vue'
-import {getUsersRequest} from "components/api/UserApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {getUsersGroupsRequest} from "components/api/UserGroupsApiClient";
 
@@ -181,9 +179,9 @@ function fetchGroups() {
     order: sort[sort.active],
   };
   getUsersGroupsRequest(params).then(function (response) {
-        groups.value = response.data.items
-        pagination.total = response.data.total
-        isLoading.value = false;
+    groups.value = response.data.items
+    pagination.total = response.data.total
+    isLoading.value = false;
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;

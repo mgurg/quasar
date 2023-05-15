@@ -117,7 +117,7 @@
             </q-item-section>
           </q-item>
 
-          <div v-for="(user, index) in verifiedUsers" v-if="users !== null" v-bind:key="index">
+          <div v-for="(user, index) in verifiedUsers" v-if="users" v-bind:key="index">
             <user-list-row :user="user"/>
           </div>
           <task-index-skeleton v-else/>

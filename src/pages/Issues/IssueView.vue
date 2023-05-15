@@ -514,22 +514,16 @@ function getIcon(status) {
   switch (status) {
     case 'new':
       return 'auto_awesome'
-      break;
     case 'accepted':
       return 'playlist_add_check_circle'
-      break;
     case 'rejected':
       return 'delete_forever'
-      break;
     case 'in_progress':
       return 'build_circle'
-      break;
     case 'paused':
       return 'pause_circle'
-      break;
     case 'done':
       return 'check_circle'
-      break;
     default:
       return 'offline_bolt'
   }

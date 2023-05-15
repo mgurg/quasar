@@ -72,7 +72,7 @@
             </q-item>
 
             <div v-for="(item, index) in userIssues" v-if="userIssues !== null" v-bind:key="index">
-              <item-list-row :item="item" />
+              <item-list-row :item="item"/>
             </div>
 
           </q-list>
@@ -84,10 +84,7 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
-import {getManyIssuesRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";
-
-import IssueListRow from "components/listRow/IssueListRow.vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
 import {getManyItemsRequest} from "components/api/ItemApiClient";
 
@@ -163,7 +160,7 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 function getUserItems() {
   isLoading.value = true;
-  let params ={
+  let params = {
     user_uuid: userUuid.value,
     page: pagination.page,
     size: pagination.size,

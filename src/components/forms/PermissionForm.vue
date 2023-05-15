@@ -59,7 +59,7 @@
 
 
 <script setup>
-import {onBeforeMount, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {authApi} from "boot/axios";
 import {useRouter} from "vue-router";
 
@@ -125,16 +125,14 @@ watch(() => props.canEdit, (newValue, oldValue) => {
 });
 
 if (props.role.permission != null && props.role.permission != 'undefined') {
-  console.log(props.role.permission )
+  console.log(props.role.permission)
   selectedPermissions.value = props.role.permission.map(value => value.uuid);
 }
 
 
-
-
-function updateSelection(data){
+function updateSelection(data) {
   console.log(data)
-  selectedPermissions.value=data;
+  selectedPermissions.value = data;
 }
 
 function addNewPermission(data) {

@@ -77,7 +77,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['selectedItem', 'refreshList', , "forceRefresh"])
+const emit = defineEmits(['selectedItem', 'refreshList', "forceRefresh"])
 const handleSelect = (uuid) => {
   emit('selectedItem', uuid)
 }

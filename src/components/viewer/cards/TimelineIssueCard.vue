@@ -30,26 +30,26 @@
 
                 <!--                    :side="index%2 ===0? 'left':'right'"-->
 
-                <div v-for="(timelineData, index) in timelineOrderedData" v-if="timelineOrderedData !== null" v-bind:key="index">
-                  <q-timeline-entry heading>{{index}}</q-timeline-entry>
+                <div v-for="(timelineData, index) in timelineOrderedData" v-if="timelineOrderedData !== null"
+                     v-bind:key="index">
+                  <q-timeline-entry heading>{{ index }}</q-timeline-entry>
                   <q-timeline-entry
                     v-for="(event, index) in timelineData" v-if="timelineData !== null" v-bind:key="index"
                     :side="index%2 ===0? 'left':'right'"
                     :subtitle="formatDate(event.created_at)"
                     :title="$t(event.action)"
                   >
-<!--                    :title="$t(event.action)"-->
+                    <!--                    :title="$t(event.action)"-->
                     <div>
-                      <div class="text-body1">{{event.description}}</div>
-<!--                      <div>{{event.value}}</div>-->
-<!--                      <br>-->
-                      <div class="text-caption">{{event.author_name}}</div>
-<!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
-<!--                      et dolore magna aliqua.-->
+                      <div class="text-body1">{{ event.description }}</div>
+                      <!--                      <div>{{event.value}}</div>-->
+                      <!--                      <br>-->
+                      <div class="text-caption">{{ event.author_name }}</div>
+                      <!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
+                      <!--                      et dolore magna aliqua.-->
                     </div>
                   </q-timeline-entry>
                 </div>
-
 
 
               </q-timeline>
@@ -65,7 +65,6 @@
 import {computed, onBeforeMount, ref} from "vue";
 import {useQuasar} from "quasar";
 import {errorHandler} from "components/api/errorHandler";
-import {getItemTimelineRequest} from "components/api/ItemApiClient";
 import {DateTime} from "luxon";
 import {getIssueTimelineRequest} from "components/api/IssueApiClient";
 
@@ -137,8 +136,8 @@ function formatDate(date) {
   return dateTime.toFormat('yyyy-MM-dd HH:mm')
 }
 
-function goToItem(resource, uuid){
-  let url = resource +"/"+uuid;
+function goToItem(resource, uuid) {
+  let url = resource + "/" + uuid;
   router.push(url)
 }
 

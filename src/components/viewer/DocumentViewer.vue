@@ -72,19 +72,15 @@ function getIcon(extension) {
   switch (extension) {
     case '.pdf':
       return "./fileIcons/pdf-o.svg";
-      break;
     case '.doc':
     case '.docx':
       return "./fileIcons/word-o.svg";
-      break;
     case '.xls':
     case '.xlsx':
       return "./fileIcons/excel-o.svg";
-      break;
     case '.ppt':
     case '.pptx':
       return "./fileIcons/excel-o.svg";
-      break;
     default:
       console.log(`Sorry, we are out of ${extension}.`);
   }
