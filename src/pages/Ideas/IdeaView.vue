@@ -234,9 +234,9 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss" scoped>
-img.img-responsive {
-  display: block;
-  max-width: 90%;
-  height: auto;
-}
+//img.img-responsive {
+//  display: block;
+//  max-width: 90%;
+//  height: auto;
+//}
 </style>

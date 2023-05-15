@@ -223,10 +223,7 @@ function insertGroupMention(jsonMention) {
 }
 
 .character-count {
-  margin-top: 1rem;
-  margin-bottom: 0.1rem;
-  margin-left: 0.1rem;
-  margin-right: 0.3rem;
+  margin: 1rem 0.3rem 0.1rem 0.1rem;
   display: flex;
   align-items: center;
   color: #256885;

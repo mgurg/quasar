@@ -284,7 +284,7 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
 .ProseMirror {
   word-wrap: break-word !important;
   white-space: pre-wrap;
-  white-space: break-spaces;
+  //white-space: break-spaces;
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
   font-feature-settings: 'liga' 0; /* the above doesn't seem to work in Edge */
@@ -482,7 +482,7 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
   p {
     font-size: 1rem;
     line-height: 1.625;
-    font-size: 1.125rem;
+    //font-size: 1.125rem;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   }
@@ -563,10 +563,7 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
 }
 
 .character-count {
-  margin-top: 1rem;
-  margin-bottom: 0.1rem;
-  margin-left: 0.1rem;
-  margin-right: 0.3rem;
+  margin: 1rem 0.3rem 0.1rem 0.1rem;
   display: flex;
   align-items: center;
   color: #68CEF8;

@@ -3,7 +3,7 @@
     <q-item>
       <q-item-section avatar>
         <q-avatar rounded>
-          <img :src="getIcon('.pdf')">
+          <img :src="getIcon('.pdf')" alt="file icon">
         </q-avatar>
       </q-item-section>
       <q-item-section>

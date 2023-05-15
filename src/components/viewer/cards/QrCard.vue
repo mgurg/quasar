@@ -24,6 +24,7 @@
               <div class="q-pa-xs col-xs-12 col-sm-6">
                 <img
                   :src="GenerateQR(qrCode.qr_code_full_id, qrCode.ecc)"
+                  alt="qr code image"
                 />
                 <p>Jeśli chcesz wygenerować kod samodzielnie, użyj tekstu:</p>
                 <p class="text-weight-bold">{{ generateQRUrl(qrCode.qr_code_full_id) }}</p>
