@@ -2,12 +2,12 @@
 
   <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
           @submit.prevent>
-    <div class="row" v-if="hasPermission('ITEM_VIEW')">
+    <div v-if="hasPermission('ITEM_VIEW')" class="row">
       <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
         <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
       </span>
       <span v-else>
-        <span class="text-h6">Przedmiot: {{itemName}}</span>
+        <span class="text-h6">Przedmiot: {{ itemName }}</span>
       </span>
 
     </div>
@@ -56,7 +56,7 @@
     <div>
       <span>Kategoria: </span>
       <span v-for="(tag, index) in selectedTags" v-if="selectedTags != null" v-bind:key="index" class="q-gutter-sm">
-            <q-chip color="primary" removable @remove="unAssignTag(tag.uuid)" text-color="white">
+            <q-chip color="primary" removable text-color="white" @remove="unAssignTag(tag.uuid)">
               {{ tag.name }}
             </q-chip>
           </span>
@@ -69,8 +69,11 @@
               {{ tag.name }}
             </q-chip>
           </span>
-          <div v-if="availableTags.length == 0">Brak oznaczeń, <router-link to="/settings/tags">dodaj własne</router-link> <br>
-            (np.: mechaniczne / elektryczne) </div>
+            <div v-if="availableTags.length == 0">Brak oznaczeń,
+              <router-link to="/settings/tags">dodaj własne</router-link>
+              <br>
+              (np.: mechaniczne / elektryczne)
+            </div>
           </div>
         </q-menu>
       </q-btn>
@@ -165,6 +168,7 @@ const props = defineProps({
         description: '',
         color: 'red',
         user: null,
+        priority: null,
         text_json: null,
         files_issue: null,
         tags_issue: null
@@ -232,6 +236,29 @@ if (props.issue.tags_issue !== null) {
   selectedTags.value = props.issue.tags_issue;
 }
 
+const priority = reactive({
+  low: false,
+  medium: false,
+  high: false
+})
+
+if (props.issue.priority !== null) {
+
+  switch (props.issue.priority) {
+    case '10':
+      priority.low = true
+      break;
+    case '20':
+      priority.medium = true
+      break;
+    case '30':
+      priority.high = true
+      break;
+  }
+
+  console.log(priority)
+}
+
 const itemName = ref(null)
 
 if (props.itemName !== null) {
@@ -270,12 +297,6 @@ const {value: email} = useField('email')
 // Medium - Has the potential to affect progress. Colour: Yellow.
 // High - Serious problem that could block progress. Colour: Orange.
 // Highest - The problem will block progress. Colour: A dark red.
-
-const priority = reactive({
-  low: false,
-  medium: false,
-  high: false
-})
 
 
 const submit = handleSubmit(values => {
@@ -346,10 +367,10 @@ function fetchTags() {
 
 function assignTag(name, uuid) {
   // console.log(name, uuid)
-  let index = selectedTags.value.findIndex(x => x.uuid==uuid);
+  let index = selectedTags.value.findIndex(x => x.uuid == uuid);
   if (index === -1) {
-    selectedTags.value.push({"name": name, "uuid":uuid})
-  }else {
+    selectedTags.value.push({"name": name, "uuid": uuid})
+  } else {
     console.log("Tag already exists")
   }
 
