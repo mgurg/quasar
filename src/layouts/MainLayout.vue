@@ -24,8 +24,11 @@
                 <q-item-section @click="setLocale('en-US')">English (English)</q-item-section>
               </q-item>
               <q-separator/>
-              <q-item v-close-popup clickable>
-                <q-item-section>Help &amp; Feedback</q-item-section>
+              <q-item v-close-popup clickable type="a" href="https://www.malgori.pl/usage/00_usage/" target="_blank">
+                <q-item-section>{{ $t("I need help") }}</q-item-section>
+                <q-item-section avatar>
+                  <q-icon color="primary" name="help_outline" />
+                </q-item-section>
               </q-item>
             </q-list>
           </q-menu>
@@ -36,6 +39,7 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered show-if-above>
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+
         <q-list padding>
           <!--Dashboard-->
           <!-- <q-item to="/tasks" exact clickable v-ripple>
@@ -180,7 +184,17 @@
           <q-item-section>Calendar</q-item-section>
         </q-item> -->
         </q-list>
+        <q-list class="absolute-bottom q-py-lg" padding >
+          <q-item v-ripple clickable exact type="a" href="https://www.malgori.pl/usage/00_usage/" target="_blank">
+            <q-item-section avatar>
+              <q-icon color="primary" name="help_outline" size="md" />
+            </q-item-section>
+            <q-item-section>{{ $t("I need help") }}</q-item-section>
+
+          </q-item>
+        </q-list>
       </q-scroll-area>
+
       <q-img class="absolute-top" src="pattern_4.svg" style="height: 150px">
         <!-- https://more.graphics/bauhaus -->
         <div class="absolute-bottom bg-transparent">

@@ -112,36 +112,36 @@
 
             <p class="text-h6"> SMS </p>
             <p>[Niedostępne] Informuj mnie o:</p>
-            <q-list>
-              <q-item tag="label">
-                <q-item-section avatar>
-                  <q-radio v-model="smsNotificationsLevel" val="all" disable />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Każdym problemie</q-item-label>
-                  <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item tag="label">
-                <q-item-section avatar>
-                  <q-radio v-model="smsNotificationsLevel" val="assigned_to_me" disable />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>
-                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item tag="label">
-                <q-item-section avatar>
-                  <q-radio v-model="smsNotificationsLevel" val="none" disable />
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Brak</q-item-label>
-                  <q-item-label caption>Nie powiadamiaj mnie o żadnym nowym zgłoszeniu</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
+<!--            <q-list>-->
+<!--              <q-item tag="label">-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-radio v-model="smsNotificationsLevel" val="all" disable />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>-->
+<!--                  <q-item-label>Każdym problemie</q-item-label>-->
+<!--                  <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>-->
+<!--                </q-item-section>-->
+<!--              </q-item>-->
+<!--              <q-item tag="label">-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-radio v-model="smsNotificationsLevel" val="assigned_to_me" disable />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>-->
+<!--                  <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>-->
+<!--                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.-->
+<!--                  </q-item-label>-->
+<!--                </q-item-section>-->
+<!--              </q-item>-->
+<!--              <q-item tag="label">-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-radio v-model="smsNotificationsLevel" val="none" disable />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>-->
+<!--                  <q-item-label>Brak</q-item-label>-->
+<!--                  <q-item-label caption>Nie powiadamiaj mnie o żadnym nowym zgłoszeniu</q-item-label>-->
+<!--                </q-item-section>-->
+<!--              </q-item>-->
+<!--            </q-list>-->
 
 
 
@@ -176,7 +176,7 @@ function getNotificationSettings() {
     emailNotificationsLevel.value = response.data.email_notification_level
     isLoading.value = false;
   }).catch((err) => {
-    if (err.response != 200) {
+    if (err.response !== 200) {
       setNotificationSettings()
     }
     const errorMessage = errorHandler(err);
