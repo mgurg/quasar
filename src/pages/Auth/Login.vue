@@ -2,17 +2,18 @@
   <!-- https://github.com/Joabsonlg/quasar-authentication -->
   <!-- https://github.com/patrickmonteiro/quasar-warren -->
   <div class="row justify-center" style="height: 100vh">
-    <div v-if="fade" class="col-sm-12 col-md-6 flex container-logo bg-blue-grey-7">
+    <div class="col-xs-12 col-sm-12 col-md-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">Malgori</h1>
           <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
           <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
-            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
+            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierkowej robocie, a więcej na załatwianiu spraw.
           </p>
           <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
-            🎯 Zbieraj szczere pomysły od pracowników <br>
-            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br>
+            🎯 Aktualna lista zadań (bez ciągłych telefonów i odrywania od bieżącej pracy)<br>
+            📋 Raporty, bieżący status prac<br>
+            🚀 Nie zgaduj, skup się na tym co ważne<br> <br>
             Proste.
           </p>
         </div>
@@ -20,7 +21,7 @@
       </div>
     </div>
 
-    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" style="width: 400px;">
+    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" >
 
       <login-form v-if="path==='/login'" :key="path" />
       <register-form v-if="path==='/register'" :key="path" />

@@ -21,18 +21,18 @@
 
             <p class="text-h5"> Powiadomienia </p>
 
-            <p class="text-h6"> SMS </p>
-            <p>Informuj mnie o:</p>
-            <ul>
-              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>
+<!--            <p class="text-h6"> SMS </p>-->
+<!--            <p>Informuj mnie o:</p>-->
+<!--            <ul>-->
+<!--              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>-->
 <!--              <ul>-->
 <!--                <li>brak priorytetu (usterka, maszyna działa)</li>-->
 <!--                <li>niskim</li>-->
 <!--                <li>średnim</li>-->
 <!--                <li>wysokim (poważna awaria, zatrzymanie)</li>-->
 <!--              </ul>-->
-              <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>
-            </ul>
+<!--              <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>-->
+<!--            </ul>-->
 
             <p class="text-h6"> Email </p>
             <p>Informuj mnie o:</p>

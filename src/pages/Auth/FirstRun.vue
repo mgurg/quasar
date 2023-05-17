@@ -11,8 +11,8 @@
             Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
           </p>
           <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
-            🎯 Zbieraj szczere pomysły od pracowników <br>
-            🚀 Nie zgaduj, wdrażaj to co przyniesie efekty<br> <br>
+            🎯 Aktualna lista zadań (bez ciągłych telefonów i odrywania od bieżącej pracy)<br>
+            🚀 Raporty, bieżący status prac - nie zgaduj, skup się tylko na tym co ważne<br> <br>
             Proste.
           </p>
         </div>

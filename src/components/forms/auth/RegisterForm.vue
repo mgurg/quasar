@@ -5,7 +5,7 @@
     <q-linear-progress :value=ratio class="q-mb-md" size="10px" stripe/>
     <p class="text">⏰ Dostępnych kont: <strong>{{ availableAccounts }}</strong>, zarezerwuj dostęp teraz ⬇️</p>
     <div>
-      📃 <a href="regulamin_2023_05_01.pdf">Regulamin </a>
+      📃 <a href="regulamin_2023_05_01.pdf" target="_blank">Regulamin </a>
     </div>
     <q-form @submit="submit">
       <q-stepper

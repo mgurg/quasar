@@ -8,7 +8,7 @@
           <h1 class="text-h3">Malgori</h1>
           <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
           <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
-            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
+            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierkowej robocie, a więcej na załatwianiu spraw.
           </p>
           <p class="text-h6" v-if="$q.screen.gt.sm">
             Proste.

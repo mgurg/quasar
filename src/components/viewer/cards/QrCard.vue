@@ -102,7 +102,7 @@ function generateQRUrl(qrCodeId) {
 }
 
 function GenerateQR(qrCodeId, ecc, size = 300) {
-  // http://app.malgori.pl/qr/mxw+234
+  // https://app.malgori.pl/qr/mxw+234
 
   qrCodeId= qrCodeId.replace("+","%2B")
   let url = process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
