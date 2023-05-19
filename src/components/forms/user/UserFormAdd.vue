@@ -89,7 +89,12 @@
             label="Rola"
             map-options
             outlined
-          />
+          >
+            <template v-slot:hint>
+              <q-btn flat dense  no-caps icon="add" to="/settings/permissions">Zdefiniuj nową rolę</q-btn>
+
+            </template>
+          </q-select>
         </div>
       </div>
 
