@@ -39,6 +39,9 @@
             <template v-slot:prepend>
               <q-icon name="alternate_email"/>
             </template>
+            <template v-slot:hint>
+              Nie wysyłam żadnego maila, konto aktywne od razu po dodaniu
+            </template>
           </q-input>
         </div>
         <div class="q-pa-xs col-xs-12 col-sm-6">
@@ -89,7 +92,11 @@
             label="Rola"
             map-options
             outlined
-          />
+          >
+            <template v-slot:hint>
+              <q-btn flat dense  no-caps icon="add" to="/settings/permissions">Zdefiniuj nową rolę</q-btn>
+            </template>
+          </q-select>
         </div>
       </div>
 
