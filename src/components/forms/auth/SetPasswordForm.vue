@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Reset password") }}</div>
-    <p>Podaj nowe hasło.</p>
+    <div style="max-width: 400px;">
+      <p>Podaj nowe hasło.</p>
+    </div>
+
     <q-form @submit="submit">
 <!--      <q-input-->
 <!--        :model-value="password"-->
