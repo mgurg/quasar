@@ -4,6 +4,7 @@
       <div class="text-h6">Wyszukaj użytkownika</div>
     </q-card-section>
     <q-card-section>
+      <div v-if="usersList === null">Brak wybranych użytkowników, wpisz nazwę i wybierz z listy</div>
       <div v-for="(user, index) in usersList" v-if="usersList!= null" v-bind:key="index" class="q-gutter-xs">
         <q-chip color="primary" icon="person" removable text-color="white" @remove="unassignUser(user.uuid)">
           {{ user.first_name }} {{ user.last_name }}
@@ -44,11 +45,13 @@
         </div>
       </q-list>
 
+      <div v-if="users && users.length == 0">Brak wyników</div>
+
     </q-card-section>
 
     <q-card-actions align="right">
       <q-btn v-close-popup color="primary" flat label="Cancel"/>
-      <q-btn v-close-popup color="primary" flat label="OK" @click="emitUsers()"/>
+      <q-btn v-if="usersList" v-close-popup color="primary" flat label="OK" @click="emitUsers()"/>
     </q-card-actions>
   </q-card>
 </template>
@@ -61,7 +64,10 @@ import {errorHandler} from "components/api/errorHandler";
 const emit = defineEmits(['assignUserBtnClick', 'cancelBtnClick'])
 
 const search = ref(null)
-const isLoading = ref(false)
+let isLoading = ref(false);
+let isSuccess = ref(false);
+let isError = ref(false);
+
 const users = ref(null)
 const usersList = ref(null)
 
