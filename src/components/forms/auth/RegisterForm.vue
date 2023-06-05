@@ -154,7 +154,7 @@
         <template v-slot:navigation>
           <q-stepper-navigation>
             <q-btn
-              v-if="step==0"
+              v-if="step===0"
               :disable="isLoading"
               :label="$t('Register')"
               :loading="isLoading"

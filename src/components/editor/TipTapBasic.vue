@@ -125,7 +125,7 @@
   <div>
 
   </div>
-  <div v-if="editor && props.readonly == false"
+  <div v-if="editor && props.readonly === false"
        :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
     <svg
       height="20"

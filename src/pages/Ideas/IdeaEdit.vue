@@ -98,7 +98,7 @@ function updateIdea(uuid, formData) {
   isLoading.value = true;
   updateIdeaRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    if (isRemoving.value == false) {
+    if (isRemoving.value === false) {
       router.push("/ideas");
     }
 

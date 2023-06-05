@@ -9,7 +9,7 @@
         </q-breadcrumbs>
       </div>
       <task-form
-        v-if="isSuccess == true"
+        v-if="isSuccess === true"
         button-text="Add"
         :usersList="usersList"
         @taskFormBtnClick="signUpButtonPressed"

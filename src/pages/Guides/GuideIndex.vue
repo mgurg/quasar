@@ -100,7 +100,7 @@
         </div>
       </q-card>
 
-      <div v-if="pagination.total == 0" class="text-h5 text-center q-pa-lg">
+      <div v-if="pagination.total === 0" class="text-h5 text-center q-pa-lg">
         Brak instrukcji 🤔? <br/>Niech Twoja będzie pierwsza!
         <div class="col-12 text-h6 q-mt-none">
           <q-btn :label="$t('New guide')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/guides/add"/>
@@ -138,7 +138,7 @@ let sort = reactive({
 })
 
 function changeSortOrder(column) {
-  sort[column] == "asc" ? sort[column] = 'desc' : sort[column] = "asc"
+  sort[column] === "asc" ? sort[column] = 'desc' : sort[column] = "asc"
   sort.active = column
   fetchGuides()
 }

@@ -122,7 +122,7 @@
         </div>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total == 0">
+      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total === 0">
       <div  class="text-body1 text-center q-pa-lg">
         <p>Brak dodanych przedmiotów 🤔</p>
         <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇

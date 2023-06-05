@@ -40,7 +40,7 @@
                 <!--                  no-caps @click="deleteGuide(guideDetails.uuid)"-->
                 <!--                />-->
                 <q-btn
-                  :disable="permissionDetails.is_custom==false"
+                  :disable="permissionDetails.is_custom===false"
                   :label="$q.screen.gt.xs ?  $t('Edit') : ''"
                   class="float-right "
                   color="primary"
@@ -49,7 +49,7 @@
                   no-caps
                   @click="toggleEdit()"/>
                 <q-btn
-                  :disable="permissionDetails.is_custom==false"
+                  :disable="permissionDetails.is_custom===false"
                   :label="$q.screen.gt.xs ?  $t('Delete') : ''"
                   class="float-right q-mr-sm"
                   color="red"
@@ -133,7 +133,7 @@ let allowEdit = ref("false")
 let permissionUsersList = ref([])
 
 function getPermissionDetails(uuid) {
-  if (uuid == null || uuid == 'undefined') {
+  if (uuid == null || uuid === 'undefined') {
     console.log('uF')
     isFetched.value = true;
     return;

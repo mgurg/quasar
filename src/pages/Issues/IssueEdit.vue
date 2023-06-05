@@ -112,7 +112,7 @@ function updateIssue(uuid, formData) {
   isLoading.value = true;
   editIssueRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    if (isRemoving.value == false) {
+    if (isRemoving.value === false) {
       router.push("/issues");
     }
 

@@ -124,7 +124,7 @@ watch(() => props.canEdit, (newValue, oldValue) => {
   // console.log(newValue, oldValue)
 });
 
-if (props.role.permission != null && props.role.permission != 'undefined') {
+if (props.role.permission != null && props.role.permission !== 'undefined') {
   console.log(props.role.permission)
   selectedPermissions.value = props.role.permission.map(value => value.uuid);
 }

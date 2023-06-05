@@ -149,7 +149,7 @@
 
       <!-- TimeFrom - TimeTo -->
 
-      <div class="row sm-gutter" v-if="taskMode != 'task'">
+      <div class="row sm-gutter" v-if="taskMode !== 'task'">
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <!-- From -->
           <q-input
@@ -158,7 +158,7 @@
             :error="!!errors.taskDateFrom"
             :error-message="errors.taskDateFrom"
             label="Początek"
-            v-if="taskMode != 'task'"
+            v-if="taskMode !== 'task'"
           >
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
@@ -208,7 +208,7 @@
             :error="!!errors.taskDateTo"
             :error-message="errors.taskDateTo"
             label="Zakończenie"
-            v-if="taskMode != 'task'"
+            v-if="taskMode !== 'task'"
           >
             <!-- :rules="[value => value > dateFrom || 'Must be greather then date from']" -->
             <template v-slot:prepend>
@@ -268,7 +268,7 @@
         -->
 
         <!-- Repeat at -->
-        <div class="q-pa-md" v-if="taskMode == 'cyclic' && taskAllDay != true">
+        <div class="q-pa-md" v-if="taskMode === 'cyclic' && taskAllDay !== true">
           <q-btn-toggle
             v-model="taskFreq"
             class="my-custom-toggle"
@@ -299,7 +299,7 @@
           </div>
           <!-- days -->
 
-          <div class="q-gutter-sm" v-if="taskFreq == 'weekly'">
+          <div class="q-gutter-sm" v-if="taskFreq === 'weekly'">
             <input type="checkbox" id="mo" v-model="taskWeekDays" value="Mo"/>&nbsp;&nbsp;
             <label for="mo">Pon</label>
             <input type="checkbox" id="tu" v-model="taskWeekDays" value="Tu"/>&nbsp;&nbsp;
@@ -466,22 +466,14 @@ const validationSchema = yup.object({
     "check-startdate",
     "Start Date should not be later than current date",
     function (value) {
-      if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
-        return false;
-      } else {
-        return true;
-      }
+      return DateTime.now().toFormat(dtFormat.value) < DateTime.fromFormat(value, dtFormat.value);
     }
   ),
   taskDateTo: yup.string().test(
     "check-startdate",
     "Start Date should not be later than current date",
     function (value) {
-      if (DateTime.now().toFormat(dtFormat.value) >= DateTime.fromFormat(value, dtFormat.value)) {
-        return false;
-      } else {
-        return true;
-      }
+      return DateTime.now().toFormat(dtFormat.value) < DateTime.fromFormat(value, dtFormat.value);
     }
   ),
   taskAllDay: yup.bool().nullable(),
@@ -525,18 +517,18 @@ const submit = handleSubmit(values => {
     "user": taskAssignee.value,
     "priority": taskPriority.value,
     "mode": taskMode.value,
-    "recurring": (taskMode.value == 'cyclic'),
+    "recurring": (taskMode.value === 'cyclic'),
     "assignee": userName,
     "files": attachments.value.map(a => a.uuid)
   }
 
-  if (taskMode.value == 'planned' || taskMode.value == 'cyclic') {
+  if (taskMode.value === 'planned' || taskMode.value === 'cyclic') {
     data.date_from = DateTime.fromFormat(taskDateFrom.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
     data.date_to = DateTime.fromFormat(taskDateTo.value, dtFormat.value, 'Europe/Warsaw').toUTC().toISO();
     data.all_day = taskAllDay.value;
   }
 
-  if (taskMode.value == 'cyclic') {
+  if (taskMode.value === 'cyclic') {
     data.reccuring = true
     data.interval = taskInterval.value
     data.freq = taskFreq.value.toUpperCase()
@@ -559,7 +551,7 @@ const submit = handleSubmit(values => {
 
 function allDaySwitch(inputDate) {
   taskMode.value = 'planned';
-  if (taskAllDay.value == true) {
+  if (taskAllDay.value === true) {
     dtFormat.value = 'yyyy-MM-dd'
     qDtFormat.value = 'YYYY-MM-DD'
 

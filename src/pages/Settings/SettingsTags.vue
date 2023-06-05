@@ -129,7 +129,7 @@
                   <q-item-section side>
                     <div class="text-grey-8 q-gutter-xs">
 
-                      <q-btn :icon="tag.is_hidden == true ? 'visibility_off' :'visibility'" dense flat round size="12px"
+                      <q-btn :icon="tag.is_hidden === true ? 'visibility_off' :'visibility'" dense flat round size="12px"
                              :disable="!hasPermission('TAG_HIDE')"
                              @click="switchTagVisibility(tag.uuid, tag.is_hidden)"/>
                       <q-btn dense flat icon="palette" round size="12px" :disable="!hasPermission('TAG_EDIT')">
@@ -309,7 +309,7 @@ function deleteTag(uuid) {
 
 function switchTagVisibility(uuid, visibility) {
   let data = {
-    "is_hidden": !(visibility == true)
+    "is_hidden": !(visibility === true)
   }
 
   editTagRequest(uuid, data).then(function (response) {

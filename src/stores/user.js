@@ -119,7 +119,7 @@ export const useUserStore = defineStore("user", {
 
     fillStore(token, tenant, firstName, lastName, uuid, tz, lang) {
       this.token = token;
-      this.tenant = this.tenant;
+      this.tenant = tenant;
       this.firstName = firstName;
       this.lastName = lastName;
       this.tz = tz;

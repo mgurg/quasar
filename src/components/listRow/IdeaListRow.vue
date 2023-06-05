@@ -1,7 +1,7 @@
 <template>
   <div class="cursor-pointer" @click="viewIdea(idea.uuid)">
     <q-item
-      :class="{ 'bg-blue-grey-6': (idea.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (idea.uuid == selected && !$q.dark.isActive) }">
+      :class="{ 'bg-blue-grey-6': (idea.uuid === selected && $q.dark.isActive), 'bg-blue-grey-11': (idea.uuid === selected && !$q.dark.isActive) }">
       <q-item-section avatar cursor-pointer ripple @click="viewIdea(idea.uuid)">
         <q-avatar rounded :color="counter > 0? 'green': 'red'" text-color="white">
           {{ counter }}
@@ -17,7 +17,7 @@
         </q-item-label> -->
       </q-item-section>
 
-      <q-item-section side v-if="idea.uuid == selected">
+      <q-item-section side v-if="idea.uuid === selected">
         <div class="text-grey-8 q-gutter-xs">
           <!-- <q-btn size="12px" flat dense round icon="edit" @click="editIdea(idea.uuid)" /> -->
           <q-btn

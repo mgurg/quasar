@@ -30,7 +30,7 @@
     <q-slide-transition>
       <div v-show="expandedMyItems">
         <q-card-section>
-          <p v-if="userIssues === null || userIssues.length == 0" class="q-pt-xs text-body2">
+          <p v-if="userIssues === null || userIssues.length === 0" class="q-pt-xs text-body2">
             Nie masz jeszcze żadnych przypisanych urządzeń. Przejdź do
             <q-btn color="primary" dense flat icon="apps" no-caps to="/items">listy maszyn</q-btn>
             kliknij nazwę i dodaj do ulubionych klikając ikonę serca

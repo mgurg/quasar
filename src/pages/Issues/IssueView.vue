@@ -27,7 +27,7 @@
                 <q-btn
                   v-if="hasPermission('ISSUE_EDIT')"
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
-                  :disable="issueStatus == 'done'"
+                  :disable="issueStatus === 'done'"
                   class="float-right q-mr-sm" color="primary"
                   icon="edit"
                   no-caps
@@ -38,7 +38,7 @@
                 <q-btn
                   v-if="hasPermission('ISSUE_DELETE')"
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
-                  :disable="issueStatus == 'done'"
+                  :disable="issueStatus === 'done'"
                   class="float-right q-mr-sm"
                   color="red"
                   flat
@@ -56,9 +56,9 @@
             <q-item class="q-px-none">
               <q-card-section avatar class="q-pa-sm">
                 <q-avatar :icon="getIcon(issueDetails.status)" color="blue-grey-1" rounded text-color="blue-grey-6">
-                  <q-badge v-if="issueDetails.priority ==30" color="red" floating></q-badge>
-                  <q-badge v-if="issueDetails.priority ==20" color="orange" floating></q-badge>
-                  <q-badge v-if="issueDetails.priority ==10" color="primary" floating></q-badge>
+                  <q-badge v-if="issueDetails.priority ===30" color="red" floating></q-badge>
+                  <q-badge v-if="issueDetails.priority ===20" color="orange" floating></q-badge>
+                  <q-badge v-if="issueDetails.priority ===10" color="primary" floating></q-badge>
                 </q-avatar>
               </q-card-section>
 
@@ -80,9 +80,9 @@
 
           <div class="q-gutter-xs">
             <!-- {{usersList}}-->
-            <span v-if="usersList.length == 0 && issueStatus=='new'"
+            <span v-if="usersList.length === 0 && issueStatus==='new'"
                   class="text-grey">Zaakceptuj lub odrzuć zgłoszenie</span>
-            <span v-if="usersList.length == 0 && issueStatus=='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
+            <span v-if="usersList.length === 0 && issueStatus==='accepted'" class="text-grey">Przypisz wykonawcę żeby rozpocząć naprawę</span>
             <q-chip
               v-for="(user, index) in usersList" v-if="usersList!= null" v-bind:key="index"
               :disable="issueStatus==='done'"
@@ -186,7 +186,7 @@
           <!--            @click="setIssueStatus('done')"-->
           <!--          />-->
         </q-card-actions>
-        <q-card v-if="issueStatus == 'rejected'" align="right" class="q-pt-md q-px-md">
+        <q-card v-if="issueStatus === 'rejected'" align="right" class="q-pt-md q-px-md">
           <p class="text-weight-bold text-red-5">
             <q-icon name="delete_forever" size="sm"/>
             Zgłoszenie odrzucone
@@ -194,7 +194,7 @@
         </q-card>
       </q-card>
 
-      <issue-summary-card v-if="issueDetails!==null && issueDetails.status=='done'" :issue-uuid="issueDetails.uuid"/>
+      <issue-summary-card v-if="issueDetails!==null && issueDetails.status==='done'" :issue-uuid="issueDetails.uuid"/>
       <description-card v-if="issueDetails!==null" :expanded-description="true" :textJson="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
 

@@ -33,7 +33,7 @@
 
           <q-list class="q-pt-lg" separator>
             <q-item v-ripple clickable to="/items/add">
-              <q-item-section v-if="itemsData.items.total == 0" avatar>
+              <q-item-section v-if="itemsData.items.total === 0" avatar>
                 <q-icon color="primary" name="settings_suggest"/>
               </q-item-section>
               <q-item-section v-else side>
@@ -41,7 +41,7 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label>Masz obecnie {{ itemsData.items.total }} dodanych urządzeń.</q-item-label>
-                <q-item-label v-if="itemsData.items.me == 0" caption>Dodaj pierwsze żeby monitorować jego stan
+                <q-item-label v-if="itemsData.items.me === 0" caption>Dodaj pierwsze żeby monitorować jego stan
                 </q-item-label>
                 <q-item-label v-if="itemsData.items.me > 0" caption>Dodałeś już {{ itemsData.items.me }} urządzeń!
                   Świetny start!
@@ -51,7 +51,7 @@
 
             </q-item>
             <q-item v-ripple clickable to="/items">
-              <q-item-section v-if="itemsData.issues_active.total == 0" avatar>
+              <q-item-section v-if="itemsData.issues_active.total === 0" avatar>
                 <q-icon color="primary" name="medical_services"/>
               </q-item-section>
               <q-item-section v-else side>
@@ -67,7 +67,7 @@
             </q-item>
 
             <q-item v-ripple clickable to="/users/add">
-              <q-item-section v-if="itemsData.users == 0" avatar>
+              <q-item-section v-if="itemsData.users === 0" avatar>
                 <q-icon color="primary" name="group_add"/>
               </q-item-section>
               <q-item-section v-else side>
@@ -75,7 +75,7 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label>Masz zapisanych {{ itemsData.users }} pracowników oprócz siebie</q-item-label>
-                <q-item-label v-if="itemsData.users == 0" caption>Dodaj nowego użytkownika lub wykonaj pracę
+                <q-item-label v-if="itemsData.users === 0" caption>Dodaj nowego użytkownika lub wykonaj pracę
                   samodzielnie
                 </q-item-label>
                 <q-item-label v-else caption>Nie jesteś tu sam :) Rozwiążcie problem razem lub oddeleguj pracę
@@ -101,7 +101,7 @@
             </q-item>
 
             <q-item v-ripple clickable>
-              <q-item-section v-if="itemsData.issues_inactive.me == 0 && itemsData.favourites == 0 " avatar>
+              <q-item-section v-if="itemsData.issues_inactive.me === 0 && itemsData.favourites === 0 " avatar>
                 <q-icon color="primary" name="favorite"/>
               </q-item-section>
               <q-item-section v-if="itemsData.issues_inactive.me > 0 && itemsData.favourites < 1" avatar>
@@ -203,7 +203,7 @@ function hide() {
   }).catch((err) => {
     const errorMessage = errorHandler(err);
 
-    if (err.response != 200) {
+    if (err.response !== 200) {
       console.log("ERROR")
     }
     isError.value = true;

@@ -16,23 +16,23 @@
         Priorytet
       </span>
       <q-chip v-model:selected="priority.low"
-              :disable="priority.medium == true|| priority.high==true"
-              :color="priority.low==true? 'primary':''"
-              :text-color="priority.low==true? 'white':''"
+              :disable="priority.medium === true|| priority.high===true"
+              :color="priority.low===true? 'primary':''"
+              :text-color="priority.low===true? 'white':''"
               icon="info"
               label="Niski"
       />
       <q-chip v-model:selected="priority.medium"
-              :disable="priority.low == true|| priority.high==true"
-              :color="priority.medium==true? 'orange':''"
-              :text-color="priority.medium==true? 'white':''"
+              :disable="priority.low === true|| priority.high===true"
+              :color="priority.medium===true? 'orange':''"
+              :text-color="priority.medium===true? 'white':''"
               icon="error_outline"
               label="Średni"
       />
       <q-chip v-model:selected="priority.high"
-              :disable="priority.low == true|| priority.medium==true"
-              :color="priority.high==true? 'red':''"
-              :text-color="priority.high==true? 'white':''"
+              :disable="priority.low === true|| priority.medium===true"
+              :color="priority.high===true? 'red':''"
+              :text-color="priority.high===true? 'white':''"
               icon="priority_high"
               label="Wysoki"
       />
@@ -232,7 +232,7 @@ const submit = handleSubmit(values => {
   let priorityLevel = 0
   Object.keys(priority).forEach(key => {
     // if key matches selected section, set to true
-    if (priority[key] == true) {
+    if (priority[key] === true) {
       switch (key) {
         case 'low':
           priorityLevel = 10;

@@ -97,7 +97,7 @@
 
       </q-card>
 
-      <div v-if="groups.length == 0" class="text-h5 text-center q-pa-lg">  <!-- -->
+      <div v-if="groups.length === 0" class="text-h5 text-center q-pa-lg">  <!-- -->
         {{ $t("No groups, add a first one!") }} 🚀
       </div>
 

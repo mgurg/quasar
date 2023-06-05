@@ -168,7 +168,7 @@ function getAllUsers() {
     .get("/users/")
     .then((res) => {
       allUsers.value = res.data.items;
-      if (props.group.users != null && props.group.users != 'undefined') {
+      if (props.group.users != null && props.group.users !== 'undefined') {
         groupUsers.value = props.group.users.map(value => value.uuid);
       }
       isLoading.value = false;

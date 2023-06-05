@@ -60,7 +60,7 @@
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-select
             v-model="userRole"
-            :disable="currentUserUuid == props.user.uuid"
+            :disable="currentUserUuid === props.user.uuid"
             :error="!!errors.userRole"
             :error-message="errors.userRole"
             :option-disable="opt => Object(opt) === opt ? opt.inactive === true : true"

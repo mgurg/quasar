@@ -100,7 +100,7 @@ function updateItem(uuid, formData) {
   isLoading.value = true;
   editItemRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    if (isRemoving.value == false) {
+    if (isRemoving.value === false) {
       router.push("/items");
     }
 

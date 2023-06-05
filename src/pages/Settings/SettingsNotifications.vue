@@ -195,7 +195,7 @@ function setNotificationSettings() {
   }).catch((err) => {
     const errorMessage = errorHandler(err);
 
-    if (err.response != 200) {
+    if (err.response !== 200) {
       console.log("ERROR")
     }
     isError.value = true;

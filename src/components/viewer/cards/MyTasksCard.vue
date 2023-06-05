@@ -31,7 +31,7 @@
     <q-slide-transition>
       <div v-show="expandedMyTasks">
         <q-card-section>
-          <p v-if="userIssues === null || userIssues.length == 0" class="q-pt-xs text-body2">
+          <p v-if="userIssues === null || userIssues.length === 0" class="q-pt-xs text-body2">
             Nie masz żadnych nieprzypisanych zadań. Przejdź do
             <q-btn dense flat icon="bug_report" no-caps to="/issues">listy zgłoszeń</q-btn>
             i wybierz dla siebie jedno z <span class="text-weight-bold">0 zadań</span> które nie są do

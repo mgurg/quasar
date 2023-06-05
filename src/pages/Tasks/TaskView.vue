@@ -84,7 +84,7 @@
             flat
             color="red-12"
             icon="play_arrow"
-            v-if="taskDetails.status == 'accepted' || taskDetails.status == 'paused'"
+            v-if="taskDetails.status === 'accepted' || taskDetails.status === 'paused'"
             @click="changeState('start')"
           >Start
           </q-btn>
@@ -92,7 +92,7 @@
             flat
             color="deep-orange-11"
             icon="pause"
-            v-if="taskDetails.status == ('in_progress')"
+            v-if="taskDetails.status === ('in_progress')"
             @click="changeState('pause')"
           >Hold
           </q-btn>

@@ -3,9 +3,9 @@
   <q-item v-ripple :class="$q.screen.lt.sm ? 'q-pa-xs':''" clickable @click="viewIssue(issue.uuid)">
     <q-item-section :class="$q.screen.lt.sm ? 'q-pr-xs':''" avatar @click="viewIssue(issue.uuid)">
       <q-avatar :icon="getIcon(issue.status)" color="blue-grey-1" rounded text-color="blue-grey-6">
-        <q-badge v-if="issue.priority ==30" color="red" floating></q-badge>
-        <q-badge v-if="issue.priority ==20" color="orange" floating></q-badge>
-        <q-badge v-if="issue.priority ==10" color="primary" floating></q-badge>
+        <q-badge v-if="issue.priority ===30" color="red" floating></q-badge>
+        <q-badge v-if="issue.priority ===20" color="orange" floating></q-badge>
+        <q-badge v-if="issue.priority ===10" color="primary" floating></q-badge>
       </q-avatar>
       <!--      <q-icon :name="getIcon(issue.status)" :color="getIconColor(issue.priority)" size="lg">-->
       <!--        -->

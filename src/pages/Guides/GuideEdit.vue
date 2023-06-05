@@ -159,7 +159,7 @@ function updateGuide(uuid, formData) {
   isLoading.value = true;
   updateGuideRequest(uuid, formData).then(function (response) {
     isLoading.value = false;
-    if (isRemoving.value == false) {
+    if (isRemoving.value === false) {
       router.push("/items");
     }
 

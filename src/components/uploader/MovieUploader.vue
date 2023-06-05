@@ -175,7 +175,7 @@ function checkStatus() {
           console.log("Downloading single Video");
           console.log(res.data)
 
-          if (res.data.encoding.playable == true) {
+          if (res.data.encoding.playable === true) {
             //
             // videoWidth.value = res.data.encoding.metadata.width;
             // videoHeight.value = res.data.encoding.metadata.height;

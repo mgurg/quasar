@@ -168,7 +168,7 @@
                         </q-item>
                         <q-item v-close-popup clickable>
                           <q-item-section>
-                            <q-item-label :class="hasStatus == 'paused' ? 'text-weight-bold' : 'text-weight-regular'"
+                            <q-item-label :class="hasStatus === 'paused' ? 'text-weight-bold' : 'text-weight-regular'"
                                           @click="setStatusFilter('paused')">
                               {{ $t("Paused") }}
                             </q-item-label>
@@ -180,7 +180,7 @@
 
                         <q-item v-close-popup clickable>
                           <q-item-section>
-                            <q-item-label :class="hasStatus == 'done' ? 'text-weight-bold' : 'text-weight-regular'"
+                            <q-item-label :class="hasStatus === 'done' ? 'text-weight-bold' : 'text-weight-regular'"
                                           @click="setStatusFilter('done')">
                               {{ $t("Resolved") }}
                             </q-item-label>
@@ -460,7 +460,6 @@ function getStatusName() {
   switch (hasStatus.value) {
     case 'active':
       return "Active"
-      break;
     case 'inactive':
       return "Inactive"
     case 'new':

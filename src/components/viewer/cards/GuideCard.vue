@@ -226,7 +226,7 @@ function addGuide(itemUuid) {
 }
 
 onBeforeMount(() => {
-  if (publicAccess.value == false ){
+  if (publicAccess.value === false ){
     getItemGuides();
   } else{
     getPublicItemGuides();

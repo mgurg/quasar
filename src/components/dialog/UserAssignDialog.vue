@@ -45,7 +45,7 @@
         </div>
       </q-list>
 
-      <div v-if="users && users.length == 0">Brak wyników</div>
+      <div v-if="users && users.length === 0">Brak wyników</div>
 
     </q-card-section>
 
@@ -73,7 +73,7 @@ const usersList = ref(null)
 
 function fetchUsers() {
 
-  if (search.value == null || search.value == "") {
+  if (search.value == null || search.value === "") {
     return;
   }
   let params = {
@@ -113,7 +113,7 @@ function clearUsers() {
 function unassignUser(uuid) {
   if (usersList.value !== null) {
     usersList.value = usersList.value.filter(function (el) {
-      return el.uuid != uuid;
+      return el.uuid !== uuid;
     });
   }
 }

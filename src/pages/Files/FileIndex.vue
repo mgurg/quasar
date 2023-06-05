@@ -166,7 +166,7 @@ function remove(uuid) {
   // uploadedFiles.value = uploadedFiles.value.filter(item => !forDeletion.includes(item))
 
   // single
-  uploadedFiles.value = uploadedFiles.value.filter(item => item != "b")
+  uploadedFiles.value = uploadedFiles.value.filter(item => item !== "b")
 }
 
 function listFiles() {

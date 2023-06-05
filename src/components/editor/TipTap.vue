@@ -27,7 +27,7 @@
   <div>
 
   </div>
-  <div v-if="editor && props.readonly == false"
+  <div v-if="editor && props.readonly === false"
        :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}"
   >
 <!--    <q-btn dense flat icon="person_add" round @click="showUserDialog = true"/>-->

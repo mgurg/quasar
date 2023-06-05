@@ -224,15 +224,15 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 const verifiedUsers = computed(() => {
   if (users.value != null && isLoading.value === false) {
-    return users.value.filter(user => (user.is_verified == true))
+    return users.value.filter(user => (user.is_verified === true))
   } else {
     return null;
   }
 });
 
 const newUsers = computed(() => {
-  if (users.value != null  && isLoading.value == false) {
-    return users.value.filter(user => (user.is_verified == false))
+  if (users.value != null  && isLoading.value === false) {
+    return users.value.filter(user => (user.is_verified === false))
   } else {
     return users.value;
   }

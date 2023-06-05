@@ -1,7 +1,7 @@
 <template>
   <div class="cursor-pointer" @click="viewGroup(group.uuid)">
     <q-item
-      :class="{ 'bg-blue-grey-6': (group.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (group.uuid == selected && !$q.dark.isActive) }">
+      :class="{ 'bg-blue-grey-6': (group.uuid === selected && $q.dark.isActive), 'bg-blue-grey-11': (group.uuid === selected && !$q.dark.isActive) }">
       <q-item-section avatar cursor-pointer ripple @click="viewGroup(group.uuid)">
         <q-avatar rounded :color="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-11'"> {{ nativeEmoji(group.symbol) }}
           <q-badge v-if="group.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
@@ -13,7 +13,7 @@
         <!-- <q-item-label caption lines="2">{{ group.uuid }}</q-item-label> -->
         <q-item-label lines="1"> {{ group.description }}
           <q-chip square size="sm" color="blue-12" icon="star" text-color="white"
-                  v-if="group.is_custom == false"></q-chip>
+                  v-if="group.is_custom === false"></q-chip>
 
         </q-item-label>
       </q-item-section>

@@ -67,7 +67,7 @@ const $q = useQuasar();
 const router = useRouter();
 const route = useRoute();
 let groupUuid = ref(route.params.uuid)
-let canEdit = ref(route.params.mode == 'edit')
+let canEdit = ref(route.params.mode === 'edit')
 
 let isLoading = ref(true);
 let isFetched = ref(false)
@@ -97,7 +97,7 @@ let groupUsersList = ref([])
 
 function getGroupDetails(uuid) {
 
-  if (uuid == null || uuid == 'undefined') {
+  if (uuid == null || uuid === 'undefined') {
     console.log('uF')
     isFetched.value = true
     // roleDetails.value = 'undefined';

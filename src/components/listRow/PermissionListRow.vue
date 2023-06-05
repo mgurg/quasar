@@ -1,7 +1,7 @@
 <template>
   <div class="cursor-pointer" @click="viewPermission(permission.uuid)">
     <q-item
-      :class="{ 'bg-blue-grey-6': (permission.uuid == selected && $q.dark.isActive), 'bg-blue-grey-11': (permission.uuid == selected && !$q.dark.isActive) }">
+      :class="{ 'bg-blue-grey-6': (permission.uuid === selected && $q.dark.isActive), 'bg-blue-grey-11': (permission.uuid === selected && !$q.dark.isActive) }">
       <q-item-section avatar cursor-pointer ripple @click="viewPermission(permission.uuid)">
         <q-avatar rounded color="red-12" text-color="white">{{ permission.count }}
           <q-badge v-if="permission.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
@@ -17,16 +17,16 @@
         <!-- <q-item-label caption lines="2">{{ permission.uuid }}</q-item-label> -->
         <q-item-label lines="1" caption> {{ permission.role_description }}
           <q-chip square size="sm" color="blue-12" icon="star" text-color="white"
-                  v-if="permission.is_custom == false"></q-chip>
+                  v-if="permission.is_custom === false"></q-chip>
         </q-item-label>
       </q-item-section>
 
       <q-item-section side v-if="permission.uuid === selected">
         <div class="text-grey-8 q-gutter-xs">
           <q-btn size="12px" flat dense round icon="edit" @click="editPermission(permission.uuid)"
-                 v-if="(permission.is_custom == true)"/>
+                 v-if="(permission.is_custom === true)"/>
           <q-btn size="12px" flat dense round icon="delete" @click="deletePermission(permission.uuid)"
-                 v-if="(permission.is_custom == true) && hasPermission('USERS_ADD')"/>
+                 v-if="(permission.is_custom === true) && hasPermission('USERS_ADD')"/>
           <q-btn size="12px" flat dense round icon="info" @click="viewPermission(permission.uuid)"/>
         </div>
       </q-item-section>

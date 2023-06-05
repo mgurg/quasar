@@ -9,7 +9,7 @@
 
       <q-item-section>
         <q-item-label
-          :class="user.uuid == currentUserUuid ? 'text-weight-bold' : 'text-weight-regular'"
+          :class="user.uuid === currentUserUuid ? 'text-weight-bold' : 'text-weight-regular'"
           class="text-body1"
           lines="1">
           {{ user.first_name }} {{ user.last_name }}

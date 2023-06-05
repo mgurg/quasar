@@ -10,11 +10,11 @@ export default boot(({ app, router }) => {
 
   // https://github.com/jlvvlj/heroes-platform-demo/blob/master/src/boot/errors.js
 
-  if (process.env.VUE_MODE != "production") {
+  if (process.env.VUE_MODE !== "production") {
     console.log(`I'm on a development build`)
   }
 
-  if (process.env.VUE_MODE == "production" && process.env.VUE_SENTRY_DSN) {
+  if (process.env.VUE_MODE === "production" && process.env.VUE_SENTRY_DSN) {
     console.log(`I'm on a production build`)
     Sentry.init({
       app,

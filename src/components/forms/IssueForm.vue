@@ -26,23 +26,23 @@
         Priorytet
       </span>
         <q-chip v-model:selected="priority.low"
-                :color="priority.low==true? 'primary':''"
-                :disable="priority.medium == true|| priority.high==true"
-                :text-color="priority.low==true? 'white':''"
+                :color="priority.low===true? 'primary':''"
+                :disable="priority.medium === true|| priority.high===true"
+                :text-color="priority.low===true? 'white':''"
                 icon="info"
                 label="Niski"
         />
         <q-chip v-model:selected="priority.medium"
-                :color="priority.medium==true? 'orange':''"
-                :disable="priority.low == true|| priority.high==true"
-                :text-color="priority.medium==true? 'white':''"
+                :color="priority.medium===true? 'orange':''"
+                :disable="priority.low === true|| priority.high===true"
+                :text-color="priority.medium===true? 'white':''"
                 icon="error_outline"
                 label="Średni"
         />
         <q-chip v-model:selected="priority.high"
-                :color="priority.high==true? 'red':''"
-                :disable="priority.low == true|| priority.medium==true"
-                :text-color="priority.high==true? 'white':''"
+                :color="priority.high===true? 'red':''"
+                :disable="priority.low === true|| priority.medium===true"
+                :text-color="priority.high===true? 'white':''"
                 icon="priority_high"
                 label="Wysoki"
         />
@@ -69,7 +69,7 @@
               {{ tag.name }}
             </q-chip>
           </span>
-            <div v-if="availableTags.length == 0">Brak oznaczeń,
+            <div v-if="availableTags.length === 0">Brak oznaczeń,
               <router-link to="/settings/tags">dodaj własne</router-link>
               <br>
               (np.: mechaniczne / elektryczne)
@@ -304,7 +304,7 @@ const submit = handleSubmit(values => {
   let priorityLevel = 0
   Object.keys(priority).forEach(key => {
     // if key matches selected section, set to true
-    if (priority[key] == true) {
+    if (priority[key] === true) {
       switch (key) {
         case 'low':
           priorityLevel = 10;
@@ -367,7 +367,7 @@ function fetchTags() {
 
 function assignTag(name, uuid) {
   // console.log(name, uuid)
-  let index = selectedTags.value.findIndex(x => x.uuid == uuid);
+  let index = selectedTags.value.findIndex(x => x.uuid === uuid);
   if (index === -1) {
     selectedTags.value.push({"name": name, "uuid": uuid})
   } else {

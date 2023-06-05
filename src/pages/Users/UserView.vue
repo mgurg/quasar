@@ -154,7 +154,7 @@
           <div v-show="expandedIssues">
             <q-separator/>
             <q-card-section>
-              <p v-if="userIssues === null || userIssues.length == 0" class="q-pt-xs text-body2">
+              <p v-if="userIssues === null || userIssues.length === 0" class="q-pt-xs text-body2">
                 Użytkownik nie ma przypisanych zadań
               </p>
 
@@ -346,7 +346,7 @@ function getUserIdeas(uuid) {
   getUserIdeasRequest(uuid).then(function (response) {
     ideas.value = response.data.items
 
-    if (response.data.items.length == 0) {
+    if (response.data.items.length === 0) {
       expandedIdeas.value = false;
     }
     isLoading.value = false;
@@ -368,7 +368,7 @@ function getUserIssues(uuid) {
   getManyIssuesRequest(params).then(function (response) {
     userIssues.value = response.data.items
 
-    if (response.data.items.length == 0) {
+    if (response.data.items.length === 0) {
       expandedIssues.value = false;
     }
     isLoading.value = false;
