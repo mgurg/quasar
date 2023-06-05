@@ -239,7 +239,7 @@ const UserStore = useUserStore();
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
-  return Boolean(permissions.value.includes(permission));
+  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
 
 const currentUserUuid = UserStore.getCurrentUserId

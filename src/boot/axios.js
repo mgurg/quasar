@@ -31,18 +31,12 @@ export default boot(({ app, router }) => {
   const UserStore = useUserStore();
 
   authApi.interceptors.request.use((req) => {
-    // `req` is the Axios request config, so you can modify
-    // the `headers`.
-    if (localStorage.getItem("token") === null){
-      var token = sessionStorage.getItem("token");
-    } else{
-      var token = localStorage.getItem("token");
-    }
-    if (localStorage.getItem("tenant") === null){
-      var tenant = sessionStorage.getItem("tenant");
-    } else{
-      var tenant = localStorage.getItem("tenant");
-    }
+
+// `req` is the Axios request config, so you can modify
+
+// the `headers`.
+    let token = localStorage.getItem("token") === null ? sessionStorage.getItem("token") : localStorage.getItem("token");
+    let tenant = localStorage.getItem("tenant") === null ? sessionStorage.getItem("tenant") : localStorage.getItem("tenant");
     req.headers.authorization = "Bearer " + token;
     req.headers.tenant = tenant;
     return req;

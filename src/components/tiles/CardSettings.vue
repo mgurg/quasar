@@ -40,7 +40,7 @@ function hasPermission(permission) {
   if (permission === null){
     return true;
   }
-  return Boolean(permissions.value.includes(permission));
+  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
 
 

@@ -102,7 +102,7 @@ const counter = computed(() => ideaDetails.value.upvotes - ideaDetails.value.dow
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
-  return Boolean(permissions.value.includes(permission));
+  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
 
 let lastVote = ref(null);
