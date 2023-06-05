@@ -8,7 +8,8 @@
           <h1 class="text-h3">Malgori</h1>
           <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
           <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
-            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na załatwianiu spraw.
+            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierowej robocie, a więcej na
+            załatwianiu spraw.
           </p>
           <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
             🎯 Aktualna lista zadań (bez ciągłych telefonów i odrywania od bieżącej pracy)<br>
@@ -35,7 +36,9 @@ import {useRoute, useRouter} from 'vue-router'
 import {useUserStore} from "stores/user";
 import {authFirstRunRequest} from "components/api/AuthApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {useQuasar} from "quasar";
 
+const $q = useQuasar()
 const route = useRoute()
 const router = useRouter();
 const UserStore = useUserStore();
@@ -46,34 +49,23 @@ const activationId = ref(route.params.id)
 let fade = ref(true);
 
 let isLoading = ref(false);
+let isSuccess = ref(false);
+let isError = ref(false);
 
 function firstRun(activationId) {
   isLoading.value = true;
   // console.log("ID: ", activationId)
 
   authFirstRunRequest(activationId).then(function (response) {
-    // localStorage.setItem("firstName", response.data.first_name);
-    // localStorage.setItem("lastName", response.data.last_name);
-    // localStorage.setItem("lang", response.data.lang);
-    // localStorage.setItem("tz", response.data.tz);
-    // localStorage.setItem("uuid", response.data.uuid);
-    // localStorage.setItem("tenant", response.data.tenanat_id);
-    // localStorage.setItem("token", response.data.token);
-    //
-    // UserStore.fillStore(
-    //   response.data.token,
-    //   response.data.tenanat_id,
-    //   response.data.first_name,
-    //   response.data.last_name,
-    //   response.data.uuid,
-    //   response.data.tz,
-    //   response.data.lang
-    // )
     isLoading.value = false;
+    $q.notify("OK 👌");
     router.push("/login");
   }).catch((err) => {
     const errorMessage = errorHandler(err);
     isError.value = true;
+    console.log("Activation error ");
+    console.log(err.response);
+    $q.notify(errorMessage.data.detail);
   });
 }
 
