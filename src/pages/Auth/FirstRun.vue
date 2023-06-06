@@ -65,7 +65,7 @@ function firstRun(activationId) {
     isError.value = true;
     console.log("Activation error ");
     console.log(err.response);
-    $q.notify(errorMessage.data.detail);
+    $q.notify("⚠️ Konto aktywne, lub link aktywacyjny niepoprawny/starszy niż 24h");
     router.push("/login");
   });
 }
