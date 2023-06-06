@@ -66,6 +66,7 @@ function firstRun(activationId) {
     console.log("Activation error ");
     console.log(err.response);
     $q.notify(errorMessage.data.detail);
+    router.push("/login");
   });
 }
 
