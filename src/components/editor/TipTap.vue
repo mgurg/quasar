@@ -1,186 +1,352 @@
 <template>
-  <div v-if="editor">
-    <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-      bold
-    </button>
-    <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-      italic
-    </button>
-    <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-      strike
-    </button>
-    <button @click="editor.chain().focus().toggleCode().run()" :class="{ 'is-active': editor.isActive('code') }">
-      code
-    </button>
-    <button @click="editor.chain().focus().unsetAllMarks().run()">
-      clear marks
-    </button>
-    <button @click="editor.chain().focus().clearNodes().run()">
-      clear nodes
-    </button>
-    <button @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-      paragraph
-    </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-      h1
-    </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-      h2
-    </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }">
-      h3
-    </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
-      h4
-    </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
-      h5
-    </button>
-    <button @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
-      h6
-    </button>
-    <button @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-      bullet list
-    </button>
-    <button @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-      ordered list
-    </button>
-    <button @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-      code block
-    </button>
-    <button @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-      blockquote
-    </button>
-    <button @click="editor.chain().focus().setHorizontalRule().run()">
-      horizontal rule
-    </button>
-    <button @click="editor.chain().focus().setHardBreak().run()">
-      hard break
-    </button>
-    <button @click="editor.chain().focus().undo().run()">
-      undo
-    </button>
-    <button @click="editor.chain().focus().redo().run()">
-      redo
-    </button>
+  <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
+    <q-btn
+      :class="{ 'shadow-1': editor.isActive('bold') }"
+      :disabled="!editor.can().chain().focus().toggleBold().run()"
+      flat
+      icon="format_bold"
+      @click="editor.chain().focus().toggleBold().run()"
+    />
+
+    <q-btn
+      :class="{ 'shadow-1': editor.isActive('italic') }"
+      :disabled="!editor.can().chain().focus().toggleItalic().run()"
+      flat
+      icon="format_italic"
+      @click="editor.chain().focus().toggleItalic().run()"
+    />
+    <q-btn
+      :class="{ 'shadow-1': editor.isActive('strike') }"
+      :disabled="!editor.can().chain().focus().toggleStrike().run()"
+      flat
+      icon="strikethrough_s"
+      @click="editor.chain().focus().toggleStrike().run()"
+    />
   </div>
-  <editor-content :editor="editor" />
+  <editor-content :editor="editor"/>
+  <div>
+
+  </div>
+  <div v-if="editor && props.readonly === false"
+       :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}"
+  >
+<!--    <q-btn dense flat icon="person_add" round @click="showUserDialog = true"/>-->
+<!--    <q-btn dense flat icon="group_add" round @click="showGroupDialog = true"/>-->
+<!--    <q-btn dense flat icon="mic" round @click="insertText('\u03C0')"/>-->
+    <q-space></q-space>
+    <svg class="character-count__graph" height="20" viewBox="0 0 20 20" width="20">
+      <circle cx="10" cy="10" fill="#e9ecef" r="10"/>
+      <circle :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`" cx="10" cy="10" fill="transparent" r="5"
+              stroke="currentColor" stroke-width="10" transform="rotate(-90) translate(-20)"/>
+      <circle cx="10" cy="10" fill="white" r="6"/>
+    </svg>
+
+    <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }}</div>
+  </div>
+
+
+  <q-dialog v-model="showUserDialog">
+    <UsersDialog @insertUserBtnClick="insertUserMention"/>
+  </q-dialog>
+
+  <q-dialog v-model="showGroupDialog">
+    <GroupsDialog @insertUserBtnClick="insertGroupMention"/>
+  </q-dialog>
+
 </template>
 
-<script>
+<script setup>
+import {computed, ref, unref} from "vue";
+import {useUserStore} from 'stores/user'
+
+
+import UsersDialog from 'components/dialog/UsersDialog.vue'
+import GroupsDialog from 'components/dialog/GroupsDialog.vue'
+
+import {EditorContent, useEditor} from '@tiptap/vue-3'
+import Mention from '@tiptap/extension-mention'
+
+import Document from '@tiptap/extension-document'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent } from '@tiptap/vue-3'
+import Placeholder from '@tiptap/extension-placeholder'
+import CharacterCount from '@tiptap/extension-character-count'
 
-export default {
-  components: {
-    EditorContent,
+import suggestion from './suggestions'
+import groups from './groups'
+// import { generateJSON } from '@tiptap/html'
+
+// https://github.com/kfields/quasar-tiptap-demo
+// https://github.com/ueberdosis/tiptap/issues/1316#issuecomment-851518606
+// https://codesandbox.io/s/bold-voice-l58oq?file=/src/userProvider.js
+
+// https://github.com/Dashibase/lotion/blob/dev/src/components/elements/Editor.vue
+// https://github.com/Wizard-wen/Metagraph/blob/main/src/views/repository-editor/section-article/tiptap-readonly.vue
+
+
+const props = defineProps({
+  bodyContent: {
+    type: Object,
+    default: null
   },
-
-  data() {
-    return {
-      editor: null,
-    }
+  readonly: {
+    type: Boolean,
+    default: false,
   },
+})
 
-  mounted() {
-    this.editor = new Editor({
-      extensions: [
-        StarterKit,
-      ],
-      content: `
-        <h2>
-          Hi there,
-        </h2>
-        <p>
-          this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-        </p>
-        <ul>
-          <li>
-            That’s a bullet list with one …
-          </li>
-          <li>
-            … or two list items.
-          </li>
-        </ul>
-        <p>
-          Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-        </p>
-        <pre><code class="language-css">body {
-  display: none;
-}</code></pre>
-        <p>
-          I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-        </p>
-        <blockquote>
-          Wow, that’s amazing. Good work, boy! 👏
-          <br />
-          — Mom
-        </blockquote>
-      `,
+const emit = defineEmits(['editorContent'])
+
+const charCount = ref(0)
+
+const charLimit = ref(2000)
+const UserStore = useUserStore();
+
+const showUserDialog = ref(false);
+const showGroupDialog = ref(false);
+
+async function getEditorUsers() {
+  try {
+    await UserStore.setEditorUsers();
+  } catch (err) {
+    console.log(err);
+    // console.log(err.error_description || err.message)
+    // console.log(err.data)
+    // errorMsg.value = err
+  }
+}
+
+async function getEditorGroups() {
+  try {
+    await UserStore.setEditorGroups();
+  } catch (err) {
+    console.log(err);
+    // console.log(err.error_description || err.message)
+    // console.log(err.data)
+    // errorMsg.value = err
+  }
+}
+
+getEditorUsers();
+getEditorGroups();
+
+
+const content = ref('')
+
+if (props.bodyContent !== null && props.bodyContent !== '') {
+  // console.log("Props:"  + JSON.stringify(props.bodyContent))
+  content.value = props.bodyContent;
+}
+
+
+const CustomDocument = Document.extend({})
+
+const editor = useEditor({
+  content: content.value,
+  extensions: [
+    CustomDocument,
+    CharacterCount.configure({
+      limit: charLimit.value,
+    }),
+    StarterKit.configure({
+      document: false
+    }),
+    Placeholder.configure({
+      // showOnlyWhenEditable: false,
+      placeholder: '',
+    }),
+    Mention.extend({
+      name: "userMention"
+    }).configure({
+      HTMLAttributes: {
+        class: "mention"
+      },
+      suggestion: suggestion
+    }),
+    Mention.extend({
+      name: "groupMention"
+    }).configure({
+      HTMLAttributes: {
+        class: "mention"
+      },
+      suggestion: groups
     })
+  ],
+  onCreate({editor}) {
+    editor.setEditable(!props.readonly);
+    editor.commands.setContent(content.value);
+    const isEmpty = editor.state.doc.textContent.length === 0
+    // console.log(isEmpty)
+  },
+  onUpdate({editor}) {
+    const html = editor.getHTML()
+    const json = editor.getJSON()
+    emit('editorContent', json, html)
+
   },
 
   beforeUnmount() {
-    this.editor.destroy()
+    editor.destroy()
   },
+})
+
+
+//  https://github.com/ueberdosis/tiptap/issues/1248
+
+const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
+
+
+function insertUserMention(jsonMention) {
+  unref(editor).commands.insertContent(jsonMention);
+  unref(editor).commands.insertContent(" ");
+  showUserDialog.value = false;
 }
+
+function insertGroupMention(jsonMention) {
+  unref(editor).commands.insertContent(jsonMention);
+  unref(editor).commands.insertContent(" ");
+  showUserDialog.value = false;
+}
+
 </script>
 
 <style lang="scss">
-/* Basic editor styles */
+/* remove outline */
+.ProseMirror:focus {
+  outline: none !important;
+}
+
+/* set */
+// .ProseMirror {
+//   min-height: 100px;
+//   // max-height: 100px;
+//   overflow: scroll;
+//   outline: none !important;
+// }
+
 .ProseMirror {
   > * + * {
     margin-top: 0.75em;
+    //color: #1f2937 !important;
   }
 
-  ul,
-  ol {
-    padding: 0 1rem;
+  h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1;
+
   }
 
-  h1,
   h2,
   h3,
-  h4,
+  h4 {
+    font-size: 1rem;
+  }
+
   h5,
   h6 {
-    line-height: 1.1;
+    line-height: 0.4;
   }
 
-  code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
+  p {
+    font-size: 1.1rem;
+  }
+}
+
+/* Placeholder (on every new line) */
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+
+.mention {
+  border: 0px solid #000;
+  border-radius: 0.4rem;
+  padding: 0.1rem 0.3rem;
+  box-decoration-break: clone;
+}
+
+[data-type="groupMention"] {
+  background-color: rgb(236, 253, 99);
+}
+
+[data-type="userMention"] {
+  background-color: rgb(82, 226, 238);
+}
+
+.character-count {
+  margin: 1rem 0.3rem 0.1rem 0.1rem;
+  display: flex;
+  align-items: center;
+  color: #256885;
+
+  &--warning {
+    color: #FB5151;
   }
 
-  pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-
-    code {
-      color: inherit;
-      padding: 0;
-      background: none;
-      font-size: 0.8rem;
-    }
+  &__graph {
+    margin-right: 0.5rem;
   }
 
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
-  }
-
-  hr {
-    border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
-    margin: 2rem 0;
+  &__text {
+    color: #868e96;
   }
 }
 </style>
+
+<!-- <style lang="scss" scoped>
+  :deep(.ProseMirror) {
+      /* Basic editor styles */
+      > * + * {
+          margin-top: 0.5em;
+      }
+
+      &:focus {
+          outline: none;
+      }
+
+      /* Placeholder (at the top) */
+      p.is-editor-empty:first-child::before {
+          content: attr(data-placeholder);
+          float: left;
+          color: #4280be;
+          pointer-events: none;
+          height: 8rem;
+          outline: none;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+          line-height: 0.1;
+      }
+      .mention {
+    border: 0px solid #000;
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.3rem;
+    box-decoration-break: clone;
+  }
+
+  [data-type="groupMention"] {
+    background-color: rgb(236, 253, 99);
+  }
+
+  [data-type="userMention"] {
+    background-color: rgb(82, 226, 238);
+  }
+
+      /* Placeholder (on every new line) */
+      /*.ProseMirror p.is-empty::before {
+        content: attr(data-placeholder);
+        float: left;
+        color: #ced4da;
+        pointer-events: none;
+        height: 0;
+      }*/
+  }
+  </style> -->

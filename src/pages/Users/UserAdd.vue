@@ -1,120 +1,91 @@
 <template>
-    <div class="row justify-center text-blue-grey-10">
-        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <div class="q-pa-md q-gutter-sm">
-                <q-breadcrumbs>
-                    <q-breadcrumbs-el icon="home" to="/home" />
-                    <q-breadcrumbs-el label="Users" icon="people" to="/users" />
-                    <q-breadcrumbs-el :label="$t('Add')" icon="add" />
-                </q-breadcrumbs>
-            </div>
-            <user-form
-                button-text="Add"
-                @userFormBtnClick="addUserButtonPressed"
-                @cancelBtnClick="cancelButtonPressed"
-            ></user-form>
+  <div class="row justify-center">
+    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+        <template v-slot:separator>
+          <q-icon
+            color="grey"
+            name="chevron_right"
+            size="1.5em"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/home"/>
+        <q-breadcrumbs-el :label="$t('Employees')" icon="people" to="/users"/>
+        <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
+      </q-breadcrumbs>
 
-            <!-- <task-form
-                button-text="Add"
-                :tasks="{ 'color': 'teal', 'title': 'hi', 'desc': 'hi', 'user': '265c8d5e-2921-4f05-b8f3-91a4512902ed', 'priority': 'low', 'mode': 'task' }"
-                :usersList="[{
-                    label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-                }, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]"
-                @taskFormBtnClick="addUserButtonPressed"
-            ></task-form>-->
-        </q-page>
-    </div>
+      <q-card bordered class="my-card no-shadow q-mt-sm">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+
+              <q-item-section>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t('New employee') }}</q-item-label>
+                <q-item-label caption>
+                  Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o
+                  opcji importu!
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+          </q-list>
+        </q-card-section>
+      </q-card>
+
+      <div>&nbsp;</div>
+      <q-card bordered class="my-card no-shadow q-my-sm q-mx-none q-pa-none">
+        <q-card-section>
+          <user-form-add
+            button-text="Add"
+            @cancelBtnClick="cancelButtonPressed"
+            @userFormBtnClick="addUserButtonPressed"
+          ></user-form-add>
+        </q-card-section>
+      </q-card>
+    </q-page>
+  </div>
 </template>
 
 
 <script setup>
-import { onActivated, reactive, ref } from "vue";
-import UserForm from 'src/components/forms/UserForm.vue'
-import { authApi } from "boot/axios";
-import { useRouter } from "vue-router";
+import {ref} from "vue";
+import UserFormAdd from 'components/forms/user/UserFormAdd.vue'
+import {useQuasar} from 'quasar'
+import {useRouter} from "vue-router";
+import {createUserRequest,} from 'src/components/api/UserApiClient.js'
+import {errorHandler} from 'src/components/api/errorHandler.js'
 
+const $q = useQuasar()
 const router = useRouter();
-
 
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
 
-let usersList = ref([]);
-let usr = ref([{
-    label: 'usr1', value: '767a600e-8549-4c27-a4dc-656ed3a9af7d'
-}, { label: 'usr2', value: '265c8d5e-2921-4f05-b8f3-91a4512902ed' }]);
 
-
-
-function createUser(body) {
-    isLoading.value = true;
-    authApi
-        .post("/users", body)
-        .then((res) => {
-            console.log(res.data);
-            isLoading.value = false;
-            router.push("/users");
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
-
-        });
+function createUser(data) {
+  isLoading.value = true;
+  createUserRequest(data).then(function (response) {
+    router.push("/users");
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    $q.notify({
+      type: 'warning',
+      message: errorMessage.data.detail,
+    });
+    // console.log(errorMessage.data.detail)
+    isError.value = true;
+  });
 }
 
-// function getUsers() {
-//     authApi
-//         .get("user")
-//         .then((res) => {
-//             console.log(res.data)
-
-//             usersList.value = res.data.map((opt) => ({
-//                 label: opt.first_name + ' ' + opt.last_name,
-//                 value: opt.uuid,
-//             }));
-//             console.log("usersList.value");
-//             console.log(usersList.value);
-//             isSuccess.value = true
-//         })
-//         .catch((err) => {
-//             if (err.response) {
-//                 console.log(err.response);
-//             } else if (err.request) {
-//                 console.log(err.request);
-//             } else {
-//                 console.log("General Error");
-//             }
-//         });
-// }
-
-
-
-function addUserButtonPressed(taskForm) {
-    console.log('outside', taskForm)
-    createUser(taskForm)
-    console.log('Add ok')
-    
+function addUserButtonPressed(formData) {
+  createUser(formData)
 }
 
 function cancelButtonPressed() {
-    console.log('cancelBtnClick')
-    router.push("/users");
+  router.push("/users");
 }
-
-onActivated(() => {
-    isLoading.value = true;
-    // getUsers();
-    isLoading.value = false;
-});
-
 
 </script>
 
-<style lang="scss"  scoped>
-</style>

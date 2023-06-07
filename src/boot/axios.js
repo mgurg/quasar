@@ -16,14 +16,14 @@ const api = axios.create({ baseURL: process.env.VUE_APP_URL });
 const noAuthApi = axios.create();
 
 // const authApi = axios.create({ baseURL: process.env.VUE_APP_URL })
-// authApi.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('klucz');
+// authApi.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
-// const token = localStorage.getItem('klucz');
+// const token = localStorage.getItem('token');
 
 const authApi = axios.create({
   baseURL: process.env.VUE_APP_URL,
   // headers: {
-  //   'Authorization': 'Bearer ' + localStorage.getItem('klucz')
+  //   'Authorization': 'Bearer ' + localStorage.getItem('token')
   // },
 });
 
@@ -31,18 +31,12 @@ export default boot(({ app, router }) => {
   const UserStore = useUserStore();
 
   authApi.interceptors.request.use((req) => {
-    // `req` is the Axios request config, so you can modify
-    // the `headers`.
-    if (localStorage.getItem("klucz") === null){
-      var token = sessionStorage.getItem("klucz");
-    } else{
-      var token = localStorage.getItem("klucz");
-    }
-    if (localStorage.getItem("tenant") === null){
-      var tenant = sessionStorage.getItem("tenant");
-    } else{
-      var tenant = localStorage.getItem("tenant");
-    }
+
+// `req` is the Axios request config, so you can modify
+
+// the `headers`.
+    let token = localStorage.getItem("token") === null ? sessionStorage.getItem("token") : localStorage.getItem("token");
+    let tenant = localStorage.getItem("tenant") === null ? sessionStorage.getItem("tenant") : localStorage.getItem("tenant");
     req.headers.authorization = "Bearer " + token;
     req.headers.tenant = tenant;
 
@@ -55,6 +49,20 @@ export default boot(({ app, router }) => {
   });
 
   authApi.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      if (err.response.status === 401) {
+        // deleteUserToken();
+        // history.push(Routes.Login);
+        console.log("unauth interceptor " + err.response.status);
+        UserStore.logoutUser();
+        router.replace("/login");
+      }
+      return Promise.reject(err);
+    }
+  );
+
+  api.interceptors.response.use(
     (res) => res,
     (err) => {
       if (err.response.status === 401) {

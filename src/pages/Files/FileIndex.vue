@@ -6,9 +6,10 @@
 
       <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
       <q-uploader :hide-upload-btn="true" ref="uploader"
-        :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]" field-name="file" label="No thumbnails"
-        color="amber" text-color="black" no-thumbnails accept=".jpg, image/*" style="max-width: 300px"
-        @added="uploadFile" @finish="finished">
+                  :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]" field-name="file"
+                  label="No thumbnails"
+                  color="amber" text-color="black" no-thumbnails accept=".jpg, image/*" style="max-width: 300px"
+                  @added="uploadFile" @finish="finished">
 
       </q-uploader>
 
@@ -24,7 +25,7 @@
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in s3Files" v-bind:key="index">
           <q-img :src="download_file(file.uuid)" spinner-color="black" style="height: 100%; width:100% " fit="contain">
             <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
-              style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
+                    style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
 
@@ -34,9 +35,9 @@
       <span>{{ uploadedFiles }}</span>
 
       <q-img class="q-pa-md" src="https://picsum.photos/1920/1080" :ratio="16 / 9" @click="dialog = true"
-        style="max-width: 300px;">
+             style="max-width: 300px;">
         <q-icon class="absolute all-pointer-events" size="32px" name="file_download" color="white"
-          style="top: 8px; left: 8px ">
+                style="top: 8px; left: 8px ">
           <q-tooltip>Tooltip</q-tooltip>
         </q-icon>
       </q-img>
@@ -44,7 +45,7 @@
       <q-dialog v-model="dialog" persistent transition-show="slide-up" transition-hide="slide-down" :maximized="true">
         <q-card class="bg-primary text-white">
           <q-bar>
-            <q-space />
+            <q-space/>
 
             <q-btn dense flat icon="close" v-close-popup>
               <q-tooltip class="bg-white text-primary">Close</q-tooltip>
@@ -53,7 +54,6 @@
 
           <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
 
-          
 
         </q-card>
       </q-dialog>
@@ -71,24 +71,24 @@
 </template>
 
 <script setup>
-import { api, authApi } from "boot/axios";
-import { ref, reactive, computed,watch } from 'vue'
-import { useUserStore } from "stores/user";
+import {api, authApi} from "boot/axios";
+import {ref} from 'vue'
+import {useUserStore} from "stores/user";
 import Compressor from 'compressorjs';
 
 // ----------SPEECH --------------
 
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-    const recognition = SpeechRecognition ? new SpeechRecognition() : false
-    const text = ref('')
-    const load = ref(false)
-    const showMessage = ref(false)
-    if (recognition) {
-      recognition.continous = false
-      recognition.lang = 'pt-BR'
-      recognition.interimResults = false
-      recognition.maxAlternatives = 1
-    }
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+const recognition = SpeechRecognition ? new SpeechRecognition() : false
+const text = ref('')
+const load = ref(false)
+const showMessage = ref(false)
+if (recognition) {
+  recognition.continous = false
+  recognition.lang = 'pt-BR'
+  recognition.interimResults = false
+  recognition.maxAlternatives = 1
+}
 
 // ----------SPEECH --------------
 const UserStore = useUserStore();
@@ -99,8 +99,7 @@ let uploadedFiles = ref([]);
 let dialog = ref(false)
 
 
-function uploadFile(file, token = null, tenant_id=null) {
-  console.log('AXIOS upload files')
+function uploadFile(file, token = null, tenant_id = null) {
 
   // let formData = new FormData()
   // formData.append('file', file[0])
@@ -108,7 +107,6 @@ function uploadFile(file, token = null, tenant_id=null) {
   if (token == null)
     token = UserStore.getToken
 
-  console.log('Bearer', token)
   new Compressor(file[0], {
     quality: 0.6,
     maxWidth: 1600,
@@ -122,7 +120,9 @@ function uploadFile(file, token = null, tenant_id=null) {
       // size check
       let img = new Image();
       let objectURL = URL.createObjectURL(result);
-      img.onload = function () { console.log(img.width, img.height) }
+      img.onload = function () {
+        console.log(img.width, img.height)
+      }
       img.src = objectURL
 
       console.log(result.size, result.type, result.name, result.lastModified)
@@ -135,7 +135,7 @@ function uploadFile(file, token = null, tenant_id=null) {
           }
         })
         .then((res) => {
-          console.log(res.data);
+          //
         })
         .catch((err) => {
           if (err.response) {
@@ -166,7 +166,7 @@ function remove(uuid) {
   // uploadedFiles.value = uploadedFiles.value.filter(item => !forDeletion.includes(item))
 
   // single
-  uploadedFiles.value = uploadedFiles.value.filter(item => item != "b")
+  uploadedFiles.value = uploadedFiles.value.filter(item => item !== "b")
 }
 
 function listFiles() {
@@ -175,7 +175,7 @@ function listFiles() {
     .then((res) => {
 
       s3Files.value = res.data;
-      console.log(res.data);
+
     })
     .catch((err) => {
       if (err.response) {
@@ -198,7 +198,7 @@ function delete_file(uuid) {
   authApi
     .delete(process.env.VUE_APP_URL + "/files/" + uuid)
     .then((res) => {
-      console.log(res.data);
+
       uploadedFiles.value = uploadedFiles.value.filter(item => item !== uuid)
       listFiles()
     })
@@ -237,8 +237,6 @@ function finished() {
 }
 
 
-
-
 // function uploadImage(file, updateProgress) {
 //   alert('uploaded')
 //   let formData = new FormData()
@@ -251,7 +249,7 @@ function finished() {
 //       }
 //     })
 //     .then((res) => {
-//       console.log(res.data);
+//
 //     })
 //     .catch((err) => {
 //       if (err.response) {

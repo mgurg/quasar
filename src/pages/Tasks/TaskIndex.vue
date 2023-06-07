@@ -1,6 +1,6 @@
-<!-- 
+<!--
   TODO:
-  - Wydzielić komunikację API jeszcze bardziej na zewnątrz (Zrobić generyczny GET/POST/PATCH/DELETE)? 
+  - Wydzielić komunikację API jeszcze bardziej na zewnątrz (Zrobić generyczny GET/POST/PATCH/DELETE)?
   - użyć isLoading
   - wyliczenie relatywnego czasu (+ odświeżanie co 1 min?)
   - strefy czasowe
@@ -27,22 +27,22 @@
         </div>
       </q-list>
       <!-- Skeleton -->
-      <task-index-skeleton v-else />
+      <task-index-skeleton v-else/>
 
-      <q-space class="q-pa-sm" />
+      <q-space class="q-pa-sm"/>
       <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/tasks/add" color="accent" />
+        <q-btn fab icon="add" to="/tasks/add" color="accent"/>
       </q-page-sticky>
     </q-page>
   </div>
 </template>
 
 <script setup>
-import { onActivated, ref, computed } from "vue";
-import { authApi } from "boot/axios";
+import {computed, onActivated, ref} from "vue";
+import {authApi} from "boot/axios";
 
-import TaskIndexSkeleton from 'components/skeletons/TaskIndexSkeleton.vue';
-import TaskItem from 'components/TaskItem.vue'
+import TaskIndexSkeleton from 'components/skeletons/tasks/TaskIndexSkeleton.vue';
+import TaskItem from 'components/TaskListRow.vue'
 
 
 let isLoading = ref(false);
@@ -55,16 +55,16 @@ let selected = ref(null);
 
 
 const myTasks = computed(() => {
-  if (tasks.value != null && isLoading.value == false) {
-    return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid == "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
+  if (tasks.value != null && isLoading.value === false) {
+    return tasks.value.filter(task => (task.assignee != null && task.assignee.uuid === "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
   } else {
     return null;
   }
 });
 
 const otherTasks = computed(() => {
-  if (tasks.value != null  && isLoading.value == false) {
-    return tasks.value.filter(task => (task.assignee == null || task.assignee.uuid != "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
+  if (tasks.value != null && isLoading.value === false) {
+    return tasks.value.filter(task => (task.assignee == null || task.assignee.uuid !== "767a600e-8549-4c27-a4dc-656ed3a9af7d"))
   } else {
     return tasks.value;
   }
@@ -76,7 +76,7 @@ function fetchTasks() {
     .get("/tasks/index?offset=0&limit=20")
     .then((res) => {
       tasks.value = res.data
-      console.log(res.data);
+
       isLoading.value = false;
     })
     .catch((err) => {

@@ -1,98 +1,280 @@
 <template>
-    <div class="row justify-center text-blue-grey-10">
-        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-            <!-- S -->
-            <div class="bg-transparent no-shadow no-border q-ma-sm q-mt-md q-card">
-                <div class="q-pa-none q-card__section q-card__section--vert">
-                    <div class="row q-col-gutter-sm">
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-pink-6 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="auto_awesome" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4">{{status.pending}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">New</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-amber-7 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="ballot" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> {{status.accepted}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Voted</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-teal-6 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="thumb_up_alt" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> {{status.todo}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Accepted</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-6">
-                            <q-item class="bg-blue-grey-8 q-pa-md q-ml-xs">
-                                <q-item-section avatar>
-                                    <q-icon color="white" name="delete_forever" />
-                                </q-item-section>
-                                <q-item-section>
-                                    <q-item-label class="text-white text-h4"> {{status.rejected}}</q-item-label>
-                                    <q-item-label class="text-white text-weight-bold">Rejected</q-item-label>
-                                </q-item-section>
-                            </q-item>
-                        </div>
-                        <q-space/>
-                        <p class="q-pt-md text-body1">Zbieraj prawdziwe i <b>szczere sugestie</b> od każdego. 
-                           Rozpocznij błyskawicznie zbieranie informacji od pracowników korzystając z anonimowej skrzynki sugestii online.</p>
-                    </div>
-                </div>
+  <div class="row justify-center text-blue-grey-10">
+    <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+
+      <q-banner class="text-brown-10 bg-yellow-14 q-mt-md" inline-actions rounded>
+        <template v-slot:avatar>
+          <q-icon color="warning" name="warning"/>
+        </template>
+        Ten projekt nie jest oficjalnie wydany. Po zakończeniu testów dane zostaną usunięte!
+        Pomysły/sugestie? <a class="text-weight-bold text-black" href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
+                             style="text-decoration: underline;">Napisz do mnie</a>
+        📧
+      </q-banner>
+
+      <q-list>
+        <q-item class="q-px-none">
+          <q-item-section avatar>
+            <q-btn
+              class="float-right"
+              color="red-12"
+              dense
+              flat
+              icon="bug_report"
+              label="Zgłoś nową awarię"
+              size="md"
+              to="/issues/add"
+            />
+          </q-item-section>
+          <q-item-section>
+
+          </q-item-section>
+          <q-item-section side>
+            <div class="col-12 text-h6 q-mt-none">
+
+              <q-btn-dropdown class="float-left q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
+                <q-list bordered padding>
+                  <q-item>
+                    <q-item-section>
+
+                      <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
+                      <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte
+                      </q-item-label>
+                    </q-item-section>
+
+                  </q-item>
+
+                  <q-item v-ripple tag="label">
+                    <q-item-section>
+                      <q-item-label>Moje zadania</q-item-label>
+                      <q-item-label caption>Zadania przypisane do Ciebie</q-item-label>
+                    </q-item-section>
+                    <q-item-section side>
+                      <q-toggle
+                        v-model="expandedUserIssues"
+                        @update:model-value="setSectionVisibility('visibility-home-tasks')"
+                      />
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item v-ripple tag="label">
+                    <q-item-section>
+                      <q-item-label>Moje urządzenia</q-item-label>
+                      <q-item-label caption>Lista zapisanych przez Ciebie urządzeń</q-item-label>
+                    </q-item-section>
+                    <q-item-section side top>
+                      <q-toggle
+                        v-model="expandedUserItems"
+                        @update:model-value="setSectionVisibility('visibility-home-items')"
+                      />
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+
+              <!--              <q-btn-->
+              <!--                :label="$q.screen.gt.xs ? $t('Search') : ''"-->
+              <!--                size="md"-->
+              <!--                class="float-right"-->
+              <!--                color="primary"-->
+              <!--                flat-->
+              <!--                icon="search"-->
+              <!--                no-caps-->
+              <!--              />-->
+              <span v-if="$q.screen.gt.xs" class="text-body2 text-weight-medium q-pr-lg">{{
+                  currentDate()
+                }}, Dzisiaj:</span>
+              <span v-else class="text-body2 text-weight-medium q-pr-lg">
+                Dzisiaj:
+              </span>
             </div>
-            <!-- E -->
-        </q-page>
-    </div>
+          </q-item-section>
+        </q-item>
+
+      </q-list>
+
+
+      <!-- <card-dashboard></card-dashboard> -->
+      <div class="row q-col-gutter-sm">
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #e91e63"
+                  @click="goToIssues('new')">
+
+            <q-item-section class="q-pa-md q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #d81b60">
+              <q-icon color="white" name="auto_awesome" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.new }}
+              </q-item-label>
+              <q-item-label>{{ $t('New') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #ffb300"
+                  @click="goToIssues('in_progress')">
+            <q-item-section class=" q-pa-md q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #ffa000">
+              <q-icon color="white" name="build" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.in_progress }}
+              </q-item-label>
+              <q-item-label>{{ $t('Ongoing') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #009688"
+                  @click="goToIssues('paused')">
+            <q-item-section class="q-pa-md q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #00897b">
+              <q-icon color="white" name="pause" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class="q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.paused }}
+              </q-item-label>
+              <q-item-label>{{ $t('Paused') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #455a64"
+                  @click="goToIssues('done')">
+            <q-item-section class=" q-pa-md q-mr-none text-white rounded-borders"
+                            side
+                            style="background-color: #37474f">
+              <q-icon color="white" name="stop" size="24px"></q-icon>
+            </q-item-section>
+            <q-item-section class=" q-pa-md q-ml-none  text-white">
+              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.done }}
+              </q-item-label>
+              <q-item-label>{{ $t('Done') }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
+      </div>
+
+
+      <!-- MY ISSUES -->
+      <my-tasks-card v-if="userUuid!=null" :key="expandedUserIssues" :expanded-my-tasks="expandedUserIssues"
+                     :user-uuid="userUuid"/>
+
+      <!-- MY ITEMS -->
+      <my-items-card v-if="userUuid!=null" :key="expandedUserItems" :expanded-my-items="expandedUserItems"
+                     :user-uuid="userUuid"/>
+
+      <!-- INTRO-->
+      <my-intro-card v-if="showIntroCard" :expanded-my-intro="true"/>
+    </q-page>
+  </div>
 </template>
 
 <script setup>
-import { onBeforeMount, reactive} from "vue";
-import { api, authApi } from "boot/axios";
+import {onBeforeMount, reactive, ref} from "vue";
+import {useRouter} from "vue-router";
+import {errorHandler} from 'src/components/api/errorHandler.js'
+import {getIssuesCounterRequest} from "components/api/StatisticsApiClient";
+import {getUserSettingRequest} from 'components/api/SettingsApiClient'
 
-const status = reactive({'accepted': 0, 'todo': 0, 'pending': 0, 'rejected': 0});
+import {useUserStore} from "stores/user";
+import {DateTime} from 'luxon';
+import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
+import MyTasksCard from "components/viewer/cards/MyTasksCard.vue";
+import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
 
-function ping() {
-    authApi
-        .get("/ideas/stats")
-        .then((res) => {
-            // console.log(res.data);
-            status.pending = res.data.pending
-            status.accepted = res.data.accepted
 
-            status.todo = res.data.todo
-            status.rejected = res.data.rejected
-            // console.log(status);
-        })
-        .catch((err) => {
-            if (err.response) {
-                console.log(err.response);
-            } else if (err.request) {
-                console.log(err.request);
-            } else {
-                console.log("General Error");
-            }
+const UserStore = useUserStore();
+const userUuid = UserStore.getCurrentUserId
+const userIssues = ref(null)
+const router = useRouter();
 
-        });
+
+function currentDate() {
+  const now = DateTime.now();
+
+  return now.setLocale('pl').toFormat('cccc, dd LLL yyyy')
+}
+
+
+const status = reactive({
+  "new": 0,
+  "accepted": 0,
+  "rejected": 0,
+  "assigned": 0,
+  "in_progress": 0,
+  "paused": 0,
+  "done": 0
+});
+
+const isLoading = ref(false)
+const isError = ref(false)
+
+function getStatistics() {
+  isLoading.value = true;
+  getIssuesCounterRequest().then(function (response) {
+    status.new = response.data.new
+    status.accepted = response.data.accepted
+    status.rejected = response.data.rejected
+    status.assigned = response.data.assigned
+    status.in_progress = response.data.in_progress
+    status.paused = response.data.paused
+    status.done = response.data.done
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    isError.value = true;
+  });
+}
+
+function getSettings() {
+  isLoading.value = true;
+  getUserSettingRequest("dashboard_show_intro").then(function (response) {
+    // console.log(response.data.dashboard_show_intro)
+    showIntroCard.value = response.data.dashboard_show_intro
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+
+    if (err.response !== 200) {
+      console.log("ERROR")
+    }
+    isError.value = true;
+  });
+}
+
+const expandedUserItems = ref(JSON.parse(localStorage.getItem('visibility-home-items')) ?? true)
+const expandedUserIssues = ref(JSON.parse(localStorage.getItem('visibility-home-tasks')) ?? true)
+const showIntroCard = ref(false)
+
+function setSectionVisibility(condition) {
+  // if (localStorage.getItem(condition) === null){
+  //   localStorage.setItem(condition, JSON.stringify('true'))
+  // }
+  // else{
+  //   let currentValue = JSON.parse(localStorage.getItem(condition))
+  //   localStorage.setItem(condition, JSON.stringify(!currentValue))
+  // }
+}
+
+function goToIssues(status) {
+  router.push({path: "/issues", query: {filter: status}})
 }
 
 onBeforeMount(() => {
-  ping()
+  isLoading.value = true;
+  getSettings()
+  getStatistics()
+
 });
-
-
 </script>
+
+<style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
+</style>

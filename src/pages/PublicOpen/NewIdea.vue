@@ -1,35 +1,40 @@
 <template>
   <q-layout>
-    <div class="row justify-center text-blue-grey-10">
-      <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-        <div class="q-pa-md">
-          <idea-form button-text="Add" :mode="registrationMode" :mail="registrationMailDomain" :token="anonymousToken" :tenant_id="tenant_id" 
-            @ideaFormBtnClick="signUpButtonPressed" v-if="registrationMode != 'logged_only'"></idea-form>
+    <q-page-container>
+      <div class="row justify-center text-blue-grey-10">
+        <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+          <div class="q-pa-md">
+            <idea-form v-if="registrationMode !== 'logged_only'" :mail="registrationMailDomain" :mode="registrationMode"
+                       :tenant_id="tenant_id"
+                       :token="anonymousToken"
+                       button-text="Add" @ideaFormBtnClick="signUpButtonPressed"></idea-form>
 
-          <div v-if="registrationMode == 'logged_only'">
-            Administrator nie pozwala na dokonywanie anonimowyc zgłoszeń, <router-link to="/login">{{ $t("Login") }}
-            </router-link> się zeby wysłać pomysł
+            <div v-if="registrationMode === 'logged_only'">
+              Administrator nie pozwala na dokonywanie anonimowych zgłoszeń,
+              <router-link to="/login">{{ $t("Login") }}
+              </router-link>
+              się żeby wysłać pomysł.
+            </div>
+
           </div>
-
-        </div>
-      </q-page>
-    </div>
+        </q-page>
+      </div>
+    </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
-import { useQuasar } from "quasar";
+import {useQuasar} from "quasar";
 import IdeaForm from 'src/components/forms/IdeaForm.vue'
-import { ref, computed, onBeforeMount, watch } from "vue";
-import { authApi } from "boot/axios";
-import { useRoute, useRouter } from 'vue-router';
-import { api } from "boot/axios";
+import {computed, onBeforeMount, ref, watch} from "vue";
+import {api} from "boot/axios";
+import {useRoute, useRouter} from 'vue-router';
 
-import { useI18n } from "vue-i18n";
-// import { buffer } from "stream/consumers";
+import {useI18n} from "vue-i18n";
+
 
 const $q = useQuasar();
-const { locale } = useI18n({ useScope: "global" });
+const {locale} = useI18n({useScope: "global"});
 const lang = ref(locale); // $q.lang.isoName
 
 
@@ -68,7 +73,6 @@ function checkId(id) {
 }
 
 
-
 function signUpButtonPressed(ideaForm) {
   console.log('outside', ideaForm)
   createAnonymousIdea(ideaForm)
@@ -78,9 +82,9 @@ function signUpButtonPressed(ideaForm) {
 function createAnonymousIdea(body) {
   isLoading.value = true;
   const AuthStr = 'Bearer ' + anonymousToken.value;
-  api.post("/ideas/", body, { headers: { Authorization: AuthStr,  tenant: tenant_id.value} })
+  api.post("/ideas/", body, {headers: {Authorization: AuthStr, tenant: tenant_id.value}})
     .then((res) => {
-      console.log(res.data);
+
       isLoading.value = false;
     })
     .catch((err) => {
@@ -99,39 +103,39 @@ function createAnonymousIdea(body) {
 // ----- i18n ------
 
 
-    watch(lang, (val) => {
-      // dynamic import, so loading on demand only
-      import(
-        /* webpackInclude: /(pl|de|en-US)\.js$/ */
-        "quasar/lang/" + val
-      ).then((lang) => {
-        $q.lang.set(lang.default);
-      });
-    });
+watch(lang, (val) => {
+  // dynamic import, so loading on demand only
+  import(
+    /* webpackInclude: /(pl|de|en-US)\.js$/ */
+  "quasar/lang/" + val
+    ).then((lang) => {
+    $q.lang.set(lang.default);
+  });
+});
 
-    function getLocale() {
-    const userLocale =
-      localStorage.getItem("lang") ||
-      sessionStorage.getItem("lang") ||
-      navigator.language.split("-")[0] ||
-      "en-US";
+function getLocale() {
+  const userLocale =
+    localStorage.getItem("lang") ||
+    sessionStorage.getItem("lang") ||
+    navigator.language.split("-")[0] ||
+    "en-US";
 
-    // if detectedLocale is 'en' or 'es' return
-    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
-      return userLocale;
-    }
-    // else return default value
-    return "en-US";
+  // if detectedLocale is 'en' or 'es' return
+  if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
+    return userLocale;
   }
+  // else return default value
+  return "en-US";
+}
 
-    function setLocale(lang) {
-      locale.value = lang;
-    }
+function setLocale(lang) {
+  locale.value = lang;
+}
 
 
 onBeforeMount(() => {
-   setLocale(getLocale())
-  console.log('b')
+  setLocale(getLocale())
+
   if (activationId.value != null)
     checkId(activationId.value)
 });

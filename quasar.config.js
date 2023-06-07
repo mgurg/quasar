@@ -111,7 +111,7 @@ module.exports = configure(function (ctx) {
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    animations: ['fadeIn', 'fadeOut', 'zoomIn', 'zoomOut'],
 
     // https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/configuring-ssr
     ssr: {
@@ -148,9 +148,9 @@ module.exports = configure(function (ctx) {
       
 
       manifest: {
-        name: `Intio App`,
-        short_name: `Intio App`,
-        description: `A Intio Project`,
+        name: `Malgori App`,
+        short_name: `Malgori`,
+        description: `A Malgori Project`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

@@ -14,7 +14,18 @@ icongenie generate -i app_icon.png --skip-trim --theme-color 027be3
 ```
 
 
+### Icons
+
+```
+https://github.com/thecotne/square-file-icons
+```
+
+
+
+
+
 ## Install the dependencies
+
 ```bash
 yarn
 # or

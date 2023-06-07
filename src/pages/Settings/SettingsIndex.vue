@@ -1,203 +1,113 @@
 <template>
-  <div class="row justify-center text-blue-grey-10">
+  <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <div class="row justify-around q-mt-sm">
-        <div class="col-6"><p class="text-h4">{{ $t("Settings") }}</p></div>
-        <div class="col-6"></div>
-      </div>
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+        <template v-slot:separator>
+          <q-icon
+            color="grey"
+            name="chevron_right"
+            size="1.5em"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Settings')" icon="apps" to="/settings"/>
+      </q-breadcrumbs>
 
+      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
+        <q-card-section>
+          <q-list>
+            <q-item class="q-px-none">
+              <q-item-section>
+                <q-item-label class="text-h5 text-weight-medium">{{ $t("Settings") }}</q-item-label>
+<!--                <q-item-label caption> Prace w trakcie :)</q-item-label>-->
+              </q-item-section>
+            </q-item>
 
-      <div class="q-pa-mt">&nbsp;</div>
-      <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
-        @submit.prevent>
+          </q-list>
+        </q-card-section>
+      </q-card>
 
-        <p class="text-h6"> {{ $t("QR code") }} </p>
-        <q-input outlined v-model="ActionUrl" readonly>
-          <template v-slot:after>
-            <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()" />
-            <q-btn round dense flat icon="qr_code_2" @click="toggleQr()" />
-          </template>
-        </q-input>
-
-        <img  v-if="showQR"  :src="ActionUrlQr"   alt="QR code" />
-
-        <p class="text-h6">{{ $t("Submission type") }}</p>
-        <q-list>
-          <q-item tag="label">
-            <q-item-section avatar>
-              <q-radio v-model="registrationMode" val="anonymous" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ $t("Anonymous") }}</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item tag="label">
-            <q-item-section avatar>
-              <q-radio v-model="registrationMode" val="anonymous_with_mail" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ $t("Anonymous with required confirmation") }}
-                <q-input outlined dense :placeholder="registrationMailDomain"></q-input>
-              </q-item-label>
-              <q-item-label caption>Przyśpiesz zakładanie konta</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-item tag="label">
-            <q-item-section avatar top>
-              <q-radio v-model="registrationMode" val="logged_only" />
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>{{ $t("Only for logged users") }}</q-item-label>
-              <q-item-label caption>{{ $t("You must have an account") }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-list>
-
-
-        <!-- <q-input
-                outlined
-                v-model="ActionUrl"
-                :disable="isLoading"
-                :error="!!errors.ActionUrl"
-                :error-message="errors.ActionUrl"
-                :label="$t('First name')"
-            /> -->
-        <div class="row">
-          <q-space />
-          <q-btn color="primary" :disable="isLoading" :loading="isLoading" type="submit" @click="save">Save</q-btn>
-        </div>
-      </q-form>
+      <card-settings :items="leftArray" />
 
     </q-page>
   </div>
 </template>
 
 <script setup>
+import {onBeforeMount, ref} from "vue";
+import CardSettings from 'src/components/tiles/CardSettings.vue'
 
-import { ref, onBeforeMount } from "vue";
-import { authApi } from "boot/axios";
-import { useQuasar } from 'quasar'
 
-const $q = useQuasar()
-let ActionUrl = ref("https://beta.remontmaszyn.pl/new/8tl+234");
+
 // -----------------------------
+
+let leftArray = ref([
+  {
+    title: "Informacje o koncie (użytkownicy, pliki, wysłane powiadomienia)",
+    icon: "account_circle",
+    value: "Konto",
+    color1: "#546bfa",
+    color2: "#3e51b5",
+    link: "/settings/account",
+    permission: "SETTINGS_ACCOUNT"
+  },
+  {
+    title: "Kategorie awarii, np: mechaniczna elektryczna ",
+    icon: "label",
+    value: "Tagi",
+    color1: "#a270b1",
+    color2: "#9f52b1",
+    link: "/settings/tags",
+    permission: "SETTINGS_TAGS"
+  },
+  {
+    title: "Ustawienia powiadomień o awariach (sms, email)",
+    icon: "notifications",
+    value: "Powiadomienia",
+    color1: "#5064b5",
+    color2: "#3e51b5",
+    link: "/settings/notifications",
+    permission: null
+  },
+  {
+    title: "Ustawienia Importu i Eksportu danych do pliku CSV",
+    icon: "import_export",
+    value: "Import/Export",
+    color1: "#5064b5",
+    color2: "#3e51b5",
+    link: "/settings/import-export",
+    permission: null
+  },
+  {
+    title: "Kto ma jaki dostęp do funkcji w aplikacji",
+    icon: "ballot",
+    value: "Uprawnienia",
+    color1: "#f37169",
+    color2: "#f34636",
+    link: "/settings/permissions",
+    permission: "SETTINGS_PERMISSION"
+  },
+  // {
+  //   title: "Zdefiniowane grupy ludzi, np: serwis, biuro",
+  //   icon: "groups",
+  //   value: "Grupy użytkowników",
+  //   color1: "#ea6a7f",
+  //   color2: "#ea4b64",
+  //   link: "/settings/groups"
+  // },
+])
 
 
 onBeforeMount(() => {
-  console.log('b')
-  //   isLoading.value = true;
-  getBoardId()
-  load()
+
 });
 
-function load() {
-  isLoading.value = true;
-
-  var arr = ["idea_registration_mode", "issue_registration_email"]
-  var params = new URLSearchParams();
-  arr.forEach(element => {
-    params.append("setting_names", element);
-  });
-
-  authApi
-    .get("/settings/", { params: params })
-    .then((res) => {
-      console.log(res.data);
-      registrationMode.value = res.data.idea_registration_mode
-      registrationMode.value = res.data.idea_registration_mode
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
-
-function getBoardId() {
-  isLoading.value = true;
-
-  authApi
-    .get("/settings/board/")
-    .then((res) => {
-      console.log(res.data);
-      ActionUrl.value = 'https://beta.remontmaszyn.pl/new/' + res.data + '+234'
-      isLoading.value = false;
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
-
-function save() {
-  console.log('save')
-  isLoading.value = true;
-
-  let data = [{
-    "entity": "idea_registration_mode",
-    "value": registrationMode.value,
-    "value_type": "string"
-  }]
-
-
-  authApi
-    .post("/settings/", data)
-    .then((res) => {
-      console.log(res.data);
-      isLoading.value = false;
-
-      $q.notify({
-        message: 'Zapisano ustawienia',
-        color: 'purple'
-      })
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
-
-let isLoading = ref(false);
-
-
-let ActionUrlQr = ref("https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl="+ActionUrl.value+"&choe=UTF-8&chld=M")
-let showQR = ref(false)
-
-let registrationMode = ref('anonymous')
-let registrationMailDomain = ref('twojafirma.pl')
-
-function copyToClipBoard() {
-  navigator.clipboard.writeText(ActionUrl.value);
-
-  $q.notify({
-    message: 'Skopiowano',
-    color: 'purple'
-  })
-}
-
-
-function toggleQr() {
-  showQR.value = !showQR.value
-}
 
 </script>
+
+<style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
+</style>
+

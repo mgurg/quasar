@@ -13,7 +13,7 @@ export function companyInfo({ country, id }) {
 
   const onDownload = async () => {
     try{
-      const response = await  api.post("auth/company_info",{    "country": country,    "company_national_id": "9542752600"  })
+      const response = await  api.post("auth/company_info",{"country": country, "company_national_id": "9542752600"})
       name.value = response.data.name
       short_name.value = response.data.short_name
       street.value = response.data.street

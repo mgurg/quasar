@@ -53,8 +53,8 @@
           :icon="marker.icon"
           @click="alert(marker)"
         >
-          <l-popup :content="marker.tooltip" />
-          <l-tooltip :content="marker.tooltip" />
+          <l-popup :content="marker.tooltip"/>
+          <l-tooltip :content="marker.tooltip"/>
         </l-marker>
       </l-map>
     </q-page>
@@ -62,10 +62,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from 'vue';
-import { latLng } from "leaflet"
+import {defineComponent, reactive, ref} from 'vue';
+import {latLng} from "leaflet"
 import "leaflet/dist/leaflet.css"
-import { LMap, LGeoJson, LMarker, LTileLayer, LCircle, LPopup, LCircleMarker } from "@vue-leaflet/vue-leaflet";
+import {LCircle, LCircleMarker, LGeoJson, LMap, LMarker, LPopup, LTileLayer} from "@vue-leaflet/vue-leaflet";
 
 
 export default defineComponent({
@@ -84,7 +84,6 @@ export default defineComponent({
   setup() {
 
 
-
     const defaultLocation = latLng(49.0139, 31.2858)
     const currentZoom = ref(11.5)
     const currentCenter = ref(latLng(47.41322, -1.219482))
@@ -93,7 +92,7 @@ export default defineComponent({
     const markers = reactive(
       [
         {
-          position: { lng: -1.219482, lat: 47.41322 },
+          position: {lng: -1.219482, lat: 47.41322},
           visible: true,
           draggable: true,
         },
@@ -148,21 +147,22 @@ export default defineComponent({
     function onReady(mapObject) {
       mapObject.locate();
     }
+
     function onLocationFound(location) {
       this.center = location.latlng;
     }
 
-  const gettingLocation = ref(false);
+    const gettingLocation = ref(false);
 
-  const lat = ref(null);
-  const lon = ref(null);
+    const lat = ref(null);
+    const lon = ref(null);
 
-  function getLoc() {
+    function getLoc() {
       navigator.permissions
-        .query({ name: "geolocation" })
+        .query({name: "geolocation"})
         .then(function (result) {
           // Will return ['granted', 'prompt', 'denied']
-          console.log(result.state);
+          // console.log(result.state);
         });
       if (navigator.geolocation) {
         gettingLocation.value = true;

@@ -5,18 +5,16 @@
       src="~assets/quasar-logo-vertical.svg"
       style="width: 200px; height: 200px"
     >
-    <q-toggle v-model="store.counter" />
+    <q-toggle v-model="store.counter"/>
   </q-page>
 </template>
 
 
-
 <script>
-import { computed } from 'vue'
-import { useCounterStore } from 'stores/counter'
+import {useCounterStore} from 'stores/counter'
 
 export default {
-  setup () {
+  setup() {
     const store = useCounterStore()
 
     return {

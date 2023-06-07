@@ -4,22 +4,33 @@ import { boot } from "quasar/wrappers";
 // import { BrowserTracing } from "@sentry/tracing";
 import * as Sentry from "@sentry/vue";
 import { BrowserTracing } from "@sentry/tracing";
+import { Replay } from '@sentry/replay';
 
 export default boot(({ app, router }) => {
 
-  if (process.env.VUE_MODE != "production") {
+  // https://github.com/jlvvlj/heroes-platform-demo/blob/master/src/boot/errors.js
+
+  if (process.env.VUE_MODE !== "production") {
     console.log(`I'm on a development build`)
   }
 
-  if (process.env.VUE_MODE == "production" && process.env.VUE_SENTRY_DSN) {
+  if (process.env.VUE_MODE === "production" && process.env.VUE_SENTRY_DSN) {
     console.log(`I'm on a production build`)
     Sentry.init({
       app,
       dsn: process.env.VUE_SENTRY_DSN,
+      replaysSessionSampleRate: 0.1,
+      replaysOnErrorSampleRate: 1.0,
       integrations: [
         new BrowserTracing({
           routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-          tracingOrigins: ["localhost", "remontmaszyn.pl", /^\//],
+          tracingOrigins: ["localhost", "app.malgori.pl", /^\//],
+        }),
+        new Replay({
+          // Additional SDK configuration goes in here, for example:
+          maskAllText: false,
+          blockAllMedia: false
+          // See below for all available options
         }),
       ],
       // Set tracesSampleRate to 1.0 to capture 100%
@@ -52,7 +63,7 @@ export default boot(({ app, router }) => {
     //       iteratee(frame) {
     //         // Strip out the query part (which contains `?__WB_REVISION__=**`)
     //         frame.abs_path = frame.abs_path.split("?")[0];
-  
+
     //         return frame;
     //       },
     //     }),
