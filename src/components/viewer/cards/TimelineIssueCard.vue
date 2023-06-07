@@ -82,6 +82,7 @@ const props = defineProps({
 })
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 const issueUuid = ref(props.issueUuid)
 

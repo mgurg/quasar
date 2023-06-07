@@ -215,6 +215,7 @@ function save() {
 }
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 
 let ActionUrlQr = ref("https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + ActionUrl.value + "&choe=UTF-8&chld=M")

@@ -145,6 +145,7 @@ const emit = defineEmits(['changeSelection'])
 
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 let selectedPermissions = ref(props.selectedItems)
 let allowEdit = computed(() => props.canEdit)

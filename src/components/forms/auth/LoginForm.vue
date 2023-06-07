@@ -69,6 +69,7 @@ const $q = useQuasar()
 
 let isPwd = ref(true)
 let isLoading = ref(false);
+const isError = ref(false);
 let errorMsg = ref(null);
 
 const route = useRoute();

@@ -297,7 +297,7 @@ function deleteItem(uuid, itemName) {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    isLoading = true;
+    isLoading.value = true;
     deleteItemRequest(uuid).then(function (response) {
       $q.notify({
         type: 'warning',

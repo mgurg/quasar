@@ -129,6 +129,7 @@ import {authApi} from "boot/axios";
 import TaskViewSkeleton from 'components/skeletons/tasks/TaskViewSkeleton'
 
 let isLoading = ref(false);
+const isError = ref(false);
 let slide = ref(1);
 
 

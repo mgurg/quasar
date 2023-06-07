@@ -109,6 +109,7 @@ import PermissionListRow from 'components/listRow/PermissionListRow.vue'
 
 const $q = useQuasar()
 let isLoading = ref(false);
+const isError = ref(false);
 let selected = ref(null);
 let search = ref(null);
 

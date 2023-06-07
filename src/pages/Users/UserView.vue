@@ -249,6 +249,7 @@ let expandedIdeas = ref(true)
 let expandedIssues = ref(true)
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 const route = useRoute();
 let userUuid = ref(route.params.uuid)

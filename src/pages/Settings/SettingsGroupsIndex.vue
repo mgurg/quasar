@@ -115,6 +115,7 @@ import {getUsersGroupsRequest} from "components/api/UserGroupsApiClient";
 const $q = useQuasar()
 
 let isLoading = ref(false);
+const isError = ref(false);
 let selected = ref(null);
 let search = ref(null);
 

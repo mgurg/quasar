@@ -41,6 +41,8 @@ const emit = defineEmits(['insertUserBtnClick', 'cancelBtnClick'])
 
 const search = ref(null)
 const isLoading = ref(false)
+const isError = ref(false);
+
 const users = ref(null)
 
 function fetchUsers() {

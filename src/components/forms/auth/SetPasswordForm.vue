@@ -69,6 +69,7 @@ const resetToken = ref(props.resetToken)
 
 
 let isLoading = ref(false);
+const isError = ref(false);
 let isPwd = ref(true)
 
 const router = useRouter();

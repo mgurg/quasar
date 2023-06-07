@@ -43,6 +43,7 @@ const props = defineProps({
 })
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 
 const router = useRouter();

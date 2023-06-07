@@ -201,6 +201,7 @@ setLocale(pl);
 
 let isPwd = ref(true);
 let isLoading = ref(false);
+const isError = ref(false);
 let errorMsg = ref(null);
 let step = ref(0)
 const router = useRouter();
@@ -266,7 +267,7 @@ const {value: companyCity} = useField("companyCity");
 
 
 const submit = handleSubmit((values) => {
-  let isLoading = ref(true);
+  let isLoading = ref(true); //TODO isLoading.value = false;
 
   if (step.value !== 1) {
     // const {name, short_name, street, postcode, city, country_code} = companyInfo({
