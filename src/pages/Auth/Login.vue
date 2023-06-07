@@ -14,7 +14,9 @@
             🎯 Aktualna lista zadań (bez ciągłych telefonów i odrywania od bieżącej pracy)<br>
             📋 Raporty, bieżący status prac<br>
             🚀 Nie zgaduj, skup się na tym co ważne<br> <br>
-            Proste.
+            Proste.</br>
+
+            📰 <a href="https://malgori.pl">Blog - <b>dowiedz się więcej</b></a>
           </p>
         </div>
         <!-- </div> -->
