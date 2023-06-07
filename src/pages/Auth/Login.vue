@@ -16,7 +16,7 @@
             🚀 Nie zgaduj, skup się na tym co ważne<br> <br>
             Proste.<br><br>
           </p>
-          <p class="text-h6 text-weight-regular">📰 <a href="https://malgori.pl" class="text-white"><b>Blog</b> -  dowiedz się więcej</a></p>
+          <p class="text-h6 text-weight-regular">📰 <a href="https://malgori.pl" class="text-white"><b>Blog</b> - dowiedz się więcej</a></p>
         </div>
         <!-- </div> -->
       </div>
