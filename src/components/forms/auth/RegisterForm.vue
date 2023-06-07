@@ -143,10 +143,10 @@
           </div>
         </q-step>
         <q-step :done="step > 2" :name="2" icon="create_new_folder" title="1">
-          <div class="text-h5 q-py-sm">Nie można utworzyć konta</div>
+          <div class="text-h5 q-py-sm">Firma o tym numerze NIP ma już założone konto</div>
           <q-separator/>
           <p class="q-py-sm">Żeby zacząć korzystać z aplikacji <span class="text-weight-bold">zgłoś się do osoby która korzysta</span>
-            już z tego rozwiązania w firmie.</p>
+            już z tego rozwiązania w Twojej firmie.</p>
           <p class="q-py-sm">Jeżeli ma odpowiednie uprawnienia, to utworzy Ci konto. </p>
         </q-step>
         >
