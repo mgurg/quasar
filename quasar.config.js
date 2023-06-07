@@ -63,7 +63,9 @@ module.exports = configure(function (ctx) {
     
           // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
           // and need `project:releases` and `org:read` scopes
-          authToken: process.env.VUE_SENTRY_DSN,
+          authToken: process.env.VUE_SENTRY_AUTH_TOKEN,
+          include: 'dist/spa',
+          ignore: ['node_modules']
         }),
       ],
 
