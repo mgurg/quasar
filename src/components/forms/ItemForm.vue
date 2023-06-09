@@ -149,8 +149,8 @@ function listOfUploadedFiles(files) {
 // Form
 const {handleReset} = useForm();
 const validationSchema = yup.object({
-  itemName: yup.string(),//.required(),
-  itemSymbol: yup.string().nullable(),//.required(),
+  itemName: yup.string().max(512),//.required(),
+  itemSymbol: yup.string().max(64).nullable(),//.required(),
 })
 
 const {handleSubmit, errors} = useForm({

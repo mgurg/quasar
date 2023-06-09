@@ -236,17 +236,17 @@ function random_item(items) {
 // -------------- VeeValidate --------------
 
 const validationSchema = object({
-  email: string().required("Provide an valid email").email(),
+  email: string().max(253).required("Provide an valid email").email(),
   password: string().required(),
-  companyTaxId: string().required().matches(/^[0-9]+$/, 'Must be numeric').test(
+  companyTaxId: string().max(16).required().matches(/^[0-9]+$/, 'Must be numeric').test(
     "check-nip",
     "Provide valid NIP number",
     function (value) {
       return validatePolish.nip(value)
     }
   ),
-  firstName: string().required().label("First name"),
-  lastName: string().required().label("Last name"),
+  firstName: string().max(100).required().label("First name"),
+  lastName: string().max(100).required().label("Last name"),
   acceptTOS: bool().required().oneOf([true], "!"),
 });
 

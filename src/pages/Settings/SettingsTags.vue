@@ -43,7 +43,16 @@
       <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <q-card-section>
           <div class="row">
-            <q-input v-model="newTag" class="q-mr-xs" dense label="Nazwa" outlined :disable="!hasPermission('TAG_ADD')">
+            <q-input
+              v-model="newTag"
+              maxlength="128"
+              class="q-mr-xs"
+              dense
+              label="Nazwa"
+              outlined
+              :disable="!hasPermission('TAG_ADD')"
+
+            >
               <template v-slot:append>
                 <q-icon :style="{ 'color':mainColor }" name="square"/>
               </template>

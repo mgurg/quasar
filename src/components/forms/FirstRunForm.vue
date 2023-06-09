@@ -51,9 +51,9 @@ const UserStore = useUserStore();
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
-  firstName: string().required().min(2),
-  lastName: string().required().min(2),
-  nip: string().required(),
+  firstName: string().required().min(2).max(100),
+  lastName: string().required().min(2).max(100),
+  nip: string().required().max(16),
 });
 
 const {handleSubmit, errors} = useForm({

@@ -78,7 +78,7 @@ const UserStore = useUserStore();
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
-  email: string().required("Provide an valid email").email(),
+  email: string().max(256).required("Provide an valid email").email(),
   password: string().required(),
   rememberUser: bool().required(),
 });

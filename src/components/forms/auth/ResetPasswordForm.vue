@@ -49,7 +49,7 @@ const router = useRouter();
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
-  email: string().required("Provide an valid email").email(),
+  email: string().max(256).required("Provide an valid email").email(),
 });
 
 const {handleSubmit, errors} = useForm({
