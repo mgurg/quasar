@@ -222,28 +222,28 @@
           />
         </template>
 
-        <b>Install Intio?</b>
+        <b>Zainstalować aplikację?</b>
 
         <template v-slot:action>
           <q-btn
             class="q-px-sm"
             dense
             flat
-            label="Yes"
+            label="Tak"
             @click="installApp"
           />
           <q-btn
             class="q-px-sm"
             dense
             flat
-            label="Later"
+            label="Póżniej"
             @click="showAppInstallBanner = false"
           />
           <q-btn
             class="q-px-sm"
             dense
             flat
-            label="Never"
+            label="Nigdy"
             @click="neverShowAppInstallBanner"
           />
         </template>
