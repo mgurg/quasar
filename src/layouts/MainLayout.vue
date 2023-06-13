@@ -270,13 +270,7 @@
 
 <script setup>
 
-import {defineComponent, ref, computed, onBeforeMount, onMounted} from "vue";
-import {useQuasar} from "quasar";
-import {watch} from "vue";
-import {useI18n} from "vue-i18n";
-import {useUserStore} from 'stores/user'
-import {useRouter} from "vue-router";
-import {computed, onBeforeMount, ref, watch} from "vue";
+import {onBeforeMount, ref, watch} from "vue";
 import {useQuasar} from "quasar";
 import {useI18n} from "vue-i18n";
 import {useUserStore} from 'stores/user'
@@ -361,6 +355,11 @@ const permissions = computed(() => UserStore.getPermissions);
 function hasPermission(permission) {
   return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
+
+
+// function hasPermission(permission) {
+//   return true;
+// }
 
 function logout() {
   UserStore.logoutUser()
