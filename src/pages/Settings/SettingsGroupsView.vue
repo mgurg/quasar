@@ -70,6 +70,7 @@ let groupUuid = ref(route.params.uuid)
 let canEdit = ref(route.params.mode === 'edit')
 
 let isLoading = ref(true);
+const isError = ref(false);
 let isFetched = ref(false)
 
 watch(isLoading, (newValue, oldValue) => {

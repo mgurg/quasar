@@ -210,7 +210,7 @@ function deleteIdea(uuid, ideaName) {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    isLoading = true;
+    isLoading.value = true;
     deleteIdeaRequest(uuid).then(function (response) {
       $q.notify({
         type: 'warning',

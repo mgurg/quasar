@@ -43,7 +43,7 @@ const router = useRouter();
 const path = computed(() => route.path)
 const activationId = ref(route.params.id)
 
-let isLoading = ref('false')
+let isLoading = ref(false)
 let anonymousToken = ref(null);
 let tenant_id = ref(null)
 

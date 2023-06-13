@@ -418,7 +418,7 @@ function deleteIssue(uuid, issueName) {
     cancel: true,
     persistent: true,
   }).onOk(() => {
-    isLoading = true;
+    isLoading.value = true;
     deleteIssueRequest(uuid).then(function (response) {
       $q.notify({
         type: 'warning',

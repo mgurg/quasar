@@ -180,10 +180,10 @@ function getRoles() {
 const {resetForm} = useForm();
 
 const validationSchema = yup.object({
-  userFirstName: yup.string().required(),
-  userLastName: yup.string().required(),
+  userFirstName: yup.string().max(100).required(),
+  userLastName: yup.string().max(100).required(),
   userPassword: yup.string().required(),
-  userEmail: yup.string().email().required(),
+  userEmail: yup.string().max(256).email().required(),
   userPhone: yup.string().length(9).min(9).max(9).nullable(true),
   userRole: yup.string().required().nullable(true),
 })

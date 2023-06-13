@@ -109,6 +109,7 @@ const isUploading = ref(false);
 const uploadProgress = ref(0.1);
 const uploadProgressColor = "warning";
 let isLoading = ref(false);
+const isError = ref(false);
 
 const qFileError = ref(null);
 

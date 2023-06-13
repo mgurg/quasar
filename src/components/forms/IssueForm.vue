@@ -271,7 +271,7 @@ const {handleReset} = useForm();
 
 const validationSchema = yup.object({
   issueColor: yup.string().required(),
-  issueName: yup.string().required(),
+  issueName: yup.string().max(512).required(),
   issueDescription: yup.string(), //.required('A cool description is required').min(3),
   email: yup.string().nullable().test(
     "check-startdate",

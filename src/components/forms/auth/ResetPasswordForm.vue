@@ -4,7 +4,7 @@
     <div style="max-width: 400px;">
     <p>Podaj email na który założyłeś konto.</p>
     <p>Jeżeli będzie poprawny to otrzmasz wiadomośc z linkiem do formularza, gdzie wprowadzisz nowe hasło.</p>
-    
+
     </div>
     <q-form @submit="submit" >
       <q-input
@@ -42,12 +42,14 @@ import {object, string} from "yup";
 import {useRouter} from "vue-router";
 
 let isLoading = ref(false);
+const isError = ref(false);
+
 
 const router = useRouter();
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
-  email: string().required("Provide an valid email").email(),
+  email: string().max(256).required("Provide an valid email").email(),
 });
 
 const {handleSubmit, errors} = useForm({

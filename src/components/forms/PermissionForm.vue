@@ -98,7 +98,8 @@ const emit = defineEmits(['groupFormBtnClick', 'cancelBtnClick'])
 
 const router = useRouter();
 
-let isLoading = ref(false);
+const isLoading = ref(false);
+const isError = ref(false);
 
 let roleDetails = ref(null);
 let selectedPermissions = ref([])

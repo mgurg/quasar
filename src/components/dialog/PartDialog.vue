@@ -159,6 +159,7 @@ function recalculate() {
 }
 
 const isLoading = ref(false);
+const isError = ref(false);
 
 const submit = handleSubmit(values => {
 

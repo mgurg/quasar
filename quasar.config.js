@@ -8,7 +8,7 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
 
-
+const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (ctx) {
@@ -49,10 +49,28 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history',
+      sourceMap: true,
+
       env: process.env.NODE_ENV === 'development'
       ? require('dotenv').config({ path: '.env.develop' }).parsed
       : require('dotenv').config({ path: '.env.production' }).parsed,
+
+      devtool: "source-map", // Source map generation must be turned on
+      plugins: [
+        sentryWebpackPlugin({
+          org: "g-l9",
+          project: "quasar",
+    
+          // Auth tokens can be obtained from https://sentry.io/settings/account/api/auth-tokens/
+          // and need `project:releases` and `org:read` scopes
+          authToken: "a6047f1f638048f98780f14c99af7d8e04760b385f6943078fc76872ce52e560",
+          include: 'dist/spa',
+          ignore: ['node_modules']
+        }),
+      ],
+
+      
       // transpile: false,
       // publicPath: '/',
 

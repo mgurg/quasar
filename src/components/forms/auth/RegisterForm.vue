@@ -143,10 +143,10 @@
           </div>
         </q-step>
         <q-step :done="step > 2" :name="2" icon="create_new_folder" title="1">
-          <div class="text-h5 q-py-sm">Nie można utworzyć konta</div>
+          <div class="text-h5 q-py-sm">Firma o tym numerze NIP ma już założone konto</div>
           <q-separator/>
           <p class="q-py-sm">Żeby zacząć korzystać z aplikacji <span class="text-weight-bold">zgłoś się do osoby która korzysta</span>
-            już z tego rozwiązania w firmie.</p>
+            już z tego rozwiązania w Twojej firmie.</p>
           <p class="q-py-sm">Jeżeli ma odpowiednie uprawnienia, to utworzy Ci konto. </p>
         </q-step>
         >
@@ -201,6 +201,7 @@ setLocale(pl);
 
 let isPwd = ref(true);
 let isLoading = ref(false);
+const isError = ref(false);
 let errorMsg = ref(null);
 let step = ref(0)
 const router = useRouter();
@@ -235,17 +236,17 @@ function random_item(items) {
 // -------------- VeeValidate --------------
 
 const validationSchema = object({
-  email: string().required("Provide an valid email").email(),
+  email: string().max(253).required("Provide an valid email").email(),
   password: string().required(),
-  companyTaxId: string().required().matches(/^[0-9]+$/, 'Must be numeric').test(
+  companyTaxId: string().max(16).required().matches(/^[0-9]+$/, 'Must be numeric').test(
     "check-nip",
     "Provide valid NIP number",
     function (value) {
       return validatePolish.nip(value)
     }
   ),
-  firstName: string().required().label("First name"),
-  lastName: string().required().label("Last name"),
+  firstName: string().max(100).required().label("First name"),
+  lastName: string().max(100).required().label("Last name"),
   acceptTOS: bool().required().oneOf([true], "!"),
 });
 
@@ -266,7 +267,7 @@ const {value: companyCity} = useField("companyCity");
 
 
 const submit = handleSubmit((values) => {
-  let isLoading = ref(true);
+  let isLoading = ref(true); //TODO isLoading.value = false;
 
   if (step.value !== 1) {
     // const {name, short_name, street, postcode, city, country_code} = companyInfo({

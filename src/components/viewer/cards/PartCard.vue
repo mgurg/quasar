@@ -89,6 +89,7 @@ const props = defineProps({
 const expandedSummary = ref(props.expandedSummary)
 const issueUuid = ref(props.issueUuid)
 let isLoading = ref(false);
+const isError = ref(false);
 
 const replacedParts = ref(null)
 

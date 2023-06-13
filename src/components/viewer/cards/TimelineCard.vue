@@ -86,6 +86,7 @@ const props = defineProps({
 const router = useRouter();
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 const itemUuid = ref(props.itemUuid)
 

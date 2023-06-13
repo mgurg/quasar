@@ -249,6 +249,7 @@ let expandedIdeas = ref(true)
 let expandedIssues = ref(true)
 
 let isLoading = ref(false);
+const isError = ref(false);
 
 const route = useRoute();
 let userUuid = ref(route.params.uuid)
@@ -340,21 +341,21 @@ function activateUser(uuid) {
   });
 }
 
-function getUserIdeas(uuid) {
-  // userUuid.value
-  isLoading.value = true;
-  getUserIdeasRequest(uuid).then(function (response) {
-    ideas.value = response.data.items
-
-    if (response.data.items.length === 0) {
-      expandedIdeas.value = false;
-    }
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
-}
+// function getUserIdeas(uuid) {
+//   // userUuid.value
+//   isLoading.value = true;
+//   getUserIdeasRequest(uuid).then(function (response) {
+//     ideas.value = response.data.items
+//
+//     if (response.data.items.length === 0) {
+//       expandedIdeas.value = false;
+//     }
+//     isLoading.value = false;
+//   }).catch((err) => {
+//     const errorMessage = errorHandler(err);
+//     isError.value = true;
+//   });
+// }
 
 
 function getUserIssues(uuid) {
@@ -400,7 +401,7 @@ function deleteUser(uuid) {
 onBeforeMount(() => {
   isLoading.value = true;
   getUserDetails(route.params.uuid);
-  getUserIdeas(route.params.uuid);
+  // getUserIdeas(route.params.uuid);
   getUserIssues(route.params.uuid);
 });
 

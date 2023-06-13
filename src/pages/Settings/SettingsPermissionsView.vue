@@ -113,6 +113,7 @@ let permissionUuid = ref(route.params.uuid)
 let canEdit = ref(route.params.mode === 'edit' || route.params.mode === 'add')
 
 let isLoading = ref(false);
+const isError = ref(false);
 let isFetched = ref(false);
 
 function signUpButtonPressed(options) {
