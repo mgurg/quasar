@@ -8,6 +8,11 @@ A Quasar Project
 quasalang generate
 ```
 
+### Update lock file
+```
+npm i --package-lock-only
+```
+
 ## Icon
 ```
 icongenie generate -i app_icon.png --skip-trim --theme-color 027be3
