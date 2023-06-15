@@ -59,11 +59,11 @@
     "yup-locales": "^1.2.11"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^3.7.1",
+    "@quasar/app-webpack": "^3.9.2",
     "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.14",
     "@sentry/webpack-plugin": "^2.2.1",
     "dotenv": "^16.0.3",
-    "workbox-webpack-plugin": "^6.0.0"
+    "workbox-webpack-plugin": "^6.5.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
