@@ -25,8 +25,8 @@ config
 // eslint-disable-next-line no-restricted-globals,no-underscore-dangle
 precacheAndRoute(self.__WB_MANIFEST);
 
-workbox.core.skipWaiting();
-workbox.core.clientsClaim();
+// workbox.core.skipWaiting();
+// workbox.core.clientsClaim();
 
 /*
 caching strategies
@@ -52,11 +52,11 @@ caching strategies
 //   new NetworkFirst()
 // );
 
-// registerRoute(
-//   ({url}) => url.href.startsWith('http'),
-//   // new StaleWhileRevalidate()
-//   new NetworkFirst()
-// );
+registerRoute(
+  ({url}) => url.href.startsWith('http'),
+  // new StaleWhileRevalidate()
+  new NetworkFirst()
+);
 
 
 // POST https://api.intio.es/ideas/
