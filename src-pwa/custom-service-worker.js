@@ -25,6 +25,9 @@ config
 // eslint-disable-next-line no-restricted-globals,no-underscore-dangle
 precacheAndRoute(self.__WB_MANIFEST);
 
+workbox.core.skipWaiting();
+workbox.core.clientsClaim();
+
 /*
 caching strategies
 */
