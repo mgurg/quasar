@@ -49,7 +49,8 @@ caching strategies
 
 registerRoute(
   ({url}) => url.href.startsWith('http'),
-  new StaleWhileRevalidate()
+  // new StaleWhileRevalidate()
+  new NetworkFirst()
 );
 
 
