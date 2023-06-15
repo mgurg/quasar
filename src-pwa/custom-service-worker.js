@@ -21,6 +21,8 @@ import {NetworkFirst} from 'workbox-strategies';
 config
 */
 
+// Use with precache injection
+// eslint-disable-next-line no-restricted-globals,no-underscore-dangle
 precacheAndRoute(self.__WB_MANIFEST);
 
 /*
@@ -47,11 +49,11 @@ caching strategies
 //   new NetworkFirst()
 // );
 
-registerRoute(
-  ({url}) => url.href.startsWith('http'),
-  // new StaleWhileRevalidate()
-  new NetworkFirst()
-);
+// registerRoute(
+//   ({url}) => url.href.startsWith('http'),
+//   // new StaleWhileRevalidate()
+//   new NetworkFirst()
+// );
 
 
 // POST https://api.intio.es/ideas/
