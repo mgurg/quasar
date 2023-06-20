@@ -24,10 +24,10 @@
                 <q-item-section @click="setLocale('en-US')">English (English)</q-item-section>
               </q-item>
               <q-separator/>
-              <q-item v-close-popup clickable type="a" href="https://www.malgori.pl/usage/00_usage/" target="_blank">
+              <q-item v-close-popup clickable href="https://www.malgori.pl/usage/00_usage/" target="_blank" type="a">
                 <q-item-section>{{ $t("I need help") }}</q-item-section>
                 <q-item-section avatar>
-                  <q-icon color="primary" name="help_outline" />
+                  <q-icon color="primary" name="help_outline"/>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -93,14 +93,14 @@
           </q-item>
 
           <!--Guides Index-->
-          <!--          <q-item to="/guides" exact clickable v-ripple>-->
-          <!--            &lt;!&ndash; v-if="hasPermission('SETTINGS_VIEW')" &ndash;&gt;-->
-          <!--            <q-item-section avatar>-->
-          <!--              <q-icon size="md" name="construction" />-->
-          <!--            </q-item-section>-->
+          <q-item v-ripple clickable exact to="/guides">
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon name="subject" size="md"/>
+            </q-item-section>
 
-          <!--            <q-item-section>{{ $t("Guides") }}</q-item-section>-->
-          <!--          </q-item>-->
+            <q-item-section>{{ $t("Guides") }}</q-item-section>
+          </q-item>
 
           <!--Users Index-->
           <q-item v-if="hasPermission('USER_VIEW')" v-ripple clickable exact to="/users">
@@ -184,10 +184,10 @@
           <q-item-section>Calendar</q-item-section>
         </q-item> -->
         </q-list>
-        <q-list class="absolute-bottom q-py-lg" padding >
-          <q-item v-ripple clickable exact type="a" href="https://www.malgori.pl/usage/00_usage/" target="_blank">
+        <q-list class="absolute-bottom q-py-lg" padding>
+          <q-item v-ripple clickable exact href="https://www.malgori.pl/usage/00_usage/" target="_blank" type="a">
             <q-item-section avatar>
-              <q-icon color="primary" name="help_outline" size="md" />
+              <q-icon color="primary" name="help_outline" size="md"/>
             </q-item-section>
             <q-item-section>{{ $t("I need help") }}</q-item-section>
 

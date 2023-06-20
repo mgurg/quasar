@@ -22,9 +22,26 @@
 
             <div v-if="qrCode!==null" class="row">
               <div class="q-pa-xs col-xs-12 col-sm-6">
-                <img
-                  :src="GenerateQR(qrCode.qr_code_full_id, qrCode.ecc)"
-                  alt="qr code image"
+<!--                <img-->
+<!--                  :src="GenerateQR(qrCode.qr_code_full_id, qrCode.ecc)"-->
+<!--                  alt="qr code image"-->
+<!--                />-->
+
+                <QRCodeVue3
+                  :dotsOptions="{
+                    type: 'square',
+                    color: '#000000',
+                  }"
+                  :backgroundOptions="{ color: '#ffffff' }"
+                  :cornersSquareOptions="{ type: 'square', color: '#000000' }"
+                  :cornersDotOptions="{ type: 'square', color: '#000000' }"
+
+                  :download="true"
+                  :downloadOptions="{ name: 'vqr', extension: 'png' }"
+                  :value="GenerateQRUrl(qrCode.qr_code_full_id)"
+                  fileExt="png"
+                  imgclass="img-qr"
+                  myclass="my-qur"
                 />
                 <p>Jeśli chcesz wygenerować kod samodzielnie, użyj tekstu:</p>
                 <p class="text-weight-bold">{{ generateQRUrl(qrCode.qr_code_full_id) }}</p>
@@ -51,7 +68,7 @@
                 <!--                      toggle-color="primary"-->
                 <!--                    />-->
 
-                <q-btn
+                <q-btn class="my-button"
                   :href="GenerateQR(qrCode.qr_code_full_id, qrCode.ecc, qrCodeSize)"
 
                   download
@@ -73,6 +90,7 @@
 
 <script setup>
 import {ref} from "vue";
+import QRCodeVue3 from "qrcode-vue3";
 
 const props = defineProps({
   qrCode: {
@@ -101,10 +119,15 @@ function generateQRUrl(qrCodeId) {
   return process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
 }
 
+function GenerateQRUrl(qrCodeId) {
+  qrCodeId = qrCodeId.replace("+", "%2B")
+  return process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
+}
+
 function GenerateQR(qrCodeId, ecc, size = 300) {
   // https://app.malgori.pl/qr/mxw+234
 
-  qrCodeId= qrCodeId.replace("+","%2B")
+  qrCodeId = qrCodeId.replace("+", "%2B")
   let url = process.env.VUE_BASE_URL + "/qr/" + qrCodeId;
   // console.log(qrCodeId)
   // console.log("QR: " + url)

@@ -1,7 +1,13 @@
 <template>
 
-  <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
-          @submit.prevent>
+  <q-form
+    autocapitalize="off"
+    autocomplete="off"
+    autocorrect="off"
+    class="q-gutter-md"
+    spellcheck="false"
+    @submit.prevent
+  >
     <div v-if="hasPermission('ITEM_VIEW')" class="row">
       <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
         <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
@@ -134,8 +140,8 @@ import * as yup from 'yup';
 
 
 import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
-import TipTap from 'src/components/editor/TipTap.vue'
-import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import TipTap from 'components/editor/TipTap.vue'
+import PhotoUploader from 'components/uploader/PhotoUploader.vue'
 import {getTagsRequest} from "components/api/TagsApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {useUserStore} from "stores/user";

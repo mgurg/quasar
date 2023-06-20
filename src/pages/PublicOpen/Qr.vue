@@ -136,7 +136,7 @@ import {getAnonymousItemUuidRequest} from "components/api/ItemApiClient";
 import {DateTime} from "luxon";
 
 import GuideCard from "components/viewer/cards/GuideCard.vue";
-import IssuePublicForm from "components/forms/IssuePublicForm.vue";
+import IssuePublicForm from "components/forms/issue/IssuePublicForm.vue";
 import {addAnonymousIssueRequest} from "components/api/IssueApiClient";
 
 const route = useRoute();

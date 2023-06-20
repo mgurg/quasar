@@ -13,8 +13,11 @@
 
 
     <q-item-section side>
-      <q-btn outline @click="reportFailure(item.uuid)">Zgłoś</q-btn>
-      <!-- <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label> -->
+      <div class="text-grey-8 q-gutter-xs">
+      <q-btn size="12px" flat dense icon="bug_report" color="red-12" @click="reportFailure(item.uuid)"></q-btn>
+      <q-btn size="12px" flat dense icon="post_add" color="blue-12" @click="addGuide(item.uuid)"></q-btn>
+      </div>
+        <!-- <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label> -->
       <!-- <q-icon name="priority_high" color="red-12" /> -->
     </q-item-section>
   </q-item>
@@ -67,5 +70,12 @@ function viewItem(uuid) {
 function reportFailure(uuid) {
   console.log("New failure!" + uuid)
   router.push("/failure/" + uuid);
+}
+
+
+function addGuide(uuid) {
+  console.log("New guide!" + uuid)
+  router.push({path: '/guides/add/', query: {item: uuid}})
+
 }
 </script>

@@ -49,7 +49,7 @@
 
 <script setup>
 import {computed, onBeforeMount, ref} from "vue";
-import IssueForm from 'src/components/forms/IssueForm.vue'
+import IssueForm from 'components/forms/issue/IssueForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {addIssueRequest} from "components/api/IssueApiClient";
 import {errorHandler} from "components/api/errorHandler";

@@ -21,6 +21,10 @@
 
               <q-item-section>
                 <q-item-label class="text-h6">{{ $t("New guide") }}</q-item-label>
+
+                <q-item-label v-if="itemUuid===null" caption>
+                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
+                </q-item-label>
                 <!--
                   <q-item-label caption>
                   Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
@@ -41,7 +45,8 @@
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <guide-form
+          <guide-form v-if="showForm === true"
+            :item-name="itemName"
             @cancelBtnClick="cancelButtonPressed"
             @guideFormBtnClick="addButtonPressed"
           />
@@ -56,7 +61,7 @@
 
 <script setup>
 import {onBeforeMount, onBeforeUnmount, ref, watch} from "vue";
-import GuideForm from 'src/components/forms/GuideForm.vue'
+import GuideForm from 'components/forms/guide/GuideForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "stores/user";
 import {authApi} from "boot/axios";
@@ -65,6 +70,8 @@ import {VideoUploader} from '@api.video/video-uploader'
 import 'viewerjs/dist/viewer.css'
 import {addGuideRequest} from "components/api/GuideApiClient";
 import {errorHandler} from "components/api/errorHandler";
+import {getOneItemRequest} from "components/api/ItemApiClient";
+import IssueForm from "components/forms/issue/IssueForm.vue";
 
 const route = useRoute()
 const router = useRouter();
@@ -72,12 +79,15 @@ const UserStore = useUserStore();
 
 const tenantUuid = UserStore.getTenantUuid
 const userUuid = UserStore.getCurrentUserId
-const itemUuid = ref(null);
+
 
 const video = ref(null)
 let isLoading = ref(false);
 let isSuccess = ref(false);
 let isError = ref(false);
+let showForm = ref(false);
+const itemUuid = ref(null);
+const itemName = ref(null);
 let isUploading = ref(false);
 let alert = ref(false);
 
@@ -306,11 +316,30 @@ onBeforeUnmount(() => {
   clearInterval(intervalID);
 });
 
+function getItemDetails(uuid) {
+  isLoading.value = true;
+
+  getOneItemRequest(uuid).then(function (response) {
+    console.log(response.data.name);
+    itemName.value = response.data.name
+    showForm.value = true;
+    isLoading.value = false;
+  }).catch((err) => {
+    const errorMessage = errorHandler(err);
+    console.log(errorMessage);
+  });
+
+}
+
 onBeforeMount(() => {
   if ((route.query.item !== undefined) && (route.query.item !== null) && (route.query.item !== "")) {
     console.log("Query: " + route.query.item);
     itemUuid.value = route.query.item
+    getItemDetails(route.query.item);
+  } else {
+    showForm.value = true;
   }
+  isLoading.value=false
 });
 </script>
 

@@ -75,12 +75,12 @@
       <!--        </q-slide-transition>-->
       <!--      </q-card>-->
 
-      <video-card
-        v-if="guideDetails!==null && guideDetails.video_id!==null"
-        :expanded-video="true"
-        :video-id="guideDetails.video_id"
-        :video-metadata="guideDetails.video_json.encoding.metadata"
-      />
+<!--      <video-card-->
+<!--        v-if="guideDetails!==null && guideDetails.video_id!==null"-->
+<!--        :expanded-video="true"-->
+<!--        :video-id="guideDetails.video_id"-->
+<!--        :video-metadata="guideDetails.video_json.encoding.metadata"-->
+<!--      />-->
       <description-card v-if="guideDetails!==null" :expanded-description="true" :textJson="guideDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
 

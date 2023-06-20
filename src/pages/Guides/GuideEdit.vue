@@ -82,7 +82,7 @@
 
 <script setup>
 import {onBeforeMount, ref} from "vue";
-import GuideForm from 'src/components/forms/GuideForm.vue'
+import GuideForm from 'components/forms/guide/GuideForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "stores/user";
 import {authApi} from "boot/axios";

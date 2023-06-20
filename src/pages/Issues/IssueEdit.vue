@@ -51,7 +51,7 @@
 import {computed, onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
 import {useRoute, useRouter} from "vue-router";
-import IssueForm from 'src/components/forms/IssueForm.vue'
+import IssueForm from 'components/forms/issue/IssueForm.vue'
 import {errorHandler} from "components/api/errorHandler";
 import {editIssueRequest, getOneIssueRequest} from "components/api/IssueApiClient";
 import {deleteFileRequest} from "components/api/FilesApiClient";

@@ -7,7 +7,14 @@
     spellcheck="false"
     @submit.prevent
   >
-
+    <div v-if="hasPermission('ITEM_VIEW')" class="row">
+      <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
+        <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
+      </span>
+      <span v-else>
+        <span class="text-h6">Przedmiot: {{ itemName }}</span>
+      </span>
+    </div>
     <q-input
       v-model="guideName"
       :disable="isLoading"
@@ -20,9 +27,9 @@
     <div class="tiptap">
       <tip-tap-guide :body-content="tipTapText" @editor-content="logText"/>
     </div>
-    <div>
-      <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId"/>
-    </div>
+<!--    <div>-->
+<!--      <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId"/>-->
+<!--    </div>-->
     <div>
       <photo-uploader :file-list="props.guide.files_guide" @uploaded-photos="listOfUploadedImages"/>
     </div>
@@ -52,16 +59,23 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
 import {useRouter} from "vue-router";
 
 import TipTapGuide from 'components/editor/TipTapBasic.vue'
-import MovieUploader from 'src/components/uploader/MovieUploader.vue'
-import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import MovieUploader from 'components/uploader/MovieUploader.vue'
+import PhotoUploader from 'components/uploader/PhotoUploader.vue'
+import {useUserStore} from "stores/user";
 
 const router = useRouter();
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
+}
 
 const props = defineProps({
   guide: {
@@ -81,6 +95,10 @@ const props = defineProps({
   buttonText: {
     type: String,
     default: 'Save',
+  },
+  itemName: {
+    type: String,
+    default: null,
   },
 })
 
@@ -118,6 +136,12 @@ function listOfUploadedImages(images) {
 
 if (props.guide.text_json !== null) {
   tipTapText.value = props.guide.text_json;
+}
+
+const itemName = ref(null)
+
+if (props.itemName !== null) {
+  itemName.value = props.itemName;
 }
 
 // FORM
