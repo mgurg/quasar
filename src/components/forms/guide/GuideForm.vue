@@ -9,7 +9,7 @@
   >
     <div v-if="hasPermission('ITEM_VIEW')" class="row">
       <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
-        <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
+        <q-btn color="primary" flat icon="apps" no-caps to="/items/?mode=guide">Wybierz urządzenie</q-btn>
       </span>
       <span v-else>
         <span class="text-h6">Przedmiot: {{ itemName }}</span>

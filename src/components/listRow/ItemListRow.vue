@@ -8,14 +8,17 @@
 
     <q-item-section class="cursor-pointer" @click="viewItem(item.uuid)">
       <q-item-label lines="1" class="text-body1">{{ item.name }}</q-item-label>
-      <q-item-label caption lines="2">{{ item.text }}</q-item-label>
+      <q-item-label caption lines="2">{{ item.text }} {{props.displayMode}}</q-item-label>
     </q-item-section>
 
 
-    <q-item-section side>
+
+
+    <q-item-section side v-if="props.displayMode === null">
       <div class="text-grey-8 q-gutter-xs">
-      <q-btn size="12px" flat dense icon="bug_report" color="red-12" @click="reportFailure(item.uuid)"></q-btn>
-      <q-btn size="12px" flat dense icon="post_add" color="blue-12" @click="addGuide(item.uuid)"></q-btn>
+        <q-btn size="12px" flat dense icon="post_add" color="blue-12" @click="addGuide(item.uuid)"></q-btn>
+        <q-btn size="12px" flat dense icon="bug_report" color="red-12" @click="reportFailure(item.uuid)"></q-btn>
+
       </div>
         <!-- <q-item-label caption><q-icon name="star" color="warning" size="2rem" ></q-icon></q-item-label> -->
       <!-- <q-icon name="priority_high" color="red-12" /> -->
@@ -49,7 +52,11 @@ const props = defineProps({
         // created_at: "2022-03-09T11:02:38.822164+00:00",
       };
     },
-  }
+  },
+  displayMode: {
+    type: String,
+    default: null,
+  },
 });
 
 
@@ -63,13 +70,24 @@ function truncate(value, length) {
 }
 
 function viewItem(uuid) {
-  router.push("/items/" + uuid);
+
+  if (props.displayMode === "issue"){
+    router.push({path: '/issues/add/', query: {item: uuid}})
+  }
+  if (props.displayMode === "guide"){
+    router.push({path: '/guides/add/', query: {item: uuid}})
+  }
+  if (props.displayMode === null){
+    router.push("/items/" + uuid);
+  }
+
 }
 
 
 function reportFailure(uuid) {
   console.log("New failure!" + uuid)
-  router.push("/failure/" + uuid);
+  // router.push("/failure/" + uuid);
+  router.push({path: '/issues/add/', query: {item: uuid}})
 }
 
 
