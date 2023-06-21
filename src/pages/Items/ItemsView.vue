@@ -332,7 +332,7 @@ function addToFavourite() {
 function setSectionVisibility(condition) {
   console.log(condition)
   if (localStorage.getItem(condition) === null) {
-    localStorage.setItem(condition, JSON.stringify('true'))
+    localStorage.setItem(condition, JSON.stringify(true))
   } else {
     let currentValue = JSON.parse(localStorage.getItem(condition))
     localStorage.setItem(condition, JSON.stringify(!currentValue))
