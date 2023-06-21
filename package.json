@@ -53,6 +53,7 @@
     "validate-polish": "^2.1.40",
     "vee-validate": "^4.7.4",
     "vue": "^3.2.45",
+    "vue-adblock-detector": "^1.2.4",
     "vue-echarts": "^6.5.4",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",

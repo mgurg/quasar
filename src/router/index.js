@@ -30,6 +30,23 @@ export default route(function (/* { store, ssrContext } */) {
   const UserStore = useUserStore()
   // console.log('Router is ' , UserStore.isAuthenticated)
 
+  Router.onError(error => {
+    // https://github.com/ProtoSchool/protoschool.github.io/issues/555
+    // When a user comes back to a tab with ProtoSchool open after a deployment,
+    // they might get this ChunkLoadError error
+    // because the chunk's name does not exist anymore (because of cache busting hashes in the filenames).
+    // When it happens, we can force the page to reload and the new files will
+    // fetched instead.
+    if (error.name === 'ChunkLoadError') {
+      console.warn('Failed to load chunk due to new version of the website published - will reload page')
+  
+      Router.app.$notify.error("Błąd ładowania - odśwież stronę");
+      window.location.pathname = nextRoute ? nextRoute.path : window.location.pathname
+      window.location.reload(true);
+    }
+  })
+  
+
   Router.beforeEach((to, from, next) => {
     if(to.meta.requiresAuth && !UserStore.isAuthenticated){
       next('/login');

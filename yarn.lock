@@ -6600,6 +6600,11 @@ viewerjs@^1.9.0:
   resolved "https://registry.npmjs.org/viewerjs/-/viewerjs-1.11.3.tgz"
   integrity sha512-efG3U61Umuj/1x6JAtdvnY9m407C/RkrkFilsMcLEWKDivpjNU3/FeL+feCY1Vkur9aQeBJ+z6K4CCPP7hv6vA==
 
+vue-adblock-detector@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.npmjs.org/vue-adblock-detector/-/vue-adblock-detector-1.2.4.tgz"
+  integrity sha512-Wber3fqy41nd5SELD+sORsKusVlcth+42HN68ct/oWpaqSgAcS73N0ijmFKm2Da6ndXTIGPrtgCxxJSvqIu3bQ==
+
 vue-demi@^0.13.2:
   version "0.13.11"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.11.tgz"
