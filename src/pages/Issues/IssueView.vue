@@ -26,8 +26,8 @@
               <div class="col-12 text-h6 q-mt-none">
                 <q-btn
                   v-if="hasPermission('ISSUE_EDIT')"
-                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   :disable="issueStatus === 'done'"
+                  :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary"
                   icon="edit"
                   no-caps
@@ -37,8 +37,8 @@
                 />
                 <q-btn
                   v-if="hasPermission('ISSUE_DELETE')"
-                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   :disable="issueStatus === 'done'"
+                  :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm"
                   color="red"
                   flat
@@ -198,7 +198,7 @@
       <description-card v-if="issueDetails!==null" :expanded-description="true" :textJson="issueDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
 
-      <part-card :issue-uuid="issueUuid"  v-if="issueStatus!=='new' && issueDetails"></part-card>
+      <part-card v-if="issueStatus!=='new' && issueDetails" :issue-uuid="issueUuid"></part-card>
       <timeline-issue-card v-if="issueDetails!==null" :issue-uuid="issueDetails.uuid"/>
 
       <q-dialog v-model="showUserDialog" :position=" $q.platform.is.mobile ? 'top': 'standard'">
@@ -281,7 +281,7 @@ function getIssueDetails(uuid) {
     usersList.value = response.data.users_issue;
     tagList.value = response.data.tags_issue;
     issueStatus.value = response.data.status;
-    if (response.data.item){
+    if (response.data.item) {
       issueItemUuid.value = response.data.item.uuid;
     }
 

@@ -19,14 +19,14 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Items") }}</q-item-label>
-                 <q-item-label caption v-if="itemListMode !== null">Wskaż powiązany przedmiot</q-item-label>
+                <q-item-label v-if="itemListMode !== null" caption>Wskaż powiązany przedmiot</q-item-label>
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn
                     :flat="!showSearchBar"
-                    :unelevated="showSearchBar"
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
+                    :unelevated="showSearchBar"
                     class="float-right"
                     color="primary"
                     flat
@@ -114,7 +114,7 @@
           </q-item>
 
           <div v-for="(item, index) in items" v-if="items != null" v-bind:key="index">
-            <item-list-row :item="item" :display-mode="itemListMode"/>
+            <item-list-row :display-mode="itemListMode" :item="item"/>
           </div>
 
         </q-list>
@@ -123,26 +123,26 @@
         </div>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total === 0">
-      <div  class="text-body1 text-center q-pa-lg">
-        <p>Brak dodanych przedmiotów 🤔</p>
-        <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇
+      <q-card v-if="pagination.total === 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
+        <div class="text-body1 text-center q-pa-lg">
+          <p>Brak dodanych przedmiotów 🤔</p>
+          <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇
           </p>
 
-        <div class="col-12 text-h6 q-mt-none">
-          <q-btn
-             v-if="hasPermission('ITEM_ADD')"
-            :label="$t('New item')"
-            class="q-py-md q-my-md"
-            color="primary"
-            icon="add"
-            no-caps
-            to="/items/add"
-          />
-        </div>
+          <div class="col-12 text-h6 q-mt-none">
+            <q-btn
+              v-if="hasPermission('ITEM_ADD')"
+              :label="$t('New item')"
+              class="q-py-md q-my-md"
+              color="primary"
+              icon="add"
+              no-caps
+              to="/items/add"
+            />
+          </div>
 
-      </div>
-        </q-card>
+        </div>
+      </q-card>
 
 
     </q-page>
@@ -259,11 +259,11 @@ onBeforeMount(() => {
 
   if ((route.query.mode !== undefined) && (route.query.mode !== null) && (route.query.mode !== "")) {
     itemListMode.value = route.query.mode
-  console.log(itemListMode.value);
+    console.log(itemListMode.value);
   } else {
     // showForm.value = true;
   }
-  isLoading.value=false
+  isLoading.value = false
 
 
 });

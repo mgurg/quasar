@@ -4,17 +4,17 @@
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/"/>
-          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks"/>
-          <q-breadcrumbs-el label="Edit" icon="edit"/>
+          <q-breadcrumbs-el icon="add_task" label="Tasks" to="/tasks"/>
+          <q-breadcrumbs-el icon="edit" label="Edit"/>
         </q-breadcrumbs>
       </div>
       <task-form
-        :tasks="taskDetails"
-        button-text="Edit"
-        :usersList="usersList"
-        @taskFormBtnClick="signUpButtonPressed"
         v-if="taskDetails != null && usersList != null"
         :key="taskDetails.uuid"
+        :tasks="taskDetails"
+        :usersList="usersList"
+        button-text="Edit"
+        @taskFormBtnClick="signUpButtonPressed"
       />
       <task-edit-skeleton v-else/>
     </q-page>

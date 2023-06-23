@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
             color="grey"
@@ -61,7 +61,7 @@
 
         <q-separator/>
         <q-card-actions align="right">
-          <q-btn dense color="grey" flat>
+          <q-btn color="grey" dense flat>
             <div class="row items-center no-wrap">
               <q-icon color="grey-8" left name="event"/>
               <div class="text-center">
@@ -69,8 +69,8 @@
               </div>
             </div>
 
-            <q-menu cover anchor="center right">
-                <month-picker @date-range="updateDateRange" />
+            <q-menu anchor="center right" cover>
+              <month-picker @date-range="updateDateRange"/>
             </q-menu>
 
           </q-btn>
@@ -310,13 +310,13 @@ const dateTimeTo = ref(DateTime.now().setZone('UTC'))
 
 
 const dateRangeDisplay = computed(() => {
-  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")){
+  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")) {
     return dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
-  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")){
+  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")) {
     return dateTimeFrom.value.toFormat("dd") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
-  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")){
+  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")) {
     return dateTimeFrom.value.toFormat("dd.MM") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
   return dateTimeFrom.value.toFormat("dd.MM.yyyy") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");

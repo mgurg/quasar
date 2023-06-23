@@ -94,41 +94,41 @@
         </div>
       </div>
 
-<!--      <div class="row q-col-gutter-sm">-->
-<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
-<!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
-<!--            <q-card-section v-if="companyInfo!== null">-->
-<!--              <div class="text-h5">Firma:</div>-->
+      <!--      <div class="row q-col-gutter-sm">-->
+      <!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+      <!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
+      <!--            <q-card-section v-if="companyInfo!== null">-->
+      <!--              <div class="text-h5">Firma:</div>-->
 
-<!--              <div>{{ companyInfo.name }}</div>-->
-<!--              <div>{{ companyInfo.street }}</div>-->
-<!--              <div>{{ companyInfo.city }}</div>-->
-<!--              <q-separator/>-->
-<!--              <div>{{ companyInfo.nip }}</div>-->
+      <!--              <div>{{ companyInfo.name }}</div>-->
+      <!--              <div>{{ companyInfo.street }}</div>-->
+      <!--              <div>{{ companyInfo.city }}</div>-->
+      <!--              <q-separator/>-->
+      <!--              <div>{{ companyInfo.nip }}</div>-->
 
-<!--            </q-card-section>-->
-<!--          </q-card>-->
-<!--        </div>-->
-<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
-<!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
-<!--            <q-card-section>-->
-<!--              <div class="text-h5">Użytkownicy:</div>-->
-<!--              <div class="text-h5">{{ userCount }}</div>-->
+      <!--            </q-card-section>-->
+      <!--          </q-card>-->
+      <!--        </div>-->
+      <!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+      <!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
+      <!--            <q-card-section>-->
+      <!--              <div class="text-h5">Użytkownicy:</div>-->
+      <!--              <div class="text-h5">{{ userCount }}</div>-->
 
 
-<!--            </q-card-section>-->
-<!--          </q-card>-->
-<!--        </div>-->
-<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
-<!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
-<!--            <q-card-section>-->
+      <!--            </q-card-section>-->
+      <!--          </q-card>-->
+      <!--        </div>-->
+      <!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+      <!--          <q-card bordered class="my-card no-shadow q-mt-sm fit">-->
+      <!--            <q-card-section>-->
 
-<!--              <div class="text-h5">Wykorzystane miejsce:</div>-->
-<!--              <div class="text-h5">{{ usedSpace }}</div>-->
-<!--            </q-card-section>-->
-<!--          </q-card>-->
-<!--        </div>-->
-<!--      </div>-->
+      <!--              <div class="text-h5">Wykorzystane miejsce:</div>-->
+      <!--              <div class="text-h5">{{ usedSpace }}</div>-->
+      <!--            </q-card-section>-->
+      <!--          </q-card>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </q-page>
   </div>
 

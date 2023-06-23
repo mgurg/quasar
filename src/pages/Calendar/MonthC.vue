@@ -2,20 +2,20 @@
   <div class="row justify-center text-blue-grey-10">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="subcontent">
-        <navigation-bar @today="onToday" @prev="onPrev" @next="onNext"/>
+        <navigation-bar @next="onNext" @prev="onPrev" @today="onToday"/>
 
         <div class="row justify-center">
           <div style="display: flex; max-width: 800px; width: 100%;">
             <q-calendar-month
               ref="calendar"
               v-model="selectedDate"
+              :day-height="0"
+              :day-min-height="60"
               animated
               bordered
               focusable
               hoverable
               no-active-date
-              :day-min-height="60"
-              :day-height="0"
               @change="onChange"
               @moved="onMoved"
               @click-date="onClickDate"

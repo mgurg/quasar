@@ -5,10 +5,10 @@
       <!-- <h1>{{ time }}</h1> -->
 
       <!-- https://github.com/btowers/edrans/blob/a25e53b730c4fe9e8a35fc908a662cbeee1402f2/client/src/components/products/ProductNew.vue -->
-      <q-uploader :hide-upload-btn="true" ref="uploader"
-                  :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]" field-name="file"
-                  label="No thumbnails"
-                  color="amber" text-color="black" no-thumbnails accept=".jpg, image/*" style="max-width: 300px"
+      <q-uploader ref="uploader" :headers="[{ name: 'X-Custom-Timestamp', value: 1550240306080 }]"
+                  :hide-upload-btn="true" accept=".jpg, image/*"
+                  color="amber"
+                  field-name="file" label="No thumbnails" no-thumbnails style="max-width: 300px" text-color="black"
                   @added="uploadFile" @finish="finished">
 
       </q-uploader>
@@ -22,9 +22,9 @@
       <h3>IMGs</h3>
 
       <div class="row q-col-gutter-xs">
-        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" v-for="(file, index) in s3Files" v-bind:key="index">
-          <q-img :src="download_file(file.uuid)" spinner-color="black" style="height: 100%; width:100% " fit="contain">
-            <q-icon class="absolute all-pointer-events" size="sm" name="delete" color="blue-grey-5"
+        <div v-for="(file, index) in s3Files" v-bind:key="index" class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+          <q-img :src="download_file(file.uuid)" fit="contain" spinner-color="black" style="height: 100%; width:100% ">
+            <q-icon class="absolute all-pointer-events" color="blue-grey-5" name="delete" size="sm"
                     style="top: 8px; right: 8px" @click="delete_file(file.uuid)">
               <q-tooltip>Tooltip</q-tooltip>
             </q-icon>
@@ -34,25 +34,25 @@
       </div>
       <span>{{ uploadedFiles }}</span>
 
-      <q-img class="q-pa-md" src="https://picsum.photos/1920/1080" :ratio="16 / 9" @click="dialog = true"
-             style="max-width: 300px;">
-        <q-icon class="absolute all-pointer-events" size="32px" name="file_download" color="white"
+      <q-img :ratio="16 / 9" class="q-pa-md" src="https://picsum.photos/1920/1080" style="max-width: 300px;"
+             @click="dialog = true">
+        <q-icon class="absolute all-pointer-events" color="white" name="file_download" size="32px"
                 style="top: 8px; left: 8px ">
           <q-tooltip>Tooltip</q-tooltip>
         </q-icon>
       </q-img>
 
-      <q-dialog v-model="dialog" persistent transition-show="slide-up" transition-hide="slide-down" :maximized="true">
+      <q-dialog v-model="dialog" :maximized="true" persistent transition-hide="slide-down" transition-show="slide-up">
         <q-card class="bg-primary text-white">
           <q-bar>
             <q-space/>
 
-            <q-btn dense flat icon="close" v-close-popup>
+            <q-btn v-close-popup dense flat icon="close">
               <q-tooltip class="bg-white text-primary">Close</q-tooltip>
             </q-btn>
           </q-bar>
 
-          <q-img src="https://picsum.photos/1920/1080" :fit="cover"></q-img>
+          <q-img :fit="cover" src="https://picsum.photos/1920/1080"></q-img>
 
 
         </q-card>

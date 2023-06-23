@@ -25,8 +25,8 @@
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn
                     :flat="!showSearchBar"
-                    :unelevated="showSearchBar"
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
+                    :unelevated="showSearchBar"
                     class="float-right"
                     color="primary"
                     flat
@@ -35,12 +35,12 @@
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
+                    v-if="hasPermission('USER_ADD')"
                     :label="$q.screen.gt.xs ? $t('New employee') : ''"
                     class="float-right  q-mr-xs"
-                    color="primary"
-                    flat icon="add" no-caps
+                    color="primary" flat icon="add"
+                    no-caps
                     to="/users/add"
-                    v-if="hasPermission('USER_ADD')"
                   />
                   <!--                  <q-btn :label="$q.screen.gt.xs ? 'Importuj' : ''" class="float-right q-mr-xs" color="primary"-->
                   <!--                         icon="backup" no-caps flat-->
@@ -124,13 +124,12 @@
         </q-list>
 
 
-
         <div v-if="pagination.total > 10" class="q-pa-md flex flex-center">
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links/>
         </div>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="1===2 && newUsers!==null">
+      <q-card v-if="1===2 && newUsers!==null" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <div class="q-pa-md">
           <p class="text-h5">Użytkownicy oczekujący na weryfikację</p>
           <p>Masz uprawnienia pozwalające na zatwierdzanie nowych użytkowników. </p>
@@ -231,7 +230,7 @@ const verifiedUsers = computed(() => {
 });
 
 const newUsers = computed(() => {
-  if (users.value != null  && isLoading.value === false) {
+  if (users.value != null && isLoading.value === false) {
     return users.value.filter(user => (user.is_verified === false))
   } else {
     return users.value;

@@ -45,12 +45,12 @@
           <div class="row">
             <q-input
               v-model="newTag"
-              maxlength="128"
+              :disable="!hasPermission('TAG_ADD')"
               class="q-mr-xs"
               dense
               label="Nazwa"
+              maxlength="128"
               outlined
-              :disable="!hasPermission('TAG_ADD')"
 
             >
               <template v-slot:append>
@@ -58,8 +58,8 @@
               </template>
 
             </q-input>
-            <q-btn-dropdown color="primary" dense dropdown-icon="palette" flat label="Dodaj" no-caps split
-                            :disable="!hasPermission('TAG_ADD')"
+            <q-btn-dropdown :disable="!hasPermission('TAG_ADD')" color="primary" dense dropdown-icon="palette" flat label="Dodaj" no-caps
+                            split
                             @click="addTag(newTag)">
               <q-list style="min-width: 300px">
                 <q-color v-model="mainColor" dark default-view="palette" hide-underline no-footer no-header-tabs/>
@@ -138,10 +138,11 @@
                   <q-item-section side>
                     <div class="text-grey-8 q-gutter-xs">
 
-                      <q-btn :icon="tag.is_hidden === true ? 'visibility_off' :'visibility'" dense flat round size="12px"
-                             :disable="!hasPermission('TAG_HIDE')"
+                      <q-btn :disable="!hasPermission('TAG_HIDE')" :icon="tag.is_hidden === true ? 'visibility_off' :'visibility'" dense flat
+                             round
+                             size="12px"
                              @click="switchTagVisibility(tag.uuid, tag.is_hidden)"/>
-                      <q-btn dense flat icon="palette" round size="12px" :disable="!hasPermission('TAG_EDIT')">
+                      <q-btn :disable="!hasPermission('TAG_EDIT')" dense flat icon="palette" round size="12px">
                         <q-menu>
                           <q-card class="my-card" style="min-width: 300px">
                             <q-card-section>
@@ -178,7 +179,8 @@
 
                         </q-menu>
                       </q-btn>
-                      <q-btn dense flat icon="delete" round size="12px" @click="deleteTag(tag.uuid)" :disable="!hasPermission('TAG_DELETE')" />
+                      <q-btn :disable="!hasPermission('TAG_DELETE')" dense flat icon="delete" round size="12px"
+                             @click="deleteTag(tag.uuid)"/>
                     </div>
                   </q-item-section>
                 </q-item>

@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
             color="grey"
@@ -45,7 +45,7 @@
 
         <q-separator/>
         <q-card-actions align="right">
-          <q-btn dense color="grey" flat>
+          <q-btn color="grey" dense flat>
             <div class="row items-center no-wrap">
               <q-icon color="grey-8" left name="event"/>
               <div class="text-center">
@@ -53,97 +53,97 @@
               </div>
             </div>
 
-            <q-menu cover anchor="center right">
-              <month-picker @date-range="updateDateRange" />
+            <q-menu anchor="center right" cover>
+              <month-picker @date-range="updateDateRange"/>
             </q-menu>
 
           </q-btn>
-<!--          <q-input-->
-<!--            :label="dateRangeDisplay"-->
-<!--            autogrow-->
+          <!--          <q-input-->
+          <!--            :label="dateRangeDisplay"-->
+          <!--            autogrow-->
 
-<!--            class="float-right q-ma-xs q-pa-none"-->
-<!--            dense-->
-<!--            disable-->
-<!--            outlined-->
-<!--          >-->
-<!--            <template v-slot:after>-->
-<!--              <q-btn dense flat icon="event" round>-->
+          <!--            class="float-right q-ma-xs q-pa-none"-->
+          <!--            dense-->
+          <!--            disable-->
+          <!--            outlined-->
+          <!--          >-->
+          <!--            <template v-slot:after>-->
+          <!--              <q-btn dense flat icon="event" round>-->
 
-<!--                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">-->
-<!--                  <q-date-->
-<!--                    v-model="dateRange"-->
-<!--                    :multiple=false-->
-<!--                    mask="DD-MM-YYYY"-->
-<!--                    no-unset-->
-<!--                    range-->
-<!--                    today-btn-->
-<!--                    navigation-min-year-month="2023/01"-->
-<!--                  >-->
-<!--                    <div class="row items-center justify-end q-gutter-sm">-->
-<!--                      <q-separator/>-->
-<!--                      &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
-<!--                      <q-btn v-close-popup color="primary" flat label="OK"/>-->
-<!--                    </div>-->
-<!--                  </q-date>-->
-<!--                </q-popup-proxy>-->
+          <!--                <q-popup-proxy ref="qDateProxy" cover transition-hide="scale" transition-show="scale">-->
+          <!--                  <q-date-->
+          <!--                    v-model="dateRange"-->
+          <!--                    :multiple=false-->
+          <!--                    mask="DD-MM-YYYY"-->
+          <!--                    no-unset-->
+          <!--                    range-->
+          <!--                    today-btn-->
+          <!--                    navigation-min-year-month="2023/01"-->
+          <!--                  >-->
+          <!--                    <div class="row items-center justify-end q-gutter-sm">-->
+          <!--                      <q-separator/>-->
+          <!--                      &lt;!&ndash; <q-btn label="Cancel" color="primary" flat v-close-popup />&ndash;&gt;-->
+          <!--                      <q-btn v-close-popup color="primary" flat label="OK"/>-->
+          <!--                    </div>-->
+          <!--                  </q-date>-->
+          <!--                </q-popup-proxy>-->
 
-<!--              </q-btn>-->
-<!--            </template>-->
-<!--          </q-input>-->
+          <!--              </q-btn>-->
+          <!--            </template>-->
+          <!--          </q-input>-->
         </q-card-actions>
       </q-card>
 
-<!--      QUICK SUMMARY -->
-<!--      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">-->
-<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
-<!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">-->
-<!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
-<!--                              side-->
-<!--                              style="background-color: #d81b60">-->
-<!--                <q-icon color="white" name="functions" size="24px"></q-icon>-->
-<!--              </q-item-section>-->
-<!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
-<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="issuesCounter">{{ issuesCounter}}</q-item-label>-->
-<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
-<!--                <q-item-label>Liczba wszystkich awarii</q-item-label>-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
-<!--        </div>-->
-<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
-<!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">-->
-<!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
-<!--                              side-->
-<!--                              style="background-color: #ffa000">-->
-<!--                <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
-<!--              </q-item-section>-->
-<!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
-<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.max"> {{summaryTimes.max}} <span class="text-caption">min.</span>-->
-<!--                </q-item-label>-->
-<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
-<!--                <q-item-label>Średni czas naprawy</q-item-label>-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
+      <!--      QUICK SUMMARY -->
+      <!--      <div class="row q-col-gutter-sm q-pb-md q-mt-sm">-->
+      <!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+      <!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #e91e63">-->
+      <!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+      <!--                              side-->
+      <!--                              style="background-color: #d81b60">-->
+      <!--                <q-icon color="white" name="functions" size="24px"></q-icon>-->
+      <!--              </q-item-section>-->
+      <!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+      <!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="issuesCounter">{{ issuesCounter}}</q-item-label>-->
+      <!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
+      <!--                <q-item-label>Liczba wszystkich awarii</q-item-label>-->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
+      <!--        </div>-->
+      <!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+      <!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #ffb300">-->
+      <!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+      <!--                              side-->
+      <!--                              style="background-color: #ffa000">-->
+      <!--                <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
+      <!--              </q-item-section>-->
+      <!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+      <!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.max"> {{summaryTimes.max}} <span class="text-caption">min.</span>-->
+      <!--                </q-item-label>-->
+      <!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
+      <!--                <q-item-label>Średni czas naprawy</q-item-label>-->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
 
-<!--        </div>-->
-<!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
-<!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">-->
-<!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
-<!--                              side-->
-<!--                              style="background-color: #00897b">-->
-<!--                <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
-<!--              </q-item-section>-->
-<!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
-<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.avg">{{summaryTimes.avg}} <span class="text-caption">min.</span>-->
-<!--                </q-item-label>-->
-<!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
-<!--                <q-item-label>Maks. czas naprawy </q-item-label>-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
+      <!--        </div>-->
+      <!--        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">-->
+      <!--            <q-item class="q-pa-none no-shadow rounded-borders fit" style="background-color: #009688">-->
+      <!--              <q-item-section class=" q-pa-lg q-mr-none text-white rounded-borders"-->
+      <!--                              side-->
+      <!--                              style="background-color: #00897b">-->
+      <!--                <q-icon color="white" name="alarm_on" size="24px"></q-icon>-->
+      <!--              </q-item-section>-->
+      <!--              <q-item-section class=" q-pa-md q-ml-none  text-white">-->
+      <!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-if="summaryTimes.avg">{{summaryTimes.avg}} <span class="text-caption">min.</span>-->
+      <!--                </q-item-label>-->
+      <!--                <q-item-label class="text-white text-h5 text-weight-bolder" v-else>-&#45;&#45;</q-item-label>-->
+      <!--                <q-item-label>Maks. czas naprawy </q-item-label>-->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
-<!--        </div>-->
-<!--      </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
 
       <!-- liczba usterek z podziałem na dni -->
       <q-card bordered class="my-card no-shadow q-my-sm">
@@ -233,7 +233,7 @@
             <div class="col">Naprawy (Średni):</div>
             <div class="col"> {{ humanizeSeconds(issuesRepairTime.avg) }}</div>
           </div>
-<!--          <q-separator/>-->
+          <!--          <q-separator/>-->
           <div class="row q-py-sm">
             <div class="col">Naprawy (Maksymalny):</div>
             <div class="col">{{ humanizeSeconds(issuesRepairTime.max) }}</div>
@@ -278,12 +278,12 @@
 <script setup>
 import BarChart from "components/charts/BarChart.vue";
 import HeatMapChart from "components/charts/HeatMapChart.vue";
-import {computed, onBeforeMount, ref, watch} from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {getItemStatisticsRequest, getItemTimelineRequest} from "components/api/ItemApiClient";
+import {getItemStatisticsRequest} from "components/api/ItemApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import humanizeDuration from "humanize-duration";
-import {DateTime, Duration, Interval} from "luxon";
+import {DateTime} from "luxon";
 import MonthPicker from "components/custom/MonthPicker.vue";
 
 
@@ -317,13 +317,13 @@ const dateTimeTo = ref(DateTime.now().setZone('UTC'))
 
 
 const dateRangeDisplay = computed(() => {
-  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")){
+  if (dateTimeFrom.value.toFormat("dd.MM.yyyy") === dateTimeTo.value.toFormat("dd.MM.yyyy")) {
     return dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
-  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")){
+  if (dateTimeFrom.value.toFormat("MM.yyyy") === dateTimeTo.value.toFormat("MM.yyyy")) {
     return dateTimeFrom.value.toFormat("dd") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
-  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")){
+  if (dateTimeFrom.value.toFormat("yyyy") === dateTimeTo.value.toFormat("yyyy")) {
     return dateTimeFrom.value.toFormat("dd.MM") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
   }
   return dateTimeFrom.value.toFormat("dd.MM.yyyy") + " - " + dateTimeTo.value.toFormat("dd.MM.yyyy");
@@ -451,7 +451,7 @@ function humanizeSeconds(seconds) {
 }
 
 onBeforeMount(() => {
-  if (route.params.uuid !== null){
+  if (route.params.uuid !== null) {
     // console.log("Report for: " + route.params.uuid)
     getItemStatistics(route.params.uuid)
   }

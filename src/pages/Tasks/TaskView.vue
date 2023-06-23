@@ -4,15 +4,15 @@
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/"/>
-          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks"/>
+          <q-breadcrumbs-el icon="add_task" label="Tasks" to="/tasks"/>
           <q-breadcrumbs-el :label="$t('View')" icon="info"/>
         </q-breadcrumbs>
       </div>
 
-      <q-card class="my-card" bordered flat v-if="taskDetails && !isLoading">
+      <q-card v-if="taskDetails && !isLoading" bordered class="my-card" flat>
         <q-item>
           <q-item-section avatar>
-            <q-avatar rounded color="green" text-color="white">MG</q-avatar>
+            <q-avatar color="green" rounded text-color="white">MG</q-avatar>
           </q-item-section>
 
           <q-item-section>
@@ -27,15 +27,15 @@
         <q-separator/>
         <div class="row q-col-gutter-xs">
           <div
-            class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
             v-for="(file, index) in taskDetails.file"
             v-bind:key="index"
+            class="col-xs-6 col-sm-6 col-md-3 col-lg-3"
           >
             <q-img
               :src="downloadFileUrl(file.uuid)"
+              fit="contain"
               spinner-color="black"
               style="height: 100%; width:100% "
-              fit="contain"
             >
               <!-- <q-icon
               class="absolute all-pointer-events"
@@ -63,45 +63,45 @@
         </div>
         <q-card-actions align="right">
           <q-btn
-            flat
-            color="primary"
-            icon="done"
             v-if="taskDetails.status == null"
+            color="primary"
+            flat
+            icon="done"
             @click="changeState('accepted')"
           >Accept
           </q-btn>
 
           <q-btn
-            flat
-            color="red-12"
-            icon="lock_open"
             v-if="taskDetails.status == null"
+            color="red-12"
+            flat
+            icon="lock_open"
             @click="changeState('rejected')"
           >Reject
           </q-btn>
 
           <q-btn
-            flat
-            color="red-12"
-            icon="play_arrow"
             v-if="taskDetails.status === 'accepted' || taskDetails.status === 'paused'"
+            color="red-12"
+            flat
+            icon="play_arrow"
             @click="changeState('start')"
           >Start
           </q-btn>
           <q-btn
-            flat
-            color="deep-orange-11"
-            icon="pause"
             v-if="taskDetails.status === ('in_progress')"
+            color="deep-orange-11"
+            flat
+            icon="pause"
             @click="changeState('pause')"
           >Hold
           </q-btn>
 
           <q-btn
-            flat
-            color="primary"
-            icon="stop"
             v-if="taskDetails.status != null"
+            color="primary"
+            flat
+            icon="stop"
             @click="changeState('stop')"
           >Done
           </q-btn>
@@ -112,8 +112,8 @@
         <q-separator/>
 
         <q-card-actions>
-          <q-btn flat round icon="event"/>
-          <q-btn flat color="primary">Reserve</q-btn>
+          <q-btn flat icon="event" round/>
+          <q-btn color="primary" flat>Reserve</q-btn>
         </q-card-actions>
       </q-card>
 

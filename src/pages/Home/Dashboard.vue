@@ -7,7 +7,8 @@
           <q-icon color="warning" name="warning"/>
         </template>
         Ten projekt nie jest oficjalnie wydany. Po zakończeniu testów dane zostaną usunięte!
-        Pomysły/sugestie? <a class="text-weight-bold text-black" href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
+        Pomysły/sugestie? <a class="text-weight-bold text-black"
+                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
                              style="text-decoration: underline;">Napisz do mnie</a>
         📧
       </q-banner>
@@ -273,6 +274,7 @@ const componentKey = ref(0);
 const forceRerender = () => {
   componentKey.value += 1;
 };
+
 function goToIssues(status) {
   router.push({path: "/issues", query: {filter: status}})
 }

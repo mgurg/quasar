@@ -46,7 +46,8 @@
         <q-card-section>
           <group-form v-if="!isLoading && isFetched" :key="groupUuid" :canEdit="canEdit"
                       :group="roleDetails || undefined"
-                      :groupUuid="groupUuid" @cancelBtnClick="cancelButtonPressed" @groupFormBtnClick="signUpButtonPressed"/>
+                      :groupUuid="groupUuid" @cancelBtnClick="cancelButtonPressed"
+                      @groupFormBtnClick="signUpButtonPressed"/>
           <group-edit-skeleton v-if="isLoading"/>
         </q-card-section>
       </q-card>

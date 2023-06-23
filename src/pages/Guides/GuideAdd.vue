@@ -1,59 +1,50 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
-        <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides"/>
+        <q-breadcrumbs-el :label="$t('Guides')" icon="subject" to="/guides"/>
         <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
-        <q-card-section>
-          <q-list>
-            <q-item class="q-px-none">
+      <!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
+      <!--        <q-card-section>-->
+      <!--          <q-list>-->
+      <!--            <q-item class="q-px-none">-->
 
-              <q-item-section>
-                <q-item-label class="text-h6">{{ $t("New guide") }}</q-item-label>
+      <!--              <q-item-section>-->
+      <!--                <q-item-label class="text-h6">{{ $t("New guide") }}</q-item-label>-->
 
-                <q-item-label v-if="itemUuid===null" caption>
-                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
-                </q-item-label>
-                <!--
-                  <q-item-label caption>
-                  Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
-                  Pamiętaj o opcji importu!
-                </q-item-label>
-                -->
-              </q-item-section>
-            </q-item>
+      <!--                <q-item-label v-if="itemUuid===null" caption>-->
+      <!--                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.-->
+      <!--                </q-item-label>-->
+      <!--     -->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
-          </q-list>
-        </q-card-section>
-      </q-card>
+      <!--          </q-list>-->
+      <!--        </q-card-section>-->
+      <!--      </q-card>-->
 
 
       <!-- https://github.com/oneriang/quasar_dashboard/blob/main/src/components/Editor.vue -->
 
-      <div>&nbsp;</div>
-
-      <q-card class="my-card no-shadow q-ma-none q-pa-none">
-        <q-card-section>
+      <q-card bordered class="my-card no-shadow q-ma-none q-pa-none">
+        <q-card-section :class="$q.screen.gt.xs ? 'q-px-md':'q-px-xs'">
           <guide-form v-if="showForm === true"
-            :item-name="itemName"
-            @cancelBtnClick="cancelButtonPressed"
-            @guideFormBtnClick="addButtonPressed"
+                      :item-name="itemName"
+                      @cancelBtnClick="cancelButtonPressed"
+                      @guideFormBtnClick="addButtonPressed"
           />
         </q-card-section>
       </q-card>
-
-
     </q-page>
   </div>
 </template>
@@ -71,7 +62,6 @@ import 'viewerjs/dist/viewer.css'
 import {addGuideRequest} from "components/api/GuideApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {getOneItemRequest} from "components/api/ItemApiClient";
-import IssueForm from "components/forms/issue/IssueForm.vue";
 
 const route = useRoute()
 const router = useRouter();
@@ -339,7 +329,7 @@ onBeforeMount(() => {
   } else {
     showForm.value = true;
   }
-  isLoading.value=false
+  isLoading.value = false
 });
 </script>
 

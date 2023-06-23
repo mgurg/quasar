@@ -35,11 +35,11 @@
       <q-card bordered class="my-card no-shadow q-my-sm q-mx-none q-pa-none">
         <q-card-section>
           <user-form-edit v-if="userDetails != null"
-                     :key="userDetails.uuid"
-                     :user="userDetails"
-                     button-text="Save"
-                     @cancelBtnClick="cancelButtonPressed"
-                     @userFormBtnClick="signUpButtonPressed"
+                          :key="userDetails.uuid"
+                          :user="userDetails"
+                          button-text="Save"
+                          @cancelBtnClick="cancelButtonPressed"
+                          @userFormBtnClick="signUpButtonPressed"
           />
           <user-edit-skeleton v-else/>
         </q-card-section>

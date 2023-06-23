@@ -15,31 +15,31 @@
       </q-breadcrumbs>
 
 
-<!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
-<!--        <q-card-section>-->
-<!--          <q-list>-->
-<!--            <q-item class="q-px-none">-->
+      <!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
+      <!--        <q-card-section>-->
+      <!--          <q-list>-->
+      <!--            <q-item class="q-px-none">-->
 
-<!--              <q-item-section>-->
-<!--                <q-item-label class="text-h5 text-weight-medium">{{ $t("New issue") }}</q-item-label>-->
+      <!--              <q-item-section>-->
+      <!--                <q-item-label class="text-h5 text-weight-medium">{{ $t("New issue") }}</q-item-label>-->
 
-<!--                <q-item-label v-if="itemUuid===null" caption>-->
-<!--                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.-->
-<!--                </q-item-label>-->
-<!--                <q-btn flat no-caps>Idę do listy urządzeń</q-btn>-->
-<!--              </q-item-section>-->
-<!--            </q-item>-->
+      <!--                <q-item-label v-if="itemUuid===null" caption>-->
+      <!--                  Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.-->
+      <!--                </q-item-label>-->
+      <!--                <q-btn flat no-caps>Idę do listy urządzeń</q-btn>-->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
-<!--          </q-list>-->
-<!--        </q-card-section>-->
-<!--      </q-card>-->
+      <!--          </q-list>-->
+      <!--        </q-card-section>-->
+      <!--      </q-card>-->
 
       <q-card bordered class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section :class="$q.screen.gt.xs ? 'q-px-md':'q-px-xs'">
           <issue-form v-if="showForm === true"
                       :item-name="itemName"
-            @cancelBtnClick="cancelButtonPressed"
-            @issueFormBtnClick="addButtonPressed"
+                      @cancelBtnClick="cancelButtonPressed"
+                      @issueFormBtnClick="addButtonPressed"
           />
         </q-card-section>
       </q-card>
@@ -61,6 +61,7 @@ import {useUserStore} from "stores/user";
 const UserStore = useUserStore();
 
 const permissions = computed(() => UserStore.getPermissions);
+
 function hasPermission(permission) {
   return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
@@ -103,7 +104,7 @@ function getItemDetails(uuid) {
 }
 
 function addButtonPressed(issueForm) {
-  if (!hasPermission("ISSUE_ADD")){
+  if (!hasPermission("ISSUE_ADD")) {
     return;
   }
 
@@ -116,14 +117,14 @@ function cancelButtonPressed() {
 }
 
 onBeforeMount(() => {
-  isLoading.value=true
+  isLoading.value = true
   if ((route.query.item !== undefined) && (route.query.item !== null) && (route.query.item !== "")) {
     itemUuid.value = route.query.item
     getItemDetails(route.query.item);
   } else {
     showForm.value = true;
   }
-  isLoading.value=false
+  isLoading.value = false
 });
 </script>
 

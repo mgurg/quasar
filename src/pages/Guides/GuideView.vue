@@ -5,7 +5,7 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
                   $t("Return")
                 }}
               </q-btn>
@@ -75,12 +75,12 @@
       <!--        </q-slide-transition>-->
       <!--      </q-card>-->
 
-<!--      <video-card-->
-<!--        v-if="guideDetails!==null && guideDetails.video_id!==null"-->
-<!--        :expanded-video="true"-->
-<!--        :video-id="guideDetails.video_id"-->
-<!--        :video-metadata="guideDetails.video_json.encoding.metadata"-->
-<!--      />-->
+      <!--      <video-card-->
+      <!--        v-if="guideDetails!==null && guideDetails.video_id!==null"-->
+      <!--        :expanded-video="true"-->
+      <!--        :video-id="guideDetails.video_id"-->
+      <!--        :video-metadata="guideDetails.video_json.encoding.metadata"-->
+      <!--      />-->
       <description-card v-if="guideDetails!==null" :expanded-description="true" :textJson="guideDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
 
@@ -97,7 +97,6 @@ import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
-import VideoCard from "components/viewer/cards/VideoCard.vue";
 
 const $q = useQuasar();
 

@@ -8,7 +8,7 @@
           <q-list>
             <q-item class="q-px-none">
               <q-item-section>
-                <q-item-label class="text-h5 text-weight-medium" v-if="itemDetails!= null">{{ $t("Issue") }}:
+                <q-item-label v-if="itemDetails!= null" class="text-h5 text-weight-medium">{{ $t("Issue") }}:
                   {{ itemDetails.name }}
                 </q-item-label>
                 <q-item-label caption>
@@ -74,7 +74,7 @@ function getDetails(uuid) {
     itemDetails.value = response.data;
     // json.value = res.data.body_json;
 
-    if (response.data.item_guides.length === 0 ) // no Guides, so go to report form
+    if (response.data.item_guides.length === 0) // no Guides, so go to report form
     {
       isLoading.value = false;
       router.push({path: '/issues/add/', query: {item: itemUuid.value}})

@@ -1,12 +1,12 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
@@ -16,28 +16,28 @@
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
-          <q-form autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" class="q-gutter-md"
+          <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
                   @submit.prevent>
 
             <p class="text-h5"> Powiadomienia </p>
 
-<!--            <p class="text-h6"> SMS </p>-->
-<!--            <p>Informuj mnie o:</p>-->
-<!--            <ul>-->
-<!--              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>-->
-<!--              <ul>-->
-<!--                <li>brak priorytetu (usterka, maszyna działa)</li>-->
-<!--                <li>niskim</li>-->
-<!--                <li>średnim</li>-->
-<!--                <li>wysokim (poważna awaria, zatrzymanie)</li>-->
-<!--              </ul>-->
-<!--              <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>-->
-<!--            </ul>-->
+            <!--            <p class="text-h6"> SMS </p>-->
+            <!--            <p>Informuj mnie o:</p>-->
+            <!--            <ul>-->
+            <!--              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>-->
+            <!--              <ul>-->
+            <!--                <li>brak priorytetu (usterka, maszyna działa)</li>-->
+            <!--                <li>niskim</li>-->
+            <!--                <li>średnim</li>-->
+            <!--                <li>wysokim (poważna awaria, zatrzymanie)</li>-->
+            <!--              </ul>-->
+            <!--              <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>-->
+            <!--            </ul>-->
 
             <p class="text-h6"> Email </p>
             <p>Informuj mnie o:</p>
             <ul>
-              <li>każdym nowym problemie, o priorytecie wyższym lub równym: </li>
+              <li>każdym nowym problemie, o priorytecie wyższym lub równym:</li>
               <ul>
                 <li>brak priorytetu (usterka, maszyna działa)</li>
                 <li>niskim</li>
@@ -47,14 +47,14 @@
               <li>Tylko o problemie przypisanym do mnie (nieważne jaki priorytet)</li>
             </ul>
 
-<!--            <q-input outlined v-model="ActionUrl" readonly>-->
-<!--              <template v-slot:after>-->
-<!--                <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()"/>-->
-<!--                <q-btn round dense flat icon="qr_code_2" @click="toggleQr()"/>-->
-<!--              </template>-->
-<!--            </q-input>-->
+            <!--            <q-input outlined v-model="ActionUrl" readonly>-->
+            <!--              <template v-slot:after>-->
+            <!--                <q-btn round dense flat icon="content_copy" @click="copyToClipBoard()"/>-->
+            <!--                <q-btn round dense flat icon="qr_code_2" @click="toggleQr()"/>-->
+            <!--              </template>-->
+            <!--            </q-input>-->
 
-<!--            <img v-if="showQR" :src="ActionUrlQr" alt="QR code"/>-->
+            <!--            <img v-if="showQR" :src="ActionUrlQr" alt="QR code"/>-->
 
             <p class="text-h6">{{ $t("Submission type") }}</p>
             <q-list>
@@ -73,7 +73,7 @@
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>{{ $t("Anonymous with required confirmation") }}
-                    <q-input outlined dense :placeholder="registrationMailDomain"></q-input>
+                    <q-input :placeholder="registrationMailDomain" dense outlined></q-input>
                   </q-item-label>
                   <q-item-label caption>Przyśpiesz zakładanie konta</q-item-label>
                 </q-item-section>
@@ -101,7 +101,7 @@
                 /> -->
             <div class="row">
               <q-space/>
-              <q-btn color="primary" :disable="isLoading" :loading="isLoading" type="submit" @click="save">Save</q-btn>
+              <q-btn :disable="isLoading" :loading="isLoading" color="primary" type="submit" @click="save">Save</q-btn>
             </div>
           </q-form>
         </q-card-section>
