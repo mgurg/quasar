@@ -10,12 +10,15 @@
   >
     <div v-if="hasPermission('ITEM_VIEW')" class="row">
       <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
-        <q-btn color="primary" flat icon="apps" no-caps to="/items/?mode=issue">Wybierz urządzenie</q-btn>
+        <q-btn color="primary" flat icon="apps" no-caps to="/items/?mode=issue">wybierz</q-btn>
       </span>
       <span v-else>
         <span class="text-h6">Przedmiot: {{ itemName }}</span>
       </span>
+    </div>
 
+    <div v-if="itemName===null" class="text-caption text-grey">
+      Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
     </div>
 
     <q-input
@@ -172,6 +175,7 @@ const props = defineProps({
         uuid: null,
         name: '',
         description: '',
+        item: null,
         color: 'red',
         user: null,
         priority: null,
@@ -212,6 +216,7 @@ const emit = defineEmits(['issueFormBtnClick', 'cancelBtnClick'])
 let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.issue.files_issue);
+const itemName = ref(null)
 
 // IMG
 const files = ref(null)
@@ -236,6 +241,10 @@ const tipTapText = ref(null)
 
 if (props.issue.text_json !== null) {
   tipTapText.value = props.issue.text_json;
+}
+
+if (props.issue.item !== null) {
+  itemName.value = props.issue.item.name
 }
 
 if (props.issue.tags_issue !== null) {
@@ -265,7 +274,7 @@ if (props.issue.priority !== null) {
   console.log(priority)
 }
 
-const itemName = ref(null)
+
 
 if (props.itemName !== null) {
   itemName.value = props.itemName;

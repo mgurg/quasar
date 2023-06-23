@@ -15,27 +15,21 @@
         <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
-        <q-card-section>
-          <q-list>
-            <q-item class="q-px-none">
+<!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
+<!--        <q-card-section>-->
+<!--          <q-list>-->
+<!--            <q-item class="q-px-none">-->
 
-              <q-item-section>
+<!--              <q-item-section>-->
 
-                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{ guideDetails.name }}
-                </q-item-label>
-                <!--
-                  <q-item-label caption>
-                  Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
-                  Pamiętaj o opcji importu!
-                </q-item-label>
-                -->
-              </q-item-section>
-            </q-item>
+<!--                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{ guideDetails.name }}-->
+<!--                </q-item-label>-->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
 
-          </q-list>
-        </q-card-section>
-      </q-card>
+<!--          </q-list>-->
+<!--        </q-card-section>-->
+<!--      </q-card>-->
 
       <!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
       <!--        <q-card-section class="row q-pa-sm">-->

@@ -11,24 +11,24 @@
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
         <q-breadcrumbs-el :label="$t('Issues')" icon="bug_report" to="/issues"/>
-        <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
+        <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
-        <q-card-section>
-          <q-list>
-            <q-item class="q-px-none">
+<!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
+<!--        <q-card-section>-->
+<!--          <q-list>-->
+<!--            <q-item class="q-px-none">-->
 
-              <q-item-section>
-                <q-item-label v-if="issueDetails != null" class="text-h6">{{ $t('Edit') }}: {{ issueDetails.title }}
-                </q-item-label>
-                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
-              </q-item-section>
-            </q-item>
+<!--              <q-item-section>-->
+<!--                <q-item-label v-if="issueDetails != null" class="text-h6">{{ $t('Edit') }}: {{ issueDetails.title }}-->
+<!--                </q-item-label>-->
+<!--                 <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
+<!--              </q-item-section>-->
+<!--            </q-item>-->
 
-          </q-list>
-        </q-card-section>
-      </q-card>
+<!--          </q-list>-->
+<!--        </q-card-section>-->
+<!--      </q-card>-->
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>

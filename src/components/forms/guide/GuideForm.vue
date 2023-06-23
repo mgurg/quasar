@@ -15,6 +15,11 @@
         <span class="text-h6">Przedmiot: {{ itemName }}</span>
       </span>
     </div>
+
+    <div v-if="itemName===null" class="text-caption text-grey">
+      Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
+    </div>
+
     <q-input
       v-model="guideName"
       :disable="isLoading"

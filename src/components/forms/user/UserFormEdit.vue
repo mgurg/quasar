@@ -175,7 +175,7 @@ const validationSchema = yup.object({
   userLastName: yup.string().max(100).required(),
   userAccept: yup.string().nullable(),
   userEmail: yup.string().email().max(256).required(),
-  userPhone: yup.string().length(9).min(9).max(9).nullable(true),
+  userPhone: yup.string().nullable(),
   userRole: yup.string().required().nullable(true),
 })
 

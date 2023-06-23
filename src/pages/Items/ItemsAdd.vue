@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import ItemForm from 'src/components/forms/ItemForm.vue'
+import ItemForm from 'components/forms/item/ItemForm.vue'
 import {useRouter} from "vue-router";
 import {errorHandler} from "components/api/errorHandler";
 import {addItemRequest} from "components/api/ItemApiClient";

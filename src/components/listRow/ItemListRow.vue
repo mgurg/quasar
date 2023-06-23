@@ -8,7 +8,7 @@
 
     <q-item-section class="cursor-pointer" @click="viewItem(item.uuid)">
       <q-item-label lines="1" class="text-body1">{{ item.name }}</q-item-label>
-      <q-item-label caption lines="2">{{ item.text }} {{props.displayMode}}</q-item-label>
+      <q-item-label caption lines="2">{{ item.text }}</q-item-label>
     </q-item-section>
 
 
