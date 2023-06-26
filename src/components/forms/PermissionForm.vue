@@ -182,8 +182,8 @@ function editExistingGroup(data, uuid) {
 const {resetForm} = useForm();
 
 const validationSchema = yup.object({
-  roleName: yup.string().required(),
-  roleDescription: yup.string().required(),
+  roleName: yup.string().required().max(100),
+  roleDescription: yup.string().nullable().max(100),
 })
 
 
