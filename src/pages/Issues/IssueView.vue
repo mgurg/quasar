@@ -72,7 +72,7 @@
 
           <div class="q-pb-sm">
           <span v-for="(tag, index) in tagList" v-if="tagList != null" v-bind:key="index" class="q-gutter-sm">
-            <q-chip color="primary" text-color="white">
+            <q-chip :style="{ 'background-color':tag.color }">
               {{ tag.name }}
             </q-chip>
           </span>

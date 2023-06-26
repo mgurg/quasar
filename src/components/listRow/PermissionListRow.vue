@@ -3,7 +3,7 @@
     <q-item
       :class="{ 'bg-blue-grey-6': (permission.uuid === selected && $q.dark.isActive), 'bg-blue-grey-11': (permission.uuid === selected && !$q.dark.isActive) }">
       <q-item-section avatar cursor-pointer ripple @click="viewPermission(permission.uuid)">
-        <q-avatar rounded color="red-12" text-color="white">{{ permission.count }}
+        <q-avatar rounded color="red-12" text-color="white">{{ permission.count - permission.uncounted}}
           <q-badge v-if="permission.is_verified === false" floating color="deep-orange-11">{{ $t("New") }}</q-badge>
         </q-avatar>
         <!-- <q-avatar rounded>
@@ -66,7 +66,9 @@ const props = defineProps({
         uuid: '1',
         role_title: 'Jan',
         role_description: 'Kowalski',
-        is_custom: false
+        is_custom: false,
+        count: 0,
+        uncounted: 0
       }
     }
   },
