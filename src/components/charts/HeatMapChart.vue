@@ -78,8 +78,6 @@ const props = defineProps({
   },
 
 });
-console.log("propsy")
-console.log(props.data)
 
 let arrayOfEntries = ref(Object.entries(props.data).map(([key, value]) => [key, value]));
 

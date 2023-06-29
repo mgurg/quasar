@@ -102,7 +102,6 @@ function previewURL() {
     scalable: false,
     transition: false
   })
-  console.log($viewer)
 }
 
 function previewImgObject(index) {

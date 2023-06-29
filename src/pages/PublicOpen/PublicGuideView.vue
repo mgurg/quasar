@@ -83,6 +83,16 @@
             </q-slide-transition>
 
 
+            <q-card-section>
+              <div class="row q-col-gutter-xs">
+                <div class="text-h5">Wideo</div>
+                <q-space></q-space>
+              </div>
+              <q-video
+                :ratio="16/9"
+                src="https://www.youtube.com/embed/Cf5e2t-sorU"
+              />
+            </q-card-section>
           </q-card>
 
 

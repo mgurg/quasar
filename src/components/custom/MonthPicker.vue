@@ -204,7 +204,7 @@ const selectMonth = (month) => {
 
   periodFrom(1)
   periodTo(1)
-  // console.log(selectedMonth.value.getTime() + "|" + month.getTime())
+
 }
 
 function cleanDate(date) {
@@ -300,7 +300,6 @@ function isDisabled(month) {
 }
 
 function submit() {
-  console.log("Emit")
   emit('dateRange', {from: periodFrom(), to: periodTo()})
 }
 

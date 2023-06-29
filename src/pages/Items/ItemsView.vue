@@ -263,7 +263,6 @@ function getItemDetails(uuid) {
   isLoading.value = true;
 
   getOneItemRequest(uuid).then(function (response) {
-    console.log(response.data);
     itemDetails.value = response.data;
 
     photoFiles.value = response.data.files_item.filter((item) => item.mimetype.match('image.*'));
@@ -330,7 +329,6 @@ function addToFavourite() {
 
 
 function setSectionVisibility(condition) {
-  console.log(condition)
   if (localStorage.getItem(condition) === null) {
     localStorage.setItem(condition, JSON.stringify(true))
   } else {

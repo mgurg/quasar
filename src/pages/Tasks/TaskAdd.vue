@@ -74,8 +74,6 @@ function getUsers() {
         label: opt.first_name + ' ' + opt.last_name,
         value: opt.uuid,
       }));
-      console.log("usersList.value");
-      console.log(usersList.value);
       isSuccess.value = true
     })
     .catch((err) => {
@@ -91,9 +89,7 @@ function getUsers() {
 
 
 function signUpButtonPressed(taskForm) {
-  console.log('outside', taskForm)
   createTasks(taskForm)
-  console.log('Add ok')
 }
 
 

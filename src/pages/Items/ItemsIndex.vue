@@ -259,7 +259,6 @@ onBeforeMount(() => {
 
   if ((route.query.mode !== undefined) && (route.query.mode !== null) && (route.query.mode !== "")) {
     itemListMode.value = route.query.mode
-    console.log(itemListMode.value);
   } else {
     // showForm.value = true;
   }

@@ -195,7 +195,7 @@ countDown();
 
 function resolveQrCode(qrCode) {
   isLoading.value = true;
-  console.log("resolve QR")
+
   resolveQRtoURL(qrCode).then(function (response) {
     itemUuid.value = response.data.resource_uuid;
     redirectTo.value = response.data.url;
@@ -212,9 +212,7 @@ function resolveQrCode(qrCode) {
     if (UserStore.isAuthenticated === true) {
       router.push(redirectTo.value);
     } else {
-      router.push("/public" +redirectTo.value)
-      console.log("/public" +redirectTo.value)
-      // getItemDetails(itemUuid.value)
+      getItemDetails(itemUuid.value)
     }
     isLoading.value = false;
   }).catch((err) => {

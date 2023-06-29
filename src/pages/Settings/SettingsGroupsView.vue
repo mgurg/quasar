@@ -80,8 +80,6 @@ watch(isLoading, (newValue, oldValue) => {
 
 
 function signUpButtonPressed(options) {
-
-  console.log('SEND')
   console.log(options.data)
   console.log(options.uuid)
 }
@@ -100,7 +98,6 @@ let groupUsersList = ref([])
 function getGroupDetails(uuid) {
 
   if (uuid == null || uuid === 'undefined') {
-    console.log('uF')
     isFetched.value = true
     // roleDetails.value = 'undefined';
     return;
@@ -147,7 +144,6 @@ function deleteGroup(uuid) {
 }
 
 function cancelButtonHandle() {
-  console.log('cancelBtnClick')
   emit('cancelBtnClick')
 }
 

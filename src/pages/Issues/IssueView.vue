@@ -411,7 +411,6 @@ function editIssue(uuid) {
 }
 
 function deleteIssue(uuid, issueName) {
-  console.log(issueName);
   $q.dialog({
     title: "Confirm",
     message: confirmDeleteMessage.value + " '" + issueName + "' ?",
@@ -435,8 +434,6 @@ function deleteIssue(uuid, issueName) {
 }
 
 function updateUsers(usersList) {
-  console.log("get emit" + usersList)
-  // alert(JSON.stringify(usersList))
   unassignUser(usersList, true)
 
 }
