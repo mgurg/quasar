@@ -39,13 +39,13 @@
               </q-card-actions>
             </q-card>
 
-            <guide-card v-if="guides!==null && itemDetails !==null"
-                        :anonymous-token="anonymousToken"
-                        :expanded-guide="false"
-                        :guides="guides"
-                        :item-uuid="null"
-                        :public-access="true"
-            />
+<!--            <guide-card v-if="guides!==null && itemDetails !==null"-->
+<!--                        :anonymous-token="anonymousToken"-->
+<!--                        :expanded-guide="false"-->
+<!--                        :guides="guides"-->
+<!--                        :item-uuid="null"-->
+<!--                        :public-access="true"-->
+<!--            />-->
 
             <q-card bordered class="my-card no-shadow q-my-sm">
               <q-card-section>
@@ -128,12 +128,9 @@
 <script setup>
 import {onBeforeMount, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {resolveQRtoURL} from "components/api/AuthApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {useUserStore} from "stores/user";
 import {getAnonymousItemUuidRequest} from "components/api/ItemApiClient";
-
-import {DateTime} from "luxon";
 
 import GuideCard from "components/viewer/cards/GuideCard.vue";
 import IssuePublicForm from "components/forms/issue/IssuePublicForm.vue";
@@ -174,54 +171,54 @@ function goToPage() {
   }
 }
 
-function countDown() {
+// function countDown() {
+//
+//   if (validTo.value !== null) {
+//     // console.log("validTo: " + DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'}).toFormat('yyyy-LL-dd HH:mm:ss z'))
+//     // console.log("validFrom: " + DateTime.now().setZone("UTC").toFormat('yyyy-LL-dd HH:mm:ss z'))
+//
+//     const to = DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'})
+//     const now = DateTime.now().setZone("UTC")
+//
+//     const remainingTime = Math.abs(now.diff(to, 'minutes').as('minutes'));
+//     console.log("remainingTime: " + remainingTime)
+//     console.log(1 - (remainingTime / 15))
+//     validToProgress.value = 1 - (remainingTime / 15)
+//   }
+//   setTimeout(countDown, 5000);
+// }
+//
+// countDown();
 
-  if (validTo.value !== null) {
-    // console.log("validTo: " + DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'}).toFormat('yyyy-LL-dd HH:mm:ss z'))
-    // console.log("validFrom: " + DateTime.now().setZone("UTC").toFormat('yyyy-LL-dd HH:mm:ss z'))
-
-    const to = DateTime.fromFormat(validTo.value, 'yyyy-MM-dd HH:mm:ss', {zone: 'UTC'})
-    const now = DateTime.now().setZone("UTC")
-
-    const remainingTime = Math.abs(now.diff(to, 'minutes').as('minutes'));
-    console.log("remainingTime: " + remainingTime)
-    console.log(1 - (remainingTime / 15))
-    validToProgress.value = 1 - (remainingTime / 15)
-  }
-  setTimeout(countDown, 5000);
-}
-
-countDown();
-
-function resolveQrCode(qrCode) {
-  isLoading.value = true;
-
-  resolveQRtoURL(qrCode).then(function (response) {
-    itemUuid.value = response.data.resource_uuid;
-    redirectTo.value = response.data.url;
-    anonymousToken.value = response.data.anonymous_token
-    tenantId.value = atob(anonymousToken.value).split(".")[0]
-    validTo.value = atob(anonymousToken.value).split(".")[1]
-
-    sessionStorage.clear();
-    sessionStorage.setItem("anonymousToken", anonymousToken.value);
-    sessionStorage.setItem("anonymousTenantId", tenantId.value);
-    sessionStorage.setItem("anonymousTokenValidTo", validTo.value);
-
-    isAuthenticated.value = UserStore.isAuthenticated;
-    if (UserStore.isAuthenticated === true) {
-      router.push(redirectTo.value);
-    } else {
-      getItemDetails(itemUuid.value)
-    }
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isAuthenticated.value = UserStore.isAuthenticated;
-    console.log(errorMessage.status);
-    isError.value = true;
-  });
-}
+// function resolveQrCode(qrCode) {
+//   isLoading.value = true;
+//
+//   resolveQRtoURL(qrCode).then(function (response) {
+//     itemUuid.value = response.data.resource_uuid;
+//     redirectTo.value = response.data.url;
+//     anonymousToken.value = response.data.anonymous_token
+//     tenantId.value = atob(anonymousToken.value).split(".")[0]
+//     validTo.value = atob(anonymousToken.value).split(".")[1]
+//
+//     sessionStorage.clear();
+//     sessionStorage.setItem("anonymousToken", anonymousToken.value);
+//     sessionStorage.setItem("anonymousTenantId", tenantId.value);
+//     sessionStorage.setItem("anonymousTokenValidTo", validTo.value);
+//
+//     isAuthenticated.value = UserStore.isAuthenticated;
+//     if (UserStore.isAuthenticated === true) {
+//       router.push(redirectTo.value);
+//     } else {
+//       getItemDetails(itemUuid.value)
+//     }
+//     isLoading.value = false;
+//   }).catch((err) => {
+//     const errorMessage = errorHandler(err);
+//     isAuthenticated.value = UserStore.isAuthenticated;
+//     console.log(errorMessage.status);
+//     isError.value = true;
+//   });
+// }
 
 
 let itemDetails = ref(null);
@@ -259,12 +256,20 @@ function addButtonPressed(issueForm) {
 }
 
 onBeforeMount(() => {
+
+  // sessionStorage.clear();
+  anonymousToken.value = sessionStorage.getItem("anonymousToken");
+  tenantId.value = sessionStorage.getItem("anonymousTenantId");
+  validTo.value = sessionStorage.getItem("anonymousTokenValidTo");
   isLoading.value = true;
-  verifyToken();
-  if (route.params.qr !== null) {
-    qrId.value = route.params.qr
-    resolveQrCode(qrId.value);
-  }
+  // verifyToken();
+  // if (route.params.qr !== null) {
+  //   qrId.value = route.params.qr
+  //   resolveQrCode(qrId.value);
+  // }
+
+  console.log("Anonymous: " + route.params.uuid);
+  getItemDetails(route.params.uuid);
   isLoading.value = false;
 });
 
