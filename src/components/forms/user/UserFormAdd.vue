@@ -29,12 +29,13 @@
       <div class="row sm-gutter">
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-input
-            v-model="userEmail"
             :disable="isLoading"
             :error="!!errors.userEmail"
             :error-message="errors.userEmail"
             :label="$t('E-mail')"
             outlined
+            :model-value="userEmail"
+            @change="emailChange"
           >
             <template v-slot:prepend>
               <q-icon name="alternate_email"/>
@@ -54,6 +55,7 @@
             :type="isPwd ? 'password' : 'text'"
             autocomplete="new-password"
             outlined
+
           >
             <template v-slot:append>
               <q-icon
@@ -68,12 +70,13 @@
       <div class="row sm-gutter">
         <div class="q-pa-xs col-xs-12 col-sm-6">
           <q-input
-            v-model="userPhone"
             :disable="isLoading"
             :error="!!errors.userPhone"
             :error-message="errors.userPhone"
             :label="$t('Phone')"
             outlined
+            :model-value="userPhone"
+            @change="phoneChange"
           >
             <template v-slot:prepend>
               <q-icon name="phone"/>
@@ -204,8 +207,8 @@ const {handleSubmit, errors} = useForm({
 const {value: userFirstName} = useField('userFirstName', undefined, {initialValue: props.user.first_name})
 const {value: userLastName} = useField('userLastName', undefined, {initialValue: props.user.last_name})
 const {value: userPassword} = useField('userPassword', undefined, {initialValue: ''})
-const {value: userEmail} = useField('userEmail', undefined, {initialValue: props.user.email})
-const {value: userPhone} = useField('userPhone', undefined, {initialValue: props.user.phone})
+const {value: userEmail, handleChange: emailChange} = useField('userEmail', undefined, {initialValue: props.user.email})
+const {value: userPhone, handleChange: phoneChange} = useField('userPhone', undefined, {initialValue: props.user.phone})
 const {value: userRole} = useField('userRole', undefined, {initialValue: props.user.role_FK.uuid})
 
 const submit = handleSubmit(values => {
