@@ -27,6 +27,7 @@
       :error-message="errors.guideName"
       :label="$t('Guide name')"
       outlined
+      maxlength="512"
     />
 
     <div class="tiptap">

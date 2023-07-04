@@ -8,6 +8,7 @@
       :error="!!errors.issueName"
       :error-message="errors.issueName"
       :label="$t('Issue name')" outlined
+      maxlength="512"
     />
 
     <div class="row q-mt-sm">

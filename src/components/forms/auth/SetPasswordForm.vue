@@ -25,6 +25,7 @@
         :label="$t('Password')"
         :type="isPwd ? 'password' : 'text'"
         outlined
+        maxlength="256"
       >
         <template v-slot:append>
           <q-icon

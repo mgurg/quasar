@@ -12,6 +12,7 @@
             :label="$t('First name')"
             autocomplete="given-name"
             outlined
+            maxlength="100"
           />
         </div>
         <div class="q-pa-xs col-xs-6 col-sm-6">
@@ -23,6 +24,7 @@
             :label="$t('Last name')"
             autocomplete="family-name"
             outlined
+            maxlength="100"
           />
         </div>
       </div>
@@ -36,6 +38,7 @@
             outlined
             :model-value="userEmail"
             @change="emailChange"
+            maxlength="256"
           >
             <template v-slot:prepend>
               <q-icon name="alternate_email"/>
@@ -55,7 +58,7 @@
             :type="isPwd ? 'password' : 'text'"
             autocomplete="new-password"
             outlined
-
+            maxlength="256"
           >
             <template v-slot:append>
               <q-icon
@@ -77,6 +80,7 @@
             outlined
             :model-value="userPhone"
             @change="phoneChange"
+            maxlength="16"
           >
             <template v-slot:prepend>
               <q-icon name="phone"/>

@@ -15,6 +15,7 @@
       :error-message="errors.itemName"
       :label="$t('Item title')"
       outlined
+      maxlength="512"
     />
 
     <q-input
@@ -24,6 +25,7 @@
       :error-message="errors.itemSymbol"
       label="Symbol"
       outlined
+      maxlength="32"
     />
 
     <div class="tiptap">
