@@ -83,16 +83,16 @@
             </q-slide-transition>
 
 
-            <q-card-section>
-              <div class="row q-col-gutter-xs">
-                <div class="text-h5">Wideo</div>
-                <q-space></q-space>
-              </div>
-              <q-video
-                :ratio="16/9"
-                src="https://www.youtube.com/embed/Cf5e2t-sorU"
-              />
-            </q-card-section>
+<!--            <q-card-section>-->
+<!--              <div class="row q-col-gutter-xs">-->
+<!--                <div class="text-h5">Wideo</div>-->
+<!--                <q-space></q-space>-->
+<!--              </div>-->
+<!--              <q-video-->
+<!--                :ratio="16/9"-->
+<!--                src="https://www.youtube.com/embed/Cf5e2t-sorU"-->
+<!--              />-->
+<!--            </q-card-section>-->
           </q-card>
 
 
@@ -108,7 +108,7 @@ import {onBeforeMount, ref} from "vue";
 import {DateTime} from "luxon";
 import {useRoute, useRouter} from "vue-router";
 import TipTapGuide from 'components/editor/TipTapBasic.vue'
-import PhotoViewer from 'src/components/viewer/PhotoViewer.vue'
+import PhotoViewer from 'components/viewer/PhotoViewer.vue'
 
 
 const route = useRoute();

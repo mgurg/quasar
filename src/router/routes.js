@@ -95,13 +95,13 @@ const routes = [
     },
   },
   {
-    path: "/public/items/:uuid", name: "publicItems", component: () => import("pages/PublicOpen/PublicItemView.vue"),
+    path: "/public/items/:uuid", name: "publicItems", component: () => import("pages/Items/PublicItemView.vue"),
     meta: {
       requiresNoAuth: true,
     },
   },
   {
-    path: "/public/guides/:uuid", name: "publicGuides", component: () => import("pages/PublicOpen/PublicGuideView.vue"),
+    path: "/public/guides/:uuid", name: "publicGuides", component: () => import("pages/Guides/PublicGuideView.vue"),
     meta: {
       requiresNoAuth: true,
     },
