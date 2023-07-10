@@ -93,14 +93,14 @@
           </q-item>
 
           <!--Guides Index-->
-          <!--          <q-item to="/guides" exact clickable v-ripple>-->
-          <!--            &lt;!&ndash; v-if="hasPermission('SETTINGS_VIEW')" &ndash;&gt;-->
-          <!--            <q-item-section avatar>-->
-          <!--              <q-icon size="md" name="construction" />-->
-          <!--            </q-item-section>-->
+          <q-item v-ripple clickable exact to="/guides">
+            <!-- v-if="hasPermission('SETTINGS_VIEW')" -->
+            <q-item-section avatar>
+              <q-icon name="subject" size="md"/>
+            </q-item-section>
 
-          <!--            <q-item-section>{{ $t("Guides") }}</q-item-section>-->
-          <!--          </q-item>-->
+            <q-item-section>{{ $t("Guides") }}</q-item-section>
+          </q-item>
 
           <!--Users Index-->
           <q-item v-if="hasPermission('USER_VIEW')" v-ripple clickable exact to="/users">

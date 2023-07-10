@@ -19,14 +19,14 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Items") }}</q-item-label>
-                <!-- <q-item-label caption>{{ userDetails.last_name }}</q-item-label> -->
+                <q-item-label v-if="itemListMode !== null" caption>Wskaż powiązany przedmiot</q-item-label>
               </q-item-section>
               <q-item-section side>
                 <div class="col-12 text-h6 q-mt-none">
                   <q-btn
                     :flat="!showSearchBar"
-                    :unelevated="showSearchBar"
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
+                    :unelevated="showSearchBar"
                     class="float-right"
                     color="primary"
                     flat
@@ -35,7 +35,7 @@
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
-                    v-if="hasPermission('ITEM_ADD')"
+                    v-if="hasPermission('ITEM_ADD') && itemListMode === null"
                     :label="$q.screen.gt.xs ? $t('New item') : ''"
                     class="float-right q-mr-xs"
                     color="primary" flat
@@ -43,6 +43,7 @@
                     to="/items/add"
                   />
                   <q-btn
+                    v-if="itemListMode === null"
                     :label="$q.screen.gt.xs ? $t('Reports') : ''"
                     class="float-right q-mr-xs"
                     color="primary" flat
@@ -113,7 +114,7 @@
           </q-item>
 
           <div v-for="(item, index) in items" v-if="items != null" v-bind:key="index">
-            <item-list-row :item="item"/>
+            <item-list-row :display-mode="itemListMode" :item="item"/>
           </div>
 
         </q-list>
@@ -122,26 +123,26 @@
         </div>
       </q-card>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-pt-none" v-if="pagination.total === 0">
-      <div  class="text-body1 text-center q-pa-lg">
-        <p>Brak dodanych przedmiotów 🤔</p>
-        <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇
+      <q-card v-if="pagination.total === 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
+        <div class="text-body1 text-center q-pa-lg">
+          <p>Brak dodanych przedmiotów 🤔</p>
+          <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇
           </p>
 
-        <div class="col-12 text-h6 q-mt-none">
-          <q-btn
-             v-if="hasPermission('ITEM_ADD')"
-            :label="$t('New item')"
-            class="q-py-md q-my-md"
-            color="primary"
-            icon="add"
-            no-caps
-            to="/items/add"
-          />
-        </div>
+          <div class="col-12 text-h6 q-mt-none">
+            <q-btn
+              v-if="hasPermission('ITEM_ADD')"
+              :label="$t('New item')"
+              class="q-py-md q-my-md"
+              color="primary"
+              icon="add"
+              no-caps
+              to="/items/add"
+            />
+          </div>
 
-      </div>
-        </q-card>
+        </div>
+      </q-card>
 
 
     </q-page>
@@ -155,7 +156,9 @@ import ItemListRow from "components/listRow/ItemListRow.vue";
 import {getManyItemsRequest} from 'src/components/api/ItemApiClient'
 import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
+import {useRoute} from "vue-router";
 
+const route = useRoute();
 const UserStore = useUserStore();
 const permissions = computed(() => UserStore.getPermissions);
 
@@ -228,6 +231,7 @@ let isError = ref(false);
 const items = ref(null);
 let search = ref(null);
 const showSearchBar = ref(false);
+const itemListMode = ref(null);
 
 function fetchItems() {
   isLoading.value = true;
@@ -252,6 +256,15 @@ function fetchItems() {
 onBeforeMount(() => {
   isLoading.value = true;
   fetchItems()
+
+  if ((route.query.mode !== undefined) && (route.query.mode !== null) && (route.query.mode !== "")) {
+    itemListMode.value = route.query.mode
+  } else {
+    // showForm.value = true;
+  }
+  isLoading.value = false
+
+
 });
 
 

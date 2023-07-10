@@ -12,7 +12,7 @@
           </div>
           <div v-else>
             <header>
-              <p class="text-h4" :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'"> Speech
+              <p :class="$q.dark.isActive?'text-blue-grey-1':'text-blue-grey-10'" class="text-h4"> Speech
                 Recognition </p>
               <i class="header-icon fas fa-microphone-alt"></i>
             </header>
@@ -30,10 +30,10 @@
               <!-- Conditionals to handle errors -->
               <p v-if="error">{{ error }}</p>
               <div v-else>
-                <q-input outlined type="textarea" rows="5" v-model="text" :label="$t('Task description')">
+                <q-input v-model="text" :label="$t('Task description')" outlined rows="5" type="textarea">
                   <template v-slot:append>
-                    <q-btn round dense flat icon="mic" v-if="!isListening" @click="start"/>
-                    <q-btn round dense flat icon="mic_off" v-if="isListening" color="red-12" @click="stop"/>
+                    <q-btn v-if="!isListening" dense flat icon="mic" round @click="start"/>
+                    <q-btn v-if="isListening" color="red-12" dense flat icon="mic_off" round @click="stop"/>
                   </template>
                 </q-input>
               </div>

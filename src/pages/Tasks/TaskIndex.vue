@@ -12,26 +12,26 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <h5 class="q-mb-sm q-mt-sm q-ml-md">{{ $t("Tasks") }}</h5>
 
-      <q-list bordered padding v-if="!isLoading">
-        <q-item-label header v-if="myTasks">{{ $t("Your tasks") }}</q-item-label>
+      <q-list v-if="!isLoading" bordered padding>
+        <q-item-label v-if="myTasks" header>{{ $t("Your tasks") }}</q-item-label>
 
         <div v-for="task in myTasks" v-bind:key="task.uuid">
-          <task-item @selectedItem="selectTask" :task="task" :selected="selected" v-if="!isLoading"></task-item>
+          <task-item v-if="!isLoading" :selected="selected" :task="task" @selectedItem="selectTask"></task-item>
         </div>
 
         <!-- ALL TASKS -->
-        <q-item-label header v-if="otherTasks">{{ $t("All tasks") }}</q-item-label>
+        <q-item-label v-if="otherTasks" header>{{ $t("All tasks") }}</q-item-label>
 
         <div v-for="task in otherTasks" v-bind:key="task.uuid">
-          <task-item @selectedItem="selectTask" :task="task" :selected="selected" v-if="!isLoading"></task-item>
+          <task-item v-if="!isLoading" :selected="selected" :task="task" @selectedItem="selectTask"></task-item>
         </div>
       </q-list>
       <!-- Skeleton -->
       <task-index-skeleton v-else/>
 
       <q-space class="q-pa-sm"/>
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-btn fab icon="add" to="/tasks/add" color="accent"/>
+      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+        <q-btn color="accent" fab icon="add" to="/tasks/add"/>
       </q-page-sticky>
     </q-page>
   </div>

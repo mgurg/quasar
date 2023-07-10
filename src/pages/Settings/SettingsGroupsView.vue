@@ -46,7 +46,8 @@
         <q-card-section>
           <group-form v-if="!isLoading && isFetched" :key="groupUuid" :canEdit="canEdit"
                       :group="roleDetails || undefined"
-                      :groupUuid="groupUuid" @cancelBtnClick="cancelButtonPressed" @groupFormBtnClick="signUpButtonPressed"/>
+                      :groupUuid="groupUuid" @cancelBtnClick="cancelButtonPressed"
+                      @groupFormBtnClick="signUpButtonPressed"/>
           <group-edit-skeleton v-if="isLoading"/>
         </q-card-section>
       </q-card>
@@ -79,8 +80,6 @@ watch(isLoading, (newValue, oldValue) => {
 
 
 function signUpButtonPressed(options) {
-
-  console.log('SEND')
   console.log(options.data)
   console.log(options.uuid)
 }
@@ -99,7 +98,6 @@ let groupUsersList = ref([])
 function getGroupDetails(uuid) {
 
   if (uuid == null || uuid === 'undefined') {
-    console.log('uF')
     isFetched.value = true
     // roleDetails.value = 'undefined';
     return;
@@ -146,7 +144,6 @@ function deleteGroup(uuid) {
 }
 
 function cancelButtonHandle() {
-  console.log('cancelBtnClick')
   emit('cancelBtnClick')
 }
 

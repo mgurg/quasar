@@ -8,7 +8,8 @@
           <h1 class="text-h3">Malgori</h1>
           <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
           <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
-            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierkowej robocie, a więcej na załatwianiu spraw.
+            Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierkowej robocie, a więcej na
+            załatwianiu spraw.
           </p>
           <p v-if="$q.screen.gt.sm" class="text-h6 text-weight-regular">
             🎯 Aktualna lista zadań (bez ciągłych telefonów i odrywania od bieżącej pracy)<br>
@@ -16,29 +17,30 @@
             🚀 Nie zgaduj, skup się na tym co ważne<br> <br>
             Proste.<br><br>
           </p>
-          <p class="text-h6 text-weight-regular">📰 <a href="https://malgori.pl" class="text-white"><b>Blog</b> - dowiedz się więcej</a></p>
+          <p class="text-h6 text-weight-regular">📰 <a class="text-white" href="https://malgori.pl"><b>Blog</b> - dowiedz
+            się więcej</a></p>
         </div>
         <!-- </div> -->
       </div>
     </div>
 
-    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto" >
+    <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
-      <login-form v-if="path==='/login'" :key="path" />
-      <register-form v-if="path==='/register'" :key="path" />
-      <reset-password-form v-if="path==='/reset_password'" :key="path" />
-      <set-password-form v-if="path.startsWith('/set_password')" :key="path"  :reset-token="activationId" />
+      <login-form v-if="path==='/login'" :key="path"/>
+      <register-form v-if="path==='/register'" :key="path"/>
+      <reset-password-form v-if="path==='/reset_password'" :key="path"/>
+      <set-password-form v-if="path.startsWith('/set_password')" :key="path" :reset-token="activationId"/>
 
 
       <div class="row divider q-pb-lg">
         <div class="col-12">
           <br>
-          <span v-if="path !=='/register'"><q-btn flat no-caps color="secondary" @click="redirectTo('/register')"
-                                                  :label="$t('Register')"/> </span>
-          <span v-if="path !=='/login'"><q-btn flat no-caps color="secondary" @click="redirectTo('/login')"
-                                               :label="$t('Login')"/> </span>
-          <span><q-btn flat no-caps color="secondary" @click="redirectTo('/reset_password')"
-                       :label="$t('Reset password')"/></span>
+          <span v-if="path !=='/register'"><q-btn :label="$t('Register')" color="secondary" flat no-caps
+                                                  @click="redirectTo('/register')"/> </span>
+          <span v-if="path !=='/login'"><q-btn :label="$t('Login')" color="secondary" flat no-caps
+                                               @click="redirectTo('/login')"/> </span>
+          <span><q-btn :label="$t('Reset password')" color="secondary" flat no-caps
+                       @click="redirectTo('/reset_password')"/></span>
 
           <!--          <p class="text-body2 q-pa-xs">-->
           <!--            <span v-if="path !=='/register'"><router-link to="/register">{{ $t("Register") }}</router-link> · </span>-->

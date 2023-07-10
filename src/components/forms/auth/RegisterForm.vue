@@ -29,6 +29,7 @@
             outlined
             type="email"
             @change="handleChange"
+            maxlength="256"
           />
           <q-input
             v-model="password"
@@ -39,6 +40,7 @@
             :label="$t('Password')"
             :type="isPwd ? 'password' : 'text'"
             outlined
+            maxlength="256"
           >
             <template v-slot:append>
               <q-icon
@@ -56,7 +58,9 @@
             :error="!!errors.companyTaxId" :error-message="errors.companyTaxId"
             :label="$t('NIP')"
             outlined
-            type="text"/>
+            type="text"
+            maxlength="16"
+          />
           <q-input
             v-model="firstName"
             :dense="$q.screen.lt.sm"
@@ -66,6 +70,7 @@
             :label="$t('First Name')"
             outlined
             type="text"
+            maxlength="100"
           />
           <q-input
             v-model="lastName"
@@ -76,6 +81,7 @@
             :label="$t('Last Name')"
             outlined
             type="text"
+            maxlength="100"
           />
 
 
@@ -106,6 +112,7 @@
             :label="$t('Company name')"
             outlined
             type="text"
+            maxlength="256"
           />
           <q-input
             v-model="companyAddress"
@@ -115,6 +122,7 @@
             :label="$t('Street')"
             outlined
             type="text"
+            maxlength="128"
           />
 
           <div class="row sm-gutter">
@@ -127,6 +135,7 @@
                 :label="$t('Postcode')"
                 outlined
                 type="text"
+                maxlength="100"
               />
             </div>
             <div class="q-pa-xs col-xs-12 col-sm-6">
@@ -138,6 +147,7 @@
                 :label="$t('City')"
                 outlined
                 type="text"
+                maxlength="128"
               />
             </div>
           </div>

@@ -5,7 +5,7 @@
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
                   $t("Return")
                 }}
               </q-btn>
@@ -75,14 +75,18 @@
       <!--        </q-slide-transition>-->
       <!--      </q-card>-->
 
-      <video-card
-        v-if="guideDetails!==null && guideDetails.video_id!==null"
-        :expanded-video="true"
-        :video-id="guideDetails.video_id"
-        :video-metadata="guideDetails.video_json.encoding.metadata"
-      />
+      <!--      <video-card-->
+      <!--        v-if="guideDetails!==null && guideDetails.video_id!==null"-->
+      <!--        :expanded-video="true"-->
+      <!--        :video-id="guideDetails.video_id"-->
+      <!--        :video-metadata="guideDetails.video_json.encoding.metadata"-->
+      <!--      />-->
       <description-card v-if="guideDetails!==null" :expanded-description="true" :textJson="guideDetails.text_json"/>
       <photo-card v-if="photoFiles!==null" :expanded-photos="false" :photo-files="photoFiles"/>
+      <qr-card v-if="qrCode!==null"
+               :expanded-qr="expandedQR"
+               :qr-code="qrCode"
+      />
 
     </q-page>
   </div>
@@ -97,7 +101,7 @@ import {useRoute, useRouter} from "vue-router";
 import {authApi} from "boot/axios";
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
-import VideoCard from "components/viewer/cards/VideoCard.vue";
+import QrCard from "components/viewer/cards/QrCard.vue";
 
 const $q = useQuasar();
 
@@ -116,10 +120,12 @@ const route = useRoute();
 let guideDetails = ref(null);
 let photoFiles = ref(null);
 let documentFiles = ref(null);
+let qrCode = ref(null);
 
 let expandedDetails = ref(true)
 let expandedDescription = ref(true)
 let expandedPhotos = ref(true)
+let expandedQR = ref(true)
 
 function geGuideDetails(uuid) {
   authApi
@@ -129,6 +135,7 @@ function geGuideDetails(uuid) {
       guideDetails.value = response.data;
       photoFiles.value = response.data.files_guide.filter((item) => item.mimetype.match('image.*'));
       documentFiles.value = response.data.files_guide.filter((item) => !item.mimetype.match('image.*'));
+      qrCode.value = response.data.qr_code;
       isLoading.value = false;
     })
     .catch((err) => {

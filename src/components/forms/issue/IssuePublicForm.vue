@@ -8,6 +8,7 @@
       :error="!!errors.issueName"
       :error-message="errors.issueName"
       :label="$t('Issue name')" outlined
+      maxlength="512"
     />
 
     <div class="row q-mt-sm">
@@ -105,7 +106,7 @@ import * as yup from 'yup';
 
 import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
 import TipTapPublic from "components/editor/TipTapPublic.vue";
-import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import PhotoUploader from 'components/uploader/PhotoUploader.vue'
 
 const {isListening, isSupported, stop, result, raw, start, error} = useSpeechRecognition({
   lang: 'pl-PL',

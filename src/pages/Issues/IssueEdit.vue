@@ -1,34 +1,34 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
         <q-breadcrumbs-el :label="$t('Issues')" icon="bug_report" to="/issues"/>
-        <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
+        <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
-        <q-card-section>
-          <q-list>
-            <q-item class="q-px-none">
+      <!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
+      <!--        <q-card-section>-->
+      <!--          <q-list>-->
+      <!--            <q-item class="q-px-none">-->
 
-              <q-item-section>
-                <q-item-label v-if="issueDetails != null" class="text-h6">{{ $t('Edit') }}: {{ issueDetails.title }}
-                </q-item-label>
-                <!-- <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
-              </q-item-section>
-            </q-item>
+      <!--              <q-item-section>-->
+      <!--                <q-item-label v-if="issueDetails != null" class="text-h6">{{ $t('Edit') }}: {{ issueDetails.title }}-->
+      <!--                </q-item-label>-->
+      <!--                 <q-item-label caption>Nowy pracownik będzie musiał potwierdzić hasło. Więcej użytkowników? Pamiętaj o opcji importu!</q-item-label> -->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
-          </q-list>
-        </q-card-section>
-      </q-card>
+      <!--          </q-list>-->
+      <!--        </q-card-section>-->
+      <!--      </q-card>-->
 
       <q-card class="my-card no-shadow q-ma-none q-pa-none">
         <q-card-section>
@@ -51,7 +51,7 @@
 import {computed, onBeforeMount, ref} from "vue";
 import {useUserStore} from "stores/user";
 import {useRoute, useRouter} from "vue-router";
-import IssueForm from 'src/components/forms/IssueForm.vue'
+import IssueForm from 'components/forms/issue/IssueForm.vue'
 import {errorHandler} from "components/api/errorHandler";
 import {editIssueRequest, getOneIssueRequest} from "components/api/IssueApiClient";
 import {deleteFileRequest} from "components/api/FilesApiClient";
@@ -62,10 +62,10 @@ const router = useRouter();
 const UserStore = useUserStore();
 
 const permissions = computed(() => UserStore.getPermissions);
+
 function hasPermission(permission) {
   return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
-
 
 
 let issueUuid = ref(route.params.uuid);
@@ -80,7 +80,6 @@ let isError = ref(false);
 let isRemoving = ref(false);
 
 function updateIssue(uuid, formData) {
-
 
 
   const arr1 = dbImagesUuidList.value;
@@ -148,7 +147,7 @@ function deleteUnusedIssueImages(uuid) {
 
 function editButtonPressed(formData) {
 
-  if (!hasPermission("ISSUE_EDIT")){
+  if (!hasPermission("ISSUE_EDIT")) {
     return;
   }
   updateIssue(issueUuid.value, formData);

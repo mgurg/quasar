@@ -19,7 +19,8 @@
                       <q-item-section>
 
                         <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
-                        <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte</q-item-label>
+                        <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte
+                        </q-item-label>
                       </q-item-section>
 
                     </q-item>
@@ -49,18 +50,18 @@
                   v-if="currentUserUuid === userUuid && hasPermission('USER_EDIT_SELF')"
                   :label="$q.screen.gt.xs ? $t('Edit') : ''"
                   class="float-right q-mr-sm" color="primary"
+                  flat
                   icon="edit"
-                  no-caps
-                  flat @click="editUser(userDetails.uuid)"
+                  no-caps @click="editUser(userDetails.uuid)"
                 />
                 <q-btn
+                  v-if="hasPermission('USER_DELETE')"
                   :label="$q.screen.gt.xs ? $t('Delete') : ''"
                   class="float-right q-mr-sm"
                   color="red"
                   flat
-                  icon="delete"
-                  no-caps @click="deleteUser(userDetails.uuid)"
-                  v-if="hasPermission('USER_DELETE')"
+                  icon="delete" no-caps
+                  @click="deleteUser(userDetails.uuid)"
                 />
 
               </div>
@@ -159,7 +160,8 @@
               </p>
 
               <q-list v-if="userIssues !== null && userIssues.length > 0">
-                <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders q-pa-xs">
+                <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'"
+                        class="rounded-borders q-pa-xs">
                   <q-item-section avatar>
                     <div class="q-pa-none">
                       <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
@@ -226,7 +228,6 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import {useQuasar} from 'quasar'
 import {useRoute, useRouter} from "vue-router";
 import IssueListRow from "components/listRow/IssueListRow.vue";
-import {getUserIdeasRequest} from "components/api/IdeaApiClient";
 
 import {activateUserRequest, deleteUserRequest, getUserRequest} from 'src/components/api/UserApiClient.js'
 import {errorHandler} from 'src/components/api/errorHandler.js'
@@ -361,7 +362,7 @@ function activateUser(uuid) {
 function getUserIssues(uuid) {
   // userUuid.value
   isLoading.value = true;
-  let params ={
+  let params = {
     user_uuid: uuid,
     page: pagination.page,
     size: pagination.size,

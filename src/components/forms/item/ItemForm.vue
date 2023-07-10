@@ -15,6 +15,7 @@
       :error-message="errors.itemName"
       :label="$t('Item title')"
       outlined
+      maxlength="512"
     />
 
     <q-input
@@ -24,6 +25,7 @@
       :error-message="errors.itemSymbol"
       label="Symbol"
       outlined
+      maxlength="32"
     />
 
     <div class="tiptap">
@@ -67,9 +69,9 @@ import {useField, useForm} from "vee-validate";
 import * as yup from 'yup';
 import {useRouter} from "vue-router";
 
-import TipTapBasic from 'src/components/editor/TipTapBasic.vue'
-import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
-import FileUploader from 'src/components/uploader/FileUploader.vue'
+import TipTapBasic from 'components/editor/TipTapBasic.vue'
+import PhotoUploader from 'components/uploader/PhotoUploader.vue'
+import FileUploader from 'components/uploader/FileUploader.vue'
 
 const router = useRouter();
 
@@ -149,7 +151,7 @@ function listOfUploadedFiles(files) {
 // Form
 const {handleReset} = useForm();
 const validationSchema = yup.object({
-  itemName: yup.string().max(512),//.required(),
+  itemName: yup.string().required().max(512),//.required(),
   itemSymbol: yup.string().max(64).nullable(),//.required(),
 })
 

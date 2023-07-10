@@ -13,6 +13,7 @@
         outlined
         type="email"
         @change="handleChange"
+        maxlength="265"
       />
       <q-input
         v-model="password"
@@ -22,6 +23,7 @@
         :label="$t('Password')"
         :type="isPwd ? 'password' : 'text'"
         outlined
+        maxlength="256"
       >
         <template v-slot:append>
           <q-icon

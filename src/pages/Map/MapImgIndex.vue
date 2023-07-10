@@ -2,7 +2,7 @@
   <q-layout>
     <q-page class="flex flex-center">
       <div class="row q-pa-md">
-        <q-input outlined v-model="text" label="Nazwa"/>
+        <q-input v-model="text" label="Nazwa" outlined/>
         <!-- <q-btn>Add Circle</q-btn> -->
         <q-btn outline @click="addPin">Dodaj</q-btn>
         <!-- <p>Center is at {{ currentCenter.lat }}, {{ currentCenter.lng }} and the zoom is: {{ currentZoom }}</p> -->
@@ -11,9 +11,9 @@
         <p>{{markers}}</p>-->
       </div>
 
-      <l-map style="height: 95vh; width: 95vw" :min-zoom="minZoom" :crs="crs">
-        <l-image-overlay :url="url" :bounds="bounds"></l-image-overlay>
-        <l-marker v-for="star in stars" :lat-lng="star" :key="star.name" :draggable="star.draggable">
+      <l-map :crs="crs" :min-zoom="minZoom" style="height: 95vh; width: 95vw">
+        <l-image-overlay :bounds="bounds" :url="url"></l-image-overlay>
+        <l-marker v-for="star in stars" :key="star.name" :draggable="star.draggable" :lat-lng="star">
           <l-popup :content="star.name"/>
         </l-marker>
       </l-map>

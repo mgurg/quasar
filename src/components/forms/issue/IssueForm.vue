@@ -1,15 +1,24 @@
 <template>
 
-  <q-form autocapitalize="off" autocomplete="off" autocorrect="off" class="q-gutter-md" spellcheck="false"
-          @submit.prevent>
+  <q-form
+    autocapitalize="off"
+    autocomplete="off"
+    autocorrect="off"
+    class="q-gutter-md"
+    spellcheck="false"
+    @submit.prevent
+  >
     <div v-if="hasPermission('ITEM_VIEW')" class="row">
       <span v-if="itemName===null"><span class="text-h6">Przedmiot: </span>
-        <q-btn color="primary" flat icon="apps" no-caps to="/items">Wybierz urządzenie</q-btn>
+        <q-btn color="primary" flat icon="apps" no-caps to="/items/?mode=issue">wybierz</q-btn>
       </span>
       <span v-else>
         <span class="text-h6">Przedmiot: {{ itemName }}</span>
       </span>
+    </div>
 
+    <div v-if="itemName===null" class="text-caption text-grey">
+      Tworzysz zgłoszenie <span class="text-weight-bold">nieprzypisane do żadnego urządzenia</span>.
     </div>
 
     <q-input
@@ -18,6 +27,7 @@
       :error="!!errors.issueName"
       :error-message="errors.issueName"
       :label="$t('Issue name')" outlined
+      maxlength="512"
     />
 
     <div class="row q-mt-sm">
@@ -134,8 +144,8 @@ import * as yup from 'yup';
 
 
 import {useSpeechRecognition} from 'src/composables/useSpeechRecognition.js'
-import TipTap from 'src/components/editor/TipTap.vue'
-import PhotoUploader from 'src/components/uploader/PhotoUploader.vue'
+import TipTap from 'components/editor/TipTap.vue'
+import PhotoUploader from 'components/uploader/PhotoUploader.vue'
 import {getTagsRequest} from "components/api/TagsApiClient";
 import {errorHandler} from "components/api/errorHandler";
 import {useUserStore} from "stores/user";
@@ -166,6 +176,7 @@ const props = defineProps({
         uuid: null,
         name: '',
         description: '',
+        item: null,
         color: 'red',
         user: null,
         priority: null,
@@ -206,6 +217,7 @@ const emit = defineEmits(['issueFormBtnClick', 'cancelBtnClick'])
 let isError = ref(false);
 let isLoading = ref(false);
 let attachments = ref(props.issue.files_issue);
+const itemName = ref(null)
 
 // IMG
 const files = ref(null)
@@ -230,6 +242,10 @@ const tipTapText = ref(null)
 
 if (props.issue.text_json !== null) {
   tipTapText.value = props.issue.text_json;
+}
+
+if (props.issue.item !== null) {
+  itemName.value = props.issue.item.name
 }
 
 if (props.issue.tags_issue !== null) {
@@ -259,7 +275,7 @@ if (props.issue.priority !== null) {
   console.log(priority)
 }
 
-const itemName = ref(null)
+
 
 if (props.itemName !== null) {
   itemName.value = props.itemName;

@@ -2,7 +2,7 @@
   <q-layout>
     <q-page class="flex flex-center">
       <div>
-        <q-btn @click="getLoc" color="info" label="GPS" icon="share_location"/>
+        <q-btn color="info" icon="share_location" label="GPS" @click="getLoc"/>
         <q-btn @click="addMarker">Add Circle</q-btn>
         <q-btn @click="addPin">Add Pin</q-btn>
         <p>Center is at {{ currentCenter.lat }}, {{ currentCenter.lng }} and the zoom is: {{ currentZoom }}</p>
@@ -12,20 +12,20 @@
       </div>
 
       <l-map
-        style="height:95vh"
         ref="map"
         v-model:zoom="zoom"
         :center="[
           userLocation.lat || defaultLocation.lat,
           userLocation.lng || defaultLocation.lng
         ]"
+        style="height:95vh"
         @update:center="centerUpdate"
         @update:zoom="zoomUpdate"
       >
         <l-tile-layer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           layer-type="base"
           name="OpenStreetMap"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         ></l-tile-layer>
         <l-circle
           v-for="item in provData"
@@ -47,10 +47,10 @@
         <l-marker
           v-for="marker in markers"
           :key="marker.id"
-          :visible="marker.visible"
           :draggable="marker.draggable"
-          :lat-lng.sync="marker.position"
           :icon="marker.icon"
+          :lat-lng.sync="marker.position"
+          :visible="marker.visible"
           @click="alert(marker)"
         >
           <l-popup :content="marker.tooltip"/>

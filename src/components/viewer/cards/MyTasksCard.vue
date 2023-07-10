@@ -186,7 +186,6 @@ const pagesNo = computed(() => {
 })
 
 watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
   getUserIssues();
 })
 

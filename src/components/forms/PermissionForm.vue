@@ -18,6 +18,7 @@
       :label="$t('Name')"
       :readonly="!allowEdit"
       outlined
+      maxlength="100"
     />
     <q-input
       v-if="allowEdit"
@@ -28,6 +29,7 @@
       :label="$t('Description')"
       :readonly="!allowEdit"
       outlined
+      maxlength="100"
     />
 
     <permission-list :can-edit="allowEdit" :selected-items="selectedPermissions" @change-selection="updateSelection"/>
@@ -182,8 +184,8 @@ function editExistingGroup(data, uuid) {
 const {resetForm} = useForm();
 
 const validationSchema = yup.object({
-  roleName: yup.string().required(),
-  roleDescription: yup.string().required(),
+  roleName: yup.string().required().max(100),
+  roleDescription: yup.string().nullable().max(100),
 })
 
 

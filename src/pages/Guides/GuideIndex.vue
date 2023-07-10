@@ -1,6 +1,18 @@
 <template>
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
+        <template v-slot:separator>
+          <q-icon
+            color="grey"
+            name="chevron_right"
+            size="1.5em"
+          />
+        </template>
+        <q-breadcrumbs-el icon="home" to="/"/>
+        <q-breadcrumbs-el :label="$t('Guides')" icon="subject" to="/guides"/>
+      </q-breadcrumbs>
+
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-card-section>
           <q-list>
@@ -15,18 +27,18 @@
                     :label="$q.screen.gt.xs ? $t('Search') : ''"
                     class="float-right"
                     color="primary"
+                    flat
                     icon="search"
                     no-caps
-                    flat
                     @click="showSearchBar = !showSearchBar"
                   />
                   <q-btn
                     :label="$q.screen.gt.xs ? $t('New guide') : ''"
                     class="float-right q-mr-xs"
                     color="primary"
+                    flat
                     icon="add"
                     no-caps
-                    flat
                     to="/guides/add"
                   />
                 </div>
@@ -100,14 +112,23 @@
         </div>
       </q-card>
 
-      <div v-if="pagination.total === 0" class="text-h5 text-center q-pa-lg">
-        Brak instrukcji 🤔? <br/>Niech Twoja będzie pierwsza!
-        <div class="col-12 text-h6 q-mt-none">
-          <q-btn :label="$t('New guide')" class="q-py-md q-my-md" color="primary" icon="add" no-caps to="/guides/add"/>
+      <q-card v-if="pagination.total === 0" bordered
+              class="my-card no-shadow q-mt-sm q-pt-none">
+        <div class="text-body1 text-center q-pa-lg">
+          Brak instrukcji 🤔? <br/>Niech Twoja będzie pierwsza!
+          <div class="col-12 text-h6 q-mt-none">
+            <q-btn
+              v-if="hasPermission('ISSUE_ADD')"
+              :label="$t('New guide')"
+              class="q-py-md q-my-md"
+              color="primary"
+              icon="add"
+              no-caps
+              to="/guides/add"
+            />
+          </div>
         </div>
-
-      </div>
-
+      </q-card>
 
     </q-page>
   </div>
@@ -120,6 +141,17 @@ import TaskIndexSkeleton from "components/skeletons/tasks/TaskIndexSkeleton.vue"
 import GuideListRow from "components/listRow/GuideListRow.vue";
 import {errorHandler} from "components/api/errorHandler";
 import {getGuideRequest} from "components/api/GuideApiClient";
+import {useRoute, useRouter} from "vue-router";
+import {useUserStore} from "stores/user";
+
+const route = useRoute();
+const router = useRouter();
+const UserStore = useUserStore();
+const permissions = computed(() => UserStore.getPermissions);
+
+function hasPermission(permission) {
+  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
+}
 
 let isLoading = ref(false);
 let isSuccess = ref(false);

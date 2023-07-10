@@ -12,6 +12,7 @@
             :label="$t('First name')"
             autocomplete="given-name"
             outlined
+            maxlength="100"
           />
         </div>
         <div class="q-pa-xs col-xs-6 col-sm-6">
@@ -23,6 +24,7 @@
             :label="$t('Last name')"
             autocomplete="family-name"
             outlined
+            maxlength="100"
           />
         </div>
       </div>
@@ -35,6 +37,7 @@
             :error-message="errors.userEmail"
             :label="$t('E-mail')"
             outlined
+            maxlength="256"
           >
             <template v-slot:prepend>
               <q-icon name="alternate_email"/>
@@ -49,6 +52,7 @@
             :error-message="errors.userPhone"
             :label="$t('Phone')"
             outlined
+            maxlength="16"
           >
             <template v-slot:prepend>
               <q-icon name="phone"/>
@@ -175,7 +179,7 @@ const validationSchema = yup.object({
   userLastName: yup.string().max(100).required(),
   userAccept: yup.string().nullable(),
   userEmail: yup.string().email().max(256).required(),
-  userPhone: yup.string().length(9).min(9).max(9).nullable(true),
+  userPhone: yup.string().nullable(),
   userRole: yup.string().required().nullable(true),
 })
 

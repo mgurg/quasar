@@ -7,7 +7,8 @@
           <q-icon color="warning" name="warning"/>
         </template>
         Ten projekt nie jest oficjalnie wydany. Po zakończeniu testów dane zostaną usunięte!
-        Pomysły/sugestie? <a class="text-weight-bold text-black" href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
+        Pomysły/sugestie? <a class="text-weight-bold text-black"
+                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
                              style="text-decoration: underline;">Napisz do mnie</a>
         📧
       </q-banner>
@@ -161,11 +162,16 @@
 
 
       <!-- MY ISSUES -->
-      <my-tasks-card v-if="userUuid!=null" :key="expandedUserIssues" :expanded-my-tasks="expandedUserIssues"
-                     :user-uuid="userUuid"/>
+      <my-tasks-card
+        v-if="userUuid!=null"
+        :key="'T'+ componentKey"
+        :expanded-my-tasks="expandedUserIssues"
+        :user-uuid="userUuid"/>
 
       <!-- MY ITEMS -->
-      <my-items-card v-if="userUuid!=null" :key="expandedUserItems" :expanded-my-items="expandedUserItems"
+      <my-items-card v-if="userUuid!=null"
+                     :key="'I'+ componentKey"
+                     :expanded-my-items="expandedUserItems"
                      :user-uuid="userUuid"/>
 
       <!-- INTRO-->
@@ -252,14 +258,22 @@ const expandedUserIssues = ref(JSON.parse(localStorage.getItem('visibility-home-
 const showIntroCard = ref(false)
 
 function setSectionVisibility(condition) {
-  // if (localStorage.getItem(condition) === null){
-  //   localStorage.setItem(condition, JSON.stringify('true'))
-  // }
-  // else{
-  //   let currentValue = JSON.parse(localStorage.getItem(condition))
-  //   localStorage.setItem(condition, JSON.stringify(!currentValue))
-  // }
+  console.log(condition)
+  if (localStorage.getItem(condition) === null) {
+    localStorage.setItem(condition, JSON.stringify(true))
+  } else {
+    let currentValue = JSON.parse(localStorage.getItem(condition))
+    localStorage.setItem(condition, JSON.stringify(!currentValue))
+  }
+
+  forceRerender()
 }
+
+const componentKey = ref(0);
+
+const forceRerender = () => {
+  componentKey.value += 1;
+};
 
 function goToIssues(status) {
   router.push({path: "/issues", query: {filter: status}})

@@ -14,20 +14,13 @@
         <q-breadcrumbs-el :label="$t('Ideas')" icon="info"/>
       </q-breadcrumbs>
 
-      <q-banner class="text-brown-10 bg-yellow-14 q-mt-md" inline-actions rounded>
-        <template v-slot:avatar>
-          <q-icon color="warning" name="warning"/>
-        </template>
-        Dostępne wyłacznie powiadomienia <span class="text-weight-bold text-black">email</span>.
-        Pomysły/sugestie? <a class="text-weight-bold text-black" style="text-decoration: underline;"
-                             href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii">Napisz do mnie</a> 📧
-      </q-banner>
+
 
       <q-card bordered class="my-card no-shadow q-mt-sm">
         <q-list>
           <q-item class="q-px-sm">
             <q-item-section avatar>
-              <q-btn icon="arrow_back_ios" color="grey" dense no-caps flat @click="router.back()">{{
+              <q-btn color="grey" dense flat icon="arrow_back_ios" no-caps @click="router.back()">{{
                   $t("Return")
                 }}
               </q-btn>
@@ -111,38 +104,46 @@
             </q-list>
 
             <p class="text-h6"> SMS </p>
-            <p>[Niedostępne] Informuj mnie o:</p>
-<!--            <q-list>-->
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="smsNotificationsLevel" val="all" disable />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Każdym problemie</q-item-label>-->
-<!--                  <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="smsNotificationsLevel" val="assigned_to_me" disable />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>-->
-<!--                  <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.-->
-<!--                  </q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item tag="label">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-radio v-model="smsNotificationsLevel" val="none" disable />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>-->
-<!--                  <q-item-label>Brak</q-item-label>-->
-<!--                  <q-item-label caption>Nie powiadamiaj mnie o żadnym nowym zgłoszeniu</q-item-label>-->
-<!--                </q-item-section>-->
-<!--              </q-item>-->
-<!--            </q-list>-->
 
+            <q-banner class="text-brown-10 bg-yellow-14 q-mt-md" inline-actions rounded>
+              <template v-slot:avatar>
+                <q-icon color="warning" name="help_outline"/>
+              </template>
+              Dostępne wyłącznie powiadomienia <span class="text-weight-bold text-black">email</span>.
+              Potrzebujesz więcej? <a class="text-weight-bold text-black" href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
+                                      style="text-decoration: underline;">Napisz do mnie</a> i opowiedz o szczegółach.
+            </q-banner>
+            <p>[Niedostępne] Informuj mnie o:</p>
+                        <q-list>
+                          <q-item tag="label">
+                            <q-item-section avatar>
+                              <q-radio v-model="smsNotificationsLevel" val="all" disable />
+                            </q-item-section>
+                            <q-item-section>
+                              <q-item-label>Każdym problemie</q-item-label>
+                              <q-item-label caption>Wszystkie maszyny, dowolny priorytet</q-item-label>
+                            </q-item-section>
+                          </q-item>
+                          <q-item tag="label">
+                            <q-item-section avatar>
+                              <q-radio v-model="smsNotificationsLevel" val="assigned_to_me" disable />
+                            </q-item-section>
+                            <q-item-section>
+                              <q-item-label>Tylko zgłoszenia przypisane do mnie</q-item-label>
+                              <q-item-label caption>Dotyczy dowolnej maszyny, zadanie przypisane przez innego użytkownika niż Ty.
+                              </q-item-label>
+                            </q-item-section>
+                          </q-item>
+                          <q-item tag="label">
+                            <q-item-section avatar>
+                              <q-radio v-model="smsNotificationsLevel" val="none" disable />
+                            </q-item-section>
+                            <q-item-section>
+                              <q-item-label>Brak</q-item-label>
+                              <q-item-label caption>Nie powiadamiaj mnie o żadnym nowym zgłoszeniu</q-item-label>
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
 
 
             <div class="row">

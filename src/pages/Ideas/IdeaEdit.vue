@@ -78,14 +78,6 @@ function updateIdea(uuid, formData) {
   let withoutChanges = arr1.filter(x => arr2.includes(x));
   let newItems = arr2.filter(x => !arr1.includes(x));
 
-  // console.log("Removed:")
-  // console.log(removedItems);
-
-  // console.log("Added:");
-  // console.log(newItems);
-
-  // console.log("To save:");
-
   formData.files = [...withoutChanges, ...newItems];
   // console.log(formData);
 
@@ -109,9 +101,6 @@ function updateIdea(uuid, formData) {
 }
 
 function deleteUnusedIdeaImages(uuid) {
-
-  // console.log("Deleting...: " + uuid);
-
   let token = UserStore.getToken;
   let tenant_id = UserStore.getTenant;
 

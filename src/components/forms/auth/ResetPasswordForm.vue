@@ -17,6 +17,7 @@
         :label="$t('E-mail')"
         outlined
         type="email"
+        maxlength="256"
       />
 
       <div class="row">

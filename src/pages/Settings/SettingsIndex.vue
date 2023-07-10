@@ -19,7 +19,7 @@
             <q-item class="q-px-none">
               <q-item-section>
                 <q-item-label class="text-h5 text-weight-medium">{{ $t("Settings") }}</q-item-label>
-<!--                <q-item-label caption> Prace w trakcie :)</q-item-label>-->
+                <!--                <q-item-label caption> Prace w trakcie :)</q-item-label>-->
               </q-item-section>
             </q-item>
 
@@ -27,7 +27,7 @@
         </q-card-section>
       </q-card>
 
-      <card-settings :items="leftArray" />
+      <card-settings :items="leftArray"/>
 
     </q-page>
   </div>
@@ -36,7 +36,6 @@
 <script setup>
 import {onBeforeMount, ref} from "vue";
 import CardSettings from 'src/components/tiles/CardSettings.vue'
-
 
 
 // -----------------------------

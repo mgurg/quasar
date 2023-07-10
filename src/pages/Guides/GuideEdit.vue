@@ -2,40 +2,34 @@
   <div class="row justify-center">
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
 
-      <q-breadcrumbs class="q-ma-sm text-grey" active-color="grey">
+      <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
           <q-icon
-            size="1.5em"
-            name="chevron_right"
             color="grey"
+            name="chevron_right"
+            size="1.5em"
           />
         </template>
         <q-breadcrumbs-el icon="home" to="/home"/>
-        <q-breadcrumbs-el :label="$t('Guides')" icon="fact_check" to="/guides"/>
+        <q-breadcrumbs-el :label="$t('Guides')" icon="subject" to="/guides"/>
         <q-breadcrumbs-el :label="$t('Edit')" icon="edit"/>
       </q-breadcrumbs>
 
-      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">
-        <q-card-section>
-          <q-list>
-            <q-item class="q-px-none">
+      <!--      <q-card bordered class="my-card no-shadow q-mt-sm q-mb-md">-->
+      <!--        <q-card-section>-->
+      <!--          <q-list>-->
+      <!--            <q-item class="q-px-none">-->
 
-              <q-item-section>
+      <!--              <q-item-section>-->
 
-                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{ guideDetails.name }}
-                </q-item-label>
-                <!--
-                  <q-item-label caption>
-                  Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
-                  Pamiętaj o opcji importu!
-                </q-item-label>
-                -->
-              </q-item-section>
-            </q-item>
+      <!--                <q-item-label class="text-h6" v-if="guideDetails != null">{{ $t('Edit') }}: {{ guideDetails.name }}-->
+      <!--                </q-item-label>-->
+      <!--              </q-item-section>-->
+      <!--            </q-item>-->
 
-          </q-list>
-        </q-card-section>
-      </q-card>
+      <!--          </q-list>-->
+      <!--        </q-card-section>-->
+      <!--      </q-card>-->
 
       <!--      <q-card bordered class="my-card no-shadow q-mt-sm">-->
       <!--        <q-card-section class="row q-pa-sm">-->
@@ -82,7 +76,7 @@
 
 <script setup>
 import {onBeforeMount, ref} from "vue";
-import GuideForm from 'src/components/forms/GuideForm.vue'
+import GuideForm from 'components/forms/guide/GuideForm.vue'
 import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "stores/user";
 import {authApi} from "boot/axios";

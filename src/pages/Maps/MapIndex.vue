@@ -3,15 +3,15 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <div class="q-pa-md">
         <q-form
-          autocorrect="off"
           autocapitalize="off"
           autocomplete="off"
-          spellcheck="false"
+          autocorrect="off"
           class="q-gutter-md"
+          spellcheck="false"
           @submit.prevent
         >
-          <q-input outlined v-model="text" label="Nazwa"/>
-          <q-input outlined v-model="text" label="Opis"/>
+          <q-input v-model="text" label="Nazwa" outlined/>
+          <q-input v-model="text" label="Opis" outlined/>
 
 
           <q-btn outline @click="addPin">Dodaj Pin</q-btn>
@@ -19,9 +19,9 @@
         </q-form>
       </div>
 
-      <l-map style="height: 80%; width: 100%" :min-zoom="minZoom" :crs="crs">
-        <l-image-overlay :url="url" :bounds="bounds"></l-image-overlay>
-        <l-marker v-for="star in stars" :lat-lng="star" :key="star.name" :draggable="star.draggable">
+      <l-map :crs="crs" :min-zoom="minZoom" style="height: 80%; width: 100%">
+        <l-image-overlay :bounds="bounds" :url="url"></l-image-overlay>
+        <l-marker v-for="star in stars" :key="star.name" :draggable="star.draggable" :lat-lng="star">
           <l-popup :content="star.name"/>
         </l-marker>
       </l-map>

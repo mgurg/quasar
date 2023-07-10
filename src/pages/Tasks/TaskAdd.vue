@@ -4,14 +4,14 @@
       <div class="q-pa-md q-gutter-sm">
         <q-breadcrumbs>
           <q-breadcrumbs-el icon="home" to="/home"/>
-          <q-breadcrumbs-el label="Tasks" icon="add_task" to="/tasks"/>
+          <q-breadcrumbs-el icon="add_task" label="Tasks" to="/tasks"/>
           <q-breadcrumbs-el :label="$t('Add')" icon="add"/>
         </q-breadcrumbs>
       </div>
       <task-form
         v-if="isSuccess === true"
-        button-text="Add"
         :usersList="usersList"
+        button-text="Add"
         @taskFormBtnClick="signUpButtonPressed"
       ></task-form>
 
@@ -74,8 +74,6 @@ function getUsers() {
         label: opt.first_name + ' ' + opt.last_name,
         value: opt.uuid,
       }));
-      console.log("usersList.value");
-      console.log(usersList.value);
       isSuccess.value = true
     })
     .catch((err) => {
@@ -91,9 +89,7 @@ function getUsers() {
 
 
 function signUpButtonPressed(taskForm) {
-  console.log('outside', taskForm)
   createTasks(taskForm)
-  console.log('Add ok')
 }
 
 

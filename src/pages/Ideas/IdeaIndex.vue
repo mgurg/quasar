@@ -32,10 +32,10 @@
                 v-model="search"
                 :label="$t('Type your search text')"
                 clearable
+                debounce="300"
                 dense
                 outlined
                 type="search"
-                debounce="300"
                 @update:model-value="fetchIdeas()">
                 <template v-if="!search" v-slot:append>
                   <q-icon name="search"/>
