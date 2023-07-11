@@ -25,8 +25,12 @@
       <div v-show="expandedMyIntro">
         <q-card-section>
 
-          Witaj w aplikacji do zgłaszania awarii. Wykonaj poniższe kroki żeby wykorzystać ją w pełni:
+          Witaj w aplikacji do zgłaszania awarii.
+          Przeczytaj <a href="https://www.malgori.pl/posts/06-jak-wykorzystac/" target="_blank">co możesz zrobić</a> i
+          <router-link to="/settings/notifications">dostosuj powiadomienia</router-link>📢
           <br>
+          <br>
+          Wykonaj poniższe kroki, żeby wykorzystać ją w pełni:
           <!-- <div class="row">
             <q-linear-progress size="10px" stripe :value="0.2"/>
           </div> -->
@@ -59,9 +63,11 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label>Awaria na produkcji?</q-item-label>
-                <q-item-label v-if="itemsData.issues_active.total + itemsData.issues_active.me > 0"
-                              caption
-                >Masz zgłoszonych {{ itemsData.issues_active.total + itemsData.issues_active.me }} aktywnych problemów
+                <q-item-label v-if="itemsData.issues_active.total + itemsData.issues_active.me > 0" caption>
+                  Masz zgłoszonych {{ itemsData.issues_active.total + itemsData.issues_active.me }} aktywnych problemów
+                </q-item-label>
+                <q-item-label v-else caption>
+                  Dodaj pierwsze zgłoszenie
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -85,7 +91,7 @@
 
 
             <q-item v-ripple clickable to="/issues">
-              <q-item-section v-if="itemsData.issues_active.me > 0 && itemsData.issues_inactive.me < 1 " avatar>
+              <q-item-section v-if="itemsData.issues_active.me > 0 && itemsData.issues_inactive.me < 1" avatar>
                 <q-checkbox v-model="itemAdded" disable/>
               </q-item-section>
               <q-item-section v-else side>
@@ -93,9 +99,8 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label>Twoje zgłoszenie oczekuje na reakcję</q-item-label>
-                <q-item-label caption>Przypisz do niego użytkownika i rozpocznij naprawę {{
-                    itemsData.issues_active.me
-                  }} {{ itemsData.issues_inactive.me }}
+                <q-item-label caption>
+                  Przypisz do niego użytkownika i rozpocznij naprawę {{itemsData.issues_active.me}} {{ itemsData.issues_inactive.me }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -119,7 +124,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item v-ripple clickable>
+            <q-item v-ripple clickable to="/guides">
               <q-item-section avatar>
                 <q-icon color="primary" name="edit_note"/>
               </q-item-section>
