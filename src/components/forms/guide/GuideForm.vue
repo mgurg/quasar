@@ -33,6 +33,14 @@
     <div class="tiptap">
       <tip-tap-guide :body-content="tipTapText" @editor-content="logText"/>
     </div>
+    <q-banner class="text-brown-10 bg-yellow-14 q-mt-md" inline-actions rounded>
+      <template v-slot:avatar>
+        <q-icon color="warning" name="help_outline"/>
+      </template>
+      Potrzebujesz oprócz zdjęć załączać również  <span class="text-weight-bold text-black">filmy instruktażowe?</span>.
+      <a class="text-weight-bold text-black" href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
+                              style="text-decoration: underline;">Napisz do mnie</a> i opowiedz o szczegółach.
+    </q-banner>
 <!--    <div>-->
 <!--      <movie-uploader :video-id="props.guide.video_id" @uploaded-video-id="keepVideoId"/>-->
 <!--    </div>-->

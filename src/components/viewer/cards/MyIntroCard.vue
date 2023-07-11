@@ -80,8 +80,8 @@
                 <q-checkbox v-model="itemAdded" disable/>
               </q-item-section>
               <q-item-section>
-                <q-item-label>Masz zapisanych {{ itemsData.users }} pracowników oprócz siebie</q-item-label>
-                <q-item-label v-if="itemsData.users === 0" caption>Dodaj nowego użytkownika lub wykonaj pracę
+                <q-item-label>Masz zapisanych {{ itemsData.users -1 }} pracowników oprócz siebie</q-item-label>
+                <q-item-label v-if="itemsData.users === 1" caption>Dodaj nowego użytkownika lub wykonaj pracę
                   samodzielnie
                 </q-item-label>
                 <q-item-label v-else caption>Nie jesteś tu sam :) Rozwiążcie problem razem lub oddeleguj pracę

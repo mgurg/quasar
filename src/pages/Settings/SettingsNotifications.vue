@@ -107,7 +107,7 @@
 
             <q-banner class="text-brown-10 bg-yellow-14 q-mt-md" inline-actions rounded>
               <template v-slot:avatar>
-                <q-icon color="warning" name="warning"/>
+                <q-icon color="warning" name="help_outline"/>
               </template>
               Dostępne wyłącznie powiadomienia <span class="text-weight-bold text-black">email</span>.
               Potrzebujesz więcej? <a class="text-weight-bold text-black" href="mailto:wsparcie@malgori.pl?subject=Aplikacja do zgłaszania awarii"
