@@ -42,7 +42,7 @@
                       <div class="text-body1">{{event.description}}</div>
                       <div>{{event.value}}</div>
                       <br>
-                      <div class="text-caption">[autor: {{event.author_name}}]</div>
+                      <div class="text-caption">[autor: {{event.author.first_name}} {{event.author.last_name}}]</div>
                        <q-btn color="primary" icon-right="info" flat no-caps @click="goToItem(event.thread_resource, event.thread_uuid)">Szczegóły&nbsp;</q-btn>
                       <div>&nbsp;</div>
 <!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
