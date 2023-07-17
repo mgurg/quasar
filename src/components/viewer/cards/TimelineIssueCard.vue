@@ -44,7 +44,7 @@
                       <div class="text-body1">{{ event.description }}</div>
                       <!--                      <div>{{event.value}}</div>-->
                       <!--                      <br>-->
-                      <div class="text-caption">{{ event.author_name }}</div>
+                      <div class="text-caption">{{ event.author.first_name }} {{ event.author.last_name }}</div>
                       <!--                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore-->
                       <!--                      et dolore magna aliqua.-->
                     </div>
