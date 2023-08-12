@@ -69,6 +69,7 @@ function downloadFile(uuid) {
 
 function getIcon(extension) {
 
+  // SOURCE: https://cpe-patterns.netlify.app/patterns/identity/icons.html
   switch (extension) {
     case '.pdf':
       return "./fileIcons/pdf-o.svg";
