@@ -22,6 +22,7 @@
 
       <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Congratulations") }}! 🎉</div>
       <p>{{ $t("Almost done! Remember to confirm your email!") }} ✅</p>
+
       <!-- TODO: Redirect to most common emails with search feature -->
 
 

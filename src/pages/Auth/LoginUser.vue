@@ -1,6 +1,4 @@
 <template>
-  <!-- https://github.com/Joabsonlg/quasar-authentication -->
-  <!-- https://github.com/patrickmonteiro/quasar-warren -->
   <div class="row justify-center" style="height: 100vh">
     <div class="col-xs-12 col-sm-12 col-md-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
@@ -27,9 +25,9 @@
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
       <login-form v-if="path==='/login'" :key="path"/>
-      <register-form v-if="path==='/register'" :key="path"/>
-      <reset-password-form v-if="path==='/reset_password'" :key="path"/>
-      <set-password-form v-if="path.startsWith('/set_password')" :key="path" :reset-token="activationId"/>
+<!--      <register-form v-if="path==='/register'" :key="path"/>-->
+<!--      <reset-password-form v-if="path==='/reset_password'" :key="path"/>-->
+<!--      <set-password-form v-if="path.startsWith('/set_password')" :key="path" :reset-token="activationId"/>-->
 
 
       <div class="row divider q-pb-lg">
@@ -57,14 +55,14 @@
 
 <script setup>
 import LoginForm from 'components/forms/auth/LoginForm.vue';
-import RegisterForm from 'components/forms/auth/RegisterForm.vue';
-import ResetPasswordForm from 'components/forms/auth/ResetPasswordForm.vue'
+// import RegisterForm from 'components/forms/auth/RegisterForm.vue';
+// import ResetPasswordForm from 'components/forms/auth/ResetPasswordForm.vue'
 import {computed, onBeforeMount, ref, watch} from "vue";
 import {useRoute, useRouter} from 'vue-router'
 import {useUserStore} from 'stores/user'
 import {useI18n} from "vue-i18n";
 import {useQuasar} from "quasar";
-import SetPasswordForm from "components/forms/auth/SetPasswordForm.vue";
+// import SetPasswordForm from "components/forms/auth/SetPasswordForm.vue";
 
 const $q = useQuasar();
 const {locale} = useI18n({useScope: "global"});
