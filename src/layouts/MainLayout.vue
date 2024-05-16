@@ -5,10 +5,9 @@
         <q-btn aria-label="Menu" dense flat icon="menu" round @click="toggleLeftDrawer"/>
 
         <q-toolbar-title>
-          <!-- Quasar App -->
+          <!--          {{ $t("All") }}-->
         </q-toolbar-title>
 
-        <!-- <div>Quasar v{{ $q.version }}</div> -->
         <!--        <q-btn flat round dense icon="notifications" class="q-mr-xs" @click="notify"></q-btn>-->
         <q-btn :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'" flat round @click="$q.dark.toggle()"/>
         <q-btn class="q-mr-xs" dense flat icon="language" round>
@@ -41,15 +40,6 @@
       <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
 
         <q-list padding>
-          <!--Dashboard-->
-          <!-- <q-item to="/tasks" exact clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="dashboard" />
-            </q-item-section>
-
-            <q-item-section>{{ $t("Dashboard") }}</q-item-section>
-        </q-item>-->
-
           <!--Home Index-->
           <q-item v-ripple clickable exact to="/home">
             <q-item-section avatar>
@@ -198,11 +188,7 @@
       <q-img class="absolute-top" src="pattern_4.svg" style="height: 150px">
         <!-- https://more.graphics/bauhaus -->
         <div class="absolute-bottom bg-transparent">
-          <!-- <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-            </q-avatar> -->
           <div class="text-weight-bold">{{ fullName }}</div>
-          <!-- <div>@adam</div> -->
         </div>
       </q-img>
     </q-drawer>
@@ -237,59 +223,15 @@ import {errorHandler} from "components/api/errorHandler";
 import {setUserLangSettingsRequest} from "components/api/SettingsApiClient";
 
 const $q = useQuasar();
-
+const {locale} = useI18n({useScope: "global"});
 const router = useRouter();
 const UserStore = useUserStore();
+const authAPI = useAuthAPI()
 
 let isLoading = ref(false);
 let isError = ref(false);
 
-const {locale} = useI18n({useScope: "global"});
-const lang = ref(locale); // $q.lang.isoName
-
-const fullName = ref(UserStore.getFullName)
-
-watch(lang, (val) => {
-  // dynamic import, so loading on demand only
-  import(
-    /* webpackInclude: /(pl|de|en-US)\.js$/ */
-  "quasar/lang/" + val
-    ).then((lang) => {
-    $q.lang.set(lang.default);
-  });
-});
-
-function getLocale() {
-  const userLocale =
-    localStorage.getItem("lang") ||
-    sessionStorage.getItem("lang") ||
-    navigator.language.split("-")[0] ||
-    "en-US";
-
-  // if detectedLocale is 'en' or 'es' return
-  if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
-    return userLocale;
-  }
-  // else return default value
-  return "en-US";
-}
-
-function setLocale(lang) {
-  locale.value = lang;
-
-  isLoading.value = true;
-
-  setUserLangSettingsRequest({"code": lang}).then(function (response) {
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
-
-}
-
-
-const leftDrawerOpen = ref(false);
+const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -314,33 +256,58 @@ function logout() {
   router.push("/login");
 }
 
+const permissions = computed(() => UserStore.getPermissions);
 
-function verifyToken() {
-  const token = UserStore.getToken
-  isLoading.value = true;
-  const startTime = new Date().getTime();  // start the timer
-  getVerifyTokenRequest(token).then(function (response) {
-    // UserStore.fillStore()
-    isLoading.value = false;
-    const endTime = new Date().getTime();  // stop the timer
-    const time = endTime - startTime;  // calculate the time it took to get the response
-    console.log(`getVerifyTokenRequest: ${time} ms`);
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    logout();
-    isError.value = true;
-  });
+function hasPermission(permission) {
+  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
 }
 
-onBeforeMount(() => {
-  verifyToken();
-  console.log(getLocale())
-  //localStorage.setItem("lang", 'pl')
-  // setLocale(setLocale())
-  setLocale(getLocale())
-});
+function getUserLocale() {
+  const storedLocale =
+    localStorage.getItem("lang") ||
+    sessionStorage.getItem("lang") ||
+    navigator.language.split("-")[0];
 
+  return SUPPORTED_LOCALES.includes(storedLocale) ? storedLocale : DEFAULT_LOCALE;
+}
+
+async function setLocale(lang = null) {
+  if (!lang) {
+    lang = getUserLocale();
+  }
+  const {data, error} = await authAPI.post('/settings/user_lang/', {"code": lang})
+  if (error !== null) {
+    console.log('Nie udało się zmienić języka')
+    return;
+  }
+  locale.value = lang;
+}
+
+
+async function logout() {
+  await UserStore.logoutUser()
+  await router.push("/login");
+}
+
+async function verifyToken() {
+  const token = UserStore.getToken
+  const {data, error} = await authAPI.get(`/auth/verify/${token}`)
+  if (error !== null && error.response.status === 401) {
+    await logout()
+  }
+}
+
+onBeforeMount(async () => {
+  await verifyToken();
+  await setLocale();
+});
 </script>
+
+<style>
+body.body--light {
+  background: #eceff1
+}
+</style>
 
 <style>
 /* body.body--dark {
