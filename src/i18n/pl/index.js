@@ -49,7 +49,7 @@ export default {
 	"Login": `Zaloguj sie`,
 	"E-mail": `E-mail`,
 	"Password": `Hasło`,
-	"Error: Check username & password": `Błąd: Sprawdź nazwę użytkownika i hasło`,
+	"LoginForm.checkUsernamePassword": `Błąd: Sprawdź nazwę użytkownika i hasło`,
 	"Password confirmation": `Potwierdzenie hasła`,
 	"Remember me for 30 days": `Pamiętaj o mnie przez 30 dni`,
 	"Register": `Zarejstruj się`,

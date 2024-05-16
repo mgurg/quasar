@@ -35,7 +35,8 @@ export const useUserStore = defineStore("user", {
     increment() {
       this.counter++;
     },
-    async loginUsers(email, password, permanent) {
+    async loginUsers(response) {
+      console.log(response)
       // localStorage.clear();
       sessionStorage.clear();
       localStorage.removeItem("token");
@@ -48,51 +49,35 @@ export const useUserStore = defineStore("user", {
       localStorage.removeItem("uuid");
       localStorage.removeItem("permissions");
 
-      try {
-        const response = await api.post("/auth/login", {email: email, password: password, permanent: permanent});
-        console.log('LOGGING');
-        console.log(response.data);
+      this.token = response.auth_token;
+      this.tokenValidTo = response.auth_token_valid_to;
+      this.tenant = response.tenant_id;
+      this.firstName = response.first_name;
+      this.lastName = response.last_name;
+      this.tz = response.tz;
+      this.lang = response.lang;
+      this.uuid = response.uuid;
+      this.permissions = response.role_FK.permission.map((a) => a.name);
 
-        this.token = response.data.auth_token;
-        this.tokenValidTo = response.data.auth_token_valid_to;
-        this.tenant = response.data.tenant_id;
-        this.firstName = response.data.first_name;
-        this.lastName = response.data.last_name;
-        this.tz = response.data.tz;
-        this.lang = response.data.lang;
-        this.uuid = response.data.uuid;
-        this.permissions = response.data.role_FK.permission.map((a) => a.name);
+      // if (permanent == true) {
+      //   localStorage.setItem("token", response.auth_token);
+      //   sessionStorage.removeItem("token");
+      // } else {
+      //   sessionStorage.setItem("token", response.auth_token);
+      //   localStorage.removeItem("token");
+      // }
 
-        // if (permanent == true) {
-        //   localStorage.setItem("token", response.data.auth_token);
-        //   sessionStorage.removeItem("token");
-        // } else {
-        //   sessionStorage.setItem("token", response.data.auth_token);
-        //   localStorage.removeItem("token");
-        // }
-
-        localStorage.setItem("token", response.data.auth_token);
-        localStorage.setItem("tenant", response.data.tenant_id);
-        localStorage.setItem("tokenValidTo", response.data.auth_token_valid_to);
-        localStorage.setItem("lang", response.data.lang);
-        localStorage.setItem("firstName", response.data.first_name);
-        localStorage.setItem("lastName", response.data.last_name);
-        localStorage.setItem("tz", response.data.tz);
-        localStorage.setItem("lang", response.data.lang);
-        localStorage.setItem("uuid", response.data.uuid);
-        localStorage.setItem("permissions", JSON.stringify(response.data.role_FK.permission.map((a) => a.name)));
-        return "OK";
-      } catch (error) {
-        // alert(error)
-        if (error.response) {
-          console.log(error.response.data.detail);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("General Error: " + error);
-        }
-        throw error.response.data.detail;
-      }
+      localStorage.setItem("token", response.auth_token);
+      localStorage.setItem("tenant", response.tenant_id);
+      localStorage.setItem("tokenValidTo", response.auth_token_valid_to);
+      localStorage.setItem("lang", response.lang);
+      localStorage.setItem("firstName", response.first_name);
+      localStorage.setItem("lastName", response.last_name);
+      localStorage.setItem("tz", response.tz);
+      localStorage.setItem("lang", response.lang);
+      localStorage.setItem("uuid", response.uuid);
+      localStorage.setItem("permissions", JSON.stringify(response.role_FK.permission.map((a) => a.name)));
+      return true;
     },
 
     async setEditorUsers() {
@@ -198,9 +183,9 @@ export const useUserStore = defineStore("user", {
 
       this.token = null;
       this.tenant = null;
-      this.tokenValidTo= null;
+      this.tokenValidTo = null;
       this.tenant = null;
-      this.firstName= null;
+      this.firstName = null;
       this.lastName = null;
       this.tz = null;
       this.lang = null;

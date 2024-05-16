@@ -35,7 +35,7 @@
       </q-input>
 
       <!--      <q-checkbox v-model="rememberUser" :label="$t('Remember me for 30 days')"/>-->
-      {{ errorMsg }}
+
       <div class="row">
         <q-space/>
         <q-btn
@@ -56,27 +56,22 @@ import {computed, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useQuasar} from 'quasar'
 import {useUserStore} from 'stores/user'
-
 import {useField, useForm} from "vee-validate";
 import {bool, object, setLocale, string} from "yup";
-
 import {useI18n} from 'vue-i18n';
 import {pl} from 'yup-locales';
+import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
 
-setLocale(pl);
-
-const {t} = useI18n();
-const loginErrorMessage = computed(() => t("Error: Check username & password"));
+setLocale(pl); // TODO: adjust to supported languages
 const $q = useQuasar()
-
-let isPwd = ref(true)
-let isLoading = ref(false);
-const isError = ref(false);
-let errorMsg = ref(null);
-
+const {t} = useI18n();
 const route = useRoute();
 const router = useRouter();
 const UserStore = useUserStore();
+const noAuthAPI = useNoAuthAPI();
+
+let isPwd = ref(true)
+let isLoading = ref(false);
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
@@ -91,28 +86,22 @@ const {value: email, handleChange} = useField("email");
 const {value: password} = useField("password");
 const {value: rememberUser} = useField("rememberUser", undefined, {initialValue: false});
 
-const submit = handleSubmit(() => {
-  LoginUser({email: email.value, password: password.value, permanent: rememberUser.value,});
-});
-
-// --------------- VeeValidate --------------
-
-async function LoginUser(data) {
+const submit = handleSubmit(async () => {
   isLoading.value = true;
-  try {
-    await UserStore.loginUsers(data.email, data.password, data.permanent);
-    // await router.push({path: "/home"});
-    await router.push(route.query.redirect || '/home')
-  } catch (err) {
-    console.log(err);
-    $q.notify({
-      type: 'warning',
-      message: loginErrorMessage,
-    });
-    // console.log(err.error_description || err.message)
-    // console.log(err.data)
-    // errorMsg.value = err
+  const {data, error} = await noAuthAPI.post("/auth/login", {
+    email: email.value,
+    password: password.value,
+    permanent: rememberUser.value
+  })
+  if (error !== null) //&& error.response.status === 404
+  {
+    $q.notify({type: 'warning', message:  t("LoginForm.checkUsernamePassword")});
   }
   isLoading.value = false;
-}
+
+  if (await UserStore.loginUsers(data) === true) {
+    console.log("User logged in")
+    await router.push(route.query.redirect.trim() || '/home')
+  }
+});
 </script>

@@ -49,7 +49,7 @@ export default {
 	"Login": `Anmeldung`,
 	"E-mail": `Email`,
 	"Password": `Passwort`,
-	"Error: Check username & password": `Fehler: Benutzername und Passwort überprüfen`,
+	"LoginForm.checkUsernamePassword": `Fehler: Benutzername und Passwort überprüfen`,
 	"Password confirmation": `Passwort Bestätigung`,
 	"Remember me for 30 days": `Erinnere dich für 30 Tage an mich`,
 	"Register": `Registrieren`,
