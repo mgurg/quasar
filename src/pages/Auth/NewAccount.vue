@@ -1,12 +1,9 @@
 <template>
-  <!-- https://github.com/Joabsonlg/quasar-authentication -->
-  <!-- https://github.com/patrickmonteiro/quasar-warren -->
   <div class="row justify-center" style="height: 100vh">
     <div v-if="fade" class="col-xs-12 col-sm-6 flex container-logo bg-blue-grey-7">
       <div class="column self-center q-mx-auto">
         <div class="q-ma-lg text-left text-white power-text">
           <h1 class="text-h3">Malgori</h1>
-          <!--          <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">Dowiedz się, co (naprawdę) myśli Twój zespół</p>-->
           <p v-if="$q.screen.gt.md" class="text-h4 text-weight-light">
             Uprość codzienne zadania związane z konserwacją. Spędzaj mniej czasu na papierkowej robocie, a więcej na
             załatwianiu spraw.
@@ -18,7 +15,6 @@
             Proste.
           </p>
         </div>
-        <!-- </div> -->
       </div>
     </div>
 
@@ -32,8 +28,6 @@
       <div class="row divider q-pb-lg">
         <div class="col-12">
           <p class="text-body2 q-pa-xs">
-            <!--            <span><router-link to="/login">{{ $t("Login") }} </router-link></span>-->
-            <!-- <span> · {{ $t("I need help") }}</span> -->
           </p>
         </div>
       </div>

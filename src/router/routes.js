@@ -1,20 +1,20 @@
 const routes = [
-  {
-    path: "/login",
-    name: "login",
-    component: () => import("pages/Auth/Login.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: () => import("pages/Auth/Login.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
+  // {
+  //   path: "/login",
+  //   name: "login",
+  //   component: () => import("pages/Auth/Login.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
+  // {
+  //   path: "/register",
+  //   name: "register",
+  //   component: () => import("pages/Auth/Login.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
   {
     path: "/new_account",
     name: "new_account",
