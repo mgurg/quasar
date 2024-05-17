@@ -25,9 +25,9 @@
     <div class="column q-gutter-y-lg q-pa-md self-center q-mx-auto">
 
       <login-form v-if="path==='/login'" :key="path"/>
-<!--      <register-form v-if="path==='/register'" :key="path"/>-->
-<!--      <reset-password-form v-if="path==='/reset_password'" :key="path"/>-->
-<!--      <set-password-form v-if="path.startsWith('/set_password')" :key="path" :reset-token="activationId"/>-->
+      <!--      <register-form v-if="path==='/register'" :key="path"/>-->
+      <reset-password-form v-if="path==='/reset_password'" :key="path"/>
+      <!--      <set-password-form v-if="path.startsWith('/set_password')" :key="path" :reset-token="activationId"/>-->
 
 
       <div class="row divider q-pb-lg">
@@ -55,6 +55,7 @@
 
 <script setup>
 import LoginForm from 'components/forms/auth/LoginForm.vue';
+import ResetPasswordForm from "components/forms/auth/ResetPasswordForm.vue";
 // import RegisterForm from 'components/forms/auth/RegisterForm.vue';
 // import ResetPasswordForm from 'components/forms/auth/ResetPasswordForm.vue'
 import {computed, onBeforeMount, ref, watch} from "vue";

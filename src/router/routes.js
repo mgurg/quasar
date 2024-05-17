@@ -1,12 +1,12 @@
 const routes = [
-  {
-    path: "/login",
-    name: "login",
-    component: () => import("pages/Auth/LoginUser.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
+  // {
+  //   path: "/login",
+  //   name: "login",
+  //   component: () => import("pages/Auth/LoginUser.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
   // {
   //   path: "/register",
   //   name: "register",
@@ -63,49 +63,28 @@ const routes = [
   //     requiresNoAuth: true,
   //   },
   // },
+  // {
+  //   path: "/set_password/:id",
+  //   name: "setPassword",
+  //   component: () => import("pages/Auth/LoginUser.vue"),
+  //   meta: {
+  //     requiresNoAuth: true,
+  //   },
+  // },
 
   {
-    path: "/voice",
-    name: "voice2",
-    component: () => import("pages/Files/Voice2.vue"),
+    path: '/',
+    component: () => import('layouts/BasicLayout.vue'),
+    children: [
+      { path: '/login', component: () => import('pages/BlankPage.vue') },
+      // { path: '/register', component: () => import('pages/BlankPage.vue') }
+      { path: '/reset_password', component: () => import('pages/BlankPage.vue') }
+    ],
     meta: {
       requiresNoAuth: true,
     },
   },
-  {
-    path: "/new/:id?",
-    name: "newIdea",
-    component: () => import("pages/PublicOpen/NewIdea.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/new_submission",
-    name: "NewSubmission",
-    component: () => import("pages/PublicOpen/NewSubmission.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/qr/:qr", name: "qr", component: () => import("pages/PublicOpen/Qr.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/public/items/:uuid", name: "publicItems", component: () => import("pages/Items/PublicItemView.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/public/guides/:uuid", name: "publicGuides", component: () => import("pages/Guides/PublicGuideView.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
+
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),

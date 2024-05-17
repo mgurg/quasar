@@ -284,7 +284,14 @@ async function setLocale(lang = null) {
 }
 
 
-async function logout() {
+async function logout(force = true) {
+  if (force === true) {
+    const token = UserStore.getToken
+    const {error} = await authAPI.get(`/auth/logout/${token}`)
+    if (error !== null) {
+      console.log("Whooop!")
+    }
+  }
   await UserStore.logoutUser()
   await router.push("/login");
 }
@@ -293,7 +300,7 @@ async function verifyToken() {
   const token = UserStore.getToken
   const {data, error} = await authAPI.get(`/auth/verify/${token}`)
   if (error !== null && error.response.status === 401) {
-    await logout()
+    await logout(false)
   }
 }
 

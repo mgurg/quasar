@@ -26,11 +26,16 @@ https://github.com/thecotne/square-file-icons
 ```
 
 
+## Translations
 
+Use [Quasalang CLI](https://github.com/dannyconnell/quasalang)
 
+```bash
+quasalang generate
+```
 
-## Install the dependencies
-
+## Setup
+### Install the dependencies
 ```bash
 yarn
 # or
