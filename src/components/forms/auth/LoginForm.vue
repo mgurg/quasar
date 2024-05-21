@@ -52,7 +52,7 @@
 
 
 <script setup>
-import {computed, ref} from "vue";
+import {ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useQuasar} from 'quasar'
 import {useUserStore} from 'stores/user'
@@ -95,7 +95,7 @@ const submit = handleSubmit(async () => {
   })
   if (error !== null) //&& error.response.status === 404
   {
-    $q.notify({type: 'warning', message:  t("LoginForm.checkUsernamePassword")});
+    $q.notify({type: 'warning', message: t("LoginForm.checkUsernamePassword")});
   }
   isLoading.value = false;
 

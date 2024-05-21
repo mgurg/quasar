@@ -6,17 +6,17 @@
     </div>
 
     <q-form @submit="submit">
-<!--      <q-input-->
-<!--        :model-value="password"-->
-<!--        @change="handleChange"-->
-<!--        :disable="isLoading"-->
-<!--        :error="!!errors.password"-->
-<!--        :error-message="errors.password"-->
-<!--        class="q-mb-md"-->
-<!--        :label="$t('E-mail')"-->
-<!--        outlined-->
-<!--        type="password"-->
-<!--      />-->
+      <!--      <q-input-->
+      <!--        :model-value="password"-->
+      <!--        @change="handleChange"-->
+      <!--        :disable="isLoading"-->
+      <!--        :error="!!errors.password"-->
+      <!--        :error-message="errors.password"-->
+      <!--        class="q-mb-md"-->
+      <!--        :label="$t('E-mail')"-->
+      <!--        outlined-->
+      <!--        type="password"-->
+      <!--      />-->
       <q-input
         v-model="password"
         :disable="isLoading"
@@ -52,10 +52,12 @@
 
 <script setup>
 import {ref} from "vue";
-import {api} from "boot/axios";
 import {useField, useForm} from "vee-validate";
 import {object, string} from "yup";
 import {useRouter} from "vue-router";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
 
 
 const props = defineProps({
@@ -65,6 +67,10 @@ const props = defineProps({
   },
 })
 
+const $q = useQuasar();
+const {t} = useI18n();
+const router = useRouter();
+const noAuthAPI = useNoAuthAPI();
 
 const resetToken = ref(props.resetToken)
 
@@ -72,8 +78,6 @@ const resetToken = ref(props.resetToken)
 let isLoading = ref(false);
 const isError = ref(false);
 let isPwd = ref(true)
-
-const router = useRouter();
 
 // -------------- VeeValidate --------------
 const validationSchema = object({
@@ -85,31 +89,41 @@ const {handleSubmit, errors} = useForm({
 });
 const {value: password, handleChange} = useField("password");
 
-const submit = handleSubmit((values) => {
+const submit = handleSubmit(async (values) => {
   console.log("submit", values);
 
-  resetPassword(password.value);
+  isLoading.value = true;
+  const {error} = await noAuthAPI.post(`/auth/reset-password/${resetToken.value}`, {"password": password.value})
+  if (error !== null) {
+    console.log('Nie udało się zmienić hasła')
+    return;
+  }
+  isLoading.value = false;
+
+  router.push("/login");
+
+  // resetPassword(password.value);
 });
 
 // --------------- VeeValidate --------------
 
-function resetPassword(password) {
-  isLoading.value = true;
-  api.post("/auth/reset-password/" + resetToken.value, {"password": password})
-    .then((res) => {
-
-      isLoading.value = false;
-      router.push("/login");
-    })
-    .catch((err) => {
-      if (err.response) {
-        console.log(err.response);
-      } else if (err.request) {
-        console.log(err.request);
-      } else {
-        console.log("General Error");
-      }
-
-    });
-}
+// function resetPassword(password) {
+//   isLoading.value = true;
+//   api.post("/auth/reset-password/" + resetToken.value, {"password": password})
+//     .then((res) => {
+//
+//       isLoading.value = false;
+//       router.push("/login");
+//     })
+//     .catch((err) => {
+//       if (err.response) {
+//         console.log(err.response);
+//       } else if (err.request) {
+//         console.log(err.request);
+//       } else {
+//         console.log("General Error");
+//       }
+//
+//     });
+// }
 </script>

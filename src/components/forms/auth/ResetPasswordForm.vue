@@ -41,7 +41,11 @@ import {useField, useForm} from "vee-validate";
 import {object, string} from "yup";
 import {useRouter} from "vue-router";
 import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
 
+const $q = useQuasar();
+const {t} = useI18n();
 const router = useRouter();
 const noAuthAPI = useNoAuthAPI();
 
@@ -61,9 +65,10 @@ const submit = handleSubmit(async (values) => {
 
   isLoading.value = true;
   await noAuthAPI.get(`/auth/reset-password/${email.value}`)
-
-
   isLoading.value = false;
+
+  $q.notify(t('Accepted'));
+
   router.push("/login");
 });
 

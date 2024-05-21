@@ -76,9 +76,11 @@ const routes = [
     path: '/',
     component: () => import('layouts/BasicLayout.vue'),
     children: [
+      { path: '/', component: () => import('pages/BlankPage.vue') },
       { path: '/login', component: () => import('pages/BlankPage.vue') },
-      // { path: '/register', component: () => import('pages/BlankPage.vue') }
-      { path: '/reset_password', component: () => import('pages/BlankPage.vue') }
+      { path: '/register', component: () => import('pages/BlankPage.vue') },
+      { path: '/reset_password', component: () => import('pages/BlankPage.vue') },
+      { path: '/set_password/:id', component: () => import('pages/BlankPage.vue') }
     ],
     meta: {
       requiresNoAuth: true,
