@@ -1,12 +1,15 @@
 <template>
   <div>
     <div class="text-h5 text-weight-bold q-pb-md">{{ $t("Register") }}</div>
-
-    <q-linear-progress :value=ratio class="q-mb-md" size="10px" stripe/>
-    <p class="text">⏰ Dostępnych kont: <strong>{{ availableAccounts }}</strong>, zarezerwuj dostęp teraz ⬇️</p>
-    <div>
-      📃 <a href="regulamin_2023_05_01.pdf" target="_blank">Regulamin </a>
+    <div v-if="step==0">
+      <q-linear-progress :value="accounts / limit" class="q-mb-md" size="10px" stripe/>
+      <p class="text">⏰ Dostępnych kont: <strong>{{ limit - accounts }}</strong>, zarezerwuj dostęp teraz ⬇️</p>
+      <div>
+        📃 <a href="regulamin_2023_05_01.pdf" target="_blank">Regulamin </a>
+      </div>
     </div>
+
+
     <q-form @submit="submit">
       <q-stepper
         ref="stepper"
@@ -85,25 +88,21 @@
           />
 
 
-
-
           <q-checkbox
             v-model="acceptTOS"
             :color="errors.acceptTOS ? 'red': 'primary'"
             :dense="$q.screen.lt.sm"
             :style="errors.acceptTOS ? 'color:red' : 'color:black'"
             keep-color>
-            {{$t("I accept the terms and conditions")}}
+            {{ $t("I accept the terms and conditions") }}
           </q-checkbox>
+          <!--          <div class="q-py-lg text-body1">-->
+          <!--            📃 <a href="regulamin_2023_05_01.pdf" target="_blank">Regulamin </a>-->
+          <!--          </div>-->
+
         </q-step>
 
         <q-step :done="step > 1" :name="1" icon="create_new_folder" title="1">
-
-          <!--
-          Pobraliśmy dane firmy: RINGIER AXEL SPRINGER POLSKA SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ.
-          Fakturę wystawimy automatycznie po zakupie. Możesz zrewidować dane później
-          -->
-
           <q-input
             v-model="companyName"
             :dense="$q.screen.lt.sm"
@@ -190,22 +189,31 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {api} from "boot/axios";
+import {onBeforeMount, ref} from "vue";
 import {useField, useForm} from "vee-validate";
 import {bool, object, setLocale, string} from "yup";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "stores/user";
 import {validatePolish} from 'validate-polish';
-import {accountLimit} from 'src/composables/api/accountLimit.js'
 import {pl} from 'yup-locales';
-import {errorHandler} from "components/api/errorHandler";
 import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
 
-
-const {availableAccounts, ratio} = accountLimit()
+const props = defineProps({
+  userLanguage: {
+    type: String,
+    default: "pl",
+  },
+})
 
 const $q = useQuasar()
+const {t} = useI18n();
+const route = useRoute();
+const router = useRouter();
+const UserStore = useUserStore();
+const noAuthAPI = useNoAuthAPI();
+
 setLocale(pl);
 
 
@@ -213,9 +221,14 @@ let isPwd = ref(true);
 let isLoading = ref(false);
 const isError = ref(false);
 let errorMsg = ref(null);
-let step = ref(0)
-const router = useRouter();
-const UserStore = useUserStore();
+const REGISTER_STEP = 0;
+const MANUAL_COMPANY_INPUT_STEP = 1;
+const ALREADY_REGISTERED_STEP = 1;
+let step = ref(REGISTER_STEP)
+
+const accounts = ref(1);
+const limit = ref(10);
+
 
 // "9542752600"
 const nipList = ref([
@@ -247,7 +260,7 @@ function random_item(items) {
 
 const validationSchema = object({
   email: string().max(253).required("Provide an valid email").email(),
-  password: string().required(),
+  password: string().min(6).required(),
   companyTaxId: string().max(16).required().matches(/^[0-9]+$/, 'Must be numeric').test(
     "check-nip",
     "Provide valid NIP number",
@@ -276,125 +289,90 @@ const {value: companyPostCode} = useField("companyPostCode");
 const {value: companyCity} = useField("companyCity");
 
 
-const submit = handleSubmit((values) => {
-  let isLoading = ref(true); //TODO isLoading.value = false;
-
-  if (step.value !== 1) {
-    // const {name, short_name, street, postcode, city, country_code} = companyInfo({
-    //   country: 'pl',
-    //   id: nip.value
-    // })
-    api.post("auth/company_info", {"country": "pl", "company_tax_id": companyTaxId.value})
-      .then((res) => {
-        isLoading.value = false;
-        companyName.value = res.data.short_name
-        companyAddress.value = res.data.street
-        companyPostCode.value = res.data.postcode
-        companyCity.value = res.data.city
-        step.value++
-      })
-      .catch((err) => {
-        // Sentry.captureMessage("auth/company_info error: " + companyTaxId.value);
-        const errorMessage = errorHandler(err);
-        console.log(errorMessage.status)
-        if (errorMessage.status === 404) {
-          companyName.value = null
-          companyAddress.value = null
-          companyPostCode.value = null
-          companyCity.value = null
-          $q.notify("Nie znaleziono danych firmy, wprowadź ręcznie");
-          step.value++
-        } else{
-          step.value = 2;
-        }
-
-        // if (err.response) {
-        //   console.log(err.response);
-        // } else if (err.request) {
-        //   console.log(err.request);
-        // } else {
-        //   console.log("General Error");
-        // }
-
-      });
-
-    return;
-  }
-
-
-  function getLocale() {
-    const userLocale =
-      localStorage.getItem("lang") ||
-      sessionStorage.getItem("lang") ||
-      navigator.language.split("-")[0] ||
-      "en-US";
-
-    // if detectedLocale is 'en' or 'es' return
-    if (["de", "en-US", "fr", "pl"].indexOf(userLocale) >= 0) {
-      return userLocale;
+const submit = handleSubmit(async (values) => {
+    const {data, error} = await noAuthAPI.post("/auth/company_info", {
+      "country": "pl",
+      "company_tax_id": `${companyTaxId.value}`
+    })
+    if (error !== null) {
+      if (error.response.status === 404) {
+        $q.notify("Nie znaleziono danych firmy, wprowadź ręcznie");
+        step.value = MANUAL_COMPANY_INPUT_STEP
+      }
     }
-    // else return default value
-    return "en-US";
-  }
+
+    if (data !== null && data !== undefined) {
+      companyName.value = data.short_name
+      companyAddress.value = data.street
+      companyPostCode.value = data.postcode
+      companyCity.value = data.city
+
+      let dataAll = {
+        first_name: firstName.value,
+        last_name: lastName.value,
+        email: email.value,
+        password: password.value,
+        password_confirmation: password.value,
+        country: "pl",
+        company_tax_id: companyTaxId.value,
+        company_name: companyName.value,
+        company_street: companyAddress.value,
+        company_city: companyCity.value,
+        company_postcode: companyPostCode.value,
+        company_info_changed: false,
+        tos: acceptTOS.value,
+        tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Warsaw",
+        lang: props.userLanguage,
+      };
+
+      await registerAdmin(dataAll)
+    }
 
 
-  let data = {
-    first_name: firstName.value,
-    last_name: lastName.value,
-    email: email.value,
-    password: password.value,
-    password_confirmation: password.value,
-    country: "pl",
-    company_tax_id: companyTaxId.value,
-    company_name: companyName.value,
-    company_street: companyAddress.value,
-    company_city: companyCity.value,
-    company_postcode: companyPostCode.value,
-    company_info_changed: false,
-    tos: acceptTOS.value,
-    tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Warsaw",
-    lang: getLocale(),
-  };
-
-
-  registerAdmin(data);
-});
+// registerAdmin(data);
+  })
+;
 
 // --------------- VeeValidate --------------
 
-function registerAdmin(data) {
-  isLoading.value = true;
-  api
-    .post("auth/register", data)
-    .then((res) => {
+async function registerAdmin(registrationData) {
+  const {data, error} = await noAuthAPI.post("/auth/register", registrationData)
+  if (error !== null) {
+    if (error.response.status === 400) {
+      $q.notify("Tymczasowy email nie jest dozwolony");
+      step.value = ALREADY_REGISTERED_STEP
+    }
+    if (error.response.status === 403) {
+      $q.notify("Tymczasowy email nie jest dozwolony");
+      step.value = REGISTER_STEP
+    }
+  }
 
-      isLoading.value = false;
-      router.push("/new_account");
-    })
-    .catch((err) => {
-      const errorMessage = errorHandler(err);
-      console.log(errorMessage.status)
-      if (errorMessage.status === 403) {
-        $q.notify("Tymczasowy email nie jest dozwolony");
-        step.value--
-      }
-      if (errorMessage.status === 400) {
-        $q.notify(errorMessage.data.detail);
-      }
-      // if (err.response) {
-      //   console.log(err.response);
-      // } else if (err.request) {
-      //   console.log(err.request);
-      // } else {
-      //   console.log("General Error");
-      // }
-    });
-  isLoading.value = false;
+  if (data !== null && data !== undefined) {
+    console.log(data)
+    router.push("/new_account");
+  }
 }
+
 
 function go_back() {
   step.value--
 }
+
+const getAccountNumber = async () => {
+  const {data, error} = await noAuthAPI.get("/auth/account_limit")
+  if (error !== null) {
+    console.log('GET /auth/account_limit failed')
+  }
+  accounts.value = data.accounts;
+  limit.value = data.limit;
+};
+
+
+onBeforeMount(() => {
+  getAccountNumber()
+});
+
 </script>
 
 

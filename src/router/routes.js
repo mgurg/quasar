@@ -1,52 +1,5 @@
 const routes = [
-  // {
-  //   path: "/login",
-  //   name: "login",
-  //   component: () => import("pages/Auth/LoginUser.vue"),
-  //   meta: {
-  //     requiresNoAuth: true,
-  //   },
-  // },
-  // {
-  //   path: "/register",
-  //   name: "register",
-  //   component: () => import("pages/Auth/LoginUser.vue"),
-  //   meta: {
-  //     requiresNoAuth: true,
-  //   },
-  // },
-  {
-    path: "/new_account",
-    name: "new_account",
-    component: () => import("pages/Auth/NewAccount.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/activate/:id",
-    name: "newAccount",
-    component: () => import("pages/Auth/FirstRun.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/reset_password",
-    name: "resetPassword",
-    component: () => import("pages/Auth/Login.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
-  {
-    path: "/set_password/:id",
-    name: "setPassword",
-    component: () => import("pages/Auth/Login.vue"),
-    meta: {
-      requiresNoAuth: true,
-    },
-  },
+
   // {
   //   path: "/map",
   //   name: "map",
@@ -76,11 +29,12 @@ const routes = [
     path: '/',
     component: () => import('layouts/BasicLayout.vue'),
     children: [
-      { path: '/', component: () => import('pages/BlankPage.vue') },
-      { path: '/login', component: () => import('pages/BlankPage.vue') },
-      { path: '/register', component: () => import('pages/BlankPage.vue') },
-      { path: '/reset_password', component: () => import('pages/BlankPage.vue') },
-      { path: '/set_password/:id', component: () => import('pages/BlankPage.vue') }
+      { path: '/', component: () => import('pages/EntryPage.vue') },
+      { path: '/login', component: () => import('pages/EntryPage.vue') },
+      { path: '/register', component: () => import('pages/EntryPage.vue') },
+      { path: '/reset_password', component: () => import('pages/EntryPage.vue') },
+      { path: '/set_password/:id', component: () => import('pages/EntryPage.vue') },
+      { path: '/new_account', component: () => import('pages/Auth/NewAccount.vue') }
     ],
     meta: {
       requiresNoAuth: true,
