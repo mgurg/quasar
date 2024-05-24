@@ -26,7 +26,7 @@ let isLoading = ref(false);
 
 async function firstRun(activationId) {
   isLoading.value = true;
-  const {data, error} = await noAuthAPI.post("/auth/first_run", {"token": activationId});
+  const { error} = await noAuthAPI.post("/auth/first_run", {"token": activationId});
   if (error !== null) {
     isLoading.value = false;
     $q.notify("⚠️ Błąd aktywacji konta - konto aktywne, lub link nieprawidłowy");

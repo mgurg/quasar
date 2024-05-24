@@ -162,20 +162,20 @@
 
 
       <!-- MY ISSUES -->
-      <my-tasks-card
-        v-if="userUuid!=null"
-        :key="'T'+ componentKey"
-        :expanded-my-tasks="expandedUserIssues"
-        :user-uuid="userUuid"/>
+<!--      <my-tasks-card-->
+<!--        v-if="userUuid!=null"-->
+<!--        :key="'T'+ componentKey"-->
+<!--        :expanded-my-tasks="expandedUserIssues"-->
+<!--        :user-uuid="userUuid"/>-->
 
       <!-- MY ITEMS -->
-      <my-items-card v-if="userUuid!=null"
-                     :key="'I'+ componentKey"
-                     :expanded-my-items="expandedUserItems"
-                     :user-uuid="userUuid"/>
+<!--      <my-items-card v-if="userUuid!=null"-->
+<!--                     :key="'I'+ componentKey"-->
+<!--                     :expanded-my-items="expandedUserItems"-->
+<!--                     :user-uuid="userUuid"/>-->
 
       <!-- INTRO-->
-      <my-intro-card v-if="showIntroCard" :expanded-my-intro="true"/>
+<!--      <my-intro-card v-if="showIntroCard" :expanded-my-intro="true"/>-->
     </q-page>
   </div>
 </template>
@@ -183,15 +183,15 @@
 <script setup>
 import {onBeforeMount, reactive, ref} from "vue";
 import {useRouter} from "vue-router";
-import {errorHandler} from 'src/components/api/errorHandler.js'
-import {getIssuesCounterRequest} from "components/api/StatisticsApiClient";
-import {getUserSettingRequest} from 'components/api/SettingsApiClient'
+// import {errorHandler} from 'src/components/api/errorHandler.js'
+// import {getIssuesCounterRequest} from "components/api/StatisticsApiClient";
+// import {getUserSettingRequest} from 'components/api/SettingsApiClient'
 
 import {useUserStore} from "stores/user";
 import {DateTime} from 'luxon';
-import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
-import MyTasksCard from "components/viewer/cards/MyTasksCard.vue";
-import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
+// import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
+// import MyTasksCard from "components/viewer/cards/MyTasksCard.vue";
+// import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
 
 
 const UserStore = useUserStore();
@@ -221,36 +221,36 @@ const isLoading = ref(false)
 const isError = ref(false)
 
 function getStatistics() {
-  isLoading.value = true;
-  getIssuesCounterRequest().then(function (response) {
-    status.new = response.data.new
-    status.accepted = response.data.accepted
-    status.rejected = response.data.rejected
-    status.assigned = response.data.assigned
-    status.in_progress = response.data.in_progress
-    status.paused = response.data.paused
-    status.done = response.data.done
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
+  // isLoading.value = true;
+  // getIssuesCounterRequest().then(function (response) {
+  //   status.new = response.data.new
+  //   status.accepted = response.data.accepted
+  //   status.rejected = response.data.rejected
+  //   status.assigned = response.data.assigned
+  //   status.in_progress = response.data.in_progress
+  //   status.paused = response.data.paused
+  //   status.done = response.data.done
+  //   isLoading.value = false;
+  // }).catch((err) => {
+  //   const errorMessage = errorHandler(err);
+  //   isError.value = true;
+  // });
 }
 
 function getSettings() {
-  isLoading.value = true;
-  getUserSettingRequest("dashboard_show_intro").then(function (response) {
-    // console.log(response.data.dashboard_show_intro)
-    showIntroCard.value = response.data.dashboard_show_intro
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-
-    if (err.response !== 200) {
-      console.log("ERROR")
-    }
-    isError.value = true;
-  });
+  // isLoading.value = true;
+  // getUserSettingRequest("dashboard_show_intro").then(function (response) {
+  //   // console.log(response.data.dashboard_show_intro)
+  //   showIntroCard.value = response.data.dashboard_show_intro
+  //   isLoading.value = false;
+  // }).catch((err) => {
+  //   const errorMessage = errorHandler(err);
+  //
+  //   if (err.response !== 200) {
+  //     console.log("ERROR")
+  //   }
+  //   isError.value = true;
+  // });
 }
 
 const expandedUserItems = ref(JSON.parse(localStorage.getItem('visibility-home-items')) ?? true)
