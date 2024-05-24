@@ -88,6 +88,8 @@ const {value: rememberUser} = useField("rememberUser", undefined, {initialValue:
 
 const submit = handleSubmit(async () => {
   isLoading.value = true;
+  // TODO: split login to two steps, use GET /get_tenant_uid
+  // also simplify
   const {data, error} = await noAuthAPI.post("/auth/login", {
     email: email.value,
     password: password.value,
@@ -98,10 +100,13 @@ const submit = handleSubmit(async () => {
     $q.notify({type: 'warning', message: t("LoginForm.checkUsernamePassword")});
   }
   isLoading.value = false;
-
-  if (await UserStore.loginUsers(data) === true) {
+  console.log('data')
+  if (UserStore.loginUsers(data)) {
     console.log("User logged in")
-    await router.push(route.query.redirect.trim() || '/home')
+    if (route.query.redirect) {
+      router.push(route.query.redirect.trim() || '/home')
+    }
+    router.push('/home')
   }
 });
 </script>

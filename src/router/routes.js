@@ -29,12 +29,13 @@ const routes = [
     path: '/',
     component: () => import('layouts/BasicLayout.vue'),
     children: [
-      { path: '/', component: () => import('pages/EntryPage.vue') },
-      { path: '/login', component: () => import('pages/EntryPage.vue') },
-      { path: '/register', component: () => import('pages/EntryPage.vue') },
-      { path: '/reset_password', component: () => import('pages/EntryPage.vue') },
-      { path: '/set_password/:id', component: () => import('pages/EntryPage.vue') },
-      { path: '/new_account', component: () => import('pages/Auth/NewAccount.vue') }
+      { path: '/', component: () => import('pages/Auth/EntryPage.vue') },
+      { path: '/login', component: () => import('pages/Auth/EntryPage.vue') },
+      { path: '/register', component: () => import('pages/Auth/EntryPage.vue') },
+      { path: '/reset_password', component: () => import('pages/Auth/EntryPage.vue') },
+      { path: '/set_password/:id', component: () => import('pages/Auth/EntryPage.vue') },
+      { path: '/new_account', component: () => import('pages/Auth/NewAccount.vue') },
+      { path: '/activate/:id', component: () => import('pages/Auth/FirstRun.vue') }
     ],
     meta: {
       requiresNoAuth: true,
