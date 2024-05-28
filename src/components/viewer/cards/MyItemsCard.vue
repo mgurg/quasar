@@ -4,7 +4,6 @@
       <div class="row q-col-gutter-xs">
         <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedMyItems = !expandedMyItems">
           Moje urządzenia
-          <!--              <q-badge floating align="top">{{ documentFiles.length }}</q-badge>-->
         </div>
         <q-space></q-space>
         <q-btn
@@ -70,10 +69,12 @@
                     </span>
               </q-item-section>
             </q-item>
-
-            <div v-for="(item, index) in userIssues" v-if="userIssues !== null" v-bind:key="index">
-              <item-list-row :item="item"/>
+            <div v-if="userIssues !== null">
+              <div v-for="(item, index) in userIssues" v-bind:key="index">
+                <item-list-row :item="item"/>
+              </div>
             </div>
+
 
           </q-list>
         </q-card-section>
@@ -84,9 +85,8 @@
 
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
-import {errorHandler} from "components/api/errorHandler";
 import ItemListRow from "components/listRow/ItemListRow.vue";
-import {getManyItemsRequest} from "components/api/ItemApiClient";
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
 
 const props = defineProps({
   expandedMyItems: {
@@ -95,16 +95,19 @@ const props = defineProps({
   },
   userUuid: {
     type: String,
-    default: false,
+    default: null,
   },
 })
+
+
+const authAPI = useAuthAPI();
+
 
 const expandedMyItems = ref(props.expandedMyItems)
 const userIssues = ref(null)
 const userUuid = ref(props.userUuid)
 
 const isLoading = ref(false)
-const isError = ref(false)
 
 
 let sort = reactive({status: "asc", title: "asc", created_at: "desc", name: "asc", active: "created_at"})
@@ -158,20 +161,20 @@ watch(() => pagination.page, (oldPage, newPage) => {
 })
 
 
-function getUserItems() {
+async function getUserItems() {
   isLoading.value = true;
   let params = {
     user_uuid: userUuid.value,
     page: pagination.page,
     size: pagination.size,
   }
-  getManyItemsRequest(params).then(function (response) {
-    userIssues.value = response.data.items
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
+  // TODO: fix on backend trailing slash / at end
+  const {data, error} = await authAPI.get("/items/", {params: params})
+  if (error !== null) {
+    console.log(error)
+    return;
+  }
+  userIssues.value = data.items
 }
 
 onBeforeMount(() => {

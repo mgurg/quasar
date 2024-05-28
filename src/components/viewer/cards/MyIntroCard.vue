@@ -5,7 +5,6 @@
       <div class="row q-col-gutter-xs">
         <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedMyIntro = !expandedMyIntro">
           Pierwsze kroki
-          <!--              <q-badge floating align="top">{{ documentFiles.length }}</q-badge>-->
         </div>
         <q-space></q-space>
         <q-btn
@@ -27,7 +26,8 @@
 
           Witaj w aplikacji do zgłaszania awarii.
           Przeczytaj <a href="https://www.malgori.pl/posts/06-jak-wykorzystac/" target="_blank">co możesz zrobić</a> i
-          <router-link to="/settings/notifications">dostosuj powiadomienia</router-link>📢
+          <router-link to="/settings/notifications">dostosuj powiadomienia</router-link>
+          📢
           <br>
           <br>
           Wykonaj poniższe kroki, żeby wykorzystać ją w pełni:
@@ -80,7 +80,7 @@
                 <q-checkbox v-model="itemAdded" disable/>
               </q-item-section>
               <q-item-section>
-                <q-item-label>Masz zapisanych {{ itemsData.users -1 }} pracowników oprócz siebie</q-item-label>
+                <q-item-label>Masz zapisanych {{ itemsData.users - 1 }} pracowników oprócz siebie</q-item-label>
                 <q-item-label v-if="itemsData.users === 1" caption>Dodaj nowego użytkownika lub wykonaj pracę
                   samodzielnie
                 </q-item-label>
@@ -100,7 +100,8 @@
               <q-item-section>
                 <q-item-label>Twoje zgłoszenie oczekuje na reakcję</q-item-label>
                 <q-item-label caption>
-                  Przypisz do niego użytkownika i rozpocznij naprawę {{itemsData.issues_active.me}} {{ itemsData.issues_inactive.me }}
+                  Przypisz do niego użytkownika i rozpocznij naprawę {{ itemsData.issues_active.me }}
+                  {{ itemsData.issues_inactive.me }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -165,9 +166,11 @@
 
 <script setup>
 import {onBeforeMount, ref} from "vue";
-import {errorHandler} from 'src/components/api/errorHandler.js'
-import {getFirstStepsRequest} from "components/api/StatisticsApiClient";
-import {setUserSettingsRequest} from "components/api/SettingsApiClient"
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
+
+
+const authAPI = useAuthAPI();
+
 
 const props = defineProps({
   expandedMyIntro: {
@@ -182,42 +185,34 @@ const itemsData = ref(null)
 const itemAdded = ref(true);
 
 const isLoading = ref(false)
-const isError = ref(false)
 
-function getIntroData() {
-  getFirstStepsRequest().then(function (response) {
-    // progressData.value = response.data;
-    itemsData.value = response.data
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
+async function getIntroData() {
+  const {data, error} = await authAPI.get("/statistics/first_steps")
+  if (error !== null) {
+    console.log(error)
+    return;
+  }
+  itemsData.value = data
+
 }
 
-function hide() {
-  isLoading.value = true;
+async function hide() {
   let data = {
     "name": "dashboard_show_intro",
     "value": "false",
     "type": "bool"
   }
 
-  setUserSettingsRequest(data).then(function (response) {
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-
-    if (err.response !== 200) {
-      console.log("ERROR")
-    }
-    isError.value = true;
-  });
-  itemsData.value = false
+  const {error} = await authAPI.post("/settings", data)
+  if (error !== null) {
+    console.log(error)
+    return;
+  }
+  itemsData.value = null
 }
 
-onBeforeMount(() => {
-  getIntroData();
+onBeforeMount(async () => {
+  await getIntroData();
 });
 
 </script>

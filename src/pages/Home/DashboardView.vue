@@ -33,45 +33,7 @@
           <q-item-section side>
             <div class="col-12 text-h6 q-mt-none">
 
-              <q-btn-dropdown class="float-left q-mr-sm" color="grey" dense dropdown-icon="settings" flat round>
-                <q-list bordered padding>
-                  <q-item>
-                    <q-item-section>
-
-                      <q-item-label>Domyślnie rozwinięte sekcje</q-item-label>
-                      <q-item-label caption>Określ które sekcje (Moje zadania/urządzenia) będę domyślnie rozwinięte
-                      </q-item-label>
-                    </q-item-section>
-
-                  </q-item>
-
-                  <q-item v-ripple tag="label">
-                    <q-item-section>
-                      <q-item-label>Moje zadania</q-item-label>
-                      <q-item-label caption>Zadania przypisane do Ciebie</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-toggle
-                        v-model="expandedUserIssues"
-                        @update:model-value="setSectionVisibility('visibility-home-tasks')"
-                      />
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item v-ripple tag="label">
-                    <q-item-section>
-                      <q-item-label>Moje urządzenia</q-item-label>
-                      <q-item-label caption>Lista zapisanych przez Ciebie urządzeń</q-item-label>
-                    </q-item-section>
-                    <q-item-section side top>
-                      <q-toggle
-                        v-model="expandedUserItems"
-                        @update:model-value="setSectionVisibility('visibility-home-items')"
-                      />
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-              </q-btn-dropdown>
+              <VisibilityButton/>
 
               <!--              <q-btn-->
               <!--                :label="$q.screen.gt.xs ? $t('Search') : ''"-->
@@ -82,12 +44,9 @@
               <!--                icon="search"-->
               <!--                no-caps-->
               <!--              />-->
-              <span v-if="$q.screen.gt.xs" class="text-body2 text-weight-medium q-pr-lg">{{
-                  currentDate()
-                }}, Dzisiaj:</span>
-              <span v-else class="text-body2 text-weight-medium q-pr-lg">
-                Dzisiaj:
-              </span>
+              <span v-if="$q.screen.gt.xs" class="text-body2 text-weight-medium q-pr-lg">
+                {{ currentDate() }}, Dzisiaj:</span>
+              <span v-else class="text-body2 text-weight-medium q-pr-lg">Dzisiaj:</span>
             </div>
           </q-item-section>
         </q-item>
@@ -96,108 +55,56 @@
 
 
       <!-- <card-dashboard></card-dashboard> -->
-      <div class="row q-col-gutter-sm">
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #e91e63"
-                  @click="goToIssues('new')">
-
-            <q-item-section class="q-pa-md q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #d81b60">
-              <q-icon color="white" name="auto_awesome" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.new }}
-              </q-item-label>
-              <q-item-label>{{ $t('New') }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #ffb300"
-                  @click="goToIssues('in_progress')">
-            <q-item-section class=" q-pa-md q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #ffa000">
-              <q-icon color="white" name="build" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.in_progress }}
-              </q-item-label>
-              <q-item-label>{{ $t('Ongoing') }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #009688"
-                  @click="goToIssues('paused')">
-            <q-item-section class="q-pa-md q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #00897b">
-              <q-icon color="white" name="pause" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class="q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.paused }}
-              </q-item-label>
-              <q-item-label>{{ $t('Paused') }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-6">
-          <q-item class="q-pa-none rounded-borders fit" clickable style="background-color: #455a64"
-                  @click="goToIssues('done')">
-            <q-item-section class=" q-pa-md q-mr-none text-white rounded-borders"
-                            side
-                            style="background-color: #37474f">
-              <q-icon color="white" name="stop" size="24px"></q-icon>
-            </q-item-section>
-            <q-item-section class=" q-pa-md q-ml-none  text-white">
-              <q-item-label class="text-white text-h5 text-weight-bolder">{{ status.done }}
-              </q-item-label>
-              <q-item-label>{{ $t('Done') }}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </div>
-      </div>
+      <IssuesSummary :status="status"/>
 
 
       <!-- MY ISSUES -->
-<!--      <my-tasks-card-->
-<!--        v-if="userUuid!=null"-->
-<!--        :key="'T'+ componentKey"-->
-<!--        :expanded-my-tasks="expandedUserIssues"-->
-<!--        :user-uuid="userUuid"/>-->
+      <!--      <my-tasks-card-->
+      <!--        v-if="userUuid!=null"-->
+      <!--        :key="'T'+ componentKey"-->
+      <!--        :expanded-my-tasks="expandedUserIssues"-->
+      <!--        :user-uuid="userUuid"/>-->
 
       <!-- MY ITEMS -->
-<!--      <my-items-card v-if="userUuid!=null"-->
-<!--                     :key="'I'+ componentKey"-->
-<!--                     :expanded-my-items="expandedUserItems"-->
-<!--                     :user-uuid="userUuid"/>-->
+            <my-items-card v-if="userUuid!=null"
+                           :key="'I'+ componentKey"
+                           :expanded-my-items="expandedUserItems"
+                           :user-uuid="userUuid"/>
 
       <!-- INTRO-->
-<!--      <my-intro-card v-if="showIntroCard" :expanded-my-intro="true"/>-->
+            <my-intro-card v-if="showIntroCard" :expanded-my-intro="true"/>
     </q-page>
   </div>
 </template>
 
 <script setup>
 import {onBeforeMount, reactive, ref} from "vue";
-import {useRouter} from "vue-router";
-// import {errorHandler} from 'src/components/api/errorHandler.js'
-// import {getIssuesCounterRequest} from "components/api/StatisticsApiClient";
+import {useRoute, useRouter} from "vue-router";
 // import {getUserSettingRequest} from 'components/api/SettingsApiClient'
-
 import {useUserStore} from "stores/user";
 import {DateTime} from 'luxon';
-// import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
+import VisibilityButton from "components/common/VisibilityButton.vue";
+import IssuesSummary from "pages/Home/IssuesSummary.vue";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
+import MyIntroCard from "components/viewer/cards/MyIntroCard.vue";
 // import MyTasksCard from "components/viewer/cards/MyTasksCard.vue";
-// import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
+import MyItemsCard from "components/viewer/cards/MyItemsCard.vue";
 
 
+const $q = useQuasar()
+const {t} = useI18n();
+const route = useRoute();
+const router = useRouter();
 const UserStore = useUserStore();
+const noAuthAPI = useNoAuthAPI();
+const authAPI = useAuthAPI();
+
+
 const userUuid = UserStore.getCurrentUserId
 const userIssues = ref(null)
-const router = useRouter();
 
 
 function currentDate() {
@@ -220,54 +127,34 @@ const status = reactive({
 const isLoading = ref(false)
 const isError = ref(false)
 
-function getStatistics() {
-  // isLoading.value = true;
-  // getIssuesCounterRequest().then(function (response) {
-  //   status.new = response.data.new
-  //   status.accepted = response.data.accepted
-  //   status.rejected = response.data.rejected
-  //   status.assigned = response.data.assigned
-  //   status.in_progress = response.data.in_progress
-  //   status.paused = response.data.paused
-  //   status.done = response.data.done
-  //   isLoading.value = false;
-  // }).catch((err) => {
-  //   const errorMessage = errorHandler(err);
-  //   isError.value = true;
-  // });
+async function getStatistics() {
+  const {data, error} = await authAPI.get("/statistics/issues_counter")
+  if (error !== null) {
+    console.log(error)
+  }
+  status.new = data.new
+  status.accepted = data.accepted
+  status.rejected = data.rejected
+  status.assigned = data.assigned
+  status.in_progress = data.in_progress
+  status.paused = data.paused
+  status.done = data.done
 }
 
-function getSettings() {
-  // isLoading.value = true;
-  // getUserSettingRequest("dashboard_show_intro").then(function (response) {
-  //   // console.log(response.data.dashboard_show_intro)
-  //   showIntroCard.value = response.data.dashboard_show_intro
-  //   isLoading.value = false;
-  // }).catch((err) => {
-  //   const errorMessage = errorHandler(err);
-  //
-  //   if (err.response !== 200) {
-  //     console.log("ERROR")
-  //   }
-  //   isError.value = true;
-  // });
+async function getSettings() {
+  const settingName = "dashboard_show_intro"
+  const {data, error} = await authAPI.get(`/settings/?settings=${settingName}`)
+  if (error !== null) {
+    console.log(error)
+  }
+  showIntroCard.value = data.dashboard_show_intro
+
 }
 
 const expandedUserItems = ref(JSON.parse(localStorage.getItem('visibility-home-items')) ?? true)
 const expandedUserIssues = ref(JSON.parse(localStorage.getItem('visibility-home-tasks')) ?? true)
 const showIntroCard = ref(false)
 
-function setSectionVisibility(condition) {
-  console.log(condition)
-  if (localStorage.getItem(condition) === null) {
-    localStorage.setItem(condition, JSON.stringify(true))
-  } else {
-    let currentValue = JSON.parse(localStorage.getItem(condition))
-    localStorage.setItem(condition, JSON.stringify(!currentValue))
-  }
-
-  forceRerender()
-}
 
 const componentKey = ref(0);
 
