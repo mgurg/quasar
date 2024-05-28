@@ -2,7 +2,7 @@
   <q-card bordered class="my-card no-shadow q-mt-sm">
     <q-card-section>
       <div class="row q-col-gutter-xs">
-        <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedMyItems = !expandedMyItems">
+        <div class="text-h6 text-weight-regular cursor-pointer" @click="toggleExpand">
           Moje urządzenia
         </div>
         <q-space></q-space>
@@ -15,12 +15,12 @@
           to="/issues/"
         />
         <q-btn
-          :icon="expandedMyItems ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+          :icon="expandIcon"
           color="grey"
           dense
           flat
           round
-          @click="expandedMyItems = !expandedMyItems"
+          @click="toggleExpand"
         />
       </div>
     </q-card-section>
@@ -29,15 +29,17 @@
     <q-slide-transition>
       <div v-show="expandedMyItems">
         <q-card-section>
-          <p v-if="userIssues === null || userIssues.length === 0" class="q-pt-xs text-body2">
-            Nie masz jeszcze żadnych przypisanych urządzeń. Przejdź do
-            <q-btn color="primary" dense flat icon="apps" no-caps to="/items">listy maszyn</q-btn>
-            kliknij nazwę i dodaj do ulubionych klikając ikonę serca
-            <q-icon color="accent" name="favorite_border" size="sm"/>
-          </p>
+          <template v-if="isEmptyUserIssues">
+            <p class="q-pt-xs text-body2">
+              Nie masz jeszcze żadnych przypisanych urządzeń. Przejdź do
+              <q-btn color="primary" dense flat icon="apps" no-caps to="/items">listy maszyn</q-btn>
+              kliknij nazwę i dodaj do ulubionych klikając ikonę serca
+              <q-icon color="accent" name="favorite_border" size="sm"/>
+            </p>
+          </template>
 
-          <q-list v-if="userIssues !== null && userIssues.length > 0">
-            <q-item :class="$q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11'" class="rounded-borders q-pa-xs">
+          <q-list v-else>
+            <q-item :class="itemClass" class="rounded-borders q-pa-xs">
               <q-item-section avatar>
                 <div class="q-pa-none">
                   <q-btn-dropdown color="primary" dropdown-icon="sort" flat>
@@ -62,19 +64,24 @@
                 </div>
               </q-item-section>
               <q-item-section>
-                    <span>{{ $t(sortName) }}
-                    <q-btn :icon="getSortIcon()" color="primary"
-                           flat padding="xs"
-                           size="sm" @click="changeSortOrder()"/>
-                    </span>
+                <span>
+                  {{ $t(sortName) }}
+                  <q-btn :icon="sortIcon" color="primary" flat padding="xs" size="sm" @click="changeSortOrder"/>
+                </span>
+              </q-item-section>
+              <q-item-section side>
+                <div class="text-grey-8 q-gutter-xs">
+                  <!--                  TODO: paginated navigation-->
+                  <q-btn flat dense icon="navigate_before"/>
+                  <q-btn flat dense icon="navigate_next"/>
+                </div>
               </q-item-section>
             </q-item>
-            <div v-if="userIssues !== null">
-              <div v-for="(item, index) in userIssues" v-bind:key="index">
+            <div v-if="userIssues">
+              <div v-for="(item, index) in userIssues" :key="index">
                 <item-list-row :item="item"/>
               </div>
             </div>
-
 
           </q-list>
         </q-card-section>
@@ -87,6 +94,7 @@
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
 import {useAuthAPI} from "src/composables/useAuthAPI.js";
+import {useQuasar} from "quasar";
 
 const props = defineProps({
   expandedMyItems: {
@@ -97,88 +105,73 @@ const props = defineProps({
     type: String,
     default: null,
   },
-})
+});
 
-
+const $q = useQuasar()
 const authAPI = useAuthAPI();
 
+const expandedMyItems = ref(props.expandedMyItems);
+const userIssues = ref(null);
+const userUuid = ref(props.userUuid);
 
-const expandedMyItems = ref(props.expandedMyItems)
-const userIssues = ref(null)
-const userUuid = ref(props.userUuid)
+const isLoading = ref(false);
 
-const isLoading = ref(false)
+let sort = reactive({
+  status: "asc",
+  title: "asc",
+  created_at: "desc",
+  name: "asc",
+  active: "created_at"
+});
+let sortName = ref("Age");
 
+const pagination = reactive({page: 1, size: 10, total: 1});
 
-let sort = reactive({status: "asc", title: "asc", created_at: "desc", name: "asc", active: "created_at"})
-let sortName = ref("Age")
+const pagesNo = computed(() => Math.ceil(pagination.total / pagination.size));
+
+const isEmptyUserIssues = computed(() => userIssues.value === null || userIssues.value.length === 0);
+const itemClass = computed(() => $q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-11');
+const expandIcon = computed(() => expandedMyItems.value ? 'keyboard_arrow_up' : 'keyboard_arrow_down');
+const sortIcon = computed(() => sort[sortName.value.toLowerCase()] === 'asc' ? 'arrow_upward' : 'arrow_downward');
+
+function toggleExpand() {
+  expandedMyItems.value = !expandedMyItems.value;
+}
 
 function setSortingParams(name) {
-  switch (name) {
-    case 'name':
-      sort.active = "name"
-      sortName.value = "Name"
-      break;
-    case 'created_at':
-      sort.active = "created_at"
-      sortName.value = "Age"
-      break;
-
-    default:
-      console.log(`Sorry, we are out of ${name}.`);
-  }
+  sort.active = name;
+  sortName.value = name === 'name' ? 'Name' : 'Age';
   getUserItems();
 }
 
 function changeSortOrder() {
-  let field = sort.active
-
-  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  const field = sort.active;
+  sort[field] = sort[field] === "asc" ? "desc" : "asc";
   getUserItems();
 }
-
-function getSortIcon() {
-  let column = sortName.value.toLowerCase();
-  switch (column) {
-    case 'age':
-      column = 'created_at'
-      break;
-  }
-
-  return sort[column] === 'asc' ? 'arrow_upward' : 'arrow_downward'
-}
-
-const pagination = reactive({page: 1, size: 10, total: 1})
-
-const pagesNo = computed(() => {
-  // console.log(Math.ceil(pagination.total/pagination.size))
-  return Math.ceil(pagination.total / pagination.size)
-})
-
-watch(() => pagination.page, (oldPage, newPage) => {
-  console.log(oldPage, newPage);
-  getUserItems();
-})
-
 
 async function getUserItems() {
   isLoading.value = true;
-  let params = {
+  const params = {
     user_uuid: userUuid.value,
     page: pagination.page,
     size: pagination.size,
-  }
+    field: sort.active,
+    order: sort[sort.active]
+  };
   // TODO: fix on backend trailing slash / at end
-  const {data, error} = await authAPI.get("/items/", {params: params})
-  if (error !== null) {
-    console.log(error)
+  const {data, error} = await authAPI.get("/items/", {params});
+  if (error) {
+    console.log(error);
     return;
   }
-  userIssues.value = data.items
+  userIssues.value = data.items;
+  isLoading.value = false;
 }
 
-onBeforeMount(() => {
-  getUserItems()
-});
+watch(() => pagination.page, () => getUserItems());
 
+onBeforeMount(() => {
+  getUserItems();
+});
 </script>
