@@ -9,13 +9,13 @@
             <q-badge v-if="photoFiles.length>0" align="top" floating>{{ photoFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
-<!--          <q-btn-->
-<!--            :label="$t('Edit')"-->
-<!--            class="q-mr-lg"-->
-<!--            color="primary"-->
-<!--            flat-->
-<!--            no-caps-->
-<!--          />-->
+          <!--          <q-btn-->
+          <!--            :label="$t('Edit')"-->
+          <!--            class="q-mr-lg"-->
+          <!--            color="primary"-->
+          <!--            flat-->
+          <!--            no-caps-->
+          <!--          />-->
           <q-btn
             :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"
@@ -34,8 +34,8 @@
           <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
             <div class="q-mt-md">
               <photo-viewer :pictures-list="photoFiles"/>
-              <div v-if="photoFiles.length === 0" >
-                <q-icon color="grey" size="lg" name="no_photography" />
+              <div v-if="photoFiles.length === 0">
+                <q-icon color="grey" size="lg" name="no_photography"/>
               </div>
 
             </div>

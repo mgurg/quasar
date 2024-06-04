@@ -45,13 +45,13 @@
   </div>
 
 
-  <q-dialog v-model="showUserDialog">
-    <UsersDialog @insertUserBtnClick="insertUserMention"/>
-  </q-dialog>
+<!--  <q-dialog v-model="showUserDialog">-->
+<!--    <UsersDialog @insertUserBtnClick="insertUserMention"/>-->
+<!--  </q-dialog>-->
 
-  <q-dialog v-model="showGroupDialog">
-    <GroupsDialog @insertUserBtnClick="insertGroupMention"/>
-  </q-dialog>
+<!--  <q-dialog v-model="showGroupDialog">-->
+<!--    <GroupsDialog @insertUserBtnClick="insertGroupMention"/>-->
+<!--  </q-dialog>-->
 
 </template>
 
@@ -60,9 +60,8 @@ import {computed, ref, unref} from "vue";
 import {useUserStore} from 'stores/user'
 
 
-import UsersDialog from 'components/dialog/UsersDialog.vue'
-import GroupsDialog from 'components/dialog/GroupsDialog.vue'
-
+// import UsersDialog from 'components/dialog/UsersDialog.vue'
+// import GroupsDialog from 'components/dialog/GroupsDialog.vue'
 import {EditorContent, useEditor} from '@tiptap/vue-3'
 import Mention from '@tiptap/extension-mention'
 

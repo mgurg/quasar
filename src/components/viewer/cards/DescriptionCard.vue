@@ -18,10 +18,13 @@
     <q-slide-transition>
       <div v-show="expandedDescription">
         <q-card-section>
-          <div 
-            :class="$q.dark.isActive?'bg-blue-grey-10':'bg-blue-grey-1', $q.screen.lt.sm?'q-py-md q-pl-sm':'q-py-lg q-pl-md'"
+          <div
+            :class="[
+              $q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1',
+              $q.screen.lt.sm ? 'q-py-md q-pl-sm' : 'q-py-lg q-pl-md'
+            ]"
             class="rounded-borders">
-            
+
             <tip-tap
               :body-content="descriptionContent"
               :readonly="true"
@@ -40,7 +43,7 @@
 <script setup>
 import {ref} from "vue";
 import TipTap from 'src/components/editor/TipTap.vue'
-
+import {useQuasar} from "quasar";
 
 const props = defineProps({
   textJson: {
@@ -66,6 +69,8 @@ const props = defineProps({
     default: false,
   },
 })
+
+const $q = useQuasar();
 
 const expandedDescription = ref(props.expandedDescription)
 const descriptionContent = ref(props.textJson)

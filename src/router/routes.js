@@ -76,7 +76,7 @@ const routes = [
 
       {path: "/items", component: () => import("pages/Items/ItemsIndex.vue")},
       // {path: "/items/add", component: () => import("pages/Items/ItemsAdd.vue")},
-      // {path: "/items/:uuid", component: () => import("pages/Items/ItemsView.vue")},
+      {path: "/items/:uuid", component: () => import("pages/Items/ItemsView.vue")},
       // {path: "/items/edit/:uuid", component: () => import("pages/Items/ItemsEdit.vue")},
       // {path: "/items/summary", component: () => import("pages/Items/ItemsSummaryReport.vue")},
       // {path: "/items/summary/:uuid", component: () => import("pages/Items/ItemsReports.vue")},

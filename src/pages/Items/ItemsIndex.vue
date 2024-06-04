@@ -159,6 +159,10 @@ function hasPermission(permission) {
   return permissions.value === null ? false : permissions.value.includes(permission);
 }
 
+function toggleSearchBar() {
+  showSearchBar.value = !showSearchBar.value;
+}
+
 const sort = reactive({
   name: "asc",
   created_at: "asc",

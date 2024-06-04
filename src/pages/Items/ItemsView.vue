@@ -163,33 +163,33 @@
       </q-card>
 
 
-      <description-card v-if="itemDetails!==null"
+      <description-card v-if="itemDetails"
                         :key="'A'+ componentKey"
                         :expanded-description="expandedDescription"
                         :textJson="itemDetails.text_json"
       />
-      <photo-card v-if="photoFiles!==null"
-                  :key="'B'+ componentKey"
-                  :expanded-photos="expandedPhotos"
-                  :photo-files="photoFiles"
-      />
-      <document-card v-if="documentFiles!==null"
-                     :key="'C'+ componentKey"
-                     :document-files="documentFiles"
-                     :expanded-docs="expandedDocs"
-      />
-      <guide-card v-if="guidesList!==null && itemDetails !==null"
-                  :key="'D'+ componentKey"
-                  :expanded-guide="expandedGuide"
-                  :guides="guidesList"
-                  :item-uuid="itemDetails.uuid"
-                  :public-access="false"
-      />
-      <qr-card v-if="qrCode!==null"
-               :key="'E'+ componentKey"
-               :expanded-qr="expandedQR"
-               :qr-code="qrCode"
-      />
+            <photo-card v-if="photoFiles!==null"
+                        :key="'B'+ componentKey"
+                        :expanded-photos="expandedPhotos"
+                        :photo-files="photoFiles"
+            />
+      <!--      <document-card v-if="documentFiles!==null"-->
+      <!--                     :key="'C'+ componentKey"-->
+      <!--                     :document-files="documentFiles"-->
+      <!--                     :expanded-docs="expandedDocs"-->
+      <!--      />-->
+      <!--      <guide-card v-if="guidesList!==null && itemDetails !==null"-->
+      <!--                  :key="'D'+ componentKey"-->
+      <!--                  :expanded-guide="expandedGuide"-->
+      <!--                  :guides="guidesList"-->
+      <!--                  :item-uuid="itemDetails.uuid"-->
+      <!--                  :public-access="false"-->
+      <!--      />-->
+      <!--      <qr-card v-if="qrCode!==null"-->
+      <!--               :key="'E'+ componentKey"-->
+      <!--               :expanded-qr="expandedQR"-->
+      <!--               :qr-code="qrCode"-->
+      <!--      />-->
       <!--      <comments-card :expanded-comments="false"/>-->
       <!--      <timeline-card v-if="itemDetails!==null"-->
       <!--                     :item-uuid="itemDetails.uuid"-->
@@ -208,14 +208,15 @@ import {useQuasar} from "quasar";
 import {useUserStore} from "stores/user";
 import {useI18n} from "vue-i18n";
 
-import {deleteItemRequest, getOneItemRequest, setItemFavouriteRequest} from 'src/components/api/ItemApiClient.js'
-import {errorHandler} from 'src/components/api/errorHandler.js'
+// import {deleteItemRequest, getOneItemRequest, setItemFavouriteRequest} from 'src/components/api/ItemApiClient.js'
 
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
+
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
-import DocumentCard from "components/viewer/cards/DocumentCard.vue";
-import GuideCard from "components/viewer/cards/GuideCard.vue";
-import QrCard from "components/viewer/cards/QrCard.vue";
+// import DocumentCard from "components/viewer/cards/DocumentCard.vue";
+// import GuideCard from "components/viewer/cards/GuideCard.vue";
+// import QrCard from "components/viewer/cards/QrCard.vue";
 
 let itemDetails = ref(null);
 let photoFiles = ref(null);
@@ -227,24 +228,19 @@ const guides = ref([]);
 
 
 let isLoading = ref(false);
-let isError = ref(false);
 
 const $q = useQuasar();
+const {t} = useI18n();
+const route = useRoute();
+const router = useRouter();
 const UserStore = useUserStore();
-
+const authAPI = useAuthAPI();
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
-  if (permission === null) {
-    return true;
-  }
-  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
+  return permissions.value === null ? false : permissions.value.includes(permission);
 }
 
-const route = useRoute();
-const router = useRouter();
-
-const {t} = useI18n({useScope: "global"});
 const confirmDeleteMessage = computed(() => t("Delete:"));
 const successfulDeleteMessage = computed(() => t("Deleted:"));
 
@@ -259,24 +255,28 @@ let expandedComments = ref(JSON.parse(localStorage.getItem('visibility-item-comm
 let expandedTimeline = ref(JSON.parse(localStorage.getItem('visibility-item-timeline')) ?? true)
 
 
-function getItemDetails(uuid) {
+async function getItemDetails(uuid) {
   isLoading.value = true;
+  const {data, error} = await authAPI.get(`/items/${uuid}`);
+  if (error) {
+    console.log(error.response.data);
+    if (error.response.status === 400) {
+      // TODO fix on backend to 404
+      $q.notify("Nie znaleziono przedmiotu");
+      router.push("/items");
+    }
+    return;
+  }
 
-  getOneItemRequest(uuid).then(function (response) {
-    itemDetails.value = response.data;
+  itemDetails.value = data;
 
-    photoFiles.value = response.data.files_item.filter((item) => item.mimetype.match('image.*'));
-    documentFiles.value = response.data.files_item.filter((item) => !item.mimetype.match('image.*'));
-    guidesList.value = response.data.item_guides;
-    qrCode.value = response.data.qr_code;
-    favouritesList.value = response.data.users_item.map(a => a.uuid)
+  photoFiles.value = data.files_item.filter((item) => item.mimetype.match('image.*'));
+  documentFiles.value = data.files_item.filter((item) => !item.mimetype.match('image.*'));
+  guidesList.value = data.item_guides;
+  qrCode.value = data.qr_code;
+  favouritesList.value = data.users_item.map(a => a.uuid)
 
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    console.log(errorMessage);
-  });
-
+  isLoading.value = false;
 }
 
 
@@ -289,42 +289,47 @@ function itemReport(uuid) {
 }
 
 function deleteItem(uuid, itemName) {
-  // console.log(itemName);
   $q.dialog({
     title: "Confirm",
     message: confirmDeleteMessage.value + " '" + itemName + "' ?",
     cancel: true,
     persistent: true,
-  }).onOk(() => {
+  }).onOk(async () => {
     isLoading.value = true;
-    deleteItemRequest(uuid).then(function (response) {
-      $q.notify({
-        type: 'warning',
-        message: successfulDeleteMessage.value + " " + itemName,
-      });
-      router.push("/items/");
-      isLoading.value = false;
-    }).catch((err) => {
-      const errorMessage = errorHandler(err);
-      isError.value = true;
+    const {error} = await authAPI.delete(`/items/${uuid}`);
+    if (error) {
+      console.log(error.response.data);
+      if (error.response.status === 400) {
+        // TODO fix on backend to 404
+        $q.notify("Nie znaleziono przedmiotu");
+        router.push("/items");
+      }
+      return;
+    }
+
+    $q.notify({
+      type: 'warning',
+      message: successfulDeleteMessage.value + " " + itemName,
     });
+    router.push("/items");
+
   });
 }
 
-function addToFavourite() {
+async function addToFavourite() {
   let data = {
     item_uuid: route.params.uuid,
     user_uuid: currentUserUuid,
   }
   isLoading.value = true;
-  setItemFavouriteRequest(data).then(function (response) {
-    getItemDetails(route.params.uuid);
-    isLoading.value = false;
 
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
+  const {error} = await authAPI.post("/items/favourites", data);
+  if (error) {
+    console.log(error.response.data);
+    return;
+  }
+
+  await getItemDetails(route.params.uuid);
 }
 
 
