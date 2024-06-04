@@ -93,8 +93,8 @@
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
-import {useAuthAPI} from "src/composables/useAuthAPI.js";
 import {useQuasar} from "quasar";
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
 
 const props = defineProps({
   expandedMyItems: {
@@ -112,18 +112,17 @@ const authAPI = useAuthAPI();
 
 const expandedMyItems = ref(props.expandedMyItems);
 const userIssues = ref(null);
-const userUuid = ref(props.userUuid);
 
 const isLoading = ref(false);
 
-let sort = reactive({
+const sort = reactive({
   status: "asc",
   title: "asc",
   created_at: "desc",
   name: "asc",
   active: "created_at"
 });
-let sortName = ref("Age");
+const sortName = ref("Name");
 
 const pagination = reactive({page: 1, size: 10, total: 1});
 
@@ -153,12 +152,13 @@ function changeSortOrder() {
 async function getUserItems() {
   isLoading.value = true;
   const params = {
-    user_uuid: userUuid.value,
+    user_uuid: props.userUuid,
     page: pagination.page,
     size: pagination.size,
     field: sort.active,
     order: sort[sort.active]
   };
+
   // TODO: fix on backend trailing slash / at end
   const {data, error} = await authAPI.get("/items/", {params});
   if (error) {

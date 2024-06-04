@@ -3,11 +3,7 @@
     <q-page class="col-lg-8 col-sm-10 col-xs q-pa-xs">
       <q-breadcrumbs active-color="grey" class="q-ma-sm text-grey">
         <template v-slot:separator>
-          <q-icon
-            color="grey"
-            name="chevron_right"
-            size="1.5em"
-          />
+          <q-icon color="grey" name="chevron_right" size="1.5em"/>
         </template>
         <q-breadcrumbs-el icon="home" to="/"/>
         <q-breadcrumbs-el :label="$t('Items')" icon="apps" to="/items"/>
@@ -31,7 +27,7 @@
                     color="primary"
                     icon="search"
                     no-caps
-                    @click="showSearchBar = !showSearchBar"
+                    @click="toggleSearchBar"
                   />
                   <q-btn
                     v-if="hasPermission('ITEM_ADD') && itemListMode === null"
@@ -52,13 +48,12 @@
                 </div>
               </q-item-section>
             </q-item>
-
           </q-list>
         </q-card-section>
       </q-card>
 
       <q-slide-transition>
-        <q-card v-show="showSearchBar===true" class="no-border no-shadow bg-transparent">
+        <q-card v-show="showSearchBar" class="no-border no-shadow bg-transparent">
           <q-card-section class="q-pa-sm">
             <q-input
               v-model="search"
@@ -67,7 +62,7 @@
               debounce="300"
               outlined
               type="search"
-              @update:model-value="fetchItems()"
+              @update:model-value="fetchItems"
             >
               <template v-slot:append>
                 <q-icon v-if="!search" name="search"/>
@@ -107,18 +102,16 @@
               <span>{{ $t(sortName) }}
                 <q-btn :icon="getSortIcon()" color="primary"
                        flat padding="xs"
-                       size="sm" @click="changeSortOrder()"/>
+                       size="sm" @click="changeSortOrder"/>
               </span>
             </q-item-section>
           </q-item>
 
-          <div v-if="items != null">
+          <div v-if="items">
             <div v-for="(item, index) in items" v-bind:key="index">
               <item-list-row :display-mode="itemListMode" :item="item"/>
             </div>
           </div>
-
-
         </q-list>
         <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
           <q-pagination v-model="pagination.page" :max='pagesNo' direction-links @click="goToPage(pagination.page)"/>
@@ -128,9 +121,7 @@
       <q-card v-if="pagination.total === 0" bordered class="my-card no-shadow q-mt-sm q-pt-none">
         <div class="text-body1 text-center q-pa-lg">
           <p>Brak dodanych przedmiotów 🤔</p>
-          <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇
-          </p>
-
+          <p v-if="hasPermission('ITEM_ADD')">Dodaj pierwsze urządzenie, klikając przycisk! 👇</p>
           <div class="col-12 text-h6 q-mt-none">
             <q-btn
               v-if="hasPermission('ITEM_ADD')"
@@ -142,11 +133,8 @@
               to="/items/add"
             />
           </div>
-
         </div>
       </q-card>
-
-
     </q-page>
   </div>
 </template>
@@ -154,60 +142,43 @@
 <script setup>
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
-
 import {useUserStore} from "stores/user";
-import {useRoute, useRouter} from "vue-router";
+import {useRoute} from "vue-router";
 import {useQuasar} from "quasar";
 import {useI18n} from "vue-i18n";
-import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
 import {useAuthAPI} from "src/composables/useAuthAPI.js";
 
-const $q = useQuasar()
+const $q = useQuasar();
 const {t} = useI18n();
 const route = useRoute();
-const router = useRouter();
 const UserStore = useUserStore();
-const noAuthAPI = useNoAuthAPI();
 const authAPI = useAuthAPI();
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
-  return permissions.value === null ? false : Boolean(permissions.value.includes(permission));
+  return permissions.value === null ? false : permissions.value.includes(permission);
 }
 
-
-let sort = reactive({
+const sort = reactive({
   name: "asc",
   created_at: "asc",
   active: "name"
-})
+});
 
-let sortName = ref("Name")
+const sortName = ref("Name");
 
 function setSortingParams(name) {
-  switch (name) {
-    case 'name':
-      sort.active = "name"
-      sortName.value = "Name"
-      break;
-    case 'created_at':
-      sort.active = "created_at"
-      sortName.value = "Age"
-      break;
-    default:
-      console.log(`Sorry, we are out of ${name}.`);
-  }
+  sort.active = name;
+  sortName.value = name === 'name' ? 'Name' : 'Age';
   fetchItems();
 }
 
 function getSortIcon() {
-  let field = sort.active
-  return sort[field] === 'asc' ? 'arrow_upward' : 'arrow_downward'
+  return sort[sort.active] === 'asc' ? 'arrow_upward' : 'arrow_downward';
 }
 
 function changeSortOrder() {
-  let field = sort.active
-  sort[field] === "asc" ? sort[field] = 'desc' : sort[field] = "asc"
+  sort[sort.active] = sort[sort.active] === "asc" ? "desc" : "asc";
   fetchItems();
 }
 
@@ -215,25 +186,13 @@ const pagination = reactive({
   page: 1,
   size: 10,
   total: 1
-})
+});
 
-// function goToPage(value) {
-//   console.log(value)
-// }
+const pagesNo = computed(() => Math.ceil(pagination.total / pagination.size));
 
-const pagesNo = computed(() => {
-  // console.log(Math.ceil(pagination.total/pagination.size))
-  return Math.ceil(pagination.total / pagination.size)
-})
-
-watch(() => pagination.page, (oldPage, newPage) => {
-  // console.log(oldPage, newPage);
-  fetchItems();
-})
-
+watch(() => pagination.page, fetchItems);
 
 let isLoading = ref(false);
-
 const items = ref(null);
 let search = ref(null);
 const showSearchBar = ref(false);
@@ -242,39 +201,25 @@ const itemListMode = ref(null);
 async function fetchItems() {
   isLoading.value = true;
 
-  let params = {
+  const params = {
     search: search.value,
     page: pagination.page,
     size: pagination.size,
     field: sort.active,
-    order: sort[sort.active],
+    order: sort[sort.active]
   };
 
-  const {data, error} = await authAPI.get("/items/", {params: params})
-  if (error !== null) //&& error.response.status === 404
-  {
-    console.log('Error')
+  const {data, error} = await authAPI.get("/items/", {params});
+  if (error) {
+    console.log(error);
     return;
   }
 
-  items.value = data.items
-  pagination.total = data.total
+  items.value = data.items;
+  pagination.total = data.total;
   isLoading.value = false;
 }
 
-onBeforeMount(() => {
-  isLoading.value = true;
-  fetchItems()
-
-  if ((route.query.mode !== undefined) && (route.query.mode !== null) && (route.query.mode !== "")) {
-    itemListMode.value = route.query.mode
-  } else {
-    // showForm.value = true;
-  }
-  isLoading.value = false
-
-
-});
-
+onBeforeMount(fetchItems);
 
 </script>
