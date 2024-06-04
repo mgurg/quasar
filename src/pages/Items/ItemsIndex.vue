@@ -29,7 +29,6 @@
                     :unelevated="showSearchBar"
                     class="float-right"
                     color="primary"
-                    flat
                     icon="search"
                     no-caps
                     @click="showSearchBar = !showSearchBar"
@@ -113,9 +112,12 @@
             </q-item-section>
           </q-item>
 
-          <div v-for="(item, index) in items" v-if="items != null" v-bind:key="index">
-            <item-list-row :display-mode="itemListMode" :item="item"/>
+          <div v-if="items != null">
+            <div v-for="(item, index) in items" v-bind:key="index">
+              <item-list-row :display-mode="itemListMode" :item="item"/>
+            </div>
           </div>
+
 
         </q-list>
         <div v-if="pagination.total > 10" class="q-pa-lg flex flex-center">
@@ -153,13 +155,20 @@
 import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import ItemListRow from "components/listRow/ItemListRow.vue";
 
-import {getManyItemsRequest} from 'src/components/api/ItemApiClient'
-import {errorHandler} from 'src/components/api/errorHandler.js'
 import {useUserStore} from "stores/user";
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
 
+const $q = useQuasar()
+const {t} = useI18n();
 const route = useRoute();
+const router = useRouter();
 const UserStore = useUserStore();
+const noAuthAPI = useNoAuthAPI();
+const authAPI = useAuthAPI();
 const permissions = computed(() => UserStore.getPermissions);
 
 function hasPermission(permission) {
@@ -224,16 +233,13 @@ watch(() => pagination.page, (oldPage, newPage) => {
 
 
 let isLoading = ref(false);
-let isSuccess = ref(false);
-let isError = ref(false);
-// let errorMsg = ref(null);
 
 const items = ref(null);
 let search = ref(null);
 const showSearchBar = ref(false);
 const itemListMode = ref(null);
 
-function fetchItems() {
+async function fetchItems() {
   isLoading.value = true;
 
   let params = {
@@ -244,13 +250,16 @@ function fetchItems() {
     order: sort[sort.active],
   };
 
-  getManyItemsRequest(params).then(function (response) {
-    items.value = response.data.items
-    pagination.total = response.data.total
-    isLoading.value = false;
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-  });
+  const {data, error} = await authAPI.get("/items/", {params: params})
+  if (error !== null) //&& error.response.status === 404
+  {
+    console.log('Error')
+    return;
+  }
+
+  items.value = data.items
+  pagination.total = data.total
+  isLoading.value = false;
 }
 
 onBeforeMount(() => {
