@@ -32,9 +32,9 @@
       <tip-tap-basic :body-content="tipTapText" @editor-content="logText"/>
     </div>
 
-<!--    <div>-->
-<!--      <photo-uploader :file-list="props.item.files_item" @uploaded-photos="listOfUploadedImages"/>-->
-<!--    </div>-->
+    <div>
+      <photo-uploader :file-list="props.item.files_item" @uploaded-photos="listOfUploadedImages"/>
+    </div>
 
 <!--    <div>-->
 <!--      <file-uploader :file-list="props.item.files_item" @uploaded-files="listOfUploadedFiles"/>-->
@@ -70,7 +70,7 @@ import * as yup from 'yup';
 import {useRouter} from "vue-router";
 
 import TipTapBasic from 'components/editor/TipTapBasic.vue'
-// import PhotoUploader from 'components/uploader/PhotoUploader.vue'
+import PhotoUploader from 'components/uploader/PhotoUploader.vue'
 // import FileUploader from 'components/uploader/FileUploader.vue'
 
 const router = useRouter();

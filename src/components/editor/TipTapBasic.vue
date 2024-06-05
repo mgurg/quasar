@@ -1,189 +1,147 @@
 <template>
   <div v-if="editor && !readonly" class="q-pt-xs q-pb-lg">
-    <q-btn
-      flat
+    <FormattingButton
       @click="editor.chain().focus().toggleBold().run()"
       :disabled="!editor.can().chain().focus().toggleBold().run()"
-      :class="{ 'shadow-1': editor.isActive('bold') }"
+      :is-active="editor.isActive('bold')"
       icon="format_bold"
     />
 
-    <q-btn
-      flat
+    <FormattingButton
       @click="editor.chain().focus().toggleItalic().run()"
       :disabled="!editor.can().chain().focus().toggleItalic().run()"
-      :class="{ 'shadow-1': editor.isActive('italic') }"
+      :is-active="editor.isActive('italic')"
       icon="format_italic"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleStrike().run()"
       :disabled="!editor.can().chain().focus().toggleStrike().run()"
-      :class="{ 'shadow-1': editor.isActive('strike') }"
+      :is-active="editor.isActive('strike')"
       icon="strikethrough_s"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleCode().run()"
       :disabled="!editor.can().chain().focus().toggleCode().run()"
-      :class="{ 'is-active': editor.isActive('code') }"
+      :is-active="editor.isActive('code')"
       icon="code"
       v-if="$q.screen.gt.sm"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+      :is-active="editor.isActive('heading', { level: 1 })"
       label="h1"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+      :is-active="editor.isActive('heading', { level: 2 })"
       label="h2"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-      :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+      :is-active="editor.isActive('heading', { level: 3 })"
       label="h3"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().clearNodes().run()"
       icon="format_clear"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleBulletList().run()"
-      :class="{ 'is-active': editor.isActive('bulletList') }"
+      :is-active="editor.isActive('bulletList')"
       icon="format_list_bulleted"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleOrderedList().run()"
-      :class="{ 'is-active': editor.isActive('orderedList') }"
+      :is-active="editor.isActive('orderedList')"
       icon="format_list_numbered"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleCodeBlock().run()"
-      :class="{ 'is-active': editor.isActive('codeBlock') }"
+      :is-active="editor.isActive('codeBlock')"
       icon="data_object"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().toggleBlockquote().run()"
-      :class="{ 'is-active': editor.isActive('blockquote') }"
+      :is-active="editor.isActive('blockquote')"
       icon="format_quote"
       v-if="$q.screen.gt.sm"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().setHorizontalRule().run()"
       icon="horizontal_rule"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().setHardBreak().run()"
       icon="keyboard_return"
       v-if="$q.screen.gt.sm"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().undo().run()"
       :disabled="!editor.can().chain().focus().undo().run()"
       icon="undo"
       v-if="$q.screen.gt.sm"
     />
-    <q-btn
-      flat
+
+    <FormattingButton
       @click="editor.chain().focus().redo().run()"
       :disabled="!editor.can().chain().focus().redo().run()"
       icon="redo"
       v-if="$q.screen.gt.sm"
     />
   </div>
-  <editor-content :editor="editor"/>
-  <div>
 
-  </div>
-  <div v-if="editor && props.readonly === false"
-       :class="{'character-count': true, 'character-count--warning': editor.storage.characterCount.characters() === charLimit}">
-    <svg
-      height="20"
-      width="20"
-      viewBox="0 0 20 20"
-      class="character-count__graph"
-    >
-      <circle
-        r="10"
-        cx="10"
-        cy="10"
-        fill="#e9ecef"
-      />
-      <circle
-        r="5"
-        cx="10"
-        cy="10"
-        fill="transparent"
-        stroke="currentColor"
-        stroke-width="10"
-        :stroke-dasharray="`calc(${percentage} * 31.4 / 100) 31.4`"
-        transform="rotate(-90) translate(-20)"
-      />
-      <circle
-        r="6"
-        cx="10"
-        cy="10"
-        fill="white"
-      />
-    </svg>
+  <editor-content :editor="editor" tabindex="0" />
 
+  <div v-if="editor && !props.readonly" :class="characterCountClass">
+    <CharacterCountGraph :percentage="percentage" />
     <div class="character-count__text">{{ editor.storage.characterCount.characters() }}/{{ charLimit }}</div>
   </div>
-
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
-import {EditorContent, useEditor} from '@tiptap/vue-3'
-import Document from '@tiptap/extension-document'
-import StarterKit from '@tiptap/starter-kit'
-import Placeholder from '@tiptap/extension-placeholder'
-import CharacterCount from '@tiptap/extension-character-count'
-import {useQuasar} from "quasar";
+import { computed, ref } from "vue";
+import { EditorContent, useEditor } from "@tiptap/vue-3";
+import Document from "@tiptap/extension-document";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import CharacterCount from "@tiptap/extension-character-count";
+import { useQuasar } from "quasar";
+import FormattingButton from "components/editor/components/FormattingButton.vue";
+import CharacterCountGraph from "components/editor/components/CharacterCountGraph.vue";
 
 const $q = useQuasar();
 
-const charCount = ref(0)
+const charLimit = ref(10000);
 
-const charLimit = ref(10000)
-
-const emit = defineEmits(['editorContent'])
-
+const emit = defineEmits(["editorContent"]);
 
 const props = defineProps({
   bodyContent: {
     type: Object,
-    default: null
+    default: null,
   },
   readonly: {
     type: Boolean,
     default: false,
   },
-})
+});
 
+const content = ref(props.bodyContent || "");
 
-const content = ref('')
-
-if (props.bodyContent !== null && props.bodyContent !== '') {
-  // console.log("Props:"  + JSON.stringify(props.bodyContent))
-  content.value = props.bodyContent;
-}
-
-
-const CustomDocument = Document.extend({})
+const CustomDocument = Document.extend({});
 
 const editor = useEditor({
   content: content.value,
@@ -193,35 +151,32 @@ const editor = useEditor({
       limit: charLimit.value,
     }),
     StarterKit.configure({
-      document: false
+      document: false,
     }),
     Placeholder.configure({
-      // showOnlyWhenEditable: false,
-      placeholder: 'My Custom Placeholder',
+      placeholder: "My Custom Placeholder",
     }),
   ],
-  onCreate({editor}) {
+  onCreate({ editor }) {
     editor.setEditable(!props.readonly);
     editor.commands.setContent(content.value);
-    const isEmpty = editor.state.doc.textContent.length === 0
-    console.log(isEmpty)
   },
-  onUpdate({editor}) {
-    const html = editor.getHTML()
-    const json = editor.getJSON()
-    emit('editorContent', json, html)
-
+  onUpdate({ editor }) {
+    const html = editor.getHTML();
+    const json = editor.getJSON();
+    emit("editorContent", json, html);
   },
-
   beforeUnmount() {
-    editor.destroy()
+    editor.destroy();
   },
-})
+});
 
+const percentage = computed(() => Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters()));
 
-const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
-
-
+const characterCountClass = computed(() => ({
+  "character-count": true,
+  "character-count--warning": editor.value.storage.characterCount.characters() === charLimit.value,
+}));
 </script>
 
 <style lang="scss">
@@ -233,15 +188,12 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
 .ProseMirror {
   word-wrap: break-word !important;
   white-space: pre-wrap;
-  //white-space: break-spaces;
   -webkit-font-variant-ligatures: none;
   font-variant-ligatures: none;
-  font-feature-settings: 'liga' 0; /* the above doesn't seem to work in Edge */
+  font-feature-settings: "liga" 0;
 }
 
 .ProseMirror {
-  // ------ Bangle ------
-  // https://github.com/ssoju/bangle.dev/blob/master/core/style.css
   p,
   h1,
   h2,
@@ -273,7 +225,6 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   dd:first-child,
   ul:first-child,
   ol:first-child {
-    /** this prevents elements from bleeding out of the container */
     margin-top: 0;
   }
 
@@ -319,9 +270,7 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   p {
     font-size: 1rem;
     line-height: 1.625;
-    //font-size: 1.125rem;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   }
 
   blockquote {
@@ -343,7 +292,7 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   }
 
   li.ProseMirror-selectednode:after {
-    content: '';
+    content: "";
     position: absolute;
     left: -32px;
     right: -2px;
@@ -356,26 +305,18 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   ol {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-  }
-
-  ol {
     list-style-type: decimal;
     list-style-position: outside;
     padding-left: 1.5rem;
   }
 
-  /** Bullet List */
   ul {
     list-style-type: disc;
     list-style-position: outside;
     padding-left: 1.5rem;
   }
-
-
-  // ------ Bangle ------
 }
 
-/* Placeholder (on every new line) */
 .ProseMirror .is-empty::before {
   content: attr(data-placeholder);
   float: left;
@@ -403,10 +344,10 @@ const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.v
   margin: 1rem 0.3rem 0.1rem 0.1rem;
   display: flex;
   align-items: center;
-  color: #68CEF8;
+  color: #68cef8;
 
   &--warning {
-    color: #FB5151;
+    color: #fb5151;
   }
 
   &__graph {

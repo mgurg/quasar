@@ -14,7 +14,7 @@
     <template v-slot:prepend>
       <q-icon name="photo"/>
     </template>
-    <template v-slot:file="{ index, file }">
+    <template v-slot:file="{ file }">
       <q-chip
         :removable="isUploading" class="full-width q-my-xs" square @remove="cancelFile()">
         <q-linear-progress :value="uploadProgress" class="absolute-full full-height" color="green-2" stripe
@@ -64,8 +64,12 @@ import {reactive, ref} from "vue";
 import {api} from "boot/axios";
 import {useUserStore} from "stores/user";
 import Compressor from "compressorjs";
-import {errorHandler} from "components/api/errorHandler";
-import {deleteFileRequest} from "components/api/FilesApiClient";
+import {useQuasar} from "quasar";
+import {useI18n} from "vue-i18n";
+import {useRoute, useRouter} from "vue-router";
+import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
+// import {errorHandler} from "components/api/errorHandler";
+// import {deleteFileRequest} from "components/api/FilesApiClient";
 
 // https://github.com/sjq4499/vite-vue3/blob/8ffaf0cda0cf6d15e30242d97d6d2eaa824f1eb6/src/views/tool/compressImages.vue
 // https://github.com/H37kouya/miya-meshi/blob/736598180c428465628c14ca165831c04961d12f/admin/components/organisms/file/UploadImageFile.vue
@@ -88,6 +92,13 @@ const props = defineProps({
 
 const emit = defineEmits(["uploadedPhotos"]);
 
+const $q = useQuasar()
+const {t} = useI18n();
+const route = useRoute();
+const router = useRouter();
+const UserStore = useUserStore();
+const noAuthAPI = useNoAuthAPI();
+
 // const $q = useQuasar()
 // const {t} = useI18n({ useScope: "global" });
 // const confirmDeleteMessage = computed(() => t("Delete:"));
@@ -101,7 +112,7 @@ if (props.fileList !== null) {
   emit('uploadedPhotos', attachments.value)
 }
 
-const UserStore = useUserStore();
+
 
 
 const files = ref(null);
@@ -234,7 +245,7 @@ function uploadFile(file) {
     });
 }
 
-function delete_file(uuid) {
+async function delete_file(uuid) {
   if (newAttachments.value.includes(uuid)) {
     let token = props.token;
     if (props.token == null) token = UserStore.getToken;
@@ -243,14 +254,16 @@ function delete_file(uuid) {
     if (props.tenant_id == null) tenant_id = UserStore.getTenant;
 
     isLoading.value = true;
-    deleteFileRequest(uuid, token, tenant_id).then(function (response) {
-      console.log("Deleted from Uploader")
-      isLoading.value = false;
-
-    }).catch((err) => {
-      const errorMessage = errorHandler(err);
-      isError.value = true;
-    });
+    const {data, error} = await noAuthAPI.delete("/files/" + uuid, {
+      headers: {
+        Authorization: "Bearer " + token,
+        tenant: tenant_id,
+      },
+    })
+    if (error !== null) {
+      console.log('Nie udało się usunąć pliku')
+      return;
+    }
   }
 
   attachments.value = attachments.value.filter((item) => item.uuid !== uuid);
