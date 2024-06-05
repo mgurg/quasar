@@ -52,6 +52,6 @@
 </template>
 
 <script setup>
-
+// TODO: autologin (auth or noAuth) ?
 </script>
 

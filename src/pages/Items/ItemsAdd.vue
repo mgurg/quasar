@@ -20,12 +20,6 @@
 
               <q-item-section>
                 <q-item-label class="text-h6">{{ $t("Item") }}</q-item-label>
-                <!--
-                  <q-item-label caption>
-                  Nowy pracownik będzie musiał potwierdzić hasło. Wiecej użytkowników?
-                  Pamiętaj o opcji importu!
-                </q-item-label>
-                -->
               </q-item-section>
             </q-item>
 
@@ -49,30 +43,22 @@
 <script setup>
 import ItemForm from 'components/forms/item/ItemForm.vue'
 import {useRouter} from "vue-router";
-import {errorHandler} from "components/api/errorHandler";
-import {addItemRequest} from "components/api/ItemApiClient";
-import {ref} from "vue";
+import {useAuthAPI} from "src/composables/useAuthAPI.js";
 
 const router = useRouter();
+const authAPI = useAuthAPI()
 
-let isLoading = ref(false);
-let isSuccess = ref(false);
-let isError = ref(false);
+async function createItem(formData) {
 
-function createItem(formData) {
-  isLoading.value = true;
-  addItemRequest(formData).then(function (response) {
-    isLoading.value = false;
-    router.push("/items");
-  }).catch((err) => {
-    const errorMessage = errorHandler(err);
-    isError.value = true;
-  });
+  const {error} = await authAPI.post("/items/", formData)
+  if (error !== null) {
+    return;
+  }
+  router.push("/items");
 }
 
-function addButtonPressed(itemForm) {
-  // console.log(itemForm)
-  createItem(itemForm)
+async function addButtonPressed(itemForm) {
+  await createItem(itemForm)
 }
 
 

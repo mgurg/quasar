@@ -30,14 +30,6 @@
       icon="code"
       v-if="$q.screen.gt.sm"
     />
-    <!-- <q-btn
-      flat
-      @click="editor.chain().focus().unsetAllMarks().run()"
-      icon="format_clear"
-    /> -->
-    <!--    <q-btn flat @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-     paragraph
-   </q-btn> -->
     <q-btn
       flat
       @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
@@ -56,15 +48,6 @@
       :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
       label="h3"
     />
-    <!-- <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 4 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }">
-      h4
-    </q-btn>
-    <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 5 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }">
-      h5
-    </q-btn>
-    <q-btn flat @click="editor.chain().focus().toggleHeading({ level: 6 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }">
-      h6
-    </q-btn> -->
     <q-btn
       flat
       @click="editor.chain().focus().clearNodes().run()"
@@ -163,15 +146,15 @@
 </template>
 
 <script setup>
-import {computed, ref, unref} from "vue";
-
+import {computed, ref} from "vue";
 import {EditorContent, useEditor} from '@tiptap/vue-3'
-
 import Document from '@tiptap/extension-document'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
+import {useQuasar} from "quasar";
 
+const $q = useQuasar();
 
 const charCount = ref(0)
 
@@ -226,19 +209,6 @@ const editor = useEditor({
   onUpdate({editor}) {
     const html = editor.getHTML()
     const json = editor.getJSON()
-
-    let json_array = json.content
-    // console.log(json)
-    // if (
-    //   Array.isArray(json_array) &&
-    //   json_array[0].hasOwnProperty("content")
-    // ) {
-    //   emit('editorContent', json, html)
-    // }
-
-
-    // console.log("Title: " +json_array[0].hasOwnProperty("content"))
-    // console.log("Body: " +json_array[1].hasOwnProperty("content"))
     emit('editorContent', json, html)
 
   },
@@ -250,20 +220,7 @@ const editor = useEditor({
 
 
 const percentage = computed(() => (Math.round((100 / charLimit.value) * editor.value.storage.characterCount.characters())))
-const insertText = (text) => unref(editor).commands.insertContent(text);
 
-
-// const text = ref([
-//   {
-//     type: 'paragraph',
-//     content: [
-//       {
-//         type: 'text',
-//         text: 'First paragraph',
-//       },
-//     ],
-//   },
-// ])
 
 </script>
 
@@ -272,14 +229,6 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
 .ProseMirror:focus {
   outline: none !important;
 }
-
-/* set */
-// .ProseMirror {
-//   min-height: 100px;
-//   // max-height: 100px;
-//   overflow: scroll;
-//   outline: none !important;
-// }
 
 .ProseMirror {
   word-wrap: break-word !important;
@@ -291,118 +240,6 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
 }
 
 .ProseMirror {
-  // >*+* {
-  //   color: #1f2937 !important;
-
-  // }
-
-  // ------ Outstatic ------
-  // https://github.com/avitorio/outstatic/blob/canary/packages/outstatic/src/styles.css
-
-  // h1 {
-  //   letter-spacing: -0.02em;
-  //   font-weight: 700;
-  //   font-style: normal;
-  //   letter-spacing: 0;
-  //   font-size: 40px;
-  //   line-height: 1.15;
-  //   letter-spacing: -0.015em;
-  // }
-
-  // h2 {
-  //   letter-spacing: -0.02em;
-  //   font-weight: 700;
-  //   font-style: normal;
-  //   letter-spacing: 0;
-  //   font-size: 34px;
-  //   line-height: 1.15;
-  //   letter-spacing: -0.015em;
-  // }
-
-  // h3 {
-  //   letter-spacing: -0.02em;
-  //   font-weight: 700;
-  //   font-style: normal;
-  //   font-size: 26px;
-  //   line-height: 1.22;
-  //   letter-spacing: -0.012em;
-  // }
-
-  // h4,
-  // h5,
-  // h6 {
-
-  //   line-height: 1.1;
-  // }
-
-  // p {
-  //   font-family: 'Roboto', Arial, 'Cambria', 'Times New Roman', Times, serif;
-  //   font-weight: 400;
-  //   font-style: normal;
-  //   font-size: 21px;
-  //   line-height: 1.58;
-  //   letter-spacing: -0.003em;
-  // }
-
-  // p:first-child:before {
-  //   color: #adb5bd;
-  //   float: left;
-  //   height: 0;
-  //   pointer-events: none;
-  // }
-
-  // ------ Outstatic ------
-
-  // ------ publish.prx.org ------
-  // https://github.com/PRX/publish.prx.org/blob/main/src/app/shared/wysiwyg/wysiwyg.component.css
-  //    h1 {
-  //   font-size: 2em;
-  //   margin-top: 0.67em;
-  //   margin-bottom: 0.67em;
-  // }
-
-  //  h2 {
-  //   font-size: 1.5em;
-  //   margin-top: 0.83em;
-  //   margin-bottom: 0.83em;
-  // }
-
-  //  h3 {
-  //   font-size: 1.17em;
-  //   margin-top: 1em;
-  //   margin-bottom: 1em;
-  // }
-
-  //  h4 {
-  //   font-size: 1em;
-  //   margin-top: 1.33em;
-  //   margin-bottom: 1.33em;
-  // }
-
-  //  h5 {
-  //   font-size: .83em;
-  //   margin-top: 1.67em;
-  //   margin-bottom: 1.67em;
-  // }
-
-  //  h6 {
-  //   font-size: .67em;
-  //   margin-top: 2.33em;
-  //   margin-bottom: 2.33em;
-  // }
-
-  //  p {
-  //   margin-top: 1em;
-  //   margin-bottom: 1em;
-  // }
-
-  //  p:first-child {
-  //   margin-top: 0;
-  // }
-
-  // ------ publish.prx.org ------
-
-
   // ------ Bangle ------
   // https://github.com/ssoju/bangle.dev/blob/master/core/style.css
   p,
@@ -548,7 +385,7 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
 }
 
 .mention {
-  border: 0px solid #000;
+  border: 0 solid #000;
   border-radius: 0.4rem;
   padding: 0.1rem 0.3rem;
   box-decoration-break: clone;
@@ -581,58 +418,3 @@ const insertText = (text) => unref(editor).commands.insertContent(text);
   }
 }
 </style>
-
-<!-- <style lang="scss" scoped>
-  :deep(.ProseMirror) {
-      /* Basic editor styles */
-      > * + * {
-          margin-top: 0.5em;
-      }
-
-      &:focus {
-          outline: none;
-      }
-
-      /* Placeholder (at the top) */
-      p.is-editor-empty:first-child::before {
-          content: attr(data-placeholder);
-          float: left;
-          color: #4280be;
-          pointer-events: none;
-          height: 8rem;
-          outline: none;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-          line-height: 0.1;
-      }
-      .mention {
-    border: 0px solid #000;
-    border-radius: 0.4rem;
-    padding: 0.1rem 0.3rem;
-    box-decoration-break: clone;
-  }
-
-  [data-type="groupMention"] {
-    background-color: rgb(236, 253, 99);
-  }
-
-  [data-type="userMention"] {
-    background-color: rgb(82, 226, 238);
-  }
-
-      /* Placeholder (on every new line) */
-      /*.ProseMirror p.is-empty::before {
-        content: attr(data-placeholder);
-        float: left;
-        color: #ced4da;
-        pointer-events: none;
-        height: 0;
-      }*/
-  }
-  </style> -->

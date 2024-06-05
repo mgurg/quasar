@@ -2,16 +2,18 @@
   <q-card bordered class="my-card no-shadow q-my-sm">
     <q-card-section>
       <div class="row q-col-gutter-xs">
-        <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDescription = !expandedDescription">
+        <div class="text-h6 text-weight-regular cursor-pointer" @click="toggleDescription">
           Opis
         </div>
-        <q-space/>
-        <q-btn :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-               color="grey"
-               dense
-               flat
-               round
-               @click="expandedDescription = !expandedDescription"/>
+        <q-space />
+        <q-btn
+          :icon="expandedDescription ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
+          color="grey"
+          dense
+          flat
+          round
+          @click="toggleDescription"
+        />
       </div>
     </q-card-section>
 
@@ -19,38 +21,29 @@
       <div v-show="expandedDescription">
         <q-card-section>
           <div
-            :class="[
-              $q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1',
-              $q.screen.lt.sm ? 'q-py-md q-pl-sm' : 'q-py-lg q-pl-md'
-            ]"
-            class="rounded-borders">
-
+            :class="contentClasses"
+            class="rounded-borders"
+          >
             <tip-tap
               :body-content="descriptionContent"
               :readonly="true"
             />
           </div>
-          <!-- <div v-else>
-            Brak opisu {{ descriptionRawText }}
-          </div> -->
         </q-card-section>
       </div>
     </q-slide-transition>
-
   </q-card>
 </template>
 
 <script setup>
-import {ref} from "vue";
-import TipTap from 'src/components/editor/TipTap.vue'
-import {useQuasar} from "quasar";
+import { ref, computed } from 'vue';
+import { useQuasar } from 'quasar';
+import TipTap from 'src/components/editor/TipTap.vue';
 
 const props = defineProps({
   textJson: {
     type: Object,
-    default() {
-      return null
-    }
+    default: null,
   },
   text: {
     type: String,
@@ -68,12 +61,21 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
 const $q = useQuasar();
+const expandedDescription = ref(props.expandedDescription);
+const descriptionContent = ref(props.textJson);
+const descriptionRawText = ref(props.text);
+const publicAccess = ref(props.publicAccess);
 
-const expandedDescription = ref(props.expandedDescription)
-const descriptionContent = ref(props.textJson)
-const descriptionRawText = ref(props.text)
-const publicAccess = ref(props.publicAccess)
+const toggleDescription = () => {
+  expandedDescription.value = !expandedDescription.value;
+};
+
+const contentClasses = computed(() => [
+  $q.dark.isActive ? 'bg-blue-grey-10' : 'bg-blue-grey-1',
+  $q.screen.lt.sm ? 'q-py-md q-pl-sm' : 'q-py-lg q-pl-md'
+]);
+
 </script>
