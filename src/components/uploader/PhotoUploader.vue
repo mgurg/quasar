@@ -1,4 +1,5 @@
 <template>
+  <q-btn @click="deleteItem()">Delete</q-btn>
   <q-file
     v-if="attachments.length < 4"
     v-model="files"
@@ -84,7 +85,6 @@ import {useUserStore} from "stores/user";
 import Compressor from "compressorjs";
 import {useQuasar} from "quasar";
 import {useI18n} from "vue-i18n";
-import {useRoute, useRouter} from "vue-router";
 import {useNoAuthAPI} from "src/composables/useNoAuthAPI.js";
 import {deleteFileRequest} from "components/api/FilesApiClient";
 
@@ -164,6 +164,7 @@ function uploadFile(file, objectURL) {
   formData.append("file", file, file.name);
 
   isUploading.value = true;
+  // TODO: make it better
   api
     .post(`${process.env.VUE_APP_URL}/files/`, formData, {
       headers: {
@@ -193,6 +194,10 @@ function onUploadProgress(progressEvent) {
   uploadProgress.value = percentCompleted < 100 ? percentCompleted / 100 : 1;
 }
 
+async function deleteItem() {
+  const {data, error} = await noAuthAPI.delete(`/files/1`)
+}
+
 function deleteFile(uuid) {
   if (newAttachments.value.includes(uuid)) {
     const token = props.token || UserStore.getToken;
@@ -200,7 +205,7 @@ function deleteFile(uuid) {
 
     isUploading.value = true;
 
-
+    // TODO: make it better
     deleteFileRequest(uuid, token, tenant_id).then(function (response) {
       console.log("Deleted from Uploader")
       isLoading.value = false;
