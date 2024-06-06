@@ -7,7 +7,6 @@
     spellcheck="false"
     @submit.prevent
   >
-
     <q-input
       v-model="itemName"
       :disable="isLoading"
@@ -36,9 +35,9 @@
       <photo-uploader :file-list="props.item.files_item" @uploaded-photos="listOfUploadedImages"/>
     </div>
 
-<!--    <div>-->
-<!--      <file-uploader :file-list="props.item.files_item" @uploaded-files="listOfUploadedFiles"/>-->
-<!--    </div>-->
+    <div>
+      <file-uploader :file-list="props.item.files_item" @uploaded-files="listOfUploadedFiles"/>
+    </div>
 
     <div class="row">
       <q-space/>
@@ -49,7 +48,7 @@
         flat
         icon="cancel"
         type="submit"
-        @click="cancelButtonHandle()"
+        @click="cancelButtonHandle"
       />
       <q-btn
         :label="$t('Save')"
@@ -57,40 +56,36 @@
         color="primary"
         icon="done"
         type="submit"
-        @click="submit()"
+        @click="submit"
       />
     </div>
   </q-form>
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {useField, useForm} from "vee-validate";
+import {ref} from 'vue';
+import {useField, useForm} from 'vee-validate';
 import * as yup from 'yup';
-import {useRouter} from "vue-router";
+import {useRouter} from 'vue-router';
 
-import TipTapBasic from 'components/editor/TipTapBasic.vue'
-import PhotoUploader from 'components/uploader/PhotoUploader.vue'
-// import FileUploader from 'components/uploader/FileUploader.vue'
+import TipTapBasic from 'components/editor/TipTapBasic.vue';
+import PhotoUploader from 'components/uploader/PhotoUploader.vue';
+import FileUploader from 'components/uploader/FileUploader.vue';
 
 const router = useRouter();
 
 const props = defineProps({
   item: {
     type: Object,
-    // Object or array defaults must be returned from
-    // a factory function
-    default() {
-      return {
-        uuid: null,
-        name: '',
-        text: '',
-        color: 'red',
-        user: null,
-        text_json: null,
-        files_item: null
-      }
-    }
+    default: () => ({
+      uuid: null,
+      name: '',
+      text: '',
+      color: 'red',
+      user: null,
+      text_json: null,
+      files_item: null,
+    }),
   },
   token: {
     type: String,
@@ -100,90 +95,66 @@ const props = defineProps({
     type: String,
     default: null,
   },
-})
+});
 
-const emit = defineEmits(['itemFormBtnClick', 'cancelBtnClick'])
+const emit = defineEmits(['itemFormBtnClick', 'cancelBtnClick']);
 
-let isError = ref(false);
-let isLoading = ref(false);
-let attachments = ref(props.item.files_item);
+const isLoading = ref(false);
+const attachments = ref(props.item.files_item);
+const tipTapText = ref(props.item.text_json || null);
+const uploadedPhotos = ref([]);
+const uploadedFiles = ref([]);
+const uploadedAll = ref([]);
 
-const files = ref(null)
+const {handleSubmit, handleReset, errors} = useForm({
+  validationSchema: yup.object({
+    itemName: yup.string().required().max(512),
+    itemSymbol: yup.string().max(64).nullable(),
+  }),
+});
+
+const {value: itemName} = useField('itemName', undefined, {initialValue: props.item.name});
+const {value: itemSymbol} = useField('itemSymbol', undefined, {initialValue: props.item.symbol});
 
 let jsonTxt = null;
 let htmlTxt = null;
 
 function logText(json, html) {
-  jsonTxt = json
-  htmlTxt = html
+  jsonTxt = json;
+  htmlTxt = html;
 }
-
-const tipTapText = ref(null)
-
-if (props.item.text_json !== null) {
-  tipTapText.value = props.item.text_json;
-}
-
-// ALL
-
-const uploadedAll = ref([]);
-
-// IMG
-const uploadedPhotos = ref([]);
 
 function listOfUploadedImages(images) {
-  // console.log("UPLOADED IMAGES:")
-  // console.log(JSON.stringify(images))
   uploadedPhotos.value = images;
-  uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
+  updateUploadedAll();
 }
-
-// Files
-const uploadedFiles = ref([]);
 
 function listOfUploadedFiles(files) {
-  // console.log("UPLOADED IMAGES:")
-  // console.log(JSON.stringify(files))
   uploadedFiles.value = files;
+  updateUploadedAll();
+}
+
+function updateUploadedAll() {
   uploadedAll.value = [...uploadedPhotos.value, ...uploadedFiles.value];
 }
 
-// Form
-const {handleReset} = useForm();
-const validationSchema = yup.object({
-  itemName: yup.string().required().max(512),//.required(),
-  itemSymbol: yup.string().max(64).nullable(),//.required(),
-})
-
-const {handleSubmit, errors} = useForm({
-  validationSchema
-})
-
-const {value: itemName} = useField('itemName', undefined, {initialValue: props.item.name})
-const {value: itemSymbol} = useField('itemSymbol', undefined, {initialValue: props.item.symbol})
-
 function cancelButtonHandle() {
-  emit('cancelBtnClick')
+  emit('cancelBtnClick');
 }
 
 const submit = handleSubmit(values => {
-  // console.log('Submitting')
+  const data = {
+    name: itemName.value,
+    symbol: itemSymbol.value,
+    summary: "Some public summary",
+    text_html: htmlTxt,
+    text_json: jsonTxt,
+    files: uploadedAll.value.map(a => a.uuid),
+  };
 
-  let data = {
-    "name": itemName.value,
-    "symbol" : itemSymbol.value,
-    "summary": "Some public summary",
-    "text_html": htmlTxt,
-    "text_json": jsonTxt,
-    "files": uploadedAll.value.map(a => a.uuid)
-  }
-
-  // console.log(data)
-  emit('itemFormBtnClick', data)
-
-})
+  emit('itemFormBtnClick', data);
+});
 </script>
-
 
 <style lang="scss" scoped>
 .tiptap {
@@ -196,9 +167,4 @@ const submit = handleSubmit(values => {
   transition: 0.1s;
   border: 2px solid #1976d2 !important;
 }
-
-// .tiptap:hover {
-//   transition: 0.5s;
-//   border: 1px solid #000000 !important;
-// }
 </style>
