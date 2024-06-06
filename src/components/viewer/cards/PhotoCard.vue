@@ -9,13 +9,6 @@
             <q-badge v-if="photoFiles.length>0" align="top" floating>{{ photoFiles.length }}</q-badge>
           </div>
           <q-space></q-space>
-          <!--          <q-btn-->
-          <!--            :label="$t('Edit')"-->
-          <!--            class="q-mr-lg"-->
-          <!--            color="primary"-->
-          <!--            flat-->
-          <!--            no-caps-->
-          <!--          />-->
           <q-btn
             :icon="expandedPhotos ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"
@@ -50,6 +43,7 @@
 <script setup>
 import {ref} from "vue";
 import PhotoViewer from "components/viewer/PhotoViewer.vue";
+import {useQuasar} from "quasar";
 
 const props = defineProps({
   photoFiles: {
@@ -74,6 +68,8 @@ const props = defineProps({
     default: false,
   },
 })
+
+const $q = useQuasar();
 
 const expandedPhotos = ref(props.expandedPhotos)
 const itemUuid = ref(props.itemUuid)

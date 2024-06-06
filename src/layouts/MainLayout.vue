@@ -185,7 +185,7 @@
         </q-list>
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="pattern_4.svg" style="height: 150px">
+      <q-img class="absolute-top" src="/public/pattern_4.svg" style="height: 150px">
         <!-- https://more.graphics/bauhaus -->
         <div class="absolute-bottom bg-transparent">
           <div class="text-weight-bold">{{ fullName }}</div>

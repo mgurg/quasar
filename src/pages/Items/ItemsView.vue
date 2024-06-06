@@ -168,16 +168,16 @@
                         :expanded-description="expandedDescription"
                         :textJson="itemDetails.text_json"
       />
-            <photo-card v-if="photoFiles!==null"
-                        :key="'B'+ componentKey"
-                        :expanded-photos="expandedPhotos"
-                        :photo-files="photoFiles"
-            />
-      <!--      <document-card v-if="documentFiles!==null"-->
-      <!--                     :key="'C'+ componentKey"-->
-      <!--                     :document-files="documentFiles"-->
-      <!--                     :expanded-docs="expandedDocs"-->
-      <!--      />-->
+      <photo-card v-if="photoFiles!==null"
+                  :key="'B'+ componentKey"
+                  :expanded-photos="expandedPhotos"
+                  :photo-files="photoFiles"
+      />
+      <document-card v-if="documentFiles!==null"
+                     :key="'C'+ componentKey"
+                     :document-files="documentFiles"
+                     :expanded-docs="expandedDocs"
+      />
       <!--      <guide-card v-if="guidesList!==null && itemDetails !==null"-->
       <!--                  :key="'D'+ componentKey"-->
       <!--                  :expanded-guide="expandedGuide"-->
@@ -209,12 +209,11 @@ import {useUserStore} from "stores/user";
 import {useI18n} from "vue-i18n";
 
 // import {deleteItemRequest, getOneItemRequest, setItemFavouriteRequest} from 'src/components/api/ItemApiClient.js'
-
 import DescriptionCard from "components/viewer/cards/DescriptionCard.vue";
 import {useAuthAPI} from "src/composables/useAuthAPI.js";
 
 import PhotoCard from "components/viewer/cards/PhotoCard.vue";
-// import DocumentCard from "components/viewer/cards/DocumentCard.vue";
+import DocumentCard from "components/viewer/cards/DocumentCard.vue";
 // import GuideCard from "components/viewer/cards/GuideCard.vue";
 // import QrCard from "components/viewer/cards/QrCard.vue";
 

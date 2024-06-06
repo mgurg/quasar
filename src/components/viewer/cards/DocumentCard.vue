@@ -1,70 +1,48 @@
 <template>
-  <!-- DOCS -->
   <q-card bordered class="my-card no-shadow q-my-xs">
-    <div :style="expandedDocs ? 'border-left: 5px solid #f31060':''">
+    <div :style="expandedDocs ? 'border-left: 5px solid #f31060' : ''">
       <q-card-section>
         <div class="row q-col-gutter-xs">
-          <div class="text-h6 text-weight-regular cursor-pointer" @click="expandedDocs = !expandedDocs">
+          <div class="text-h6 text-weight-regular cursor-pointer" @click="toggleDocs">
             {{ $t("Documents") }}
-            <q-badge floating align="top" v-if="documentFiles.length>0">{{ documentFiles.length }}</q-badge>
+            <q-badge v-if="documentFiles.length > 0" floating align="top">{{ documentFiles.length }}</q-badge>
           </div>
-          <q-space></q-space>
-<!--          <q-btn-->
-<!--            :label="$t('Edit')"-->
-<!--            class="q-mr-lg"-->
-<!--            color="primary"-->
-<!--            flat-->
-<!--            no-caps-->
-<!--          />-->
+          <q-space/>
           <q-btn
             :icon="expandedDocs ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
             color="grey"
             dense
-            flat
+            flato
             round
-            @click="expandedDocs = !expandedDocs"
+            @click="toggleDocs"
           />
         </div>
-
       </q-card-section>
 
       <q-slide-transition>
         <div v-show="expandedDocs">
-          <q-card-section :class="$q.screen.lt.sm?'q-mx-xs q-px-xs':'q-mx-md q-px-md'">
-            <div>
-              <document-viewer v-if="documentFiles.length >0" :files-list="documentFiles"/>
+          <q-card-section :class="$q.screen.lt.sm ? 'q-mx-xs q-px-xs' : 'q-mx-md q-px-md'">
+            <document-viewer v-if="documentFiles.length > 0" :files-list="documentFiles"/>
+            <div v-else>
+              <q-icon color="grey" size="lg" name="do_disturb_alt"/>
             </div>
-            <div v-if="documentFiles.length === 0" >
-              <q-icon color="grey" size="lg" name="do_disturb_alt" />
-            </div>
-
           </q-card-section>
           <q-separator/>
         </div>
       </q-slide-transition>
     </div>
-
   </q-card>
 </template>
 
 <script setup>
-import {ref} from "vue";
-import DocumentViewer from "components/viewer/DocumentViewer.vue";
-
+import {ref} from 'vue';
+import DocumentViewer from 'components/viewer/DocumentViewer.vue';
+import {useQuasar} from 'quasar';
 
 const props = defineProps({
   documentFiles: {
-    type: Object,
-    default() {
-      return {
-        uuid: null,
-        file_name: null,
-        extension: null,
-        mimetype: null,
-        size: null,
-        url: null,
-      }
-    }
+    type: Array,
+    default: () => [],
   },
   itemUuid: {
     type: String,
@@ -74,9 +52,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
+});
 
-const expandedDocs = ref(props.expandedDocs)
-const itemUuid = ref(props.itemUuid)
-const documentFiles = ref(props.documentFiles)
+const $q = useQuasar();
+const expandedDocs = ref(props.expandedDocs);
+const itemUuid = ref(props.itemUuid);
+const documentFiles = ref(props.documentFiles);
+
+const toggleDocs = () => {
+  expandedDocs.value = !expandedDocs.value;
+};
 </script>
